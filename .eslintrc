@@ -26,6 +26,12 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/camelcase": ["error", { "allow": [
+      "access_token",
+      "auth_date",
+      "first_name",
+      "last_name"
+    ]}],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   }
 }
