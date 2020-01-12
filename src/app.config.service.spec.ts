@@ -17,5 +17,5 @@ describe("AppService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("test");
+  test.todo("botToken");
 });

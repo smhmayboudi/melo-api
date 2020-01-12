@@ -6,7 +6,7 @@ import { AuthConfigService } from "./auth.config.service";
 export class AuthJwtOptionsFactory implements JwtOptionsFactory {
   constructor(private readonly authConfigService: AuthConfigService) {}
 
-  createJwtOptions(): JwtModuleOptions {
+  createJwtOptions(): Promise<JwtModuleOptions> | JwtModuleOptions {
     return {
       secret: this.authConfigService.jwtSecret(),
       signOptions: {

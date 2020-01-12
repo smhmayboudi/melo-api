@@ -8,8 +8,9 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 
 @Module({
-  imports: [AuthModule, ConfigModule.forFeature(config), UserModule],
   controllers: [AppController],
+  exports: [AppConfigService, AppService],
+  imports: [AuthModule, ConfigModule.forFeature(config), UserModule],
   providers: [AppConfigService, AppService]
 })
 export class AppModule {}

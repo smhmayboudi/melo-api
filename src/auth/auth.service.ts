@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { User } from "../user/type/User";
+import { IUser } from "../user/type/IUser";
 import { UserService } from "../user/user.service";
 import { AccessToken } from "./type/AccessToken";
 
@@ -11,15 +11,15 @@ export class AuthService {
     private readonly userService: UserService
   ) {}
 
-  async local(username: string, pass: string): Promise<User | undefined> {
+  async local(username: string, pass: string): Promise<IUser | undefined> {
     const user = await this.userService.findOneByUsername(username);
     if (user !== undefined && user.password === pass) {
-      return { ...user, password: "" } as User;
+      return { ...user, password: "" } as IUser;
     }
     return undefined;
   }
 
-  async jwt(user: User): Promise<AccessToken> {
+  async jwt(user: IUser): Promise<AccessToken> {
     const payload = {
       password: "",
       username: user.username,
@@ -30,7 +30,7 @@ export class AuthService {
     });
   }
 
-  async telegram(_userId: number): Promise<User | undefined> {
+  async telegram(_userId: number): Promise<IUser | undefined> {
     // const user = await this.userService.findOneByUserId(userId);
     // if (user !== undefined) {
     //   return { ...user, password: "" } as User;

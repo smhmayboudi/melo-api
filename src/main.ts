@@ -7,7 +7,7 @@ import * as rateLimit from "express-rate-limit";
 import * as helmet from "helmet";
 import { AppModule } from "./app.module";
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
     cors: true

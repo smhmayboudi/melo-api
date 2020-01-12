@@ -1,27 +1,35 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
+import { AppModule } from "src/app.module";
 import { UserModule } from "../user/user.module";
 import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
+import { AuthController } from "./auth.controller";
+import { AuthJwtOptionsFactory } from "./auth.jwt.optionsFactory";
 import { AuthService } from "./auth.service";
-import { jwtConstants } from "./constants";
 import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
+import { AuthAuthOptionsFactory } from "./auth.optionsFactory";
 
 @Module({
-  exports: [AuthService],
+  controllers: [AuthController],
+  exports: [AuthConfigService, AuthService],
   imports: [
+    forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
-    JwtModule.register({
-      secret: jwtConstants.secret,
-      signOptions: { expiresIn: "60s" }
+    JwtModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [AuthModule],
+      // inject: [AuthConfigService],
+      useClass: AuthJwtOptionsFactory
     }),
-    PassportModule.register({
-      defaultStrategy: "jwt",
-      session: true
+    PassportModule.registerAsync({
+      // imports: [AuthModule],
+      // inject: [AuthConfigService],
+      useClass: AuthAuthOptionsFactory
     }),
     UserModule
   ],
