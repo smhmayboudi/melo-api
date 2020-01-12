@@ -10,7 +10,7 @@ import { UserService } from "./user.service";
 
 @Module({
   controllers: [UserController],
-  exports: [UserService],
+  exports: [UserConfigService, UserService],
   imports: [
     ConfigModule.forFeature(config),
     TypeOrmModule.forRoot({

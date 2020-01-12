@@ -10,10 +10,16 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AuthGuard("local"))
-  @Post()
+  @Post("login")
   async login(
     @Request() request: express.Request & { user: IUser }
   ): Promise<AccessToken> {
     return this.authService.jwt(request.user);
+  }
+
+  @UseGuards(AuthGuard("telegram"))
+  @Post("telegram/callback")
+  telegram(): string {
+    return "OK";
   }
 }

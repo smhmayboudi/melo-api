@@ -7,12 +7,12 @@ import { UserModule } from "../user/user.module";
 import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthController } from "./auth.controller";
-import { AuthJwtOptionsFactory } from "./auth.jwt.optionsFactory";
+import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
+import { AuthAuthOptionsFactory } from "./auth.options.factory";
 import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
-import { AuthAuthOptionsFactory } from "./auth.optionsFactory";
 
 @Module({
   controllers: [AuthController],
