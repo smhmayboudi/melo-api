@@ -18,4 +18,7 @@ describe("AppService", () => {
   });
 
   test.todo("botToken");
+  test.todo("port");
+  test.todo("rateLimitMax");
+  test.todo("rateLimitWindowMs");
 });

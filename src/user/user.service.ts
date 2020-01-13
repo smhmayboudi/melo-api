@@ -1,16 +1,16 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { IUser } from "./type/IUser";
-import { User } from "./user.entity";
-import { UserRepository } from "./user.repository";
+import { UserEntity } from "./user.entity";
+import { UserEntityRepository } from "./user.entity.repository";
 
 @Injectable()
 export class UserService {
   private readonly users: IUser[];
 
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: UserRepository
+    @InjectRepository(UserEntity)
+    private readonly userRepository: UserEntityRepository
   ) {
     this.users = [
       {
@@ -31,15 +31,20 @@ export class UserService {
     ];
   }
 
+  async findAll(): Promise<UserEntity[]> {
+    return this.userRepository.find();
+  }
+
+  async findAllTest(): Promise<IUser[]> {
+    Logger.log("findAllTest", "user.service");
+    return Promise.resolve(this.users);
+  }
+
   async findOneByUserId(userId: number): Promise<IUser | undefined> {
     return Promise.resolve(this.users.find(user => user.userId === userId));
   }
 
   async findOneByUsername(username: string): Promise<IUser | undefined> {
     return Promise.resolve(this.users.find(user => user.username === username));
-  }
-
-  async findAll(): Promise<User[]> {
-    return this.userRepository.find();
   }
 }

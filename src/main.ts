@@ -5,21 +5,26 @@ import * as cookieParser from "cookie-parser";
 // import * as csurf from "csurf";
 import * as rateLimit from "express-rate-limit";
 import * as helmet from "helmet";
+import { AppConfigService } from "./app.config.service";
 import { AppModule } from "./app.module";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
-    cors: true
+    cors: true,
+    logger: ["log"]
   });
+
+  const appConfigService = app.get(AppConfigService);
+
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   // app.use(csurf({ cookie: true }));
   app.use(helmet());
   app.use(
     rateLimit({
-      max: 100, // limit each IP to 100 requests per windowMs
-      windowMs: 15 * 60 * 1000 // 15 minutes
+      max: appConfigService.rateLimitMax, // limit each IP to 100 requests per windowMs
+      windowMs: appConfigService.rateLimitwindowMs // 15 minutes
     })
   );
 
@@ -32,6 +37,6 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);
 
-  await app.listen(3000);
+  await app.listen(appConfigService.port);
 }
 bootstrap();

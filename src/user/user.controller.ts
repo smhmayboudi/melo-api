@@ -1,17 +1,39 @@
-import { Controller, Get, Request, UseGuards } from "@nestjs/common";
+import {
+  CacheInterceptor,
+  Controller,
+  Get,
+  Request,
+  UseGuards,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as express from "express";
 import { IUser } from "./type/IUser";
-import { User } from "./user.entity";
+import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
 @Controller("user")
+@UsePipes(
+  new ValidationPipe({
+    forbidNonWhitelisted: true,
+    forbidUnknownValues: true,
+    transform: true
+  })
+)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  findAll(): Promise<User[]> {
+  findAll(): Promise<UserEntity[]> {
     return this.userService.findAll();
+  }
+
+  @UseInterceptors(CacheInterceptor)
+  @Get("test")
+  findAllTest(): Promise<IUser[]> {
+    return this.userService.findAllTest();
   }
 
   @UseGuards(AuthGuard("jwt"))

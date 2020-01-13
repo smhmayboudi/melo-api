@@ -1,30 +1,30 @@
-import { Module } from "@nestjs/common";
+import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AuthCacheOptionsFactory } from "./user.cache.options.factory";
 import config from "./user.config";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
-import { User } from "./user.entity";
-import { UserRepository } from "./user.repository";
+import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
+import { AuthTypeOrmOptionsFactory } from "./user.typeorm.options.factory";
 
 @Module({
   controllers: [UserController],
   exports: [UserConfigService, UserService],
   imports: [
-    ConfigModule.forFeature(config),
-    TypeOrmModule.forRoot({
-      type: "mariadb",
-      logging: "all",
-      host: "127.0.0.1",
-      port: 3306,
-      username: "root",
-      password: "testpassword",
-      database: "meloapp",
-      entities: [User],
-      synchronize: true
+    CacheModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [UserModule],
+      useClass: AuthCacheOptionsFactory
     }),
-    TypeOrmModule.forFeature([UserRepository])
+    ConfigModule.forFeature(config),
+    TypeOrmModule.forRootAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [UserModule],
+      useClass: AuthTypeOrmOptionsFactory
+    }),
+    TypeOrmModule.forFeature([UserEntityRepository])
   ],
   providers: [UserConfigService, UserService]
 })

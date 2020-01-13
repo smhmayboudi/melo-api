@@ -16,6 +16,8 @@ describe("UserService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("findAll");
+  test.todo("findAllTest");
   test.todo("findOneByUserId");
   test.todo("findOneByUsername");
 });

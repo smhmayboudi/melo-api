@@ -1,11 +1,25 @@
-import { Controller, Post, Request, UseGuards } from "@nestjs/common";
+import {
+  Controller,
+  Post,
+  Request,
+  UseGuards,
+  UsePipes,
+  ValidationPipe
+} from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as express from "express";
-import { IUser } from "src/user/type/IUser";
+import { IUser } from "../user/type/IUser";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
 
 @Controller("auth")
+@UsePipes(
+  new ValidationPipe({
+    forbidNonWhitelisted: true,
+    forbidUnknownValues: true,
+    transform: true
+  })
+)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

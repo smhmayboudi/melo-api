@@ -13,7 +13,7 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
     private readonly authService: AuthService
   ) {
     super({
-      botToken: appConfigService.botToken()
+      botToken: appConfigService.botToken
     });
   }
 

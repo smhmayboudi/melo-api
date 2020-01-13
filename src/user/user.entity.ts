@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./type/Gender";
 
 @Entity({ name: "users", orderBy: { id: "ASC" } })
-export class User {
+export class UserEntity {
   constructor(
     id: number,
     username: string,
@@ -33,43 +33,47 @@ export class User {
     this.avatar = avatar;
   }
 
-  @Column({ type: "int", length: 11 })
+  // constructor(partial: Partial<User>) {
+  //   Object.assign(this, partial);
+  // }
+
+  @Column({ length: 11, type: "int" })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 30 })
+  @Column({ length: 30, type: "varchar" })
   username: string;
 
-  @Column({ type: "char", length: 100 })
+  @Column({ length: 100, type: "char" })
   cellphone: string;
 
   @Column({ type: "bigint" })
   telegram_id: number;
 
-  @Column({ type: "varchar", length: 20 })
+  @Column({ length: 20, type: "varchar" })
   language_code: string;
 
   @Column({ type: "datetime" })
   registered_date: Date;
 
-  @Column({ type: "varchar", length: 200 })
+  @Column({ length: 200, type: "varchar" })
   email: string;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ length: 100, type: "varchar" })
   firstname: string;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ length: 100, type: "varchar" })
   lastname: string;
 
-  @Column({ type: "enum", nullable: true })
+  @Column({ nullable: true, type: "enum" })
   gender: Gender | null;
 
-  @Column({ type: "date", nullable: true, default: null })
+  @Column({ default: null, nullable: true, type: "date" })
   birthday: Date | null;
 
-  @Column({ type: "text", nullable: true, default: null })
+  @Column({ default: null, nullable: true, type: "text" })
   biography: string | null;
 
-  @Column({ type: "varchar", length: 100, nullable: true, default: null })
+  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
   avatar: string | null;
 }

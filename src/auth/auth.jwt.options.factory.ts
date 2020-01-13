@@ -8,9 +8,9 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
 
   createJwtOptions(): Promise<JwtModuleOptions> | JwtModuleOptions {
     return {
-      secret: this.authConfigService.jwtSecret(),
+      secret: this.authConfigService.jwtSecret,
       signOptions: {
-        expiresIn: this.authConfigService.jwtSignOptionsExpiresIn()
+        expiresIn: this.authConfigService.jwtSignOptionsExpiresIn
       }
     };
   }
