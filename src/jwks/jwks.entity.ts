@@ -2,10 +2,10 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "jwkss", orderBy: { id: "ASC" } })
 export class JwksEntity {
-  constructor(id: number, publicJwks: string, privateJwks: string) {
-    this.id = id;
-    this.publicJwks = publicJwks;
-    this.privateJwks = privateJwks;
+  constructor(kid: number, publicKey: string, privateKey: string) {
+    this.kid = kid;
+    this.publicKey = publicKey;
+    this.privateKey = privateKey;
   }
 
   // constructor(partial: Partial<Jwks>) {
@@ -14,11 +14,11 @@ export class JwksEntity {
 
   @Column({ length: 11, type: "int" })
   @PrimaryGeneratedColumn()
-  id: number;
+  kid: number;
 
   @Column({ nullable: false, type: "text" })
-  publicJwks: string | null;
+  publicKey: string | null;
 
   @Column({ nullable: false, type: "text" })
-  privateJwks: string | null;
+  privateKey: string | null;
 }

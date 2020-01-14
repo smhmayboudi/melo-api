@@ -3,18 +3,19 @@ import {
   Post,
   Request,
   UseGuards,
+  UseInterceptors,
   UsePipes,
-  ValidationPipe,
-  UseInterceptors
+  ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as express from "express";
 import { User } from "../user/type/User";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
-import { ErrorsInterceptor } from "../interceptor/errors.interceptor";
+import { ErrorInterceptor } from "../interceptor/error.interceptor";
 
 @Controller("auth")
+@UseInterceptors(ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -22,7 +23,6 @@ import { ErrorsInterceptor } from "../interceptor/errors.interceptor";
     transform: true
   })
 )
-@UseInterceptors(ErrorsInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

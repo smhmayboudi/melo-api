@@ -10,8 +10,10 @@ import { HttpCacheInterceptor } from "src/interceptor/http.cache.interceptor";
 import { Jwks } from "./type/jwks";
 // import { JwksEntity } from "./jwks.entity";
 import { JwksService } from "./jwks.service";
+import { ErrorInterceptor } from "../interceptor/error.interceptor";
 
 @Controller("jwks")
+@UseInterceptors(ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,

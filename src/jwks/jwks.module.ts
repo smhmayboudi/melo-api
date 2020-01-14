@@ -1,13 +1,12 @@
 import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-// import { TypeOrmModule } from "@nestjs/typeorm";
-import { AuthCacheOptionsFactory } from "./jwks.cache.options.factory";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "./jwks.config";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksController } from "./jwks.controller";
-// import { JwksEntityRepository } from "./jwks.entity.repository";
+import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksService } from "./jwks.service";
-// import { AuthTypeOrmOptionsFactory } from "./jwks.typeorm.options.factory";
+import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 
 @Module({
   controllers: [JwksController],
@@ -16,15 +15,10 @@ import { JwksService } from "./jwks.service";
     CacheModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [JwksModule],
-      useClass: AuthCacheOptionsFactory
+      useClass: JwksCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
-    // TypeOrmModule.forRootAsync({
-    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    //   imports: [JwksModule],
-    //   useClass: AuthTypeOrmOptionsFactory
-    // }),
-    // TypeOrmModule.forFeature([JwksEntityRepository])
+    ConfigModule.forFeature(config),
+    TypeOrmModule.forFeature([JwksEntityRepository])
   ],
   providers: [JwksConfigService, JwksService]
 })

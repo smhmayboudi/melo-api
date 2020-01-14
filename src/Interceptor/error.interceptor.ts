@@ -6,23 +6,22 @@ import {
   NestInterceptor
 } from "@nestjs/common";
 import { Observable } from "rxjs";
-import { tap, catchError } from "rxjs/operators";
+import { catchError } from "rxjs/operators";
 import * as express from "express";
 import { User } from "../user/type/User";
 
 @Injectable()
-export class ErrorsInterceptor implements NestInterceptor {
+export class ErrorInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context
       .switchToHttp()
       .getRequest<express.Request & { user: User }>();
-    Logger.log(`request.path: ${request.path}`, "errors.interceptor");
+    Logger.log(`request.path: ${request.path}`, "error.interceptor");
     return next.handle().pipe(
-      catchError(err => {
-        console.log("ERRR", err);
-        throw err;
-      }),
-      tap(x => Logger.log(`XXX: ${x}`, "errors.interceptor"))
+      catchError((error: Error) => {
+        Logger.log(`${error}`, "error.interceptor");
+        throw error;
+      })
     );
   }
 }

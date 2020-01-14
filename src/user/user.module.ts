@@ -7,7 +7,6 @@ import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
-import { AuthTypeOrmOptionsFactory } from "./user.typeorm.options.factory";
 
 @Module({
   controllers: [UserController],
@@ -19,11 +18,6 @@ import { AuthTypeOrmOptionsFactory } from "./user.typeorm.options.factory";
       useClass: AuthCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    TypeOrmModule.forRootAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [UserModule],
-      useClass: AuthTypeOrmOptionsFactory
-    }),
     TypeOrmModule.forFeature([UserEntityRepository])
   ],
   providers: [UserConfigService, UserService]

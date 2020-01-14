@@ -17,7 +17,18 @@ describe("AppService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("cacheHost");
+  test.todo("cacheMax");
+  test.todo("cachePort");
+  test.todo("cacheTTL");
   test.todo("port");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");
+  test.todo("typeOrmDatabase");
+  test.todo("typeOrmHost");
+  test.todo("typeOrmLogging");
+  test.todo("typeOrmPassword");
+  test.todo("typeOrmPort");
+  test.todo("typeOrmSynchronize");
+  test.todo("typeOrmUsername");
 });

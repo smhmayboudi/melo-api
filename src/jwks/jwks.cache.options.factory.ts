@@ -7,7 +7,7 @@ import * as redisStore from "cache-manager-redis-store";
 import { JwksConfigService } from "./jwks.config.service";
 
 @Injectable()
-export class AuthCacheOptionsFactory implements CacheOptionsFactory {
+export class JwksCacheOptionsFactory implements CacheOptionsFactory {
   constructor(private readonly jwksConfigService: JwksConfigService) {}
 
   createCacheOptions(): Promise<CacheModuleOptions> | CacheModuleOptions {

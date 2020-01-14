@@ -1,23 +1,25 @@
 import {
   Controller,
   Get,
+  Logger,
   // Param,
   // ParseIntPipe,
   Request,
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe,
-  Logger
+  ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as express from "express";
-import { HttpCacheInterceptor } from "src/interceptor/http.cache.interceptor";
+import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { User } from "./type/User";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
 @Controller("user")
+@UseInterceptors(ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
