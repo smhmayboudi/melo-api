@@ -17,7 +17,6 @@ describe("AppService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("botToken");
   test.todo("port");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");

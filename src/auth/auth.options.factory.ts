@@ -9,7 +9,9 @@ export class AuthAuthOptionsFactory implements AuthOptionsFactory {
   createAuthOptions(): Promise<IAuthModuleOptions> | IAuthModuleOptions {
     return {
       defaultStrategy: "jwt",
-      session: true
+      property: "user",
+      session: false
+      // [key: string]: any;
     };
   }
 }

@@ -1,8 +1,7 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("app", () => ({
-  botToken: process.env.APP_BOTTOKEN,
   port: process.env.APP_PORT,
-  rateLimitMax: process.env.APP_RATELIMIIT_MAX,
-  rateLimitWindowMs: process.env.APP_RATELIMIIT_WINDOWMS
+  rateLimitMax: process.env.APP_RATE_LIMIIT_MAX,
+  rateLimitWindowMs: process.env.APP_RATEL_IMIIT_WINDOWMS
 }));

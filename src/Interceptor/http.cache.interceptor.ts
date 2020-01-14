@@ -1,13 +1,13 @@
 import { CacheInterceptor, ExecutionContext, Injectable } from "@nestjs/common";
 import * as express from "express";
-import { IUser } from "src/user/type/IUser";
+import { User } from "src/user/type/User";
 
 @Injectable()
 export class HttpCacheInterceptor extends CacheInterceptor {
   trackBy(context: ExecutionContext): string | undefined {
     const request = context
       .switchToHttp()
-      .getRequest<express.Request & { user: IUser }>();
+      .getRequest<express.Request & { user: User }>();
     return request.path;
   }
 }

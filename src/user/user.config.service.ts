@@ -46,6 +46,6 @@ export class UserConfigService {
   }
 
   get typeOrmUsername(): string {
-    return this.configService.get<string>("user.username", "root");
+    return this.configService.get<string>("user.typeOrmUsername", "root");
   }
 }

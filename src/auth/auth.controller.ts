@@ -4,13 +4,15 @@ import {
   Request,
   UseGuards,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
+  UseInterceptors
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as express from "express";
-import { IUser } from "../user/type/IUser";
+import { User } from "../user/type/User";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
+import { ErrorsInterceptor } from "../Interceptor/errors.interceptor";
 
 @Controller("auth")
 @UsePipes(
@@ -20,13 +22,14 @@ import { AccessToken } from "./type/AccessToken";
     transform: true
   })
 )
+@UseInterceptors(ErrorsInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(AuthGuard("local"))
   @Post("login")
   async login(
-    @Request() request: express.Request & { user: IUser }
+    @Request() request: express.Request & { user: User }
   ): Promise<AccessToken> {
     return this.authService.jwt(request.user);
   }

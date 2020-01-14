@@ -1,12 +1,12 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IUser } from "./type/IUser";
+import { User } from "./type/User";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 
 @Injectable()
 export class UserService {
-  private readonly users: IUser[];
+  private readonly users: User[];
 
   constructor(
     @InjectRepository(UserEntity)
@@ -35,16 +35,19 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findAllTest(): Promise<IUser[]> {
-    Logger.log("findAllTest", "user.service");
+  async findOne(id: number): Promise<UserEntity | undefined> {
+    return this.userRepository.findOne(id);
+  }
+
+  async findAllTest(): Promise<User[]> {
     return Promise.resolve(this.users);
   }
 
-  async findOneByUserId(userId: number): Promise<IUser | undefined> {
+  async findOneByUserId(userId: number): Promise<User | undefined> {
     return Promise.resolve(this.users.find(user => user.userId === userId));
   }
 
-  async findOneByUsername(username: string): Promise<IUser | undefined> {
+  async findOneByUsername(username: string): Promise<User | undefined> {
     return Promise.resolve(this.users.find(user => user.username === username));
   }
 }

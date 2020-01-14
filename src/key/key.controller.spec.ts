@@ -1,17 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserController } from "./user.controller";
-import { UserService } from "./user.service";
+import { KeyController } from "./key.controller";
 
-describe("User Controller", () => {
-  let controller: UserController;
+describe("Key Controller", () => {
+  let controller: KeyController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
-      providers: [UserService]
+      controllers: [KeyController]
     }).compile();
 
-    controller = module.get<UserController>(UserController);
+    controller = module.get<KeyController>(KeyController);
   });
 
   it("should be defined", () => {
@@ -21,5 +19,5 @@ describe("User Controller", () => {
   test.todo("findAll");
   test.todo("findOne");
   test.todo("findAllTest");
-  test.todo("getProfile");
+  test.todo("findOneTest");
 });

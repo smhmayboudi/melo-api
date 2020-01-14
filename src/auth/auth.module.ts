@@ -13,6 +13,7 @@ import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
+import { KeyModule } from "../key/key.module";
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +21,7 @@ import { TelegramStrategy } from "./telegram.strategy";
   imports: [
     forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
+    KeyModule,
     JwtModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AuthModule],
