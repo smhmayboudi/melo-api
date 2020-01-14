@@ -1,19 +1,19 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { KeyController } from "./key.controller";
+import { JwksService } from "./jwks.service";
 
-describe("Key Controller", () => {
-  let controller: KeyController;
+describe("JwksService", () => {
+  let service: JwksService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [KeyController]
+      providers: [JwksService]
     }).compile();
 
-    controller = module.get<KeyController>(KeyController);
+    service = module.get<JwksService>(JwksService);
   });
 
   it("should be defined", () => {
-    expect(controller).toBeDefined();
+    expect(service).toBeDefined();
   });
 
   test.todo("findAll");

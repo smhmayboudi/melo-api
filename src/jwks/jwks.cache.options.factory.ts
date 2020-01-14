@@ -4,19 +4,19 @@ import {
   Injectable
 } from "@nestjs/common";
 import * as redisStore from "cache-manager-redis-store";
-import { KeyConfigService } from "./key.config.service";
+import { JwksConfigService } from "./jwks.config.service";
 
 @Injectable()
 export class AuthCacheOptionsFactory implements CacheOptionsFactory {
-  constructor(private readonly keyConfigService: KeyConfigService) {}
+  constructor(private readonly jwksConfigService: JwksConfigService) {}
 
   createCacheOptions(): Promise<CacheModuleOptions> | CacheModuleOptions {
     return {
-      host: this.keyConfigService.cacheHost,
-      max: this.keyConfigService.cacheMax, // maximum number of items in cache
-      port: this.keyConfigService.cachePort,
+      host: this.jwksConfigService.cacheHost,
+      max: this.jwksConfigService.cacheMax, // maximum number of items in cache
+      port: this.jwksConfigService.cachePort,
       store: redisStore,
-      ttl: this.keyConfigService.cacheTTL // seconds
+      ttl: this.jwksConfigService.cacheTTL // seconds
     };
   }
 }

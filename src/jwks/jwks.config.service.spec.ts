@@ -1,16 +1,16 @@
 import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { KeyConfigService } from "./key.config.service";
+import { JwksConfigService } from "./jwks.config.service";
 
-describe("KeyService", () => {
-  let service: KeyConfigService;
+describe("JwksService", () => {
+  let service: JwksConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConfigService, KeyConfigService]
+      providers: [ConfigService, JwksConfigService]
     }).compile();
 
-    service = module.get<KeyConfigService>(KeyConfigService);
+    service = module.get<JwksConfigService>(JwksConfigService);
   });
 
   it("should be defined", () => {

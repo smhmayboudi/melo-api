@@ -12,7 +12,7 @@ import * as express from "express";
 import { User } from "../user/type/User";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
-import { ErrorsInterceptor } from "../Interceptor/errors.interceptor";
+import { ErrorsInterceptor } from "../interceptor/errors.interceptor";
 
 @Controller("auth")
 @UsePipes(

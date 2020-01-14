@@ -1,4 +1,4 @@
-export interface Key {
+export interface Jwks {
   id: number;
   private: string;
   public: string;

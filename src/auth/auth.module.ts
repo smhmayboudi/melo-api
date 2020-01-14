@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { AppModule } from "src/app.module";
+import { JwksModule } from "../jwks/jwks.module";
 import { UserModule } from "../user/user.module";
 import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
@@ -13,7 +14,6 @@ import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
-import { KeyModule } from "../key/key.module";
 
 @Module({
   controllers: [AuthController],
@@ -21,7 +21,7 @@ import { KeyModule } from "../key/key.module";
   imports: [
     forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
-    KeyModule,
+    JwksModule,
     JwtModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AuthModule],

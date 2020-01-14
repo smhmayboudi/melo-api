@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import * as express from "express";
-import { HttpCacheInterceptor } from "src/Interceptor/http.cache.interceptor";
+import { HttpCacheInterceptor } from "src/interceptor/http.cache.interceptor";
 import { User } from "./type/User";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";

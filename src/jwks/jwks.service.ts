@@ -1,17 +1,17 @@
 import { Injectable } from "@nestjs/common";
 // import { InjectRepository } from "@nestjs/typeorm";
-import { Key } from "./type/key";
-// import { KeyEntity } from "./key.entity";
-// import { KeyEntityRepository } from "./key.entity.repository";
+import { Jwks } from "./type/jwks";
+// import { JwksEntity } from "./jwks.entity";
+// import { JwksEntityRepository } from "./jwks.entity.repository";
 
 @Injectable()
-export class KeyService {
-  private readonly keys: Key[];
+export class JwksService {
+  private readonly jwkss: Jwks[];
 
-  constructor() // @InjectRepository(KeyEntity)
-  // private readonly keyRepository: KeyEntityRepository
+  constructor() // @InjectRepository(JwksEntity)
+  // private readonly jwksRepository: JwksEntityRepository
   {
-    this.keys = [
+    this.jwkss = [
       {
         id: 1,
         private: `-----BEGIN PRIVATE KEY-----
@@ -67,19 +67,19 @@ export class KeyService {
     ];
   }
 
-  // async findAll(): Promise<KeyEntity[]> {
-  //   return this.keyRepository.find();
+  // async findAll(): Promise<JwksEntity[]> {
+  //   return this.jwksRepository.find();
   // }
 
-  // async findOne(id: number): Promise<KeyEntity | undefined> {
-  //   return this.keyRepository.findOne(id);
+  // async findOne(id: number): Promise<JwksEntity | undefined> {
+  //   return this.jwksRepository.findOne(id);
   // }
 
-  async findAllTest(): Promise<Key[]> {
-    return Promise.resolve(this.keys);
+  async findAllTest(): Promise<Jwks[]> {
+    return Promise.resolve(this.jwkss);
   }
 
-  async findOneTest(id: number): Promise<Key | undefined> {
-    return Promise.resolve(this.keys.find(key => key.id === id));
+  async findOneTest(id: number): Promise<Jwks | undefined> {
+    return Promise.resolve(this.jwkss.find(jwks => jwks.id === id));
   }
 }
