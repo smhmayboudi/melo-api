@@ -13,10 +13,10 @@ export class AuthCacheOptionsFactory implements CacheOptionsFactory {
   createCacheOptions(): Promise<CacheModuleOptions> | CacheModuleOptions {
     return {
       host: this.userConfigService.cacheHost,
-      max: this.userConfigService.cacheMax, // maximum number of items in cache
+      max: this.userConfigService.cacheMax,
       port: this.userConfigService.cachePort,
       store: redisStore,
-      ttl: this.userConfigService.cacheTTL // seconds
+      ttl: this.userConfigService.cacheTTL
     };
   }
 }

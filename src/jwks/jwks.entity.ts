@@ -10,12 +10,6 @@ export class JwksEntity implements Jwks {
     this.privateKey = privateKey;
   }
 
-  // constructor(partial: Partial<Jwks>) {
-  //   Object.assign(this, partial);
-  // }
-
-  // @Column({ length: 11, name: "kid", type: "int" })
-  // @PrimaryGeneratedColumn()
   @PrimaryColumn({ type: "uuid" })
   @Generated("uuid")
   kid: string;

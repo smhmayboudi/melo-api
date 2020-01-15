@@ -34,10 +34,6 @@ export class UserEntity implements User {
     this.username = username;
   }
 
-  // constructor(partial: Partial<UserEntity>) {
-  //   Object.assign(this, partial);
-  // }
-
   @Column({ default: null, length: 100, nullable: true, type: "varchar" })
   avatar: string | null;
 

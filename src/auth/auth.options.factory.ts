@@ -11,7 +11,6 @@ export class AuthAuthOptionsFactory implements AuthOptionsFactory {
       defaultStrategy: "jwt",
       property: "user",
       session: false
-      // [key: string]: any;
     };
   }
 }

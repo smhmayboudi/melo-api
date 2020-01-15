@@ -8,11 +8,12 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-// import { HttpCacheInterceptor } from "src/interceptor/http.cache.interceptor";
+import { ApiTags } from "@nestjs/swagger";
+import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { JwksEntity } from "./jwks.entity";
 import { JwksService } from "./jwks.service";
-import { ErrorInterceptor } from "../interceptor/error.interceptor";
 
+@ApiTags("jwks")
 @Controller("jwks")
 @UseInterceptors(ErrorInterceptor)
 @UsePipes(

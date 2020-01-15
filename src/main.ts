@@ -29,10 +29,17 @@ async function bootstrap(): Promise<void> {
   );
 
   const options = new DocumentBuilder()
-    .setTitle("melo api")
+    .setContact(
+      "Hossein Mayboudi",
+      "https://www.linkedin.com/in/smhmayboudi/",
+      "smhmayboudi@gmail.com"
+    )
     .setDescription("The melo API description.")
+    .setExternalDoc("Documentation | NestJS", "https://docs.nestjs.com/")
+    .setLicense("MIT", "https://en.wikipedia.org/wiki/MIT_License")
+    .setTermsOfService("https://en.wikipedia.org/wiki/Terms_of_service")
+    .setTitle("melo api")
     .setVersion("1.0")
-    .addTag("melo api")
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup("api", app, document);

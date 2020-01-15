@@ -7,7 +7,9 @@ import {
 } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { ErrorInterceptor } from "./interceptor/error.interceptor";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags("app")
 @Controller()
 @UseInterceptors(ErrorInterceptor)
 @UsePipes(

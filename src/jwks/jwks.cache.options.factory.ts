@@ -13,10 +13,10 @@ export class JwksCacheOptionsFactory implements CacheOptionsFactory {
   createCacheOptions(): Promise<CacheModuleOptions> | CacheModuleOptions {
     return {
       host: this.jwksConfigService.cacheHost,
-      max: this.jwksConfigService.cacheMax, // maximum number of items in cache
+      max: this.jwksConfigService.cacheMax,
       port: this.jwksConfigService.cachePort,
       store: redisStore,
-      ttl: this.jwksConfigService.cacheTTL // seconds
+      ttl: this.jwksConfigService.cacheTTL
     };
   }
 }

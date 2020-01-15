@@ -8,13 +8,13 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-// import { AuthGuard } from "@nestjs/passport";
-// import * as express from "express";
+import { ApiTags } from "@nestjs/swagger";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
+@ApiTags("user")
 @Controller("user")
 @UseInterceptors(ErrorInterceptor)
 @UsePipes(

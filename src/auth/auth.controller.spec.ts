@@ -19,5 +19,6 @@ describe("Auth Controller", () => {
   });
 
   test.todo("login");
+  test.todo("logout");
   test.todo("telegram");
 });
