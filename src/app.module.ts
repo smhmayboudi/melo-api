@@ -9,6 +9,7 @@ import { AppService } from "./app.service";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { AuthModule } from "./auth/auth.module";
 import { JwksModule } from "./jwks/jwks.module";
+import { RelationModule } from "./relation/relation.module";
 import { UserModule } from "./user/user.module";
 
 @Module({
@@ -28,7 +29,8 @@ import { UserModule } from "./user/user.module";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppTypeOrmOptionsFactory
-    })
+    }),
+    RelationModule
   ],
   providers: [AppConfigService, AppService]
 })
