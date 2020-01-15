@@ -1,14 +1,15 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  // Param,
+  Param,
+  ParseUUIDPipe,
   UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { HttpCacheInterceptor } from "src/interceptor/http.cache.interceptor";
-import { Jwks } from "./type/jwks";
-// import { JwksEntity } from "./jwks.entity";
+// import { HttpCacheInterceptor } from "src/interceptor/http.cache.interceptor";
+import { JwksEntity } from "./jwks.entity";
 import { JwksService } from "./jwks.service";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 
@@ -24,20 +25,17 @@ import { ErrorInterceptor } from "../interceptor/error.interceptor";
 export class JwksController {
   constructor(private readonly jwksService: JwksService) {}
 
-  // @UseInterceptors(HttpCacheInterceptor)
-  // @Get()
-  // findAll(): Promise<JwksEntity[]> {
-  //   return this.jwksService.findAll();
-  // }
+  @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
+  find(): Promise<JwksEntity[]> {
+    return this.jwksService.find();
+  }
 
-  // @Get(":id")
-  // findOne(@Param() id: number): Promise<JwksEntity | undefined> {
-  //   return this.jwksService.findOne(id);
-  // }
-
-  @UseInterceptors(HttpCacheInterceptor)
-  @Get("test")
-  findAllTest(): Promise<Jwks[]> {
-    return this.jwksService.findAllTest();
+  @Get(":id")
+  @UseInterceptors(ClassSerializerInterceptor)
+  findOne(
+    @Param("id", ParseUUIDPipe) id: string
+  ): Promise<JwksEntity | undefined> {
+    return this.jwksService.findOne(id);
   }
 }

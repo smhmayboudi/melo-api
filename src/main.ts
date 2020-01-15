@@ -12,7 +12,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
     cors: true,
-    logger: ["log"]
+    logger: ["log", "error", "warn", "debug", "verbose"]
   });
 
   const appConfigService = app.get(AppConfigService);

@@ -30,7 +30,7 @@ export class AuthController {
   @Post("login")
   async login(
     @Request() request: express.Request & { user: User }
-  ): Promise<AccessToken> {
+  ): Promise<AccessToken | undefined> {
     return this.authService.jwt(request.user);
   }
 

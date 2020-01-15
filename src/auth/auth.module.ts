@@ -24,7 +24,7 @@ import { TelegramStrategy } from "./telegram.strategy";
     JwksModule,
     JwtModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [AuthModule],
+      imports: [AuthModule, JwksModule],
       useClass: AuthJwtOptionsFactory
     }),
     PassportModule.registerAsync({

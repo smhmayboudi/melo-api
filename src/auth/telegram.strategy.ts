@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { TelegramStrategy as Strategy } from "passport-telegram-official";
-import { User } from "../user/type/User";
-import { AuthService } from "./auth.service";
-import { TelegramPayload } from "./type/TelegramPayload";
 import { AuthConfigService } from "./auth.config.service";
+import { AuthService } from "./auth.service";
+import { Payload } from "./type/Payload";
+import { TelegramPayload } from "./type/TelegramPayload";
 
 @Injectable()
 export class TelegramStrategy extends PassportStrategy(Strategy) {
@@ -19,11 +19,11 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: TelegramPayload): Promise<User> {
-    const user = await this.authService.telegram(payload.id);
-    if (user === undefined) {
+  async validate(telegramPayload: TelegramPayload): Promise<Payload> {
+    const payload = await this.authService.telegram(telegramPayload.id);
+    if (payload === undefined) {
       throw new UnauthorizedException();
     }
-    return user;
+    return payload;
   }
 }
