@@ -7,7 +7,7 @@ import * as redisStore from "cache-manager-redis-store";
 import { UserConfigService } from "./user.config.service";
 
 @Injectable()
-export class AuthCacheOptionsFactory implements CacheOptionsFactory {
+export class UserCacheOptionsFactory implements CacheOptionsFactory {
   constructor(private readonly userConfigService: UserConfigService) {}
 
   createCacheOptions(): Promise<CacheModuleOptions> | CacheModuleOptions {

@@ -1,7 +1,7 @@
 import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AuthCacheOptionsFactory } from "./user.cache.options.factory";
+import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import config from "./user.config";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
@@ -15,7 +15,7 @@ import { UserService } from "./user.service";
     CacheModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [UserModule],
-      useClass: AuthCacheOptionsFactory
+      useClass: UserCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([UserEntityRepository])
