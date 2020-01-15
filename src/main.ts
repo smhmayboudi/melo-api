@@ -42,7 +42,15 @@ async function bootstrap(): Promise<void> {
     .setVersion("1.0")
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup("api", app, document);
+  SwaggerModule.setup("api", app, document, {
+    explorer: false,
+    // customfavIcon?: string;
+    // customCss?: string;
+    // customJs?: string;
+    customSiteTitle: "melo api | Swagger UI"
+    // swaggerOptions?: any;
+    // swaggerUrl?: string;
+  });
 
   await app.listen(appConfigService.port);
 }
