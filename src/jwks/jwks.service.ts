@@ -19,6 +19,10 @@ export class JwksService {
   }
 
   async getOneRandom(): Promise<JwksEntity | undefined> {
-    return this.jwksRepository.findOne("4f2d3063-8fdb-4919-8f4d-deb7bef235e7");
+    return this.jwksRepository
+      .createQueryBuilder()
+      .orderBy("RAND()")
+      .limit(1)
+      .getOne();
   }
 }
