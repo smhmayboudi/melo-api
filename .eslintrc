@@ -27,13 +27,12 @@
   ],
   "rules": {
     "@typescript-eslint/camelcase": ["error", { "allow": [
-      "access_token",
       "auth_date",
       "first_name",
       "last_name",
       "telegram_id",
       "language_code",
-      "registered_date"
+      "registered_date",
     ]}],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   }

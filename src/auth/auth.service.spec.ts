@@ -22,4 +22,5 @@ describe("AuthService", () => {
   test.todo("jwt");
   test.todo("jwtPublicKeys");
   test.todo("telegram");
+  test.todo("token");
 });

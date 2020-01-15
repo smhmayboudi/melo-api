@@ -1,10 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import * as cryptoRandomString from "crypto-random-string";
 import { JwksService } from "src/jwks/jwks.service";
 import { User } from "../user/type/User";
 import { UserService } from "../user/user.service";
 import { AccessToken } from "./type/AccessToken";
 import { Payload } from "./type/Payload";
+import { RefreshToken } from "./type/RefreshToken";
 
 @Injectable()
 export class AuthService {
@@ -22,14 +24,29 @@ export class AuthService {
     return undefined;
   }
 
-  async jwt(user: User): Promise<AccessToken | undefined> {
+  async refreshToken(user: User): Promise<RefreshToken | undefined> {
     const randomJwks = await this.jwksService.getOneRandom();
     if (randomJwks !== undefined) {
       const payload: User = { ...user };
       return Promise.resolve({
-        access_token: this.jwtService.sign(payload, {
+        at: this.jwtService.sign(payload, {
           keyid: randomJwks.kid,
           jwtid: "XXX"
+        }),
+        rt: cryptoRandomString({ length: 256, type: "hex" })
+      });
+    }
+    return undefined;
+  }
+
+  async accessToken(user: User): Promise<AccessToken | undefined> {
+    const randomJwks = await this.jwksService.getOneRandom();
+    if (randomJwks !== undefined) {
+      const payload: User = { ...user };
+      return Promise.resolve({
+        at: this.jwtService.sign(payload, {
+          keyid: randomJwks.kid
+          // jwtid: "XXX"
         })
       });
     }

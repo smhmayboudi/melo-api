@@ -28,24 +28,41 @@ import { AccessToken } from "./type/AccessToken";
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(AuthGuard("local"))
   @Post("login")
+  @UseGuards(AuthGuard("local"))
   async login(
     @Request() request: express.Request & { user: User }
   ): Promise<AccessToken | undefined> {
-    return this.authService.jwt(request.user);
+    return this.authService.refreshToken(request.user);
   }
 
   @Post("logout")
+  @UseGuards(AuthGuard("jwt"))
   async logout(
     @Request() request: express.Request & { user: User }
   ): Promise<AccessToken | undefined> {
-    return this.authService.jwt(request.user);
+    return this.authService.accessToken(request.user);
   }
 
-  @UseGuards(AuthGuard("telegram"))
   @Post("telegram/callback")
+  @UseGuards(AuthGuard("telegram"))
   telegram(): string {
-    return "OK";
+    return "telegram";
+  }
+
+  @Post("token/remove")
+  @UseGuards(AuthGuard("jwt"))
+  tokenRenew(
+    @Request() request: express.Request & { user: User }
+  ): Promise<AccessToken | undefined> {
+    return this.authService.accessToken(request.user);
+  }
+
+  @Post("token/renew")
+  @UseGuards(AuthGuard("token"))
+  tokenRemove(
+    @Request() request: express.Request & { user: User }
+  ): Promise<AccessToken | undefined> {
+    return this.authService.accessToken(request.user);
   }
 }

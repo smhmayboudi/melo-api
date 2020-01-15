@@ -9,7 +9,7 @@ import { DataConfigService } from "./data.config.service";
 export class DataHttpModuleOptionsFactory implements HttpModuleOptionsFactory {
   constructor(private readonly dataConfigService: DataConfigService) {}
 
-  createCacheOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
+  createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
       timeout: this.dataConfigService.timeout
     };

@@ -10,7 +10,7 @@ export class RelationHttpModuleOptionsFactory
   implements HttpModuleOptionsFactory {
   constructor(private readonly relationConfigService: RelationConfigService) {}
 
-  createCacheOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
+  createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
       timeout: this.relationConfigService.timeout
     };

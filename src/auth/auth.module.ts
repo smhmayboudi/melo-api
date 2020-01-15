@@ -14,6 +14,7 @@ import { AuthService } from "./auth.service";
 import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
+import { TokenStrategy } from "./token.strategy";
 
 @Module({
   controllers: [AuthController],
@@ -39,7 +40,8 @@ import { TelegramStrategy } from "./telegram.strategy";
     AuthService,
     LocalStrategy,
     JwtStrategy,
-    TelegramStrategy
+    TelegramStrategy,
+    TokenStrategy
   ]
 })
 export class AuthModule {}
