@@ -11,6 +11,29 @@ export class TokenService {
     private readonly tokenRepository: TokenEntityRepository
   ) {}
 
+  async blockById(id: number, description: string): Promise<DeleteResult> {
+    const tokenEntity = await this.tokenRepository.findOne({ id });
+    return this.tokenRepository.update(
+      { id },
+      { ...tokenEntity, description, is_blocked: true }
+    );
+  }
+
+  async blockByTokenId(
+    token: string,
+    description: string
+  ): Promise<DeleteResult> {
+    const tokenEntity = await this.tokenRepository.findOne({ token });
+    return this.tokenRepository.update(
+      { token },
+      { ...tokenEntity, description, is_blocked: true }
+    );
+  }
+
+  async deleteById(id: number): Promise<DeleteResult> {
+    return this.tokenRepository.delete({ id });
+  }
+
   async deleteByToken(token: string): Promise<DeleteResult> {
     return this.tokenRepository.delete({ token });
   }
@@ -19,7 +42,7 @@ export class TokenService {
     return this.tokenRepository.find();
   }
 
-  async findOne(id: number): Promise<TokenEntity | undefined> {
+  async findOneById(id: number): Promise<TokenEntity | undefined> {
     return this.tokenRepository.findOne(id);
   }
 
@@ -29,5 +52,9 @@ export class TokenService {
 
   async save(entities: TokenEntity[]): Promise<TokenEntity[]> {
     return this.tokenRepository.save(entities);
+  }
+
+  async validate(token: string): Promise<TokenEntity | undefined> {
+    return this.tokenRepository.findOne({ is_blocked: false, token });
   }
 }

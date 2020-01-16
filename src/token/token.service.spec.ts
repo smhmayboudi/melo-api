@@ -16,9 +16,13 @@ describe("TokenService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("blockById");
+  test.todo("blockByTokenId");
+  test.todo("deleteById");
   test.todo("deleteByToken");
   test.todo("find");
-  test.todo("findOne");
+  test.todo("findOneById");
   test.todo("findOneByToken");
   test.todo("save");
+  test.todo("validate");
 });

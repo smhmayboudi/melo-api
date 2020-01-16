@@ -16,6 +16,5 @@ describe("Token Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("delete");
   test.todo("find");
 });

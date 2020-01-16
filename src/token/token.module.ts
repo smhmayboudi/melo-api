@@ -1,6 +1,7 @@
-import { Module } from "@nestjs/common";
+import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { TokenCacheOptionsFactory } from "./token.cache.options.factory";
 import config from "./token.config";
 import { TokenConfigService } from "./token.config.service";
 import { TokenController } from "./token.controller";
@@ -11,6 +12,11 @@ import { TokenService } from "./token.service";
   controllers: [TokenController],
   exports: [TokenConfigService, TokenService],
   imports: [
+    CacheModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [TokenModule],
+      useClass: TokenCacheOptionsFactory
+    }),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([TokenEntityRepository])
   ],

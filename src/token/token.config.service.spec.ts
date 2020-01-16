@@ -17,5 +17,8 @@ describe("TokenService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("test");
+  test.todo("cacheHost");
+  test.todo("cacheMax");
+  test.todo("cachePort");
+  test.todo("cacheTTL");
 });
