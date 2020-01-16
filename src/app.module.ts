@@ -12,6 +12,7 @@ import { DataModule } from "./data/data.module";
 import { JwksModule } from "./jwks/jwks.module";
 import { RelationModule } from "./relation/relation.module";
 import { UserModule } from "./user/user.module";
+import { TokenModule } from "./token/token.module";
 
 @Module({
   controllers: [AppController],
@@ -32,7 +33,8 @@ import { UserModule } from "./user/user.module";
       imports: [AppModule],
       useClass: AppTypeOrmOptionsFactory
     }),
-    UserModule
+    UserModule,
+    TokenModule
   ],
   providers: [AppConfigService, AppService]
 })
