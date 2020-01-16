@@ -1,9 +1,7 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  Logger,
-  Param,
-  ParseIntPipe,
   UseInterceptors,
   UsePipes,
   ValidationPipe
@@ -27,18 +25,9 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseInterceptors(HttpCacheInterceptor)
   @Get()
-  findAll(): Promise<UserEntity[]> {
-    Logger.log("findAll", "user.conotroller");
+  @UseInterceptors(ClassSerializerInterceptor, HttpCacheInterceptor)
+  find(): Promise<UserEntity[]> {
     return this.userService.find();
-  }
-
-  @Get(":id")
-  findOne(
-    @Param("id", ParseIntPipe) id: number
-  ): Promise<UserEntity | undefined> {
-    Logger.log("findOne", "user.conotroller");
-    return this.userService.findOne(id);
   }
 }

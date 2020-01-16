@@ -14,17 +14,17 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async findOne(id: number): Promise<UserEntity | undefined> {
+  async findOneById(id: number): Promise<UserEntity | undefined> {
     return this.userRepository.findOne(id);
+  }
+
+  async findOneByUsernam(username: string): Promise<UserEntity | undefined> {
+    return this.userRepository.findOne({ username });
   }
 
   async findOneByTelegramId(
     telegramId: number
   ): Promise<UserEntity | undefined> {
     return this.userRepository.findOne({ telegram_id: telegramId });
-  }
-
-  async findOneByUsernam(username: string): Promise<UserEntity | undefined> {
-    return this.userRepository.findOne({ username });
   }
 }

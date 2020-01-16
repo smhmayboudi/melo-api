@@ -17,7 +17,7 @@ describe("UserService", () => {
   });
 
   test.todo("find");
-  test.todo("findOne");
-  test.todo("findOneByUsernam");
+  test.todo("findOneById");
   test.todo("findOneByTelegramId");
+  test.todo("findOneByUsernam");
 });

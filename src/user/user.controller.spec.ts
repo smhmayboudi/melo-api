@@ -19,7 +19,4 @@ describe("User Controller", () => {
   });
 
   test.todo("findAll");
-  test.todo("findOne");
-  test.todo("findAllTest");
-  test.todo("getProfile");
 });
