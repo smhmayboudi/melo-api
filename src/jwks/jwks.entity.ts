@@ -2,17 +2,17 @@ import { Exclude } from "class-transformer";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Jwks } from "./type/jwks";
 
-@Entity({ name: "jwkss", orderBy: { kid: "ASC" } })
+@Entity({ name: "jwkss", orderBy: { id: "ASC" } })
 export class JwksEntity implements Jwks {
-  constructor(kid: number, public_key: string, private_key: string) {
-    this.kid = kid;
+  constructor(id: number, public_key: string, private_key: string) {
+    this.id = id;
     this.public_key = public_key;
     this.private_key = private_key;
   }
 
   @Column({ length: 11, type: "int" })
   @PrimaryGeneratedColumn()
-  kid: number;
+  id: number;
 
   @Column({ nullable: false, type: "text" })
   @Exclude()
