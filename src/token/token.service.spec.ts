@@ -16,7 +16,7 @@ describe("TokenService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("delete");
+  test.todo("deleteByToken");
   test.todo("find");
   test.todo("findOne");
   test.todo("findOneByToken");

@@ -1,13 +1,12 @@
 import {
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
-  Param,
-  ParseIntPipe,
+  Headers,
   UseInterceptors,
   UsePipes,
-  ValidationPipe,
-  Delete
+  ValidationPipe
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
@@ -27,9 +26,9 @@ import { TokenService } from "./token.service";
 export class TokenController {
   constructor(private readonly tokenService: TokenService) {}
 
-  @Delete(":id")
-  delete(@Param("id", ParseIntPipe) id: number): boolean {
-    this.tokenService.delete(id);
+  @Delete()
+  delete(@Headers("token") token: string): boolean {
+    this.tokenService.deleteByToken(token);
     return true;
   }
 

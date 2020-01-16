@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { DeleteResult } from "typeorm";
 import { TokenEntity } from "./token.entity";
 import { TokenEntityRepository } from "./token.entity.repository";
 
@@ -10,8 +11,8 @@ export class TokenService {
     private readonly tokenRepository: TokenEntityRepository
   ) {}
 
-  delete(id: number): void {
-    this.tokenRepository.delete(id);
+  async deleteByToken(token: string): Promise<DeleteResult> {
+    return this.tokenRepository.delete({ token });
   }
 
   async find(): Promise<TokenEntity[]> {
