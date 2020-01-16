@@ -28,11 +28,17 @@
   "rules": {
     "@typescript-eslint/camelcase": ["error", { "allow": [
       "auth_date",
+      "create_session_date",
+      "expiration_date",
       "first_name",
-      "last_name",
-      "telegram_id",
       "language_code",
+      "last_name",
+      "last_request_date",
+      "private_key",
+      "public_key",
       "registered_date",
+      "telegram_id",
+      "user_id"
     ]}],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
   }
