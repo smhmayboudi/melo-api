@@ -1,8 +1,8 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("jwks", () => ({
-  cacheHost: process.env.KEY_CACHE_HOST,
-  cacheMax: process.env.KEY_CACHE_MAX,
-  cachePort: process.env.KEY_CACHE_PORT,
-  cacheTTL: process.env.KEY_CACHE_TTL
+  cacheHost: process.env.JWKS_CACHE_HOST,
+  cacheMax: process.env.JWKS_CACHE_MAX,
+  cachePort: process.env.JWKS_CACHE_PORT,
+  cacheTTL: process.env.JWKS_CACHE_TTL
 }));

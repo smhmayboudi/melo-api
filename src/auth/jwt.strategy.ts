@@ -30,7 +30,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             ).kid
           );
           if (jwks !== undefined) {
-            done(null, jwks.publicKey);
+            done(null, jwks.public_key);
           } else {
             done(new Error("jwt.strategy secretOrKeyProvider failed."), null);
           }

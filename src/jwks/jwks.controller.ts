@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   Param,
-  ParseUUIDPipe,
+  ParseIntPipe,
   UseInterceptors,
   UsePipes,
   ValidationPipe
@@ -35,7 +35,7 @@ export class JwksController {
   @Get(":id")
   @UseInterceptors(ClassSerializerInterceptor)
   findOne(
-    @Param("id", ParseUUIDPipe) id: string
+    @Param("id", ParseIntPipe) id: number
   ): Promise<JwksEntity | undefined> {
     return this.jwksService.findOne(id);
   }

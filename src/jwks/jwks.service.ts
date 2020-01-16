@@ -14,7 +14,7 @@ export class JwksService {
     return this.jwksRepository.find();
   }
 
-  async findOne(id: string): Promise<JwksEntity | undefined> {
+  async findOne(id: number): Promise<JwksEntity | undefined> {
     return this.jwksRepository.findOne(id);
   }
 
