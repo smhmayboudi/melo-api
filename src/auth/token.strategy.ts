@@ -23,7 +23,7 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(token: string): Promise<Payload> {
-    const token2 = await this.tokenService.findOneByToken(token);
+    const token2 = await this.tokenService.validateByToken(token);
     if (token2 !== undefined && new Date() < token2.expiration_date) {
       return { uid: token2.user_id };
     }

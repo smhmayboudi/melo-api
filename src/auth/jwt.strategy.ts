@@ -1,16 +1,18 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import * as express from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { JwksService } from "src/jwks/jwks.service";
 import { AuthConfigService } from "./auth.config.service";
 import { Payload } from "./type/Payload";
+import { TokenService } from "src/token/token.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     protected readonly authConfigService: AuthConfigService,
-    protected readonly jwksService: JwksService
+    protected readonly jwksService: JwksService,
+    protected readonly tokenService: TokenService
   ) {
     super({
       algorithms: ["RS256"],
@@ -42,6 +44,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: Payload): Promise<Payload> {
-    return Promise.resolve({ ...payload });
+    const tokenEntity = await this.tokenService.validateByUserId(payload.uid);
+    if (tokenEntity !== undefined) {
+      return Promise.resolve({ ...payload });
+    }
+    throw new UnauthorizedException();
   }
 }

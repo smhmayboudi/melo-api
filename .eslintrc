@@ -31,6 +31,7 @@
       "create_session_date",
       "expiration_date",
       "first_name",
+      "is_blocked",
       "language_code",
       "last_name",
       "last_request_date",

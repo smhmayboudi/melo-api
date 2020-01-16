@@ -40,8 +40,10 @@ export class AuthService {
     this.tokenService.save([
       {
         create_session_date: now,
+        description: "",
         expiration_date: exp,
         id: 0,
+        is_blocked: false,
         last_request_date: now,
         user_id: payload.uid,
         token: rt

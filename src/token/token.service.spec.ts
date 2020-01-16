@@ -24,5 +24,6 @@ describe("TokenService", () => {
   test.todo("findOneById");
   test.todo("findOneByToken");
   test.todo("save");
-  test.todo("validate");
+  test.todo("validateByUserId");
+  test.todo("validateByToken");
 });

@@ -54,7 +54,11 @@ export class TokenService {
     return this.tokenRepository.save(entities);
   }
 
-  async validate(token: string): Promise<TokenEntity | undefined> {
+  async validateByToken(token: string): Promise<TokenEntity | undefined> {
     return this.tokenRepository.findOne({ is_blocked: false, token });
+  }
+
+  async validateByUserId(userId: number): Promise<TokenEntity | undefined> {
+    return this.tokenRepository.findOne({ is_blocked: false, user_id: userId });
   }
 }
