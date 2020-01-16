@@ -1,7 +1,8 @@
-import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { AppConfigService } from "./app.config.service";
 import { JwksEntity } from "./jwks/jwks.entity";
+import { TokenEntity } from "./token/token.entity";
 import { UserEntity } from "./user/user.entity";
 
 @Injectable()
@@ -11,7 +12,7 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
     return {
       database: this.appConfigService.typeOrmDatabase,
-      entities: [JwksEntity, UserEntity],
+      entities: [JwksEntity, TokenEntity, UserEntity],
       host: this.appConfigService.typeOrmHost,
       logging: this.appConfigService.typeOrmLogging,
       password: this.appConfigService.typeOrmPassword,
