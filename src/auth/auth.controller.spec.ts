@@ -21,6 +21,5 @@ describe("Auth Controller", () => {
   test.todo("login");
   test.todo("logout");
   test.todo("telegram");
-  test.todo("token/remove");
-  test.todo("token/renew");
+  test.todo("token");
 });

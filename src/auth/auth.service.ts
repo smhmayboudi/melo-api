@@ -2,21 +2,28 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as cryptoRandomString from "crypto-random-string";
 import { JwksService } from "src/jwks/jwks.service";
-import { User } from "../user/type/User";
+import { TokenService } from "src/token/token.service";
 import { UserService } from "../user/user.service";
 import { AccessToken } from "./type/AccessToken";
 import { Payload } from "./type/Payload";
 import { RefreshToken } from "./type/RefreshToken";
+import * as moment from "moment";
+import { AuthConfigService } from "./auth.config.service";
 
 @Injectable()
 export class AuthService {
   constructor(
+    private readonly authConfigService: AuthConfigService,
     private readonly jwtService: JwtService,
     private readonly jwksService: JwksService,
+    private readonly tokenService: TokenService,
     private readonly userService: UserService
   ) {}
 
-  async local(username: string): Promise<Payload | undefined> {
+  async local(
+    username: string,
+    _password: string
+  ): Promise<Payload | undefined> {
     const user = await this.userService.findOneByUsernam(username);
     if (user !== undefined) {
       return { uid: user.id };
@@ -24,28 +31,43 @@ export class AuthService {
     return undefined;
   }
 
-  async refreshToken(user: User): Promise<RefreshToken | undefined> {
+  async refreshToken(payload: Payload): Promise<RefreshToken | undefined> {
+    const rt = cryptoRandomString({ length: 255, type: "base64" });
+    const now = new Date();
+    const exp = moment(now)
+      .add(this.authConfigService.jwtAccessTokenExpiresIn, "d")
+      .toDate();
+    this.tokenService.save([
+      {
+        create_session_date: now,
+        expiration_date: exp,
+        id: 0,
+        last_request_date: now,
+        user_id: payload.uid,
+        token: rt
+      }
+    ]);
     const randomJwks = await this.jwksService.getOneRandom();
     if (randomJwks !== undefined) {
-      const payload: User = { ...user };
+      const payload2: Payload = { ...payload };
       return Promise.resolve({
-        at: this.jwtService.sign(payload, {
-          keyid: randomJwks.kid,
+        at: this.jwtService.sign(payload2, {
+          keyid: randomJwks.id.toString(),
           jwtid: "XXX"
         }),
-        rt: cryptoRandomString({ length: 256, type: "hex" })
+        rt
       });
     }
     return undefined;
   }
 
-  async accessToken(user: User): Promise<AccessToken | undefined> {
+  async accessToken(payload: Payload): Promise<AccessToken | undefined> {
     const randomJwks = await this.jwksService.getOneRandom();
     if (randomJwks !== undefined) {
-      const payload: User = { ...user };
+      const payload2: Payload = { ...payload };
       return Promise.resolve({
-        at: this.jwtService.sign(payload, {
-          keyid: randomJwks.kid
+        at: this.jwtService.sign(payload2, {
+          keyid: randomJwks.id.toString()
           // jwtid: "XXX"
         })
       });

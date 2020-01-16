@@ -17,8 +17,10 @@ describe("AuthService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("jwtAccessTokenExpiresInAmount");
+  test.todo("jwtAccessTokenExpiresInUnit");
   test.todo("jwtAuhSchema");
-  test.todo("jwtSignOptionsExpiresIn");
+  test.todo("jwtRefreshTokenExpiresIn");
   test.todo("telegramBotToken");
   test.todo("telegramQueryExpiration");
 });

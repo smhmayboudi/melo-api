@@ -27,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           const jwks = await jwksService.findOne(
             JSON.parse(
               Buffer.from(rawJwtToken.split(".")[0], "base64").toString("ascii")
-            ).kid
+            ).id
           );
           if (jwks !== undefined) {
             done(null, jwks.public_key);
@@ -42,6 +42,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: Payload): Promise<Payload> {
-    return Promise.resolve(payload);
+    return Promise.resolve({ ...payload });
   }
 }

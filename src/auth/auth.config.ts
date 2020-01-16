@@ -1,8 +1,9 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("auth", () => ({
+  jwtAccessTokenExpiresIn: process.env.AUTH_JWT_ACCESS_TOKEN_EXPIREES_IN,
   jwtAuhSchema: process.env.AUTH_JWT_AUTH_SCHEMA,
-  jwtSignOptionsExpiresIn: process.env.AUTH_JWT_SIGN_OPTIONS_EXPIREES_IN,
+  jwtRefreshTokenExpiresIn: process.env.AUTH_JWT_REFRESH_TOKEN_EXPIREES_IN,
   telegramBotToken: process.env.AUTH_TELEGRAM_BOT_TOKEN,
   telegramQueryExpiration: process.env.AUTH_TELEGRAM_QUERY_EXPIRATION
 }));

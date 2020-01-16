@@ -15,6 +15,7 @@ import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
 import { TokenStrategy } from "./token.strategy";
+import { TokenModule } from "src/token/token.module";
 
 @Module({
   controllers: [AuthController],
@@ -33,6 +34,7 @@ import { TokenStrategy } from "./token.strategy";
       imports: [AuthModule],
       useClass: AuthAuthOptionsFactory
     }),
+    TokenModule,
     UserModule
   ],
   providers: [

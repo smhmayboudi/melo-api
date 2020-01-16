@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { JwtModuleOptions, JwtOptionsFactory } from "@nestjs/jwt";
-// import { AuthConfigService } from "./auth.config.service";
+import { AuthConfigService } from "./auth.config.service";
 import { JwksService } from "src/jwks/jwks.service";
 
 @Injectable()
 export class AuthJwtOptionsFactory implements JwtOptionsFactory {
   constructor(
-    // private readonly authConfigService: AuthConfigService,
+    private readonly authConfigService: AuthConfigService,
     private readonly jwksService: JwksService
   ) {}
 
@@ -14,14 +14,14 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
     return this.jwksService.getOneRandom().then(jwks => {
       if (jwks !== undefined) {
         return {
-          privateKey: jwks.privateKey,
-          publicKey: jwks.publicKey,
+          privateKey: jwks.private_key,
+          publicKey: jwks.public_key,
           // secretOrKeyProvider?: (requestType: JwtSecretRequestType, tokenOrPayload: string | object | Buffer, options?: jwt.VerifyOptions | jwt.SignOptions) => jwt.Secret;
           signOptions: {
-            algorithm: "RS256"
+            algorithm: "RS256",
             // keyid?: string;
             // /** @member {string} - expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).  Eg: 60, "2 days", "10h", "7d" */
-            // expiresIn: this.authConfigService.jwtSignOptionsExpiresIn
+            expiresIn: this.authConfigService.jwtRefreshTokenExpiresIn
             // /** @member {string} - expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).  Eg: 60, "2 days", "10h", "7d" */
             // notBefore?: string | number;
             // audience?: string | string[];

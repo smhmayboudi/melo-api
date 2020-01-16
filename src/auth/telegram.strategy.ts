@@ -21,9 +21,9 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
 
   async validate(telegramPayload: TelegramPayload): Promise<Payload> {
     const payload = await this.authService.telegram(telegramPayload.id);
-    if (payload === undefined) {
-      throw new UnauthorizedException();
+    if (payload !== undefined) {
+      return payload;
     }
-    return payload;
+    throw new UnauthorizedException();
   }
 }

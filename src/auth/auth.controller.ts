@@ -1,7 +1,10 @@
 import {
   Controller,
+  Delete,
+  Headers,
   Post,
   Request,
+  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -10,13 +13,17 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
 import * as express from "express";
+import { DeleteResult } from "typeorm";
+import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { User } from "../user/type/User";
+import { TokenService } from "../token/token.service";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
+import { Payload } from "./type/Payload";
 
 @ApiTags("auth")
 @Controller("auth")
+@UseFilters(HttpExceptionFilter)
 @UseInterceptors(ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -26,22 +33,25 @@ import { AccessToken } from "./type/AccessToken";
   })
 )
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly tokenService: TokenService
+  ) {}
 
   @Post("login")
   @UseGuards(AuthGuard("local"))
   async login(
-    @Request() request: express.Request & { user: User }
+    @Request() request: express.Request & { user: Payload }
   ): Promise<AccessToken | undefined> {
+    console.log("request.user", request.user);
     return this.authService.refreshToken(request.user);
   }
 
-  @Post("logout")
-  @UseGuards(AuthGuard("jwt"))
-  async logout(
-    @Request() request: express.Request & { user: User }
-  ): Promise<AccessToken | undefined> {
-    return this.authService.accessToken(request.user);
+  @Delete("logout")
+  @UseGuards(AuthGuard("token"))
+  async logout(@Headers("token") token: string): Promise<DeleteResult> {
+    console.log("request.user", token);
+    return this.tokenService.deleteByToken(token);
   }
 
   @Post("telegram/callback")
@@ -50,19 +60,12 @@ export class AuthController {
     return "telegram";
   }
 
-  @Post("token/remove")
-  @UseGuards(AuthGuard("jwt"))
-  tokenRenew(
-    @Request() request: express.Request & { user: User }
-  ): Promise<AccessToken | undefined> {
-    return this.authService.accessToken(request.user);
-  }
-
-  @Post("token/renew")
+  @Post("token")
   @UseGuards(AuthGuard("token"))
-  tokenRemove(
-    @Request() request: express.Request & { user: User }
+  token(
+    @Request() request: express.Request & { user: Payload }
   ): Promise<AccessToken | undefined> {
+    console.log("request.user", request.user);
     return this.authService.accessToken(request.user);
   }
 }
