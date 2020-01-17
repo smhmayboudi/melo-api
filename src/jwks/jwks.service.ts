@@ -7,19 +7,19 @@ import { JwksEntityRepository } from "./jwks.entity.repository";
 export class JwksService {
   constructor(
     @InjectRepository(JwksEntity)
-    private readonly jwksRepository: JwksEntityRepository
+    private readonly jwksEntityRepository: JwksEntityRepository
   ) {}
 
   async find(): Promise<JwksEntity[]> {
-    return this.jwksRepository.find();
+    return this.jwksEntityRepository.find();
   }
 
   async findOneById(id: string): Promise<JwksEntity | undefined> {
-    return this.jwksRepository.findOne(id);
+    return this.jwksEntityRepository.findOne(id);
   }
 
   async getOneRandom(): Promise<JwksEntity | undefined> {
-    return this.jwksRepository
+    return this.jwksEntityRepository
       .createQueryBuilder()
       .orderBy("RAND()")
       .limit(1)

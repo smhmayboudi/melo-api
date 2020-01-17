@@ -7,24 +7,24 @@ import { UserEntityRepository } from "./user.entity.repository";
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
-    private readonly userRepository: UserEntityRepository
+    private readonly userEntityRepository: UserEntityRepository
   ) {}
 
   async find(): Promise<UserEntity[]> {
-    return this.userRepository.find();
+    return this.userEntityRepository.find();
   }
 
   async findOneById(id: number): Promise<UserEntity | undefined> {
-    return this.userRepository.findOne(id);
+    return this.userEntityRepository.findOne(id);
   }
 
   async findOneByUsernam(username: string): Promise<UserEntity | undefined> {
-    return this.userRepository.findOne({ username });
+    return this.userEntityRepository.findOne({ username });
   }
 
   async findOneByTelegramId(
     telegramId: number
   ): Promise<UserEntity | undefined> {
-    return this.userRepository.findOne({ telegram_id: telegramId });
+    return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 }
