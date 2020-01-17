@@ -17,6 +17,6 @@ describe("JwksService", () => {
   });
 
   test.todo("find");
-  test.todo("findOne");
+  test.todo("findOneById");
   test.todo("getOneRandom");
 });

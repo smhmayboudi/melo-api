@@ -4,17 +4,20 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  UseFilters,
   UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
+import { HttpExceptionFilter } from "src/filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { JwksEntity } from "./jwks.entity";
 import { JwksService } from "./jwks.service";
 
 @ApiTags("jwks")
 @Controller("jwks")
+@UseFilters(HttpExceptionFilter)
 @UseInterceptors(ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -37,6 +40,6 @@ export class JwksController {
   findOne(
     @Param("id", ParseIntPipe) id: number
   ): Promise<JwksEntity | undefined> {
-    return this.jwksService.findOne(id);
+    return this.jwksService.findOneById(id);
   }
 }

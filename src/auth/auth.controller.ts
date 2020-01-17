@@ -1,6 +1,7 @@
 import {
   Controller,
   Delete,
+  Get,
   Headers,
   Post,
   Request,
@@ -37,6 +38,13 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly tokenService: TokenService
   ) {}
+
+  @Get("test")
+  @UseGuards(AuthGuard())
+  test(@Request() request: express.Request & { user: Payload }): any {
+    console.log("request.user", request.user);
+    return { test: "test" };
+  }
 
   @Post("login")
   @UseGuards(AuthGuard("local"))
