@@ -1,10 +1,9 @@
 export interface Token {
-  create_session_date: Date;
+  create_at: Date;
   description: string;
-  expiration_date: Date;
+  expire_at: Date;
   id: number;
   is_blocked: boolean;
-  last_request_date: Date;
   user_id: number;
   token: string;
 }

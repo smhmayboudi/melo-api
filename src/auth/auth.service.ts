@@ -40,12 +40,11 @@ export class AuthService {
       .toDate();
     this.tokenService.save([
       {
-        create_session_date: now,
+        create_at: now,
         description: "",
-        expiration_date: exp,
+        expire_at: exp,
         id: 0,
         is_blocked: false,
-        last_request_date: now,
         user_id: payload.uid,
         token: rt
       }

@@ -24,7 +24,7 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
 
   async validate(token: string): Promise<Payload> {
     const tokenEntity = await this.tokenService.validateByToken(token);
-    if (tokenEntity !== undefined && new Date() < tokenEntity.expiration_date) {
+    if (tokenEntity !== undefined && new Date() < tokenEntity.expire_at) {
       return { uid: tokenEntity.user_id };
     }
     throw new UnauthorizedException();
