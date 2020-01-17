@@ -1,22 +1,27 @@
 import { RelationType } from "../type/RelationType";
-import { IsEnum, IsString } from "class-validator";
+import { IsEnum, IsString, IsNumber } from "class-validator";
 
-export class RelationDtoMultiHas {
+export class RelationGetDto {
   constructor(
+    from: number,
     fromEntityId: string,
-    toEntitiesIds: string,
+    limit: number,
     relType: RelationType
   ) {
+    this.from = from;
     this.fromEntityId = fromEntityId;
-    this.toEntitiesIds = toEntitiesIds;
+    this.limit = limit;
     this.relType = relType;
   }
+
+  @IsNumber()
+  from: number;
 
   @IsString()
   fromEntityId: string;
 
-  @IsString()
-  toEntitiesIds: string;
+  @IsNumber()
+  limit: number;
 
   @IsEnum(RelationType)
   relType: RelationType;

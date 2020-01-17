@@ -1,7 +1,7 @@
 import { RelationType } from "../type/RelationType";
 import { IsDate, IsEnum, IsString } from "class-validator";
 
-export class RelationDtoSet {
+export class RelationSetDto {
   constructor(
     createdAt: Date,
     entityId1: string,

@@ -1,11 +1,11 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { Observable } from "rxjs";
-import { RelationDtoGet } from "./dto/relaton.dto.get";
-import { RelationDtoHas } from "./dto/relaton.dto.has";
-import { RelationDtoMultiHas } from "./dto/relaton.dto.multi.has";
-import { RelationDtoRemove } from "./dto/relaton.dto.remove";
-import { RelationDtoSet } from "./dto/relaton.dto.set";
+import { RelationGetDto } from "./dto/relaton.get.dto";
+import { RelationHasDto } from "./dto/relaton.has.dto";
+import { RelationMultiHasDto } from "./dto/relaton.multi.has.dto";
+import { RelationRemoveDto } from "./dto/relaton.remove.dto";
+import { RelationSetDto } from "./dto/relaton.set.dto";
 import { RelationConfigService } from "./relation.config.service";
 import { EntityRelate } from "./type/EntityRelate";
 import { PaginationResult } from "./type/PaginationResult";
@@ -18,21 +18,21 @@ export class RelationService {
   ) {}
 
   get(
-    relationDtoGet: RelationDtoGet
+    relationDtoGet: RelationGetDto
   ): Observable<AxiosResponse<PaginationResult>> {
     return this.httpService.get(
       `${this.relationConfigService.uri}/get/${relationDtoGet.fromEntityId}/${relationDtoGet.relType}/${relationDtoGet.limit}`
     );
   }
 
-  has(relationDtoHas: RelationDtoHas): Observable<AxiosResponse<true>> {
+  has(relationDtoHas: RelationHasDto): Observable<AxiosResponse<true>> {
     return this.httpService.get(
       `${this.relationConfigService.uri}/has/${relationDtoHas.entityId1}/${relationDtoHas.entityId2}/${relationDtoHas.relType}`
     );
   }
 
   multiHas(
-    relationDtoMultiHas: RelationDtoMultiHas
+    relationDtoMultiHas: RelationMultiHasDto
   ): Observable<AxiosResponse<EntityRelate>> {
     return this.httpService.get(
       `${this.relationConfigService.uri}/multiHas/${relationDtoMultiHas.fromEntityId}/${relationDtoMultiHas.toEntitiesIds}/${relationDtoMultiHas.relType}`
@@ -40,7 +40,7 @@ export class RelationService {
   }
 
   remove(
-    relationDtoRemove: RelationDtoRemove
+    relationDtoRemove: RelationRemoveDto
   ): Observable<AxiosResponse<true>> {
     return this.httpService.post(
       `${this.relationConfigService.uri}/remove`,
@@ -48,7 +48,7 @@ export class RelationService {
     );
   }
 
-  set(relationDtoSet: RelationDtoSet): Observable<AxiosResponse<true>> {
+  set(relationDtoSet: RelationSetDto): Observable<AxiosResponse<true>> {
     return this.httpService.post(
       `${this.relationConfigService.uri}/set`,
       relationDtoSet
