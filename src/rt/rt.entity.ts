@@ -1,3 +1,5 @@
+import { ApiProperty } from "@nestjs/swagger";
+import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Rt } from "./type/rt";
 
@@ -21,24 +23,59 @@ export class RtEntity implements Rt {
     this.token = token;
   }
 
+  @ApiProperty({
+    description: "create datetime",
+    example: new Date()
+  })
   @Column({ type: "datetime" })
+  @IsDate()
   create_at: Date;
 
+  @ApiProperty({
+    description: "description of blocked",
+    example: "This token is bridged."
+  })
   @Column({ type: "text" })
+  @IsString()
   description: string;
 
+  @ApiProperty({
+    description: "expire datetime",
+    example: new Date()
+  })
   @Column({ type: "datetime" })
+  @IsDate()
   expire_at: Date;
 
+  @ApiProperty({
+    description: "The primary key",
+    example: 0
+  })
   @PrimaryGeneratedColumn("increment", { type: "int" })
+  @IsNumber()
   id: number;
 
+  @ApiProperty({
+    description: "is blockeed",
+    example: false
+  })
   @Column({ type: "boolean" })
+  @IsBoolean()
   is_blocked: boolean;
 
+  @ApiProperty({
+    description: "user identification",
+    example: new Date()
+  })
   @Column({ type: "int" })
+  @IsNumber()
   user_id: number;
 
+  @ApiProperty({
+    description: "refresh token",
+    example: new Date()
+  })
   @Column({ length: 256, nullable: false, type: "varchar" })
+  @IsString()
   token: string;
 }

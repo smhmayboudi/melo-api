@@ -9,17 +9,19 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from "@nestjs/swagger";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { HttpExceptionFilter } from "src/filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
+@ApiBearerAuth("jwt")
 @ApiTags("user")
 @Controller("user")
 @UseFilters(HttpExceptionFilter)
-@UseInterceptors(ErrorInterceptor)
+@UseGuards(AuthGuard("jwt"))
+@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -31,8 +33,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @UseGuards(AuthGuard("jwt"))
-  @UseInterceptors(ClassSerializerInterceptor, HttpCacheInterceptor)
+  @UseInterceptors(HttpCacheInterceptor)
   find(): Promise<UserEntity[]> {
     return this.userService.find();
   }

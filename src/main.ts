@@ -29,6 +29,34 @@ async function bootstrap(): Promise<void> {
   );
 
   const options = new DocumentBuilder()
+    .addBasicAuth(
+      {
+        description: "It is used for login procedure.",
+        scheme: "basic",
+        type: "http"
+      },
+      "local"
+    )
+    .addBearerAuth(
+      {
+        description: "It is used for getting access token procedure.",
+        in: "header",
+        name: "token",
+        type: "apiKey"
+      },
+      "token"
+    )
+    .addBearerAuth(
+      {
+        description: "It is used for the rest.",
+        bearerFormat: "JWT",
+        in: "header",
+        name: "Authorization",
+        scheme: "JWT",
+        type: "apiKey"
+      },
+      "jwt"
+    )
     .setContact(
       "Hossein Mayboudi",
       "https://www.linkedin.com/in/smhmayboudi/",

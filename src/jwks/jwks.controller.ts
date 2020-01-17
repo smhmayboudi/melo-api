@@ -9,16 +9,17 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { JwksEntity } from "./jwks.entity";
 import { JwksService } from "./jwks.service";
 
+@ApiBearerAuth("jwt")
 @ApiTags("jwks")
 @Controller("jwks")
 @UseFilters(HttpExceptionFilter)
-@UseInterceptors(ErrorInterceptor)
+@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -30,13 +31,11 @@ export class JwksController {
   constructor(private readonly jwksService: JwksService) {}
 
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   find(): Promise<JwksEntity[]> {
     return this.jwksService.find();
   }
 
   @Get(":id")
-  @UseInterceptors(ClassSerializerInterceptor)
   findOne(
     @Param("id", ParseUUIDPipe) id: string
   ): Promise<JwksEntity | undefined> {

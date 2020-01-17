@@ -1,4 +1,5 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Get,
   UseFilters,
@@ -14,7 +15,7 @@ import { ErrorInterceptor } from "./interceptor/error.interceptor";
 @ApiTags("app")
 @Controller()
 @UseFilters(HttpExceptionFilter)
-@UseInterceptors(ErrorInterceptor)
+@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,

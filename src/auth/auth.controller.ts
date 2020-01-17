@@ -1,4 +1,5 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -12,7 +13,7 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as express from "express";
 import { DeleteResult } from "typeorm";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
@@ -25,7 +26,7 @@ import { JwtPayload } from "./type/JwtPayload";
 @ApiTags("auth")
 @Controller("auth")
 @UseFilters(HttpExceptionFilter)
-@UseInterceptors(ErrorInterceptor)
+@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -39,6 +40,7 @@ export class AuthController {
     private readonly rtService: RtService
   ) {}
 
+  @ApiBearerAuth("jwt")
   @Get("test")
   @UseGuards(AuthGuard())
   test(@Request() request: express.Request & { user: JwtPayload }): any {
@@ -46,6 +48,7 @@ export class AuthController {
     return { test: "test" };
   }
 
+  @ApiBearerAuth("local")
   @Post("login")
   @UseGuards(AuthGuard("local"))
   async login(
@@ -55,6 +58,7 @@ export class AuthController {
     return this.authService.refreshToken(request.user);
   }
 
+  @ApiBearerAuth("token")
   @Delete("logout")
   @UseGuards(AuthGuard("token"))
   async logout(@Headers("token") token: string): Promise<DeleteResult> {
@@ -62,12 +66,14 @@ export class AuthController {
     return this.rtService.deleteByToken(token);
   }
 
+  // @ApiBearerAuth("telegram")
   @Post("telegram/callback")
   @UseGuards(AuthGuard("telegram"))
   telegram(): string {
     return "telegram";
   }
 
+  @ApiBearerAuth("token")
   @Post("token")
   @UseGuards(AuthGuard("token"))
   token(
