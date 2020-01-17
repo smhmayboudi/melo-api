@@ -32,17 +32,19 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
             // header?: object;
             // encoding?: string;
           }
-          // verifyOptions?: {
+          // verifyOptions?: jwt.VerifyOptions;
+          // jsonWebTokenOptions?: VerifyOptions;
+          // VerifyOptions {
           //   algorithms?: string[];
           //   audience?: string | string[];
           //   clockTimestamp?: number;
           //   clockTolerance?: number;
-          //   issuer?: string | string[];
           //   ignoreExpiration?: boolean;
           //   ignoreNotBefore?: boolean;
+          //   issuer?: string | string[];
           //   jwtid?: string;
           //   subject?: string;
-          // };
+          // }
         };
       }
       return {};

@@ -5,8 +5,8 @@ import { ConfigService } from "@nestjs/config";
 export class AuthConfigService {
   constructor(private readonly configService: ConfigService) {}
 
-  get jwtAccessTokenExpiresIn(): number {
-    return this.configService.get<number>("auth.jwtAccessTokenExpiresIn", 1);
+  get jwtAccessTokenExpiresIn(): string {
+    return this.configService.get<string>("auth.jwtAccessTokenExpiresIn", "1d");
   }
 
   get jwtAuhSchema(): string {

@@ -1,14 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as cryptoRandomString from "crypto-random-string";
+import * as moment from "moment";
+import * as ms from "ms";
 import { JwksService } from "src/jwks/jwks.service";
 import { TokenService } from "src/token/token.service";
 import { UserService } from "../user/user.service";
+import { AuthConfigService } from "./auth.config.service";
 import { AccessToken } from "./type/AccessToken";
 import { Payload } from "./type/Payload";
 import { RefreshToken } from "./type/RefreshToken";
-import * as moment from "moment";
-import { AuthConfigService } from "./auth.config.service";
 
 @Injectable()
 export class AuthService {
@@ -24,9 +25,9 @@ export class AuthService {
     username: string,
     _password: string
   ): Promise<Payload | undefined> {
-    const user = await this.userService.findOneByUsernam(username);
-    if (user !== undefined) {
-      return { uid: user.id };
+    const uerEntity = await this.userService.findOneByUsernam(username);
+    if (uerEntity !== undefined) {
+      return { uid: uerEntity.id };
     }
     return undefined;
   }
@@ -35,7 +36,7 @@ export class AuthService {
     const rt = cryptoRandomString({ length: 255, type: "base64" });
     const now = new Date();
     const exp = moment(now)
-      .add(this.authConfigService.jwtAccessTokenExpiresIn, "d")
+      .add(ms(this.authConfigService.jwtAccessTokenExpiresIn))
       .toDate();
     this.tokenService.save([
       {
@@ -49,12 +50,12 @@ export class AuthService {
         token: rt
       }
     ]);
-    const randomJwks = await this.jwksService.getOneRandom();
-    if (randomJwks !== undefined) {
-      const payload2: Payload = { ...payload };
+    const randomJwksEntity = await this.jwksService.getOneRandom();
+    if (randomJwksEntity !== undefined) {
+      const newPayload: Payload = { ...payload };
       return Promise.resolve({
-        at: this.jwtService.sign(payload2, {
-          keyid: randomJwks.id.toString(),
+        at: this.jwtService.sign(newPayload, {
+          keyid: randomJwksEntity.id.toString(),
           jwtid: "XXX"
         }),
         rt
@@ -64,13 +65,13 @@ export class AuthService {
   }
 
   async accessToken(payload: Payload): Promise<AccessToken | undefined> {
-    const randomJwks = await this.jwksService.getOneRandom();
-    if (randomJwks !== undefined) {
-      const payload2: Payload = { ...payload };
+    const randomJwksEntity = await this.jwksService.getOneRandom();
+    if (randomJwksEntity !== undefined) {
+      const newPayload: Payload = { ...payload };
       return Promise.resolve({
-        at: this.jwtService.sign(payload2, {
-          keyid: randomJwks.id.toString()
-          // jwtid: "XXX"
+        at: this.jwtService.sign(newPayload, {
+          keyid: randomJwksEntity.id.toString(),
+          jwtid: "XXX"
         })
       });
     }
@@ -78,9 +79,9 @@ export class AuthService {
   }
 
   async telegram(telegramId: number): Promise<Payload | undefined> {
-    const user = await this.userService.findOneByTelegramId(telegramId);
-    if (user !== undefined) {
-      return { uid: user.id };
+    const uerEntity = await this.userService.findOneByTelegramId(telegramId);
+    if (uerEntity !== undefined) {
+      return { uid: uerEntity.id };
     }
     return undefined;
   }
