@@ -39,6 +39,6 @@ export class TokenEntity implements Token {
   @Column({ type: "int" })
   user_id: number;
 
-  @Column({ length: 255, nullable: false, type: "char" })
+  @Column({ length: 256, nullable: false, type: "varchar" })
   token: string;
 }

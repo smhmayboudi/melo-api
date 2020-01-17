@@ -4,8 +4,8 @@ import * as cryptoRandomString from "crypto-random-string";
 import * as moment from "moment";
 import * as ms from "ms";
 import * as uuidv4 from "uuid/v4";
-import { JwksService } from "src/jwks/jwks.service";
-import { TokenService } from "src/token/token.service";
+import { JwksService } from "../jwks/jwks.service";
+import { TokenService } from "../token/token.service";
 import { UserService } from "../user/user.service";
 import { AuthConfigService } from "./auth.config.service";
 import { AccessToken } from "./type/AccessToken";
@@ -34,7 +34,7 @@ export class AuthService {
   }
 
   async refreshToken(payload: Payload): Promise<RefreshToken | undefined> {
-    const rt = cryptoRandomString({ length: 255, type: "base64" });
+    const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)
       .add(ms(this.authConfigService.jwtAccessTokenExpiresIn))

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { JwtModuleOptions, JwtOptionsFactory } from "@nestjs/jwt";
 import { AuthConfigService } from "./auth.config.service";
-import { JwksService } from "src/jwks/jwks.service";
+import { JwksService } from "../jwks/jwks.service";
 
 @Injectable()
 export class AuthJwtOptionsFactory implements JwtOptionsFactory {

@@ -17,7 +17,7 @@ describe("TokenService", () => {
   });
 
   test.todo("blockById");
-  test.todo("blockByTokenId");
+  test.todo("blockByToken");
   test.todo("deleteById");
   test.todo("deleteByToken");
   test.todo("find");

@@ -19,7 +19,7 @@ export class TokenService {
     );
   }
 
-  async blockByTokenId(
+  async blockByToken(
     token: string,
     description: string
   ): Promise<DeleteResult> {

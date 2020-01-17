@@ -1,6 +1,6 @@
 import { CacheInterceptor, ExecutionContext, Injectable } from "@nestjs/common";
 import * as express from "express";
-import { User } from "src/user/type/User";
+import { User } from "../user/type/User";
 
 @Injectable()
 export class HttpCacheInterceptor extends CacheInterceptor {

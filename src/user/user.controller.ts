@@ -10,7 +10,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiTags } from "@nestjs/swagger";
-import { HttpExceptionFilter } from "src/filter/http.exception.filter";
+import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEntity } from "./user.entity";

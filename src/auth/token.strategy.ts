@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { UniqueTokenStrategy as Strategy } from "passport-unique-token";
-import { TokenService } from "src/token/token.service";
+import { TokenService } from "../token/token.service";
 import { AuthConfigService } from "./auth.config.service";
 import { Payload } from "./type/Payload";
 

@@ -2,7 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { AppModule } from "src/app.module";
+import { AppModule } from "../app.module";
 import { JwksModule } from "../jwks/jwks.module";
 import { UserModule } from "../user/user.module";
 import config from "./auth.config";
@@ -15,7 +15,7 @@ import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
 import { TokenStrategy } from "./token.strategy";
-import { TokenModule } from "src/token/token.module";
+import { TokenModule } from "../token/token.module";
 
 @Module({
   controllers: [AuthController],

@@ -10,7 +10,7 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { HttpExceptionFilter } from "src/filter/http.exception.filter";
+import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { JwksEntity } from "./jwks.entity";
 import { JwksService } from "./jwks.service";
