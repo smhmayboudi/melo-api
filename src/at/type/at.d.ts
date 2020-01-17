@@ -1,4 +1,4 @@
-export interface Rt {
+export interface At {
   create_at: Date;
   expire_at: Date;
   id: number;

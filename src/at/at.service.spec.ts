@@ -1,15 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { RtService } from "./rt.service";
+import { AtService } from "./at.service";
 
-describe("RtService", () => {
-  let service: RtService;
+describe("AtService", () => {
+  let service: AtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RtService]
+      providers: [AtService]
     }).compile();
 
-    service = module.get<RtService>(RtService);
+    service = module.get<AtService>(AtService);
   });
 
   it("should be defined", () => {
@@ -17,11 +17,11 @@ describe("RtService", () => {
   });
 
   test.todo("deleteById");
-  test.todo("deleteByRt");
+  test.todo("deleteByAt");
   test.todo("find");
   test.todo("findOneById");
-  test.todo("findOneByRt");
+  test.todo("findOneByAt");
   test.todo("save");
   test.todo("validateByUserId");
-  test.todo("validateByRt");
+  test.todo("validateByAt");
 });

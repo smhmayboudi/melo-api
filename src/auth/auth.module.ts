@@ -2,7 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { RtModule } from "src/rt/rt.module";
+import { AtModule } from "src/at/at.module";
 import { AppModule } from "../app.module";
 import { JwksModule } from "../jwks/jwks.module";
 import { TokenModule } from "../token/token.module";
@@ -35,7 +35,7 @@ import { TokenStrategy } from "./token.strategy";
       imports: [AuthModule],
       useClass: AuthAuthOptionsFactory
     }),
-    RtModule,
+    AtModule,
     TokenModule,
     UserModule
   ],

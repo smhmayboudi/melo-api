@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Rt } from "./type/rt";
+import { At } from "./type/at";
 
-@Entity({ name: "rts", orderBy: { id: "ASC" } })
-export class RtEntity implements Rt {
+@Entity({ name: "ats", orderBy: { id: "ASC" } })
+export class AtEntity implements At {
   constructor(
     create_at: Date,
     expire_at: Date,

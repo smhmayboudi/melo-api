@@ -2,18 +2,18 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import * as express from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { AtService } from "../at/at.service";
 import { JwksService } from "../jwks/jwks.service";
+import { TokenService } from "../token/token.service";
 import { AuthConfigService } from "./auth.config.service";
 import { JwtPayload } from "./type/JwtPayload";
-import { RtService } from "../rt/rt.service";
-import { TokenService } from "../token/token.service";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     protected readonly authConfigService: AuthConfigService,
     protected readonly jwksService: JwksService,
-    protected readonly rtService: RtService,
+    protected readonly atService: AtService,
     protected readonly tokenService: TokenService
   ) {
     super({
@@ -65,9 +65,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       parseInt(jwtPayload.sub, 10)
     );
     if (tokenEntity !== undefined) {
-      const rtEnity = await this.rtService.validateByToken(jwtPayload.jti);
-      if (rtEnity === undefined) {
-        await this.rtService.save([
+      const atEnity = await this.atService.validateByToken(jwtPayload.jti);
+      if (atEnity === undefined) {
+        await this.atService.save([
           {
             create_at: new Date(1000 * jwtPayload.iat),
             expire_at: new Date(1000 * jwtPayload.exp),

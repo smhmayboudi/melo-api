@@ -9,10 +9,10 @@ import {
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
-import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { RtEntity } from "./rt.entity";
-import { RtService } from "./rt.service";
+import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
+import { AtEntity } from "./at.entity";
+import { AtService } from "./at.service";
 
 @ApiTags("rt")
 @Controller("rt")
@@ -25,12 +25,12 @@ import { RtService } from "./rt.service";
     transform: true
   })
 )
-export class RtController {
-  constructor(private readonly rtService: RtService) {}
+export class AtController {
+  constructor(private readonly atService: AtService) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor, HttpCacheInterceptor)
-  find(): Promise<RtEntity[]> {
-    return this.rtService.find();
+  find(): Promise<AtEntity[]> {
+    return this.atService.find();
   }
 }

@@ -11,7 +11,7 @@ import { AuthModule } from "./auth/auth.module";
 import { DataModule } from "./data/data.module";
 import { JwksModule } from "./jwks/jwks.module";
 import { RelationModule } from "./relation/relation.module";
-import { RtModule } from "./rt/rt.module";
+import { AtModule } from "./at/at.module";
 import { TokenModule } from "./token/token.module";
 import { UserModule } from "./user/user.module";
 
@@ -29,7 +29,7 @@ import { UserModule } from "./user/user.module";
     DataModule,
     JwksModule,
     RelationModule,
-    RtModule,
+    AtModule,
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],

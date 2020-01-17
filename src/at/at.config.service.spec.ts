@@ -1,16 +1,16 @@
 import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { RtConfigService } from "./rt.config.service";
+import { AtConfigService } from "./at.config.service";
 
-describe("RtService", () => {
-  let service: RtConfigService;
+describe("AtService", () => {
+  let service: AtConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConfigService, RtConfigService]
+      providers: [ConfigService, AtConfigService]
     }).compile();
 
-    service = module.get<RtConfigService>(RtConfigService);
+    service = module.get<AtConfigService>(AtConfigService);
   });
 
   it("should be defined", () => {
