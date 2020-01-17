@@ -17,7 +17,7 @@ import * as express from "express";
 import { DeleteResult } from "typeorm";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { TokenService } from "../token/token.service";
+import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
 import { JwtPayload } from "./type/JwtPayload";
@@ -36,7 +36,7 @@ import { JwtPayload } from "./type/JwtPayload";
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly tokenService: TokenService
+    private readonly rtService: RtService
   ) {}
 
   @Get("test")
@@ -59,7 +59,7 @@ export class AuthController {
   @UseGuards(AuthGuard("token"))
   async logout(@Headers("token") token: string): Promise<DeleteResult> {
     console.log("request.user", token);
-    return this.tokenService.deleteByToken(token);
+    return this.rtService.deleteByToken(token);
   }
 
   @Post("telegram/callback")

@@ -11,8 +11,8 @@ import { ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { TokenEntity } from "./token.entity";
-import { TokenService } from "./token.service";
+import { RtEntity } from "./rt.entity";
+import { RtService } from "./rt.service";
 
 @ApiTags("token")
 @Controller("token")
@@ -25,12 +25,12 @@ import { TokenService } from "./token.service";
     transform: true
   })
 )
-export class TokenController {
-  constructor(private readonly tokenService: TokenService) {}
+export class RtController {
+  constructor(private readonly rtService: RtService) {}
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor, HttpCacheInterceptor)
-  find(): Promise<TokenEntity[]> {
-    return this.tokenService.find();
+  find(): Promise<RtEntity[]> {
+    return this.rtService.find();
   }
 }

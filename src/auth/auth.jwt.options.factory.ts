@@ -16,7 +16,7 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
         return {
           privateKey: jwks.private_key,
           publicKey: jwks.public_key,
-          // secretOrKeyProvider?: (requestType: JwtSecretRequestType, tokenOrPayload: string | object | Buffer, options?: jwt.VerifyOptions | jwt.SignOptions) => jwt.Secret;
+          // secretOrKeyProvider?: (requestType: JwtSecretRequestType, rtOrPayload: string | object | Buffer, options?: jwt.VerifyOptions | jwt.SignOptions) => jwt.Secret;
           // signOptions?: jwt.SignOptions;
           signOptions: {
             algorithm: "RS256",

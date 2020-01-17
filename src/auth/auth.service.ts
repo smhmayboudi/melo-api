@@ -5,7 +5,7 @@ import * as moment from "moment";
 import * as ms from "ms";
 import * as uuidv4 from "uuid/v4";
 import { JwksService } from "../jwks/jwks.service";
-import { TokenService } from "../token/token.service";
+import { RtService } from "../rt/rt.service";
 import { UserService } from "../user/user.service";
 import { AuthConfigService } from "./auth.config.service";
 import { AccessToken } from "./type/AccessToken";
@@ -18,7 +18,7 @@ export class AuthService {
     private readonly authConfigService: AuthConfigService,
     private readonly jwtService: JwtService,
     private readonly jwksService: JwksService,
-    private readonly tokenService: TokenService,
+    private readonly rtService: RtService,
     private readonly userService: UserService
   ) {}
 
@@ -46,7 +46,7 @@ export class AuthService {
     const exp = moment(now)
       .add(ms(this.authConfigService.jwtAccessTokenExpiresIn))
       .toDate();
-    this.tokenService.save([
+    this.rtService.save([
       {
         create_at: now,
         description: "",

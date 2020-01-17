@@ -5,7 +5,7 @@ import { PassportModule } from "@nestjs/passport";
 import { AtModule } from "src/at/at.module";
 import { AppModule } from "../app.module";
 import { JwksModule } from "../jwks/jwks.module";
-import { TokenModule } from "../token/token.module";
+import { RtModule } from "../rt/rt.module";
 import { UserModule } from "../user/user.module";
 import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
@@ -36,7 +36,7 @@ import { TokenStrategy } from "./token.strategy";
       useClass: AuthAuthOptionsFactory
     }),
     AtModule,
-    TokenModule,
+    RtModule,
     UserModule
   ],
   providers: [

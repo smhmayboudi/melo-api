@@ -4,7 +4,7 @@ import * as express from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { AtService } from "../at/at.service";
 import { JwksService } from "../jwks/jwks.service";
-import { TokenService } from "../token/token.service";
+import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
 import { JwtPayload } from "./type/JwtPayload";
 
@@ -14,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     protected readonly authConfigService: AuthConfigService,
     protected readonly jwksService: JwksService,
     protected readonly atService: AtService,
-    protected readonly tokenService: TokenService
+    protected readonly rtService: RtService
   ) {
     super({
       // audience?: string;
@@ -61,10 +61,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(jwtPayload: JwtPayload): Promise<JwtPayload> {
-    const tokenEntity = await this.tokenService.validateByUserId(
+    const rtEntity = await this.rtService.validateByUserId(
       parseInt(jwtPayload.sub, 10)
     );
-    if (tokenEntity !== undefined) {
+    if (rtEntity !== undefined) {
       const atEnity = await this.atService.validateByToken(jwtPayload.jti);
       if (atEnity === undefined) {
         await this.atService.save([

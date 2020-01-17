@@ -1,4 +1,4 @@
-export interface Token {
+export interface Rt {
   create_at: Date;
   description: string;
   expire_at: Date;

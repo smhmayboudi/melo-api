@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
 @Injectable()
-export class TokenConfigService {
+export class RtConfigService {
   constructor(private readonly configService: ConfigService) {}
 
   get cacheHost(): string {

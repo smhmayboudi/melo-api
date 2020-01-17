@@ -1,8 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Token } from "./type/token";
+import { Rt } from "./type/rt";
 
-@Entity({ name: "tokens", orderBy: { id: "ASC" } })
-export class TokenEntity implements Token {
+@Entity({ name: "rts", orderBy: { id: "ASC" } })
+export class RtEntity implements Rt {
   constructor(
     create_at: Date,
     description: string,

@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { UniqueTokenStrategy as Strategy } from "passport-unique-token";
-import { TokenService } from "../token/token.service";
+import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
 import { JwtPayload } from "./type/JwtPayload";
 
@@ -9,13 +9,13 @@ import { JwtPayload } from "./type/JwtPayload";
 export class TokenStrategy extends PassportStrategy(Strategy) {
   constructor(
     protected readonly authConfigService: AuthConfigService,
-    private readonly tokenService: TokenService
+    private readonly rtService: RtService
   ) {
     super({
-      tokenField: "token",
-      tokenQuery: "token",
-      tokenParams: "token",
-      tokenHeader: "token",
+      rtField: "token",
+      rtQuery: "token",
+      rtParams: "token",
+      rtHeader: "token",
       passReqToCallback: false,
       caseSensitive: true,
       failOnMissing: true
@@ -23,13 +23,13 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(token: string): Promise<JwtPayload> {
-    const tokenEntity = await this.tokenService.validateByToken(token);
-    if (tokenEntity !== undefined && new Date() < tokenEntity.expire_at) {
+    const rtEntity = await this.rtService.validateByToken(token);
+    if (rtEntity !== undefined && new Date() < rtEntity.expire_at) {
       return {
         exp: 0,
         iat: 0,
         jti: "0",
-        sub: tokenEntity.user_id.toString()
+        sub: rtEntity.user_id.toString()
       };
     }
     throw new UnauthorizedException();
