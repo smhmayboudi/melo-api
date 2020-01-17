@@ -11,8 +11,9 @@ import { AuthModule } from "./auth/auth.module";
 import { DataModule } from "./data/data.module";
 import { JwksModule } from "./jwks/jwks.module";
 import { RelationModule } from "./relation/relation.module";
-import { UserModule } from "./user/user.module";
+import { RtModule } from "./rt/rt.module";
 import { TokenModule } from "./token/token.module";
+import { UserModule } from "./user/user.module";
 
 @Module({
   controllers: [AppController],
@@ -28,6 +29,7 @@ import { TokenModule } from "./token/token.module";
     DataModule,
     JwksModule,
     RelationModule,
+    RtModule,
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],

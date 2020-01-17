@@ -9,7 +9,7 @@ import { TokenService } from "../token/token.service";
 import { UserService } from "../user/user.service";
 import { AuthConfigService } from "./auth.config.service";
 import { AccessToken } from "./type/AccessToken";
-import { Payload } from "./type/Payload";
+import { JwtPayload } from "./type/JwtPayload";
 import { RefreshToken } from "./type/RefreshToken";
 
 @Injectable()
@@ -25,15 +25,22 @@ export class AuthService {
   async local(
     username: string,
     _password: string
-  ): Promise<Payload | undefined> {
+  ): Promise<JwtPayload | undefined> {
     const uerEntity = await this.userService.findOneByUsernam(username);
     if (uerEntity !== undefined) {
-      return { uid: uerEntity.id };
+      return {
+        exp: 0,
+        iat: 0,
+        jti: "0",
+        sub: uerEntity.id.toString()
+      };
     }
     return undefined;
   }
 
-  async refreshToken(payload: Payload): Promise<RefreshToken | undefined> {
+  async refreshToken(
+    jwtPayload: JwtPayload
+  ): Promise<RefreshToken | undefined> {
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)
@@ -46,42 +53,53 @@ export class AuthService {
         expire_at: exp,
         id: 0,
         is_blocked: false,
-        user_id: payload.uid,
+        user_id: parseInt(jwtPayload.sub, 10),
         token: rt
       }
     ]);
     const randomJwksEntity = await this.jwksService.getOneRandom();
     if (randomJwksEntity !== undefined) {
-      const newPayload: Payload = { ...payload };
       return Promise.resolve({
-        at: this.jwtService.sign(newPayload, {
-          keyid: randomJwksEntity.id,
-          jwtid: uuidv4()
-        }),
+        at: this.jwtService.sign(
+          {},
+          {
+            keyid: randomJwksEntity.id,
+            jwtid: uuidv4(),
+            subject: jwtPayload.sub.toString()
+          }
+        ),
         rt
       });
     }
     return undefined;
   }
 
-  async accessToken(payload: Payload): Promise<AccessToken | undefined> {
+  async accessToken(jwtPayload: JwtPayload): Promise<AccessToken | undefined> {
     const randomJwksEntity = await this.jwksService.getOneRandom();
     if (randomJwksEntity !== undefined) {
-      const newPayload: Payload = { ...payload };
       return Promise.resolve({
-        at: this.jwtService.sign(newPayload, {
-          keyid: randomJwksEntity.id,
-          jwtid: uuidv4()
-        })
+        at: this.jwtService.sign(
+          {},
+          {
+            keyid: randomJwksEntity.id,
+            jwtid: uuidv4(),
+            subject: jwtPayload.sub.toString()
+          }
+        )
       });
     }
     return undefined;
   }
 
-  async telegram(telegramId: number): Promise<Payload | undefined> {
+  async telegram(telegramId: number): Promise<JwtPayload | undefined> {
     const uerEntity = await this.userService.findOneByTelegramId(telegramId);
     if (uerEntity !== undefined) {
-      return { uid: uerEntity.id };
+      return {
+        exp: 0,
+        iat: 0,
+        jti: "0",
+        sub: uerEntity.id.toString()
+      };
     }
     return undefined;
   }

@@ -4,7 +4,8 @@ import * as express from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { JwksService } from "../jwks/jwks.service";
 import { AuthConfigService } from "./auth.config.service";
-import { Payload } from "./type/Payload";
+import { JwtPayload } from "./type/JwtPayload";
+import { RtService } from "../rt/rt.service";
 import { TokenService } from "../token/token.service";
 
 @Injectable()
@@ -12,6 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     protected readonly authConfigService: AuthConfigService,
     protected readonly jwksService: JwksService,
+    protected readonly rtService: RtService,
     protected readonly tokenService: TokenService
   ) {
     super({
@@ -58,10 +60,24 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload: Payload): Promise<Payload> {
-    const tokenEntity = await this.tokenService.validateByUserId(payload.uid);
+  async validate(jwtPayload: JwtPayload): Promise<JwtPayload> {
+    const tokenEntity = await this.tokenService.validateByUserId(
+      parseInt(jwtPayload.sub, 10)
+    );
     if (tokenEntity !== undefined) {
-      return Promise.resolve({ ...payload });
+      const rtEnity = await this.rtService.validateByToken(jwtPayload.jti);
+      if (rtEnity === undefined) {
+        await this.rtService.save([
+          {
+            create_at: new Date(1000 * jwtPayload.iat),
+            expire_at: new Date(1000 * jwtPayload.exp),
+            id: 0,
+            user_id: parseInt(jwtPayload.sub, 10),
+            token: jwtPayload.jti
+          }
+        ]);
+        return Promise.resolve({ ...jwtPayload });
+      }
     }
     throw new UnauthorizedException();
   }

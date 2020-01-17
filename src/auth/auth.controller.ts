@@ -20,7 +20,7 @@ import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { TokenService } from "../token/token.service";
 import { AuthService } from "./auth.service";
 import { AccessToken } from "./type/AccessToken";
-import { Payload } from "./type/Payload";
+import { JwtPayload } from "./type/JwtPayload";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -41,7 +41,7 @@ export class AuthController {
 
   @Get("test")
   @UseGuards(AuthGuard())
-  test(@Request() request: express.Request & { user: Payload }): any {
+  test(@Request() request: express.Request & { user: JwtPayload }): any {
     console.log("request.user", request.user);
     return { test: "test" };
   }
@@ -49,7 +49,7 @@ export class AuthController {
   @Post("login")
   @UseGuards(AuthGuard("local"))
   async login(
-    @Request() request: express.Request & { user: Payload }
+    @Request() request: express.Request & { user: JwtPayload }
   ): Promise<AccessToken | undefined> {
     console.log("request.user", request.user);
     return this.authService.refreshToken(request.user);
@@ -71,7 +71,7 @@ export class AuthController {
   @Post("token")
   @UseGuards(AuthGuard("token"))
   token(
-    @Request() request: express.Request & { user: Payload }
+    @Request() request: express.Request & { user: JwtPayload }
   ): Promise<AccessToken | undefined> {
     console.log("request.user", request.user);
     return this.authService.accessToken(request.user);
