@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import * as cryptoRandomString from "crypto-random-string";
 import * as moment from "moment";
 import * as ms from "ms";
+import * as uuidv4 from "uuid/v4";
 import { JwksService } from "src/jwks/jwks.service";
 import { TokenService } from "src/token/token.service";
 import { UserService } from "../user/user.service";
@@ -54,8 +55,8 @@ export class AuthService {
       const newPayload: Payload = { ...payload };
       return Promise.resolve({
         at: this.jwtService.sign(newPayload, {
-          keyid: randomJwksEntity.id.toString(),
-          jwtid: "XXX"
+          keyid: randomJwksEntity.id,
+          jwtid: uuidv4()
         }),
         rt
       });
@@ -69,8 +70,8 @@ export class AuthService {
       const newPayload: Payload = { ...payload };
       return Promise.resolve({
         at: this.jwtService.sign(newPayload, {
-          keyid: randomJwksEntity.id.toString(),
-          jwtid: "XXX"
+          keyid: randomJwksEntity.id,
+          jwtid: uuidv4()
         })
       });
     }

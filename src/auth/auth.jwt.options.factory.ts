@@ -17,6 +17,7 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
           privateKey: jwks.private_key,
           publicKey: jwks.public_key,
           // secretOrKeyProvider?: (requestType: JwtSecretRequestType, tokenOrPayload: string | object | Buffer, options?: jwt.VerifyOptions | jwt.SignOptions) => jwt.Secret;
+          // signOptions?: jwt.SignOptions;
           signOptions: {
             algorithm: "RS256",
             // keyid?: string;
@@ -31,20 +32,19 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
             // noTimestamp?: boolean;
             // header?: object;
             // encoding?: string;
-          }
+          },
           // verifyOptions?: jwt.VerifyOptions;
-          // jsonWebTokenOptions?: VerifyOptions;
-          // VerifyOptions {
-          //   algorithms?: string[];
-          //   audience?: string | string[];
-          //   clockTimestamp?: number;
-          //   clockTolerance?: number;
-          //   ignoreExpiration?: boolean;
-          //   ignoreNotBefore?: boolean;
-          //   issuer?: string | string[];
-          //   jwtid?: string;
-          //   subject?: string;
-          // }
+          jsonWebTokenOptions: {
+            algorithms: ["RS256"]
+            // audience?: string | string[];
+            // clockTimestamp?: number;
+            // clockTolerance?: number;
+            // ignoreExpiration?: boolean;
+            // ignoreNotBefore?: boolean;
+            // issuer?: string | string[];
+            // jwtid?: string;
+            // subject?: string;
+          }
         };
       }
       return {};

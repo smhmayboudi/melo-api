@@ -1,5 +1,5 @@
 export interface Jwks {
-  id: number;
+  id: string;
   public_key: string;
   private_key: string;
 }

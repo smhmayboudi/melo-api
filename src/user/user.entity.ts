@@ -55,8 +55,7 @@ export class UserEntity implements User {
   @Column({ nullable: true, type: "enum" })
   gender: Gender | null;
 
-  @Column({ type: "int" })
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("increment", { type: "int" })
   id: number;
 
   @Column({ length: 20, type: "varchar" })

@@ -4,15 +4,14 @@ import { Jwks } from "./type/jwks";
 
 @Entity({ name: "jwkss", orderBy: { id: "ASC" } })
 export class JwksEntity implements Jwks {
-  constructor(id: number, public_key: string, private_key: string) {
+  constructor(id: string, public_key: string, private_key: string) {
     this.id = id;
     this.public_key = public_key;
     this.private_key = private_key;
   }
 
-  @Column({ length: 11, type: "int" })
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ nullable: false, type: "text" })
   @Exclude()

@@ -30,8 +30,7 @@ export class TokenEntity implements Token {
   @Column({ type: "datetime" })
   expire_at: Date;
 
-  @Column({ type: "int" })
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("increment", { type: "int" })
   id: number;
 
   @Column({ type: "boolean" })

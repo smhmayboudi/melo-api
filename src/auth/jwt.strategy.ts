@@ -16,21 +16,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       // audience?: string;
-      // algorithms?: string[];
+      algorithms: "RS256",
       // ignoreExpiration?: boolean;
       // issuer?: string;
-      // jsonWebTokenOptions?: VerifyOptions;
-      // VerifyOptions {
-      //   algorithms?: string[];
-      //   audience?: string | string[];
-      //   clockTimestamp?: number;
-      //   clockTolerance?: number;
-      //   ignoreExpiration?: boolean;
-      //   ignoreNotBefore?: boolean;
-      //   issuer?: string | string[];
-      //   jwtid?: string;
-      //   subject?: string;
-      // }
+      jsonWebTokenOptions: {
+        algorithms: "RS256"
+        // audience?: string | string[];
+        // clockTimestamp?: number;
+        // clockTolerance?: number;
+        // ignoreExpiration?: boolean;
+        // ignoreNotBefore?: boolean;
+        // issuer?: string | string[];
+        // jwtid?: string;
+        // subject?: string;
+      },
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme(
         authConfigService.jwtAuhSchema
       ),
@@ -45,7 +44,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           const jwksEntity = await jwksService.findOneById(
             JSON.parse(
               Buffer.from(rawJwtToken.split(".")[0], "base64").toString("ascii")
-            ).id
+            ).kid
           );
           if (jwksEntity !== undefined) {
             done(null, jwksEntity.public_key);
