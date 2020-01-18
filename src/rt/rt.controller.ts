@@ -16,8 +16,8 @@ import { RtService } from "./rt.service";
 import { AuthGuard } from "@nestjs/passport";
 
 @ApiBearerAuth("jwt")
-@ApiTags("token")
-@Controller("token")
+@ApiTags("rt")
+@Controller("rt")
 @UseFilters(HttpExceptionFilter)
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
