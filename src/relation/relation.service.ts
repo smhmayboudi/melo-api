@@ -17,41 +17,32 @@ export class RelationService {
     private readonly relationConfigService: RelationConfigService
   ) {}
 
-  get(
-    relationDtoGet: RelationGetDto
-  ): Observable<AxiosResponse<PaginationResult>> {
+  get(dto: RelationGetDto): Observable<AxiosResponse<PaginationResult>> {
     return this.httpService.get(
-      `${this.relationConfigService.uri}/get/${relationDtoGet.fromEntityId}/${relationDtoGet.relType}/${relationDtoGet.limit}`
+      `${this.relationConfigService.uri}/get/${dto.fromEntityId}/${dto.relType}/${dto.limit}`
     );
   }
 
-  has(relationDtoHas: RelationHasDto): Observable<AxiosResponse<true>> {
+  has(dto: RelationHasDto): Observable<AxiosResponse<true>> {
     return this.httpService.get(
-      `${this.relationConfigService.uri}/has/${relationDtoHas.entityId1}/${relationDtoHas.entityId2}/${relationDtoHas.relType}`
+      `${this.relationConfigService.uri}/has/${dto.entityId1}/${dto.entityId2}/${dto.relType}`
     );
   }
 
-  multiHas(
-    relationDtoMultiHas: RelationMultiHasDto
-  ): Observable<AxiosResponse<EntityRelate>> {
+  multiHas(dto: RelationMultiHasDto): Observable<AxiosResponse<EntityRelate>> {
     return this.httpService.get(
-      `${this.relationConfigService.uri}/multiHas/${relationDtoMultiHas.fromEntityId}/${relationDtoMultiHas.toEntitiesIds}/${relationDtoMultiHas.relType}`
+      `${this.relationConfigService.uri}/multiHas/${dto.fromEntityId}/${dto.toEntitiesIds}/${dto.relType}`
     );
   }
 
-  remove(
-    relationDtoRemove: RelationRemoveDto
-  ): Observable<AxiosResponse<true>> {
+  remove(dto: RelationRemoveDto): Observable<AxiosResponse<true>> {
     return this.httpService.post(
       `${this.relationConfigService.uri}/remove`,
-      relationDtoRemove
+      dto
     );
   }
 
-  set(relationDtoSet: RelationSetDto): Observable<AxiosResponse<true>> {
-    return this.httpService.post(
-      `${this.relationConfigService.uri}/set`,
-      relationDtoSet
-    );
+  set(dto: RelationSetDto): Observable<AxiosResponse<true>> {
+    return this.httpService.post(`${this.relationConfigService.uri}/set`, dto);
   }
 }
