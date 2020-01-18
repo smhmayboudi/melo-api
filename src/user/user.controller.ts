@@ -34,7 +34,7 @@ export class UserController {
 
   @Get()
   @UseInterceptors(HttpCacheInterceptor)
-  find(): Promise<UserEntity[]> {
+  async find(): Promise<UserEntity[]> {
     return this.userService.find();
   }
 }

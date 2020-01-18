@@ -32,7 +32,7 @@ export class RtController {
   constructor(private readonly rtService: RtService) {}
 
   @Get()
-  find(): Promise<RtEntity[]> {
+  async find(): Promise<RtEntity[]> {
     return this.rtService.find();
   }
 }

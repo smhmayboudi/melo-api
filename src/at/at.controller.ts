@@ -29,7 +29,7 @@ export class AtController {
   constructor(private readonly atService: AtService) {}
 
   @Get()
-  find(): Promise<AtEntity[]> {
+  async find(): Promise<AtEntity[]> {
     return this.atService.find();
   }
 }

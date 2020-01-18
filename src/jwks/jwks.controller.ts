@@ -31,12 +31,12 @@ export class JwksController {
   constructor(private readonly jwksService: JwksService) {}
 
   @Get()
-  find(): Promise<JwksEntity[]> {
+  async find(): Promise<JwksEntity[]> {
     return this.jwksService.find();
   }
 
   @Get(":id")
-  findOne(
+  async findOne(
     @Param("id", ParseUUIDPipe) id: string
   ): Promise<JwksEntity | undefined> {
     return this.jwksService.findOneById(id);

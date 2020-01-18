@@ -76,7 +76,7 @@ export class AuthController {
   @ApiBearerAuth("token")
   @Post("token")
   @UseGuards(AuthGuard("token"))
-  token(
+  async token(
     @Request() request: express.Request & { user: JwtPayload }
   ): Promise<AccessToken | undefined> {
     console.log("request.user", request.user);
