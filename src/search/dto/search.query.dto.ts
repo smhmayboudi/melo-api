@@ -2,10 +2,10 @@ import { IsNumber, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchQueryDto {
-  constructor(from: number, limit: number, q: string) {
+  constructor(from: number, limit: number, query: string) {
     this.from = from;
     this.limit = limit;
-    this.q = q;
+    this.query = query;
   }
 
   @ApiProperty({
@@ -27,5 +27,5 @@ export class SearchQueryDto {
     example: "query"
   })
   @IsString()
-  q: string;
+  query: string;
 }

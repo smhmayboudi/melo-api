@@ -30,8 +30,8 @@ import { AuthGuard } from "@nestjs/passport";
 export class ConstController {
   constructor(private readonly constService: ConstService) {}
 
-  @Get()
-  async const(): Promise<any> {
+  @Get("images")
+  async images(): Promise<any> {
     return this.constService.images({
       constId: 0
     });

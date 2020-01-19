@@ -2,8 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
 export class ArtistUnfollowDto {
-  constructor(artistId: string) {
-    this.artistId = artistId;
+  constructor(id: string) {
+    this.id = id;
   }
 
   @ApiProperty({
@@ -11,5 +11,5 @@ export class ArtistUnfollowDto {
     example: "abcdef"
   })
   @IsString()
-  artistId: string;
+  id: string;
 }

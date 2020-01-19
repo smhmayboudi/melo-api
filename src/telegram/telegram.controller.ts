@@ -32,8 +32,8 @@ import { TelegramService } from "./telegram.service";
 export class TelegramController {
   constructor(private readonly telegramService: TelegramService) {}
 
-  @Post()
-  async telegram(@Body() dto: TelegramSendSongDto): Promise<any> {
+  @Post("send/song")
+  async sendSong(@Body() dto: TelegramSendSongDto): Promise<any> {
     return this.telegramService.sendSong({
       songId: dto.songId
     });

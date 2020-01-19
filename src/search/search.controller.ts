@@ -42,14 +42,14 @@ export class SearchController {
     });
   }
 
-  @Get("query/:q/:from/:limit")
+  @Get("query/:query/:from/:limit")
   async query(
-    @Param("q") q: string,
+    @Param("query") query: string,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<any> {
     return this.searchService.query({
-      q,
+      query,
       from,
       limit
     });

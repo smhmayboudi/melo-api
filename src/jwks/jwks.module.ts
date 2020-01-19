@@ -3,13 +3,12 @@ import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "./jwks.config";
 import { JwksConfigService } from "./jwks.config.service";
-import { JwksController } from "./jwks.controller";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksService } from "./jwks.service";
 import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 
 @Module({
-  controllers: [JwksController],
+  controllers: [],
   exports: [JwksConfigService, JwksService],
   imports: [
     CacheModule.registerAsync({

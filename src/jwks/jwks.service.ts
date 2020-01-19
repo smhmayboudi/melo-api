@@ -10,10 +10,6 @@ export class JwksService {
     private readonly jwksEntityRepository: JwksEntityRepository
   ) {}
 
-  async find(): Promise<JwksEntity[]> {
-    return this.jwksEntityRepository.find();
-  }
-
   async findOneById(id: string): Promise<JwksEntity | undefined> {
     return this.jwksEntityRepository.findOne(id);
   }

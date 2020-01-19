@@ -16,7 +16,6 @@ describe("JwksService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("find");
   test.todo("findOneById");
   test.todo("getOneRandom");
 });

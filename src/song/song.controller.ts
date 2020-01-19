@@ -73,7 +73,7 @@ export class SongController {
     });
   }
 
-  @Post()
+  @Post("like")
   async like(@Body() dto: SongLikeDto): Promise<any> {
     return this.songService.like(dto);
   }
@@ -179,7 +179,7 @@ export class SongController {
     });
   }
 
-  @Post()
+  @Post("unlike")
   async unlike(@Body() dto: SongUnlikeDto): Promise<any> {
     return this.songService.unlike(dto);
   }

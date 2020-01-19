@@ -4,12 +4,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import config from "./at.config";
 import { AtConfigService } from "./at.config.service";
-import { AtController } from "./at.controller";
 import { AtEntityRepository } from "./at.entity.repository";
 import { AtService } from "./at.service";
 
 @Module({
-  controllers: [AtController],
+  controllers: [],
   exports: [AtConfigService, AtService],
   imports: [
     CacheModule.registerAsync({

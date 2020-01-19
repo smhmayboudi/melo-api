@@ -54,6 +54,7 @@ export class AuthController {
   async login(
     @Request() request: express.Request & { user: JwtPayload }
   ): Promise<AccessToken | undefined> {
+    throw new Error("TEST");
     console.log("request.user", request.user);
     return this.authService.refreshToken(request.user);
   }

@@ -18,6 +18,7 @@ describe("Auth Controller", () => {
     expect(controller).toBeDefined();
   });
 
+  test.todo("test");
   test.todo("login");
   test.todo("logout");
   test.todo("telegram");

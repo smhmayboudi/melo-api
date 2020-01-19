@@ -16,5 +16,5 @@ describe("Const Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("imags");
+  test.todo("images");
 });

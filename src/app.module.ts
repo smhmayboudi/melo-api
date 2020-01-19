@@ -5,7 +5,6 @@ import { AlbumModule } from "./album/album.module";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
-import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { ArtistModule } from "./artist/artist.module";
@@ -23,7 +22,7 @@ import { TelegramModule } from "./telegram/telegram.module";
 import { UserModule } from "./user/user.module";
 
 @Module({
-  controllers: [AppController],
+  controllers: [],
   exports: [AppConfigService, AppService],
   imports: [
     AlbumModule,

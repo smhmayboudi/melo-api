@@ -33,10 +33,10 @@ import { PaginationResultDto } from "./dto/pagination.result.dto";
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Get(":albumId")
-  async get(@Param("albumId") albumId: string): Promise<AlbumDto> {
+  @Get(":id")
+  async get(@Param("id") id: string): Promise<AlbumDto> {
     return this.albumService.get({
-      albumId
+      id
     });
   }
 

@@ -4,12 +4,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import config from "./rt.config";
 import { RtConfigService } from "./rt.config.service";
-import { RtController } from "./rt.controller";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtService } from "./rt.service";
 
 @Module({
-  controllers: [RtController],
+  controllers: [],
   exports: [RtConfigService, RtService],
   imports: [
     CacheModule.registerAsync({

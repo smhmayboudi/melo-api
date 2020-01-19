@@ -32,30 +32,30 @@ import { AuthGuard } from "@nestjs/passport";
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
-  @Get("albums/:artistId/:from/:limit")
+  @Get("albums/:id/:from/:limit")
   async albums(
-    @Param("artistId") artistId: string,
+    @Param("id") id: string,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<any> {
     return this.artistService.albums({
-      artistId,
+      id: id,
       from,
       limit
     });
   }
 
-  @Get("byId/:artistId")
-  async byId(@Param("artistId") artistId: string): Promise<any> {
+  @Get("byId/:id")
+  async byId(@Param("id") id: string): Promise<any> {
     return this.artistService.byId({
-      artistId
+      id
     });
   }
 
   @Post("follow")
-  async follow(@Param("artistId") artistId: string): Promise<any> {
+  async follow(@Param("id") id: string): Promise<any> {
     return this.artistService.follow({
-      artistId
+      id
     });
   }
 
@@ -70,27 +70,27 @@ export class ArtistController {
     });
   }
 
-  @Get("songs/:artistId/:from/:limit")
+  @Get("songs/:id/:from/:limit")
   async songs(
-    @Param("artistId") artistId: string,
+    @Param("id") id: string,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<any> {
     return this.artistService.songs({
-      artistId,
+      id,
       from,
       limit
     });
   }
 
-  @Get("songs/top/:artistId/:from/:limit")
+  @Get("songs/top/:id/:from/:limit")
   async songsTop(
-    @Param("artistId") artistId: string,
+    @Param("id") id: string,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<any> {
     return this.artistService.songsTop({
-      artistId,
+      id,
       from,
       limit
     });
@@ -121,9 +121,9 @@ export class ArtistController {
   }
 
   @Post("unfollow")
-  async unfollow(@Param("artistId") artistId: string): Promise<any> {
+  async unfollow(@Param("id") id: string): Promise<any> {
     return this.artistService.unfollow({
-      artistId
+      id
     });
   }
 }
