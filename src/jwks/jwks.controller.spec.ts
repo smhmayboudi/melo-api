@@ -16,6 +16,6 @@ describe("Jwks Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("findAll");
+  test.todo("find");
   test.todo("findOne");
 });

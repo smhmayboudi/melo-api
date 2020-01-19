@@ -18,5 +18,7 @@ describe("User Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("findAll");
+  test.todo("find");
+  test.todo("edit");
+  test.todo("get");
 });

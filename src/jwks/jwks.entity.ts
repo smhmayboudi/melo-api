@@ -2,10 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsUUID } from "class-validator";
 import { Exclude } from "class-transformer";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Jwks } from "./type/jwks";
 
 @Entity({ name: "jwkss", orderBy: { id: "ASC" } })
-export class JwksEntity implements Jwks {
+export class JwksEntity {
   constructor(id: string, public_key: string, private_key: string) {
     this.id = id;
     this.public_key = public_key;

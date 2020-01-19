@@ -2,10 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsEmail, IsEnum, IsNumber, IsString } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./type/Gender";
-import { User } from "./type/User";
 
 @Entity({ name: "users", orderBy: { id: "ASC" } })
-export class UserEntity implements User {
+export class UserEntity {
   constructor(
     avatar: string | null,
     biography: string | null,

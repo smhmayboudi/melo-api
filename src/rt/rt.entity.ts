@@ -1,10 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Rt } from "./type/rt";
 
 @Entity({ name: "rts", orderBy: { id: "ASC" } })
-export class RtEntity implements Rt {
+export class RtEntity {
   constructor(
     create_at: Date,
     description: string,

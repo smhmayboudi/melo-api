@@ -1,10 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsNumber, IsUUID } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { At } from "./type/at";
 
 @Entity({ name: "ats", orderBy: { id: "ASC" } })
-export class AtEntity implements At {
+export class AtEntity {
   constructor(
     create_at: Date,
     expire_at: Date,

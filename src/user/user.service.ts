@@ -1,5 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserEditDto } from "./dto/user.edit.dto";
+import { UserGetDto } from "./dto/user.get.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 
@@ -26,5 +28,13 @@ export class UserService {
     telegramId: number
   ): Promise<UserEntity | undefined> {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
+  }
+
+  async edit(dto: UserEditDto): Promise<any> {
+    return Promise.resolve(dto);
+  }
+
+  async get(dto: UserGetDto): Promise<any> {
+    return Promise.resolve(dto);
   }
 }

@@ -1,7 +1,9 @@
 import {
+  Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Post,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -13,6 +15,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "src/filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
+import { UserEditDto } from "./dto/user.edit.dto";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
@@ -36,5 +39,15 @@ export class UserController {
   @UseInterceptors(HttpCacheInterceptor)
   async find(): Promise<UserEntity[]> {
     return this.userService.find();
+  }
+
+  @Post()
+  async edit(@Body() dto: UserEditDto): Promise<any> {
+    return this.userService.edit(dto);
+  }
+
+  @Get("profile")
+  async get(): Promise<any> {
+    return this.userService.get({});
   }
 }
