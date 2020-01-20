@@ -14,8 +14,8 @@ import { DataSongSimilarDto } from "./dto/data.song.similar.dto";
 import { DataSongSliderLatestDto } from "./dto/data.song.slider.latest.dto";
 import { DataSongTopDayDto } from "./dto/data.song.top.day.dto";
 import { DataSongTopWeekDto } from "./dto/data.song.top.week.dto";
-import { Song } from "./type/Song";
-import { PaginationResult } from "./type/PaginationResult";
+import { PaginationResultDto } from "./dto/pagination.result.dto";
+import { SongDto } from "./dto/song.dto";
 
 @Injectable()
 export class DataSongService {
@@ -24,7 +24,7 @@ export class DataSongService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  byId(dto: DataSongByIdDto): Observable<AxiosResponse<Song>> {
+  byId(dto: DataSongByIdDto): Observable<AxiosResponse<SongDto>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/byId/${dto.id}`
     );
@@ -32,7 +32,7 @@ export class DataSongService {
 
   byIds(
     dto: DataSongByIdsDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(`${this.dataConfigService.uri}/song/byIds`, {
       params: {
         ids: dto.ids
@@ -42,7 +42,7 @@ export class DataSongService {
 
   genre(
     dto: DataSongGenreDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/genre/${dto.orderBy}/${dto.from}/${dto.orderBy}`,
       {
@@ -55,7 +55,7 @@ export class DataSongService {
 
   language(
     dto: DataSongLanguageDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
     );
@@ -63,13 +63,15 @@ export class DataSongService {
 
   mood(
     dto: DataSongMoodDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
     );
   }
 
-  new(dto: DataSongNewDto): Observable<AxiosResponse<PaginationResult<Song>>> {
+  new(
+    dto: DataSongNewDto
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/new/${dto.from}/${dto.limit}`
     );
@@ -77,7 +79,7 @@ export class DataSongService {
 
   newPodcast(
     dto: DataSongNewPodcastDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/new/podcast/${dto.from}/${dto.limit}`
     );
@@ -85,7 +87,7 @@ export class DataSongService {
 
   podcast(
     dto: DataSongPodcastDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
       {
@@ -98,7 +100,7 @@ export class DataSongService {
 
   similar(
     dto: DataSongSimilarDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/similarv/${dto.songId}/${dto.from}/${dto.limit}`
     );
@@ -106,7 +108,7 @@ export class DataSongService {
 
   sliderLatest(
     _dto: DataSongSliderLatestDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/slider/latest`
     );
@@ -114,7 +116,7 @@ export class DataSongService {
 
   topDay(
     dto: DataSongTopDayDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/top/dayv/${dto.from}/${dto.limit}`
     );
@@ -122,7 +124,7 @@ export class DataSongService {
 
   topWeek(
     dto: DataSongTopWeekDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/song/top/week/${dto.from}/${dto.limit}`
     );

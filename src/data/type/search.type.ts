@@ -1,4 +1,4 @@
-export const enum SearchType {
+export enum SearchType {
   Artist = "artist",
   Song = "song",
   Album = "album",

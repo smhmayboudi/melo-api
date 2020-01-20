@@ -1,4 +1,4 @@
-export const enum ArtistType {
+export enum ArtistType {
   Feat = "feat",
   Prime = "prime"
 }

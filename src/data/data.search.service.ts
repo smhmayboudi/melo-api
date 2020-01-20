@@ -4,8 +4,8 @@ import { Observable } from "rxjs";
 import { DataConfigService } from "./data.config.service";
 import { DataSearchMoodDto } from "./dto/data.search.mood.dto";
 import { DataSearchQueryDto } from "./dto/data.search.query.dto";
-import { SearchMusic } from "./type/SearchMusic";
-import { Song } from "./type/Song";
+import { SearchMusicDto } from "./dto/search.music.dto";
+import { SongDto } from "./dto/song.dto";
 
 @Injectable()
 export class DataSearchService {
@@ -14,13 +14,13 @@ export class DataSearchService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  query(dto: DataSearchQueryDto): Observable<AxiosResponse<SearchMusic>> {
+  query(dto: DataSearchQueryDto): Observable<AxiosResponse<SearchMusicDto>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/search/query/${dto.q}/${dto.from}/${dto.limit}`
     );
   }
 
-  mood(dto: DataSearchMoodDto): Observable<AxiosResponse<Song>> {
+  mood(dto: DataSearchMoodDto): Observable<AxiosResponse<SongDto>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/search/mood/${dto.from}/${dto.limit}`,
       {

@@ -21,7 +21,5 @@
 - [ ] Database fixer / jwks + users
 - [ ] insomnia
 
-- [ ] data dto swagger annotation
-- [ ] data type should remove
 - [ ] relation dto swagger annotation
 - [ ] relation type should remove

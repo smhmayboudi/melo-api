@@ -2,6 +2,8 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { Observable } from "rxjs";
 import { DataConfigService } from "./data.config.service";
+import { AlbumDto } from "./dto/album.dto";
+import { ArtistDto } from "./dto/artist.dto";
 import { DataArtistAlbumsDto } from "./dto/data.artist.albums.dto";
 import { DataArtistByIdDto } from "./dto/data.artist.by.id.dto";
 import { DataArtistByIdsDto } from "./dto/data.artist.by.ids.dto";
@@ -9,10 +11,8 @@ import { DataArtistSongsDto } from "./dto/data.artist.songs.dto";
 import { DataArtistSongsTopDto } from "./dto/data.artist.songs.top.dto";
 import { DataArtistTrendingDto } from "./dto/data.artist.trending.dto";
 import { DataArtistTrendingGenreDto } from "./dto/data.artist.trending.genre.dto";
-import { Album } from "./type/Album";
-import { Artist } from "./type/Artist";
-import { PaginationResult } from "./type/PaginationResult";
-import { Song } from "./type/Song";
+import { PaginationResultDto } from "./dto/pagination.result.dto";
+import { SongDto } from "./dto/song.dto";
 
 @Injectable()
 export class DataArtistService {
@@ -23,13 +23,13 @@ export class DataArtistService {
 
   albums(
     dto: DataArtistAlbumsDto
-  ): Observable<AxiosResponse<PaginationResult<Album>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<AlbumDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/artist/albums/${dto.artistId}/${dto.from}/${dto.limit}`
     );
   }
 
-  byId(dto: DataArtistByIdDto): Observable<AxiosResponse<Artist>> {
+  byId(dto: DataArtistByIdDto): Observable<AxiosResponse<ArtistDto>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/artist/byId/${dto.artistId}`
     );
@@ -37,7 +37,7 @@ export class DataArtistService {
 
   byIds(
     dto: DataArtistByIdsDto
-  ): Observable<AxiosResponse<PaginationResult<Artist>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<ArtistDto>>> {
     return this.httpService.get(`${this.dataConfigService.uri}/artist/byIds`, {
       params: {
         artistsIds: dto.artistsIds
@@ -47,7 +47,7 @@ export class DataArtistService {
 
   songs(
     dto: DataArtistSongsDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/artist/songs/${dto.artistId}/${dto.from}/${dto.limit}`
     );
@@ -55,7 +55,7 @@ export class DataArtistService {
 
   songsTop(
     dto: DataArtistSongsTopDto
-  ): Observable<AxiosResponse<PaginationResult<Song>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/artist/songs/top/${dto.artistId}/${dto.from}/${dto.limit}`
     );
@@ -63,7 +63,7 @@ export class DataArtistService {
 
   trending(
     _dto: DataArtistTrendingDto
-  ): Observable<AxiosResponse<PaginationResult<Artist>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<ArtistDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/artist/trending`
     );
@@ -71,7 +71,7 @@ export class DataArtistService {
 
   trendingGenre(
     dto: DataArtistTrendingGenreDto
-  ): Observable<AxiosResponse<PaginationResult<Artist>>> {
+  ): Observable<AxiosResponse<PaginationResultDto<ArtistDto>>> {
     return this.httpService.get(
       `${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`
     );
