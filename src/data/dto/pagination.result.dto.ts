@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Allow, IsArray, IsNumber, ValidateNested } from "class-validator";
-import { Expose } from "class-transformer";
 
 export class PaginationResultDto<T> {
   constructor(results: T[], total: number) {
@@ -12,7 +11,6 @@ export class PaginationResultDto<T> {
     description: "The results"
   })
   @Allow()
-  @Expose()
   @IsArray()
   @ValidateNested({
     each: true

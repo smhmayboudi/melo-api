@@ -1,14 +1,15 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { Observable } from "rxjs";
+import { EntityDto } from "./dto/entity.dto";
+import { EntityRelateDto } from "./dto/entity.relate.dto";
+import { PaginationResultDto } from "./dto/pagination.result.dto";
 import { RelationGetDto } from "./dto/relaton.get.dto";
 import { RelationHasDto } from "./dto/relaton.has.dto";
 import { RelationMultiHasDto } from "./dto/relaton.multi.has.dto";
 import { RelationRemoveDto } from "./dto/relaton.remove.dto";
 import { RelationSetDto } from "./dto/relaton.set.dto";
 import { RelationConfigService } from "./relation.config.service";
-import { EntityRelate } from "./type/EntityRelate";
-import { PaginationResult } from "./type/PaginationResult";
 
 @Injectable()
 export class RelationService {
@@ -17,7 +18,9 @@ export class RelationService {
     private readonly relationConfigService: RelationConfigService
   ) {}
 
-  get(dto: RelationGetDto): Observable<AxiosResponse<PaginationResult>> {
+  get(
+    dto: RelationGetDto
+  ): Observable<AxiosResponse<PaginationResultDto<EntityDto>>> {
     return this.httpService.get(
       `${this.relationConfigService.uri}/get/${dto.fromEntityId}/${dto.relType}/${dto.limit}`
     );
@@ -29,7 +32,9 @@ export class RelationService {
     );
   }
 
-  multiHas(dto: RelationMultiHasDto): Observable<AxiosResponse<EntityRelate>> {
+  multiHas(
+    dto: RelationMultiHasDto
+  ): Observable<AxiosResponse<EntityRelateDto>> {
     return this.httpService.get(
       `${this.relationConfigService.uri}/multiHas/${dto.fromEntityId}/${dto.toEntitiesIds}/${dto.relType}`
     );
