@@ -43,8 +43,7 @@ export class AuthController {
   @ApiBearerAuth("jwt")
   @Get("test")
   @UseGuards(AuthGuard())
-  test(@Request() request: express.Request & { user: JwtPayload }): any {
-    console.log("request.user", request.user);
+  test(): any {
     return { test: "test" };
   }
 
@@ -54,8 +53,6 @@ export class AuthController {
   async login(
     @Request() request: express.Request & { user: JwtPayload }
   ): Promise<AccessToken | undefined> {
-    throw new Error("TEST");
-    console.log("request.user", request.user);
     return this.authService.refreshToken(request.user);
   }
 
@@ -63,7 +60,6 @@ export class AuthController {
   @Delete("logout")
   @UseGuards(AuthGuard("token"))
   async logout(@Headers("token") token: string): Promise<DeleteResult> {
-    console.log("request.user", token);
     return this.rtService.deleteByToken(token);
   }
 
@@ -80,7 +76,6 @@ export class AuthController {
   async token(
     @Request() request: express.Request & { user: JwtPayload }
   ): Promise<AccessToken | undefined> {
-    console.log("request.user", request.user);
     return this.authService.accessToken(request.user);
   }
 }
