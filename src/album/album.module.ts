@@ -1,5 +1,6 @@
-import { CacheModule, Module } from "@nestjs/common";
+import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { AppModule } from "../app.module";
 import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import config from "./album.config";
 import { AlbumConfigService } from "./album.config.service";
@@ -10,6 +11,7 @@ import { AlbumService } from "./album.service";
   controllers: [AlbumController],
   exports: [AlbumConfigService, AlbumService],
   imports: [
+    forwardRef(() => AppModule),
     CacheModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AlbumModule],

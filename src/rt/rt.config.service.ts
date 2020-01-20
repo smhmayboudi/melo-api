@@ -1,23 +1,39 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { AppConfigService } from "../app.config.service";
 
 @Injectable()
 export class RtConfigService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly appConfigService: AppConfigService,
+    private readonly configService: ConfigService
+  ) {}
 
   get cacheHost(): string {
-    return this.configService.get<string>("rt.cacheHost", "127.0.0.1");
+    return this.configService.get<string>(
+      "rt.cacheHost",
+      this.appConfigService.cacheHost
+    );
   }
 
   get cacheMax(): number {
-    return this.configService.get<number>("rt.cacheMax", 10);
+    return this.configService.get<number>(
+      "rt.cacheMax",
+      this.appConfigService.cacheMax
+    );
   }
 
   get cachePort(): number {
-    return this.configService.get<number>("rt.cachePort", 6379);
+    return this.configService.get<number>(
+      "rt.cachePort",
+      this.appConfigService.cachePort
+    );
   }
 
   get cacheTTL(): number {
-    return this.configService.get<number>("rt.cacheTTL", 10);
+    return this.configService.get<number>(
+      "rt.cacheTTL",
+      this.appConfigService.cacheTTL
+    );
   }
 }

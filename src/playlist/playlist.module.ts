@@ -1,5 +1,6 @@
-import { CacheModule, Module } from "@nestjs/common";
+import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { AppModule } from "../app.module";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
@@ -10,6 +11,7 @@ import { PlaylistService } from "./playlist.service";
   controllers: [PlaylistController],
   exports: [PlaylistConfigService, PlaylistService],
   imports: [
+    forwardRef(() => AppModule),
     CacheModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [PlaylistModule],

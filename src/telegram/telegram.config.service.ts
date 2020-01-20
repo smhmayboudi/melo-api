@@ -1,23 +1,39 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { AppConfigService } from "../app.config.service";
 
 @Injectable()
 export class TelegramConfigService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly appConfigService: AppConfigService,
+    private readonly configService: ConfigService
+  ) {}
 
   get cacheHost(): string {
-    return this.configService.get<string>("telegram.cacheHost", "127.0.0.1");
+    return this.configService.get<string>(
+      "telegram.cacheHost",
+      this.appConfigService.cacheHost
+    );
   }
 
   get cacheMax(): number {
-    return this.configService.get<number>("telegram.cacheMax", 10);
+    return this.configService.get<number>(
+      "telegram.cacheMax",
+      this.appConfigService.cacheMax
+    );
   }
 
   get cachePort(): number {
-    return this.configService.get<number>("telegram.cachePort", 6379);
+    return this.configService.get<number>(
+      "telegram.cachePort",
+      this.appConfigService.cachePort
+    );
   }
 
   get cacheTTL(): number {
-    return this.configService.get<number>("telegram.cacheTTL", 10);
+    return this.configService.get<number>(
+      "telegram.cacheTTL",
+      this.appConfigService.cacheTTL
+    );
   }
 }

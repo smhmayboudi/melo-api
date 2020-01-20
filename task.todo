@@ -11,9 +11,7 @@
 - [ ] /file/upload/photo
 
 - [ ] source map
-- [ ] check my work
 - [ ] write test
-- [ ] implement some parts
 - [ ] Automation - Alphabetical sort pre-commit
 - [ ] Automation - Docker
 - [ ] Automation - Git Flow
@@ -22,8 +20,6 @@
 - [ ] kuberneates
 - [ ] Database fixer / jwks + users
 - [ ] insomnia
-- [F] how to check generic type with class-validator
-- [F] how to check [key: string] type with class-validator
 
 - [ ] data dto swagger annotation
 - [ ] data type should remove
