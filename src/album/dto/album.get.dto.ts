@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { IsString } from "class-validator";
 
 export class AlbumGetDto {
   constructor(id: string) {
@@ -10,6 +10,6 @@ export class AlbumGetDto {
     description: "The album identification",
     example: "abcdef"
   })
-  @IsNumber()
+  @IsString()
   id: string;
 }

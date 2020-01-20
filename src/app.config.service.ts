@@ -34,7 +34,7 @@ export class AppConfigService {
   }
 
   get typeOrmDatabase(): string {
-    return this.configService.get<string>("app.cacheHost", "meloapp");
+    return this.configService.get<string>("app.typeOrmDatabase", "meloapp");
   }
 
   get typeOrmHost(): string {
@@ -46,7 +46,10 @@ export class AppConfigService {
   }
 
   get typeOrmPassword(): string {
-    return this.configService.get<string>("app.password", "testpassword");
+    return this.configService.get<string>(
+      "app.typeOrmPassword",
+      "testpassword"
+    );
   }
 
   get typeOrmPort(): number {
