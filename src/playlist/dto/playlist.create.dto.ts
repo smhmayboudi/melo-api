@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class PlaylistCreateDto {
   constructor(title: string, photoId?: string) {
@@ -18,6 +18,7 @@ export class PlaylistCreateDto {
     description: "The photo identification",
     example: 0
   })
+  @IsOptional()
   @IsString()
   photoId?: string;
 }

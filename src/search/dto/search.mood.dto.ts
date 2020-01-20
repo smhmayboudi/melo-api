@@ -1,4 +1,4 @@
-import { IsNumber } from "class-validator";
+import { IsNumber, IsOptional } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchMoodDto {
@@ -39,6 +39,7 @@ export class SearchMoodDto {
     example: 0
   })
   @IsNumber()
+  @IsOptional()
   classy?: number;
 
   @ApiProperty({
@@ -46,6 +47,7 @@ export class SearchMoodDto {
     example: new Date()
   })
   @IsNumber()
+  @IsOptional()
   date?: number;
 
   @ApiProperty({
@@ -53,6 +55,7 @@ export class SearchMoodDto {
     example: 0
   })
   @IsNumber()
+  @IsOptional()
   energetic?: number;
 
   @ApiProperty({
@@ -60,6 +63,7 @@ export class SearchMoodDto {
     example: 0
   })
   @IsNumber()
+  @IsOptional()
   happiness?: number;
 
   @ApiProperty({
@@ -67,5 +71,6 @@ export class SearchMoodDto {
     example: 0
   })
   @IsNumber()
+  @IsOptional()
   romantic?: number;
 }

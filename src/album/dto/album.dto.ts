@@ -1,4 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
+import {
+  IsArray,
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString
+} from "class-validator";
 import { ArtistDto } from "./artist.dto";
 import { ImageDto } from "./image.dto";
 import { PaginationResultDto } from "./pagination.result.dto";
@@ -31,51 +39,69 @@ export class AlbumDto {
     description: "The name",
     example: "smith"
   })
+  @IsString()
   name: string;
 
   @ApiProperty({
     description: "The downlaod count",
     example: new Date()
   })
+  @IsDate()
   releaseDate: Date;
 
   @ApiProperty({
     description: "The artists",
     example: ["smith"]
   })
+  @IsArray()
+  @IsOptional()
+  @Type(() => ArtistDto)
   artists?: ArtistDto[];
 
   @ApiProperty({
     description: "The downlaod count",
     example: 0
   })
+  @IsNumber()
+  @IsOptional()
   downloadCount?: number;
 
   @ApiProperty({
     description: "The identification",
     example: "abcdef"
   })
+  @IsOptional()
+  @IsString()
   id?: string;
 
   @ApiProperty({
     description: "The image"
   })
+  @IsOptional()
+  @Type(() => ImageDto)
   image?: ImageDto;
 
   @ApiProperty({
     description: "The image"
   })
+  @IsOptional()
+  @Type(() => PaginationResultDto)
   songs?: PaginationResultDto<SongDto>;
 
   @ApiProperty({
     description: "The tags",
     example: ["pop"]
   })
+  @IsArray()
+  @IsOptional()
+  @IsString()
   tags?: string[];
 
   @ApiProperty({
     description: "The track count",
     example: 0
   })
+  @IsNumber()
+  @IsOptional()
   tracksCount?: number;
 }

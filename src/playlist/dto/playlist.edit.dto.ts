@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsString } from "class-validator";
+import { IsBoolean, IsOptional, IsString } from "class-validator";
 
 export class PlaylistEditDto {
   constructor(
@@ -26,12 +26,14 @@ export class PlaylistEditDto {
     example: false
   })
   @IsBoolean()
+  @IsOptional()
   isPublic?: boolean;
 
   @ApiProperty({
     description: "The photo identification",
     example: 0
   })
+  @IsOptional()
   @IsString()
   photoId?: string;
 
@@ -39,6 +41,7 @@ export class PlaylistEditDto {
     description: "The title",
     example: 0
   })
+  @IsOptional()
   @IsString()
   title?: string;
 }

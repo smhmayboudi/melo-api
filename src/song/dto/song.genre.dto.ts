@@ -21,6 +21,7 @@ export class SongGenreDto {
     example: ["pop"]
   })
   @IsArray()
+  @IsString()
   genres: string[];
 
   @ApiProperty({

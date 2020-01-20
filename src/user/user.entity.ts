@@ -1,5 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEmail, IsEnum, IsNumber, IsString } from "class-validator";
+import {
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString
+} from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./type/Gender";
 
@@ -40,6 +47,7 @@ export class UserEntity {
     example: "http://www.google.com/avatar.jpg"
   })
   @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @IsOptional()
   @IsString()
   avatar: string | null;
 
@@ -48,6 +56,7 @@ export class UserEntity {
     example: "He tries to bridge the system."
   })
   @Column({ default: null, nullable: true, type: "text" })
+  @IsOptional()
   @IsString()
   biography: string | null;
 
@@ -57,6 +66,7 @@ export class UserEntity {
   })
   @Column({ default: null, nullable: true, type: "date" })
   @IsDate()
+  @IsOptional()
   birthday: Date | null;
 
   @ApiProperty({
@@ -90,6 +100,7 @@ export class UserEntity {
   })
   @Column({ nullable: true, type: "enum" })
   @IsEnum(Gender)
+  @IsOptional()
   gender: Gender | null;
 
   @ApiProperty({

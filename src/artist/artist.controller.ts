@@ -8,13 +8,15 @@ import {
   UseInterceptors,
   UsePipes,
   ValidationPipe,
-  Post
+  Post,
+  Body
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { ArtistService } from "./artist.service";
 import { AuthGuard } from "@nestjs/passport";
+import { ArtistFollowDto } from "./dto/artist.follow.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
@@ -53,10 +55,8 @@ export class ArtistController {
   }
 
   @Post("follow")
-  async follow(@Param("id") id: string): Promise<any> {
-    return this.artistService.follow({
-      id
-    });
+  async follow(@Body() dto: ArtistFollowDto): Promise<any> {
+    return this.artistService.follow(dto);
   }
 
   @Get("following/:from/:limit")

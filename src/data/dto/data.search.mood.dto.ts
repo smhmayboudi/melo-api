@@ -1,4 +1,4 @@
-import { IsNumber } from "class-validator";
+import { IsNumber, IsOptional } from "class-validator";
 
 export class DataSearchMoodDto {
   constructor(
@@ -26,17 +26,22 @@ export class DataSearchMoodDto {
   limit: number;
 
   @IsNumber()
+  @IsOptional()
   classy?: number;
 
   @IsNumber()
+  @IsOptional()
   date?: number;
 
   @IsNumber()
+  @IsOptional()
   energetic?: number;
 
   @IsNumber()
+  @IsOptional()
   happiness?: number;
 
   @IsNumber()
+  @IsOptional()
   romantic?: number;
 }

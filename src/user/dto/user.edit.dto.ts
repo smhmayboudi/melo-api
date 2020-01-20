@@ -1,4 +1,4 @@
-import { IsDate, IsString, IsEnum } from "class-validator";
+import { IsDate, IsEnum, IsString, IsOptional } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { Gender } from "../type/Gender";
 
@@ -22,12 +22,14 @@ export class UserEditDto {
     example: new Date()
   })
   @IsDate()
+  @IsOptional()
   birthday?: Date;
 
   @ApiProperty({
     description: "The firstname",
     example: 0
   })
+  @IsOptional()
   @IsString()
   firstname?: string;
 
@@ -36,12 +38,14 @@ export class UserEditDto {
     example: Gender.male
   })
   @IsEnum(Gender)
+  @IsOptional()
   gender?: Gender;
 
   @ApiProperty({
     description: "The lastname",
     example: "smith"
   })
+  @IsOptional()
   @IsString()
   lastname?: string;
 
@@ -49,6 +53,7 @@ export class UserEditDto {
     description: "The photoId",
     example: "http://www.google.com/avatar.jpg"
   })
+  @IsOptional()
   @IsString()
   photoId?: string;
 }
