@@ -74,7 +74,7 @@ export class RtEntity {
     description: "refresh token",
     example: new Date()
   })
-  @Column({ length: 256, nullable: false, type: "varchar" })
+  @Column({ length: 256, type: "varchar" })
   @IsString()
   token: string;
 }

@@ -27,7 +27,7 @@ export class JwksEntity {
 -----END RSA PRIVATE KEY-----
 `
   })
-  @Column({ nullable: false, type: "text" })
+  @Column({ type: "text" })
   @Exclude()
   @IsString()
   private_key: string;
@@ -40,7 +40,7 @@ export class JwksEntity {
 -----END PUBLIC KEY-----
 `
   })
-  @Column({ nullable: false, type: "text" })
+  @Column({ type: "text" })
   @IsString()
   public_key: string;
 }

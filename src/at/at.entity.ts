@@ -54,7 +54,7 @@ export class AtEntity {
     description: "access token block",
     example: "a3e45676-9428-46a6-8be0-df754121dcf2"
   })
-  @Column({ length: 512, nullable: false, type: "varchar" })
+  @Column({ length: 512, type: "varchar" })
   @IsUUID()
   token: string;
 }
