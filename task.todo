@@ -1,5 +1,3 @@
-- [ ] /action/bulk
-
 - [ ] /auth/sendCode
 ​- [ ] /auth​/signIn
 - [ ] /auth/signOut

@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsOptional, ValidateNested } from "class-validator";
 import { Mp3Dto } from "./mp3.dto";
 
 export class AudioDto {
@@ -13,13 +12,13 @@ export class AudioDto {
     description: "The hiigh quality of mp3"
   })
   @IsOptional()
-  @Type(() => Mp3Dto)
+  @ValidateNested()
   high?: Mp3Dto;
 
   @ApiProperty({
     description: "The medium quality of mp3"
   })
   @IsOptional()
-  @Type(() => Mp3Dto)
+  @ValidateNested()
   medium?: Mp3Dto;
 }

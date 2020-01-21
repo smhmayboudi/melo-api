@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsEnum, IsNumber, IsOptional } from "class-validator";
+import { IsEnum, IsNumber, IsOptional, ValidateNested } from "class-validator";
 import { SearchType } from "../type/search.type";
 import { AlbumDto } from "./album.dto";
 import { ArtistDto } from "./artist.dto";
@@ -34,21 +33,21 @@ export class SearchMusicDto {
     description: "The album"
   })
   @IsOptional()
-  @Type(() => AlbumDto)
+  @ValidateNested()
   album?: AlbumDto;
 
   @ApiProperty({
     description: "The artist"
   })
   @IsOptional()
-  @Type(() => ArtistDto)
+  @ValidateNested()
   artist?: ArtistDto;
 
   @ApiProperty({
     description: "The playlist"
   })
   @IsOptional()
-  @Type(() => PlaylistDto)
+  @ValidateNested()
   playlist?: PlaylistDto;
 
   @ApiProperty({
@@ -63,6 +62,6 @@ export class SearchMusicDto {
     description: "The song"
   })
   @IsOptional()
-  @Type(() => SongDto)
+  @ValidateNested()
   song?: SongDto;
 }

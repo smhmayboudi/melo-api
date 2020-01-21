@@ -9,9 +9,9 @@ import {
   IsDate,
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
+  ValidateNested
 } from "class-validator";
-import { Type } from "class-transformer";
 
 export class SongDto {
   constructor(
@@ -52,13 +52,15 @@ export class SongDto {
     description: "The artists"
   })
   @IsArray()
-  @Type(() => ArtistDto)
+  @ValidateNested({
+    each: true
+  })
   artists: ArtistDto[];
 
   @ApiProperty({
     description: "The audio"
   })
-  @Type(() => AudioDto)
+  @ValidateNested()
   audio: AudioDto;
 
   @ApiProperty({
@@ -100,7 +102,7 @@ export class SongDto {
     description: "The album"
   })
   @IsOptional()
-  @Type(() => AlbumDto)
+  @ValidateNested()
   album?: AlbumDto;
 
   @ApiProperty({
@@ -131,7 +133,7 @@ export class SongDto {
     description: "The image"
   })
   @IsOptional()
-  @Type(() => ImageDto)
+  @ValidateNested()
   image?: ImageDto;
 
   @ApiProperty({

@@ -15,7 +15,6 @@ export class PaginationResultDto<T> {
   @ValidateNested({
     each: true
   })
-  // TODO: type check
   results: T[];
 
   @ApiProperty({

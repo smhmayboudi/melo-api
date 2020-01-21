@@ -1,11 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
 import {
   IsArray,
   IsDate,
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
+  ValidateNested
 } from "class-validator";
 import { ArtistDto } from "./artist.dto";
 import { ImageDto } from "./image.dto";
@@ -55,7 +55,9 @@ export class AlbumDto {
   })
   @IsArray()
   @IsOptional()
-  @Type(() => ArtistDto)
+  @ValidateNested({
+    each: true
+  })
   artists?: ArtistDto[];
 
   @ApiProperty({
@@ -78,14 +80,14 @@ export class AlbumDto {
     description: "The image"
   })
   @IsOptional()
-  @Type(() => ImageDto)
+  @ValidateNested()
   image?: ImageDto;
 
   @ApiProperty({
     description: "The image"
   })
   @IsOptional()
-  @Type(() => PaginationResultDto)
+  @ValidateNested()
   songs?: PaginationResultDto<SongDto>;
 
   @ApiProperty({

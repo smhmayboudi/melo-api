@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
-import { IsEnum } from "class-validator";
+import { IsEnum, ValidateNested } from "class-validator";
 import { RelationType } from "../type/relation.type";
 import { EntityDto } from "./entity.dto";
 
@@ -15,7 +14,7 @@ export class EntityRelateDto {
     description: "The from entity",
     example: 0
   })
-  @Type(() => EntityDto)
+  @ValidateNested()
   from: EntityDto;
 
   @ApiProperty({
@@ -29,6 +28,6 @@ export class EntityRelateDto {
     description: "The to entity",
     example: 0
   })
-  @Type(() => EntityDto)
+  @ValidateNested()
   to: EntityDto;
 }

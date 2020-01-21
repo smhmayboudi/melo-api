@@ -1,11 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
 import {
   IsBoolean,
   IsDate,
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
+  ValidateNested
 } from "class-validator";
 import { ImageDto } from "./image.dto";
 import { PaginationResultDto } from "./pagination.result.dto";
@@ -57,7 +57,7 @@ export class PlaylistDto {
     description: "The cover",
     example: "http://www.google.com"
   })
-  @Type(() => ImageDto)
+  @ValidateNested()
   image: ImageDto;
 
   @ApiProperty({
@@ -85,6 +85,6 @@ export class PlaylistDto {
     description: "The songs"
   })
   @IsOptional()
-  @Type(() => PaginationResultDto)
+  @ValidateNested()
   songs?: PaginationResultDto<SongDto>;
 }

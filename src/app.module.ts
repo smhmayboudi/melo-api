@@ -1,6 +1,7 @@
 import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ActionModule } from "./action/action.module";
 import { AlbumModule } from "./album/album.module";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import config from "./app.config";
@@ -25,6 +26,7 @@ import { UserModule } from "./user/user.module";
   controllers: [],
   exports: [AppConfigService, AppService],
   imports: [
+    ActionModule,
     AlbumModule,
     ArtistModule,
     AtModule,
