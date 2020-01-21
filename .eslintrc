@@ -28,12 +28,16 @@
   "rules": {
     "@typescript-eslint/camelcase": ["error", { "allow": [
       "auth_date",
-      "create_at",
+      "created_at",
       "expire_at",
+      "file_id",
+      "file_name",
       "first_name",
       "is_blocked",
       "language_code",
       "last_name",
+      "mime_type",
+      "owner_user_id",
       "private_key",
       "public_key",
       "registered_date",

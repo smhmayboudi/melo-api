@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: "rts", orderBy: { id: "ASC" } })
 export class RtEntity {
   constructor(
-    create_at: Date,
+    created_at: Date,
     description: string,
     expire_at: Date,
     id: number,
@@ -13,7 +13,7 @@ export class RtEntity {
     user_id: number,
     token: string
   ) {
-    this.create_at = create_at;
+    this.created_at = created_at;
     this.description = description;
     this.expire_at = expire_at;
     this.id = id;
@@ -28,7 +28,7 @@ export class RtEntity {
   })
   @Column({ type: "datetime" })
   @IsDate()
-  create_at: Date;
+  created_at: Date;
 
   @ApiProperty({
     description: "description of blocked",

@@ -5,7 +5,8 @@ import {
   IsEnum,
   IsNumber,
   IsOptional,
-  IsString
+  IsString,
+  IsPhoneNumber
 } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./type/Gender";
@@ -74,6 +75,7 @@ export class UserEntity {
     example: 9121234567
   })
   @Column({ length: 100, type: "char" })
+  @IsPhoneNumber("IR")
   @IsString()
   cellphone: string;
 

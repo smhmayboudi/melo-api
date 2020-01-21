@@ -5,13 +5,13 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: "ats", orderBy: { id: "ASC" } })
 export class AtEntity {
   constructor(
-    create_at: Date,
+    created_at: Date,
     expire_at: Date,
     id: number,
     user_id: number,
     token: string
   ) {
-    this.create_at = create_at;
+    this.created_at = created_at;
     this.expire_at = expire_at;
     this.id = id;
     this.user_id = user_id;
@@ -24,7 +24,7 @@ export class AtEntity {
   })
   @Column({ type: "datetime" })
   @IsDate()
-  create_at: Date;
+  created_at: Date;
 
   @ApiProperty({
     description: "expire datetime",

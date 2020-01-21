@@ -1,11 +1,9 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app.module";
 import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import config from "./action.config";
 import { ActionConfigService } from "./action.config.service";
-import { ActionEntityRepository } from "./action.entity.repository";
 import { ActionController } from "./action.controller";
 import { ActionService } from "./action.service";
 
@@ -19,8 +17,7 @@ import { ActionService } from "./action.service";
       imports: [ActionModule],
       useClass: ActionCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config),
-    TypeOrmModule.forFeature([ActionEntityRepository])
+    ConfigModule.forFeature(config)
   ],
   providers: [ActionConfigService, ActionService]
 })

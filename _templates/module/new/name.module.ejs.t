@@ -17,7 +17,7 @@ import { <%= h.changeCase.pascal(name)%>Service } from "./<%= h.changeCase.dot(n
   controllers: [<%= h.changeCase.pascal(name)%>Controller],
   exports: [<%= h.changeCase.pascal(name)%>ConfigService, <%= h.changeCase.pascal(name)%>Service],
   imports: [
-    forwardRef(() => AppModule),,
+    forwardRef(() => AppModule),
     CacheModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [<%= h.changeCase.pascal(name)%>Module],

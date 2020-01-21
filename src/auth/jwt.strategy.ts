@@ -69,7 +69,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       if (atEnity === undefined) {
         await this.atService.save([
           {
-            create_at: new Date(1000 * jwtPayload.iat),
+            created_at: new Date(1000 * jwtPayload.iat),
             expire_at: new Date(1000 * jwtPayload.exp),
             id: 0,
             user_id: parseInt(jwtPayload.sub, 10),

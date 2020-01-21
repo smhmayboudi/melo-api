@@ -6,8 +6,6 @@
 - [ ] /auth/telegram/oauth
 - [ ] /auth/telegram/signIn
 
-- [ ] /file/upload/photo
-
 - [ ] write test
 - [ ] Automation - Alphabetical sort pre-commit
 - [ ] Automation - Docker
@@ -18,3 +16,4 @@
 - [ ] Database fixer / jwks + users
 - [ ] insomnia
 - [ ] Code documentation
+- [ ] Result cache go through ClassSerializerInterceptor
