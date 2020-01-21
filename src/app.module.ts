@@ -13,6 +13,7 @@ import { AtModule } from "./at/at.module";
 import { AuthModule } from "./auth/auth.module";
 import { ConstModule } from "./const/const.module";
 import { DataModule } from "./data/data.module";
+import { FileModule } from "./file/file.module";
 import { JwksModule } from "./jwks/jwks.module";
 import { PlaylistModule } from "./playlist/playlist.module";
 import { RelationModule } from "./relation/relation.module";
@@ -39,6 +40,7 @@ import { UserModule } from "./user/user.module";
     ConstModule,
     ConfigModule.forFeature(config),
     DataModule,
+    FileModule,
     JwksModule,
     PlaylistModule,
     RelationModule,
