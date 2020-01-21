@@ -10,7 +10,6 @@
 
 - [ ] /file/upload/photo
 
-- [ ] source map
 - [ ] write test
 - [ ] Automation - Alphabetical sort pre-commit
 - [ ] Automation - Docker
@@ -20,3 +19,4 @@
 - [ ] kuberneates
 - [ ] Database fixer / jwks + users
 - [ ] insomnia
+- [ ] Code documentation
