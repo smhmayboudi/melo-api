@@ -29,4 +29,8 @@ export class UserService {
   async get(dto: UserGetDto): Promise<any> {
     return Promise.resolve(dto);
   }
+
+  async save(dto: UserEntity): Promise<UserEntity> {
+    return this.userEntityRepository.save(dto);
+  }
 }

@@ -20,8 +20,8 @@ import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
-import { AccessToken } from "./type/AccessToken";
-import { JwtPayload } from "./type/JwtPayload";
+import { AccessTokenDto } from "./dto/access.token.dto";
+import { JwtPayloadDto } from "./dto/jwt.payload.dto";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -51,8 +51,8 @@ export class AuthController {
   @Post("login")
   @UseGuards(AuthGuard("local"))
   async login(
-    @Request() request: express.Request & { user: JwtPayload }
-  ): Promise<AccessToken | undefined> {
+    @Request() request: express.Request & { user: JwtPayloadDto }
+  ): Promise<AccessTokenDto | undefined> {
     return this.authService.refreshToken(request.user);
   }
 
@@ -63,7 +63,7 @@ export class AuthController {
     return this.rtService.deleteByToken(token);
   }
 
-  // @ApiBearerAuth("telegram")
+  @ApiBearerAuth("telegram")
   @Post("telegram/callback")
   @UseGuards(AuthGuard("telegram"))
   telegram(): string {
@@ -74,8 +74,8 @@ export class AuthController {
   @Post("token")
   @UseGuards(AuthGuard("token"))
   async token(
-    @Request() request: express.Request & { user: JwtPayload }
-  ): Promise<AccessToken | undefined> {
+    @Request() request: express.Request & { user: JwtPayloadDto }
+  ): Promise<AccessTokenDto | undefined> {
     return this.authService.accessToken(request.user);
   }
 }

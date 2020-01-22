@@ -38,6 +38,7 @@
       "last_name",
       "mime_type",
       "owner_user_id",
+      "photo_url",
       "private_key",
       "public_key",
       "registered_date",

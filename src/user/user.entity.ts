@@ -14,20 +14,21 @@ import { Gender } from "./type/Gender";
 @Entity({ name: "users", orderBy: { id: "ASC" } })
 export class UserEntity {
   constructor(
-    avatar: string | null,
-    biography: string | null,
-    birthday: Date | null,
-    cellphone: string,
-    email: string,
-    firstname: string,
-    gender: Gender | null,
     id: number,
-    language_code: string,
-    lastname: string,
-    registered_date: Date,
-    telegram_id: number,
-    username: string
+    avatar?: string,
+    biography?: string,
+    birthday?: Date,
+    cellphone?: string,
+    email?: string,
+    firstname?: string,
+    gender?: Gender,
+    language_code?: string,
+    lastname?: string,
+    registered_date?: Date,
+    telegram_id?: number,
+    username?: string
   ) {
+    this.id = id;
     this.avatar = avatar;
     this.biography = biography;
     this.birthday = birthday;
@@ -35,75 +36,12 @@ export class UserEntity {
     this.email = email;
     this.firstname = firstname;
     this.gender = gender;
-    this.id = id;
     this.language_code = language_code;
     this.lastname = lastname;
     this.registered_date = registered_date;
     this.telegram_id = telegram_id;
     this.username = username;
   }
-
-  @ApiProperty({
-    description: "The avatar link",
-    example: "http://www.google.com/avatar.jpg"
-  })
-  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
-  @IsOptional()
-  @IsString()
-  avatar: string | null;
-
-  @ApiProperty({
-    description: "Small description of user",
-    example: "He tries to bridge the system."
-  })
-  @Column({ default: null, nullable: true, type: "text" })
-  @IsOptional()
-  @IsString()
-  biography: string | null;
-
-  @ApiProperty({
-    description: "The birthdate",
-    example: new Date()
-  })
-  @Column({ default: null, nullable: true, type: "date" })
-  @IsDate()
-  @IsOptional()
-  birthday: Date | null;
-
-  @ApiProperty({
-    description: "The cellphone number",
-    example: 9121234567
-  })
-  @Column({ length: 100, type: "char" })
-  @IsPhoneNumber("IR")
-  @IsString()
-  cellphone: string;
-
-  @ApiProperty({
-    description: "The primary key",
-    example: "abc@def.ghi"
-  })
-  @Column({ length: 200, type: "varchar" })
-  @IsEmail()
-  email: string;
-
-  @ApiProperty({
-    description: "The firstname",
-    example: "john"
-  })
-  @Column({ length: 100, type: "varchar" })
-  @IsString()
-  firstname: string;
-
-  @ApiProperty({
-    description: "The gender",
-    enum: ["female", "male"],
-    example: "male"
-  })
-  @Column({ nullable: true, type: "enum" })
-  @IsEnum(Gender)
-  @IsOptional()
-  gender: Gender | null;
 
   @ApiProperty({
     description: "The primary key",
@@ -114,42 +52,112 @@ export class UserEntity {
   id: number;
 
   @ApiProperty({
+    description: "The avatar link",
+    example: "http://www.google.com/avatar.jpg"
+  })
+  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @IsOptional()
+  @IsString()
+  avatar?: string;
+
+  @ApiProperty({
+    description: "Small description of user",
+    example: "He tries to bridge the system."
+  })
+  @Column({ default: null, nullable: true, type: "text" })
+  @IsOptional()
+  @IsString()
+  biography?: string;
+
+  @ApiProperty({
+    description: "The birthdate",
+    example: new Date()
+  })
+  @Column({ default: null, nullable: true, type: "date" })
+  @IsDate()
+  @IsOptional()
+  birthday?: Date;
+
+  @ApiProperty({
+    description: "The cellphone number",
+    example: 9121234567
+  })
+  @Column({ default: null, length: 100, nullable: true, type: "char" })
+  @IsPhoneNumber("IR")
+  @IsOptional()
+  @IsString()
+  cellphone?: string;
+
+  @ApiProperty({
+    description: "The primary key",
+    example: "abc@def.ghi"
+  })
+  @Column({ default: null, length: 200, nullable: true, type: "varchar" })
+  @IsEmail()
+  @IsOptional()
+  email?: string;
+
+  @ApiProperty({
+    description: "The firstname",
+    example: "john"
+  })
+  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @IsOptional()
+  @IsString()
+  firstname?: string;
+
+  @ApiProperty({
+    description: "The gender",
+    enum: ["female", "male"],
+    example: Gender.male
+  })
+  @Column({ nullable: true, type: "enum" })
+  @IsEnum(Gender)
+  @IsOptional()
+  gender?: Gender;
+
+  @ApiProperty({
     description: "The language",
     example: "en"
   })
-  @Column({ length: 20, type: "varchar" })
+  @Column({ default: null, length: 20, nullable: true, type: "varchar" })
+  @IsOptional()
   @IsString()
-  language_code: string;
+  language_code?: string;
 
   @ApiProperty({
     description: "The lastname",
     example: "smith"
   })
-  @Column({ length: 100, type: "varchar" })
+  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @IsOptional()
   @IsString()
-  lastname: string;
+  lastname?: string;
 
   @ApiProperty({
     description: "The registration date",
     example: new Date()
   })
-  @Column({ type: "datetime" })
+  @Column({ default: null, type: "datetime", nullable: true })
   @IsDate()
-  registered_date: Date;
+  @IsOptional()
+  registered_date?: Date;
 
   @ApiProperty({
     description: "The telegram identification",
     example: "@johnsmith"
   })
-  @Column({ type: "bigint" })
+  @Column({ default: null, nullable: true, type: "bigint" })
   @IsNumber()
-  telegram_id: number;
+  @IsOptional()
+  telegram_id?: number;
 
   @ApiProperty({
     description: "The username",
     example: "johnsmith"
   })
-  @Column({ length: 30, type: "varchar" })
+  @Column({ default: null, length: 30, nullable: true, type: "varchar" })
+  @IsOptional()
   @IsString()
-  username: string;
+  username?: string;
 }

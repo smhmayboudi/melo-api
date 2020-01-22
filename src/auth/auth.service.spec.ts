@@ -18,9 +18,6 @@ describe("AuthService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("local");
-  test.todo("jwt");
-  test.todo("jwtPublicKeys");
-  test.todo("telegram");
-  test.todo("token");
+  test.todo("accessToken");
+  test.todo("refreshToken");
 });

@@ -19,7 +19,7 @@ export class EntityRelateDto {
 
   @ApiProperty({
     description: "The relation type",
-    example: 0
+    example: RelationType.follows
   })
   @IsEnum(RelationType)
   relation: RelationType;

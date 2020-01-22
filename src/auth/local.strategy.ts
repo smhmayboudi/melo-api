@@ -1,12 +1,12 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local";
-import { AuthService } from "./auth.service";
-import { JwtPayload } from "./type/JwtPayload";
+import { UserService } from "src/user/user.service";
+import { JwtPayloadDto } from "./dto/jwt.payload.dto";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(private readonly authService: AuthService) {
+  constructor(private readonly userService: UserService) {
     super({
       passReqToCallback: false,
       passwordField: "password",
@@ -15,10 +15,15 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(username: string, password: string): Promise<JwtPayload> {
-    const payload = await this.authService.local(username, password);
-    if (payload !== undefined) {
-      return payload;
+  async validate(username: string, _password: string): Promise<JwtPayloadDto> {
+    const userEntity = await this.userService.findOneByUsernam(username);
+    if (userEntity !== undefined) {
+      return {
+        exp: 0,
+        iat: 0,
+        jti: "0",
+        sub: userEntity.id.toString()
+      };
     }
     throw new UnauthorizedException();
   }

@@ -6,7 +6,7 @@ import { AtService } from "../at/at.service";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
-import { JwtPayload } from "./type/JwtPayload";
+import { JwtPayloadDto } from "./dto/jwt.payload.dto";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -60,23 +60,23 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(jwtPayload: JwtPayload): Promise<JwtPayload> {
+  async validate(dto: JwtPayloadDto): Promise<JwtPayloadDto> {
     const rtEntity = await this.rtService.validateByUserId(
-      parseInt(jwtPayload.sub, 10)
+      parseInt(dto.sub, 10)
     );
     if (rtEntity !== undefined) {
-      const atEnity = await this.atService.validateByToken(jwtPayload.jti);
+      const atEnity = await this.atService.validateByToken(dto.jti);
       if (atEnity === undefined) {
         await this.atService.save([
           {
-            created_at: new Date(1000 * jwtPayload.iat),
-            expire_at: new Date(1000 * jwtPayload.exp),
+            created_at: new Date(1000 * dto.iat),
+            expire_at: new Date(1000 * dto.exp),
             id: 0,
-            user_id: parseInt(jwtPayload.sub, 10),
-            token: jwtPayload.jti
+            user_id: parseInt(dto.sub, 10),
+            token: dto.jti
           }
         ]);
-        return Promise.resolve({ ...jwtPayload });
+        return Promise.resolve({ ...dto });
       }
     }
     throw new UnauthorizedException();
