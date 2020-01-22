@@ -6,14 +6,19 @@
 - [ ] /auth/telegram/oauth
 - [ ] /auth/telegram/signIn
 
-- [ ] write test
+- [ ] Write test
 - [ ] Automation - Alphabetical sort pre-commit
 - [ ] Automation - Docker
 - [ ] Automation - Git Flow
 - [ ] Automation - Change log
-- [ ] sentry
-- [ ] kuberneates
+- [ ] Sentry
+- [ ] Kuberneates
+- [ ] Health
+    * DNSHealthIndicator
+    * TypeOrmHealthIndicator
+    * MongooseHealthIndicator
+    * MicroserviceHealthIndicator
+    * MemoryHealthIndicator
+    * DiskHealthIndicator
 - [ ] Database fixer / jwks + users
-- [ ] insomnia
-- [ ] Code documentation
 - [ ] Result cache go through ClassSerializerInterceptor
