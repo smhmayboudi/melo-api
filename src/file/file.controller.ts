@@ -1,23 +1,24 @@
 import {
   ClassSerializerInterceptor,
   Controller,
-  Logger,
   Post,
-  UploadedFile,
+  Request,
   UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
+  UploadedFile
 } from "@nestjs/common";
+import * as express from "express";
 import { AuthGuard } from "@nestjs/passport";
-import { FilesInterceptor } from "@nestjs/platform-express";
+import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { FileUploadImageDto } from "./dto/file.upload.image.dto";
-import { FileEntity } from "./file.entity";
 import { FileService } from "./file.service";
+import { JwtPayloadDto } from "src/auth/dto/jwt.payload.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("file")
@@ -33,15 +34,17 @@ import { FileService } from "./file.service";
   })
 )
 export class FileController {
-  constructor(private readonly fileService: FileService) {}
+  constructor(private readonly fileService: FileService) { }
 
-  // TODO: check it
   @Post("upload/image")
-  @UseInterceptors(FilesInterceptor("file"))
-  uploadImage(
-    @UploadedFile() file: FileUploadImageDto
-  ): Promise<FileEntity | undefined> {
-    Logger.log(`file: ${file}`, "file.controller");
-    return this.fileService.uploadImage(file);
+  @UseInterceptors(
+    FileInterceptor('file')
+  )
+  async uploadedPic(
+    @Request() request: express.Request & { user: JwtPayloadDto },
+    @UploadedFile()
+    file: FileUploadImageDto
+  ) {
+    return this.fileService.uploadImage(file, request.user.sub);
   }
 }
