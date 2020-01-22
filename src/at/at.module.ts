@@ -1,16 +1,17 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppModule } from "../app.module";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import config from "./at.config";
 import { AtConfigService } from "./at.config.service";
 import { AtEntityRepository } from "./at.entity.repository";
+import { AtHealthIndicator } from "./at.health";
 import { AtService } from "./at.service";
-import { AppModule } from "../app.module";
 
 @Module({
   controllers: [],
-  exports: [AtConfigService, AtService],
+  exports: [AtConfigService, AtHealthIndicator, AtService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -21,6 +22,6 @@ import { AppModule } from "../app.module";
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([AtEntityRepository])
   ],
-  providers: [AtConfigService, AtService]
+  providers: [AtConfigService, AtHealthIndicator, AtService]
 })
 export class AtModule {}

@@ -1,15 +1,16 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { AppModule } from "../app.module";
 import { ConstCacheOptionsFactory } from "./const.cache.options.factory";
 import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
 import { ConstController } from "./const.controller";
+import { ConstHealthIndicator } from "./const.health";
 import { ConstService } from "./const.service";
-import { AppModule } from "../app.module";
 
 @Module({
   controllers: [ConstController],
-  exports: [ConstConfigService, ConstService],
+  exports: [ConstConfigService, ConstHealthIndicator, ConstService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -19,6 +20,6 @@ import { AppModule } from "../app.module";
     }),
     ConfigModule.forFeature(config)
   ],
-  providers: [ConstConfigService, ConstService]
+  providers: [ConstConfigService, ConstHealthIndicator, ConstService]
 })
 export class ConstModule {}

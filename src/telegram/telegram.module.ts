@@ -1,15 +1,16 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { AppModule } from "../app.module";
 import { TelegramCacheOptionsFactory } from "./telegram.cache.options.factory";
 import config from "./telegram.config";
 import { TelegramConfigService } from "./telegram.config.service";
 import { TelegramController } from "./telegram.controller";
+import { TelegramHealthIndicator } from "./telegram.health";
 import { TelegramService } from "./telegram.service";
-import { AppModule } from "../app.module";
 
 @Module({
   controllers: [TelegramController],
-  exports: [TelegramConfigService, TelegramService],
+  exports: [TelegramConfigService, TelegramHealthIndicator, TelegramService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -19,6 +20,6 @@ import { AppModule } from "../app.module";
     }),
     ConfigModule.forFeature(config)
   ],
-  providers: [TelegramConfigService, TelegramService]
+  providers: [TelegramConfigService, TelegramHealthIndicator, TelegramService]
 })
 export class TelegramModule {}

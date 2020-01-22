@@ -8,10 +8,11 @@ import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
+import { UserHealthIndicator } from "./user.health";
 
 @Module({
   controllers: [UserController],
-  exports: [UserConfigService, UserService],
+  exports: [UserConfigService, UserHealthIndicator, UserService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -22,6 +23,6 @@ import { UserService } from "./user.service";
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([UserEntityRepository])
   ],
-  providers: [UserConfigService, UserService]
+  providers: [UserConfigService, UserHealthIndicator, UserService]
 })
 export class UserModule {}

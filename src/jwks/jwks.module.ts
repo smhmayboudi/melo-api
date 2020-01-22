@@ -6,11 +6,12 @@ import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 import config from "./jwks.config";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksEntityRepository } from "./jwks.entity.repository";
+import { JwksHealthIndicator } from "./jwks.health";
 import { JwksService } from "./jwks.service";
 
 @Module({
   controllers: [],
-  exports: [JwksConfigService, JwksService],
+  exports: [JwksConfigService, JwksHealthIndicator, JwksService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -21,6 +22,6 @@ import { JwksService } from "./jwks.service";
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([JwksEntityRepository])
   ],
-  providers: [JwksConfigService, JwksService]
+  providers: [JwksConfigService, JwksHealthIndicator, JwksService]
 })
 export class JwksModule {}

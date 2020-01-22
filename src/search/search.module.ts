@@ -1,15 +1,16 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { AppModule } from "../app.module";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import config from "./search.config";
 import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
+import { SearchHealthIndicator } from "./search.health";
 import { SearchService } from "./search.service";
-import { AppModule } from "../app.module";
 
 @Module({
   controllers: [SearchController],
-  exports: [SearchConfigService, SearchService],
+  exports: [SearchConfigService, SearchHealthIndicator, SearchService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -19,6 +20,6 @@ import { AppModule } from "../app.module";
     }),
     ConfigModule.forFeature(config)
   ],
-  providers: [SearchConfigService, SearchService]
+  providers: [SearchConfigService, SearchHealthIndicator, SearchService]
 })
 export class SearchModule {}

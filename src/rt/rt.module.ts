@@ -7,10 +7,11 @@ import config from "./rt.config";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtService } from "./rt.service";
+import { RtHealthIndicator } from "./rt.health";
 
 @Module({
   controllers: [],
-  exports: [RtConfigService, RtService],
+  exports: [RtConfigService, RtHealthIndicator, RtService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -21,6 +22,6 @@ import { RtService } from "./rt.service";
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([RtEntityRepository])
   ],
-  providers: [RtConfigService, RtService]
+  providers: [RtConfigService, RtHealthIndicator, RtService]
 })
 export class RtModule {}

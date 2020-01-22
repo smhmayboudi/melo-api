@@ -17,10 +17,11 @@ import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
 import { TokenStrategy } from "./token.strategy";
+import { AuthHealthIndicator } from "./auth.health";
 
 @Module({
   controllers: [AuthController],
-  exports: [AuthConfigService, AuthService],
+  exports: [AuthConfigService, AuthHealthIndicator, AuthService],
   imports: [
     forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
@@ -41,6 +42,7 @@ import { TokenStrategy } from "./token.strategy";
   ],
   providers: [
     AuthConfigService,
+    AuthHealthIndicator,
     AuthService,
     LocalStrategy,
     JwtStrategy,

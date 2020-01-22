@@ -5,11 +5,12 @@ import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
+import { PlaylistHealthIndicator } from "./playlist.health";
 import { PlaylistService } from "./playlist.service";
 
 @Module({
   controllers: [PlaylistController],
-  exports: [PlaylistConfigService, PlaylistService],
+  exports: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -19,6 +20,6 @@ import { PlaylistService } from "./playlist.service";
     }),
     ConfigModule.forFeature(config)
   ],
-  providers: [PlaylistConfigService, PlaylistService]
+  providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService]
 })
 export class PlaylistModule {}

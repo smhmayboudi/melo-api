@@ -11,11 +11,12 @@ import config from "./<%= h.changeCase.dot(name)%>.config";
 import { <%= h.changeCase.pascal(name)%>ConfigService } from "./<%= h.changeCase.dot(name)%>.config.service";
 import { <%= h.changeCase.pascal(name)%>EntityRepository } from "./<%= h.changeCase.dot(name)%>.entity.repository";
 import { <%= h.changeCase.pascal(name)%>Controller } from "./<%= h.changeCase.dot(name)%>.controller";
+import { <%= h.changeCase.pascal(name)%>HealthIndicator } from "./action.health";
 import { <%= h.changeCase.pascal(name)%>Service } from "./<%= h.changeCase.dot(name)%>.service";
 
 @Module({
   controllers: [<%= h.changeCase.pascal(name)%>Controller],
-  exports: [<%= h.changeCase.pascal(name)%>ConfigService, <%= h.changeCase.pascal(name)%>Service],
+  exports: [<%= h.changeCase.pascal(name)%>ConfigService, <%= h.changeCase.pascal(name)%>HealthIndicator, <%= h.changeCase.pascal(name)%>Service],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
