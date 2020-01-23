@@ -17,9 +17,13 @@ describe("FileService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("accessKeyId");
+  test.todo("bucket");
   test.todo("cacheHost");
   test.todo("cacheMax");
   test.todo("cachePort");
   test.todo("cacheTTL");
-  test.todo("storage");
+  test.todo("endpoint");
+  test.todo("secretAccessKey");
+  test.todo("sslEnabled");
 });

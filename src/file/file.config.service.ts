@@ -9,6 +9,14 @@ export class FileConfigService {
     private readonly configService: ConfigService
   ) {}
 
+  get accessKeyId(): string {
+    return this.configService.get<string>("file.accessKeyId", "minioadmin");
+  }
+
+  get bucket(): string {
+    return this.configService.get<string>("file.bucket", "misc");
+  }
+
   get cacheHost(): string {
     return this.configService.get<string>(
       "file.cacheHost",
@@ -37,7 +45,15 @@ export class FileConfigService {
     );
   }
 
-  get storage(): string {
-    return this.configService.get<string>("file.storage", "/upload");
+  get endpoint(): string {
+    return this.configService.get<string>("file.endpoint", "127.0.0.1:9000");
+  }
+
+  get secretAccessKey(): string {
+    return this.configService.get<string>("file.secretAccessKey", "minioadmin");
+  }
+
+  get sslEnabled(): boolean {
+    return this.configService.get<boolean>("file.sslEnabled", false);
   }
 }

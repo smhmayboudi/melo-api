@@ -1,16 +1,31 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString, IsNumber } from "class-validator";
+import { IsDate, IsNumber, IsString } from "class-validator";
 
 export class FileUploadImageDto {
-  constructor(createdAt: Date, fileId: string, mimetype: string, size: number) {
+  constructor(
+    buffer: Buffer,
+    createdAt: Date,
+    fileId: string,
+    mimeType: string,
+    originalname: string,
+    size: number
+  ) {
+    this.buffer = buffer;
     this.createdAt = createdAt;
     this.fileId = fileId;
-    this.mimetype = mimetype;
+    this.mimeType = mimeType;
+    this.originalname = originalname;
     this.size = size;
   }
 
   @ApiProperty({
-    description: "The create date",
+    description: "File Buffer",
+    example: "<>"
+  })
+  buffer: Buffer;
+
+  @ApiProperty({
+    description: "The creation date",
     example: new Date()
   })
   @IsDate()
@@ -24,11 +39,18 @@ export class FileUploadImageDto {
   fileId: string;
 
   @ApiProperty({
-    description: "The mimetype",
+    description: "The content type",
     example: "image/jpeg"
   })
   @IsString()
-  mimetype: string;
+  mimeType: string;
+
+  @ApiProperty({
+    description: "The orginal filename",
+    example: "pic.jpg"
+  })
+  @IsString()
+  originalname: string;
 
   @ApiProperty({
     description: "The size",

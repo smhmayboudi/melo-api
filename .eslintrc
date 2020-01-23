@@ -28,6 +28,7 @@
   "rules": {
     "@typescript-eslint/camelcase": ["error", { "allow": [
       "auth_date",
+      "mime_type",
       "created_at",
       "expire_at",
       "file_id",
@@ -36,7 +37,6 @@
       "is_blocked",
       "language_code",
       "last_name",
-      "mime_type",
       "owner_user_id",
       "photo_url",
       "private_key",
