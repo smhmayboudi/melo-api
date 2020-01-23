@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as ms from "ms";
 import { AppConfigService } from "../app.config.service";
 
 @Injectable()
@@ -31,9 +32,13 @@ export class UserConfigService {
   }
 
   get cacheTTL(): number {
-    return this.configService.get<number>(
-      "user.cacheTTL",
-      this.appConfigService.cacheTTL
+    return (
+      ms(
+        this.configService.get<string>(
+          "user.cacheTTL",
+          ms(this.appConfigService.cacheTTL)
+        )
+      ) / 1000
     );
   }
 }

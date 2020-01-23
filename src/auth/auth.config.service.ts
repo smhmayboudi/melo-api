@@ -1,33 +1,36 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as ms from "ms";
 
 @Injectable()
 export class AuthConfigService {
   constructor(private readonly configService: ConfigService) {}
 
-  get jwtAccessTokenExpiresIn(): string {
-    return this.configService.get<string>("auth.jwtAccessTokenExpiresIn", "1d");
+  get jwtAccessTokenExpiresIn(): number {
+    return ms(
+      this.configService.get<string>("auth.jwtAccessTokenExpiresIn", "")
+    );
   }
 
   get jwtAuhSchema(): string {
-    return this.configService.get<string>("auth.jwtAuhSchema", "jwt");
+    return this.configService.get<string>("auth.jwtAuhSchema", "");
   }
 
-  get jwtRefreshTokenExpiresIn(): string {
-    return this.configService.get<string>(
-      "auth.jwtRefreshTokenExpiresIn",
-      "5m"
+  get jwtRefreshTokenExpiresIn(): number {
+    return (
+      ms(this.configService.get<string>("auth.jwtRefreshTokenExpiresIn", "")) /
+      1000
     );
   }
 
   get telegramBotToken(): string {
-    return this.configService.get<string>("auth.telegramBotToken", "telegram");
+    return this.configService.get<string>("auth.telegramBotToken", "");
   }
 
   get telegramQueryExpiration(): number {
-    return this.configService.get<number>(
-      "auth.telegramQueryExpiration",
-      86400
+    return (
+      ms(this.configService.get<string>("auth.telegramQueryExpiration", "")) /
+      1000
     );
   }
 }

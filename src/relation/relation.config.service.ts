@@ -1,18 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as ms from "ms";
 
 @Injectable()
 export class RelationConfigService {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return this.configService.get<number>("relation.timeout", 5000);
+    return ms(this.configService.get<string>("relation.timeout", ""));
   }
 
   get uri(): string {
-    return this.configService.get<string>(
-      "relation.uri",
-      "http://94.130.186.111:8086/v1"
-    );
+    return this.configService.get<string>("relation.uri", "");
   }
 }

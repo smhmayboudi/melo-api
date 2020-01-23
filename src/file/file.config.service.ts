@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as ms from "ms";
 import { AppConfigService } from "../app.config.service";
 
 @Injectable()
@@ -10,11 +11,11 @@ export class FileConfigService {
   ) {}
 
   get accessKeyId(): string {
-    return this.configService.get<string>("file.accessKeyId", "minioadmin");
+    return this.configService.get<string>("file.accessKeyId", "");
   }
 
   get bucket(): string {
-    return this.configService.get<string>("file.bucket", "misc");
+    return this.configService.get<string>("file.bucket", "");
   }
 
   get cacheHost(): string {
@@ -39,18 +40,22 @@ export class FileConfigService {
   }
 
   get cacheTTL(): number {
-    return this.configService.get<number>(
-      "file.cacheTTL",
-      this.appConfigService.cacheTTL
+    return (
+      ms(
+        this.configService.get<string>(
+          "file.cacheTTL",
+          ms(this.appConfigService.cacheTTL)
+        )
+      ) / 1000
     );
   }
 
   get endpoint(): string {
-    return this.configService.get<string>("file.endpoint", "127.0.0.1:9000");
+    return this.configService.get<string>("file.endpoint", "");
   }
 
   get secretAccessKey(): string {
-    return this.configService.get<string>("file.secretAccessKey", "minioadmin");
+    return this.configService.get<string>("file.secretAccessKey", "");
   }
 
   get sslEnabled(): boolean {

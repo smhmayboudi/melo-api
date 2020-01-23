@@ -1,44 +1,45 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as ms from "ms";
 
 @Injectable()
 export class AppConfigService {
   constructor(private readonly configService: ConfigService) {}
 
   get cacheHost(): string {
-    return this.configService.get<string>("app.cacheHost", "127.0.0.1");
+    return this.configService.get<string>("app.cacheHost", "");
   }
 
   get cacheMax(): number {
-    return this.configService.get<number>("app.cacheMax", 10);
+    return this.configService.get<number>("app.cacheMax", 0);
   }
 
   get cachePort(): number {
-    return this.configService.get<number>("app.cachePort", 6379);
+    return this.configService.get<number>("app.cachePort", 0);
   }
 
   get cacheTTL(): number {
-    return this.configService.get<number>("app.cacheTTL", 10);
+    return ms(this.configService.get<string>("app.cacheTTL", "")) / 1000;
   }
 
   get port(): number {
-    return this.configService.get<number>("app.port", 3000);
+    return this.configService.get<number>("app.port", 0);
   }
 
   get rateLimitMax(): number {
-    return this.configService.get<number>("app.rateLimitMax", 100);
+    return this.configService.get<number>("app.rateLimitMax", 0);
   }
 
   get rateLimitwindowMs(): number {
-    return this.configService.get<number>("app.rateLimitWindowMs", 900000);
+    return ms(this.configService.get<string>("app.rateLimitWindowMs", ""));
   }
 
   get typeOrmDatabase(): string {
-    return this.configService.get<string>("app.typeOrmDatabase", "meloapp");
+    return this.configService.get<string>("app.typeOrmDatabase", "");
   }
 
   get typeOrmHost(): string {
-    return this.configService.get<string>("app.typeOrmHost", "127.0.0.1");
+    return this.configService.get<string>("app.typeOrmHost", "");
   }
 
   get typeOrmLogging(): boolean {
@@ -53,7 +54,7 @@ export class AppConfigService {
   }
 
   get typeOrmPort(): number {
-    return this.configService.get<number>("app.typeOrmPort", 3306);
+    return this.configService.get<number>("app.typeOrmPort", 0);
   }
 
   get typeOrmSynchronize(): boolean {
@@ -61,6 +62,6 @@ export class AppConfigService {
   }
 
   get typeOrmUsername(): string {
-    return this.configService.get<string>("app.typeOrmUsername", "root");
+    return this.configService.get<string>("app.typeOrmUsername", "");
   }
 }

@@ -24,8 +24,8 @@ async function bootstrap(): Promise<void> {
   app.use(helmet());
   app.use(
     rateLimit({
-      max: appConfigService.rateLimitMax, // limit each IP to 100 requests per windowMs
-      windowMs: appConfigService.rateLimitwindowMs // 15 minutes
+      max: appConfigService.rateLimitMax,
+      windowMs: appConfigService.rateLimitwindowMs
     })
   );
 

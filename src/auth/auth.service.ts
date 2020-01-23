@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as cryptoRandomString from "crypto-random-string";
 import * as moment from "moment";
-import * as ms from "ms";
 import * as uuidv4 from "uuid/v4";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
@@ -45,7 +44,7 @@ export class AuthService {
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)
-      .add(ms(this.authConfigService.jwtAccessTokenExpiresIn))
+      .add(this.authConfigService.jwtAccessTokenExpiresIn)
       .toDate();
     this.rtService.save([
       {

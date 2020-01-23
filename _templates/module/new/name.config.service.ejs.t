@@ -4,6 +4,7 @@ unless_exists: true
 ---
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import * as ms from "ms";
 import { AppConfigService } from "../app.config.service";
 
 @Injectable()
@@ -35,9 +36,13 @@ export class <%= h.changeCase.pascal(name)%>ConfigService {
   }
 
   get cacheTTL(): number {
-    return this.configService.get<number>(
-      "<%= h.changeCase.camel(name)%>.cacheTTL",
-      this.appConfigService.cacheTTL
+    return (
+      ms(
+        this.configService.get<string>(
+          "<%= h.changeCase.camel(name)%>.cacheTTL",
+          ms(this.appConfigService.cacheTTL)
+        )
+      ) / 1000
     );
   }
 }
