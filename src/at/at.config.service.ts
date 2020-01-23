@@ -31,6 +31,13 @@ export class AtConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "at.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

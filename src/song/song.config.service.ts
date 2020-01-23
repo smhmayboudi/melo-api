@@ -31,6 +31,13 @@ export class SongConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "song.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

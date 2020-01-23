@@ -31,6 +31,13 @@ export class ConstConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "const.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

@@ -15,7 +15,7 @@ export class AtCacheOptionsFactory implements CacheOptionsFactory {
       host: this.atConfigService.cacheHost,
       max: this.atConfigService.cacheMax,
       port: this.atConfigService.cachePort,
-      store: redisStore,
+      store: this.atConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.atConfigService.cacheTTL
     };
   }

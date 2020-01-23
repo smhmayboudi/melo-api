@@ -31,6 +31,13 @@ export class JwksConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "jwks.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

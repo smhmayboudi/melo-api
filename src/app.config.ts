@@ -1,9 +1,11 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("app", () => ({
+  cacheEnable: process.env.APP_CACHE_ENABLE,
   cacheHost: process.env.APP_CACHE_HOST,
   cacheMax: process.env.APP_CACHE_MAX,
   cachePort: process.env.APP_CACHE_PORT,
+  cacheStore: process.env.APP_CACHE_STORE,
   cacheTTL: process.env.APP_CACHE_TTL,
   port: process.env.APP_PORT,
   rateLimitMax: process.env.APP_RATE_LIMIIT_MAX,

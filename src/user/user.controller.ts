@@ -14,9 +14,9 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "src/filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-// import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
+import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEditDto } from "./dto/user.edit.dto";
-// import { UserEntity } from "./user.entity";
+import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
 @ApiBearerAuth("jwt")
@@ -35,11 +35,11 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  // @Get()
-  // @UseInterceptors(HttpCacheInterceptor)
-  // async find(): Promise<UserEntity[]> {
-  //   return this.userService.find();
-  // }
+  @Get()
+  @UseInterceptors(HttpCacheInterceptor)
+  async find(): Promise<UserEntity[]> {
+    return this.userService.find();
+  }
 
   @Post("profile/edit")
   async edit(@Body() dto: UserEditDto): Promise<any> {

@@ -4,6 +4,7 @@ export default registerAs("file", () => ({
   cacheHost: process.env.FILE_CACHE_HOST,
   cacheMax: process.env.FILE_CACHE_MAX,
   cachePort: process.env.FILE_CACHE_PORT,
+  cacheStore: process.env.FILE_CACHE_STORE,
   cacheTTL: process.env.FILE_CACHE_TTL,
   s3AccessKeyId: process.env.FILE_S3_ACCESS_KEY_ID,
   s3Bucket: process.env.FILE_S3_BUCKET,

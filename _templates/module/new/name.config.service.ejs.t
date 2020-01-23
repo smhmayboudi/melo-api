@@ -35,6 +35,13 @@ export class <%= h.changeCase.pascal(name)%>ConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "<%= h.changeCase.camel(name)%>.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

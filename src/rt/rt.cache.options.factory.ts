@@ -15,7 +15,7 @@ export class RtCacheOptionsFactory implements CacheOptionsFactory {
       host: this.rtConfigService.cacheHost,
       max: this.rtConfigService.cacheMax,
       port: this.rtConfigService.cachePort,
-      store: redisStore,
+      store: this.rtConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.rtConfigService.cacheTTL
     };
   }

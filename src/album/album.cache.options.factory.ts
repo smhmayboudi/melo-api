@@ -15,7 +15,8 @@ export class AlbumCacheOptionsFactory implements CacheOptionsFactory {
       host: this.albumConfigService.cacheHost,
       max: this.albumConfigService.cacheMax,
       port: this.albumConfigService.cachePort,
-      store: redisStore,
+      store:
+        this.albumConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.albumConfigService.cacheTTL
     };
   }

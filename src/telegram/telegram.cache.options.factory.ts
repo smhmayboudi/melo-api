@@ -15,7 +15,8 @@ export class TelegramCacheOptionsFactory implements CacheOptionsFactory {
       host: this.telegramConfigService.cacheHost,
       max: this.telegramConfigService.cacheMax,
       port: this.telegramConfigService.cachePort,
-      store: redisStore,
+      store:
+        this.telegramConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.telegramConfigService.cacheTTL
     };
   }

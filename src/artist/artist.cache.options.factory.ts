@@ -15,7 +15,8 @@ export class ArtistCacheOptionsFactory implements CacheOptionsFactory {
       host: this.artistConfigService.cacheHost,
       max: this.artistConfigService.cacheMax,
       port: this.artistConfigService.cachePort,
-      store: redisStore,
+      store:
+        this.artistConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.artistConfigService.cacheTTL
     };
   }

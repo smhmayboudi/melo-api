@@ -20,5 +20,6 @@ describe("PlaylistService", () => {
   test.todo("cacheHost");
   test.todo("cacheMax");
   test.todo("cachePort");
+  test.todo("cacheStore");
   test.todo("cacheTTL");
 });

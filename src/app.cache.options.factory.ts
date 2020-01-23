@@ -15,7 +15,7 @@ export class AppCacheOptionsFactory implements CacheOptionsFactory {
       host: this.appConfigService.cacheHost,
       max: this.appConfigService.cacheMax,
       port: this.appConfigService.cachePort,
-      store: redisStore,
+      store: this.appConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.appConfigService.cacheTTL
     };
   }

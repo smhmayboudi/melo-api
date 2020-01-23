@@ -15,7 +15,7 @@ export class JwksCacheOptionsFactory implements CacheOptionsFactory {
       host: this.jwksConfigService.cacheHost,
       max: this.jwksConfigService.cacheMax,
       port: this.jwksConfigService.cachePort,
-      store: redisStore,
+      store: this.jwksConfigService.cacheStore === "none" ? "none" : redisStore,
       ttl: this.jwksConfigService.cacheTTL
     };
   }

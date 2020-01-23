@@ -31,6 +31,13 @@ export class SearchConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "search.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

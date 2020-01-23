@@ -31,6 +31,13 @@ export class RtConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "rt.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

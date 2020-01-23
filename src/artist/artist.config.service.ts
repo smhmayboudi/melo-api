@@ -31,6 +31,13 @@ export class ArtistConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "artist.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

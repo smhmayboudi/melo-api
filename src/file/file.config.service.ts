@@ -31,6 +31,13 @@ export class FileConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "file.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

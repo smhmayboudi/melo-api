@@ -20,6 +20,7 @@ describe("FileService", () => {
   test.todo("cacheHost");
   test.todo("cacheMax");
   test.todo("cachePort");
+  test.todo("cacheStore");
   test.todo("cacheTTL");
   test.todo("s3AccessKeyId");
   test.todo("s3Bucket");

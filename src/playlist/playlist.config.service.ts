@@ -31,6 +31,13 @@ export class PlaylistConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "playlist.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

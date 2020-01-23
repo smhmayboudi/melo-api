@@ -31,6 +31,13 @@ export class UserConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "user.cacheStore",
+      this.appConfigService.cacheStore
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

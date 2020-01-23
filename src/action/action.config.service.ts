@@ -31,6 +31,13 @@ export class ActionConfigService {
     );
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>(
+      "action.cacheStore",
+      this.appConfigService.cacheHost
+    );
+  }
+
   get cacheTTL(): number {
     return (
       ms(

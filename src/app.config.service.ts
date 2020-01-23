@@ -18,6 +18,10 @@ export class AppConfigService {
     return this.configService.get<number>("app.cachePort", 0);
   }
 
+  get cacheStore(): string {
+    return this.configService.get<string>("app.cacheStore", "none");
+  }
+
   get cacheTTL(): number {
     return ms(this.configService.get<string>("app.cacheTTL", "")) / 1000;
   }
