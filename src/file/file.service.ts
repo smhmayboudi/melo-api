@@ -37,19 +37,20 @@ export class FileService {
     userId: string
   ): Promise<FileEntity> {
     if (dto === undefined) {
-      Logger.log(fileConstant.errors.fileValidation, "file.controller");
-      throw new Error(fileConstant.errors.fileValidation);
+      Logger.log(fileConstant.errors.dtoValidation, "file.controller");
+      throw new Error(fileConstant.errors.dtoValidation);
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
-    if (mimeType !== mime.lookup("jpg")) {
+    if (mimeType !== mime.lookup("jpeg")) {
       Logger.log(fileConstant.errors.mimeTypeValidatoion, "file.controller");
       throw new Error(fileConstant.errors.mimeTypeValidatoion);
     }
     const extension = mime.extension(mimeType);
     if (extension === undefined) {
-      throw new Error("Contentt type is not suported.");
+      Logger.log(fileConstant.errors.extensionValidatoion, "file.controller");
+      throw new Error(fileConstant.errors.extensionValidatoion);
     }
     const sendData = await this.s3
       .upload({
