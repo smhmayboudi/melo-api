@@ -25,7 +25,7 @@ async function bootstrap(): Promise<void> {
   app.use(
     rateLimit({
       max: appConfigService.rateLimitMax,
-      windowMs: appConfigService.rateLimitwindowMs
+      windowMs: appConfigService.rateLimitWindowMs
     })
   );
 

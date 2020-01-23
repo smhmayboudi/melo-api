@@ -10,14 +10,6 @@ export class FileConfigService {
     private readonly configService: ConfigService
   ) {}
 
-  get accessKeyId(): string {
-    return this.configService.get<string>("file.accessKeyId", "");
-  }
-
-  get bucket(): string {
-    return this.configService.get<string>("file.bucket", "");
-  }
-
   get cacheHost(): string {
     return this.configService.get<string>(
       "file.cacheHost",
@@ -50,15 +42,23 @@ export class FileConfigService {
     );
   }
 
-  get endpoint(): string {
-    return this.configService.get<string>("file.endpoint", "");
+  get s3AccessKeyId(): string {
+    return this.configService.get<string>("file.s3AccessKeyId", "");
   }
 
-  get secretAccessKey(): string {
-    return this.configService.get<string>("file.secretAccessKey", "");
+  get s3Bucket(): string {
+    return this.configService.get<string>("file.s3Bucket", "");
   }
 
-  get sslEnabled(): boolean {
-    return this.configService.get<boolean>("file.sslEnabled", false);
+  get s3Endpoint(): string {
+    return this.configService.get<string>("file.s3Endpoint", "");
+  }
+
+  get s3SecretAccessKey(): string {
+    return this.configService.get<string>("file.s3SecretAccessKey", "");
+  }
+
+  get s3SslEnabled(): boolean {
+    return this.configService.get<boolean>("file.s3SslEnabled", false);
   }
 }

@@ -17,13 +17,13 @@ describe("FileService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("accessKeyId");
-  test.todo("bucket");
   test.todo("cacheHost");
   test.todo("cacheMax");
   test.todo("cachePort");
   test.todo("cacheTTL");
-  test.todo("endpoint");
-  test.todo("secretAccessKey");
-  test.todo("sslEnabled");
+  test.todo("s3AccessKeyId");
+  test.todo("s3Bucket");
+  test.todo("s3Endpoint");
+  test.todo("s3SecretAccessKey");
+  test.todo("S3SslEnabled");
 });

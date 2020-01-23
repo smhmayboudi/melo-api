@@ -7,7 +7,7 @@ export default registerAs("app", () => ({
   cacheTTL: process.env.APP_CACHE_TTL,
   port: process.env.APP_PORT,
   rateLimitMax: process.env.APP_RATE_LIMIIT_MAX,
-  rateLimitWindowMs: process.env.APP_RATEL_LIMIIT_WINDOW_MS,
+  rateLimitWindowMs: process.env.APP_RATE_LIMIIT_WINDOW_MS,
   typeOrmDatabase: process.env.APP_TYPEORM_DATABASE,
   typeOrmHost: process.env.APP_TYPEORM_HOST,
   typeOrmLogging: process.env.APP_TYPEORM_LOGGING,

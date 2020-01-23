@@ -24,10 +24,10 @@ export class FileService {
     this.mmmagic = new Magic(MAGIC_MIME_TYPE);
     aws.config.setPromisesDependency(bluebird);
     this.s3 = new aws.S3({
-      accessKeyId: this.fileConfigService.accessKeyId,
-      secretAccessKey: this.fileConfigService.secretAccessKey,
-      endpoint: this.fileConfigService.endpoint,
-      sslEnabled: this.fileConfigService.sslEnabled,
+      accessKeyId: this.fileConfigService.s3AccessKeyId,
+      secretAccessKey: this.fileConfigService.s3SecretAccessKey,
+      endpoint: this.fileConfigService.s3Endpoint,
+      sslEnabled: this.fileConfigService.s3SslEnabled,
       s3ForcePathStyle: true
     });
   }
@@ -55,7 +55,7 @@ export class FileService {
     const sendData = await this.s3
       .upload({
         Body: dto.buffer,
-        Bucket: this.fileConfigService.bucket,
+        Bucket: this.fileConfigService.s3Bucket,
         ContentType: mimeType,
         Key: `${uuidv4()}.${extension}`
       })

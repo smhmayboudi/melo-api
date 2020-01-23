@@ -30,7 +30,7 @@ export class AppConfigService {
     return this.configService.get<number>("app.rateLimitMax", 0);
   }
 
-  get rateLimitwindowMs(): number {
+  get rateLimitWindowMs(): number {
     return ms(this.configService.get<string>("app.rateLimitWindowMs", ""));
   }
 
