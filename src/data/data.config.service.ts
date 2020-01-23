@@ -7,7 +7,7 @@ export class DataConfigService {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return ms(this.configService.get<string>("data.timeout", "s"));
+    return ms(this.configService.get<string>("data.timeout", ""));
   }
 
   get uri(): string {

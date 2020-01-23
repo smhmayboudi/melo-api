@@ -41,6 +41,7 @@ import { UserModule } from "./user/user.module";
       useClass: AppCacheOptionsFactory
     }),
     ConstModule,
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     DataModule,
     FileModule,
