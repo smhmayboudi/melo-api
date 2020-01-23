@@ -7,6 +7,7 @@ import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
 import * as uuidv4 from "uuid/v4";
 import { FileUploadImageDto } from "./dto/file.upload.image.dto";
 import { FileConfigService } from "./file.config.service";
+import { fileConstant } from "./file.constant";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
 
@@ -35,13 +36,16 @@ export class FileService {
     dto: FileUploadImageDto,
     userId: string
   ): Promise<FileEntity> {
+    if (dto === undefined) {
+      Logger.log(fileConstant.errors.fileValidation, "file.controller");
+      throw new Error(fileConstant.errors.fileValidation);
+    }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
-    if (mimeType !== mime.lookup("jpeg")) {
-      const msg = "Mimetype is not valid.";
-      Logger.log(msg, "file.controller");
-      throw new Error(msg);
+    if (mimeType !== mime.lookup("jpg")) {
+      Logger.log(fileConstant.errors.mimeTypeValidatoion, "file.controller");
+      throw new Error(fileConstant.errors.mimeTypeValidatoion);
     }
     const extension = mime.extension(mimeType);
     if (extension === undefined) {
@@ -56,9 +60,10 @@ export class FileService {
       })
       .promise();
     return this.fileEntityRepository.save({
+      bucket: sendData.Bucket,
       created_at: new Date(),
-      file_id: sendData.Key,
-      file_name: dto.originalname,
+      e_tag: sendData.ETag,
+      file_name: sendData.Key,
       id: 0,
       mime_type: mimeType,
       owner_user_id: Number(userId),

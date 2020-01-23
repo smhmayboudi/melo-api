@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Exclude } from "class-transformer";
 import { IsDate, IsNumber, IsString } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
@@ -6,7 +7,8 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 export class FileEntity {
   constructor(
     created_at: Date,
-    file_id: string,
+    bucket: string,
+    e_tag: string,
     file_name: string,
     id: number,
     mime_type: string,
@@ -14,13 +16,23 @@ export class FileEntity {
     size: number
   ) {
     this.created_at = created_at;
-    this.file_id = file_id;
+    this.bucket = bucket;
+    this.e_tag = e_tag;
     this.file_name = file_name;
     this.id = id;
     this.mime_type = mime_type;
     this.owner_user_id = owner_user_id;
     this.size = size;
   }
+
+  @ApiProperty({
+    description: "The file identification",
+    example: "abcdef"
+  })
+  @Column({ length: 200, type: "varchar" })
+  @Exclude()
+  @IsString()
+  bucket: string;
 
   @ApiProperty({
     description: "The create date",
@@ -31,20 +43,20 @@ export class FileEntity {
   created_at: Date;
 
   @ApiProperty({
-    description: "The file identification",
-    example: "abcdef"
-  })
-  @Column({ length: 200, type: "varchar" })
-  @IsString()
-  file_id: string;
-
-  @ApiProperty({
     description: "The file name",
     example: "abcdef"
   })
   @Column({ length: 200, type: "varchar" })
   @IsString()
   file_name: string;
+
+  @ApiProperty({
+    description: "The etag",
+    example: "abcdef"
+  })
+  @Column({ length: 200, type: "varchar" })
+  @IsString()
+  e_tag: string;
 
   @ApiProperty({
     description: "The primary key",

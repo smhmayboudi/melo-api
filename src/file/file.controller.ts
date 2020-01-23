@@ -41,7 +41,7 @@ export class FileController {
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
     @Request() request: express.Request & { user: JwtPayloadDto },
-    @UploadedFile()
+    @UploadedFile("file")
     dto: FileUploadImageDto
   ): Promise<FileEntity> {
     return this.fileService.uploadImage(dto, request.user.sub);
