@@ -20,7 +20,7 @@ export class DataSearchService {
   ): Promise<PaginationResultDto<SearchMusicDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/search/query/${dto.q}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.uri}/search/query/${dto.query}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<SearchMusicDto>>) => {

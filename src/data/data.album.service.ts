@@ -16,7 +16,7 @@ export class DataAlbumService {
 
   album(dto: DataAlbumDto): Promise<AlbumDto> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/album/${dto.albumId}`)
+      .get(`${this.dataConfigService.uri}/album/${dto.id}`)
       .pipe(
         map((value: AxiosResponse<AlbumDto>) => {
           return value.data;

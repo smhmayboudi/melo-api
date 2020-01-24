@@ -3,7 +3,7 @@ import { IsNumber } from "class-validator";
 
 export class DataArtistAlbumsDto {
   constructor(artistId: number, from: number, limit: number) {
-    this.artistId = artistId;
+    this.id = artistId;
     this.from = from;
     this.limit = limit;
   }
@@ -13,7 +13,7 @@ export class DataArtistAlbumsDto {
     example: 0
   })
   @IsNumber()
-  artistId: number;
+  id: number;
 
   @ApiProperty({
     description: "Starting point index",

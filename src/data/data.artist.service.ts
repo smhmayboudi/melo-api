@@ -24,7 +24,7 @@ export class DataArtistService {
   albums(dto: DataArtistAlbumsDto): Promise<PaginationResultDto<AlbumDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/artist/albums/${dto.artistId}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.uri}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<AlbumDto>>) => {

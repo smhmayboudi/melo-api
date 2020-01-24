@@ -2,8 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber } from "class-validator";
 
 export class DataAlbumDto {
-  constructor(albumId: number) {
-    this.albumId = albumId;
+  constructor(id: number) {
+    this.id = id;
   }
 
   @ApiProperty({
@@ -11,5 +11,5 @@ export class DataAlbumDto {
     example: 0
   })
   @IsNumber()
-  albumId: number;
+  id: number;
 }
