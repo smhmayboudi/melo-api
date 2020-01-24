@@ -41,14 +41,16 @@ export class AlbumController {
     });
   }
 
-  @Get("latest/:language")
+  @Get("latest/:language/:from/:limit")
   async lstest(
-    @Param("language") language: string
+    @Param("language") language: string,
+    @Param("from") from: number,
+    @Param("limit") limit: number
   ): Promise<PaginationResultDto<AlbumDto>> {
     return this.albumService.latest({
-      from: 0,
+      from,
       language,
-      limit: 10
+      limit
     });
   }
 }
