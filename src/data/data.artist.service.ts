@@ -1,6 +1,6 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
-import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
 import { AlbumDto } from "./dto/album.dto";
 import { ArtistDto } from "./dto/artist.dto";
@@ -21,59 +21,94 @@ export class DataArtistService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  albums(
-    dto: DataArtistAlbumsDto
-  ): Observable<AxiosResponse<PaginationResultDto<AlbumDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/artist/albums/${dto.artistId}/${dto.from}/${dto.limit}`
-    );
+  albums(dto: DataArtistAlbumsDto): Promise<PaginationResultDto<AlbumDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/artist/albums/${dto.artistId}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<AlbumDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  byId(dto: DataArtistByIdDto): Observable<AxiosResponse<ArtistDto>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/artist/byId/${dto.artistId}`
-    );
+  byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/artist/byId/${dto.artistId}`)
+      .pipe(
+        map((value: AxiosResponse<ArtistDto>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  byIds(
-    dto: DataArtistByIdsDto
-  ): Observable<AxiosResponse<PaginationResultDto<ArtistDto>>> {
-    return this.httpService.get(`${this.dataConfigService.uri}/artist/byIds`, {
-      params: {
-        artistsIds: dto.artistsIds
-      }
-    });
+  byIds(dto: DataArtistByIdsDto): Promise<PaginationResultDto<ArtistDto>> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/artist/byIds`, {
+        params: {
+          artistsIds: dto.artistsIds
+        }
+      })
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  songs(
-    dto: DataArtistSongsDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/artist/songs/${dto.artistId}/${dto.from}/${dto.limit}`
-    );
+  songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/artist/songs/${dto.artistId}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  songsTop(
-    dto: DataArtistSongsTopDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/artist/songs/top/${dto.artistId}/${dto.from}/${dto.limit}`
-    );
+  songsTop(dto: DataArtistSongsTopDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/artist/songs/top/${dto.artistId}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
   trending(
     _dto: DataArtistTrendingDto
-  ): Observable<AxiosResponse<PaginationResultDto<ArtistDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/artist/trending`
-    );
+  ): Promise<PaginationResultDto<ArtistDto>> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/artist/trending`)
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
   trendingGenre(
     dto: DataArtistTrendingGenreDto
-  ): Observable<AxiosResponse<PaginationResultDto<ArtistDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`
-    );
+  ): Promise<PaginationResultDto<ArtistDto>> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`)
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 }

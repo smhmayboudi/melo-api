@@ -1,6 +1,6 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
-import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
 import { DataSongByIdDto } from "./dto/data.song.by.id.dto";
 import { DataSongByIdsDto } from "./dto/data.song.by.ids.dto";
@@ -24,109 +24,177 @@ export class DataSongService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  byId(dto: DataSongByIdDto): Observable<AxiosResponse<SongDto>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/byId/${dto.id}`
-    );
+  async byId(dto: DataSongByIdDto): Promise<SongDto> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/song/byId/${dto.id}`)
+      .pipe(
+        map((value: AxiosResponse<SongDto>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  byIds(
-    dto: DataSongByIdsDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(`${this.dataConfigService.uri}/song/byIds`, {
-      params: {
-        ids: dto.ids
-      }
-    });
-  }
-
-  genre(
-    dto: DataSongGenreDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/genre/${dto.orderBy}/${dto.from}/${dto.orderBy}`,
-      {
+  async byIds(dto: DataSongByIdsDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/song/byIds`, {
         params: {
-          genres: dto.genres
+          ids: dto.ids
         }
-      }
-    );
+      })
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  language(
+  async genre(dto: DataSongGenreDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/genre/${dto.orderBy}/${dto.from}/${dto.orderBy}`,
+        {
+          params: {
+            genres: dto.genres
+          }
+        }
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
+  }
+
+  async language(
     dto: DataSongLanguageDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
-    );
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  mood(
-    dto: DataSongMoodDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
-    );
+  async mood(dto: DataSongMoodDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  new(
-    dto: DataSongNewDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/new/${dto.from}/${dto.limit}`
-    );
+  async new(dto: DataSongNewDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/song/new/${dto.from}/${dto.limit}`)
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  newPodcast(
+  async newPodcast(
     dto: DataSongNewPodcastDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/new/podcast/${dto.from}/${dto.limit}`
-    );
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/new/podcast/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  podcast(
+  async podcast(
     dto: DataSongPodcastDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
-      {
-        params: {
-          genres: dto.genres
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
+        {
+          params: {
+            genres: dto.genres
+          }
         }
-      }
-    );
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  similar(
+  async similar(
     dto: DataSongSimilarDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/similarv/${dto.songId}/${dto.from}/${dto.limit}`
-    );
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/similarv/${dto.songId}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  sliderLatest(
+  async sliderLatest(
     _dto: DataSongSliderLatestDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/slider/latest`
-    );
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/song/slider/latest`)
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  topDay(
-    dto: DataSongTopDayDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/top/dayv/${dto.from}/${dto.limit}`
-    );
+  async topDay(dto: DataSongTopDayDto): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/top/dayv/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  topWeek(
+  async topWeek(
     dto: DataSongTopWeekDto
-  ): Observable<AxiosResponse<PaginationResultDto<SongDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/song/top/week/${dto.from}/${dto.limit}`
-    );
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/song/top/week/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 }

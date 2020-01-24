@@ -1,6 +1,6 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
-import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
 import { AlbumDto } from "./dto/album.dto";
 import { DataAlbumDto } from "./dto/data.album.dto";
@@ -14,17 +14,27 @@ export class DataAlbumService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  album(dto: DataAlbumDto): Observable<AxiosResponse<AlbumDto>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/album/${dto.albumId}`
-    );
+  album(dto: DataAlbumDto): Promise<AlbumDto> {
+    return this.httpService
+      .get(`${this.dataConfigService.uri}/album/${dto.albumId}`)
+      .pipe(
+        map((value: AxiosResponse<AlbumDto>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 
-  lstest(
-    dto: DataAlbumLatestDto
-  ): Observable<AxiosResponse<PaginationResultDto<AlbumDto>>> {
-    return this.httpService.get(
-      `${this.dataConfigService.uri}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
-    );
+  lstest(dto: DataAlbumLatestDto): Promise<PaginationResultDto<AlbumDto>> {
+    return this.httpService
+      .get(
+        `${this.dataConfigService.uri}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
+      )
+      .pipe(
+        map((value: AxiosResponse<PaginationResultDto<AlbumDto>>) => {
+          return value.data;
+        })
+      )
+      .toPromise();
   }
 }
