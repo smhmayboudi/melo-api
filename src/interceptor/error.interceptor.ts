@@ -21,8 +21,8 @@ export class ErrorInterceptor implements NestInterceptor {
         Logger.error(error, "error.interceptor");
         Logger.error(
           JSON.stringify({
-            requestPath: request.path,
-            requestUser: request.user
+            path: request.path,
+            user: request.user
           }),
           "error.interceptor"
         );
