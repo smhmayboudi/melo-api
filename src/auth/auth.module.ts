@@ -2,7 +2,7 @@ import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { AtModule } from "src/at/at.module";
+import { AtModule } from "../at/at.module";
 import { AppModule } from "../app.module";
 import { JwksModule } from "../jwks/jwks.module";
 import { RtModule } from "../rt/rt.module";

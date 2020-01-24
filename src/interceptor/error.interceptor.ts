@@ -8,7 +8,7 @@ import {
 import * as express from "express";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { JwtPayloadDto } from "src/auth/dto/jwt.payload.dto";
+import { JwtPayloadDto } from "../auth/dto/jwt.payload.dto";
 
 @Injectable()
 export class ErrorInterceptor implements NestInterceptor {

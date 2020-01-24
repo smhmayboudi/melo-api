@@ -14,7 +14,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import * as express from "express";
-import { JwtPayloadDto } from "src/auth/dto/jwt.payload.dto";
+import { JwtPayloadDto } from "../auth/dto/jwt.payload.dto";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { FileUploadImageDto } from "./dto/file.upload.image.dto";

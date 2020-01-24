@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { TelegramStrategy as Strategy } from "passport-telegram-official";
-import { UserService } from "src/user/user.service";
+import { UserService } from "../user/user.service";
 import { AuthConfigService } from "./auth.config.service";
 import { JwtPayloadDto } from "./dto/jwt.payload.dto";
 import { TelegramPayloadDto } from "./dto/telegram.payload.dto";
