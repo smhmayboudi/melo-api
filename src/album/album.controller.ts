@@ -11,11 +11,12 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { AlbumDto } from "../data/dto/album.dto";
+import { PaginationResultDto } from "../data/dto/pagination.result.dto";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { AlbumService } from "./album.service";
-import { AlbumDto } from "./dto/album.dto";
-import { PaginationResultDto } from "./dto/pagination.result.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("album")
@@ -34,7 +35,7 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get(":id")
-  async get(@Param("id") id: string): Promise<AlbumDto> {
+  async get(@Param("id", HashIdPipe) id: number): Promise<AlbumDto> {
     return this.albumService.get({
       id
     });

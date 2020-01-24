@@ -7,6 +7,7 @@ import { AlbumModule } from "./album/album.module";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
+import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
@@ -28,7 +29,7 @@ import { UserModule } from "./user/user.module";
 
 @Module({
   controllers: [],
-  exports: [AppConfigService, AppHealthIndicator, AppService],
+  exports: [AppConfigService, AppHashIdService, AppHealthIndicator, AppService],
   imports: [
     ActionModule,
     AlbumModule,
@@ -82,6 +83,11 @@ import { UserModule } from "./user/user.module";
     }),
     UserModule
   ],
-  providers: [AppConfigService, AppHealthIndicator, AppService]
+  providers: [
+    AppConfigService,
+    AppHashIdService,
+    AppHealthIndicator,
+    AppService
+  ]
 })
 export class AppModule {}

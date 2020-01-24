@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common";
-import { AlbumGetDto } from "./dto/album.get.dto";
-import { AlbumLatestDto } from "./dto/album.latest.dto";
+import { DataAlbumDto } from "../data/dto/data.album.dto";
+import { DataAlbumLatestDto } from "../data/dto/data.album.latest.dto";
 
 @Injectable()
 export class AlbumService {
   // constructor() {}
 
-  async get(dto: AlbumGetDto): Promise<any> {
+  async get(dto: DataAlbumDto): Promise<any> {
     return Promise.resolve(dto);
   }
 
-  async latest(dto: AlbumLatestDto): Promise<any> {
+  async latest(dto: DataAlbumLatestDto): Promise<any> {
     return Promise.resolve(dto);
   }
 }

@@ -7,6 +7,7 @@ export default registerAs("app", () => ({
   cachePort: process.env.APP_CACHE_PORT,
   cacheStore: process.env.APP_CACHE_STORE,
   cacheTTL: process.env.APP_CACHE_TTL,
+  hashIdSalt: process.env.APP_HASH_ID_SALT,
   port: process.env.APP_PORT,
   rateLimitMax: process.env.APP_RATE_LIMIIT_MAX,
   rateLimitWindowMs: process.env.APP_RATE_LIMIIT_WINDOW_MS,

@@ -1,5 +1,6 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { DataModule } from "../data/data.module";
 import { AppModule } from "../app.module";
 import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import config from "./album.config";
@@ -18,7 +19,8 @@ import { AlbumService } from "./album.service";
       imports: [AlbumModule],
       useClass: AlbumCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    DataModule
   ],
   providers: [AlbumConfigService, AlbumHealthIndicator, AlbumService]
 })
