@@ -43,7 +43,7 @@ export class SearchConfigService {
       ms(
         this.configService.get<string>(
           "search.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

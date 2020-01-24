@@ -43,7 +43,7 @@ export class FileConfigService {
       ms(
         this.configService.get<string>(
           "file.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

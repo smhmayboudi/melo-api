@@ -43,7 +43,7 @@ export class SongConfigService {
       ms(
         this.configService.get<string>(
           "song.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

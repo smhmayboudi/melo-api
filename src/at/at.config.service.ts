@@ -43,7 +43,7 @@ export class AtConfigService {
       ms(
         this.configService.get<string>(
           "at.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

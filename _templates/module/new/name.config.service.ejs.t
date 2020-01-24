@@ -47,7 +47,7 @@ export class <%= h.changeCase.pascal(name)%>ConfigService {
       ms(
         this.configService.get<string>(
           "<%= h.changeCase.camel(name)%>.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

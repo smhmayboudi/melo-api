@@ -43,7 +43,7 @@ export class RtConfigService {
       ms(
         this.configService.get<string>(
           "rt.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

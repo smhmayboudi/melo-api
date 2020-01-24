@@ -43,7 +43,7 @@ export class AlbumConfigService {
       ms(
         this.configService.get<string>(
           "album.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );

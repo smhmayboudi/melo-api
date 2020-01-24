@@ -43,7 +43,7 @@ export class ConstConfigService {
       ms(
         this.configService.get<string>(
           "const.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
+          ms(1000 * this.appConfigService.cacheTTL)
         )
       ) / 1000
     );
