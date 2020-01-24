@@ -16,16 +16,16 @@ describe("DataSongService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("song/byId");
-  test.todo("song/byIds");
-  test.todo("song/genre");
-  test.todo("song/language");
-  test.todo("song/mood");
-  test.todo("song/podcast");
-  test.todo("song/new");
-  test.todo("song/new/podcast");
-  test.todo("song/top/day");
-  test.todo("song/top/week");
-  test.todo("song/slider/latest");
-  test.todo("song/similar");
+  test.todo("byId");
+  test.todo("byIds");
+  test.todo("genre");
+  test.todo("language");
+  test.todo("mood");
+  test.todo("podcast");
+  test.todo("new");
+  test.todo("newPodcast");
+  test.todo("topDay");
+  test.todo("topWeek");
+  test.todo("sliderLatest");
+  test.todo("similar");
 });

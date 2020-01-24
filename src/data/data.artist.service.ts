@@ -21,7 +21,9 @@ export class DataArtistService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  albums(dto: DataArtistAlbumsDto): Promise<PaginationResultDto<AlbumDto>> {
+  async albums(
+    dto: DataArtistAlbumsDto
+  ): Promise<PaginationResultDto<AlbumDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
@@ -34,7 +36,7 @@ export class DataArtistService {
       .toPromise();
   }
 
-  byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
+  async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/byId/${dto.artistId}`)
       .pipe(
@@ -45,7 +47,9 @@ export class DataArtistService {
       .toPromise();
   }
 
-  byIds(dto: DataArtistByIdsDto): Promise<PaginationResultDto<ArtistDto>> {
+  async byIds(
+    dto: DataArtistByIdsDto
+  ): Promise<PaginationResultDto<ArtistDto>> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/byIds`, {
         params: {
@@ -60,7 +64,7 @@ export class DataArtistService {
       .toPromise();
   }
 
-  songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
+  async songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/artist/songs/${dto.artistId}/${dto.from}/${dto.limit}`
@@ -73,7 +77,9 @@ export class DataArtistService {
       .toPromise();
   }
 
-  songsTop(dto: DataArtistSongsTopDto): Promise<PaginationResultDto<SongDto>> {
+  async songsTop(
+    dto: DataArtistSongsTopDto
+  ): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/artist/songs/top/${dto.artistId}/${dto.from}/${dto.limit}`
@@ -86,7 +92,7 @@ export class DataArtistService {
       .toPromise();
   }
 
-  trending(
+  async trending(
     _dto: DataArtistTrendingDto
   ): Promise<PaginationResultDto<ArtistDto>> {
     return this.httpService
@@ -99,7 +105,7 @@ export class DataArtistService {
       .toPromise();
   }
 
-  trendingGenre(
+  async trendingGenre(
     dto: DataArtistTrendingGenreDto
   ): Promise<PaginationResultDto<ArtistDto>> {
     return this.httpService

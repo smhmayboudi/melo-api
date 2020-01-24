@@ -14,7 +14,7 @@ export class DataAlbumService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  album(dto: DataAlbumDto): Promise<AlbumDto> {
+  async get(dto: DataAlbumDto): Promise<AlbumDto> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/album/${dto.id}`)
       .pipe(
@@ -25,7 +25,9 @@ export class DataAlbumService {
       .toPromise();
   }
 
-  lstest(dto: DataAlbumLatestDto): Promise<PaginationResultDto<AlbumDto>> {
+  async lstest(
+    dto: DataAlbumLatestDto
+  ): Promise<PaginationResultDto<AlbumDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/album/latest/${dto.language}/${dto.from}/${dto.limit}`

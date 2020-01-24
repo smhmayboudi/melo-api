@@ -16,6 +16,6 @@ describe("DataSearchService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("search/query");
-  test.todo("search/mood");
+  test.todo("query");
+  test.todo("mood");
 });

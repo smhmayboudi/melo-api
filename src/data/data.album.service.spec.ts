@@ -16,6 +16,6 @@ describe("DataAlbumService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("album");
-  test.todo("album/latest");
+  test.todo("get");
+  test.todo("latest");
 });

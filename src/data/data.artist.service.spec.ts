@@ -16,11 +16,11 @@ describe("DataArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("artist/albums");
-  test.todo("artist/byId");
-  test.todo("artist/byIds");
-  test.todo("artist/songs");
-  test.todo("artist/songs/top");
-  test.todo("artist/trending");
-  test.todo("artist/trending/genre");
+  test.todo("albums");
+  test.todo("byId");
+  test.todo("byIds");
+  test.todo("songs");
+  test.todo("songsTop");
+  test.todo("trending");
+  test.todo("trendingGenre");
 });
