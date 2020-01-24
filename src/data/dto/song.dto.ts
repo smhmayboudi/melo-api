@@ -1,8 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { AlbumDto } from "./album.dto";
-import { ArtistDto } from "./artist.dto";
-import { AudioDto } from "./audio.dto";
-import { ImageDto } from "./image.dto";
+import { Type } from "class-transformer";
 import {
   IsArray,
   IsBoolean,
@@ -12,6 +9,10 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
+import { AlbumDto } from "./album.dto";
+import { ArtistDto } from "./artist.dto";
+import { AudioDto } from "./audio.dto";
+import { ImageDto } from "./image.dto";
 
 export class SongDto {
   constructor(
@@ -52,6 +53,7 @@ export class SongDto {
     description: "The artists"
   })
   @IsArray()
+  @Type(() => ArtistDto)
   @ValidateNested({
     each: true
   })

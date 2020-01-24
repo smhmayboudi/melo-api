@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import {
   IsArray,
   IsDate,
@@ -55,6 +56,7 @@ export class AlbumDto {
   })
   @IsArray()
   @IsOptional()
+  @Type(() => ArtistDto)
   @ValidateNested({
     each: true
   })
