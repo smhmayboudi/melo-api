@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import * as cryptoRandomString from "crypto-random-string";
-import * as moment from "moment";
-import * as uuidv4 from "uuid/v4";
+import cryptoRandomString from "crypto-random-string";
+import moment from "moment";
+import uuidv4 from "uuid/v4";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";

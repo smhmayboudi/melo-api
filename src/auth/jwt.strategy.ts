@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
-import * as express from "express";
+import express from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { AtService } from "../at/at.service";
 import { JwksService } from "../jwks/jwks.service";

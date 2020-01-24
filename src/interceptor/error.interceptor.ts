@@ -5,7 +5,7 @@ import {
   Logger,
   NestInterceptor
 } from "@nestjs/common";
-import * as express from "express";
+import express from "express";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { JwtPayloadDto } from "../auth/dto/jwt.payload.dto";
@@ -18,12 +18,13 @@ export class ErrorInterceptor implements NestInterceptor {
       .getRequest<express.Request & { user: JwtPayloadDto }>();
     return next.handle().pipe(
       catchError((error: Error) => {
-        Logger.error(error, "error.interceptor");
+        Logger.error(error, undefined, "error.interceptor");
         Logger.error(
           JSON.stringify({
             path: request.path,
             user: request.user
           }),
+          undefined,
           "error.interceptor"
         );
         throw error;

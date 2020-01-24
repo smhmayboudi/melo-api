@@ -4,7 +4,7 @@ unless_exists: true
 ---
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import * as ms from "ms";
+import ms from "ms";
 import { AppConfigService } from "../app.config.service";
 
 @Injectable()

@@ -1,10 +1,10 @@
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-// import * as csurf from "csurf";
-import * as rateLimit from "express-rate-limit";
-import * as helmet from "helmet";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+// import csurf from "csurf";
+import rateLimit from "express-rate-limit";
+import helmet from "helmet";
 import "source-map-support/register";
 import { AppConfigService } from "./app.config.service";
 import { AppModule } from "./app.module";

@@ -1,10 +1,10 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import * as aws from "aws-sdk";
-import * as bluebird from "bluebird";
-import * as mime from "mime-types";
+import aws from "aws-sdk";
+import bluebird from "bluebird";
+import mime from "mime-types";
 import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
-import * as uuidv4 from "uuid/v4";
+import uuidv4 from "uuid/v4";
 import { FileUploadImageDto } from "./dto/file.upload.image.dto";
 import { FileConfigService } from "./file.config.service";
 import { fileConstant } from "./file.constant";
@@ -37,19 +37,16 @@ export class FileService {
     userId: string
   ): Promise<FileEntity> {
     if (dto === undefined) {
-      Logger.error(fileConstant.errors.dtoValidation, "file.controller");
       throw new Error(fileConstant.errors.dtoValidation);
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
     if (mimeType !== mime.lookup("jpeg")) {
-      Logger.error(fileConstant.errors.mimeTypeValidatoion, "file.controller");
       throw new Error(fileConstant.errors.mimeTypeValidatoion);
     }
     const extension = mime.extension(mimeType);
     if (extension === undefined) {
-      Logger.error(fileConstant.errors.extensionValidatoion, "file.controller");
       throw new Error(fileConstant.errors.extensionValidatoion);
     }
     const sendData = await this.s3

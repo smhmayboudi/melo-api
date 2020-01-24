@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import * as ms from "ms";
+import ms from "ms";
 
 @Injectable()
 export class AuthConfigService {
