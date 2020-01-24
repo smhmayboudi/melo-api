@@ -9,11 +9,14 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { PaginationResultDto } from "../data/dto/pagination.result.dto";
+import { SearchMusicDto } from "../data/dto/search.music.dto";
+import { SongDto } from "../data/dto/song.dto";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { SearchService } from "./search.service";
-import { AuthGuard } from "@nestjs/passport";
 
 @ApiBearerAuth("jwt")
 @ApiTags("search")
@@ -35,7 +38,7 @@ export class SearchController {
   async mood(
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<SongDto>> {
     return this.searchService.mood({
       from,
       limit
@@ -47,7 +50,7 @@ export class SearchController {
     @Param("query") query: string,
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<SearchMusicDto>> {
     return this.searchService.query({
       query,
       from,

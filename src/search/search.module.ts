@@ -1,5 +1,6 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { DataModule } from "../data/data.module";
 import { AppModule } from "../app.module";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import config from "./search.config";
@@ -18,7 +19,8 @@ import { SearchService } from "./search.service";
       imports: [SearchModule],
       useClass: SearchCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    DataModule
   ],
   providers: [SearchConfigService, SearchHealthIndicator, SearchService]
 })
