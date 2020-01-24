@@ -5,7 +5,6 @@ import {
   Get,
   Headers,
   Post,
-  Request,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -14,15 +13,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as express from "express";
 import { DeleteResult } from "typeorm";
+import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AccessTokenDto } from "./dto/access.token.dto";
-import { JwtPayloadDto } from "./dto/jwt.payload.dto";
-import { User } from "../decorator/user.decorator";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -51,10 +48,8 @@ export class AuthController {
   @ApiBearerAuth("local")
   @Post("login")
   @UseGuards(AuthGuard("local"))
-  async login(
-    @Request() request: express.Request & { user: JwtPayloadDto }
-  ): Promise<AccessTokenDto | undefined> {
-    return this.authService.refreshToken(request.user);
+  async login(@User("sub") sub: string): Promise<AccessTokenDto | undefined> {
+    return this.authService.refreshToken(sub);
   }
 
   @ApiBearerAuth("token")
