@@ -22,6 +22,7 @@ import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AccessTokenDto } from "./dto/access.token.dto";
 import { JwtPayloadDto } from "./dto/jwt.payload.dto";
+import { User } from "../decorator/user.decorator";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -73,9 +74,7 @@ export class AuthController {
   @ApiBearerAuth("token")
   @Post("token")
   @UseGuards(AuthGuard("token"))
-  async token(
-    @Request() request: express.Request & { user: JwtPayloadDto }
-  ): Promise<AccessTokenDto | undefined> {
-    return this.authService.accessToken(request.user);
+  async token(@User("sub") sub: string): Promise<AccessTokenDto | undefined> {
+    return this.authService.accessToken(sub);
   }
 }

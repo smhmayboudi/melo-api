@@ -1,8 +1,8 @@
+import { User } from ".../decorator/user.decorator";
 import {
   ClassSerializerInterceptor,
   Controller,
   Post,
-  Request,
   UploadedFile,
   UseFilters,
   UseGuards,
@@ -13,8 +13,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import * as express from "express";
-import { JwtPayloadDto } from "../auth/dto/jwt.payload.dto";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { FileUploadImageDto } from "./dto/file.upload.image.dto";
@@ -40,10 +38,10 @@ export class FileController {
   @Post("upload/image")
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
-    @Request() request: express.Request & { user: JwtPayloadDto },
+    @User("sub") sub: string,
     @UploadedFile("file")
     dto: FileUploadImageDto
   ): Promise<FileEntity> {
-    return this.fileService.uploadImage(dto, request.user.sub);
+    return this.fileService.uploadImage(dto, sub);
   }
 }
