@@ -70,6 +70,7 @@ export class ArtistController {
   }
 
   @Post("follow")
+  // TODO: convert hash to number HashIdPipe
   async follow(
     @Body() dto: ArtistFollowDto,
     @User("sub", ParseIntPipe) sub: number

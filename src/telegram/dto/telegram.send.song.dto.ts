@@ -1,15 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsNumber } from "class-validator";
 
 export class TelegramSendSongDto {
-  constructor(songId: string) {
-    this.songId = songId;
+  constructor(id: number) {
+    this.id = id;
   }
 
   @ApiProperty({
     description: "The song identification",
     example: 0
   })
-  @IsString()
-  songId: string;
+  @IsNumber()
+  id: number;
 }

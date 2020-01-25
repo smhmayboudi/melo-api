@@ -33,9 +33,10 @@ export class TelegramController {
   constructor(private readonly telegramService: TelegramService) {}
 
   @Post("send/song")
+  // TODO: convert hash to number HashIdPipe
   async sendSong(@Body() dto: TelegramSendSongDto): Promise<any> {
     return this.telegramService.sendSong({
-      songId: dto.songId
+      id: dto.id
     });
   }
 }

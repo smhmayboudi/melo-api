@@ -12,14 +12,15 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { HashIdPipe } from "src/pipe/hash-id.pipe";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { PlaylistService } from "./playlist.service";
-import { AuthGuard } from "@nestjs/passport";
 import { PlaylistAddSongDto } from "./dto/playlist.add.song.dto";
 import { PlaylistCreateDto } from "./dto/playlist.create.dto";
 import { PlaylistEditDto } from "./dto/playlist.edit.dto";
+import { PlaylistService } from "./playlist.service";
 
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
@@ -38,6 +39,7 @@ export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
   @Post("addSong")
+  // TODO: convert hash to number HashIdPipe
   async addSong(@Body() dto: PlaylistAddSongDto): Promise<any> {
     return this.playlistService.addSong({
       playlistId: dto.playlistId,
@@ -91,7 +93,7 @@ export class PlaylistController {
   @Delete("song/:playlistId/:songId")
   async song(
     @Param("playlistId") playlistId: string,
-    @Param("songId") songId: string
+    @Param("songId", HashIdPipe) songId: number
   ): Promise<any> {
     return this.playlistService.song({
       playlistId,

@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsString, IsNumber } from "class-validator";
 
 export class PlaylistAddSongDto {
-  constructor(playlistId: string, songId: string) {
+  constructor(playlistId: string, songId: number) {
     this.playlistId = playlistId;
     this.songId = songId;
   }
@@ -18,6 +18,6 @@ export class PlaylistAddSongDto {
     description: "The song identification",
     example: 0
   })
-  @IsString()
-  songId: string;
+  @IsNumber()
+  songId: number;
 }

@@ -12,13 +12,14 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { HashIdPipe } from "src/pipe/hash-id.pipe";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { SongService } from "./song.service";
-import { AuthGuard } from "@nestjs/passport";
 import { SongLikeDto } from "./dto/song.like.dto";
 import { SongUnlikeDto } from "./dto/song.unlike.dto";
+import { SongService } from "./song.service";
 
 @ApiBearerAuth("jwt")
 @ApiTags("song")
@@ -74,6 +75,7 @@ export class SongController {
   }
 
   @Post("like")
+  // TODO: convert hash to number HashIdPipe
   async like(@Body() dto: SongLikeDto): Promise<any> {
     return this.songService.like(dto);
   }
@@ -141,13 +143,13 @@ export class SongController {
 
   @Get("similar/:songId/:from/:limit")
   async similar(
-    @Param("songId") songId: string,
+    @Param("songId", HashIdPipe) id: number,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<any> {
     return this.songService.similar({
-      songId,
       from,
+      id,
       limit
     });
   }
@@ -180,6 +182,7 @@ export class SongController {
   }
 
   @Post("unlike")
+  // TODO: convert hash to number HashIdPipe
   async unlike(@Body() dto: SongUnlikeDto): Promise<any> {
     return this.songService.unlike(dto);
   }
