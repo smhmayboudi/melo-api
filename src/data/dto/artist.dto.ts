@@ -16,7 +16,7 @@ import { SongDto } from "./song.dto";
 export class ArtistDto {
   constructor(
     followersCount: number,
-    id: string,
+    id: number,
     type: ArtistType,
     albums?: PaginationResultDto<AlbumDto>,
     fullName?: string,
@@ -45,10 +45,10 @@ export class ArtistDto {
 
   @ApiProperty({
     description: "The identification",
-    example: "abcdef"
+    example: 0
   })
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @ApiProperty({
     description: "The artist type",

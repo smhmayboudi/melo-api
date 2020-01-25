@@ -2,8 +2,8 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber } from "class-validator";
 
 export class DataArtistSongsDto {
-  constructor(artistId: number, from: number, limit: number) {
-    this.artistId = artistId;
+  constructor(id: number, from: number, limit: number) {
+    this.id = id;
     this.from = from;
     this.limit = limit;
   }
@@ -13,7 +13,7 @@ export class DataArtistSongsDto {
     example: 0
   })
   @IsNumber()
-  artistId: number;
+  id: number;
 
   @ApiProperty({
     description: "Starting point index",

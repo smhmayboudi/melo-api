@@ -7,6 +7,8 @@ import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
 import { ArtistHealthIndicator } from "./artist.health";
 import { ArtistService } from "./artist.service";
+import { DataModule } from "src/data/data.module";
+import { RelationModule } from "src/relation/relation.module";
 
 @Module({
   controllers: [ArtistController],
@@ -18,7 +20,9 @@ import { ArtistService } from "./artist.service";
       imports: [ArtistModule],
       useClass: ArtistCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    DataModule,
+    RelationModule
   ],
   providers: [ArtistConfigService, ArtistHealthIndicator, ArtistService]
 })

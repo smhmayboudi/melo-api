@@ -53,7 +53,7 @@ export class DataArtistService {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/byIds`, {
         params: {
-          artistsIds: dto.artistsIds
+          artistsIds: dto.ids
         }
       })
       .pipe(
@@ -67,7 +67,7 @@ export class DataArtistService {
   async songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/artist/songs/${dto.artistId}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.uri}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
@@ -82,7 +82,7 @@ export class DataArtistService {
   ): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/artist/songs/top/${dto.artistId}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.uri}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {

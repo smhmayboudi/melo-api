@@ -1,21 +1,28 @@
 import {
+  Body,
   ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
+  ParseIntPipe,
+  Post,
   UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe,
-  Post,
-  Body
+  ValidationPipe
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { AlbumDto } from "src/data/dto/album.dto";
+import { ArtistDto } from "src/data/dto/artist.dto";
+import { PaginationResultDto } from "src/data/dto/pagination.result.dto";
+import { SongDto } from "src/data/dto/song.dto";
+import { User } from "src/decorator/user.decorator";
+import { HashIdPipe } from "src/pipe/hash-id.pipe";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { ArtistService } from "./artist.service";
-import { AuthGuard } from "@nestjs/passport";
 import { ArtistFollowDto } from "./dto/artist.follow.dto";
 
 @ApiBearerAuth("jwt")
@@ -34,48 +41,63 @@ import { ArtistFollowDto } from "./dto/artist.follow.dto";
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
+  @ApiParam({
+    name: "id",
+    type: "string"
+  })
   @Get("albums/:id/:from/:limit")
   async albums(
-    @Param("id") id: string,
+    @Param("id", HashIdPipe) id: number,
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<AlbumDto>> {
     return this.artistService.albums({
-      id: id,
+      id,
       from,
       limit
     });
   }
 
+  @ApiParam({
+    name: "id",
+    type: "string"
+  })
   @Get("byId/:id")
-  async byId(@Param("id") id: string): Promise<any> {
+  async byId(@Param("id", HashIdPipe) id: number): Promise<ArtistDto> {
     return this.artistService.byId({
-      id
+      artistId: id
     });
   }
 
   @Post("follow")
-  async follow(@Body() dto: ArtistFollowDto): Promise<any> {
-    return this.artistService.follow(dto);
+  async follow(
+    @Body() dto: ArtistFollowDto,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<boolean> {
+    return this.artistService.follow(dto, sub);
   }
 
   @Get("following/:from/:limit")
   async following(
     @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<any> {
-    return this.artistService.following({
-      from,
-      limit
-    });
+    @Param("limit") limit: number,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<PaginationResultDto<ArtistDto>> {
+    return this.artistService.following(
+      {
+        from,
+        limit
+      },
+      sub
+    );
   }
 
   @Get("songs/:id/:from/:limit")
   async songs(
-    @Param("id") id: string,
+    @Param("id", HashIdPipe) id: number,
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<SongDto>> {
     return this.artistService.songs({
       id,
       from,
@@ -85,10 +107,10 @@ export class ArtistController {
 
   @Get("songs/top/:id/:from/:limit")
   async songsTop(
-    @Param("id") id: string,
+    @Param("id", HashIdPipe) id: number,
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<SongDto>> {
     return this.artistService.songsTop({
       id,
       from,
@@ -100,7 +122,7 @@ export class ArtistController {
   async trending(
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<ArtistDto>> {
     return this.artistService.trending({
       from,
       limit
@@ -112,18 +134,24 @@ export class ArtistController {
     @Param("genre") genre: string,
     @Param("from") from: number,
     @Param("limit") limit: number
-  ): Promise<any> {
+  ): Promise<PaginationResultDto<ArtistDto>> {
     return this.artistService.trendingGenre({
-      genre,
       from,
+      genre,
       limit
     });
   }
 
   @Post("unfollow")
-  async unfollow(@Param("id") id: string): Promise<any> {
-    return this.artistService.unfollow({
-      id
-    });
+  async unfollow(
+    @Param("id", HashIdPipe) id: number,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<boolean> {
+    return this.artistService.unfollow(
+      {
+        id
+      },
+      sub
+    );
   }
 }

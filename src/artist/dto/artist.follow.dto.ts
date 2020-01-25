@@ -1,15 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
+import { IsNumber } from "class-validator";
 
 export class ArtistFollowDto {
-  constructor(id: string) {
+  constructor(id: number) {
     this.id = id;
   }
 
   @ApiProperty({
     description: "The artist identification",
-    example: "abcdef"
+    example: 0
   })
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 }

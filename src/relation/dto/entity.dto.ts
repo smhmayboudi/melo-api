@@ -1,9 +1,9 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { IsOptional, IsNumber, IsString } from "class-validator";
 import { Exclude } from "class-transformer";
 
 export class EntityDto {
-  constructor(id: string, type: string, name?: string) {
+  constructor(id: number, type: string, name?: string) {
     this.id = id;
     this.type = type;
     this.name = name;
@@ -18,8 +18,8 @@ export class EntityDto {
     description: "The identification",
     example: 0
   })
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @ApiProperty({
     description: "The type",
