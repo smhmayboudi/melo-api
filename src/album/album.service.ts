@@ -3,7 +3,7 @@ import { AlbumDto } from "../data/dto/album.dto";
 import { DataAlbumDto } from "../data/dto/data.album.dto";
 import { DataAlbumLatestDto } from "../data/dto/data.album.latest.dto";
 import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { DataAlbumService } from "src/data/data.album.service";
+import { DataAlbumService } from "../data/data.album.service";
 
 @Injectable()
 export class AlbumService {
