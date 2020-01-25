@@ -25,6 +25,7 @@ describe("SongService", () => {
   test.todo("new");
   test.todo("newPodcast");
   test.todo("podcastGenres");
+  test.todo("sendTelegram");
   test.todo("similar");
   test.todo("sliderLatest");
   test.todo("topDay");
