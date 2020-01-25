@@ -14,3 +14,11 @@
     * DiskHealthIndicator
 - [ ] Database fixer / jwks + users
 - [ ] Result cache go through ClassSerializerInterceptor
+
+- [ ] const module
+- [ ] playlist module
+- [ ] song module
+- [ ] UI integration
+- [ ] api inspection + UI
+- [ ] api test
+- [ ] new api
