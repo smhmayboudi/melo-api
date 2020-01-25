@@ -21,7 +21,6 @@ import { RelationHealthIndicator } from "./relation/relation.health";
 import { RtHealthIndicator } from "./rt/rt.health";
 import { SearchHealthIndicator } from "./search/search.health";
 import { SongHealthIndicator } from "./song/song.health";
-import { TelegramHealthIndicator } from "./telegram/telegram.health";
 import { UserHealthIndicator } from "./user/user.health";
 
 @Injectable()
@@ -43,7 +42,6 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
     private readonly rtHealthIndicator: RtHealthIndicator,
     private readonly searchHealthIndicator: SearchHealthIndicator,
     private readonly songHealthIndicator: SongHealthIndicator,
-    private readonly telegramHealthIndicator: TelegramHealthIndicator,
     private readonly userHealthIndicator: UserHealthIndicator
   ) {}
 
@@ -83,8 +81,6 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
           this.searchHealthIndicator.isHealthy(),
         async (): Promise<HealthIndicatorResult> =>
           this.songHealthIndicator.isHealthy(),
-        async (): Promise<HealthIndicatorResult> =>
-          this.telegramHealthIndicator.isHealthy(),
         async (): Promise<HealthIndicatorResult> =>
           this.userHealthIndicator.isHealthy()
       ]

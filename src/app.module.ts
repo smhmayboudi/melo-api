@@ -24,7 +24,6 @@ import { RelationModule } from "./relation/relation.module";
 import { RtModule } from "./rt/rt.module";
 import { SearchModule } from "./search/search.module";
 import { SongModule } from "./song/song.module";
-import { TelegramModule } from "./telegram/telegram.module";
 import { UserModule } from "./user/user.module";
 
 @Module({
@@ -52,7 +51,6 @@ import { UserModule } from "./user/user.module";
     RtModule,
     SearchModule,
     SongModule,
-    TelegramModule,
     TerminusModule.forRootAsync({
       imports: [
         ActionModule,

@@ -8,6 +8,7 @@ import { SongMoodDto } from "./dto/song.mood.dto";
 import { SongNewDto } from "./dto/song.new.dto";
 import { SongNewPodcastDto } from "./dto/song.new.podcast.dto";
 import { SongPodcastGenresDto } from "./dto/song.podcast.genres.dto";
+import { SongSendTelegramDto } from "./dto/song.send.telegram.dto";
 import { SongSimilarDto } from "./dto/song.similar.dto";
 import { SongSliderLatestDto } from "./dto/song.slider.latest.dto";
 import { SongTopDayDto } from "./dto/song.top.day.dto";
@@ -55,6 +56,10 @@ export class SongService {
   }
 
   async podcastGenres(dto: SongPodcastGenresDto): Promise<any> {
+    return Promise.resolve(dto);
+  }
+
+  async sendTelegram(dto: SongSendTelegramDto): Promise<any> {
     return Promise.resolve(dto);
   }
 

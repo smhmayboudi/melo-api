@@ -18,6 +18,7 @@ import { HashIdPipe } from "src/pipe/hash-id.pipe";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { SongLikeDto } from "./dto/song.like.dto";
+import { SongSendTelegramDto } from "./dto/song.send.telegram.dto";
 import { SongUnlikeDto } from "./dto/song.unlike.dto";
 import { SongService } from "./song.service";
 
@@ -138,6 +139,14 @@ export class SongController {
       genres,
       limit,
       orderBy
+    });
+  }
+
+  @Post("send/telegram")
+  // TODO: convert hash to number HashIdPipe
+  async sendTelegram(@Body() dto: SongSendTelegramDto): Promise<any> {
+    return this.songService.sendTelegram({
+      id: dto.id
     });
   }
 
