@@ -7,6 +7,8 @@ import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongHealthIndicator } from "./song.health";
 import { SongService } from "./song.service";
+import { DataModule } from "src/data/data.module";
+import { RelationModule } from "src/relation/relation.module";
 
 @Module({
   controllers: [SongController],
@@ -18,7 +20,9 @@ import { SongService } from "./song.service";
       imports: [SongModule],
       useClass: SongCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    DataModule,
+    RelationModule
   ],
   providers: [SongConfigService, SongHealthIndicator, SongService]
 })
