@@ -69,7 +69,6 @@ import { UserModule } from "./user/user.module";
         RtModule,
         SearchModule,
         SongModule,
-        TelegramModule,
         UserModule
       ],
       useClass: AppTerminusOptionsFactory
