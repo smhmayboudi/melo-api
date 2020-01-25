@@ -1,11 +1,16 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsString } from "class-validator";
+import { IsEnum, ValidateNested } from "class-validator";
 import { RelationType } from "../type/relation.type";
+import { EntityDto } from "./entity.dto";
 
 export class RelationHasDto {
-  constructor(entityId1: string, entityId2: string, relType: RelationType) {
-    this.entityId1 = entityId1;
-    this.entityId2 = entityId2;
+  constructor(
+    entityDto1: EntityDto,
+    entityDto2: EntityDto,
+    relType: RelationType
+  ) {
+    this.entityDto1 = entityDto1;
+    this.entityDto2 = entityDto2;
     this.relType = relType;
   }
 
@@ -13,15 +18,15 @@ export class RelationHasDto {
     description: "The frist entity",
     example: "from"
   })
-  @IsString()
-  entityId1: string;
+  @ValidateNested()
+  entityDto1: EntityDto;
 
   @ApiProperty({
     description: "The secnod entity",
     example: "to"
   })
-  @IsString()
-  entityId2: string;
+  @ValidateNested()
+  entityDto2: EntityDto;
 
   @ApiProperty({
     description: "The relation type",

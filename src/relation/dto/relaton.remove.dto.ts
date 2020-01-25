@@ -1,11 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsString } from "class-validator";
+import { Expose, Transform } from "class-transformer";
+import { IsEnum, ValidateNested } from "class-validator";
 import { RelationType } from "../type/relation.type";
+import { EntityDto } from "./entity.dto";
 
 export class RelationRemoveDto {
-  constructor(entityId1: string, entityId2: string, relType: RelationType) {
-    this.entityId1 = entityId1;
-    this.entityId2 = entityId2;
+  constructor(
+    entityDto1: EntityDto,
+    entityDto2: EntityDto,
+    relType: RelationType
+  ) {
+    this.entityDto1 = entityDto1;
+    this.entityDto2 = entityDto2;
     this.relType = relType;
   }
 
@@ -13,15 +19,19 @@ export class RelationRemoveDto {
     description: "The first entity",
     example: "from"
   })
-  @IsString()
-  entityId1: string;
+  @Expose({ name: "entitiyId1" })
+  @Transform(value => value.key)
+  @ValidateNested()
+  entityDto1: EntityDto;
 
   @ApiProperty({
     description: "The second entity",
     example: "to"
   })
-  @IsString()
-  entityId2: string;
+  @Expose({ name: "entitiyId2" })
+  @Transform(value => value.key)
+  @ValidateNested()
+  entityDto2: EntityDto;
 
   @ApiProperty({
     description: "The relation type",

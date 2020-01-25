@@ -1,16 +1,17 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsNumber } from "class-validator";
 import { RelationType } from "../type/relation.type";
+import { EntityDto } from "./entity.dto";
 
 export class RelationGetDto {
   constructor(
     from: number,
-    fromEntityId: string,
+    fromEntityDto: EntityDto,
     limit: number,
     relType: RelationType
   ) {
     this.from = from;
-    this.fromEntityId = fromEntityId;
+    this.fromEntityDto = fromEntityDto;
     this.limit = limit;
     this.relType = relType;
   }
@@ -26,8 +27,7 @@ export class RelationGetDto {
     description: "The from entity identification",
     example: "from"
   })
-  @IsString()
-  fromEntityId: string;
+  fromEntityDto: EntityDto;
 
   @ApiProperty({
     description: "Count of results",

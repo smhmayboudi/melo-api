@@ -1,31 +1,41 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsString } from "class-validator";
+import { IsEnum, ValidateNested } from "class-validator";
 import { RelationType } from "../type/relation.type";
+import { EntityDto } from "./entity.dto";
+import { Exclude, Type } from "class-transformer";
 
 export class RelationMultiHasDto {
   constructor(
-    fromEntityId: string,
-    toEntitiesIds: string,
+    fromEntityDto: EntityDto,
+    toEntityDtos: EntityDto[],
     relType: RelationType
   ) {
-    this.fromEntityId = fromEntityId;
-    this.toEntitiesIds = toEntitiesIds;
+    this.fromEntityDto = fromEntityDto;
+    this.toEntityDtos = toEntityDtos;
     this.relType = relType;
+  }
+
+  @Exclude()
+  get keys(): string {
+    return this.toEntityDtos.map(value => value.key).join(",");
   }
 
   @ApiProperty({
     description: "The from entity identification",
     example: "from"
   })
-  @IsString()
-  fromEntityId: string;
+  @ValidateNested()
+  fromEntityDto: EntityDto;
 
   @ApiProperty({
     description: "The to entities id",
     example: "to"
   })
-  @IsString()
-  toEntitiesIds: string;
+  @Type(() => EntityDto)
+  @ValidateNested({
+    each: true
+  })
+  toEntityDtos: EntityDto[];
 
   @ApiProperty({
     description: "The relation type",
