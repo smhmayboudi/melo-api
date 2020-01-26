@@ -12,7 +12,7 @@ export interface HashIdPipeOptions {
 }
 
 @Injectable()
-export class HashIdPipe implements PipeTransform<string> {
+export class HashIdPipe implements PipeTransform<string, number> {
   protected exceptionFactory: (errors: string) => any;
 
   constructor(

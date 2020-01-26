@@ -17,7 +17,6 @@ import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
-import { PlaylistAddSongDto } from "./dto/playlist.add.song.dto";
 import { PlaylistCreateDto } from "./dto/playlist.create.dto";
 import { PlaylistEditDto } from "./dto/playlist.edit.dto";
 import { PlaylistService } from "./playlist.service";
@@ -42,19 +41,23 @@ export class PlaylistController {
     schema: {
       type: "object",
       properties: {
-        id: {
+        playlistId: {
+          example: "abcdef",
+          type: "string"
+        },
+        songId: {
+          example: "abcdef",
           type: "string"
         }
       }
     }
   })
   @Post("addSong")
-  // TODO: convert hash to number HashIdPipe
-  async addSong(@Body() dto: PlaylistAddSongDto): Promise<any> {
-    return this.playlistService.addSong({
-      playlistId: dto.playlistId,
-      songId: dto.songId
-    });
+  async addSong(
+    @Body("playlistId") playlistId: string,
+    @Body("songId", HashIdPipe) songId: number
+  ): Promise<any> {
+    return this.playlistService.addSong(playlistId, songId);
   }
 
   @Post("create")

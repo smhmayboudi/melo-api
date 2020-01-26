@@ -12,7 +12,7 @@ export interface OrderByPipeOptions {
 }
 
 @Injectable()
-export class OrderByPipe implements PipeTransform<OrderBy> {
+export class OrderByPipe implements PipeTransform<string, OrderBy> {
   protected exceptionFactory: (errors: string) => any;
 
   constructor(@Optional() options?: OrderByPipeOptions) {

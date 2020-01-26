@@ -22,7 +22,10 @@ describe("AppService", () => {
   test.todo("cachePort");
   test.todo("cacheStore");
   test.todo("cacheTTL");
+  test.todo("hashIdAlphabet");
+  test.todo("hashIdMinLength");
   test.todo("hashIdSalt");
+  test.todo("hashIdSeps");
   test.todo("port");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");

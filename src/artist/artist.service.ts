@@ -12,7 +12,6 @@ import { SongDto } from "../data/dto/song.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
-import { ArtistFollowDto } from "./dto/artist.follow.dto";
 import { ArtistFollowingDto } from "./dto/artist.following.dto";
 import { ArtistTrendingGenreDto } from "./dto/artist.trending.genre.dto";
 import { ArtistUnfollowDto } from "./dto/artist.unfollow.dto";
@@ -35,9 +34,9 @@ export class ArtistService {
     return this.dataArtistService.byId(dto);
   }
 
-  async follow(dto: ArtistFollowDto, sub: number): Promise<boolean> {
+  async follow(id: number, sub: number): Promise<boolean> {
     const artist = await this.dataArtistService.byIds({
-      ids: [dto.id]
+      ids: [id]
     });
     return this.relationService.set({
       createdAt: new Date(),
