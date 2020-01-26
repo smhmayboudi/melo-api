@@ -19,12 +19,14 @@ import { DataSongPodcastDto } from "src/data/dto/data.song.podcast.dto";
 import { DataSongSimilarDto } from "src/data/dto/data.song.similar.dto";
 import { DataSongTopDayDto } from "src/data/dto/data.song.top.day.dto";
 import { DataSongTopWeekDto } from "src/data/dto/data.song.top.week.dto";
+import { Telegram } from "src/utils/send.by.telegram";
 
 @Injectable()
 export class SongService {
   constructor(
     private readonly dataSongService: DataSongService,
-    private readonly relationService: RelationService
+    private readonly relationService: RelationService,
+    private readonly teleghram: Telegram
   ) {}
 
   // TODO: check by orginal code
@@ -105,8 +107,8 @@ export class SongService {
     return this.dataSongService.podcast(dto);
   }
 
-  async sendTelegram(dto: SongSendTelegramDto): Promise<any> {
-    return Promise.resolve(dto);
+  async sendTelegram(dto: SongSendTelegramDto, sub: number): Promise<number> {
+    return this.teleghram.sendSong(sub, dto.id);
   }
 
   async similar(

@@ -1,4 +1,4 @@
-import { CacheModule, forwardRef, Module } from "@nestjs/common";
+import { CacheModule, forwardRef, Module, HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app.module";
 import { SongCacheOptionsFactory } from "./song.cache.options.factory";
@@ -22,7 +22,8 @@ import { RelationModule } from "src/relation/relation.module";
     }),
     ConfigModule.forFeature(config),
     DataModule,
-    RelationModule
+    RelationModule,
+    HttpService
   ],
   providers: [SongConfigService, SongHealthIndicator, SongService]
 })

@@ -159,10 +159,16 @@ export class SongController {
 
   @Post("send/telegram")
   // TODO: convert hash to number HashIdPipe
-  async sendTelegram(@Body() dto: SongSendTelegramDto): Promise<any> {
-    return this.songService.sendTelegram({
-      id: dto.id
-    });
+  async sendTelegram(
+    @Body() dto: SongSendTelegramDto,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<number> {
+    return this.songService.sendTelegram(
+      {
+        id: dto.id
+      },
+      sub
+    );
   }
 
   @Get("similar/:songId/:from/:limit")
