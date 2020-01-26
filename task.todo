@@ -33,4 +33,5 @@
       album
       playlist
       artist
-- [ ] relatedItemsMixer
+- [ ] mixSongs
+- [ ] mixArtists

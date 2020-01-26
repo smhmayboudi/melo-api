@@ -34,14 +34,17 @@ export class SongService {
     private readonly userService: UserService
   ) {}
 
+  // TODO: mixSongs
   async byId(dto: DataSongByIdDto): Promise<SongDto> {
     return this.dataSongService.byId(dto);
   }
 
+  // TODO: mixSongs
   async genre(dto: SongGenreDto): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.genre(dto);
   }
 
+  // TODO: mixSongs
   async language(
     dto: DataSongLanguageDto
   ): Promise<PaginationResultDto<SongDto>> {
@@ -67,6 +70,7 @@ export class SongService {
     });
   }
 
+  // TODO: mixSongs
   async liked(
     dto: SongLikedDto,
     sub: number
@@ -87,20 +91,24 @@ export class SongService {
     });
   }
 
+  // TODO: mixSongs
   async mood(dto: DataSongMoodDto): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.mood(dto);
   }
 
+  // TODO: mixSongs
   async new(dto: DataSongNewDto): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.new(dto);
   }
 
+  // TODO: mixSongs
   async newPodcast(
     dto: SongNewPodcastDto
   ): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.newPodcast(dto);
   }
 
+  // TODO: mixSongs
   async podcast(
     dto: DataSongPodcastDto
   ): Promise<PaginationResultDto<SongDto>> {
@@ -143,20 +151,24 @@ export class SongService {
       .toPromise();
   }
 
+  // TODO: mixSongs
   async similar(
     dto: DataSongSimilarDto
   ): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.similar(dto);
   }
 
+  // TODO: mixSongs
   async sliderLatest(_sub: number): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.sliderLatest();
   }
 
+  // TODO: mixSongs
   async topDay(dto: DataSongTopDayDto): Promise<PaginationResultDto<SongDto>> {
     return this.dataSongService.topDay(dto);
   }
 
+  // TODO: mixSongs
   async topWeek(
     dto: DataSongTopWeekDto
   ): Promise<PaginationResultDto<SongDto>> {

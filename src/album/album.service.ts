@@ -9,10 +9,12 @@ import { DataAlbumService } from "../data/data.album.service";
 export class AlbumService {
   constructor(private readonly dataAlbumService: DataAlbumService) {}
 
+  // TODO: mixSongs
   async byId(dto: DataAlbumDto): Promise<AlbumDto> {
     return this.dataAlbumService.byId(dto);
   }
 
+  // TODO: mixSongs
   async latest(
     dto: DataAlbumLatestDto
   ): Promise<PaginationResultDto<AlbumDto>> {

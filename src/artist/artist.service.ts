@@ -29,6 +29,7 @@ export class ArtistService {
     return this.dataArtistService.albums(dto);
   }
 
+  // TODO: mixArtists
   async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
     return this.dataArtistService.byId(dto);
   }
@@ -76,22 +77,26 @@ export class ArtistService {
     });
   }
 
+  // TODO: mixSongs
   async songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
     return this.dataArtistService.songs(dto);
   }
 
+  // TODO: mixSongs
   async songsTop(
     dto: DataArtistSongsTopDto
   ): Promise<PaginationResultDto<SongDto>> {
     return this.dataArtistService.songsTop(dto);
   }
 
+  // TODO: mixSongs
   async trending(
     dto: DataArtistTrendingDto
   ): Promise<PaginationResultDto<ArtistDto>> {
     return this.dataArtistService.trending(dto);
   }
 
+  // TODO: mixSongs
   async trendingGenre(
     dto: ArtistTrendingGenreDto
   ): Promise<PaginationResultDto<ArtistDto>> {
