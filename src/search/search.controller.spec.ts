@@ -16,6 +16,6 @@ describe("Search Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("get");
-  test.todo("latest");
+  test.todo("mood");
+  test.todo("query");
 });

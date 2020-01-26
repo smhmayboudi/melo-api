@@ -28,12 +28,14 @@
   "rules": {
     "@typescript-eslint/camelcase": ["error", { "allow": [
       "auth_date",
+      "callback_query",
       "created_at",
       "e_tag",
       "expire_at",
       "file_name",
       "first_name",
       "is_blocked",
+      "is_bot",
       "language_code",
       "last_name",
       "mime_type",
@@ -43,6 +45,7 @@
       "public_key",
       "registered_date",
       "telegram_id",
+      "update_id",
       "user_id"
     ]}],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]

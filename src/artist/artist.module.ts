@@ -7,8 +7,8 @@ import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
 import { ArtistHealthIndicator } from "./artist.health";
 import { ArtistService } from "./artist.service";
-import { DataModule } from "src/data/data.module";
-import { RelationModule } from "src/relation/relation.module";
+import { DataModule } from "../data/data.module";
+import { RelationModule } from "../relation/relation.module";
 
 @Module({
   controllers: [ArtistController],

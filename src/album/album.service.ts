@@ -9,8 +9,8 @@ import { DataAlbumService } from "../data/data.album.service";
 export class AlbumService {
   constructor(private readonly dataAlbumService: DataAlbumService) {}
 
-  async get(dto: DataAlbumDto): Promise<AlbumDto> {
-    return this.dataAlbumService.get(dto);
+  async byId(dto: DataAlbumDto): Promise<AlbumDto> {
+    return this.dataAlbumService.byId(dto);
   }
 
   async latest(

@@ -16,8 +16,8 @@ describe("Song Controller", () => {
     expect(controller).toBeDefined();
   });
 
+  test.todo("byId");
   test.todo("genre");
-  test.todo("get");
   test.todo("language");
   test.todo("like");
   test.todo("liked");

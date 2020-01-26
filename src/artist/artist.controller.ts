@@ -13,15 +13,15 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { AlbumDto } from "src/data/dto/album.dto";
-import { ArtistDto } from "src/data/dto/artist.dto";
-import { PaginationResultDto } from "src/data/dto/pagination.result.dto";
-import { SongDto } from "src/data/dto/song.dto";
-import { User } from "src/decorator/user.decorator";
-import { HashIdPipe } from "src/pipe/hash-id.pipe";
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { AlbumDto } from "../data/dto/album.dto";
+import { ArtistDto } from "../data/dto/artist.dto";
+import { PaginationResultDto } from "../data/dto/pagination.result.dto";
+import { SongDto } from "../data/dto/song.dto";
+import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { ArtistService } from "./artist.service";
 import { ArtistFollowDto } from "./dto/artist.follow.dto";
 
@@ -69,6 +69,16 @@ export class ArtistController {
     });
   }
 
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string"
+        }
+      }
+    }
+  })
   @Post("follow")
   // TODO: convert hash to number HashIdPipe
   async follow(

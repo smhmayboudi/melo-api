@@ -23,3 +23,17 @@
 - [ ] api inspection + UI
 - [ ] api test
 - [ ] new api
+- [ ] multi-langual
+
+- [ ] // TODO: convert hash to number HashIdPipe
+- [ ] // TODO: remove key
+- [ ] Enum type.entity relation
+      user
+      song
+      album
+      playlist
+      artist
+- [ ] relatedItemsMixer
+
+less indent
+!== undefined => === undefined
