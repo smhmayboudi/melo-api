@@ -1,6 +1,6 @@
 import { CacheModule, forwardRef, HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { UserModule } from "src/user/user.module";
+import { UserModule } from "../user/user.module";
 import { AppModule } from "../app.module";
 import { DataModule } from "../data/data.module";
 import { RelationModule } from "../relation/relation.module";

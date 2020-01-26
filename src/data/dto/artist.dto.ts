@@ -52,7 +52,7 @@ export class ArtistDto {
 
   @ApiProperty({
     description: "The artist type",
-    example: ArtistType.Prime
+    example: ArtistType.prime
   })
   @IsEnum(ArtistType)
   type: ArtistType;

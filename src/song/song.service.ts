@@ -1,7 +1,7 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { UserService } from "src/user/user.service";
+import { UserService } from "../user/user.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongByIdDto } from "../data/dto/data.song.by.id.dto";
 import { DataSongLanguageDto } from "../data/dto/data.song.language.dto";

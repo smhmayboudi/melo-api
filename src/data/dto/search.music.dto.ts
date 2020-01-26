@@ -25,7 +25,7 @@ export class SearchMusicDto {
 
   @ApiProperty({
     description: "The type of search",
-    example: SearchType.Album
+    example: SearchType.album
   })
   @IsEnum(SearchType)
   type: SearchType;

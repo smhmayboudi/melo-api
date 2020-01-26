@@ -1,6 +1,6 @@
 export enum SearchType {
-  Artist = "artist",
-  Song = "song",
-  Album = "album",
+  artist = "artist",
+  song = "song",
+  album = "album",
   Playlist = "playlist"
 }

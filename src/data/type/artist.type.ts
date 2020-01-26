@@ -1,4 +1,4 @@
 export enum ArtistType {
-  Feat = "feat",
-  Prime = "prime"
+  feat = "feat",
+  prime = "prime"
 }

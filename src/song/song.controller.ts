@@ -15,8 +15,10 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { OrderByPipe } from "../pipe/order-by.pipe";
 import { PaginationResultDto } from "../data/dto/pagination.result.dto";
 import { SongDto } from "../data/dto/song.dto";
+import { OrderBy } from "../data/type/order-by.type";
 import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
@@ -55,7 +57,7 @@ export class SongController {
 
   @Get("genre/:orderBy/:from/:limit")
   async genre(
-    @Param("orderBy") orderBy: string,
+    @Param("orderBy", OrderByPipe) orderBy: OrderBy,
     @Param("from") from: number,
     @Param("limit") limit: number,
     @Query("genres") genres: string[]
@@ -71,7 +73,7 @@ export class SongController {
   @Get("language/:language/:orderBy/:from/:limit")
   async language(
     @Param("language") language: string,
-    @Param("orderBy") orderBy: string,
+    @Param("orderBy", OrderByPipe) orderBy: OrderBy,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<PaginationResultDto<SongDto>> {
@@ -154,7 +156,7 @@ export class SongController {
 
   @Get("podcast/genres/:orderBy/:from/:limit")
   async podcast(
-    @Param("orderBy") orderBy: string,
+    @Param("orderBy", OrderByPipe) orderBy: OrderBy,
     @Param("from") from: number,
     @Param("limit") limit: number,
     @Query("genres") genres: string[]
