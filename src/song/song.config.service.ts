@@ -48,4 +48,12 @@ export class SongConfigService {
       ) / 1000
     );
   }
+
+  get timeout(): number {
+    return ms(this.configService.get<string>("song.timeout", ""));
+  }
+
+  get uri(): string {
+    return this.configService.get<string>("song.uri", "");
+  }
 }

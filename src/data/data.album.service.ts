@@ -14,7 +14,7 @@ export class DataAlbumService {
     private readonly dataConfigService: DataConfigService
   ) {}
 
-  async get(dto: DataAlbumDto): Promise<AlbumDto> {
+  async byId(dto: DataAlbumDto): Promise<AlbumDto> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/album/${dto.id}`)
       .pipe(

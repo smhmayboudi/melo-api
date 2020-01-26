@@ -5,7 +5,7 @@ export class DataSongSimilarDto {
   constructor(from: number, limit: number, songId: number) {
     this.from = from;
     this.limit = limit;
-    this.songId = songId;
+    this.id = songId;
   }
 
   @ApiProperty({
@@ -27,5 +27,5 @@ export class DataSongSimilarDto {
     example: 0
   })
   @IsNumber()
-  songId: number;
+  id: number;
 }

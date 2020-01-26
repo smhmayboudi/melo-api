@@ -39,8 +39,8 @@ export class AlbumController {
     type: "string"
   })
   @Get(":id")
-  async get(@Param("id", HashIdPipe) id: number): Promise<AlbumDto> {
-    return this.albumService.get({
+  async byId(@Param("id", HashIdPipe) id: number): Promise<AlbumDto> {
+    return this.albumService.byId({
       id
     });
   }

@@ -9,13 +9,12 @@ import { DataSongMoodDto } from "./dto/data.song.mood.dto";
 import { DataSongNewDto } from "./dto/data.song.new.dto";
 import { DataSongPodcastDto } from "./dto/data.song.podcast.dto";
 import { DataSongSimilarDto } from "./dto/data.song.similar.dto";
-import { DataSongSliderLatestDto } from "./dto/data.song.slider.latest.dto";
 import { DataSongTopDayDto } from "./dto/data.song.top.day.dto";
 import { DataSongTopWeekDto } from "./dto/data.song.top.week.dto";
 import { PaginationResultDto } from "./dto/pagination.result.dto";
 import { SongDto } from "./dto/song.dto";
-import { SongGenreDto } from "src/song/dto/song.genre.dto";
-import { SongNewPodcastDto } from "src/song/dto/song.new.podcast.dto";
+import { SongGenreDto } from "../song/dto/song.genre.dto";
+import { SongNewPodcastDto } from "../song/dto/song.new.podcast.dto";
 
 @Injectable()
 export class DataSongService {
@@ -125,6 +124,7 @@ export class DataSongService {
   async podcast(
     dto: DataSongPodcastDto
   ): Promise<PaginationResultDto<SongDto>> {
+    // TODO: test params
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
@@ -147,7 +147,7 @@ export class DataSongService {
   ): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/similarv/${dto.songId}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.uri}/song/similar/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
@@ -157,9 +157,7 @@ export class DataSongService {
       .toPromise();
   }
 
-  async sliderLatest(
-    _dto: DataSongSliderLatestDto
-  ): Promise<PaginationResultDto<SongDto>> {
+  async sliderLatest(): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/song/slider/latest`)
       .pipe(
@@ -173,7 +171,7 @@ export class DataSongService {
   async topDay(dto: DataSongTopDayDto): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/top/dayv/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.uri}/song/top/day/${dto.from}/${dto.limit}`
       )
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {

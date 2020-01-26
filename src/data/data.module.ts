@@ -22,12 +22,12 @@ import { DataSongService } from "./data.song.service";
     DataSongService
   ],
   imports: [
+    ConfigModule.forFeature(config),
     HttpModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [DataModule],
       useClass: DataHttpModuleOptionsFactory
-    }),
-    ConfigModule.forFeature(config)
+    })
   ],
   providers: [
     DataAlbumService,

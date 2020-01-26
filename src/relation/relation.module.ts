@@ -10,12 +10,12 @@ import { RelationService } from "./relation.service";
   controllers: [],
   exports: [RelationConfigService, RelationHealthIndicator, RelationService],
   imports: [
+    ConfigModule.forFeature(config),
     HttpModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [RelationModule],
       useClass: RelationHttpModuleOptionsFactory
-    }),
-    ConfigModule.forFeature(config)
+    })
   ],
   providers: [RelationConfigService, RelationHealthIndicator, RelationService]
 })

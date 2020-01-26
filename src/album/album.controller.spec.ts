@@ -16,6 +16,6 @@ describe("Album Controller", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("get");
+  test.todo("byId");
   test.todo("latest");
 });

@@ -7,14 +7,14 @@ import { AlbumDto } from "../data/dto/album.dto";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistAlbumsDto } from "../data/dto/data.artist.albums.dto";
 import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { DataArtistByIdDto } from "src/data/dto/data.artist.by.id.dto";
-import { ArtistDto } from "src/data/dto/artist.dto";
-import { RelationService } from "src/relation/relation.service";
-import { RelationType } from "src/relation/type/relation.type";
-import { DataArtistSongsDto } from "src/data/dto/data.artist.songs.dto";
-import { SongDto } from "src/data/dto/song.dto";
-import { DataArtistSongsTopDto } from "src/data/dto/data.artist.songs.top.dto";
-import { DataArtistTrendingDto } from "src/data/dto/data.artist.trending.dto";
+import { DataArtistByIdDto } from "../data/dto/data.artist.by.id.dto";
+import { ArtistDto } from "../data/dto/artist.dto";
+import { RelationService } from "../relation/relation.service";
+import { RelationType } from "../relation/type/relation.type";
+import { DataArtistSongsDto } from "../data/dto/data.artist.songs.dto";
+import { SongDto } from "../data/dto/song.dto";
+import { DataArtistSongsTopDto } from "../data/dto/data.artist.songs.top.dto";
+import { DataArtistTrendingDto } from "../data/dto/data.artist.trending.dto";
 
 @Injectable()
 export class ArtistService {

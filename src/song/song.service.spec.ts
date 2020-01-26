@@ -16,15 +16,15 @@ describe("SongService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("byId");
   test.todo("genre");
-  test.todo("get");
   test.todo("language");
   test.todo("like");
   test.todo("liked");
   test.todo("mood");
   test.todo("new");
   test.todo("newPodcast");
-  test.todo("podcastGenres");
+  test.todo("podcast");
   test.todo("sendTelegram");
   test.todo("similar");
   test.todo("sliderLatest");

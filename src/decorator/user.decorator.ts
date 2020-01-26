@@ -1,5 +1,5 @@
 import { createParamDecorator } from "@nestjs/common";
 
-export const User = createParamDecorator((data: string, req) => {
-  return data ? req.user && req.user[data] : req.user;
+export const User = createParamDecorator((data: string | undefined, req) => {
+  return data === undefined ? req.user : req.user && req.user[data];
 });

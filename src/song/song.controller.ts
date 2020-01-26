@@ -4,27 +4,27 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   Post,
   Query,
   UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe,
-  ParseIntPipe
+  ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags, ApiParam } from "@nestjs/swagger";
-import { HashIdPipe } from "src/pipe/hash-id.pipe";
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { PaginationResultDto } from "../data/dto/pagination.result.dto";
+import { SongDto } from "../data/dto/song.dto";
+import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { SongLikeDto } from "./dto/song.like.dto";
 import { SongSendTelegramDto } from "./dto/song.send.telegram.dto";
 import { SongUnlikeDto } from "./dto/song.unlike.dto";
 import { SongService } from "./song.service";
-import { PaginationResultDto } from "src/data/dto/pagination.result.dto";
-import { SongDto } from "src/data/dto/song.dto";
-import { User } from "src/decorator/user.decorator";
 
 @ApiBearerAuth("jwt")
 @ApiTags("song")
@@ -42,6 +42,17 @@ import { User } from "src/decorator/user.decorator";
 export class SongController {
   constructor(private readonly songService: SongService) {}
 
+  @ApiParam({
+    name: "id",
+    type: "string"
+  })
+  @Get(":id")
+  async byId(@Param("id", HashIdPipe) id: number): Promise<SongDto> {
+    return this.songService.byId({
+      id
+    });
+  }
+
   @Get("genre/:orderBy/:from/:limit")
   async genre(
     @Param("orderBy") orderBy: string,
@@ -54,17 +65,6 @@ export class SongController {
       genres,
       limit,
       orderBy
-    });
-  }
-
-  @ApiParam({
-    name: "id",
-    type: "string"
-  })
-  @Get(":id")
-  async get(@Param("id", HashIdPipe) id: number): Promise<SongDto> {
-    return this.songService.get({
-      id
     });
   }
 
@@ -83,6 +83,16 @@ export class SongController {
     });
   }
 
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string"
+        }
+      }
+    }
+  })
   @Post("like")
   // TODO: convert hash to number HashIdPipe
   async like(
@@ -143,13 +153,13 @@ export class SongController {
   }
 
   @Get("podcast/genres/:orderBy/:from/:limit")
-  async podcastGenres(
+  async podcast(
     @Param("orderBy") orderBy: string,
     @Param("from") from: number,
     @Param("limit") limit: number,
     @Query("genres") genres: string[]
   ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.podcastGenres({
+    return this.songService.podcast({
       from,
       genres,
       limit,
@@ -157,6 +167,16 @@ export class SongController {
     });
   }
 
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string"
+        }
+      }
+    }
+  })
   @Post("send/telegram")
   // TODO: convert hash to number HashIdPipe
   async sendTelegram(
@@ -171,15 +191,15 @@ export class SongController {
     );
   }
 
-  @Get("similar/:songId/:from/:limit")
+  @Get("similar/:id/:from/:limit")
   async similar(
-    @Param("songId", HashIdPipe) id: number,
+    @Param("id", HashIdPipe) id: number,
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<PaginationResultDto<SongDto>> {
     return this.songService.similar({
       from,
-      songId: id,
+      id,
       limit
     });
   }
@@ -211,6 +231,16 @@ export class SongController {
     });
   }
 
+  @ApiBody({
+    schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string"
+        }
+      }
+    }
+  })
   @Post("unlike")
   // TODO: convert hash to number HashIdPipe
   async unlike(
