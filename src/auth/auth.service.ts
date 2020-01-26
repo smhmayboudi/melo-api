@@ -20,19 +20,19 @@ export class AuthService {
 
   async accessToken(subject: string): Promise<AccessTokenDto | undefined> {
     const randomJwksEntity = await this.jwksService.getOneRandom();
-    if (randomJwksEntity !== undefined) {
-      return Promise.resolve({
-        at: this.jwtService.sign(
-          {},
-          {
-            keyid: randomJwksEntity.id,
-            jwtid: uuidv4(),
-            subject
-          }
-        )
-      });
+    if (randomJwksEntity === undefined) {
+      return undefined;
     }
-    return undefined;
+    return Promise.resolve({
+      at: this.jwtService.sign(
+        {},
+        {
+          keyid: randomJwksEntity.id,
+          jwtid: uuidv4(),
+          subject
+        }
+      )
+    });
   }
 
   async refreshToken(subject: string): Promise<RefreshTokenDto | undefined> {
@@ -53,19 +53,19 @@ export class AuthService {
       }
     ]);
     const randomJwksEntity = await this.jwksService.getOneRandom();
-    if (randomJwksEntity !== undefined) {
-      return Promise.resolve({
-        at: this.jwtService.sign(
-          {},
-          {
-            keyid: randomJwksEntity.id,
-            jwtid: uuidv4(),
-            subject
-          }
-        ),
-        rt
-      });
+    if (randomJwksEntity === undefined) {
+      return undefined;
     }
-    return undefined;
+    return Promise.resolve({
+      at: this.jwtService.sign(
+        {},
+        {
+          keyid: randomJwksEntity.id,
+          jwtid: uuidv4(),
+          subject
+        }
+      ),
+      rt
+    });
   }
 }

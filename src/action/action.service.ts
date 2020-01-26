@@ -6,6 +6,6 @@ export class ActionService {
   // constructor() {}
 
   async bulk(dto: ActionDto): Promise<boolean> {
-    return Promise.resolve(dto !== undefined);
+    return Promise.resolve(dto === undefined);
   }
 }

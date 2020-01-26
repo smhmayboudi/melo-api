@@ -48,10 +48,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
               Buffer.from(rawJwtToken.split(".")[0], "base64").toString("ascii")
             ).kid
           );
-          if (jwksEntity !== undefined) {
-            done(null, jwksEntity.public_key);
-          } else {
+          if (jwksEntity === undefined) {
             done(new Error("jwt.strategy secretOrKeyProvider failed."), null);
+          } else {
+            done(null, jwksEntity.public_key);
           }
         } catch (error) {
           done(error, null);
@@ -64,21 +64,22 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const rtEntity = await this.rtService.validateByUserId(
       parseInt(dto.sub, 10)
     );
-    if (rtEntity !== undefined) {
-      const atEnity = await this.atService.validateByToken(dto.jti);
-      if (atEnity === undefined) {
-        await this.atService.save([
-          {
-            created_at: new Date(1000 * dto.iat),
-            expire_at: new Date(1000 * dto.exp),
-            id: 0,
-            user_id: parseInt(dto.sub, 10),
-            token: dto.jti
-          }
-        ]);
-        return Promise.resolve({ ...dto });
-      }
+    if (rtEntity === undefined) {
+      throw new UnauthorizedException();
     }
-    throw new UnauthorizedException();
+    const atEnity = await this.atService.validateByToken(dto.jti);
+    if (atEnity !== undefined) {
+      throw new UnauthorizedException();
+    }
+    await this.atService.save([
+      {
+        created_at: new Date(1000 * dto.iat),
+        expire_at: new Date(1000 * dto.exp),
+        id: 0,
+        user_id: parseInt(dto.sub, 10),
+        token: dto.jti
+      }
+    ]);
+    return Promise.resolve({ ...dto });
   }
 }

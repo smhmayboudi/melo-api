@@ -17,14 +17,14 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 
   async validate(username: string, _password: string): Promise<JwtPayloadDto> {
     const userEntity = await this.userService.findOneByUsernam(username);
-    if (userEntity !== undefined) {
-      return {
-        exp: 0,
-        iat: 0,
-        jti: "0",
-        sub: userEntity.id.toString()
-      };
+    if (userEntity === undefined) {
+      throw new UnauthorizedException();
     }
-    throw new UnauthorizedException();
+    return {
+      exp: 0,
+      iat: 0,
+      jti: "0",
+      sub: userEntity.id.toString()
+    };
   }
 }
