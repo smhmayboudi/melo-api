@@ -1,7 +1,7 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { UserService } from "../user/user.service";
+import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongByIdDto } from "../data/dto/data.song.by.id.dto";
 import { DataSongLanguageDto } from "../data/dto/data.song.language.dto";
@@ -15,6 +15,7 @@ import { PaginationResultDto } from "../data/dto/pagination.result.dto";
 import { SongDto } from "../data/dto/song.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/type/relation.type";
+import { UserService } from "../user/user.service";
 import { SongGenreDto } from "./dto/song.genre.dto";
 import { SongLikeDto } from "./dto/song.like.dto";
 import { SongLikedDto } from "./dto/song.liked.dto";
@@ -58,13 +59,13 @@ export class SongService {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       entityDto2: {
         // TODO: remove key
         key: "",
         id: dto.id,
-        type: "song"
+        type: RelationEntityType.song
       },
       relType: RelationType.likedSongs
     });
@@ -81,7 +82,7 @@ export class SongService {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       limit: dto.limit,
       relType: RelationType.likedSongs
@@ -181,13 +182,13 @@ export class SongService {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       entityDto2: {
         // TODO: remove key
         key: "",
         id: dto.id,
-        type: "song"
+        type: RelationEntityType.song
       },
       relType: RelationType.likedSongs
     });

@@ -1,20 +1,21 @@
 import { Injectable } from "@nestjs/common";
+import { DataArtistService } from "../data/data.artist.service";
+import { AlbumDto } from "../data/dto/album.dto";
+import { ArtistDto } from "../data/dto/artist.dto";
+import { DataArtistAlbumsDto } from "../data/dto/data.artist.albums.dto";
+import { DataArtistByIdDto } from "../data/dto/data.artist.by.id.dto";
+import { DataArtistSongsDto } from "../data/dto/data.artist.songs.dto";
+import { DataArtistSongsTopDto } from "../data/dto/data.artist.songs.top.dto";
+import { DataArtistTrendingDto } from "../data/dto/data.artist.trending.dto";
+import { PaginationResultDto } from "../data/dto/pagination.result.dto";
+import { SongDto } from "../data/dto/song.dto";
+import { RelationService } from "../relation/relation.service";
+import { RelationEntityType } from "../relation/type/relation.entity.type";
+import { RelationType } from "../relation/type/relation.type";
 import { ArtistFollowDto } from "./dto/artist.follow.dto";
 import { ArtistFollowingDto } from "./dto/artist.following.dto";
 import { ArtistTrendingGenreDto } from "./dto/artist.trending.genre.dto";
 import { ArtistUnfollowDto } from "./dto/artist.unfollow.dto";
-import { AlbumDto } from "../data/dto/album.dto";
-import { DataArtistService } from "../data/data.artist.service";
-import { DataArtistAlbumsDto } from "../data/dto/data.artist.albums.dto";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { DataArtistByIdDto } from "../data/dto/data.artist.by.id.dto";
-import { ArtistDto } from "../data/dto/artist.dto";
-import { RelationService } from "../relation/relation.service";
-import { RelationType } from "../relation/type/relation.type";
-import { DataArtistSongsDto } from "../data/dto/data.artist.songs.dto";
-import { SongDto } from "../data/dto/song.dto";
-import { DataArtistSongsTopDto } from "../data/dto/data.artist.songs.top.dto";
-import { DataArtistTrendingDto } from "../data/dto/data.artist.trending.dto";
 
 @Injectable()
 export class ArtistService {
@@ -44,13 +45,13 @@ export class ArtistService {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       entityDto2: {
         // TODO: remove key
         key: "",
         id: artist.results[0].id,
-        type: "artist"
+        type: RelationEntityType.artist
       },
       relType: RelationType.follows
     });
@@ -66,7 +67,7 @@ export class ArtistService {
         id,
         // TODO: remove key
         key: "",
-        type: "following"
+        type: RelationEntityType.following
       },
       limit: dto.limit,
       relType: RelationType.follows
@@ -107,13 +108,13 @@ export class ArtistService {
     return this.relationService.remove({
       entityDto1: {
         id: sub,
-        type: "user",
+        type: RelationEntityType.user,
         // TODO: remove key
         key: ""
       },
       entityDto2: {
         id: dto.id,
-        type: "artist",
+        type: RelationEntityType.artist,
         // TODO: remove key
         key: ""
       },

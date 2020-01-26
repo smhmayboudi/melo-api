@@ -27,11 +27,5 @@
 
 - [ ] // TODO: convert hash to number HashIdPipe
 - [ ] // TODO: remove key
-- [ ] Enum type.entity relation
-      user
-      song
-      album
-      playlist
-      artist
 - [ ] mixSongs
 - [ ] mixArtists

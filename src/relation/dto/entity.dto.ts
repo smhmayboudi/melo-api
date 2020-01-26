@@ -1,9 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsNumber, IsString } from "class-validator";
+import { IsOptional, IsNumber, IsString, IsEnum } from "class-validator";
 import { Exclude } from "class-transformer";
+import { RelationEntityType } from "../type/relation.entity.type";
 
 export class EntityDto {
-  constructor(id: number, type: string, name?: string) {
+  constructor(id: number, type: RelationEntityType, name?: string) {
     this.id = id;
     this.type = type;
     this.name = name;
@@ -23,10 +24,10 @@ export class EntityDto {
 
   @ApiProperty({
     description: "The type",
-    example: "type"
+    example: RelationEntityType.album
   })
-  @IsString()
-  type: string;
+  @IsEnum(RelationEntityType)
+  type: RelationEntityType;
 
   @ApiProperty({
     description: "The name",
