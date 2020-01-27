@@ -29,6 +29,8 @@
 - [ ] api test
 - [ ] new api
 
-- [] parseInt !?
-- [] filenaming
-- [] isPublic => public
+- [ ] parseInt !?
+- [ ] filenaming
+- [ ] isPublic => public
+- [ ] delete unnecessary dto
+- [ ] delete & update return object
