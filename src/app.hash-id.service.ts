@@ -10,7 +10,7 @@ export class AppHashIdService {
   constructor(private readonly appConfigService: AppConfigService) {
     this.hashIds = new Hashids(
       this.appConfigService.hashIdSalt,
-      this.appConfigService.hashIdMinLength,
+      parseInt(this.appConfigService.hashIdMinLength.toString(), 10),
       this.appConfigService.hashIdAlphabet,
       this.appConfigService.hashIdSeps
     );

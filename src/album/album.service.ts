@@ -14,7 +14,6 @@ export class AlbumService {
     return this.dataAlbumService.byId(dto);
   }
 
-  // TODO: mixSongs
   async latest(
     dto: DataAlbumLatestDto
   ): Promise<PaginationResultDto<AlbumDto>> {
