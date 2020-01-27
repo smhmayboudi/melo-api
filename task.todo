@@ -13,19 +13,19 @@
     * MemoryHealthIndicator
     * DiskHealthIndicator
 - [ ] Database fixer / jwks + users
-- [ ] Result cache go through ClassSerializerInterceptor
 
 - [ ] action module
 - [ ] const module
 - [ ] playlist module
-- [ ] song module
-- [ ] UI integration
-- [ ] api inspection + UI
-- [ ] api test
-- [ ] new api
-- [ ] multi-langual
 
 - [ ] // TODO: mixArtists
 - [ ] // TODO: mixSongs
 - [ ] // TODO: remove key
 - [ ] // TODO: type check
+- [ ] Result cache go through ClassSerializerInterceptor
+- [ ] multi-langual
+
+- [ ] UI integration
+- [ ] api inspection + UI
+- [ ] api test
+- [ ] new api
