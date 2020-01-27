@@ -19,6 +19,7 @@ import { ConstModule } from "./const/const.module";
 import { DataModule } from "./data/data.module";
 import { FileModule } from "./file/file.module";
 import { JwksModule } from "./jwks/jwks.module";
+import { MongooseModule } from "@nestjs/mongoose";
 import { PlaylistModule } from "./playlist/playlist.module";
 import { RelationModule } from "./relation/relation.module";
 import { RtModule } from "./rt/rt.module";
@@ -46,6 +47,7 @@ import { UserModule } from "./user/user.module";
     DataModule,
     FileModule,
     JwksModule,
+    MongooseModule.forRoot("mongodb://localhost:27017/test"), // TODO: change url
     PlaylistModule,
     RelationModule,
     RtModule,

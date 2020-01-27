@@ -10,7 +10,8 @@ import {
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
+  ParseIntPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiBody, ApiTags } from "@nestjs/swagger";
@@ -21,6 +22,7 @@ import { PlaylistAddSongDto } from "./dto/playlist.add.song.dto";
 import { PlaylistCreateDto } from "./dto/playlist.create.dto";
 import { PlaylistEditDto } from "./dto/playlist.edit.dto";
 import { PlaylistService } from "./playlist.service";
+import { User } from "src/decorator/user.decorator";
 
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
@@ -58,11 +60,17 @@ export class PlaylistController {
   }
 
   @Post("create")
-  async create(@Body() dto: PlaylistCreateDto): Promise<any> {
-    return this.playlistService.create({
-      title: dto.title,
-      photoId: dto.photoId
-    });
+  async create(
+    @Body() dto: PlaylistCreateDto,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<any> {
+    return this.playlistService.create(
+      {
+        title: dto.title,
+        photoId: dto.photoId
+      },
+      sub
+    );
   }
 
   @Delete(":id")
