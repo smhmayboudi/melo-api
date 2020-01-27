@@ -21,26 +21,27 @@ export class PlaylistService {
     return Promise.resolve(`${playlistId}_${songId}`);
   }
 
-  async create(dto: PlaylistCreateDto, sub: string): Promise<any> {
+  async create(dto: PlaylistCreateDto, sub: number): Promise<any> {
     const playlist = await new this.playlistModel({
-      title: dto.title,
-      photo_id: dto.photoId,
-      release_date: new Date(),
+      download_count: 0,
       followers_count: 0,
       owner_user_id: sub,
-      download_count: 0
+      photo_id: dto.photoId,
+      release_date: new Date(),
+      title: dto.title
     }).save();
-    return {
-      // TODO: upload stuff & response type
-      id: playlist._id,
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-      image: playlist.photo_id,
-      isPublic: playlist.public,
-      releaseDate: playlist.release_date,
-      followersCount: playlist.followers_count,
-      songs: null
-    };
+    // return {
+    //   // TODO: upload stuff & response type
+    //   id: playlist._id,
+    //   title: playlist.title,
+    //   tracksCount: playlist.tracks_count,
+    //   image: playlist.photo_id,
+    //   isPublic: playlist.isPublic,
+    //   releaseDate: playlist.release_date,
+    //   followersCount: playlist.followers_count,
+    //   songs: null
+    // };
+    return playlist;
   }
 
   async delete(dto: PlaylistDeleteDto): Promise<any> {

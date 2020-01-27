@@ -42,6 +42,18 @@ export class AppConfigService {
     return this.configService.get<string>("app.hashIdSeps", "");
   }
 
+  get mangooseRetryAttempts(): number {
+    return this.configService.get<number>("app.mangooseRetryAttempts", 0);
+  }
+
+  get mangooseRetryDelay(): number {
+    return ms(this.configService.get<string>("app.mangooseRetryDelay", "0"));
+  }
+
+  get mangooseConnectionName(): string {
+    return this.configService.get<string>("app.mangooseConnectionName", "");
+  }
+
   get port(): number {
     return this.configService.get<number>("app.port", 0);
   }

@@ -26,6 +26,9 @@ describe("AppService", () => {
   test.todo("hashIdMinLength");
   test.todo("hashIdSalt");
   test.todo("hashIdSeps");
+  test.todo("mangooseRetryAttempts");
+  test.todo("mangooseRetryDelay");
+  test.todo("mangooseConnectionName");
   test.todo("port");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");

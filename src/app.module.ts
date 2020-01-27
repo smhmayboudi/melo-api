@@ -1,5 +1,6 @@
 import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+import { MongooseModule } from "@nestjs/mongoose";
 import { TerminusModule } from "@nestjs/terminus";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ActionModule } from "./action/action.module";
@@ -9,6 +10,7 @@ import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health";
+import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
@@ -19,7 +21,6 @@ import { ConstModule } from "./const/const.module";
 import { DataModule } from "./data/data.module";
 import { FileModule } from "./file/file.module";
 import { JwksModule } from "./jwks/jwks.module";
-import { MongooseModule } from "@nestjs/mongoose";
 import { PlaylistModule } from "./playlist/playlist.module";
 import { RelationModule } from "./relation/relation.module";
 import { RtModule } from "./rt/rt.module";
@@ -47,7 +48,12 @@ import { UserModule } from "./user/user.module";
     DataModule,
     FileModule,
     JwksModule,
-    MongooseModule.forRoot("mongodb://localhost:27017/test"), // TODO: change url
+    // MongooseModule.forRoot("mongodb://localhost:27017/test"), // TODO: change url
+    MongooseModule.forRootAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [AppModule],
+      useClass: AppMongooseOptionsFactory
+    }),
     PlaylistModule,
     RelationModule,
     RtModule,
