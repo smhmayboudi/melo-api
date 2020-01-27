@@ -54,6 +54,10 @@ export class AppConfigService {
     return this.configService.get<string>("app.mangooseConnectionName", "");
   }
 
+  get mangooseUri(): string {
+    return this.configService.get<string>("app.mangooseUri", "");
+  }
+
   get port(): number {
     return this.configService.get<number>("app.port", 0);
   }

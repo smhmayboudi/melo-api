@@ -29,6 +29,7 @@ describe("AppService", () => {
   test.todo("mangooseRetryAttempts");
   test.todo("mangooseRetryDelay");
   test.todo("mangooseConnectionName");
+  test.todo("mangooseUri");
   test.todo("port");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");
