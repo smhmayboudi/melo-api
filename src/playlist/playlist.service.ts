@@ -2,7 +2,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
-import { PlaylistAddSongDto } from "./dto/playlist.add.song.dto";
 import { PlaylistCreateDto } from "./dto/playlist.create.dto";
 import { PlaylistDeleteDto } from "./dto/playlist.delete.dto";
 import { PlaylistEditDto } from "./dto/playlist.edit.dto";
@@ -18,8 +17,8 @@ export class PlaylistService {
     @InjectModel("Playlist") private readonly playlistModel: Model<Playlist>
   ) {}
 
-  async addSong(dto: PlaylistAddSongDto): Promise<any> {
-    return Promise.resolve(dto);
+  async addSong(playlistId: string, songId: number): Promise<any> {
+    return Promise.resolve(`${playlistId}_${songId}`);
   }
 
   async create(dto: PlaylistCreateDto, sub: string): Promise<any> {

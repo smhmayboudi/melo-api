@@ -23,7 +23,6 @@ import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { ArtistService } from "./artist.service";
-import { ArtistFollowDto } from "./dto/artist.follow.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
@@ -74,18 +73,19 @@ export class ArtistController {
       type: "object",
       properties: {
         id: {
+          example: "abcdef",
           type: "string"
         }
       }
     }
   })
   @Post("follow")
-  // TODO: convert hash to number HashIdPipe
   async follow(
-    @Body() dto: ArtistFollowDto,
+    @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.artistService.follow(dto, sub);
+    console.log("xxxxx", id);
+    return this.artistService.follow(id, sub);
   }
 
   @Get("following/:from/:limit")

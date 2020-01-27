@@ -26,8 +26,20 @@ export class AppConfigService {
     return ms(this.configService.get<string>("app.cacheTTL", "")) / 1000;
   }
 
+  get hashIdAlphabet(): string {
+    return this.configService.get<string>("app.hashIdAlphabet", "");
+  }
+
+  get hashIdMinLength(): number {
+    return this.configService.get<number>("app.hashIdMinLength", 0);
+  }
+
   get hashIdSalt(): string {
     return this.configService.get<string>("app.hashIdSalt", "");
+  }
+
+  get hashIdSeps(): string {
+    return this.configService.get<string>("app.hashIdSeps", "");
   }
 
   get port(): number {

@@ -23,9 +23,6 @@ import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
-import { SongLikeDto } from "./dto/song.like.dto";
-import { SongSendTelegramDto } from "./dto/song.send.telegram.dto";
-import { SongUnlikeDto } from "./dto/song.unlike.dto";
 import { SongService } from "./song.service";
 
 @ApiBearerAuth("jwt")
@@ -90,18 +87,18 @@ export class SongController {
       type: "object",
       properties: {
         id: {
+          example: "abcdef",
           type: "string"
         }
       }
     }
   })
   @Post("like")
-  // TODO: convert hash to number HashIdPipe
   async like(
-    @Body() dto: SongLikeDto,
+    @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.songService.like(dto, sub);
+    return this.songService.like(id, sub);
   }
 
   @Get("liked/:from/:limit")
@@ -174,23 +171,18 @@ export class SongController {
       type: "object",
       properties: {
         id: {
+          example: "abcdef",
           type: "string"
         }
       }
     }
   })
   @Post("send/telegram")
-  // TODO: convert hash to number HashIdPipe
   async sendTelegram(
-    @Body() dto: SongSendTelegramDto,
+    @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<number> {
-    return this.songService.sendTelegram(
-      {
-        id: dto.id
-      },
-      sub
-    );
+    return this.songService.sendTelegram(id, sub);
   }
 
   @Get("similar/:id/:from/:limit")
@@ -238,17 +230,17 @@ export class SongController {
       type: "object",
       properties: {
         id: {
+          example: "abcdef",
           type: "string"
         }
       }
     }
   })
   @Post("unlike")
-  // TODO: convert hash to number HashIdPipe
   async unlike(
-    @Body() dto: SongUnlikeDto,
+    @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.songService.unlike(dto, sub);
+    return this.songService.unlike(id, sub);
   }
 }

@@ -8,19 +8,20 @@ export class AppHashIdService {
   private readonly hashIds: Hashids;
 
   constructor(private readonly appConfigService: AppConfigService) {
-    this.hashIds = new Hashids(this.appConfigService.hashIdSalt);
+    this.hashIds = new Hashids(
+      this.appConfigService.hashIdSalt,
+      this.appConfigService.hashIdMinLength,
+      this.appConfigService.hashIdAlphabet,
+      this.appConfigService.hashIdSeps
+    );
   }
 
   decode(hash: string): number {
-    return this.hashIds.decode(
-      Buffer.from(hash, "base64").toString("utf8")
-    )[0] as number;
+    return this.hashIds.decode(hash)[0] as number;
   }
 
-  encode(id: number | string): string {
-    const encoded = Buffer.from(this.hashIds.encode(id.toString()), "utf8")
-      .toString("base64")
-      .split("=")[0];
+  encode(id: number): string {
+    const encoded = this.hashIds.encode(id);
     if (encoded === "") {
       throw new Error(appConstant.errors.encoded);
     }

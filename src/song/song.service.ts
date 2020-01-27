@@ -1,7 +1,6 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { UserService } from "../user/user.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongByIdDto } from "../data/dto/data.song.by.id.dto";
 import { DataSongLanguageDto } from "../data/dto/data.song.language.dto";
@@ -14,13 +13,12 @@ import { DataSongTopWeekDto } from "../data/dto/data.song.top.week.dto";
 import { PaginationResultDto } from "../data/dto/pagination.result.dto";
 import { SongDto } from "../data/dto/song.dto";
 import { RelationService } from "../relation/relation.service";
+import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
+import { UserService } from "../user/user.service";
 import { SongGenreDto } from "./dto/song.genre.dto";
-import { SongLikeDto } from "./dto/song.like.dto";
 import { SongLikedDto } from "./dto/song.liked.dto";
 import { SongNewPodcastDto } from "./dto/song.new.podcast.dto";
-import { SongSendTelegramDto } from "./dto/song.send.telegram.dto";
-import { SongUnlikeDto } from "./dto/song.unlike.dto";
 import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
 
@@ -51,20 +49,20 @@ export class SongService {
     return this.dataSongService.language(dto);
   }
 
-  async like(dto: SongLikeDto, sub: number): Promise<boolean> {
+  async like(id: number, sub: number): Promise<boolean> {
     return this.relationService.set({
       createdAt: new Date(),
       entityDto1: {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       entityDto2: {
         // TODO: remove key
         key: "",
-        id: dto.id,
-        type: "song"
+        id: id,
+        type: RelationEntityType.song
       },
       relType: RelationType.likedSongs
     });
@@ -81,7 +79,7 @@ export class SongService {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       limit: dto.limit,
       relType: RelationType.likedSongs
@@ -115,7 +113,7 @@ export class SongService {
     return this.dataSongService.podcast(dto);
   }
 
-  async sendTelegram(dto: SongSendTelegramDto, sub: number): Promise<number> {
+  async sendTelegram(id: number, sub: number): Promise<number> {
     const userEntity = await this.userService.findOneById(sub);
     if (userEntity === undefined || userEntity.telegram_id === undefined) {
       throw new Error(songConstant.errors.telegram.userEntity);
@@ -139,7 +137,7 @@ export class SongService {
             },
             date: Math.round(new Date().getTime() / 1000)
           },
-          data: `1:${dto.id},high,0`
+          data: `1:${id},high,0`
         },
         update_id: 0
       })
@@ -175,19 +173,19 @@ export class SongService {
     return this.dataSongService.topWeek(dto);
   }
 
-  async unlike(dto: SongUnlikeDto, sub: number): Promise<boolean> {
+  async unlike(id: number, sub: number): Promise<boolean> {
     return this.relationService.remove({
       entityDto1: {
         // TODO: remove key
         key: "",
         id: sub,
-        type: "user"
+        type: RelationEntityType.user
       },
       entityDto2: {
         // TODO: remove key
         key: "",
-        id: dto.id,
-        type: "song"
+        id: id,
+        type: RelationEntityType.song
       },
       relType: RelationType.likedSongs
     });
