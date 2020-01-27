@@ -30,6 +30,7 @@
       "auth_date",
       "callback_query",
       "created_at",
+      "download_count",
       "downloads_count",
       "e_tag",
       "expire_at",
