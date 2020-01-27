@@ -63,9 +63,7 @@ export class ArtistController {
   })
   @Get("byId/:id")
   async byId(@Param("id", HashIdPipe) id: number): Promise<ArtistDto> {
-    return this.artistService.byId({
-      artistId: id
-    });
+    return this.artistService.byId(id);
   }
 
   @ApiBody({
@@ -84,7 +82,6 @@ export class ArtistController {
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    console.log("xxxxx", id);
     return this.artistService.follow(id, sub);
   }
 
@@ -94,13 +91,7 @@ export class ArtistController {
     @Param("limit") limit: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<PaginationResultDto<ArtistDto>> {
-    return this.artistService.following(
-      {
-        from,
-        limit
-      },
-      sub
-    );
+    return this.artistService.following(from, limit, sub);
   }
 
   @Get("songs/:id/:from/:limit")
@@ -129,28 +120,16 @@ export class ArtistController {
     });
   }
 
-  @Get("trending/:from/:limit")
-  async trending(
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<ArtistDto>> {
-    return this.artistService.trending({
-      from,
-      limit
-    });
+  @Get("trending")
+  async trending(): Promise<PaginationResultDto<ArtistDto>> {
+    return this.artistService.trending();
   }
 
-  @Get("trending/genre/:genre/:from/:limit")
+  @Get("trending/genre/:genre")
   async trendingGenre(
-    @Param("genre") genre: string,
-    @Param("from") from: number,
-    @Param("limit") limit: number
+    @Param("genre") genre: string
   ): Promise<PaginationResultDto<ArtistDto>> {
-    return this.artistService.trendingGenre({
-      from,
-      genre,
-      limit
-    });
+    return this.artistService.trendingGenre(genre);
   }
 
   @Post("unfollow")
@@ -158,11 +137,6 @@ export class ArtistController {
     @Param("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.artistService.unfollow(
-      {
-        id
-      },
-      sub
-    );
+    return this.artistService.unfollow(id, sub);
   }
 }

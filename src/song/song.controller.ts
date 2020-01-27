@@ -59,12 +59,7 @@ export class SongController {
     @Param("limit") limit: number,
     @Query("genres") genres: string[]
   ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.genre({
-      from,
-      genres,
-      limit,
-      orderBy
-    });
+    return this.songService.genre(from, genres, limit, orderBy);
   }
 
   @Get("language/:language/:orderBy/:from/:limit")
@@ -107,13 +102,7 @@ export class SongController {
     @Param("limit") limit: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.liked(
-      {
-        from,
-        limit
-      },
-      sub
-    );
+    return this.songService.liked(from, limit, sub);
   }
 
   @Get("mood/:mood/:from/:limit")
@@ -145,10 +134,7 @@ export class SongController {
     @Param("from") from: number,
     @Param("limit") limit: number
   ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.newPodcast({
-      limit,
-      from
-    });
+    return this.songService.newPodcast(limit, from);
   }
 
   @Get("podcast/genres/:orderBy/:from/:limit")

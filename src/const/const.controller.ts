@@ -32,8 +32,6 @@ export class ConstController {
 
   @Get("images")
   async images(): Promise<any> {
-    return this.constService.images({
-      constId: 0
-    });
+    return this.constService.images();
   }
 }

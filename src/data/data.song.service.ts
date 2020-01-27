@@ -13,8 +13,7 @@ import { DataSongTopDayDto } from "./dto/data.song.top.day.dto";
 import { DataSongTopWeekDto } from "./dto/data.song.top.week.dto";
 import { PaginationResultDto } from "./dto/pagination.result.dto";
 import { SongDto } from "./dto/song.dto";
-import { SongGenreDto } from "../song/dto/song.genre.dto";
-import { SongNewPodcastDto } from "../song/dto/song.new.podcast.dto";
+import { OrderBy } from "./type/order-by.type";
 
 @Injectable()
 export class DataSongService {
@@ -49,13 +48,18 @@ export class DataSongService {
       .toPromise();
   }
 
-  async genre(dto: SongGenreDto): Promise<PaginationResultDto<SongDto>> {
+  async genre(
+    from: number,
+    genres: string[],
+    limit: number,
+    orderBy: OrderBy
+  ): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/genre/${dto.orderBy}/${dto.from}/${dto.orderBy}`,
+        `${this.dataConfigService.uri}/song/genre/${orderBy}/${from}/${limit}/${orderBy}`,
         {
           params: {
-            genres: dto.genres
+            genres: genres
           }
         }
       )
@@ -107,12 +111,11 @@ export class DataSongService {
   }
 
   async newPodcast(
-    dto: SongNewPodcastDto
+    from: number,
+    limit: number
   ): Promise<PaginationResultDto<SongDto>> {
     return this.httpService
-      .get(
-        `${this.dataConfigService.uri}/song/new/podcast/${dto.from}/${dto.limit}`
-      )
+      .get(`${this.dataConfigService.uri}/song/new/podcast/${from}/${limit}`)
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
           return value.data;

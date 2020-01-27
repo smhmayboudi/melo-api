@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEditDto } from "./dto/user.edit.dto";
-import { UserGetDto } from "./dto/user.get.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 
@@ -34,8 +33,8 @@ export class UserService {
     return Promise.resolve(dto);
   }
 
-  async get(dto: UserGetDto): Promise<any> {
-    return Promise.resolve(dto);
+  async get(): Promise<any> {
+    return Promise.resolve();
   }
 
   async save(dto: UserEntity): Promise<UserEntity> {
