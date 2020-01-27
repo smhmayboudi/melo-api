@@ -34,6 +34,7 @@ export class ArtistService {
     return this.dataArtistService.byId(dto);
   }
 
+  // TODO: mixArtists
   async follow(id: number, sub: number): Promise<boolean> {
     const artist = await this.dataArtistService.byIds({
       ids: [id]
@@ -89,14 +90,14 @@ export class ArtistService {
     return this.dataArtistService.songsTop(dto);
   }
 
-  // TODO: mixSongs
+  // TODO: mixArtists
   async trending(
     dto: DataArtistTrendingDto
   ): Promise<PaginationResultDto<ArtistDto>> {
     return this.dataArtistService.trending(dto);
   }
 
-  // TODO: mixSongs
+  // TODO: mixArtists
   async trendingGenre(
     dto: ArtistTrendingGenreDto
   ): Promise<PaginationResultDto<ArtistDto>> {

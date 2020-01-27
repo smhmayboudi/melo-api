@@ -21,7 +21,6 @@
 - [ ] // TODO: mixArtists
 - [ ] // TODO: mixSongs
 - [ ] // TODO: remove key
-- [ ] // TODO: type check
 - [ ] Result cache go through ClassSerializerInterceptor
 - [ ] multi-langual
 
@@ -29,3 +28,7 @@
 - [ ] api inspection + UI
 - [ ] api test
 - [ ] new api
+
+- [] parseInt !?
+- [] filenaming
+- [] isPublic => public
