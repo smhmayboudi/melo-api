@@ -1,4 +1,6 @@
-export class TelegramPayloadDto {
+import { IsNumber, IsString } from "class-validator";
+
+export class AuthTelegramPayloadDto {
   constructor(
     auth_date: number,
     first_name: string,
@@ -16,11 +18,25 @@ export class TelegramPayloadDto {
     this.photo_url = photo_url;
     this.username = username;
   }
+
+  @IsNumber()
   auth_date: number;
+
+  @IsString()
   first_name: string;
+
+  @IsString()
   hash: string;
+
+  @IsNumber()
   id: number;
+
+  @IsString()
   last_name: string;
+
+  @IsString()
   photo_url: string;
+
+  @IsString()
   username: string;
 }

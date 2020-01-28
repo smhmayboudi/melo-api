@@ -3,8 +3,8 @@ import { PassportStrategy } from "@nestjs/passport";
 import { TelegramStrategy as Strategy } from "passport-telegram-official";
 import { UserService } from "../user/user.service";
 import { AuthConfigService } from "./auth.config.service";
-import { JwtPayloadDto } from "./dto/jwt.payload.dto";
-import { TelegramPayloadDto } from "./dto/telegram.payload.dto";
+import { AuthJwtPayloadDto } from "./dto/auth.jwt-payload.dto";
+import { AuthTelegramPayloadDto } from "./dto/auth.telegram-payload.dto";
 
 @Injectable()
 export class TelegramStrategy extends PassportStrategy(Strategy) {
@@ -19,7 +19,7 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(dto: TelegramPayloadDto): Promise<JwtPayloadDto> {
+  async validate(dto: AuthTelegramPayloadDto): Promise<AuthJwtPayloadDto> {
     const userEntity = await this.userService.findOneByTelegramId(dto.id);
     if (userEntity === undefined) {
       // throw new UnauthorizedException();
