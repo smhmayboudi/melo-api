@@ -15,6 +15,7 @@ import { FileEntityRepository } from "./file.entity.repository";
 export class FileService {
   private readonly mmmagic: Magic;
   private readonly s3: aws.S3;
+
   constructor(
     private readonly fileConfigService: FileConfigService,
     @InjectRepository(FileEntity)
