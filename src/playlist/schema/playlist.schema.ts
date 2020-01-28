@@ -7,7 +7,7 @@ export const PlaylistSchema = new mongoose.Schema({
   photo_id: String,
   public: Boolean,
   release_date: Date,
-  songs_ids: String,
+  songs_ids: [Number],
   title: String,
   tracks_count: Number
 });

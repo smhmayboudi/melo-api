@@ -9,6 +9,7 @@ import { PlaylistController } from "./playlist.controller";
 import { PlaylistHealthIndicator } from "./playlist.health";
 import { PlaylistService } from "./playlist.service";
 import { PlaylistSchema } from "./schema/playlist.schema";
+import { DataModule } from "src/data/data.module";
 
 @Module({
   controllers: [PlaylistController],
@@ -21,6 +22,7 @@ import { PlaylistSchema } from "./schema/playlist.schema";
       useClass: PlaylistCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
+    DataModule,
     MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }])
   ],
   providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService]

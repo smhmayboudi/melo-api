@@ -22,6 +22,7 @@ import { PlaylistCreateDto } from "./dto/playlist.create.dto";
 import { PlaylistEditDto } from "./dto/playlist.edit.dto";
 import { PlaylistService } from "./playlist.service";
 import { User } from "src/decorator/user.decorator";
+import { PlaylistDto } from "src/data/dto/playlist.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
@@ -58,7 +59,7 @@ export class PlaylistController {
   async addSong(
     @Body("playlistId") playlistId: string,
     @Body("songId", HashIdPipe) songId: number
-  ): Promise<any> {
+  ): Promise<PlaylistDto> {
     return this.playlistService.addSong(playlistId, songId);
   }
 
@@ -66,7 +67,7 @@ export class PlaylistController {
   async create(
     @Body() dto: PlaylistCreateDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<any> {
+  ): Promise<PlaylistDto> {
     return this.playlistService.create(
       {
         title: dto.title,
@@ -77,14 +78,20 @@ export class PlaylistController {
   }
 
   @Delete(":id")
-  async delete(@Param("id") id: string): Promise<any> {
-    return this.playlistService.delete({
-      id
-    });
+  async delete(
+    @Param("id") id: string,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<boolean> {
+    return this.playlistService.delete(
+      {
+        id
+      },
+      sub
+    );
   }
 
   @Post("edit")
-  async edit(@Body() dto: PlaylistEditDto): Promise<any> {
+  async edit(@Body() dto: PlaylistEditDto): Promise<PlaylistDto> {
     return this.playlistService.edit({
       id: dto.id,
       isPublic: dto.isPublic,
@@ -94,7 +101,7 @@ export class PlaylistController {
   }
 
   @Get(":id")
-  async get(@Param("id") id: string): Promise<any> {
+  async get(@Param("id") id: string): Promise<PlaylistDto> {
     return this.playlistService.get({
       id
     });
@@ -103,20 +110,24 @@ export class PlaylistController {
   @Get("my/:from/:limit")
   async my(
     @Param("from") from: number,
-    @Param("limit") limit: number
+    @Param("limit") limit: number,
+    @User("sub", ParseIntPipe) sub: number
   ): Promise<any> {
-    return this.playlistService.my({
-      from,
-      limit
-    });
+    return this.playlistService.my(
+      {
+        from,
+        limit
+      },
+      sub
+    );
   }
 
   @Delete("song/:playlistId/:songId")
   async song(
     @Param("playlistId") playlistId: string,
     @Param("songId", HashIdPipe) songId: number
-  ): Promise<any> {
-    return this.playlistService.song({
+  ): Promise<PlaylistDto> {
+    return this.playlistService.removeSong({
       playlistId,
       songId
     });
