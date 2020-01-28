@@ -45,6 +45,7 @@
     "express-rate-limit": "^5.0.0",
     "hashids": "^2.1.0",
     "helmet": "^3.21.2",
+    "imgproxy": "^0.1.2",
     "mime": "^2.4.4",
     "mime-types": "^2.1.26",
     "mmmagic": "^0.5.3",

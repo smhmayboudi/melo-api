@@ -13,6 +13,7 @@ import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { ConstService } from "./const.service";
 import { AuthGuard } from "@nestjs/passport";
+import { ImageDto } from "src/data/dto/image.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("const")
@@ -31,7 +32,7 @@ export class ConstController {
   constructor(private readonly constService: ConstService) {}
 
   @Get("images")
-  async images(): Promise<any> {
+  async images(): Promise<{ [key: string]: ImageDto }> {
     return this.constService.images();
   }
 }

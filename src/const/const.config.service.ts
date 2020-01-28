@@ -48,4 +48,17 @@ export class ConstConfigService {
       ) / 1000
     );
   }
+
+  get staticImageUrl(): { [key: string]: string } {
+    return this.configService.get<{ [key: string]: string }>(
+      "const.staticImageUrl",
+      this.appConfigService.staticImageUrl
+    );
+  }
+
+  get imageTypeSize(): { name: string; width: number; height: number }[] {
+    return this.configService.get<
+      { name: string; width: number; height: number }[]
+    >("const.imageTypeSize", this.appConfigService.imageTypeSize);
+  }
 }

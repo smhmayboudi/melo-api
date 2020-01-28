@@ -1,6 +1,7 @@
-import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { Injectable } from "@nestjs/common";
 import ms from "ms";
+import querystring from "querystring";
 
 @Injectable()
 export class AppConfigService {
@@ -42,6 +43,35 @@ export class AppConfigService {
     return this.configService.get<string>("app.hashIdSeps", "");
   }
 
+  get imageTypeSize(): { name: string; width: number; height: number }[] {
+    return this.configService
+      .get<string>("app.imageTypeSize", "")
+      .split(",")
+      .filter((p: string) => p && p !== "")
+      .map((p: string) => {
+        const [name, sizesString] = p.split(":");
+        const [w, h] = sizesString.split("x");
+
+        return {
+          name: name,
+          width: parseInt(w),
+          height: parseInt(h)
+        };
+      });
+  }
+
+  get imgProxyUrl(): string {
+    return this.configService.get<string>("app.imgProxyUrl", "");
+  }
+
+  get imgProxyKey(): string {
+    return this.configService.get<string>("app.imgProxyKey", "");
+  }
+
+  get imgProxySalt(): string {
+    return this.configService.get<string>("app.imgProxySalt", "");
+  }
+
   get mangooseRetryAttempts(): number {
     return this.configService.get<number>("app.mangooseRetryAttempts", 0);
   }
@@ -68,6 +98,12 @@ export class AppConfigService {
 
   get rateLimitWindowMs(): number {
     return ms(this.configService.get<string>("app.rateLimitWindowMs", ""));
+  }
+
+  get staticImageUrl(): { [key: string]: string } {
+    return querystring.parse(
+      this.configService.get<string>("app.typeOrmDatabase", "")
+    ) as { [key: string]: string };
   }
 
   get typeOrmDatabase(): string {

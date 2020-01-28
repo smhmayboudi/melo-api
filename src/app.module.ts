@@ -27,10 +27,17 @@ import { RtModule } from "./rt/rt.module";
 import { SearchModule } from "./search/search.module";
 import { SongModule } from "./song/song.module";
 import { UserModule } from "./user/user.module";
+import { AppImgProxyService } from "./app.img-proxy.service";
 
 @Module({
   controllers: [],
-  exports: [AppConfigService, AppHashIdService, AppHealthIndicator, AppService],
+  exports: [
+    AppConfigService,
+    AppHashIdService,
+    AppHealthIndicator,
+    AppImgProxyService,
+    AppService
+  ],
   imports: [
     ActionModule,
     AlbumModule,
@@ -92,6 +99,7 @@ import { UserModule } from "./user/user.module";
     AppConfigService,
     AppHashIdService,
     AppHealthIndicator,
+    AppImgProxyService,
     AppService
   ]
 })

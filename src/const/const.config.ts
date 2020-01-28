@@ -5,5 +5,7 @@ export default registerAs("const", () => ({
   cacheMax: process.env.CONST_CACHE_MAX,
   cachePort: process.env.CONST_CACHE_PORT,
   cacheStore: process.env.CONST_CACHE_STORE,
-  cacheTTL: process.env.CONST_CACHE_TTL
+  cacheTTL: process.env.CONST_CACHE_TTL,
+  staticImageUrl: process.env.STATIC_IMAGES_URL,
+  imageTypeSize: process.env.IMAGES_TYPE_SIZE
 }));
