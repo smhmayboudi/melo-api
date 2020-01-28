@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional, IsString } from "class-validator";
 
-export class PlaylistCreateDto {
+export class PlaylistCreateReqDto {
   constructor(title: string, photoId?: string) {
     this.title = title;
     this.photoId = photoId;
@@ -9,7 +9,7 @@ export class PlaylistCreateDto {
 
   @ApiProperty({
     description: "The title",
-    example: 0
+    example: "abcdef"
   })
   @IsString()
   title: string;

@@ -1,15 +1,15 @@
-import { AppModule } from "../app.module";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import config from "./playlist.config";
 import { MongooseModule } from "@nestjs/mongoose";
+import { AppModule } from "../app.module";
+import { DataModule } from "../data/data.module";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
+import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistHealthIndicator } from "./playlist.health";
-import { PlaylistService } from "./playlist.service";
 import { PlaylistSchema } from "./playlist.schema";
-import { DataModule } from "../data/data.module";
+import { PlaylistService } from "./playlist.service";
 
 @Module({
   controllers: [PlaylistController],

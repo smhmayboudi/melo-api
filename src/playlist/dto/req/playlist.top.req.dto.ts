@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber } from "class-validator";
 
-export class PlaylistMyDto {
+export class PlaylistTopReqDto {
   constructor(from: number, limit: number) {
     this.from = from;
     this.limit = limit;

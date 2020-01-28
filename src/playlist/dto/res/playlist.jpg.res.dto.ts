@@ -1,15 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class PlaylistGetDto {
-  constructor(id: string) {
-    this.id = id;
+export class PlaylistJpgResDto {
+  constructor(url: string) {
+    this.url = url;
   }
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "http://www.google.coom"
   })
   @IsString()
-  id: string;
+  url: string;
 }

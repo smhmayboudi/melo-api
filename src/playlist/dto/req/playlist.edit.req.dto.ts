@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsOptional, IsString } from "class-validator";
 
-export class PlaylistEditDto {
+export class PlaylistEditReqDto {
   constructor(
     id: string,
     isPublic?: boolean,
@@ -16,7 +16,7 @@ export class PlaylistEditDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "abcdef"
   })
   @IsString()
   id: string;
