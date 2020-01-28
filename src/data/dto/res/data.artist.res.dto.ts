@@ -7,7 +7,7 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { ArtistType } from "../../type/artist.type";
+import { DataArtistType } from "../../type/data.artist-type";
 import { DataAlbumResDto } from "./data.album.res.dto";
 import { DataImageResDto } from "./data.image.res.dto";
 import { DataPaginationResDto } from "./data.pagination.res.dto";
@@ -17,7 +17,7 @@ export class DataArtistResDto {
   constructor(
     followersCount: number,
     id: number,
-    type: ArtistType,
+    type: DataArtistType,
     albums?: DataPaginationResDto<DataAlbumResDto>,
     fullName?: string,
     image?: DataImageResDto,
@@ -52,10 +52,10 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The artist type",
-    example: ArtistType.prime
+    example: DataArtistType.prime
   })
-  @IsEnum(ArtistType)
-  type: ArtistType;
+  @IsEnum(DataArtistType)
+  type: DataArtistType;
 
   @ApiProperty({
     description: "The albums"

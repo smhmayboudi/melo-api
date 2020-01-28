@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNumber, IsOptional, ValidateNested } from "class-validator";
-import { SearchType } from "../../type/search.type";
+import { DataSearchType } from "../../type/data.search-type";
 import { DataAlbumResDto } from "./data.album.res.dto";
 import { DataArtistResDto } from "./data.artist.res.dto";
 import { DataPlaylistResDto } from "./data.playlist.res.dto";
@@ -8,7 +8,7 @@ import { DataSongResDto } from "./data.song.res.dto";
 
 export class DataSearchMusicResDto {
   constructor(
-    type: SearchType,
+    type: DataSearchType,
     album?: DataAlbumResDto,
     artist?: DataArtistResDto,
     playlist?: DataPlaylistResDto,
@@ -25,10 +25,10 @@ export class DataSearchMusicResDto {
 
   @ApiProperty({
     description: "The type of search",
-    example: SearchType.album
+    example: DataSearchType.album
   })
-  @IsEnum(SearchType)
-  type: SearchType;
+  @IsEnum(DataSearchType)
+  type: DataSearchType;
 
   @ApiProperty({
     description: "The album"
