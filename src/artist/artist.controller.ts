@@ -63,7 +63,9 @@ export class ArtistController {
   })
   @Get("byId/:id")
   async byId(@Param("id", HashIdPipe) id: number): Promise<ArtistDto> {
-    return this.artistService.byId(id);
+    return this.artistService.byId({
+      id
+    });
   }
 
   @ApiBody({

@@ -5,6 +5,7 @@ import { DataConfigService } from "./data.config.service";
 import { AlbumDto } from "./dto/album.dto";
 import { ArtistDto } from "./dto/artist.dto";
 import { DataArtistAlbumsDto } from "./dto/data.artist.albums.dto";
+import { DataArtistByIdDto } from "./dto/data.artist.by.id.dto";
 import { DataArtistByIdsDto } from "./dto/data.artist.by.ids.dto";
 import { DataArtistSongsDto } from "./dto/data.artist.songs.dto";
 import { DataArtistSongsTopDto } from "./dto/data.artist.songs.top.dto";
@@ -33,9 +34,9 @@ export class DataArtistService {
       .toPromise();
   }
 
-  async byId(id: number): Promise<ArtistDto> {
+  async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/byId/${id}`)
+      .get(`${this.dataConfigService.uri}/artist/byId/${dto.id}`)
       .pipe(
         map((value: AxiosResponse<ArtistDto>) => {
           return value.data;

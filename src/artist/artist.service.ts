@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { DataArtistByIdDto } from "src/data/dto/data.artist.by.id.dto";
 import { DataArtistService } from "../data/data.artist.service";
 import { AlbumDto } from "../data/dto/album.dto";
 import { ArtistDto } from "../data/dto/artist.dto";
