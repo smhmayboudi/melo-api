@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Query,
   UseFilters,
   UseGuards,
   UseInterceptors,
@@ -11,11 +12,14 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { SearchMusicDto } from "../data/dto/search.music.dto";
-import { SongDto } from "../data/dto/song.dto";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { SearchMoodParamReqDto } from "./dto/req/search.mood.param.req.dto";
+import { SearchMoodQueryReqDto } from "./dto/req/search.mood.query.req.dto";
+import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
+import { SearchPaginationResDto } from "./dto/res/search.pagination.res.dto";
+import { SearchSearchMusicResDto } from "./dto/res/search.search-music.res.dto";
+import { SearchSongResDto } from "./dto/res/search.song.res.dto";
 import { SearchService } from "./search.service";
 
 @ApiBearerAuth("jwt")
@@ -35,26 +39,18 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get("mood/:from/:limit")
+  // TODO: check it
   async mood(
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.searchService.mood({
-      from,
-      limit
-    });
+    @Param() paramDto: SearchMoodParamReqDto,
+    @Query() querydto: SearchMoodQueryReqDto
+  ): Promise<SearchPaginationResDto<SearchSongResDto>> {
+    return this.searchService.mood(paramDto, querydto);
   }
 
   @Get("query/:query/:from/:limit")
   async query(
-    @Param("query") query: string,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SearchMusicDto>> {
-    return this.searchService.query({
-      query,
-      from,
-      limit
-    });
+    @Param() dto: SearchQueryReqDto
+  ): Promise<SearchPaginationResDto<SearchSearchMusicResDto>> {
+    return this.searchService.query(dto);
   }
 }
