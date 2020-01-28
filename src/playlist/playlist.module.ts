@@ -1,12 +1,15 @@
+import { AppModule } from "../app.module";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { AppModule } from "../app.module";
-import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";
+import { MongooseModule } from "@nestjs/mongoose";
+import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistHealthIndicator } from "./playlist.health";
 import { PlaylistService } from "./playlist.service";
+import { PlaylistSchema } from "./playlist.schema";
+import { DataModule } from "../data/data.module";
 
 @Module({
   controllers: [PlaylistController],
@@ -18,7 +21,9 @@ import { PlaylistService } from "./playlist.service";
       imports: [PlaylistModule],
       useClass: PlaylistCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    DataModule,
+    MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }])
   ],
   providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService]
 })

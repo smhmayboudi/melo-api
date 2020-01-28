@@ -18,6 +18,7 @@
 - [ ] const module
 - [ ] playlist module
 
+- [ ] // TODO: check params
 - [ ] // TODO: mixArtists
 - [ ] // TODO: mixSongs
 - [ ] // TODO: remove key
@@ -29,6 +30,11 @@
 - [ ] api test
 - [ ] new api
 
-- [] parseInt !?
-- [] filenaming
-- [] isPublic => public
+- [ ] parseInt !?
+- [ ] filenaming
+- [ ] Add test specs
+- [ ] isPublic => public
+- [ ] delete unnecessary dto
+- [ ] delete & update return object
+- [ ] remove @ApiBody({
+- [ ] constant by methods

@@ -13,24 +13,31 @@ import { SongDto } from "./song.dto";
 
 export class PlaylistDto {
   constructor(
+    followersCount: number,
     id: string,
-    title: string,
-    tracksCount: number,
     image: ImageDto,
     isPublic: boolean,
     releaseDate: Date,
-    followersCount: number,
+    title: string,
+    tracksCount: number,
     songs?: PaginationResultDto<SongDto>
   ) {
+    this.followersCount = followersCount;
     this.id = id;
-    this.title = title;
-    this.tracksCount = tracksCount;
     this.image = image;
     this.isPublic = isPublic;
     this.releaseDate = releaseDate;
-    this.followersCount = followersCount;
+    this.title = title;
+    this.tracksCount = tracksCount;
     this.songs = songs;
   }
+
+  @ApiProperty({
+    description: "The count of follwers",
+    example: 0
+  })
+  @IsNumber()
+  followersCount: number;
 
   @ApiProperty({
     description: "The identification",
@@ -38,20 +45,6 @@ export class PlaylistDto {
   })
   @IsString()
   id: string;
-
-  @ApiProperty({
-    description: "The title",
-    example: "black count down"
-  })
-  @IsString()
-  title: string;
-
-  @ApiProperty({
-    description: "The count of tracks",
-    example: 0
-  })
-  @IsNumber()
-  tracksCount: number;
 
   @ApiProperty({
     description: "The cover",
@@ -75,11 +68,18 @@ export class PlaylistDto {
   releaseDate: Date;
 
   @ApiProperty({
-    description: "The count of follwers",
+    description: "The title",
+    example: "black count down"
+  })
+  @IsString()
+  title: string;
+
+  @ApiProperty({
+    description: "The count of tracks",
     example: 0
   })
   @IsNumber()
-  followersCount: number;
+  tracksCount: number;
 
   @ApiProperty({
     description: "The songs"
