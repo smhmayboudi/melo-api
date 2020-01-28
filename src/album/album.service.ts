@@ -11,13 +11,15 @@ export class AlbumService {
 
   // TODO: mixSongs
   async byId(dto: AlbumByIdReqDto, id: number): Promise<AlbumAlbumResDto> {
-    return this.dataAlbumService.byId(dto, id) as Promise<AlbumAlbumResDto>;
+    return this.dataAlbumService.byId({ ...dto, id }) as Promise<
+      AlbumAlbumResDto
+    >;
   }
 
   async latest(
     dto: AlbumLatestReqDto
   ): Promise<AlbumPaginationResDto<AlbumAlbumResDto>> {
-    return (this.dataAlbumService.lstest(dto) as unknown) as Promise<
+    return (this.dataAlbumService.lstest({ ...dto }) as unknown) as Promise<
       AlbumPaginationResDto<AlbumAlbumResDto>
     >;
   }
