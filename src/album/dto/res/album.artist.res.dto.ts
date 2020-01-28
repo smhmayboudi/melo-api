@@ -16,7 +16,7 @@ import { AlbumSongResDto } from "./album.song.res.dto";
 export class AlbumArtistResDto {
   constructor(
     followersCount: number,
-    id: number,
+    id: string,
     type: AlbumArtistType,
     albums?: AlbumPaginationResDto<AlbumAlbumResDto>,
     fullName?: string,
@@ -45,10 +45,10 @@ export class AlbumArtistResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  id: number;
+  @IsString()
+  id: string;
 
   @ApiProperty({
     description: "The artist type",

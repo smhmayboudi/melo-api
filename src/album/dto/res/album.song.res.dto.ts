@@ -19,7 +19,7 @@ export class AlbumSongResDto {
     artists: AlbumArtistResDto[],
     audio: AlbumAudioResDto,
     duration: number,
-    id: number,
+    id: string,
     localized: boolean,
     releaseDate: Date,
     title: string,
@@ -74,10 +74,10 @@ export class AlbumSongResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  id: number;
+  @IsString()
+  id: string;
 
   @ApiProperty({
     description: "The localized",
