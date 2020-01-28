@@ -72,19 +72,19 @@ export class ArtistService {
     const artist = await this.dataArtistService.byId({ ...dto, id });
     return this.relationService.set({
       createdAt: new Date(),
-      entityDto1: {
+      from: {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      entityDto2: {
+      to: {
         // TODO: remove key
         key: "",
         id: artist.id,
         type: RelationEntityType.artist
       },
-      relType: RelationType.follows
+      relationType: RelationType.follows
     });
   }
 
@@ -101,7 +101,7 @@ export class ArtistService {
         type: RelationEntityType.following
       },
       limit: dto.limit,
-      relType: RelationType.follows
+      relationType: RelationType.follows
     });
     return (this.dataArtistService.byIds({
       ids: relates.results.map(value => value.id)
@@ -152,13 +152,13 @@ export class ArtistService {
     sub: number
   ): Promise<boolean> {
     return this.relationService.remove({
-      entityDto1: {
+      from: {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      entityDto2: {
+      to: {
         // TODO: remove key
         key: "",
         id,
