@@ -26,7 +26,7 @@ export class ArtistService {
   }
 
   // TODO: mixArtists
-  async byId(id: number): Promise<ArtistDto> {
+  async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
     // const artistDto = await this.dataArtistService.byId(id);
     // const entityMultiHasDto = await this.relationService.multiHas({
     //   fromEntityDto: {
@@ -47,7 +47,7 @@ export class ArtistService {
     // } as RelationMultiHasDto);
     // artistDto.follownig = entityMultiHasDto !== undefined;
     // return artistDto;
-    return this.dataArtistService.byId(id);
+    return this.dataArtistService.byId(dto);
   }
 
   // TODO: mixArtists
