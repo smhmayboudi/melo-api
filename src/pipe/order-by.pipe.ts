@@ -5,14 +5,14 @@ import {
   Optional,
   PipeTransform
 } from "@nestjs/common";
-import { OrderBy } from "../data/type/order-by.type";
+import { SongOrderByType } from "../song/type/song.order-by.type";
 
 export interface OrderByPipeOptions {
   exceptionFactory?: (errors: string) => any;
 }
 
 @Injectable()
-export class OrderByPipe implements PipeTransform<string, OrderBy> {
+export class OrderByPipe implements PipeTransform<string, SongOrderByType> {
   protected exceptionFactory: (errors: string) => any;
 
   constructor(@Optional() options?: OrderByPipeOptions) {
@@ -23,14 +23,14 @@ export class OrderByPipe implements PipeTransform<string, OrderBy> {
       ((error: string): any => new BadRequestException(error));
   }
 
-  transform(value: string, _metadata: ArgumentMetadata): OrderBy {
+  transform(value: string, _metadata: ArgumentMetadata): SongOrderByType {
     if (
       typeof value !== "string" &&
-      value !== OrderBy.downloads &&
-      value !== OrderBy.release
+      value !== SongOrderByType.downloads &&
+      value !== SongOrderByType.release
     ) {
       throw this.exceptionFactory("Validation failed (string is expected)");
     }
-    return value as OrderBy;
+    return value as SongOrderByType;
   }
 }
