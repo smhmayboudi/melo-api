@@ -84,7 +84,6 @@ export class ArtistController {
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    console.log("xxxxx", id);
     return this.artistService.follow(id, sub);
   }
 

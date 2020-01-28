@@ -31,11 +31,33 @@ export class ArtistService {
 
   // TODO: mixArtists
   async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
+    // const artistDto = await this.dataArtistService.byId(id);
+    // const entityMultiHasDto = await this.relationService.multiHas({
+    //   fromEntityDto: {
+    //     // TODO: remove key
+    //     key: "",
+    //     id: sub,
+    //     type: RelationEntityType.user
+    //   },
+    //   toEntityDtos: [
+    //     {
+    //       // TODO: remove key
+    //       key: "",
+    //       id,
+    //       type: RelationEntityType.artist
+    //     }
+    //   ],
+    //   relType: RelationType.follows
+    // } as RelationMultiHasDto);
+    // artistDto.follownig = entityMultiHasDto !== undefined;
+    // return artistDto;
     return this.dataArtistService.byId(dto);
   }
 
   // TODO: mixArtists
   async follow(id: number, sub: number): Promise<boolean> {
+    // There is no need to mixArtists instead
+    // artistDto.follownig = true;
     const artist = await this.dataArtistService.byIds({
       ids: [id]
     });

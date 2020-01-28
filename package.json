@@ -81,6 +81,7 @@
     "@types/jest": "^24.9.1",
     "@types/mime-types": "^2.1.0",
     "@types/mmmagic": "^0.4.29",
+    "@types/ms": "^0.7.31",
     "@types/multer": "^1.3.10",
     "@types/node": "^13.5.0",
     "@types/passport-jwt": "^3.0.3",
