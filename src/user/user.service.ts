@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { UserEditDto } from "./dto/user.edit.dto";
+import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 
@@ -29,7 +29,7 @@ export class UserService {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 
-  async edit(dto: UserEditDto): Promise<any> {
+  async edit(dto: UserEditReqDto): Promise<any> {
     return Promise.resolve(dto);
   }
 

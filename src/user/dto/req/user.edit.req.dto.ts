@@ -1,12 +1,12 @@
 import { IsDate, IsEnum, IsString, IsOptional } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { Gender } from "../type/Gender";
+import { UserGenderType } from "../../type/user.gender-type";
 
-export class UserEditDto {
+export class UserEditReqDto {
   constructor(
     birthday?: Date,
     firstname?: string,
-    gender?: Gender,
+    gender?: UserGenderType,
     lastname?: string,
     photoId?: string
   ) {
@@ -35,11 +35,11 @@ export class UserEditDto {
 
   @ApiProperty({
     description: "The gender",
-    example: Gender.male
+    example: UserGenderType.male
   })
-  @IsEnum(Gender)
+  @IsEnum(UserGenderType)
   @IsOptional()
-  gender?: Gender;
+  gender?: UserGenderType;
 
   @ApiProperty({
     description: "The lastname",

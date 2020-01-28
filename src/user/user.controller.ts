@@ -15,7 +15,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
-import { UserEditDto } from "./dto/user.edit.dto";
+import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserEntity } from "./user.entity";
 import { UserService } from "./user.service";
 
@@ -42,7 +42,7 @@ export class UserController {
   }
 
   @Post("profile/edit")
-  async edit(@Body() dto: UserEditDto): Promise<any> {
+  async edit(@Body() dto: UserEditReqDto): Promise<any> {
     return this.userService.edit(dto);
   }
 

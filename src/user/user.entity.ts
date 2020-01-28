@@ -9,7 +9,7 @@ import {
   IsPhoneNumber
 } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Gender } from "./type/Gender";
+import { UserGenderType } from "./type/user.gender-type";
 
 @Entity({ name: "users", orderBy: { id: "ASC" } })
 export class UserEntity {
@@ -21,7 +21,7 @@ export class UserEntity {
     cellphone?: string,
     email?: string,
     firstname?: string,
-    gender?: Gender,
+    gender?: UserGenderType,
     language_code?: string,
     lastname?: string,
     registered_date?: Date,
@@ -109,12 +109,12 @@ export class UserEntity {
   @ApiProperty({
     description: "The gender",
     enum: ["female", "male"],
-    example: Gender.male
+    example: UserGenderType.male
   })
   @Column({ nullable: true, type: "enum" })
-  @IsEnum(Gender)
+  @IsEnum(UserGenderType)
   @IsOptional()
-  gender?: Gender;
+  gender?: UserGenderType;
 
   @ApiProperty({
     description: "The language",
