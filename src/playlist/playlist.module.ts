@@ -8,8 +8,8 @@ import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistHealthIndicator } from "./playlist.health";
 import { PlaylistService } from "./playlist.service";
-import { PlaylistSchema } from "./schema/playlist.schema";
-import { DataModule } from "src/data/data.module";
+import { PlaylistSchema } from "./playlist.schema";
+import { DataModule } from "../data/data.module";
 
 @Module({
   controllers: [PlaylistController],

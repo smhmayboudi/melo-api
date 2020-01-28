@@ -32,6 +32,9 @@
 
 - [ ] parseInt !?
 - [ ] filenaming
+- [ ] Add test specs
 - [ ] isPublic => public
 - [ ] delete unnecessary dto
 - [ ] delete & update return object
+- [ ] remove @ApiBody({
+- [ ] constant by methods

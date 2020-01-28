@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class PlaylistSongDto {
+export class PlaylistAddSongDto {
   constructor(playlistId: string, songId: string) {
     this.playlistId = playlistId;
     this.songId = songId;

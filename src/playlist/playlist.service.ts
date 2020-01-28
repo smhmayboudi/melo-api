@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, Types, Error } from "mongoose";
+import { Error, Model, Types } from "mongoose";
+import { DataSongService } from "../data/data.song.service";
 import { PlaylistDto } from "../data/dto/playlist.dto";
+import { PlaylistAddSongDto } from "./dto/playlist.add.song.dto";
 import { PlaylistCreateDto } from "./dto/playlist.create.dto";
 import { PlaylistDeleteDto } from "./dto/playlist.delete.dto";
 import { PlaylistEditDto } from "./dto/playlist.edit.dto";
@@ -10,21 +12,24 @@ import { PlaylistMyDto } from "./dto/playlist.my.dto";
 import { PlaylistSongDto } from "./dto/playlist.song.dto";
 import { PlaylistTopDto } from "./dto/playlist.top.dto";
 import { Playlist } from "./type/playlist";
-import { DataSongService } from "../data/data.song.service";
+import { playlistConstant } from "./playlist.constant";
+import { PaginationResultDto } from "../data/dto/pagination.result.dto";
 
 @Injectable()
 export class PlaylistService {
   constructor(
     private readonly dataSongService: DataSongService,
-    @InjectModel("Playlist") private readonly playlistModel: Model<Playlist>
+    @InjectModel("Playlist")
+    private readonly playlistModel: Model<Playlist>
   ) {}
 
-  async addSong(playlistId: string, songId: number): Promise<PlaylistDto> {
+  async addSong(dto: PlaylistAddSongDto, songId: number): Promise<PlaylistDto> {
     const playlist = await this.playlistModel.findById(
-      new Types.ObjectId(playlistId)
+      new Types.ObjectId(dto.playlistId)
     );
-    if (!playlist) throw new Error("Playlist not found.");
-
+    if (playlist === null || playlist === undefined) {
+      throw new Error(playlistConstant.errors.service.playlistNotFound);
+    }
     playlist.songs_ids.push(songId);
     await playlist.save();
     const playlistSongs = await this.dataSongService.byIds({
@@ -33,14 +38,14 @@ export class PlaylistService {
     // TODO: transform
     return {
       followersCount: playlist.followers_count,
-      id: playlistId,
+      id: dto.playlistId,
       // TODO: x?
       image: { x: { url: `${playlist.photo_id}` } },
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
+      songs: playlistSongs,
       title: playlist.title,
-      tracksCount: playlistSongs.total,
-      songs: playlistSongs
+      tracksCount: playlistSongs.total
     };
   }
 
@@ -75,26 +80,45 @@ export class PlaylistService {
 
   async edit(dto: PlaylistEditDto): Promise<PlaylistDto> {
     const playlist = await this.playlistModel.findById(dto.id);
-    if (playlist === undefined || playlist === null) {
-      throw new Error("Playlist not found.");
+    if (playlist === null || playlist === undefined) {
+      throw new Error(playlistConstant.errors.service.playlistNotFound);
     }
-    if (dto.title && dto.title !== "") {
-      playlist.title = dto.title;
-    }
-    if (dto.photoId) {
-      playlist.photo_id = dto.photoId;
-    }
-    if (dto.isPublic !== undefined) {
-      playlist.isPublic = dto.isPublic;
-    }
-
     await playlist.save();
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
+    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
+      // TODO: x?
+      image: { x: { url: `${playlist.photo_id}` } },
+      isPublic: playlist.isPublic,
+      releaseDate: playlist.release_date,
+      title: playlist.title,
+      tracksCount: playlist.tracks_count,
+      songs: playlistSongs
+    };
+  }
+
+  async deleteSong(dto: PlaylistSongDto, songId: number): Promise<PlaylistDto> {
+    const playlist = await this.playlistModel.updateOne(
+      { _id: dto.playlistId },
+      {
+        $pull: { songs_ids: songId }
+      }
+    );
+    if (playlist === null || playlist === undefined) {
+      throw new Error(playlistConstant.errors.service.playlistNotFound);
+    }
+    const playlistSongs = await this.dataSongService.byIds({
+      ids: playlist.songs_ids
+    });
+    // TODO: transform
+    return {
+      followersCount: playlist.followers_count,
+      id: playlist._id,
+      // TODO: x?
       image: { x: { url: `${playlist.photo_id}` } },
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -106,16 +130,17 @@ export class PlaylistService {
 
   async get(dto: PlaylistGetDto): Promise<PlaylistDto> {
     const playlist = await this.playlistModel.findById(dto.id);
-    if (playlist === undefined || playlist === null) {
+    if (playlist === null || playlist === undefined) {
       throw new Error("Playlist not found.");
     }
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
-
+    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
+      // TODO: x?
       image: { x: { url: `${playlist.photo_id}` } },
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -125,86 +150,68 @@ export class PlaylistService {
     };
   }
 
-  async my(dto: PlaylistMyDto, sub: number): Promise<any> {
-    //Promise<PaginationResultDto<PlaylistDto>>
+  async my(
+    dto: PlaylistMyDto,
+    sub: number
+  ): Promise<PaginationResultDto<PlaylistDto>> {
     const playlists = await this.playlistModel
       .find({ owner_user_id: sub })
       .skip(dto.from)
       .limit(dto.limit);
-    // TODO: check it
-    return {
-      results: await Promise.all(
-        playlists.map(async value => {
-          const playlistSongs = await this.dataSongService.byIds({
-            ids: value.songs_ids
-          });
-          return {
-            followersCount: value.followers_count,
-            id: value._id,
-            image: { x: { url: `${value.photo_id}` } },
-            isPublic: value.isPublic,
-            releaseDate: value.release_date,
-            title: value.title,
-            tracksCount: value.tracks_count,
-            songs: playlistSongs
-          };
-        })
-      ),
-      total: playlists.length
-    };
-  }
-
-  async removeSong(dto: PlaylistSongDto): Promise<PlaylistDto> {
-    const playlist = await this.playlistModel.updateOne(
-      { _id: dto.playlistId },
-      {
-        $pull: { songs_ids: dto.songId }
-      }
+    const results = await Promise.all(
+      playlists.map(async value => {
+        const playlistSongs = await this.dataSongService.byIds({
+          ids: value.songs_ids
+        });
+        // TODO: transform
+        return {
+          followersCount: value.followers_count,
+          id: value._id,
+          // TODO: x?
+          image: { x: { url: `${value.photo_id}` } },
+          isPublic: value.isPublic,
+          releaseDate: value.release_date,
+          title: value.title,
+          tracksCount: value.tracks_count,
+          songs: playlistSongs
+        } as PlaylistDto;
+      })
     );
-    if (playlist === undefined || playlist === null) {
-      throw new Error("Playlist not found.");
-    }
-    const playlistSongs = await this.dataSongService.byIds({
-      ids: playlist.songs_ids
-    });
     return {
-      followersCount: playlist.followers_count,
-      id: playlist._id,
-      image: { x: { url: `${playlist.photo_id}` } },
-      isPublic: playlist.isPublic,
-      releaseDate: playlist.release_date,
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-      songs: playlistSongs
-    };
+      results: results,
+      total: playlists.length
+    } as PaginationResultDto<PlaylistDto>;
   }
 
-  async top(dto: PlaylistTopDto): Promise<any> {
+  async top(dto: PlaylistTopDto): Promise<PaginationResultDto<PlaylistDto>> {
     const playlists = await this.playlistModel
       .find()
       .sort({ created_at: -1 })
       .skip(dto.from)
       .limit(dto.limit);
     // TODO: check it
+    const results = await Promise.all(
+      playlists.map(async value => {
+        const playlistSongs = await this.dataSongService.byIds({
+          ids: value.songs_ids
+        });
+        // TODO: transform
+        return {
+          followersCount: value.followers_count,
+          id: value._id,
+          // TODO: x?
+          image: { x: { url: `${value.photo_id}` } },
+          isPublic: value.isPublic,
+          releaseDate: value.release_date,
+          title: value.title,
+          tracksCount: value.tracks_count,
+          songs: playlistSongs
+        } as PlaylistDto;
+      })
+    );
     return {
-      results: await Promise.all(
-        playlists.map(async value => {
-          const playlistSongs = await this.dataSongService.byIds({
-            ids: value.songs_ids
-          });
-          return {
-            followersCount: value.followers_count,
-            id: value._id,
-            image: { x: { url: `${value.photo_id}` } },
-            isPublic: value.isPublic,
-            releaseDate: value.release_date,
-            title: value.title,
-            tracksCount: value.tracks_count,
-            songs: playlistSongs
-          };
-        })
-      ),
+      results: results,
       total: playlists.length
-    };
+    } as PaginationResultDto<PlaylistDto>;
   }
 }

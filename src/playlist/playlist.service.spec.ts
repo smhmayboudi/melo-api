@@ -19,9 +19,9 @@ describe("PlaylistService", () => {
   test.todo("addSong");
   test.todo("create");
   test.todo("delete");
+  test.todo("deleteSong");
   test.todo("edit");
   test.todo("get");
   test.todo("my");
-  test.todo("song");
   test.todo("top");
 });
