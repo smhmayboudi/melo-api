@@ -1,17 +1,21 @@
 import { Injectable } from "@nestjs/common";
-import { DataArtistByIdDto } from "../data/dto/data.artist.by.id.dto";
 import { DataArtistService } from "../data/data.artist.service";
-import { AlbumDto } from "../data/dto/album.dto";
-import { ArtistDto } from "../data/dto/artist.dto";
-import { DataArtistAlbumsDto } from "../data/dto/data.artist.albums.dto";
-import { DataArtistSongsDto } from "../data/dto/data.artist.songs.dto";
-import { DataArtistSongsTopDto } from "../data/dto/data.artist.songs.top.dto";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { SongDto } from "../data/dto/song.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 // import { RelationMultiHasDto } from "../relation/dto/relaton.multi.has.dto";
 import { RelationType } from "../relation/type/relation.type";
+import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
+import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
+import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistSongsTopReqDto } from "./dto/req/artist.songs-top.req.dto";
+import { ArtistSongsReqDto } from "./dto/req/artist.songs.req.dto";
+import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
+import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
+import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
+import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
+import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
 
 @Injectable()
 export class ArtistService {
@@ -21,13 +25,17 @@ export class ArtistService {
   ) {}
 
   async albums(
-    dto: DataArtistAlbumsDto
-  ): Promise<PaginationResultDto<AlbumDto>> {
-    return this.dataArtistService.albums(dto);
+    dto: ArtistAlbumsReqDto,
+    id: number
+  ): Promise<ArtistPaginationResDto<ArtistAlbumResDto>> {
+    return (this.dataArtistService.albums({
+      ...dto,
+      id
+    }) as unknown) as Promise<ArtistPaginationResDto<ArtistAlbumResDto>>;
   }
 
   // TODO: mixArtists
-  async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
+  async byId(dto: ArtistByIdReqDto, id: number): Promise<ArtistArtistResDto> {
     // const artistDto = await this.dataArtistService.byId(id);
     // const entityMultiHasDto = await this.relationService.multiHas({
     //   fromEntityDto: {
@@ -48,93 +56,115 @@ export class ArtistService {
     // } as RelationMultiHasDto);
     // artistDto.follownig = entityMultiHasDto !== undefined;
     // return artistDto;
-    return this.dataArtistService.byId(dto);
+    return (this.dataArtistService.byId({ ...dto, id }) as unknown) as Promise<
+      ArtistArtistResDto
+    >;
   }
 
   // TODO: mixArtists
-  async follow(id: number, sub: number): Promise<boolean> {
+  async follow(
+    dto: ArtistFollowReqDto,
+    id: number,
+    sub: number
+  ): Promise<boolean> {
     // There is no need to mixArtists instead
     // artistDto.follownig = true;
-    const artist = await this.dataArtistService.byIds({
-      ids: [id]
-    });
-    return this.relationService.set(
-      new Date(),
-      {
+    const artist = await this.dataArtistService.byId({ ...dto, id });
+    return this.relationService.set({
+      createdAt: new Date(),
+      entityDto1: {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      {
+      entityDto2: {
         // TODO: remove key
         key: "",
-        id: artist.results[0].id,
+        id: artist.id,
         type: RelationEntityType.artist
       },
-      RelationType.follows
-    );
+      relType: RelationType.follows
+    });
   }
 
   async following(
-    from: number,
-    limit: number,
+    dto: ArtistFollowingReqDto,
     id: number
-  ): Promise<PaginationResultDto<ArtistDto>> {
-    const relates = await this.relationService.get(
-      from,
-      {
+  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+    const relates = await this.relationService.get({
+      from: dto.from,
+      fromEntityDto: {
         id,
         // TODO: remove key
         key: "",
         type: RelationEntityType.following
       },
-      limit,
-      RelationType.follows
-    );
-
-    return this.dataArtistService.byIds({
-      ids: relates.results.map(value => value.id)
+      limit: dto.limit,
+      relType: RelationType.follows
     });
+    return (this.dataArtistService.byIds({
+      ids: relates.results.map(value => value.id)
+    }) as unknown) as ArtistPaginationResDto<ArtistArtistResDto>;
   }
 
   // TODO: mixSongs
-  async songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
-    return this.dataArtistService.songs(dto);
+  async songs(
+    dto: ArtistSongsReqDto,
+    id: number
+  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
+    return (this.dataArtistService.songs({
+      ...dto,
+      id
+    }) as unknown) as Promise<ArtistPaginationResDto<ArtistSongResDto>>;
   }
 
   // TODO: mixSongs
   async songsTop(
-    dto: DataArtistSongsTopDto
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataArtistService.songsTop(dto);
+    dto: ArtistSongsTopReqDto,
+    id: number
+  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
+    return (this.dataArtistService.songsTop({
+      ...dto,
+      id
+    }) as unknown) as Promise<ArtistPaginationResDto<ArtistSongResDto>>;
   }
 
   // TODO: mixArtists
-  async trending(): Promise<PaginationResultDto<ArtistDto>> {
-    return this.dataArtistService.trending();
+  async trending(): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+    return (this.dataArtistService.trending() as unknown) as Promise<
+      ArtistPaginationResDto<ArtistArtistResDto>
+    >;
   }
 
   // TODO: mixArtists
-  async trendingGenre(genre: string): Promise<PaginationResultDto<ArtistDto>> {
-    return this.dataArtistService.trendingGenre(genre);
+  async trendingGenre(
+    dto: ArtistTrendingGenreReqDto
+  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+    return (this.dataArtistService.trendingGenre({
+      ...dto
+    }) as unknown) as Promise<ArtistPaginationResDto<ArtistArtistResDto>>;
   }
 
-  async unfollow(id: number, sub: number): Promise<boolean> {
-    return this.relationService.remove(
-      {
+  async unfollow(
+    _dto: ArtistUnfollowReqDto,
+    id: number,
+    sub: number
+  ): Promise<boolean> {
+    return this.relationService.remove({
+      entityDto1: {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      {
+      entityDto2: {
         // TODO: remove key
         key: "",
         id,
         type: RelationEntityType.artist
       },
-      RelationType.unfollows
-    );
+      relType: RelationType.unfollows
+    });
   }
 }
