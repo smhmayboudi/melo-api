@@ -17,7 +17,7 @@ export class ArtistSongsTopReqDto {
 
   @ApiProperty({
     description: "The artist identification",
-    example: 0
+    example: "abcdef"
   })
   @IsString()
   id: string;
