@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Exclude, Type } from "class-transformer";
 import { Allow, IsArray, IsNumber, ValidateNested } from "class-validator";
 
-export class PaginationResultDto<T> {
+export class RelationPaginationResDto<T> {
   constructor(results: T[], total: number, type: Function) {
     this.results = results;
     this.total = total;
@@ -18,7 +18,7 @@ export class PaginationResultDto<T> {
     if (options === undefined) {
       return Function;
     }
-    return (options.newObject as PaginationResultDto<T>).type;
+    return (options.newObject as RelationPaginationResDto<T>).type;
   })
   @ValidateNested({
     each: true
@@ -27,7 +27,7 @@ export class PaginationResultDto<T> {
 
   @ApiProperty({
     description: "The total number of results",
-    example: 1
+    example: 0
   })
   @IsNumber()
   total: number;
