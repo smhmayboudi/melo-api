@@ -16,11 +16,9 @@ import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
 import { UserService } from "../user/user.service";
-import { SongGenreDto } from "./dto/song.genre.dto";
-import { SongLikedDto } from "./dto/song.liked.dto";
-import { SongNewPodcastDto } from "./dto/song.new.podcast.dto";
 import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
+import { OrderBy } from "../data/type/order-by.type";
 
 @Injectable()
 export class SongService {
@@ -38,8 +36,13 @@ export class SongService {
   }
 
   // TODO: mixSongs
-  async genre(dto: SongGenreDto): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.genre(dto);
+  async genre(
+    from: number,
+    genres: string[],
+    limit: number,
+    orderBy: OrderBy
+  ): Promise<PaginationResultDto<SongDto>> {
+    return this.dataSongService.genre(from, genres, limit, orderBy);
   }
 
   // TODO: mixSongs
@@ -50,40 +53,41 @@ export class SongService {
   }
 
   async like(id: number, sub: number): Promise<boolean> {
-    return this.relationService.set({
-      createdAt: new Date(),
-      entityDto1: {
+    return this.relationService.set(
+      new Date(),
+      {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      entityDto2: {
+      {
         // TODO: remove key
         key: "",
         id: id,
         type: RelationEntityType.song
       },
-      relType: RelationType.likedSongs
-    });
+      RelationType.likedSongs
+    );
   }
 
   // TODO: mixSongs
   async liked(
-    dto: SongLikedDto,
+    from: number,
+    limit: number,
     sub: number
   ): Promise<PaginationResultDto<SongDto>> {
-    const entityDtos = await this.relationService.get({
-      from: dto.from,
-      fromEntityDto: {
+    const entityDtos = await this.relationService.get(
+      from,
+      {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      limit: dto.limit,
-      relType: RelationType.likedSongs
-    });
+      limit,
+      RelationType.likedSongs
+    );
     return this.dataSongService.byIds({
       ids: entityDtos.results.map(value => value.id)
     });
@@ -101,9 +105,10 @@ export class SongService {
 
   // TODO: mixSongs
   async newPodcast(
-    dto: SongNewPodcastDto
+    from: number,
+    limit: number
   ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.newPodcast(dto);
+    return this.dataSongService.newPodcast(from, limit);
   }
 
   // TODO: mixSongs
@@ -174,20 +179,20 @@ export class SongService {
   }
 
   async unlike(id: number, sub: number): Promise<boolean> {
-    return this.relationService.remove({
-      entityDto1: {
+    return this.relationService.remove(
+      {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      entityDto2: {
+      {
         // TODO: remove key
         key: "",
         id: id,
         type: RelationEntityType.song
       },
-      relType: RelationType.likedSongs
-    });
+      RelationType.likedSongs
+    );
   }
 }

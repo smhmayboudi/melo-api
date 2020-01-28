@@ -48,6 +48,6 @@ export class UserController {
 
   @Get("profile")
   async get(): Promise<any> {
-    return this.userService.get({});
+    return this.userService.get();
   }
 }

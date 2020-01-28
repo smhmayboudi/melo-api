@@ -5,12 +5,9 @@ import { DataConfigService } from "./data.config.service";
 import { AlbumDto } from "./dto/album.dto";
 import { ArtistDto } from "./dto/artist.dto";
 import { DataArtistAlbumsDto } from "./dto/data.artist.albums.dto";
-import { DataArtistByIdDto } from "./dto/data.artist.by.id.dto";
 import { DataArtistByIdsDto } from "./dto/data.artist.by.ids.dto";
 import { DataArtistSongsDto } from "./dto/data.artist.songs.dto";
 import { DataArtistSongsTopDto } from "./dto/data.artist.songs.top.dto";
-import { DataArtistTrendingDto } from "./dto/data.artist.trending.dto";
-import { DataArtistTrendingGenreDto } from "./dto/data.artist.trending.genre.dto";
 import { PaginationResultDto } from "./dto/pagination.result.dto";
 import { SongDto } from "./dto/song.dto";
 
@@ -36,9 +33,9 @@ export class DataArtistService {
       .toPromise();
   }
 
-  async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
+  async byId(id: number): Promise<ArtistDto> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/byId/${dto.artistId}`)
+      .get(`${this.dataConfigService.uri}/artist/byId/${id}`)
       .pipe(
         map((value: AxiosResponse<ArtistDto>) => {
           return value.data;
@@ -92,9 +89,7 @@ export class DataArtistService {
       .toPromise();
   }
 
-  async trending(
-    _dto: DataArtistTrendingDto
-  ): Promise<PaginationResultDto<ArtistDto>> {
+  async trending(): Promise<PaginationResultDto<ArtistDto>> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/trending`)
       .pipe(
@@ -105,11 +100,9 @@ export class DataArtistService {
       .toPromise();
   }
 
-  async trendingGenre(
-    dto: DataArtistTrendingGenreDto
-  ): Promise<PaginationResultDto<ArtistDto>> {
+  async trendingGenre(genre: string): Promise<PaginationResultDto<ArtistDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`)
+      .get(`${this.dataConfigService.uri}/artist/trending/genre/${genre}`)
       .pipe(
         map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
           return value.data;
