@@ -23,7 +23,7 @@ export class AppHashIdService {
   encode(id: number): string {
     const encoded = this.hashIds.encode(id);
     if (encoded === "") {
-      throw new Error(appConstant.errors.encoded);
+      throw new Error(appConstant.errors.service.encoded);
     }
     return encoded;
   }

@@ -1,127 +1,161 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { DataSongNewPodcastReqDto } from "src/data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongService } from "../data/data.song.service";
-import { DataSongByIdDto } from "../data/dto/data.song.by.id.dto";
-import { DataSongLanguageDto } from "../data/dto/data.song.language.dto";
-import { DataSongMoodDto } from "../data/dto/data.song.mood.dto";
-import { DataSongNewDto } from "../data/dto/data.song.new.dto";
-import { DataSongPodcastDto } from "../data/dto/data.song.podcast.dto";
-import { DataSongSimilarDto } from "../data/dto/data.song.similar.dto";
-import { DataSongTopDayDto } from "../data/dto/data.song.top.day.dto";
-import { DataSongTopWeekDto } from "../data/dto/data.song.top.week.dto";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { SongDto } from "../data/dto/song.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
 import { UserService } from "../user/user.service";
+import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
+import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
+import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
+import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
+import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
+import { SongNewReqDto } from "./dto/req/song.new.req.dto";
+import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
+import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
+import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
+import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
+import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
+import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.dto";
+import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
+import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
+import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
+import { SongPaginationResDto } from "./dto/res/song.pagination.res.dto";
+import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
-import { OrderBy } from "../data/type/order-by.type";
+import { SongOrderByType } from "./type/song.order-by.type";
+import { DataOrderByType } from "src/data/type/data.order-by.type";
 
 @Injectable()
 export class SongService {
   constructor(
-    private readonly songConfigService: SongConfigService,
     private readonly dataSongService: DataSongService,
     private readonly httpService: HttpService,
     private readonly relationService: RelationService,
+    private readonly songConfigService: SongConfigService,
     private readonly userService: UserService
   ) {}
 
   // TODO: mixSongs
-  async byId(dto: DataSongByIdDto): Promise<SongDto> {
-    return this.dataSongService.byId(dto);
+  async byId(dto: SongByIdReqDto, id: number): Promise<SongSongResDto> {
+    return (this.dataSongService.byId({ ...dto, id }) as unknown) as Promise<
+      SongSongResDto
+    >;
   }
 
   // TODO: mixSongs
   async genre(
-    from: number,
-    genres: string[],
-    limit: number,
-    orderBy: OrderBy
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.genre(from, genres, limit, orderBy);
+    paramDto: SongSongGenresParamReqDto,
+    orderBy: SongOrderByType,
+    queryDto: SongSongGenresQueryReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.genre({
+      ...paramDto,
+      ...{ orderBy: (orderBy as unknown) as DataOrderByType },
+      ...queryDto
+    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
   }
 
   // TODO: mixSongs
   async language(
-    dto: DataSongLanguageDto
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.language(dto);
+    dto: SongLanguageReqDto,
+    orderBy: SongOrderByType
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.language({
+      ...dto,
+      ...{ orderBy: (orderBy as unknown) as DataOrderByType }
+    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
   }
 
-  async like(id: number, sub: number): Promise<boolean> {
-    return this.relationService.set(
-      new Date(),
-      {
+  async like(_dto: SongLikeReqDto, id: number, sub: number): Promise<boolean> {
+    return this.relationService.set({
+      createdAt: new Date(),
+      from: {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      {
+      to: {
         // TODO: remove key
         key: "",
-        id: id,
+        id,
         type: RelationEntityType.song
       },
-      RelationType.likedSongs
-    );
-  }
-
-  // TODO: mixSongs
-  async liked(
-    from: number,
-    limit: number,
-    sub: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    const entityDtos = await this.relationService.get(
-      from,
-      {
-        // TODO: remove key
-        key: "",
-        id: sub,
-        type: RelationEntityType.user
-      },
-      limit,
-      RelationType.likedSongs
-    );
-    return this.dataSongService.byIds({
-      ids: entityDtos.results.map(value => value.id)
+      relationType: RelationType.likedSongs
     });
   }
 
   // TODO: mixSongs
-  async mood(dto: DataSongMoodDto): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.mood(dto);
+  async liked(
+    dto: SongLikedReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    const entityDtos = await this.relationService.get({
+      from: dto.from,
+      fromEntityDto: {
+        // TODO: remove key
+        key: "",
+        id: sub,
+        type: RelationEntityType.user
+      },
+      limit: dto.limit,
+      relationType: RelationType.likedSongs
+    });
+    return (this.dataSongService.byIds({
+      ids: entityDtos.results.map(value => value.id)
+    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
   }
 
   // TODO: mixSongs
-  async new(dto: DataSongNewDto): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.new(dto);
+  async mood(
+    dto: SongMoodReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.mood(dto) as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
+  }
+
+  // TODO: mixSongs
+  async new(dto: SongNewReqDto): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.new(dto) as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
   }
 
   // TODO: mixSongs
   async newPodcast(
-    from: number,
-    limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.newPodcast(from, limit);
+    dto: DataSongNewPodcastReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.newPodcast({ ...dto }) as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
   }
 
   // TODO: mixSongs
   async podcast(
-    dto: DataSongPodcastDto
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.podcast(dto);
+    paramDto: SongPodcastGenresParamReqDto,
+    queryDto: SongPodcastGenresQueryReqDto,
+    orderBy
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.podcast({
+      ...paramDto,
+      ...queryDto,
+      orderBy
+    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
   }
 
-  async sendTelegram(id: number, sub: number): Promise<number> {
+  async sendTelegram(
+    _dto: SongSendTelegramReqDto,
+    id: number,
+    sub: number
+  ): Promise<number> {
     const userEntity = await this.userService.findOneById(sub);
     if (userEntity === undefined || userEntity.telegram_id === undefined) {
-      throw new Error(songConstant.errors.telegram.userEntity);
+      throw new Error(songConstant.errors.service.sendTelegram);
     }
     return this.httpService
       .post(this.songConfigService.uri, {
@@ -156,43 +190,60 @@ export class SongService {
 
   // TODO: mixSongs
   async similar(
-    dto: DataSongSimilarDto
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.similar(dto);
+    dto: SongSimilarReqDto,
+    id: number
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.similar({ ...dto, id }) as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
   }
 
   // TODO: mixSongs
-  async sliderLatest(_sub: number): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.sliderLatest();
+  async sliderLatest(
+    _sub: number
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.sliderLatest() as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
   }
 
   // TODO: mixSongs
-  async topDay(dto: DataSongTopDayDto): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.topDay(dto);
+  async topDay(
+    dto: SongTopDayReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.topDay(dto) as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
   }
 
   // TODO: mixSongs
   async topWeek(
-    dto: DataSongTopWeekDto
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSongService.topWeek(dto);
+    dto: SongTopWeekReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return (this.dataSongService.topWeek(dto) as unknown) as Promise<
+      SongPaginationResDto<SongSongResDto>
+    >;
   }
 
-  async unlike(id: number, sub: number): Promise<boolean> {
-    return this.relationService.remove(
-      {
+  async unlike(
+    _dto: SongUnlikeReqDto,
+    id: number,
+    sub: number
+  ): Promise<boolean> {
+    return this.relationService.remove({
+      from: {
         // TODO: remove key
         key: "",
         id: sub,
         type: RelationEntityType.user
       },
-      {
+      to: {
         // TODO: remove key
         key: "",
-        id: id,
+        id,
         type: RelationEntityType.song
       },
-      RelationType.likedSongs
-    );
+      relType: RelationType.likedSongs
+    });
   }
 }

@@ -15,19 +15,19 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { PlaylistDto } from "../data/dto/playlist.dto";
 import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
-import { PlaylistAddSongDto } from "./dto/playlist.add.song.dto";
-import { PlaylistCreateDto } from "./dto/playlist.create.dto";
-import { PlaylistDeleteDto } from "./dto/playlist.delete.dto";
-import { PlaylistEditDto } from "./dto/playlist.edit.dto";
-import { PlaylistGetDto } from "./dto/playlist.get.dto";
-import { PlaylistMyDto } from "./dto/playlist.my.dto";
-import { PlaylistSongDto } from "./dto/playlist.song.dto";
-import { PlaylistTopDto } from "./dto/playlist.top.dto";
+import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
+import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
+import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
+import { PlaylistEditReqDto } from "./dto/req/playlist.edit.req.dto";
+import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
+import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
+import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
+import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
+import { PlaylistPlaylistResDto } from "./dto/res/playlist.playlist.res.dto";
 import { PlaylistService } from "./playlist.service";
 
 @ApiBearerAuth("jwt")
@@ -48,23 +48,23 @@ export class PlaylistController {
 
   @Post("addSong")
   async addSong(
-    @Body() dto: PlaylistAddSongDto,
+    @Body() dto: PlaylistAddSongReqDto,
     @Body("songId", HashIdPipe) songId: number
-  ): Promise<PlaylistDto> {
+  ): Promise<PlaylistPlaylistResDto> {
     return this.playlistService.addSong(dto, songId);
   }
 
   @Post("create")
   async create(
-    @Body() dto: PlaylistCreateDto,
+    @Body() dto: PlaylistCreateReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<PlaylistDto> {
+  ): Promise<PlaylistPlaylistResDto> {
     return this.playlistService.create(dto, sub);
   }
 
   @Delete(":id")
   async delete(
-    @Param() dto: PlaylistDeleteDto,
+    @Param() dto: PlaylistDeleteReqDto,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
     return this.playlistService.delete(dto, sub);
@@ -72,32 +72,32 @@ export class PlaylistController {
 
   @Delete("song/:playlistId/:songId")
   async deleteSong(
-    @Param() dto: PlaylistSongDto,
+    @Param() dto: PlaylistSongReqDto,
     @Param("songId", HashIdPipe) songId: number
-  ): Promise<PlaylistDto> {
+  ): Promise<PlaylistPlaylistResDto> {
     return this.playlistService.deleteSong(dto, songId);
   }
 
   @Post("edit")
-  async edit(@Body() dto: PlaylistEditDto): Promise<PlaylistDto> {
+  async edit(@Body() dto: PlaylistEditReqDto): Promise<PlaylistPlaylistResDto> {
     return this.playlistService.edit(dto);
   }
 
   @Get(":id")
-  async get(@Param() dto: PlaylistGetDto): Promise<PlaylistDto> {
+  async get(@Param() dto: PlaylistGetReqDto): Promise<PlaylistPlaylistResDto> {
     return this.playlistService.get(dto);
   }
 
   @Get("my/:from/:limit")
   async my(
-    @Param() dto: PlaylistMyDto,
+    @Param() dto: PlaylistMyReqDto,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<any> {
     return this.playlistService.my(dto, sub);
   }
 
   @Get("top")
-  async top(@Param() dto: PlaylistTopDto): Promise<any> {
+  async top(@Param() dto: PlaylistTopReqDto): Promise<any> {
     return this.playlistService.top(dto);
   }
 }

@@ -1,45 +1,46 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { EntityDto } from "./dto/entity.dto";
-import { EntityMultiHasDto } from "./dto/entity.multi-has.dto";
-import { PaginationResultDto } from "./dto/pagination.result.dto";
+import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
+import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";
+import { RelationMultiHasReqDto } from "./dto/req/relation.multi-has.req.dto";
+import { RelationRemoveReqDto } from "./dto/req/relation.remove.req.dto";
+import { RelationSetReqDto } from "./dto/req/relation.set.req.dto";
+import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
+import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "./dto/res/relation.pagination.res.dto";
 import { RelationConfigService } from "./relation.config.service";
-import { RelationType } from "./type/relation.type";
 
 @Injectable()
 export class RelationService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly relationConfigService: RelationConfigService
+    private readonly relationConfigService: RelationConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async get(
-    from: number,
-    fromEntityDto: EntityDto,
-    limit: number,
-    relType: RelationType
-  ): Promise<PaginationResultDto<EntityDto>> {
+    dto: RelationGetReqDto
+  ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/get/${fromEntityDto.key}/${relType}/${from}/${limit}`
+        `${this.relationConfigService.uri}/get/${dto.fromEntityDto.key}/${dto.relationType}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<EntityDto>>) => {
-          return value.data;
-        })
+        map(
+          (
+            value: AxiosResponse<RelationPaginationResDto<RelationEntityResDto>>
+          ) => {
+            return value.data;
+          }
+        )
       )
       .toPromise();
   }
 
-  async has(
-    entityDto1: EntityDto,
-    entityDto2: EntityDto,
-    relType: RelationType
-  ): Promise<boolean> {
+  async has(dto: RelationHasReqDto): Promise<boolean> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/has/${entityDto1.key}/${entityDto2.key}/${relType}`
+        `${this.relationConfigService.uri}/has/${dto.from.key}/${dto.to.key}/${dto.relType}`
       )
       .pipe(
         map((value: AxiosResponse<boolean>) => {
@@ -49,38 +50,24 @@ export class RelationService {
       .toPromise();
   }
 
-  async multiHas(
-    fromEntityDto: EntityDto,
-    toEntityDtos: EntityDto[],
-    relType: RelationType
-  ): Promise<EntityMultiHasDto> {
+  async multiHas(dto: RelationMultiHasReqDto): Promise<RelationMultiHasResDto> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/multiHas/${
-          fromEntityDto.key
-        }/${toEntityDtos.map(value => value.key).join(",")}/${relType}`
+        `${this.relationConfigService.uri}/multiHas/${dto.from.key}/${dto.keys}/${dto.relationType}`
       )
       .pipe(
-        map((value: AxiosResponse<EntityMultiHasDto>) => {
+        map((value: AxiosResponse<RelationMultiHasResDto>) => {
           return value.data;
         })
       )
       .toPromise();
   }
 
-  async remove(
-    entityDto1: EntityDto,
-    entityDto2: EntityDto,
-    relType: RelationType
-  ): Promise<boolean> {
+  async remove(dto: RelationRemoveReqDto): Promise<boolean> {
     // TODO: check params
     return this.httpService
       .delete(`${this.relationConfigService.uri}/remove`, {
-        params: {
-          entityDto1,
-          entityDto2,
-          relType
-        }
+        params: dto
       })
       .pipe(
         map((value: AxiosResponse<boolean>) => {
@@ -90,20 +77,10 @@ export class RelationService {
       .toPromise();
   }
 
-  async set(
-    createdAt: Date,
-    entityDto1: EntityDto,
-    entityDto2: EntityDto,
-    relType: RelationType
-  ): Promise<boolean> {
+  async set(dto: RelationSetReqDto): Promise<boolean> {
     // TODO: check params
     return this.httpService
-      .post(`${this.relationConfigService.uri}/set`, {
-        createdAt,
-        entityDto1,
-        entityDto2,
-        relType
-      })
+      .post(`${this.relationConfigService.uri}/set`, dto)
       .pipe(
         map((value: AxiosResponse<boolean>) => {
           return value.data;

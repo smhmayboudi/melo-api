@@ -6,8 +6,8 @@ import uuidv4 from "uuid/v4";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
-import { AccessTokenDto } from "./dto/access.token.dto";
-import { RefreshTokenDto } from "./dto/refresh.token.dto";
+import { AuthAccessTokenDto } from "./dto/auth.access-token.dto";
+import { AuthRefreshTokenDto } from "./dto/auth.refresh-token.dto";
 
 @Injectable()
 export class AuthService {
@@ -18,7 +18,7 @@ export class AuthService {
     private readonly rtService: RtService
   ) {}
 
-  async accessToken(subject: string): Promise<AccessTokenDto | undefined> {
+  async accessToken(subject: string): Promise<AuthAccessTokenDto | undefined> {
     const randomJwksEntity = await this.jwksService.getOneRandom();
     if (randomJwksEntity === undefined) {
       return undefined;
@@ -35,7 +35,9 @@ export class AuthService {
     });
   }
 
-  async refreshToken(subject: string): Promise<RefreshTokenDto | undefined> {
+  async refreshToken(
+    subject: string
+  ): Promise<AuthRefreshTokenDto | undefined> {
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)

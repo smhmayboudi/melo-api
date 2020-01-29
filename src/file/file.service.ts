@@ -15,6 +15,7 @@ import { FileEntityRepository } from "./file.entity.repository";
 export class FileService {
   private readonly mmmagic: Magic;
   private readonly s3: aws.S3;
+
   constructor(
     private readonly fileConfigService: FileConfigService,
     @InjectRepository(FileEntity)
@@ -37,17 +38,17 @@ export class FileService {
     userId: string
   ): Promise<FileEntity> {
     if (dto === undefined) {
-      throw new Error(fileConstant.errors.dtoValidation);
+      throw new Error(fileConstant.errors.service.dtoValidation);
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
     if (mimeType !== mime.lookup("jpeg")) {
-      throw new Error(fileConstant.errors.mimeTypeValidatoion);
+      throw new Error(fileConstant.errors.service.mimeTypeValidatoion);
     }
     const extension = mime.extension(mimeType);
     if (extension === undefined) {
-      throw new Error(fileConstant.errors.extensionValidatoion);
+      throw new Error(fileConstant.errors.service.extensionValidatoion);
     }
     const sendData = await this.s3
       .upload({

@@ -19,7 +19,7 @@ import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
-import { AccessTokenDto } from "./dto/access.token.dto";
+import { AuthAccessTokenDto } from "./dto/auth.access-token.dto";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -48,7 +48,9 @@ export class AuthController {
   @ApiBearerAuth("local")
   @Post("login")
   @UseGuards(AuthGuard("local"))
-  async login(@User("sub") sub: string): Promise<AccessTokenDto | undefined> {
+  async login(
+    @User("sub") sub: string
+  ): Promise<AuthAccessTokenDto | undefined> {
     return this.authService.refreshToken(sub);
   }
 
@@ -69,7 +71,9 @@ export class AuthController {
   @ApiBearerAuth("token")
   @Post("token")
   @UseGuards(AuthGuard("token"))
-  async token(@User("sub") sub: string): Promise<AccessTokenDto | undefined> {
+  async token(
+    @User("sub") sub: string
+  ): Promise<AuthAccessTokenDto | undefined> {
     return this.authService.accessToken(sub);
   }
 }

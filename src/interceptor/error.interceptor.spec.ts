@@ -1,6 +1,6 @@
 import { ErrorInterceptor } from "./error.interceptor";
 
-describe("TodoInterceptor", () => {
+describe("ErrorInterceptor", () => {
   it("should be defined", () => {
     expect(new ErrorInterceptor()).toBeDefined();
   });

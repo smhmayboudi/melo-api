@@ -10,13 +10,15 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { AlbumDto } from "../data/dto/album.dto";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { AlbumService } from "./album.service";
+import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
+import { AlbumAlbumResDto } from "./dto/res/album.album.res.dto";
+import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumPaginationResDto } from "./dto/res/album.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("album")
@@ -34,27 +36,18 @@ import { AlbumService } from "./album.service";
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @ApiParam({
-    name: "id",
-    type: "string"
-  })
   @Get(":id")
-  async byId(@Param("id", HashIdPipe) id: number): Promise<AlbumDto> {
-    return this.albumService.byId({
-      id
-    });
+  async byId(
+    @Param() dto: AlbumByIdReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<AlbumAlbumResDto> {
+    return this.albumService.byId(dto, id);
   }
 
   @Get("latest/:language/:from/:limit")
   async lstest(
-    @Param("language") language: string,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<AlbumDto>> {
-    return this.albumService.latest({
-      from,
-      language,
-      limit
-    });
+    @Param() dto: AlbumLatestReqDto
+  ): Promise<AlbumPaginationResDto<AlbumAlbumResDto>> {
+    return this.albumService.latest(dto);
   }
 }

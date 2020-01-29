@@ -2,43 +2,44 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
-import { AlbumDto } from "./dto/album.dto";
-import { ArtistDto } from "./dto/artist.dto";
-import { DataArtistAlbumsDto } from "./dto/data.artist.albums.dto";
-import { DataArtistByIdDto } from "./dto/data.artist.by.id.dto";
-import { DataArtistByIdsDto } from "./dto/data.artist.by.ids.dto";
-import { DataArtistSongsDto } from "./dto/data.artist.songs.dto";
-import { DataArtistSongsTopDto } from "./dto/data.artist.songs.top.dto";
-import { PaginationResultDto } from "./dto/pagination.result.dto";
-import { SongDto } from "./dto/song.dto";
+import { DataArtistAlbumsReqDto } from "./dto/req/data.artist.albums.req.dto";
+import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
+import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
+import { DataArtistSongsTopReqDto } from "./dto/req/data.artist.songs-top.req.dto";
+import { DataArtistSongsReqDto } from "./dto/req/data.artist.songs.req.dto";
+import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
+import { DataAlbumResDto } from "./dto/res/data.album.res.dto";
+import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
+import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "./dto/res/data.song.res.dto";
 
 @Injectable()
 export class DataArtistService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly dataConfigService: DataConfigService
+    private readonly dataConfigService: DataConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async albums(
-    dto: DataArtistAlbumsDto
-  ): Promise<PaginationResultDto<AlbumDto>> {
+    dto: DataArtistAlbumsReqDto
+  ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<AlbumDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) => {
           return value.data;
         })
       )
       .toPromise();
   }
 
-  async byId(dto: DataArtistByIdDto): Promise<ArtistDto> {
+  async byId(dto: DataArtistByIdReqDto): Promise<DataArtistResDto> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/byId/${dto.id}`)
       .pipe(
-        map((value: AxiosResponse<ArtistDto>) => {
+        map((value: AxiosResponse<DataArtistResDto>) => {
           return value.data;
         })
       )
@@ -46,8 +47,8 @@ export class DataArtistService {
   }
 
   async byIds(
-    dto: DataArtistByIdsDto
-  ): Promise<PaginationResultDto<ArtistDto>> {
+    dto: DataArtistByIdsReqDto
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/byIds`, {
         params: {
@@ -55,57 +56,63 @@ export class DataArtistService {
         }
       })
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) => {
           return value.data;
         })
       )
       .toPromise();
   }
 
-  async songs(dto: DataArtistSongsDto): Promise<PaginationResultDto<SongDto>> {
+  async songs(
+    dto: DataArtistSongsReqDto
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
           return value.data;
+          DataSongResDto;
         })
       )
       .toPromise();
   }
 
   async songsTop(
-    dto: DataArtistSongsTopDto
-  ): Promise<PaginationResultDto<SongDto>> {
+    dto: DataArtistSongsTopReqDto
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
           return value.data;
+          DataSongResDto;
         })
       )
       .toPromise();
   }
 
-  async trending(): Promise<PaginationResultDto<ArtistDto>> {
+  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/trending`)
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) => {
           return value.data;
         })
       )
       .toPromise();
   }
 
-  async trendingGenre(genre: string): Promise<PaginationResultDto<ArtistDto>> {
+  async trendingGenre(
+    dto: DataTrendingGenreReqDto
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/trending/genre/${genre}`)
+      .get(`${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`)
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<ArtistDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) => {
           return value.data;
         })
       )

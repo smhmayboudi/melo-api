@@ -1,7 +1,7 @@
 export const songConstant = {
   errors: {
-    telegram: {
-      userEntity: "User is not registered."
+    service: {
+      sendTelegram: "User is not registered."
     }
   }
 };

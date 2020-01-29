@@ -2,35 +2,41 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
-import { DataSearchMoodDto } from "./dto/data.search.mood.dto";
-import { DataSearchQueryDto } from "./dto/data.search.query.dto";
-import { PaginationResultDto } from "./dto/pagination.result.dto";
-import { SearchMusicDto } from "./dto/search.music.dto";
-import { SongDto } from "./dto/song.dto";
+import { DataSearchMoodReqDto } from "./dto/req/data.search.mood.req.dto";
+import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
+import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { DataSearchMusicResDto } from "./dto/res/data.search-music.res.dto";
+import { DataSongResDto } from "./dto/res/data.song.res.dto";
 
 @Injectable()
 export class DataSearchService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly dataConfigService: DataConfigService
+    private readonly dataConfigService: DataConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async query(
-    dto: DataSearchQueryDto
-  ): Promise<PaginationResultDto<SearchMusicDto>> {
+    dto: DataSearchQueryReqDto
+  ): Promise<DataPaginationResDto<DataSearchMusicResDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/search/query/${dto.query}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<SearchMusicDto>>) => {
-          return value.data;
-        })
+        map(
+          (
+            value: AxiosResponse<DataPaginationResDto<DataSearchMusicResDto>>
+          ) => {
+            return value.data;
+          }
+        )
       )
       .toPromise();
   }
 
-  async mood(dto: DataSearchMoodDto): Promise<PaginationResultDto<SongDto>> {
+  async mood(
+    dto: DataSearchMoodReqDto
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.uri}/search/mood/${dto.from}/${dto.limit}`,
@@ -45,7 +51,7 @@ export class DataSearchService {
         }
       )
       .pipe(
-        map((value: AxiosResponse<PaginationResultDto<SongDto>>) => {
+        map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
           return value.data;
         })
       )

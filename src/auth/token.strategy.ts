@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { UniqueTokenStrategy as Strategy } from "passport-unique-token";
 import { RtService } from "../rt/rt.service";
-import { JwtPayloadDto } from "./dto/jwt.payload.dto";
+import { AuthJwtPayloadDto } from "./dto/auth.jwt-payload.dto";
 
 @Injectable()
 export class TokenStrategy extends PassportStrategy(Strategy) {
@@ -18,7 +18,7 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(token: string): Promise<JwtPayloadDto> {
+  async validate(token: string): Promise<AuthJwtPayloadDto> {
     const rtEntity = await this.rtService.validateByToken(token);
     if (rtEntity === undefined || rtEntity.expire_at <= new Date()) {
       throw new UnauthorizedException();

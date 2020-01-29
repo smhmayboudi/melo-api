@@ -14,16 +14,32 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
-import { OrderByPipe } from "../pipe/order-by.pipe";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { SongDto } from "../data/dto/song.dto";
-import { OrderBy } from "../data/type/order-by.type";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
+import { OrderByPipe } from "../pipe/order-by.pipe";
+import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
+import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
+import { SongPaginationResDto } from "./dto/res/song.pagination.res.dto";
+import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongService } from "./song.service";
+import { SongOrderByType } from "./type/song.order-by.type";
+import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.dto";
+import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
+import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
+import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
+import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
+import { SongNewReqDto } from "./dto/req/song.new.req.dto";
+import { DataSongNewPodcastReqDto } from "src/data/dto/req/data.song.new-podcast.req.dto";
+import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
+import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
+import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
+import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
+import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
+import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
+import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("song")
@@ -41,147 +57,93 @@ import { SongService } from "./song.service";
 export class SongController {
   constructor(private readonly songService: SongService) {}
 
-  @ApiParam({
-    name: "id",
-    type: "string"
-  })
   @Get(":id")
-  async byId(@Param("id", HashIdPipe) id: number): Promise<SongDto> {
-    return this.songService.byId({
-      id
-    });
+  async byId(
+    @Param() dto: SongByIdReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<SongSongResDto> {
+    return this.songService.byId(dto, id);
   }
 
   @Get("genre/:orderBy/:from/:limit")
   async genre(
-    @Param("orderBy", OrderByPipe) orderBy: OrderBy,
-    @Param("from") from: number,
-    @Param("limit") limit: number,
-    @Query("genres") genres: string[]
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.genre(from, genres, limit, orderBy);
+    @Param() paramDto: SongSongGenresParamReqDto,
+    @Param("orderBy", OrderByPipe) orderBy: SongOrderByType,
+    @Query() queryDto: SongSongGenresQueryReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.genre(paramDto, orderBy, queryDto);
   }
 
   @Get("language/:language/:orderBy/:from/:limit")
   async language(
-    @Param("language") language: string,
-    @Param("orderBy", OrderByPipe) orderBy: OrderBy,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.language({
-      from,
-      language,
-      limit,
-      orderBy
-    });
+    @Param() dto: SongLanguageReqDto,
+    @Param("orderBy", OrderByPipe) orderBy: SongOrderByType
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.language(dto, orderBy);
   }
 
-  @ApiBody({
-    schema: {
-      type: "object",
-      properties: {
-        id: {
-          example: "abcdef",
-          type: "string"
-        }
-      }
-    }
-  })
   @Post("like")
   async like(
+    @Body() dto: SongLikeReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.songService.like(id, sub);
+    return this.songService.like(dto, id, sub);
   }
 
   @Get("liked/:from/:limit")
   async liked(
-    @Param("from") from: number,
-    @Param("limit") limit: number,
+    @Param() dto: SongLikedReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.liked(from, limit, sub);
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.liked(dto, sub);
   }
 
   @Get("mood/:mood/:from/:limit")
   async mood(
-    @Param("mood") mood: string,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.mood({
-      from,
-      limit,
-      mood
-    });
+    @Param() dto: SongMoodReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.mood(dto);
   }
 
   @Get("new/:from/:limit")
   async new(
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.new({
-      from,
-      limit
-    });
+    @Param() dto: SongNewReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.new(dto);
   }
 
   @Get("new/podcast/:from/:limit")
   async newPodcast(
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.newPodcast(limit, from);
+    @Param() dto: DataSongNewPodcastReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.newPodcast(dto);
   }
 
   @Get("podcast/genres/:orderBy/:from/:limit")
   async podcast(
-    @Param("orderBy", OrderByPipe) orderBy: OrderBy,
-    @Param("from") from: number,
-    @Param("limit") limit: number,
-    @Query("genres") genres: string[]
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.podcast({
-      from,
-      genres,
-      limit,
-      orderBy
-    });
+    @Param() paramDto: SongPodcastGenresParamReqDto,
+    @Query() queryDto: SongPodcastGenresQueryReqDto,
+    @Param("orderBy", OrderByPipe) orderBy: SongOrderByType
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.podcast(paramDto, queryDto, orderBy);
   }
 
-  @ApiBody({
-    schema: {
-      type: "object",
-      properties: {
-        id: {
-          example: "abcdef",
-          type: "string"
-        }
-      }
-    }
-  })
   @Post("send/telegram")
   async sendTelegram(
+    @Body() dto: SongSendTelegramReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<number> {
-    return this.songService.sendTelegram(id, sub);
+    return this.songService.sendTelegram(dto, id, sub);
   }
 
   @Get("similar/:id/:from/:limit")
   async similar(
-    @Param("id", HashIdPipe) id: number,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.similar({
-      from,
-      id,
-      limit
-    });
+    @Param() dto: SongSimilarReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.similar(dto, id);
   }
 
   @Get("slider/latest")
@@ -191,42 +153,24 @@ export class SongController {
 
   @Get("top/day/:from/:limit")
   async topDay(
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.topDay({
-      from,
-      limit
-    });
+    @Param() dto: SongTopDayReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.topDay(dto);
   }
 
   @Get("top/week/:from/:limit")
   async topWeek(
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.songService.topWeek({
-      from,
-      limit
-    });
+    @Param() dto: SongTopWeekReqDto
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
+    return this.songService.topWeek(dto);
   }
 
-  @ApiBody({
-    schema: {
-      type: "object",
-      properties: {
-        id: {
-          example: "abcdef",
-          type: "string"
-        }
-      }
-    }
-  })
   @Post("unlike")
   async unlike(
+    @Body() dto: SongUnlikeReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.songService.unlike(id, sub);
+    return this.songService.unlike(dto, id, sub);
   }
 }

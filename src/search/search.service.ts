@@ -1,34 +1,31 @@
 import { Injectable } from "@nestjs/common";
 import { DataSearchService } from "../data/data.search.service";
-import { DataSearchMoodDto } from "../data/dto/data.search.mood.dto";
-import { DataSearchQueryDto } from "../data/dto/data.search.query.dto";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { SearchMusicDto } from "../data/dto/search.music.dto";
-import { SongDto } from "../data/dto/song.dto";
+import { SearchMoodParamReqDto } from "./dto/req/search.mood.param.req.dto";
+import { SearchMoodQueryReqDto } from "./dto/req/search.mood.query.req.dto";
+import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
+import { SearchPaginationResDto } from "./dto/res/search.pagination.res.dto";
+import { SearchSearchMusicResDto } from "./dto/res/search.search-music.res.dto";
+import { SearchSongResDto } from "./dto/res/search.song.res.dto";
 
 @Injectable()
 export class SearchService {
   constructor(private readonly dataSearchService: DataSearchService) {}
 
-  async mood(dto: DataSearchMoodDto): Promise<PaginationResultDto<SongDto>> {
-    return this.dataSearchService.mood({
-      from: dto.from,
-      limit: dto.limit,
-      classy: dto.classy,
-      date: dto.date,
-      energetic: dto.energetic,
-      happiness: dto.happiness,
-      romantic: dto.romantic
-    });
+  async mood(
+    paramDto: SearchMoodParamReqDto,
+    querydto: SearchMoodQueryReqDto
+  ): Promise<SearchPaginationResDto<SearchSongResDto>> {
+    return (this.dataSearchService.mood({
+      ...paramDto,
+      ...querydto
+    }) as unknown) as Promise<SearchPaginationResDto<SearchSongResDto>>;
   }
 
   async query(
-    dto: DataSearchQueryDto
-  ): Promise<PaginationResultDto<SearchMusicDto>> {
-    return this.dataSearchService.query({
-      from: dto.from,
-      limit: dto.limit,
-      query: dto.query
-    });
+    dto: SearchQueryReqDto
+  ): Promise<SearchPaginationResDto<SearchSearchMusicResDto>> {
+    return (this.dataSearchService.query({ ...dto }) as unknown) as Promise<
+      SearchPaginationResDto<SearchSearchMusicResDto>
+    >;
   }
 }

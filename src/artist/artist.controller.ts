@@ -13,16 +13,24 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
-import { AlbumDto } from "../data/dto/album.dto";
-import { ArtistDto } from "../data/dto/artist.dto";
-import { PaginationResultDto } from "../data/dto/pagination.result.dto";
-import { SongDto } from "../data/dto/song.dto";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { ArtistService } from "./artist.service";
+import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
+import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
+import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistSongsTopReqDto } from "./dto/req/artist.songs-top.req.dto";
+import { ArtistSongsReqDto } from "./dto/req/artist.songs.req.dto";
+import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
+import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
+import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
+import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
+import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
@@ -40,105 +48,73 @@ import { ArtistService } from "./artist.service";
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
-  @ApiParam({
-    name: "id",
-    type: "string"
-  })
   @Get("albums/:id/:from/:limit")
   async albums(
-    @Param("id", HashIdPipe) id: number,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<AlbumDto>> {
-    return this.artistService.albums({
-      id,
-      from,
-      limit
-    });
+    @Param() dto: ArtistAlbumsReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<ArtistPaginationResDto<ArtistAlbumResDto>> {
+    return this.artistService.albums(dto, id);
   }
 
-  @ApiParam({
-    name: "id",
-    type: "string"
-  })
   @Get("byId/:id")
-  async byId(@Param("id", HashIdPipe) id: number): Promise<ArtistDto> {
-    return this.artistService.byId({
-      id
-    });
+  async byId(
+    @Param() dto: ArtistByIdReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<ArtistArtistResDto> {
+    return this.artistService.byId(dto, id);
   }
 
-  @ApiBody({
-    schema: {
-      type: "object",
-      properties: {
-        id: {
-          example: "abcdef",
-          type: "string"
-        }
-      }
-    }
-  })
   @Post("follow")
   async follow(
+    @Body() dto: ArtistFollowReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.artistService.follow(id, sub);
+    return this.artistService.follow(dto, id, sub);
   }
 
   @Get("following/:from/:limit")
   async following(
-    @Param("from") from: number,
-    @Param("limit") limit: number,
+    @Param() dto: ArtistFollowingReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<PaginationResultDto<ArtistDto>> {
-    return this.artistService.following(from, limit, sub);
+  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+    return this.artistService.following(dto, sub);
   }
 
   @Get("songs/:id/:from/:limit")
   async songs(
-    @Param("id", HashIdPipe) id: number,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.artistService.songs({
-      id,
-      from,
-      limit
-    });
+    @Param() dto: ArtistSongsReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
+    return this.artistService.songs(dto, id);
   }
 
   @Get("songs/top/:id/:from/:limit")
   async songsTop(
-    @Param("id", HashIdPipe) id: number,
-    @Param("from") from: number,
-    @Param("limit") limit: number
-  ): Promise<PaginationResultDto<SongDto>> {
-    return this.artistService.songsTop({
-      id,
-      from,
-      limit
-    });
+    @Param() dto: ArtistSongsTopReqDto,
+    @Param("id", HashIdPipe) id: number
+  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
+    return this.artistService.songsTop(dto, id);
   }
 
   @Get("trending")
-  async trending(): Promise<PaginationResultDto<ArtistDto>> {
+  async trending(): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
     return this.artistService.trending();
   }
 
   @Get("trending/genre/:genre")
   async trendingGenre(
-    @Param("genre") genre: string
-  ): Promise<PaginationResultDto<ArtistDto>> {
-    return this.artistService.trendingGenre(genre);
+    @Param() dto: ArtistTrendingGenreReqDto
+  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+    return this.artistService.trendingGenre(dto);
   }
 
   @Post("unfollow")
   async unfollow(
+    @Param() dto: ArtistUnfollowReqDto,
     @Param("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
-    return this.artistService.unfollow(id, sub);
+    return this.artistService.unfollow(dto, id, sub);
   }
 }

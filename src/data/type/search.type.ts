@@ -1,6 +1,0 @@
-export enum SearchType {
-  artist = "artist",
-  song = "song",
-  album = "album",
-  Playlist = "playlist"
-}
