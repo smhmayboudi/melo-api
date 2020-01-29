@@ -33,7 +33,10 @@ export class AppConfigService {
   }
 
   get hashIdMinLength(): number {
-    return this.configService.get<number>("app.hashIdMinLength", 0);
+    return parseInt(
+      this.configService.get<string>("app.hashIdMinLength", ""),
+      10
+    );
   }
 
   get hashIdSalt(): string {

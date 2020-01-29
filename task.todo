@@ -31,10 +31,7 @@
 - [ ] new api
 - [ ] Doc change api
 
-- [ ] parseInt !?
-- [ ] filenaming
 - [ ] Add test specs
 - [ ] public => isPublic
-- [ ] universal dto
 - [ ] delete & update return object
-- [ ] as type
+- [ ] as type (universal dto)

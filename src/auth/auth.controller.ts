@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Headers,
+  ParseIntPipe,
   Post,
   UseFilters,
   UseGuards,
@@ -49,7 +50,7 @@ export class AuthController {
   @Post("login")
   @UseGuards(AuthGuard("local"))
   async login(
-    @User("sub") sub: string
+    @User("sub", ParseIntPipe) sub: number
   ): Promise<AuthAccessTokenDto | undefined> {
     return this.authService.refreshToken(sub);
   }
@@ -72,7 +73,7 @@ export class AuthController {
   @Post("token")
   @UseGuards(AuthGuard("token"))
   async token(
-    @User("sub") sub: string
+    @User("sub", ParseIntPipe) sub: number
   ): Promise<AuthAccessTokenDto | undefined> {
     return this.authService.accessToken(sub);
   }

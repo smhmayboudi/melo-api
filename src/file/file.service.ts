@@ -33,10 +33,7 @@ export class FileService {
     });
   }
 
-  async uploadImage(
-    dto: FileUploadImageDto,
-    userId: string
-  ): Promise<FileEntity> {
+  async uploadImage(dto: FileUploadImageDto, sub: number): Promise<FileEntity> {
     if (dto === undefined) {
       throw new Error(fileConstant.errors.service.dtoValidation);
     }
@@ -65,7 +62,7 @@ export class FileService {
       file_name: sendData.Key,
       id: 0,
       mime_type: mimeType,
-      owner_user_id: Number(userId),
+      owner_user_id: sub,
       size: dto.size
     });
   }

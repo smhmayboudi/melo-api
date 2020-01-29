@@ -1,6 +1,7 @@
 import {
   ClassSerializerInterceptor,
   Controller,
+  ParseIntPipe,
   Post,
   UploadedFile,
   UseFilters,
@@ -38,7 +39,7 @@ export class FileController {
   @Post("upload/image")
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
-    @User("sub") sub: string,
+    @User("sub", ParseIntPipe) sub: number,
     @UploadedFile("file")
     dto: FileUploadImageDto
   ): Promise<FileEntity> {

@@ -58,10 +58,10 @@ export class RtService {
     return this.rtEntityRepository.findOne({ is_blocked: false, token });
   }
 
-  async validateByUserId(userId: number): Promise<RtEntity | undefined> {
+  async validateByUserId(sub: number): Promise<RtEntity | undefined> {
     return this.rtEntityRepository.findOne({
       is_blocked: false,
-      user_id: userId
+      user_id: sub
     });
   }
 }

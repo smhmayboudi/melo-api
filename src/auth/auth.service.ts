@@ -18,7 +18,7 @@ export class AuthService {
     private readonly rtService: RtService
   ) {}
 
-  async accessToken(subject: string): Promise<AuthAccessTokenDto | undefined> {
+  async accessToken(sub: number): Promise<AuthAccessTokenDto | undefined> {
     const randomJwksEntity = await this.jwksService.getOneRandom();
     if (randomJwksEntity === undefined) {
       return undefined;
@@ -29,15 +29,13 @@ export class AuthService {
         {
           keyid: randomJwksEntity.id,
           jwtid: uuidv4(),
-          subject
+          subject: sub.toString()
         }
       )
     });
   }
 
-  async refreshToken(
-    subject: string
-  ): Promise<AuthRefreshTokenDto | undefined> {
+  async refreshToken(sub: number): Promise<AuthRefreshTokenDto | undefined> {
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)
@@ -50,7 +48,7 @@ export class AuthService {
         expire_at: exp,
         id: 0,
         is_blocked: false,
-        user_id: parseInt(subject, 10),
+        user_id: sub,
         token: rt
       }
     ]);
@@ -64,7 +62,7 @@ export class AuthService {
         {
           keyid: randomJwksEntity.id,
           jwtid: uuidv4(),
-          subject
+          subject: sub.toString()
         }
       ),
       rt

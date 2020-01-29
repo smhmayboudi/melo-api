@@ -61,9 +61,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(dto: AuthJwtPayloadDto): Promise<AuthJwtPayloadDto> {
-    const rtEntity = await this.rtService.validateByUserId(
-      parseInt(dto.sub, 10)
-    );
+    const sub = parseInt(dto.sub, 10);
+    const rtEntity = await this.rtService.validateByUserId(sub);
     if (rtEntity === undefined) {
       throw new UnauthorizedException();
     }
@@ -76,7 +75,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         created_at: new Date(1000 * dto.iat),
         expire_at: new Date(1000 * dto.exp),
         id: 0,
-        user_id: parseInt(dto.sub, 10),
+        user_id: sub,
         token: dto.jti
       }
     ]);
