@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Error, Model, Types } from "mongoose";
-import { AppConfigService } from "src/app.config.service";
 import { AppImgProxyService } from "src/app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
@@ -15,15 +14,16 @@ import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistPaginationResDto } from "./dto/res/playlist.pagination.res.dto";
 import { PlaylistPlaylistResDto } from "./dto/res/playlist.playlist.res.dto";
 import { PlaylistSongResDto } from "./dto/res/playlist.song.res.dto";
+import { PlaylistConfigService } from "./playlist.config.service";
 import { playlistConstant } from "./playlist.constant";
 import { Playlist } from "./type/playlist";
 
 @Injectable()
 export class PlaylistService {
   constructor(
-    private readonly dataSongService: DataSongService,
+    private readonly playlistConfigService: PlaylistConfigService,
     private readonly appImgProxyService: AppImgProxyService,
-    private readonly appConfigService: AppConfigService,
+    private readonly dataSongService: DataSongService,
     @InjectModel("Playlist")
     private readonly playlistModel: Model<Playlist>
   ) {}
@@ -47,14 +47,10 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: dto.playlistId,
-      image: this.appImgProxyService.all(
+      image: this.appImgProxyService.generateUrl(
         playlist.photo_id
-          ? this.appConfigService.miskEndpoint.replace(
-              "{id}",
-              `${playlist.photo_id}.jpg`
-            )
-          : this.appConfigService.defaultImagePlaylistAddress,
-        undefined
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -82,14 +78,10 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      image: this.appImgProxyService.all(
+      image: this.appImgProxyService.generateUrl(
         playlist.photo_id
-          ? this.appConfigService.miskEndpoint.replace(
-              "{id}",
-              `${playlist.photo_id}.jpg`
-            )
-          : this.appConfigService.defaultImagePlaylistAddress,
-        undefined
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -118,14 +110,10 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      image: this.appImgProxyService.all(
+      image: this.appImgProxyService.generateUrl(
         playlist.photo_id
-          ? this.appConfigService.miskEndpoint.replace(
-              "{id}",
-              `${playlist.photo_id}.jpg`
-            )
-          : this.appConfigService.defaultImagePlaylistAddress,
-        undefined
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -157,14 +145,10 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      image: this.appImgProxyService.all(
+      image: this.appImgProxyService.generateUrl(
         playlist.photo_id
-          ? this.appConfigService.miskEndpoint.replace(
-              "{id}",
-              `${playlist.photo_id}.jpg`
-            )
-          : this.appConfigService.defaultImagePlaylistAddress,
-        undefined
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -188,14 +172,10 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      image: this.appImgProxyService.all(
+      image: this.appImgProxyService.generateUrl(
         playlist.photo_id
-          ? this.appConfigService.miskEndpoint.replace(
-              "{id}",
-              `${playlist.photo_id}.jpg`
-            )
-          : this.appConfigService.defaultImagePlaylistAddress,
-        undefined
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
@@ -224,14 +204,10 @@ export class PlaylistService {
         return {
           followersCount: value.followers_count,
           id: value._id,
-          image: this.appImgProxyService.all(
+          image: this.appImgProxyService.generateUrl(
             value.photo_id
-              ? this.appConfigService.miskEndpoint.replace(
-                  "{id}",
-                  `${value.photo_id}.jpg`
-                )
-              : this.appConfigService.defaultImagePlaylistAddress,
-            undefined
+              ? this.playlistConfigService.imagePath(value.photo_id)
+              : this.playlistConfigService.defaultImagePath
           ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
@@ -267,14 +243,10 @@ export class PlaylistService {
         return {
           followersCount: value.followers_count,
           id: value._id,
-          image: this.appImgProxyService.all(
+          image: this.appImgProxyService.generateUrl(
             value.photo_id
-              ? this.appConfigService.miskEndpoint.replace(
-                  "{id}",
-                  `${value.photo_id}.jpg`
-                )
-              : this.appConfigService.defaultImagePlaylistAddress,
-            undefined
+              ? this.playlistConfigService.imagePath(value.photo_id)
+              : this.playlistConfigService.defaultImagePath
           ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,

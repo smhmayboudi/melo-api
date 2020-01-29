@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import Imgproxy from "imgproxy";
 import { AppConfigService } from "./app.config.service";
-import { ImageDto } from "./data/dto/image.dto";
-import { JpgDto } from "./data/dto/jpg.dto";
+import { DataImageResDto } from "./data/dto/res/data.image.res.dto";
+import { ImgProxyImageTypeSize } from "./type/ImgProxyImageTypeSize";
 
 @Injectable()
 export class AppImgProxyService {
@@ -10,37 +10,35 @@ export class AppImgProxyService {
 
   constructor(private readonly appConfigService: AppConfigService) {
     this.imgproxy = new Imgproxy({
-      baseUrl: this.appConfigService.imgProxyUrl,
+      baseUrl: this.appConfigService.imgProxyBaseUrl,
+      encode: this.appConfigService.imgProxyEncode,
+      insecure: false,
       key: this.appConfigService.imgProxyKey,
       salt: this.appConfigService.imgProxySalt,
-      encode: true
+      signatureSize: this.appConfigService.imgProxySignatureSize
     });
   }
 
-  public make(url: string, width: number, height: number): JpgDto {
-    return {
-      url: this.imgproxy
-        .builder()
-        .resize("fill", width, height, true)
-        .dpr(1)
-        .generateUrl(url)
-    };
-  }
-
-  public all(normal: string, slider?: string): ImageDto {
-    const images: ImageDto = {};
-    this.appConfigService.imageTypeSize.map(
-      (imt: { name: string; width: number; height: number }) => {
-        if (imt.name.startsWith("slider") && slider === null) {
-          return;
-        }
-        images[imt.name] =
-          imt.name.startsWith("slider") && slider === null
-            ? this.make(slider, imt.width, imt.height)
-            : this.make(normal, imt.width, imt.height);
-      }
-    );
-
+  public generateUrl(normal: string, slider?: string): DataImageResDto {
+    const images: DataImageResDto = {};
+    this.appConfigService.imgProxyImageTypeSize
+      .filter(
+        (imt: ImgProxyImageTypeSize) =>
+          slider === undefined || !imt.name.startsWith("slider")
+      )
+      .map((imt: ImgProxyImageTypeSize) => {
+        images[imt.name] = {
+          url: this.imgproxy
+            .builder()
+            .resize("fill", imt.width, imt.height, true)
+            .dpr(1)
+            .generateUrl(
+              slider === undefined || !imt.name.startsWith("slider")
+                ? normal
+                : slider
+            )
+        };
+      });
     return images;
   }
 }

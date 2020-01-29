@@ -10,7 +10,9 @@ import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health";
+import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
+import { AppQueryStringService } from "./app.query-string.service";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
@@ -27,7 +29,6 @@ import { RtModule } from "./rt/rt.module";
 import { SearchModule } from "./search/search.module";
 import { SongModule } from "./song/song.module";
 import { UserModule } from "./user/user.module";
-import { AppImgProxyService } from "./app.img-proxy.service";
 
 @Module({
   controllers: [],
@@ -36,6 +37,7 @@ import { AppImgProxyService } from "./app.img-proxy.service";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
+    AppQueryStringService,
     AppService
   ],
   imports: [
@@ -100,6 +102,7 @@ import { AppImgProxyService } from "./app.img-proxy.service";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
+    AppQueryStringService,
     AppService
   ]
 })

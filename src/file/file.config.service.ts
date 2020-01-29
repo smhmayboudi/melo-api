@@ -66,6 +66,6 @@ export class FileConfigService {
   }
 
   get s3SslEnabled(): boolean {
-    return this.configService.get<boolean>("file.s3SslEnabled", false);
+    return this.configService.get<boolean>("file.s3SslEnabled", true);
   }
 }

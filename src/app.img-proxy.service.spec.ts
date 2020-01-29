@@ -16,5 +16,6 @@ describe("ImgProxyService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("image");
+  test.todo("all");
+  test.todo("make");
 });
