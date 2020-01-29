@@ -15,7 +15,7 @@
 - [ ] Database fixer / jwks + users
 
 - [ ] action module
-- [ ] const module
+- [ ] auth module -> telegram/callback
 - [ ] playlist module
 
 - [ ] // TODO: check params
@@ -29,13 +29,12 @@
 - [ ] api inspection + UI
 - [ ] api test
 - [ ] new api
+- [ ] Doc change api
 
 - [ ] parseInt !?
 - [ ] filenaming
 - [ ] Add test specs
-- [ ] isPublic => public
-- [ ] delete unnecessary dto
+- [ ] public => isPublic
+- [ ] universal dto
 - [ ] delete & update return object
-- [ ] constant by methods
-- [ ] SEO + hashId base64
 - [ ] as type

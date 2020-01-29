@@ -69,6 +69,7 @@ export class AppConfigService {
 
   // TODO: check it
   // TODO: return type
+  // TODO: qurtyString
   get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
     return this.configService
       .get<string>("app.imgProxyImageTypeSize", "")
@@ -79,8 +80,8 @@ export class AppConfigService {
         const [w, h] = sizesString.split("x");
         return {
           name,
-          width: parseInt(w),
-          height: parseInt(h)
+          width: parseInt(w, 10),
+          height: parseInt(h, 10)
         };
       });
   }

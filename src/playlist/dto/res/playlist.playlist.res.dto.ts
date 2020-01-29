@@ -55,7 +55,7 @@ export class PlaylistPlaylistResDto {
 
   @ApiProperty({
     description: "Is it public?",
-    example: "abcdef"
+    example: false
   })
   @IsBoolean()
   isPublic: boolean;

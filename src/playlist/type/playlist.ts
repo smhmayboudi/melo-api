@@ -68,7 +68,7 @@ export interface Playlist extends Document {
 
 //   @ApiProperty({
 //     description: "The playlist's accessibility",
-//     example: true
+//     example: false
 //   })
 //   @IsBoolean()
 //   isPublic: boolean;

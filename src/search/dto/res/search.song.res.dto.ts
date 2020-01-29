@@ -81,7 +81,7 @@ export class SearchSongResDto {
 
   @ApiProperty({
     description: "The localized",
-    example: "fa"
+    example: false
   })
   @IsBoolean()
   localized: boolean;

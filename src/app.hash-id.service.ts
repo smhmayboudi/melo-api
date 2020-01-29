@@ -17,11 +17,19 @@ export class AppHashIdService {
   }
 
   decode(hash: string): number {
-    return this.hashIds.decode(hash)[0] as number;
+    // return this.hashIds.decode(hash)[0] as number;
+    // TODO: performance issue
+    return this.hashIds.decode(
+      Buffer.from(hash, "base64").toString("utf8")
+    )[0] as number;
   }
 
   encode(id: number): string {
-    const encoded = this.hashIds.encode(id);
+    // const encoded = this.hashIds.encode(id);
+    // TODO: performance issue
+    const encoded = Buffer.from(this.hashIds.encode(id.toString()), "utf8")
+      .toString("base64")
+      .split("=")[0];
     if (encoded === "") {
       throw new Error(appConstant.errors.service.encoded);
     }
