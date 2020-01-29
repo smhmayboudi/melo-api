@@ -7,6 +7,7 @@ import { DataSongByIdsReqDto } from "./dto/req/data.song.by-ids.req.dto";
 import { DataSongGenreReqDto } from "./dto/req/data.song.genre.req.dto";
 import { DataSongLanguageReqDto } from "./dto/req/data.song.language.req.dto";
 import { DataSongMoodReqDto } from "./dto/req/data.song.mood.req.dto";
+import { DataSongNewPodcastReqDto } from "./dto/req/data.song.new-podcast.req.dto";
 import { DataSongNewReqDto } from "./dto/req/data.song.new.req.dto";
 import { DataSongPodcastReqDto } from "./dto/req/data.song.podcast.req.dto";
 import { DataSongSimilarReqDto } from "./dto/req/data.song.similar.req.dto";
@@ -18,8 +19,8 @@ import { DataSongResDto } from "./dto/res/data.song.res.dto";
 @Injectable()
 export class DataSongService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly dataConfigService: DataConfigService
+    private readonly dataConfigService: DataConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async byId(dto: DataSongByIdReqDto): Promise<DataSongResDto> {
@@ -114,11 +115,12 @@ export class DataSongService {
   }
 
   async newPodcast(
-    from: number,
-    limit: number
+    dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/song/new/podcast/${from}/${limit}`)
+      .get(
+        `${this.dataConfigService.uri}/song/new/podcast/${dto.from}/${dto.limit}`
+      )
       .pipe(
         map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
           return value.data;

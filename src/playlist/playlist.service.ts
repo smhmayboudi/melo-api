@@ -47,7 +47,9 @@ export class PlaylistService {
       image: { x: { url: `${playlist.photo_id}` } },
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
-      songs: playlistSongs,
+      songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
+        PlaylistSongResDto
+      >,
       title: playlist.title,
       tracksCount: playlistSongs.total
     };
@@ -104,7 +106,9 @@ export class PlaylistService {
       releaseDate: playlist.release_date,
       title: playlist.title,
       tracksCount: playlist.tracks_count,
-      songs: playlistSongs
+      songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
+        PlaylistSongResDto
+      >
     };
   }
 

@@ -11,8 +11,8 @@ import { DataSongResDto } from "./dto/res/data.song.res.dto";
 @Injectable()
 export class DataSearchService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly dataConfigService: DataConfigService
+    private readonly dataConfigService: DataConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async query(

@@ -36,5 +36,6 @@
 - [ ] isPublic => public
 - [ ] delete unnecessary dto
 - [ ] delete & update return object
-- [ ] remove @ApiBody({
 - [ ] constant by methods
+- [ ] SEO + hashId base64
+- [ ] as type

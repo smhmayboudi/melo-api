@@ -10,8 +10,8 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 @Injectable()
 export class DataAlbumService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly dataConfigService: DataConfigService
+    private readonly dataConfigService: DataConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {

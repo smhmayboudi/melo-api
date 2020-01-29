@@ -14,8 +14,8 @@ import { RelationConfigService } from "./relation.config.service";
 @Injectable()
 export class RelationService {
   constructor(
-    private readonly httpService: HttpService,
-    private readonly relationConfigService: RelationConfigService
+    private readonly relationConfigService: RelationConfigService,
+    private readonly httpService: HttpService
   ) {}
 
   async get(
