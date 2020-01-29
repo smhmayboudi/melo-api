@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
 import { AppConfigService } from "../app.config.service";
+import { template } from "lodash";
 
 @Injectable()
 export class PlaylistConfigService {
@@ -47,5 +48,15 @@ export class PlaylistConfigService {
         )
       ) / 1000
     );
+  }
+
+  get defaultImagePath(): string {
+    return this.configService.get<string>("app.defaultImagePath", "");
+  }
+
+  imagePath(id: string): string {
+    return template(this.configService.get<string>("app.imagePath", ""))({
+      id
+    });
   }
 }

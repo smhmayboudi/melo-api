@@ -8,11 +8,12 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { ConstService } from "./const.service";
-import { AuthGuard } from "@nestjs/passport";
+import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("const")
@@ -31,7 +32,7 @@ export class ConstController {
   constructor(private readonly constService: ConstService) {}
 
   @Get("images")
-  async images(): Promise<any> {
+  async images(): Promise<{ [key: string]: ConstImageResDto }> {
     return this.constService.images();
   }
 }

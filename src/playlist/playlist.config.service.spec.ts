@@ -22,4 +22,6 @@ describe("PlaylistService", () => {
   test.todo("cachePort");
   test.todo("cacheStore");
   test.todo("cacheTTL");
+  test.todo("defaultImagePath");
+  test.todo("imagePath");
 });

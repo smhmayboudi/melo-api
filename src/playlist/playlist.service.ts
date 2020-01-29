@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Error, Model, Types } from "mongoose";
+import { AppImgProxyService } from "src/app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
@@ -13,12 +14,15 @@ import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistPaginationResDto } from "./dto/res/playlist.pagination.res.dto";
 import { PlaylistPlaylistResDto } from "./dto/res/playlist.playlist.res.dto";
 import { PlaylistSongResDto } from "./dto/res/playlist.song.res.dto";
+import { PlaylistConfigService } from "./playlist.config.service";
 import { playlistConstant } from "./playlist.constant";
 import { Playlist } from "./type/playlist";
 
 @Injectable()
 export class PlaylistService {
   constructor(
+    private readonly playlistConfigService: PlaylistConfigService,
+    private readonly appImgProxyService: AppImgProxyService,
     private readonly dataSongService: DataSongService,
     @InjectModel("Playlist")
     private readonly playlistModel: Model<Playlist>
@@ -43,8 +47,11 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: dto.playlistId,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.generateUrl(
+        playlist.photo_id
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
@@ -71,8 +78,11 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.generateUrl(
+        playlist.photo_id
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -100,8 +110,11 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.generateUrl(
+        playlist.photo_id
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -132,8 +145,11 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.generateUrl(
+        playlist.photo_id
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -156,8 +172,11 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.generateUrl(
+        playlist.photo_id
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
+          : this.playlistConfigService.defaultImagePath
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -185,8 +204,11 @@ export class PlaylistService {
         return {
           followersCount: value.followers_count,
           id: value._id,
-          // TODO: x?
-          image: { x: { url: `${value.photo_id}` } },
+          image: this.appImgProxyService.generateUrl(
+            value.photo_id
+              ? this.playlistConfigService.imagePath(value.photo_id)
+              : this.playlistConfigService.defaultImagePath
+          ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
           title: value.title,
@@ -221,8 +243,11 @@ export class PlaylistService {
         return {
           followersCount: value.followers_count,
           id: value._id,
-          // TODO: x?
-          image: { x: { url: `${value.photo_id}` } },
+          image: this.appImgProxyService.generateUrl(
+            value.photo_id
+              ? this.playlistConfigService.imagePath(value.photo_id)
+              : this.playlistConfigService.defaultImagePath
+          ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
           title: value.title,

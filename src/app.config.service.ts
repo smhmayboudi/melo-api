@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { SignatureSize } from "imgproxy/dist/types";
 import ms from "ms";
+import { ImgProxyImageTypeSize } from "./type/ImgProxyImageTypeSize";
 
 @Injectable()
 export class AppConfigService {
@@ -40,6 +42,47 @@ export class AppConfigService {
 
   get hashIdSeps(): string {
     return this.configService.get<string>("app.hashIdSeps", "");
+  }
+
+  get imgProxyBaseUrl(): string {
+    return this.configService.get<string>("app.imgProxyUrl", "");
+  }
+
+  get imgProxyEncode(): boolean {
+    return this.configService.get<boolean>("app.imgProxyEncode", true);
+  }
+
+  get imgProxyKey(): string {
+    return this.configService.get<string>("app.imgProxyKey", "");
+  }
+
+  get imgProxySalt(): string {
+    return this.configService.get<string>("app.imgProxySalt", "");
+  }
+
+  get imgProxySignatureSize(): SignatureSize {
+    return this.configService.get<SignatureSize>(
+      "app.imgProxySignatureSize",
+      1
+    );
+  }
+
+  // TODO: check it
+  // TODO: return type
+  get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
+    return this.configService
+      .get<string>("app.imgProxyImageTypeSize", "")
+      .split(",")
+      .filter((p: string) => p && p !== "")
+      .map((p: string) => {
+        const [name, sizesString] = p.split(":");
+        const [w, h] = sizesString.split("x");
+        return {
+          name,
+          width: parseInt(w),
+          height: parseInt(h)
+        };
+      });
   }
 
   get mangooseRetryAttempts(): number {

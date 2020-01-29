@@ -10,7 +10,9 @@ import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health";
+import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
+import { AppQueryStringService } from "./app.query-string.service";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
@@ -30,7 +32,14 @@ import { UserModule } from "./user/user.module";
 
 @Module({
   controllers: [],
-  exports: [AppConfigService, AppHashIdService, AppHealthIndicator, AppService],
+  exports: [
+    AppConfigService,
+    AppHashIdService,
+    AppHealthIndicator,
+    AppImgProxyService,
+    AppQueryStringService,
+    AppService
+  ],
   imports: [
     ActionModule,
     AlbumModule,
@@ -92,6 +101,8 @@ import { UserModule } from "./user/user.module";
     AppConfigService,
     AppHashIdService,
     AppHealthIndicator,
+    AppImgProxyService,
+    AppQueryStringService,
     AppService
   ]
 })

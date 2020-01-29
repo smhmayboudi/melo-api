@@ -22,4 +22,5 @@ describe("ConstService", () => {
   test.todo("cachePort");
   test.todo("cacheStore");
   test.todo("cacheTTL");
+  test.todo("staticImagePaths");
 });
