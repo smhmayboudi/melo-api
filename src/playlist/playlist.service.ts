@@ -14,11 +14,15 @@ import { PlaylistTopDto } from "./dto/playlist.top.dto";
 import { Playlist } from "./type/playlist";
 import { playlistConstant } from "./playlist.constant";
 import { PaginationResultDto } from "../data/dto/pagination.result.dto";
+import { AppImgProxyService } from "src/app.img-proxy.service";
+import { AppConfigService } from "src/app.config.service";
 
 @Injectable()
 export class PlaylistService {
   constructor(
     private readonly dataSongService: DataSongService,
+    private readonly appImgProxyService: AppImgProxyService,
+    private readonly appConfigService: AppConfigService,
     @InjectModel("Playlist")
     private readonly playlistModel: Model<Playlist>
   ) {}
@@ -39,8 +43,15 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: dto.playlistId,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.all(
+        playlist.photo_id
+          ? this.appConfigService.miskEndpoint.replace(
+              "{id}",
+              `${playlist.photo_id}.jpg`
+            )
+          : this.appConfigService.defaultImagePlaylistAddress,
+        undefined
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       songs: playlistSongs,
@@ -62,8 +73,15 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.all(
+        playlist.photo_id
+          ? this.appConfigService.miskEndpoint.replace(
+              "{id}",
+              `${playlist.photo_id}.jpg`
+            )
+          : this.appConfigService.defaultImagePlaylistAddress,
+        undefined
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -91,8 +109,15 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.all(
+        playlist.photo_id
+          ? this.appConfigService.miskEndpoint.replace(
+              "{id}",
+              `${playlist.photo_id}.jpg`
+            )
+          : this.appConfigService.defaultImagePlaylistAddress,
+        undefined
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -118,8 +143,15 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.all(
+        playlist.photo_id
+          ? this.appConfigService.miskEndpoint.replace(
+              "{id}",
+              `${playlist.photo_id}.jpg`
+            )
+          : this.appConfigService.defaultImagePlaylistAddress,
+        undefined
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -140,8 +172,15 @@ export class PlaylistService {
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
-      // TODO: x?
-      image: { x: { url: `${playlist.photo_id}` } },
+      image: this.appImgProxyService.all(
+        playlist.photo_id
+          ? this.appConfigService.miskEndpoint.replace(
+              "{id}",
+              `${playlist.photo_id}.jpg`
+            )
+          : this.appConfigService.defaultImagePlaylistAddress,
+        undefined
+      ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
@@ -167,8 +206,15 @@ export class PlaylistService {
         return {
           followersCount: value.followers_count,
           id: value._id,
-          // TODO: x?
-          image: { x: { url: `${value.photo_id}` } },
+          image: this.appImgProxyService.all(
+            value.photo_id
+              ? this.appConfigService.miskEndpoint.replace(
+                  "{id}",
+                  `${value.photo_id}.jpg`
+                )
+              : this.appConfigService.defaultImagePlaylistAddress,
+            undefined
+          ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
           title: value.title,
@@ -199,8 +245,15 @@ export class PlaylistService {
         return {
           followersCount: value.followers_count,
           id: value._id,
-          // TODO: x?
-          image: { x: { url: `${value.photo_id}` } },
+          image: this.appImgProxyService.all(
+            value.photo_id
+              ? this.appConfigService.miskEndpoint.replace(
+                  "{id}",
+                  `${value.photo_id}.jpg`
+                )
+              : this.appConfigService.defaultImagePlaylistAddress,
+            undefined
+          ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
           title: value.title,

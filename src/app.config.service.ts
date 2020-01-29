@@ -27,6 +27,13 @@ export class AppConfigService {
     return ms(this.configService.get<string>("app.cacheTTL", "")) / 1000;
   }
 
+  get defaultImagePlaylistAddress(): string {
+    return this.configService.get<string>(
+      "app.defaultImagePlaylistAddress",
+      ""
+    );
+  }
+
   get hashIdAlphabet(): string {
     return this.configService.get<string>("app.hashIdAlphabet", "");
   }
@@ -86,6 +93,10 @@ export class AppConfigService {
 
   get mangooseUri(): string {
     return this.configService.get<string>("app.mangooseUri", "");
+  }
+
+  get miskEndpoint(): string {
+    return this.configService.get<string>("app.miskEndpoint", "");
   }
 
   get port(): number {
