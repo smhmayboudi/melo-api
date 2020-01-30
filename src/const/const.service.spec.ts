@@ -1,4 +1,9 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppQueryStringService } from "../app.query-string.service";
+import { AppConfigService } from "../app.config.service";
+import { AppImgProxyService } from "../app.img-proxy.service";
+import { ConstConfigService } from "./const.config.service";
 import { ConstService } from "./const.service";
 
 describe("ConstService", () => {
@@ -6,7 +11,14 @@ describe("ConstService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConstService]
+      providers: [
+        AppConfigService,
+        AppImgProxyService,
+        AppQueryStringService,
+        ConfigService,
+        ConstService,
+        ConstConfigService
+      ]
     }).compile();
 
     service = module.get<ConstService>(ConstService);

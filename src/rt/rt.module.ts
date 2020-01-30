@@ -7,7 +7,7 @@ import config from "./rt.config";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtService } from "./rt.service";
-import { RtHealthIndicator } from "./rt.health";
+import { RtHealthIndicator } from "./rt.health.indicator";
 
 @Module({
   controllers: [],

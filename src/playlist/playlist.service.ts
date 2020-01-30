@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Error, Model, Types } from "mongoose";
-import { AppImgProxyService } from "src/app.img-proxy.service";
+import { AppImgProxyService } from "../app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";

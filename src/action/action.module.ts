@@ -5,7 +5,7 @@ import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import config from "./action.config";
 import { ActionConfigService } from "./action.config.service";
 import { ActionController } from "./action.controller";
-import { ActionHealthIndicator } from "./action.health";
+import { ActionHealthIndicator } from "./action.health.indicator";
 import { ActionService } from "./action.service";
 
 @Module({

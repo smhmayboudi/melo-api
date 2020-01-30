@@ -1,7 +1,7 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { DataSongNewPodcastReqDto } from "src/data/dto/req/data.song.new-podcast.req.dto";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongService } from "../data/data.song.service";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
@@ -27,7 +27,7 @@ import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
 import { SongOrderByType } from "./type/song.order-by.type";
-import { DataOrderByType } from "src/data/type/data.order-by.type";
+import { DataOrderByType } from "../data/type/data.order-by.type";
 
 @Injectable()
 export class SongService {

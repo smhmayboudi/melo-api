@@ -7,7 +7,7 @@ import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
-import { PlaylistHealthIndicator } from "./playlist.health";
+import { PlaylistHealthIndicator } from "./playlist.health.indicator";
 import { PlaylistSchema } from "./playlist.schema";
 import { PlaylistService } from "./playlist.service";
 

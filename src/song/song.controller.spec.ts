@@ -1,12 +1,16 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "../app.config.service";
+import { AppHashIdService } from "../app.hash-id.service";
 import { SongController } from "./song.controller";
 
-describe("Song Controller", () => {
+describe("SongController", () => {
   let controller: SongController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [SongController]
+      controllers: [SongController],
+      providers: [AppConfigService, AppHashIdService, ConfigService]
     }).compile();
 
     controller = module.get<SongController>(SongController);

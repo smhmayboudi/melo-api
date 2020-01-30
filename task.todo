@@ -29,7 +29,6 @@
 - [ ] new api
 - [ ] Doc change api
 
-- [ ] Add test specs
 - [ ] public => isPublic
 - [ ] delete & update return object
 - [ ] as type (universal dto)

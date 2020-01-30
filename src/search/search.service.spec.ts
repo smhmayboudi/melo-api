@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataSearchService } from "../data/data.search.service";
 import { SearchService } from "./search.service";
 
 describe("SearchService", () => {
@@ -6,7 +7,7 @@ describe("SearchService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SearchService]
+      providers: [DataSearchService, SearchService]
     }).compile();
 
     service = module.get<SearchService>(SearchService);

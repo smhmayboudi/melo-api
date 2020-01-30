@@ -8,7 +8,7 @@ import { SongCacheOptionsFactory } from "./song.cache.options.factory";
 import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
-import { SongHealthIndicator } from "./song.health";
+import { SongHealthIndicator } from "./song.health.indicator";
 import { SongHttpModuleOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
 

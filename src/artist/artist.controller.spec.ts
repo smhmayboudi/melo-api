@@ -1,12 +1,26 @@
+import { HttpService } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataArtistService } from "../data/data.artist.service";
+import { DataConfigService } from "../data/data.config.service";
+import { RelationService } from "../relation/relation.service";
 import { ArtistController } from "./artist.controller";
+import { ArtistService } from "./artist.service";
 
-describe("Artist Controller", () => {
+describe("ArtistController", () => {
   let controller: ArtistController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [ArtistController]
+      controllers: [ArtistController],
+      providers: [
+        ArtistService,
+        ConfigService,
+        DataArtistService,
+        DataConfigService,
+        HttpService,
+        RelationService
+      ]
     }).compile();
 
     controller = module.get<ArtistController>(ArtistController);

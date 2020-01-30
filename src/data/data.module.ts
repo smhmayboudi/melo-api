@@ -4,7 +4,7 @@ import { DataAlbumService } from "./data.album.service";
 import { DataArtistService } from "./data.artist.service";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
-import { DataHealthIndicator } from "./data.health";
+import { DataHealthIndicator } from "./data.health.indicator";
 import { DataHttpModuleOptionsFactory } from "./data.http.options.factory";
 import { DataSearchService } from "./data.search.service";
 import { DataService } from "./data.service";

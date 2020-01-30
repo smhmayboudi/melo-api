@@ -1,4 +1,8 @@
+import { HttpService } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataAlbumService } from "../data/data.album.service";
+import { DataConfigService } from "../data/data.config.service";
 import { AlbumService } from "./album.service";
 
 describe("AlbumService", () => {
@@ -6,7 +10,13 @@ describe("AlbumService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AlbumService]
+      providers: [
+        AlbumService,
+        ConfigService,
+        DataAlbumService,
+        DataConfigService,
+        HttpService
+      ]
     }).compile();
 
     service = module.get<AlbumService>(AlbumService);

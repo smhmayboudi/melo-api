@@ -1,4 +1,8 @@
+import { HttpService } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataConfigService } from "../data/data.config.service";
+import { DataSongService } from "../data/data.song.service";
 import { SongService } from "./song.service";
 
 describe("SongService", () => {
@@ -6,7 +10,13 @@ describe("SongService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [SongService]
+      providers: [
+        ConfigService,
+        DataConfigService,
+        DataSongService,
+        HttpService,
+        SongService
+      ]
     }).compile();
 
     service = module.get<SongService>(SongService);

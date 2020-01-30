@@ -6,7 +6,7 @@ import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import config from "./at.config";
 import { AtConfigService } from "./at.config.service";
 import { AtEntityRepository } from "./at.entity.repository";
-import { AtHealthIndicator } from "./at.health";
+import { AtHealthIndicator } from "./at.health.indicator";
 import { AtService } from "./at.service";
 
 @Module({

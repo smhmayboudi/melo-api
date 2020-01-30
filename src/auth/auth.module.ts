@@ -17,7 +17,7 @@ import { JwtStrategy } from "./jwt.strategy";
 import { LocalStrategy } from "./local.strategy";
 import { TelegramStrategy } from "./telegram.strategy";
 import { TokenStrategy } from "./token.strategy";
-import { AuthHealthIndicator } from "./auth.health";
+import { AuthHealthIndicator } from "./auth.health.indicator";
 
 @Module({
   controllers: [AuthController],

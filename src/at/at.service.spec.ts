@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { AtEntityRepository } from "./at.entity.repository";
 import { AtService } from "./at.service";
 
 describe("AtService", () => {
@@ -6,7 +7,7 @@ describe("AtService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AtService]
+      providers: [AtEntityRepository, AtService]
     }).compile();
 
     service = module.get<AtService>(AtService);

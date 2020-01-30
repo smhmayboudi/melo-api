@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksService } from "./jwks.service";
 
 describe("JwksService", () => {
@@ -6,7 +7,7 @@ describe("JwksService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [JwksService]
+      providers: [JwksEntityRepository, JwksService]
     }).compile();
 
     service = module.get<JwksService>(JwksService);

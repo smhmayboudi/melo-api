@@ -11,9 +11,9 @@ import { AuthJwtPayloadDto } from "./dto/auth.jwt-payload.dto";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
+    protected readonly atService: AtService,
     protected readonly authConfigService: AuthConfigService,
     protected readonly jwksService: JwksService,
-    protected readonly atService: AtService,
     protected readonly rtService: RtService
   ) {
     super({

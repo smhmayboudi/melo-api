@@ -6,22 +6,22 @@ import {
   TerminusModuleOptions,
   TerminusOptionsFactory
 } from "@nestjs/terminus";
-import { ActionHealthIndicator } from "./action/action.health";
-import { AlbumHealthIndicator } from "./album/album.health";
-import { AppHealthIndicator } from "./app.health";
-import { ArtistHealthIndicator } from "./artist/artist.health";
-import { AtHealthIndicator } from "./at/at.health";
-import { AuthHealthIndicator } from "./auth/auth.health";
-import { ConstHealthIndicator } from "./const/const.health";
-import { DataHealthIndicator } from "./data/data.health";
-import { FileHealthIndicator } from "./file/file.health";
-import { JwksHealthIndicator } from "./jwks/jwks.health";
-import { PlaylistHealthIndicator } from "./playlist/playlist.health";
-import { RelationHealthIndicator } from "./relation/relation.health";
-import { RtHealthIndicator } from "./rt/rt.health";
-import { SearchHealthIndicator } from "./search/search.health";
-import { SongHealthIndicator } from "./song/song.health";
-import { UserHealthIndicator } from "./user/user.health";
+import { ActionHealthIndicator } from "./action/action.health.indicator";
+import { AlbumHealthIndicator } from "./album/album.health.indicator";
+import { AppHealthIndicator } from "./app.health.indicator";
+import { ArtistHealthIndicator } from "./artist/artist.health.indicator";
+import { AtHealthIndicator } from "./at/at.health.indicator";
+import { AuthHealthIndicator } from "./auth/auth.health.indicator";
+import { ConstHealthIndicator } from "./const/const.health.indicator";
+import { DataHealthIndicator } from "./data/data.health.indicator";
+import { FileHealthIndicator } from "./file/file.health.indicator";
+import { JwksHealthIndicator } from "./jwks/jwks.health.indicator";
+import { PlaylistHealthIndicator } from "./playlist/playlist.health.indicator";
+import { RelationHealthIndicator } from "./relation/relation.health.indicator";
+import { RtHealthIndicator } from "./rt/rt.health.indicator";
+import { SearchHealthIndicator } from "./search/search.health.indicator";
+import { SongHealthIndicator } from "./song/song.health.indicator";
+import { UserHealthIndicator } from "./user/user.health.indicator";
 
 @Injectable()
 export class AppTerminusOptionsFactory implements TerminusOptionsFactory {

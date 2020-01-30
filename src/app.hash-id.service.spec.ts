@@ -1,4 +1,6 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 
 describe("AppHashIdService", () => {
@@ -6,7 +8,7 @@ describe("AppHashIdService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppHashIdService]
+      providers: [AppConfigService, AppHashIdService, ConfigService]
     }).compile();
 
     service = module.get<AppHashIdService>(AppHashIdService);

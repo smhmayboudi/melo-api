@@ -5,7 +5,7 @@ import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import config from "./artist.config";
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
-import { ArtistHealthIndicator } from "./artist.health";
+import { ArtistHealthIndicator } from "./artist.health.indicator";
 import { ArtistService } from "./artist.service";
 import { DataModule } from "../data/data.module";
 import { RelationModule } from "../relation/relation.module";

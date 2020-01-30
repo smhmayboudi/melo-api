@@ -5,7 +5,7 @@ import { ConstCacheOptionsFactory } from "./const.cache.options.factory";
 import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
 import { ConstController } from "./const.controller";
-import { ConstHealthIndicator } from "./const.health";
+import { ConstHealthIndicator } from "./const.health.indicator";
 import { ConstService } from "./const.service";
 
 @Module({

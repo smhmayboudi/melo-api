@@ -1,14 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
+import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
 
-describe("User Controller", () => {
+describe("UserController", () => {
   let controller: UserController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [UserService]
+      providers: [UserEntityRepository, UserService]
     }).compile();
 
     controller = module.get<UserController>(UserController);

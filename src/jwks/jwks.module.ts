@@ -6,7 +6,7 @@ import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 import config from "./jwks.config";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksEntityRepository } from "./jwks.entity.repository";
-import { JwksHealthIndicator } from "./jwks.health";
+import { JwksHealthIndicator } from "./jwks.health.indicator";
 import { JwksService } from "./jwks.service";
 
 @Module({

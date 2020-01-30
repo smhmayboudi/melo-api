@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
-import { AppQueryStringService } from "src/app.query-string.service";
+import { AppQueryStringService } from "../app.query-string.service";
 import { AppConfigService } from "../app.config.service";
 
 @Injectable()

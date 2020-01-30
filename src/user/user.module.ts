@@ -8,7 +8,7 @@ import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
-import { UserHealthIndicator } from "./user.health";
+import { UserHealthIndicator } from "./user.health.indicator";
 
 @Module({
   controllers: [UserController],

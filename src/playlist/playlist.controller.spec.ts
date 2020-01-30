@@ -1,11 +1,14 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "../app.config.service";
+import { AppHashIdService } from "../app.hash-id.service";
 import { PlaylistController } from "./playlist.controller";
 
-describe("Playlist Controller", () => {
+describe("PlaylistController", () => {
   let controller: PlaylistController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      providers: [AppConfigService, AppHashIdService],
       controllers: [PlaylistController]
     }).compile();
 

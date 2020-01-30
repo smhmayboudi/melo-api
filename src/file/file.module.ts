@@ -8,7 +8,7 @@ import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
 import { FileEntityRepository } from "./file.entity.repository";
-import { FileHealthIndicator } from "./file.health";
+import { FileHealthIndicator } from "./file.health.indicator";
 import { FileMulterOptionsFactory } from "./file.multer.options.factory";
 import { FileService } from "./file.service";
 

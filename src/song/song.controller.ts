@@ -32,7 +32,7 @@ import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
 import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
 import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
-import { DataSongNewPodcastReqDto } from "src/data/dto/req/data.song.new-podcast.req.dto";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";

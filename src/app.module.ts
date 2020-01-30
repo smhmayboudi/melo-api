@@ -9,7 +9,7 @@ import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
-import { AppHealthIndicator } from "./app.health";
+import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppQueryStringService } from "./app.query-string.service";
