@@ -1,5 +1,5 @@
 ---
-to: src/<%= h.changeCase.camel(name)%>/<%= h.changeCase.dot(name)%>.health.ts
+to: src/<%= h.changeCase.camel(name)%>/<%= h.changeCase.dot(name)%>.health.indicator.ts
 unless_exists: true
 ---
 import { HealthCheckError } from "@godaddy/terminus";

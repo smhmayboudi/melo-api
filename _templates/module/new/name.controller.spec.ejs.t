@@ -5,7 +5,7 @@ unless_exists: true
 import { Test, TestingModule } from "@nestjs/testing";
 import { <%= h.changeCase.pascal(name)%>Controller } from "./<%= h.changeCase.dot(name)%>.controller";
 
-describe("<%= h.changeCase.pascal(name)%> Controller", () => {
+describe("<%= h.changeCase.pascal(name)%>Controller", () => {
   let controller: <%= h.changeCase.pascal(name)%>Controller;
 
   beforeEach(async () => {
