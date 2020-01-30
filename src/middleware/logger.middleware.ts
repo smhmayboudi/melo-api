@@ -4,7 +4,10 @@ import { Request, Response } from "express";
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
   use(request: Request, _response: Response, next: Function): void {
-    Logger.log(JSON.stringify({ path: request.path }), "logger.middleware");
+    Logger.log(
+      `${JSON.stringify({ path: request.path, user: request.user })} => ...`,
+      "LoggerMiddleware"
+    );
     next();
   }
 }

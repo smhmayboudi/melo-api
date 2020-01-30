@@ -15,8 +15,6 @@
 - [ ] Database fixer / jwks + users
 
 - [ ] action module
-- [ ] auth module -> telegram/callback
-- [ ] playlist module
 
 - [ ] // TODO: check params
 - [ ] // TODO: mixArtists

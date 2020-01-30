@@ -2,7 +2,8 @@ import {
   ArgumentsHost,
   Catch,
   ExceptionFilter,
-  HttpException
+  HttpException,
+  Logger
 } from "@nestjs/common";
 import express from "express";
 
@@ -13,6 +14,15 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<express.Response>();
     const request = ctx.getRequest<express.Request>();
     const status = exception.getStatus();
+
+    Logger.error(
+      `${JSON.stringify({
+        path: request.path,
+        user: request.user
+      })} => ${exception}`,
+      undefined,
+      "ErrorInterceptor"
+    );
 
     response.status(status).json({
       path: request.url,

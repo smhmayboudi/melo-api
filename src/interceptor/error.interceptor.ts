@@ -18,14 +18,13 @@ export class ErrorInterceptor implements NestInterceptor {
       .getRequest<express.Request & { user: AuthJwtPayloadDto }>();
     return next.handle().pipe(
       catchError((error: Error) => {
-        Logger.error(error, undefined, "error.interceptor");
         Logger.error(
-          JSON.stringify({
+          `${JSON.stringify({
             path: request.path,
             user: request.user
-          }),
+          })} => ${error}`,
           undefined,
-          "error.interceptor"
+          "ErrorInterceptor"
         );
         throw error;
       })

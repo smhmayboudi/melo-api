@@ -65,8 +65,10 @@ export class AuthController {
   @ApiBearerAuth("telegram")
   @Post("telegram/callback")
   @UseGuards(AuthGuard("telegram"))
-  telegram(): string {
-    return "telegram";
+  async telegram(
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<AuthAccessTokenDto | undefined> {
+    return this.authService.refreshToken(sub);
   }
 
   @ApiBearerAuth("token")
