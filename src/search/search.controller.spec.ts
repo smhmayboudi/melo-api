@@ -1,4 +1,6 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataConfigService } from "../data/data.config.service";
 import { DataSearchService } from "../data/data.search.service";
 import { SearchController } from "./search.controller";
 import { SearchService } from "./search.service";
@@ -8,7 +10,12 @@ describe("SearchController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [DataSearchService, SearchService],
+      providers: [
+        ConfigService,
+        DataConfigService,
+        DataSearchService,
+        SearchService
+      ],
       controllers: [SearchController]
     }).compile();
 
