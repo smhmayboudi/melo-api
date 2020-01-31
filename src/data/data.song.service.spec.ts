@@ -1,7 +1,10 @@
-import { HttpService } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { HttpModule } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
+import { DataHttpModuleOptionsFactory } from "./data.http.options.factory";
+import { DataModule } from "./data.module";
 import { DataSongService } from "./data.song.service";
 
 describe("DataSongService", () => {
@@ -9,12 +12,14 @@ describe("DataSongService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ConfigService,
-        DataConfigService,
-        DataSongService,
-        HttpService
-      ]
+      imports: [
+        ConfigModule.forFeature(config),
+        HttpModule.registerAsync({
+          imports: [DataModule],
+          useClass: DataHttpModuleOptionsFactory
+        })
+      ],
+      providers: [DataConfigService, DataSongService]
     }).compile();
 
     service = module.get<DataSongService>(DataSongService);

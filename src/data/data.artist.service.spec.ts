@@ -1,26 +1,25 @@
-import { HttpService } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { HttpModule } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { RelationConfigService } from "../relation/relation.config.service";
-import { ArtistService } from "../artist/artist.service";
-import { RelationService } from "../relation/relation.service";
 import { DataArtistService } from "./data.artist.service";
+import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
+import { DataHttpModuleOptionsFactory } from "./data.http.options.factory";
+import { DataModule } from "./data.module";
 
 describe("DataArtistService", () => {
   let service: DataArtistService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        ConfigService,
-        DataArtistService,
-        DataConfigService,
-        RelationConfigService,
-        RelationService,
-        HttpService
-      ]
+      imports: [
+        ConfigModule.forFeature(config),
+        HttpModule.registerAsync({
+          imports: [DataModule],
+          useClass: DataHttpModuleOptionsFactory
+        })
+      ],
+      providers: [DataConfigService, DataArtistService]
     }).compile();
 
     service = module.get<DataArtistService>(DataArtistService);

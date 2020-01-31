@@ -1,5 +1,6 @@
-import { ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
 
 describe("DataService", () => {
@@ -7,7 +8,8 @@ describe("DataService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConfigService, DataConfigService]
+      imports: [ConfigModule.forFeature(config)],
+      providers: [DataConfigService]
     }).compile();
 
     service = module.get<DataConfigService>(DataConfigService);
