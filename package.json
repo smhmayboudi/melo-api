@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register jest --config ./jest.config.json --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
-    "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert"
+    "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
     "@godaddy/terminus": "^4.3.1",
@@ -98,6 +99,8 @@
     "@types/uuid": "^3.4.7",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
+    "conventional-changelog": "^3.1.18",
+    "conventional-changelog-cli": "^2.0.31",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
