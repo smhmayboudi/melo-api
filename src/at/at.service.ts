@@ -39,7 +39,7 @@ export class AtService {
     return this.atEntityRepository.findOne({ token });
   }
 
-  async validateByUserId(sub: number): Promise<AtEntity | undefined> {
+  async validateBySub(sub: number): Promise<AtEntity | undefined> {
     return this.atEntityRepository.findOne({ user_id: sub });
   }
 }

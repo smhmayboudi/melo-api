@@ -28,5 +28,6 @@
 - [ ] Doc change api
 
 - [ ] public => isPublic
-- [ ] delete & update return object
+- [ ] delete & update return object [@Delete | @Post | Promise<boolean>]
+
 - [ ] as type (universal dto)

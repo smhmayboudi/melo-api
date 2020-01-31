@@ -33,6 +33,6 @@ describe("AtService", () => {
   test.todo("findOneById");
   test.todo("findOneByAt");
   test.todo("save");
-  test.todo("validateByUserId");
+  test.todo("validateBySub");
   test.todo("validateByAt");
 });

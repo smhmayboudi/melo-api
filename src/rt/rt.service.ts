@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult } from "typeorm";
 import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
 
@@ -11,31 +10,40 @@ export class RtService {
     private readonly rtEntityRepository: RtEntityRepository
   ) {}
 
-  async blockById(id: number, description: string): Promise<DeleteResult> {
-    const rtEntity = await this.rtEntityRepository.findOne({ id });
-    return this.rtEntityRepository.update(
+  async blockById(
+    id: number,
+    description: string
+  ): Promise<RtEntity | undefined> {
+    await this.rtEntityRepository.update(
       { id },
-      { ...rtEntity, description, is_blocked: true }
+      { description, is_blocked: true }
     );
+    const rtEntity = await this.findOneById(id);
+    return rtEntity;
   }
 
   async blockByToken(
     token: string,
     description: string
-  ): Promise<DeleteResult> {
-    const rtEntity = await this.rtEntityRepository.findOne({ token });
-    return this.rtEntityRepository.update(
+  ): Promise<RtEntity | undefined> {
+    await this.rtEntityRepository.update(
       { token },
-      { ...rtEntity, description, is_blocked: true }
+      { description, is_blocked: true }
     );
+    const rtEntity = await this.findOneByToken(token);
+    return rtEntity;
   }
 
-  async deleteById(id: number): Promise<DeleteResult> {
-    return this.rtEntityRepository.delete({ id });
+  async deleteById(id: number): Promise<RtEntity | undefined> {
+    const rtEntity = await this.findOneById(id);
+    await this.rtEntityRepository.delete({ id });
+    return rtEntity;
   }
 
-  async deleteByToken(token: string): Promise<DeleteResult> {
-    return this.rtEntityRepository.delete({ token });
+  async deleteByToken(token: string): Promise<RtEntity | undefined> {
+    const rtEntity = await this.findOneByToken(token);
+    await this.rtEntityRepository.delete({ token });
+    return rtEntity;
   }
 
   async find(): Promise<RtEntity[]> {
@@ -54,14 +62,14 @@ export class RtService {
     return this.rtEntityRepository.save(entities);
   }
 
-  async validateByToken(token: string): Promise<RtEntity | undefined> {
-    return this.rtEntityRepository.findOne({ is_blocked: false, token });
-  }
-
-  async validateByUserId(sub: number): Promise<RtEntity | undefined> {
+  async validateBySub(sub: number): Promise<RtEntity | undefined> {
     return this.rtEntityRepository.findOne({
       is_blocked: false,
       user_id: sub
     });
+  }
+
+  async validateByToken(token: string): Promise<RtEntity | undefined> {
+    return this.rtEntityRepository.findOne({ is_blocked: false, token });
   }
 }

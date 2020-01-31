@@ -36,6 +36,6 @@ describe("RtService", () => {
   test.todo("findOneById");
   test.todo("findOneByToken");
   test.todo("save");
-  test.todo("validateByUserId");
+  test.todo("validateBySub");
   test.todo("validateByToken");
 });

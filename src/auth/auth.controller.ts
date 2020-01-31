@@ -14,13 +14,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { DeleteResult } from "typeorm";
 import { User } from "../decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AuthAccessTokenDto } from "./dto/auth.access-token.dto";
+import { RtEntity } from "../rt/rt.entity";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -58,7 +58,7 @@ export class AuthController {
   @ApiBearerAuth("token")
   @Delete("logout")
   @UseGuards(AuthGuard("token"))
-  async logout(@Headers("token") token: string): Promise<DeleteResult> {
+  async logout(@Headers("token") token: string): Promise<RtEntity | undefined> {
     return this.rtService.deleteByToken(token);
   }
 
