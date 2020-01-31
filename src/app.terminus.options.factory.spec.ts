@@ -1,23 +1,38 @@
-import { HttpService } from "@nestjs/common";
-import { DNSHealthIndicator } from "@nestjs/terminus";
+import { DNSHealthIndicator, TerminusModule } from "@nestjs/terminus";
 import { Test, TestingModule } from "@nestjs/testing";
 import { ActionHealthIndicator } from "./action/action.health.indicator";
+import { ActionModule } from "./action/action.module";
 import { AlbumHealthIndicator } from "./album/album.health.indicator";
+import { AlbumModule } from "./album/album.module";
 import { AppHealthIndicator } from "./app.health.indicator";
+import { AppModule } from "./app.module";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { ArtistHealthIndicator } from "./artist/artist.health.indicator";
+import { ArtistModule } from "./artist/artist.module";
 import { AtHealthIndicator } from "./at/at.health.indicator";
+import { AtModule } from "./at/at.module";
 import { AuthHealthIndicator } from "./auth/auth.health.indicator";
+import { AuthModule } from "./auth/auth.module";
 import { ConstHealthIndicator } from "./const/const.health.indicator";
+import { ConstModule } from "./const/const.module";
 import { DataHealthIndicator } from "./data/data.health.indicator";
+import { DataModule } from "./data/data.module";
 import { FileHealthIndicator } from "./file/file.health.indicator";
+import { FileModule } from "./file/file.module";
 import { JwksHealthIndicator } from "./jwks/jwks.health.indicator";
+import { JwksModule } from "./jwks/jwks.module";
 import { PlaylistHealthIndicator } from "./playlist/playlist.health.indicator";
+import { PlaylistModule } from "./playlist/playlist.module";
 import { RelationHealthIndicator } from "./relation/relation.health.indicator";
+import { RelationModule } from "./relation/relation.module";
 import { RtHealthIndicator } from "./rt/rt.health.indicator";
+import { RtModule } from "./rt/rt.module";
 import { SearchHealthIndicator } from "./search/search.health.indicator";
+import { SearchModule } from "./search/search.module";
 import { SongHealthIndicator } from "./song/song.health.indicator";
+import { SongModule } from "./song/song.module";
 import { UserHealthIndicator } from "./user/user.health.indicator";
+import { UserModule } from "./user/user.module";
 
 describe("AppTerminusOptionsFactory", () => {
   let actionHealthIndicatorService: ActionHealthIndicator;
@@ -40,25 +55,28 @@ describe("AppTerminusOptionsFactory", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ActionHealthIndicator,
-        AlbumHealthIndicator,
-        AppHealthIndicator,
-        ArtistHealthIndicator,
-        AtHealthIndicator,
-        AuthHealthIndicator,
-        ConstHealthIndicator,
-        DNSHealthIndicator,
-        DataHealthIndicator,
-        FileHealthIndicator,
-        HttpService,
-        JwksHealthIndicator,
-        PlaylistHealthIndicator,
-        RelationHealthIndicator,
-        RtHealthIndicator,
-        SearchHealthIndicator,
-        SongHealthIndicator,
-        UserHealthIndicator
+      imports: [
+        TerminusModule.forRootAsync({
+          imports: [
+            ActionModule,
+            AlbumModule,
+            AppModule,
+            ArtistModule,
+            AtModule,
+            AuthModule,
+            ConstModule,
+            DataModule,
+            FileModule,
+            JwksModule,
+            PlaylistModule,
+            RelationModule,
+            RtModule,
+            SearchModule,
+            SongModule,
+            UserModule
+          ],
+          useClass: AppTerminusOptionsFactory
+        })
       ]
     }).compile();
 

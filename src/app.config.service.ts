@@ -3,14 +3,10 @@ import { ConfigService } from "@nestjs/config";
 import { SignatureSize } from "imgproxy/dist/types";
 import ms from "ms";
 import { ImgProxyImageTypeSize } from "./type/ImgProxyImageTypeSize";
-import { AppQueryStringService } from "./app.query-string.service";
 
 @Injectable()
 export class AppConfigService {
-  constructor(
-    private readonly appQueryStringService: AppQueryStringService,
-    private readonly configService: ConfigService
-  ) {}
+  constructor(private readonly configService: ConfigService) {}
 
   get cacheHost(): string {
     return this.configService.get<string>("app.cacheHost", "");
@@ -75,7 +71,7 @@ export class AppConfigService {
   }
 
   get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
-    return (this.appQueryStringService.parse(
+    return (JSON.parse(
       this.configService.get<string>("app.imgProxyImageTypeSize", "")
     ) as unknown) as ImgProxyImageTypeSize[];
   }

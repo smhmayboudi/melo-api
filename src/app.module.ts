@@ -12,7 +12,6 @@ import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
-import { AppQueryStringService } from "./app.query-string.service";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
@@ -37,7 +36,6 @@ import { UserModule } from "./user/user.module";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppQueryStringService,
     AppService
   ],
   imports: [
@@ -102,7 +100,6 @@ import { UserModule } from "./user/user.module";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppQueryStringService,
     AppService
   ]
 })

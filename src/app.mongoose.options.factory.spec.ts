@@ -1,14 +1,16 @@
-import { ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
+import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
+import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 
 describe("AppMongooseOptionsFactory", () => {
   let service: AppConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, ConfigService]
+      imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
+      providers: [AppConfigService]
     }).compile();
 
     service = module.get<AppConfigService>(AppConfigService);
