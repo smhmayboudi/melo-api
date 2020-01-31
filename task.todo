@@ -1,8 +1,4 @@
-- [ ] Write test
-- [ ] Automation - Alphabetical sort pre-commit
-- [ ] Automation - Docker
-- [ ] Automation - Git Flow
-- [ ] Automation - Change log
+- [ ] Docker
 - [ ] Sentry
 - [ ] Kuberneates
 - [ ] Health
@@ -14,12 +10,14 @@
     * DiskHealthIndicator
 - [ ] Database fixer / jwks + users
 
-- [ ] action module
-
 - [ ] // TODO: mixArtists
 - [ ] // TODO: mixSongs
-- [ ] Result cache go through ClassSerializerInterceptor
+- [ ] TDD TEST
+- [ ] E2E TEST
+
+- [ ] action module
 - [ ] multi-langual
+- [ ] Result cache go through ClassSerializerInterceptor
 
 - [ ] UI integration
 - [ ] api inspection + UI
@@ -29,5 +27,22 @@
 
 - [ ] public => isPublic
 - [ ] delete & update return object [@Delete | @Post | Promise<boolean>]
-
 - [ ] as type (universal dto)
+- [ ] JwksService => getOneRandom
+  -- First select is one-time:
+  SELECT @min := MIN(id),
+         @max := MAX(id)
+      FROM `jwkss`;
+  SELECT a.*
+      FROM `jwkss` a
+      JOIN ( SELECT id FROM
+              ( SELECT id
+                  FROM ( SELECT @min + (@max - @min + 1 - 50) * RIGHT( HEX( (1<<24) * (1+RAND()) ), 6)
+                    AS start FROM DUAL ) AS init
+                  JOIN `jwkss` y
+                  WHERE    y.id > init.start
+                  ORDER BY y.id
+                  LIMIT 50           -- Inflated to deal with gaps
+              ) z ORDER BY RAND()
+             LIMIT 10                -- number of rows desired (change to 1 if looking for a single row)
+           ) r ON a.id = r.id;
