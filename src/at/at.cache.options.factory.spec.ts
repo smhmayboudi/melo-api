@@ -1,7 +1,9 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
+import { AppModule } from "../app.module";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
+import config from "./at.config";
 import { AtConfigService } from "./at.config.service";
 
 describe("AtCacheOptionsFactory", () => {
@@ -9,7 +11,8 @@ describe("AtCacheOptionsFactory", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AtConfigService, AppConfigService, ConfigService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [AtConfigService]
     }).compile();
 
     service = module.get<AtConfigService>(AtConfigService);
