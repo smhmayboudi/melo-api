@@ -1,8 +1,9 @@
-import { HttpService } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataConfigService } from "../data/data.config.service";
-import { DataSearchService } from "../data/data.search.service";
+import { AppModule } from "../app.module";
+import { DataModule } from "../data/data.module";
+import config from "./search.config";
 import { SearchService } from "./search.service";
 
 describe("SearchService", () => {
@@ -10,13 +11,12 @@ describe("SearchService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ConfigService,
-        DataConfigService,
-        DataSearchService,
-        HttpService,
-        SearchService
-      ]
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        DataModule
+      ],
+      providers: [SearchService]
     }).compile();
 
     service = module.get<SearchService>(SearchService);

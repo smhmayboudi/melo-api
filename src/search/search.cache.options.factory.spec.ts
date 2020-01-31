@@ -1,7 +1,9 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
+import { AppModule } from "../app.module";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
+import config from "./search.config";
 import { SearchConfigService } from "./search.config.service";
 
 describe("SearchCacheOptionsFactory", () => {
@@ -9,7 +11,8 @@ describe("SearchCacheOptionsFactory", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, ConfigService, SearchConfigService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [SearchConfigService]
     }).compile();
 
     service = module.get<SearchConfigService>(SearchConfigService);
