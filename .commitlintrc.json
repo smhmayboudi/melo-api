@@ -19,9 +19,9 @@
         "perf",
         "refactor",
         "revert",
+        "sample",
         "style",
-        "test",
-        "sample"
+        "test"
       ]
     ]
   }
