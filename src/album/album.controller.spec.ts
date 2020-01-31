@@ -1,16 +1,24 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
-import { AppHashIdService } from "../app.hash-id.service";
+import { AppModule } from "../app.module";
+import { DataModule } from "../data/data.module";
+import config from "./album.config";
 import { AlbumController } from "./album.controller";
+import { AlbumService } from "./album.service";
 
 describe("AlbumController", () => {
   let controller: AlbumController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        DataModule
+      ],
       controllers: [AlbumController],
-      providers: [AppConfigService, AppHashIdService, ConfigService]
+      providers: [AlbumService]
     }).compile();
 
     controller = module.get<AlbumController>(AlbumController);
