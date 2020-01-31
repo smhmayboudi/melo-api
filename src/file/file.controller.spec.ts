@@ -1,12 +1,26 @@
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppModule } from "../app.module";
+import config from "./file.config";
+import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
+import { FileEntityRepository } from "./file.entity.repository";
+import { FileService } from "./file.service";
 
 describe("FileController", () => {
   let controller: FileController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [FileController]
+      controllers: [FileController],
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        TypeOrmModule.forFeature([FileEntityRepository])
+      ],
+      providers: [FileConfigService, FileService]
     }).compile();
 
     controller = module.get<FileController>(FileController);

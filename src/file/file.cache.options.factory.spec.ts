@@ -1,15 +1,18 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import { FileConfigService } from "./file.config.service";
-import { AppConfigService } from "../app.config.service";
+import config from "./file.config";
+import { forwardRef } from "@nestjs/common";
+import { AppModule } from "../app.module";
+import { ConfigModule } from "@nestjs/config";
 
 describe("FileCacheOptionsFactory", () => {
   let service: FileConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, ConfigService, FileConfigService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [FileConfigService]
     }).compile();
 
     service = module.get<FileConfigService>(FileConfigService);

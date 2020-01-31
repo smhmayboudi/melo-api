@@ -1,6 +1,8 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
+import { AppModule } from "../app.module";
+import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
 
 describe("FileService", () => {
@@ -8,7 +10,8 @@ describe("FileService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, ConfigService, FileConfigService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [FileConfigService]
     }).compile();
 
     service = module.get<FileConfigService>(FileConfigService);
