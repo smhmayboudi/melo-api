@@ -1,8 +1,16 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef, HttpModule } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
-import { AppHashIdService } from "../app.hash-id.service";
+import { AppModule } from "../app.module";
+import { DataModule } from "../data/data.module";
+import { RelationModule } from "../relation/relation.module";
+import { UserModule } from "../user/user.module";
+import config from "./song.config";
+import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
+import { SongHttpModuleOptionsFactory } from "./song.http.options.factory";
+import { SongModule } from "./song.module";
+import { SongService } from "./song.service";
 
 describe("SongController", () => {
   let controller: SongController;
@@ -10,7 +18,18 @@ describe("SongController", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SongController],
-      providers: [AppConfigService, AppHashIdService, ConfigService]
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        DataModule,
+        HttpModule.registerAsync({
+          imports: [SongModule],
+          useClass: SongHttpModuleOptionsFactory
+        }),
+        RelationModule,
+        UserModule
+      ],
+      providers: [SongConfigService, SongService]
     }).compile();
 
     controller = module.get<SongController>(SongController);
