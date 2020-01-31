@@ -1,9 +1,10 @@
-import { HttpService } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataArtistService } from "../data/data.artist.service";
-import { DataConfigService } from "../data/data.config.service";
-import { RelationService } from "../relation/relation.service";
+import { AppModule } from "../app.module";
+import { DataModule } from "../data/data.module";
+import { RelationModule } from "../relation/relation.module";
+import config from "./artist.config";
 import { ArtistService } from "./artist.service";
 
 describe("ArtistService", () => {
@@ -11,14 +12,13 @@ describe("ArtistService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        ConfigService,
-        DataArtistService,
-        DataConfigService,
-        HttpService,
-        RelationService
-      ]
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        DataModule,
+        RelationModule
+      ],
+      providers: [ArtistService]
     }).compile();
 
     service = module.get<ArtistService>(ArtistService);
