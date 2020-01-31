@@ -1,6 +1,8 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
+import { AppModule } from "../app.module";
+import config from "./rt.config";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import { RtConfigService } from "./rt.config.service";
 
@@ -9,7 +11,8 @@ describe("RtCacheOptionsFactory", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, ConfigService, RtConfigService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [RtConfigService]
     }).compile();
 
     service = module.get<RtConfigService>(RtConfigService);

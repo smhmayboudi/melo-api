@@ -1,14 +1,17 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
 import { RtConfigService } from "./rt.config.service";
+import config from "./rt.config";
+import { forwardRef } from "@nestjs/common";
+import { AppModule } from "../app.module";
+import { ConfigModule } from "@nestjs/config";
 
 describe("RtService", () => {
   let service: RtConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, ConfigService, RtConfigService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [RtConfigService]
     }).compile();
 
     service = module.get<RtConfigService>(RtConfigService);
