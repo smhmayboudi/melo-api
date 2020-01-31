@@ -1,4 +1,10 @@
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppModule } from "../app.module";
+import config from "./user.config";
+import { UserConfigService } from "./user.config.service";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
 
@@ -7,7 +13,12 @@ describe("UserService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserEntityRepository, UserService]
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        TypeOrmModule.forFeature([UserEntityRepository])
+      ],
+      providers: [UserConfigService, UserService]
     }).compile();
 
     service = module.get<UserService>(UserService);
