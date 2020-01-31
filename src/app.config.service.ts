@@ -3,10 +3,14 @@ import { ConfigService } from "@nestjs/config";
 import { SignatureSize } from "imgproxy/dist/types";
 import ms from "ms";
 import { ImgProxyImageTypeSize } from "./type/ImgProxyImageTypeSize";
+import { AppQueryStringService } from "./app.query-string.service";
 
 @Injectable()
 export class AppConfigService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly appQueryStringService: AppQueryStringService,
+    private readonly configService: ConfigService
+  ) {}
 
   get cacheHost(): string {
     return this.configService.get<string>("app.cacheHost", "");
@@ -70,23 +74,10 @@ export class AppConfigService {
     );
   }
 
-  // TODO: check it
-  // TODO: return type
-  // TODO: qurtyString
   get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
-    return this.configService
-      .get<string>("app.imgProxyImageTypeSize", "")
-      .split(",")
-      .filter((p: string) => p && p !== "")
-      .map((p: string) => {
-        const [name, sizesString] = p.split(":");
-        const [w, h] = sizesString.split("x");
-        return {
-          name,
-          width: parseInt(w, 10),
-          height: parseInt(h, 10)
-        };
-      });
+    return (this.appQueryStringService.parse(
+      this.configService.get<string>("app.imgProxyImageTypeSize", "")
+    ) as unknown) as ImgProxyImageTypeSize[];
   }
 
   get mangooseRetryAttempts(): number {

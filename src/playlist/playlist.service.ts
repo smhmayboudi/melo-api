@@ -43,7 +43,6 @@ export class PlaylistService {
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
-    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: dto.playlistId,
@@ -74,7 +73,6 @@ export class PlaylistService {
       release_date: new Date(),
       title: dto.title
     }).save();
-    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
@@ -106,7 +104,6 @@ export class PlaylistService {
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
-    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
@@ -141,7 +138,6 @@ export class PlaylistService {
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
-    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
@@ -168,7 +164,6 @@ export class PlaylistService {
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
-    // TODO: transform
     return {
       followersCount: playlist.followers_count,
       id: playlist._id,
@@ -200,7 +195,6 @@ export class PlaylistService {
         const playlistSongs = await this.dataSongService.byIds({
           ids: value.songs_ids
         });
-        // TODO: transform
         return {
           followersCount: value.followers_count,
           id: value._id,
@@ -233,13 +227,11 @@ export class PlaylistService {
       .sort({ created_at: -1 })
       .skip(dto.from)
       .limit(dto.limit);
-    // TODO: check it
     const results = await Promise.all(
       playlists.map(async value => {
         const playlistSongs = await this.dataSongService.byIds({
           ids: value.songs_ids
         });
-        // TODO: transform
         return {
           followersCount: value.followers_count,
           id: value._id,

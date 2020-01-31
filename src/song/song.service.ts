@@ -74,14 +74,10 @@ export class SongService {
     return this.relationService.set({
       createdAt: new Date(),
       from: {
-        // TODO: remove key
-        key: "",
         id: sub,
         type: RelationEntityType.user
       },
       to: {
-        // TODO: remove key
-        key: "",
         id,
         type: RelationEntityType.song
       },
@@ -97,8 +93,6 @@ export class SongService {
     const entityDtos = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        // TODO: remove key
-        key: "",
         id: sub,
         type: RelationEntityType.user
       },
@@ -232,18 +226,14 @@ export class SongService {
   ): Promise<boolean> {
     return this.relationService.remove({
       from: {
-        // TODO: remove key
-        key: "",
         id: sub,
         type: RelationEntityType.user
       },
       to: {
-        // TODO: remove key
-        key: "",
         id,
         type: RelationEntityType.song
       },
-      relType: RelationType.likedSongs
+      relationType: RelationType.likedSongs
     });
   }
 }

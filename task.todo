@@ -16,13 +16,8 @@
 
 - [ ] action module
 
-- [ ] // TODO: check params
 - [ ] // TODO: mixArtists
 - [ ] // TODO: mixSongs
-- [ ] // TODO: qurtyString
-- [ ] // TODO: remove key
-- [ ] // TODO: return type
-- [ ] // TODO: transform
 - [ ] Result cache go through ClassSerializerInterceptor
 - [ ] multi-langual
 

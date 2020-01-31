@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import { IsEnum, IsNumber, ValidateNested } from "class-validator";
 import { RelationType } from "../../type/relation.type";
 import { RelationEntityResDto } from "../res/relation.entity.res.dto";
@@ -8,12 +9,12 @@ export class RelationGetReqDto {
     from: number,
     fromEntityDto: RelationEntityResDto,
     limit: number,
-    relType: RelationType
+    relationType: RelationType
   ) {
     this.from = from;
     this.fromEntityDto = fromEntityDto;
     this.limit = limit;
-    this.relationType = relType;
+    this.relationType = relationType;
   }
 
   @ApiProperty({
@@ -26,6 +27,7 @@ export class RelationGetReqDto {
   @ApiProperty({
     description: "The entity"
   })
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   fromEntityDto: RelationEntityResDto;
 

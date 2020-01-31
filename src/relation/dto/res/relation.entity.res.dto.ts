@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsNumber, IsString, IsEnum } from "class-validator";
-import { Exclude } from "class-transformer";
+import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
 import { RelationEntityType } from "../../type/relation.entity.type";
 
 export class RelationEntityResDto {
@@ -10,17 +9,12 @@ export class RelationEntityResDto {
     this.type = type;
   }
 
-  @Exclude()
-  get key(): string {
-    return `${this.type}_${this.id}`;
-  }
-
   @ApiProperty({
     description: "The identification",
     example: 0
   })
   @IsNumber()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "The name",
@@ -28,12 +22,12 @@ export class RelationEntityResDto {
   })
   @IsOptional()
   @IsString()
-  name?: string;
+  readonly name?: string;
 
   @ApiProperty({
     description: "The type",
     example: RelationEntityType.album
   })
   @IsEnum(RelationEntityType)
-  type: RelationEntityType;
+  readonly type: RelationEntityType;
 }

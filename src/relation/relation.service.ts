@@ -13,6 +13,13 @@ import { RelationConfigService } from "./relation.config.service";
 
 @Injectable()
 export class RelationService {
+  private key(dto: RelationEntityResDto): string {
+    return `${dto.type}_${dto.id}`;
+  }
+  private keys(dto: RelationEntityResDto[]): string {
+    return dto.map(value => this.key(value)).join(",");
+  }
+
   constructor(
     private readonly relationConfigService: RelationConfigService,
     private readonly httpService: HttpService
@@ -23,7 +30,9 @@ export class RelationService {
   ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/get/${dto.fromEntityDto.key}/${dto.relationType}/${dto.from}/${dto.limit}`
+        `${this.relationConfigService.uri}/get/${this.key(dto.fromEntityDto)}/${
+          dto.relationType
+        }/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -40,7 +49,9 @@ export class RelationService {
   async has(dto: RelationHasReqDto): Promise<boolean> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/has/${dto.from.key}/${dto.to.key}/${dto.relType}`
+        `${this.relationConfigService.uri}/has/${this.key(dto.from)}/${this.key(
+          dto.to
+        )}/${dto.relationType}`
       )
       .pipe(
         map((value: AxiosResponse<boolean>) => {
@@ -53,7 +64,9 @@ export class RelationService {
   async multiHas(dto: RelationMultiHasReqDto): Promise<RelationMultiHasResDto> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/multiHas/${dto.from.key}/${dto.keys}/${dto.relationType}`
+        `${this.relationConfigService.uri}/multiHas/${this.key(
+          dto.from
+        )}/${this.keys(dto.tos)}/${dto.relationType}`
       )
       .pipe(
         map((value: AxiosResponse<RelationMultiHasResDto>) => {
@@ -64,10 +77,13 @@ export class RelationService {
   }
 
   async remove(dto: RelationRemoveReqDto): Promise<boolean> {
-    // TODO: check params
     return this.httpService
       .delete(`${this.relationConfigService.uri}/remove`, {
-        params: dto
+        params: {
+          entityId1: this.key(dto.from),
+          entityId2: this.key(dto.to),
+          relationType: dto.relationType
+        }
       })
       .pipe(
         map((value: AxiosResponse<boolean>) => {
@@ -78,9 +94,13 @@ export class RelationService {
   }
 
   async set(dto: RelationSetReqDto): Promise<boolean> {
-    // TODO: check params
     return this.httpService
-      .post(`${this.relationConfigService.uri}/set`, dto)
+      .post(`${this.relationConfigService.uri}/set`, {
+        createdAt: dto.createdAt,
+        entityId1: this.key(dto.from),
+        entityId2: this.key(dto.to),
+        relationType: dto.relationType
+      })
       .pipe(
         map((value: AxiosResponse<boolean>) => {
           return value.data;

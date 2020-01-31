@@ -1,19 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import querystring from "querystring";
 
 @Injectable()
 export class AppQueryStringService {
   // constructor () {}
 
-  parse(str: string): { [key: string]: string } {
-    return querystring.parse(str, "&", "=", {
-      decodeURIComponent: (str2: string): string => querystring.unescape(str2)
-    }) as { [key: string]: string };
+  parse(text: string): { [key: string]: string } {
+    return JSON.parse(text);
   }
 
-  stringify(obj: { [key: string]: string }): string {
-    return querystring.stringify(obj, "&", "=", {
-      encodeURIComponent: (str2: string): string => querystring.escape(str2)
-    });
+  stringify(value: { [key: string]: string }): string {
+    return JSON.stringify(value);
   }
 }

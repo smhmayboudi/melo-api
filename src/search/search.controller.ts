@@ -39,7 +39,6 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get("mood/:from/:limit")
-  // TODO: check it
   async mood(
     @Param() paramDto: SearchMoodParamReqDto,
     @Query() querydto: SearchMoodQueryReqDto

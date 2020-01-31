@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { Expose, Transform } from "class-transformer";
+import { Type } from "class-transformer";
 import { IsDate, IsEnum, ValidateNested } from "class-validator";
 import { RelationType } from "../../type/relation.type";
 import { RelationEntityResDto } from "../res/relation.entity.res.dto";
@@ -22,21 +22,20 @@ export class RelationSetReqDto {
     example: new Date()
   })
   @IsDate()
+  @Type(() => Date)
   createdAt: Date;
 
   @ApiProperty({
     description: "The entity"
   })
-  @Expose({ name: "entityDto1" })
-  @Transform(value => value.key)
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   from: RelationEntityResDto;
 
   @ApiProperty({
     description: "The entity"
   })
-  @Expose({ name: "entityDto2" })
-  @Transform(value => value.key)
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   to: RelationEntityResDto;
 

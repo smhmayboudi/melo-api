@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import { IsEnum, ValidateNested } from "class-validator";
 import { RelationType } from "../../type/relation.type";
 import { RelationEntityResDto } from "./relation.entity.res.dto";
-import { Expose, Transform } from "class-transformer";
 
 export class RelationMultiHasResDto {
   constructor(
@@ -19,8 +19,7 @@ export class RelationMultiHasResDto {
     description: "The from entity",
     example: 0
   })
-  @Expose({ name: "fromEntitiyId" })
-  @Transform(value => value.key)
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   from: RelationEntityResDto;
 
@@ -35,8 +34,7 @@ export class RelationMultiHasResDto {
     description: "The to entity",
     example: 0
   })
-  @Expose({ name: "toEntitiyId" })
-  @Transform(value => value.key)
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   to: RelationEntityResDto;
 }

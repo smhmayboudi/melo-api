@@ -111,8 +111,8 @@ export class ArtistController {
 
   @Post("unfollow")
   async unfollow(
-    @Param() dto: ArtistUnfollowReqDto,
-    @Param("id", HashIdPipe) id: number,
+    @Body() dto: ArtistUnfollowReqDto,
+    @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<boolean> {
     return this.artistService.unfollow(dto, id, sub);

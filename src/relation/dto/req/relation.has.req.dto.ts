@@ -1,28 +1,31 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import { IsEnum, ValidateNested } from "class-validator";
-import { RelationEntityResDto } from "../res/relation.entity.res.dto";
 import { RelationType } from "../../type/relation.type";
+import { RelationEntityResDto } from "../res/relation.entity.res.dto";
 
 export class RelationHasReqDto {
   constructor(
     entityDto1: RelationEntityResDto,
     entityDto2: RelationEntityResDto,
-    relType: RelationType
+    relationType: RelationType
   ) {
     this.from = entityDto1;
     this.to = entityDto2;
-    this.relType = relType;
+    this.relationType = relationType;
   }
 
   @ApiProperty({
     description: "The entity"
   })
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   from: RelationEntityResDto;
 
   @ApiProperty({
     description: "The entity"
   })
+  @Type(() => RelationEntityResDto)
   @ValidateNested()
   to: RelationEntityResDto;
 
@@ -31,5 +34,5 @@ export class RelationHasReqDto {
     example: RelationType.follows
   })
   @IsEnum(RelationType)
-  relType: RelationType;
+  relationType: RelationType;
 }

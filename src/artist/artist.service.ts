@@ -39,20 +39,16 @@ export class ArtistService {
     // const artistDto = await this.dataArtistService.byId(id);
     // const entityMultiHasDto = await this.relationService.multiHas({
     //   fromEntityDto: {
-    //     // TODO: remove key
-    //     key: "",
     //     id: sub,
     //     type: RelationEntityType.user
     //   },
     //   toEntityDtos: [
     //     {
-    //       // TODO: remove key
-    //       key: "",
     //       id,
     //       type: RelationEntityType.artist
     //     }
     //   ],
-    //   relType: RelationType.follows
+    //   relationType: RelationType.follows
     // } as RelationMultiHasDto);
     // artistDto.follownig = entityMultiHasDto !== undefined;
     // return artistDto;
@@ -73,14 +69,10 @@ export class ArtistService {
     return this.relationService.set({
       createdAt: new Date(),
       from: {
-        // TODO: remove key
-        key: "",
         id: sub,
         type: RelationEntityType.user
       },
       to: {
-        // TODO: remove key
-        key: "",
         id: artist.id,
         type: RelationEntityType.artist
       },
@@ -96,8 +88,6 @@ export class ArtistService {
       from: dto.from,
       fromEntityDto: {
         id,
-        // TODO: remove key
-        key: "",
         type: RelationEntityType.following
       },
       limit: dto.limit,
@@ -153,18 +143,14 @@ export class ArtistService {
   ): Promise<boolean> {
     return this.relationService.remove({
       from: {
-        // TODO: remove key
-        key: "",
         id: sub,
         type: RelationEntityType.user
       },
       to: {
-        // TODO: remove key
-        key: "",
         id,
         type: RelationEntityType.artist
       },
-      relType: RelationType.unfollows
+      relationType: RelationType.unfollows
     });
   }
 }
