@@ -75,6 +75,7 @@ export class PlaylistService {
     }).save();
     return {
       followersCount: playlist.followers_count,
+      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id
@@ -106,6 +107,7 @@ export class PlaylistService {
     });
     return {
       followersCount: playlist.followers_count,
+      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id
@@ -140,6 +142,7 @@ export class PlaylistService {
     });
     return {
       followersCount: playlist.followers_count,
+      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id
@@ -166,6 +169,7 @@ export class PlaylistService {
     });
     return {
       followersCount: playlist.followers_count,
+      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id

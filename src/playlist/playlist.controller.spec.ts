@@ -1,16 +1,30 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { MongooseModule } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app.config.service";
-import { AppHashIdService } from "../app.hash-id.service";
+import { AppModule } from "../app.module";
+import { DataModule } from "../data/data.module";
+import config from "./playlist.config";
+import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
+import { PlaylistSchema } from "./playlist.schema";
+import { PlaylistService } from "./playlist.service";
 
 describe("PlaylistController", () => {
   let controller: PlaylistController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService, AppHashIdService, ConfigService],
-      controllers: [PlaylistController]
+      controllers: [PlaylistController],
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        DataModule,
+        MongooseModule.forFeature([
+          { name: "Playlist", schema: PlaylistSchema }
+        ])
+      ],
+      providers: [PlaylistConfigService, PlaylistService]
     }).compile();
 
     controller = module.get<PlaylistController>(PlaylistController);
