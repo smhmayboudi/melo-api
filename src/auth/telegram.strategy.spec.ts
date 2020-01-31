@@ -1,8 +1,10 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { JwksEntityRepository } from "../jwks/jwks.entity.repository";
-import { JwksService } from "../jwks/jwks.service";
+import { AppModule } from "../app.module";
+import { UserModule } from "../user/user.module";
 import { UserService } from "../user/user.service";
+import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
 import { TelegramStrategy } from "./telegram.strategy";
 
@@ -12,12 +14,12 @@ describe("TelegramStrategy", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthConfigService,
-        ConfigService,
-        JwksEntityRepository,
-        JwksService
-      ]
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        UserModule
+      ],
+      providers: [AuthConfigService]
     }).compile();
 
     authConfigService = module.get<AuthConfigService>(AuthConfigService);

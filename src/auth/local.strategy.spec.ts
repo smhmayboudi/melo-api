@@ -1,9 +1,8 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { JwksEntityRepository } from "../jwks/jwks.entity.repository";
-import { JwksService } from "../jwks/jwks.service";
+import { AppModule } from "../app.module";
+import { UserModule } from "../user/user.module";
 import { UserService } from "../user/user.service";
-import { AuthConfigService } from "./auth.config.service";
 import { LocalStrategy } from "./local.strategy";
 
 describe("LocalStrategy", () => {
@@ -11,12 +10,8 @@ describe("LocalStrategy", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthConfigService,
-        ConfigService,
-        JwksEntityRepository,
-        JwksService
-      ]
+      imports: [forwardRef(() => AppModule), UserModule],
+      providers: []
     }).compile();
 
     userService = module.get<UserService>(UserService);

@@ -1,9 +1,9 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { JwksEntityRepository } from "../jwks/jwks.entity.repository";
-import { JwksService } from "../jwks/jwks.service";
+import { AppModule } from "../app.module";
+import { JwksModule } from "../jwks/jwks.module";
+import { RtModule } from "../rt/rt.module";
 import { RtService } from "../rt/rt.service";
-import { AuthConfigService } from "./auth.config.service";
 import { TokenStrategy } from "./token.strategy";
 
 describe("TokenStrategy", () => {
@@ -11,12 +11,7 @@ describe("TokenStrategy", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthConfigService,
-        ConfigService,
-        JwksEntityRepository,
-        JwksService
-      ]
+      imports: [forwardRef(() => AppModule), RtModule, JwksModule]
     }).compile();
 
     rtService = module.get<RtService>(RtService);

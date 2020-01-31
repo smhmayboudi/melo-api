@@ -1,9 +1,13 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { JwksEntityRepository } from "../jwks/jwks.entity.repository";
+import { AppModule } from "../app.module";
+import { AtModule } from "../at/at.module";
 import { AtService } from "../at/at.service";
+import { JwksModule } from "../jwks/jwks.module";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
+import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
 import { JwtStrategy } from "./jwt.strategy";
 
@@ -15,12 +19,13 @@ describe("JwtStrategy", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AuthConfigService,
-        ConfigService,
-        JwksEntityRepository,
-        JwksService
-      ]
+      imports: [
+        forwardRef(() => AppModule),
+        ConfigModule.forFeature(config),
+        AtModule,
+        JwksModule
+      ],
+      providers: [AuthConfigService]
     }).compile();
 
     atService = module.get<AtService>(AtService);
