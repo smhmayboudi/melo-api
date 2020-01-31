@@ -1,14 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
-import { AppQueryStringService } from "../app.query-string.service";
 import { AppConfigService } from "../app.config.service";
 
 @Injectable()
 export class ConstConfigService {
   constructor(
     private readonly appConfigService: AppConfigService,
-    private readonly appQueryStringService: AppQueryStringService,
     private readonly configService: ConfigService
   ) {}
 
@@ -52,7 +50,7 @@ export class ConstConfigService {
   }
 
   get staticImagePaths(): { [key: string]: string } {
-    return this.appQueryStringService.parse(
+    return JSON.parse(
       this.configService.get<string>("app.staticImagePaths", "")
     );
   }

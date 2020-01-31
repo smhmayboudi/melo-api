@@ -1,7 +1,8 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppQueryStringService } from "../app.query-string.service";
-import { AppConfigService } from "../app.config.service";
+import { AppModule } from "../app.module";
+import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
 
 describe("ConstService", () => {
@@ -9,12 +10,8 @@ describe("ConstService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AppConfigService,
-        AppQueryStringService,
-        ConfigService,
-        ConstConfigService
-      ]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [ConstConfigService]
     }).compile();
 
     service = module.get<ConstConfigService>(ConstConfigService);

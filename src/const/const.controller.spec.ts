@@ -1,8 +1,8 @@
-import { ConfigService } from "@nestjs/config";
+import { forwardRef } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppImgProxyService } from "../app.img-proxy.service";
-import { AppConfigService } from "../app.config.service";
-import { AppQueryStringService } from "../app.query-string.service";
+import { AppModule } from "../app.module";
+import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
 import { ConstController } from "./const.controller";
 import { ConstService } from "./const.service";
@@ -12,15 +12,9 @@ describe("ConstController", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AppConfigService,
-        AppImgProxyService,
-        AppQueryStringService,
-        ConfigService,
-        ConstConfigService,
-        ConstService
-      ],
-      controllers: [ConstController]
+      controllers: [ConstController],
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [ConstConfigService, ConstService]
     }).compile();
 
     controller = module.get<ConstController>(ConstController);
