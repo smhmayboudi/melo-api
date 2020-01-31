@@ -16,6 +16,7 @@ export class RelationService {
   private key(dto: RelationEntityResDto): string {
     return `${dto.type}_${dto.id}`;
   }
+
   private keys(dto: RelationEntityResDto[]): string {
     return dto.map(value => this.key(value)).join(",");
   }

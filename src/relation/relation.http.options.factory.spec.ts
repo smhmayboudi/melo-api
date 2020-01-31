@@ -1,14 +1,16 @@
-import { ConfigService } from "@nestjs/config";
+import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { RelationHttpModuleOptionsFactory } from "./relation.http.options.factory";
+import config from "./relation.config";
 import { RelationConfigService } from "./relation.config.service";
+import { RelationHttpModuleOptionsFactory } from "./relation.http.options.factory";
 
 describe("RelationHttpModuleOptionsFactory", () => {
   let service: RelationConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConfigService, RelationConfigService]
+      imports: [ConfigModule.forFeature(config)],
+      providers: [RelationConfigService]
     }).compile();
 
     service = module.get<RelationConfigService>(RelationConfigService);

@@ -7,7 +7,7 @@ export class RelationConfigService {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return ms(this.configService.get<string>("relation.timeout", ""));
+    return ms(this.configService.get<string>("relation.timeout", "0"));
   }
 
   get uri(): string {
