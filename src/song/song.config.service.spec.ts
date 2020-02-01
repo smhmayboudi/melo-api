@@ -26,6 +26,6 @@ describe("SongService", () => {
   test.todo("cachePort");
   test.todo("cacheStore");
   test.todo("cacheTTL");
+  test.todo("sendTelegramUrl");
   test.todo("timeout");
-  test.todo("uri");
 });

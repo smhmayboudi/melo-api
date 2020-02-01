@@ -152,7 +152,7 @@ export class SongService {
       throw new Error(songConstant.errors.service.sendTelegram);
     }
     return this.httpService
-      .post(this.songConfigService.uri, {
+      .post(this.songConfigService.sendTelegramUrl, {
         callback_query: {
           from: {
             first_name: "",

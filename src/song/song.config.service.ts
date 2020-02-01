@@ -47,11 +47,11 @@ export class SongConfigService {
     );
   }
 
-  get timeout(): number {
-    return ms(this.configService.get<string>("song.timeout", "0"));
+  get sendTelegramUrl(): string {
+    return this.configService.get<string>("song.uri", "");
   }
 
-  get uri(): string {
-    return this.configService.get<string>("song.uri", "");
+  get timeout(): number {
+    return ms(this.configService.get<string>("song.timeout", "0"));
   }
 }
