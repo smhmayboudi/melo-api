@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum } from "class-validator";
+import { IsEnum, IsNumberString } from "class-validator";
 import { SongOrderByType } from "../../type/song.order-by.type";
 
 export class SongPodcastGenresParamReqDto {

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsEnum, ValidateNested } from "class-validator";
+import { IsEnum, IsNumberString, ValidateNested } from "class-validator";
 import { RelationType } from "../../type/relation.type";
 import { RelationEntityResDto } from "../res/relation.entity.res.dto";
 
