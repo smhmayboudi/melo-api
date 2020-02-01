@@ -1,12 +1,3 @@
----
-name: "\U0001F680 Feature Request"
-about: "I have a suggestion \U0001F63B!"
-title: ''
-labels: 'type: enhancement :wolf:,needs triage'
-assignees: ''
-
----
-
 ## Feature Request
 
 ## Is your feature request related to a problem? Please describe.
@@ -20,3 +11,5 @@ assignees: ''
 
 ## What is the motivation / use case for changing the behavior?
 <!-- Describe the motivation or the concrete use case. -->
+
+/assign @smhmayboudi

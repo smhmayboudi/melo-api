@@ -1,7 +1,7 @@
 ## PR Checklist
 Please check if your PR fulfills the following requirements:
 
-- [ ] The commit message follows our guidelines: https://github.com/nestjs/nest/blob/master/CONTRIBUTING.md
+- [ ] The commit message follows our guidelines: http://gitlab.3re.ir/melobit/melo-api/blob/master/CONTRIBUTING.md
 - [ ] Tests for the changes have been added (for bug fixes / features)
 - [ ] Docs have been added / updated (for bug fixes / features)
 
@@ -14,7 +14,7 @@ What kind of change does this PR introduce?
 [ ] Bugfix
 [ ] Feature
 [ ] Code style update (formatting, local variables)
-[ ] Refactoring (no functional changes, no api changes)
+[ ] Refactoring (no functional changes, no Api changes)
 [ ] Build related changes
 [ ] CI related changes
 [ ] Other... Please describe:
@@ -39,3 +39,5 @@ Issue Number: N/A
 
 
 ## Other information
+
+/todo /assign @smhmayboudi
