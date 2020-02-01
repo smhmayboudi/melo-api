@@ -1,6 +1,7 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { RtModule } from "src/rt/rt.module";
 import { AppModule } from "../app.module";
 import { AtModule } from "../at/at.module";
 import { AtService } from "../at/at.service";
@@ -23,7 +24,8 @@ describe("JwtStrategy", () => {
         forwardRef(() => AppModule),
         ConfigModule.forFeature(config),
         AtModule,
-        JwksModule
+        JwksModule,
+        RtModule
       ],
       providers: [AuthConfigService]
     }).compile();

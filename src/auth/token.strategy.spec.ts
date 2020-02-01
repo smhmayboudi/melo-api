@@ -11,7 +11,7 @@ describe("TokenStrategy", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), RtModule, JwksModule]
+      imports: [forwardRef(() => AppModule), JwksModule, RtModule]
     }).compile();
 
     rtService = module.get<RtService>(RtService);
