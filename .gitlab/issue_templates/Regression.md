@@ -1,12 +1,3 @@
----
-name: "\U0001F4A5 Regression"
-about: Report an unexpected while upgrading your Api application!
-title: ''
-labels: 'type: bug :sob:,needs triage'
-assignees: ''
-
----
-
 ## Regression
 
 ## Potential Commit/PR that introduced the regression**
