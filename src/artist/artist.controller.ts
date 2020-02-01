@@ -12,26 +12,26 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
-import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
-import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
-import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
-import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
-import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
-import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
-import { ArtistService } from "./artist.service";
-import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
-import { ArtistSongsReqDto } from "./dto/req/artist.songs.req.dto";
-import { ArtistSongsTopReqDto } from "./dto/req/artist.songs-top.req.dto";
-import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
-import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 import { AuthGuard } from "@nestjs/passport";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
+import { User } from "../decorator/user.decorator";
+import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
-import { User } from "../decorator/user.decorator";
+import { ArtistService } from "./artist.service";
+import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
+import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
+import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistSongsTopReqDto } from "./dto/req/artist.songs-top.req.dto";
+import { ArtistSongsReqDto } from "./dto/req/artist.songs.req.dto";
+import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
+import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
+import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
+import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
+import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")

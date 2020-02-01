@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  ParseIntPipe,
   Post,
   UseFilters,
   UseGuards,
@@ -12,6 +13,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { User } from "src/decorator/user.decorator";
 import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
@@ -42,12 +44,14 @@ export class UserController {
   }
 
   @Post("profile/edit")
-  async edit(@Body() dto: UserEditReqDto): Promise<any> {
+  async edit(@Body() dto: UserEditReqDto): Promise<UserEditReqDto> {
     return this.userService.edit(dto);
   }
 
   @Get("profile")
-  async get(): Promise<any> {
-    return this.userService.get();
+  async get(
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<UserEntity | undefined> {
+    return this.userService.get(sub);
   }
 }

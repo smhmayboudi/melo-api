@@ -29,12 +29,12 @@ export class UserService {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 
-  async edit(dto: UserEditReqDto): Promise<any> {
+  async edit(dto: UserEditReqDto): Promise<UserEditReqDto> {
     return Promise.resolve(dto);
   }
 
-  async get(): Promise<any> {
-    return Promise.resolve();
+  async get(sub: number): Promise<UserEntity | undefined> {
+    return this.findOneById(sub);
   }
 
   async save(dto: UserEntity): Promise<UserEntity> {

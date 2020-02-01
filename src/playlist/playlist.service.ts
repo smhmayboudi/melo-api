@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Error, Model, Types } from "mongoose";
 import { AppImgProxyService } from "../app.img-proxy.service";
@@ -96,16 +96,18 @@ export class PlaylistService {
     const query: any = {
       $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
     };
-    const deletingPlaylist = await this.playlistModel.findById(query);
+    const deletingPlaylist = await this.playlistModel.findOne(query);
     if (deletingPlaylist === undefined || deletingPlaylist === null) {
       throw new Error(playlistConstant.errors.service.playlistNotFound);
     }
     const deletedPlaylist = await this.playlistModel.deleteOne(query);
     if (
       deletedPlaylist.deletedCount === undefined ||
-      deletedPlaylist.deletedCount <= 0
+      deletedPlaylist.deletedCount === 0
     ) {
-      throw new Error(playlistConstant.errors.service.somethingWentWrong);
+      throw new InternalServerErrorException(
+        playlistConstant.errors.service.somethingWentWrong
+      );
     }
     return {
       followersCount: deletingPlaylist.followers_count,

@@ -148,7 +148,9 @@ export class SongController {
   }
 
   @Get("slider/latest")
-  async sliderLatest(@User("sub", ParseIntPipe) sub: number): Promise<any> {
+  async sliderLatest(
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<SongPaginationResDto<SongSongResDto>> {
     return this.songService.sliderLatest(sub);
   }
 

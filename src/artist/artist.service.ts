@@ -1,9 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 import { DataArtistService } from "../data/data.artist.service";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 // import { RelationMultiHasDto } from "../relation/dto/relaton.multi.has.dto";
 import { RelationType } from "../relation/type/relation.type";
+import { artistConstant } from "./artist.constant";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
@@ -16,8 +18,6 @@ import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
 import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
 import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
 import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
-import { artistConstant } from "./artist.constant";
-import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 
 @Injectable()
 export class ArtistService {
@@ -160,7 +160,9 @@ export class ArtistService {
       relationType: RelationType.unfollows
     });
     if (remove === false) {
-      throw new Error(artistConstant.errors.service.somethingWentWrong);
+      throw new InternalServerErrorException(
+        artistConstant.errors.service.somethingWentWrong
+      );
     }
     return artist;
   }

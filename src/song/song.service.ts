@@ -1,8 +1,14 @@
-import { HttpService, Injectable } from "@nestjs/common";
+import {
+  HttpService,
+  Injectable,
+  InternalServerErrorException
+} from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
+import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 import { DataSongService } from "../data/data.song.service";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
+import { DataOrderByType } from "../data/type/data.order-by.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
@@ -27,8 +33,10 @@ import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
 import { SongOrderByType } from "./type/song.order-by.type";
-import { DataOrderByType } from "../data/type/data.order-by.type";
-import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
+import { SongSongResDto } from "./dto/res/song.song.res.dto";
+import { SongConfigService } from "./song.config.service";
+import { songConstant } from "./song.constant";
+import { SongOrderByType } from "./type/song.order-by.type";
 
 @Injectable()
 export class SongService {
@@ -90,7 +98,9 @@ export class SongService {
       relationType: RelationType.likedSongs
     });
     if (set === false) {
-      throw new Error(songConstant.errors.service.somethingWentWrong);
+      throw new InternalServerErrorException(
+        songConstant.errors.service.somethingWentWrong
+      );
     }
     return song;
   }
