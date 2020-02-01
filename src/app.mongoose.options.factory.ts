@@ -15,7 +15,6 @@ export class AppMongooseOptionsFactory implements MongooseOptionsFactory {
     return {
       retryAttempts: this.appConfigService.mangooseRetryAttempts,
       retryDelay: this.appConfigService.mangooseRetryDelay,
-      connectionName: this.appConfigService.mangooseConnectionName,
       useNewUrlParser: true,
       useUnifiedTopology: true,
       uri: this.appConfigService.mangooseUri
