@@ -21,7 +21,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         user: request.user
       })} => ${exception}`,
       undefined,
-      "ErrorInterceptor"
+      "HttpExceptionFilter"
     );
 
     response.status(status).json({
