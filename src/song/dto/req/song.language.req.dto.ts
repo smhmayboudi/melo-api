@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNumber, IsString } from "class-validator";
+import { IsEnum, IsString } from "class-validator";
 import { SongOrderByType } from "../../type/song.order-by.type";
 
 export class SongLanguageReqDto {
@@ -19,7 +19,7 @@ export class SongLanguageReqDto {
     description: "Starting point index",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   from: number;
 
   @ApiProperty({
@@ -33,7 +33,7 @@ export class SongLanguageReqDto {
     description: "Count of results",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   limit: number;
 
   @ApiProperty({
