@@ -40,13 +40,11 @@ export class PlaylistConfigService {
   }
 
   get cacheTTL(): number {
-    return (
-      ms(
-        this.configService.get<string>(
-          "playlist.cacheTTL",
-          ms(1000 * this.appConfigService.cacheTTL)
-        )
-      ) / 1000
+    return ms(
+      this.configService.get<string>(
+        "playlist.cacheTTL",
+        ms(this.appConfigService.cacheTTL)
+      )
     );
   }
 

@@ -15,7 +15,7 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
     super({
       botToken: authConfigService.telegramBotToken,
       passReqToCallback: false,
-      queryExpiration: authConfigService.telegramQueryExpiration
+      queryExpiration: authConfigService.telegramQueryExpiration / 1000
     });
   }
 

@@ -39,7 +39,7 @@ export class AuthService {
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)
-      .add(this.authConfigService.jwtRefreshTokenExpiresIn)
+      .add(this.authConfigService.jwtRefreshTokenExpiresIn, "ms")
       .toDate();
     this.rtService.save([
       {

@@ -16,7 +16,7 @@ export class SongCacheOptionsFactory implements CacheOptionsFactory {
       max: this.songConfigService.cacheMax,
       port: this.songConfigService.cachePort,
       store: this.songConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.songConfigService.cacheTTL
+      ttl: this.songConfigService.cacheTTL / 1000
     };
   }
 }

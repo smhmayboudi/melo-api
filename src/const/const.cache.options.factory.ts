@@ -17,7 +17,7 @@ export class ConstCacheOptionsFactory implements CacheOptionsFactory {
       port: this.constConfigService.cachePort,
       store:
         this.constConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.constConfigService.cacheTTL
+      ttl: this.constConfigService.cacheTTL / 1000
     };
   }
 }

@@ -20,7 +20,7 @@ export class <%= h.changeCase.pascal(name)%>CacheOptionsFactory implements Cache
       max: this.<%= h.changeCase.camel(name)%>ConfigService.cacheMax,
       port: this.<%= h.changeCase.camel(name)%>ConfigService.cachePort,
       store: this.<%= h.changeCase.camel(name)%>ConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.<%= h.changeCase.camel(name)%>ConfigService.cacheTTL
+      ttl: this.<%= h.changeCase.camel(name)%>ConfigService.cacheTTL / 1000
     };
   }
 }

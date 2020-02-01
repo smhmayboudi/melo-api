@@ -8,7 +8,7 @@ export class AuthConfigService {
 
   get jwtAccessTokenExpiresIn(): number {
     return ms(
-      this.configService.get<string>("auth.jwtAccessTokenExpiresIn", "")
+      this.configService.get<string>("auth.jwtAccessTokenExpiresIn", "0")
     );
   }
 
@@ -17,9 +17,8 @@ export class AuthConfigService {
   }
 
   get jwtRefreshTokenExpiresIn(): number {
-    return (
-      ms(this.configService.get<string>("auth.jwtRefreshTokenExpiresIn", "")) /
-      1000
+    return ms(
+      this.configService.get<string>("auth.jwtRefreshTokenExpiresIn", "0")
     );
   }
 
@@ -28,9 +27,8 @@ export class AuthConfigService {
   }
 
   get telegramQueryExpiration(): number {
-    return (
-      ms(this.configService.get<string>("auth.telegramQueryExpiration", "")) /
-      1000
+    return ms(
+      this.configService.get<string>("auth.telegramQueryExpiration", "0")
     );
   }
 }

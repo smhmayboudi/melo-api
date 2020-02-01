@@ -16,7 +16,7 @@ export class UserCacheOptionsFactory implements CacheOptionsFactory {
       max: this.userConfigService.cacheMax,
       port: this.userConfigService.cachePort,
       store: this.userConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.userConfigService.cacheTTL
+      ttl: this.userConfigService.cacheTTL / 1000
     };
   }
 }

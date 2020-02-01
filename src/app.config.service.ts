@@ -25,7 +25,7 @@ export class AppConfigService {
   }
 
   get cacheTTL(): number {
-    return ms(this.configService.get<string>("app.cacheTTL", "0")) / 1000;
+    return ms(this.configService.get<string>("app.cacheTTL", "0"));
   }
 
   get hashIdAlphabet(): string {
@@ -97,7 +97,7 @@ export class AppConfigService {
   }
 
   get rateLimitWindowMs(): number {
-    return ms(this.configService.get<string>("app.rateLimitWindowMs", ""));
+    return ms(this.configService.get<string>("app.rateLimitWindowMs", "0"));
   }
 
   get typeOrmDatabase(): string {

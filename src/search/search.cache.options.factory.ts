@@ -17,7 +17,7 @@ export class SearchCacheOptionsFactory implements CacheOptionsFactory {
       port: this.searchConfigService.cachePort,
       store:
         this.searchConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.searchConfigService.cacheTTL
+      ttl: this.searchConfigService.cacheTTL / 1000
     };
   }
 }
