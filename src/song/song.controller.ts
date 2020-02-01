@@ -173,7 +173,7 @@ export class SongController {
     @Body() dto: SongUnlikeReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<boolean> {
+  ): Promise<DataSongResDto> {
     return this.songService.unlike(dto, id, sub);
   }
 }

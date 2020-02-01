@@ -36,6 +36,7 @@ describe("UserController", () => {
     expect(controller).toBeDefined();
   });
 
+  test.todo("find");
   test.todo("edit");
   test.todo("get");
 });

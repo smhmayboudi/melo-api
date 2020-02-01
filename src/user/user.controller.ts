@@ -18,7 +18,8 @@ import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
-import { UserEntity } from "./user.entity";
+import { UserPaginationResDto } from "./dto/res/user.pagination.res.dto";
+import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserService } from "./user.service";
 
 @ApiBearerAuth("jwt")
@@ -39,7 +40,7 @@ export class UserController {
 
   @Get()
   @UseInterceptors(HttpCacheInterceptor)
-  async find(): Promise<UserEntity[]> {
+  async find(): Promise<UserPaginationResDto<UserUserResDto>> {
     return this.userService.find();
   }
 
@@ -49,9 +50,7 @@ export class UserController {
   }
 
   @Get("profile")
-  async get(
-    @User("sub", ParseIntPipe) sub: number
-  ): Promise<UserEntity | undefined> {
+  async get(@User("sub", ParseIntPipe) sub: number): Promise<UserUserResDto> {
     return this.userService.get(sub);
   }
 }

@@ -33,10 +33,6 @@ import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
 import { SongOrderByType } from "./type/song.order-by.type";
-import { SongSongResDto } from "./dto/res/song.song.res.dto";
-import { SongConfigService } from "./song.config.service";
-import { songConstant } from "./song.constant";
-import { SongOrderByType } from "./type/song.order-by.type";
 
 @Injectable()
 export class SongService {
@@ -243,8 +239,9 @@ export class SongService {
     _dto: SongUnlikeReqDto,
     id: number,
     sub: number
-  ): Promise<boolean> {
-    return this.relationService.remove({
+  ): Promise<DataSongResDto> {
+    const song = await this.dataSongService.byId({ id });
+    const remove = await this.relationService.remove({
       from: {
         id: sub,
         type: RelationEntityType.user
@@ -255,5 +252,9 @@ export class SongService {
       },
       relationType: RelationType.likedSongs
     });
+    if (remove === false) {
+      throw new Error(songConstant.errors.service.songNotFound);
+    }
+    return song;
   }
 }
