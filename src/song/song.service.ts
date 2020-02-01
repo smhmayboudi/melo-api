@@ -28,6 +28,7 @@ import { SongConfigService } from "./song.config.service";
 import { songConstant } from "./song.constant";
 import { SongOrderByType } from "./type/song.order-by.type";
 import { DataOrderByType } from "../data/type/data.order-by.type";
+import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 
 @Injectable()
 export class SongService {
@@ -70,8 +71,13 @@ export class SongService {
     }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
   }
 
-  async like(_dto: SongLikeReqDto, id: number, sub: number): Promise<boolean> {
-    return this.relationService.set({
+  async like(
+    _dto: SongLikeReqDto,
+    id: number,
+    sub: number
+  ): Promise<DataSongResDto> {
+    const song = this.dataSongService.byId({ id });
+    const set = await this.relationService.set({
       createdAt: new Date(),
       from: {
         id: sub,
@@ -83,6 +89,10 @@ export class SongService {
       },
       relationType: RelationType.likedSongs
     });
+    if (set === false) {
+      throw new Error(songConstant.errors.service.somethingWentWrong);
+    }
+    return song;
   }
 
   // TODO: mixSongs

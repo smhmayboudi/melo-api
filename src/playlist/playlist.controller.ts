@@ -29,6 +29,7 @@ import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistPlaylistResDto } from "./dto/res/playlist.playlist.res.dto";
 import { PlaylistService } from "./playlist.service";
+import { PlaylistPaginationResDto } from "./dto/res/playlist.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
@@ -66,7 +67,7 @@ export class PlaylistController {
   async delete(
     @Param() dto: PlaylistDeleteReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<boolean> {
+  ): Promise<PlaylistPlaylistResDto> {
     return this.playlistService.delete(dto, sub);
   }
 
@@ -92,12 +93,14 @@ export class PlaylistController {
   async my(
     @Param() dto: PlaylistMyReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<any> {
+  ): Promise<PlaylistPaginationResDto<PlaylistPlaylistResDto>> {
     return this.playlistService.my(dto, sub);
   }
 
   @Get("top")
-  async top(@Param() dto: PlaylistTopReqDto): Promise<any> {
+  async top(
+    @Param() dto: PlaylistTopReqDto
+  ): Promise<PlaylistPaginationResDto<PlaylistPlaylistResDto>> {
     return this.playlistService.top(dto);
   }
 }

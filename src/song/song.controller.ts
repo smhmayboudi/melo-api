@@ -40,6 +40,7 @@ import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
+import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("song")
@@ -87,7 +88,7 @@ export class SongController {
     @Body() dto: SongLikeReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<boolean> {
+  ): Promise<DataSongResDto> {
     return this.songService.like(dto, id, sub);
   }
 

@@ -16,6 +16,8 @@ import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
 import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
 import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
 import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
+import { artistConstant } from "./artist.constant";
+import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 
 @Injectable()
 export class ArtistService {
@@ -62,11 +64,11 @@ export class ArtistService {
     dto: ArtistFollowReqDto,
     id: number,
     sub: number
-  ): Promise<boolean> {
+  ): Promise<DataArtistResDto> {
     // There is no need to mixArtists instead
     // artistDto.follownig = true;
     const artist = await this.dataArtistService.byId({ ...dto, id });
-    return this.relationService.set({
+    const set = await this.relationService.set({
       createdAt: new Date(),
       from: {
         id: sub,
@@ -78,6 +80,10 @@ export class ArtistService {
       },
       relationType: RelationType.follows
     });
+    if (set === false) {
+      throw new Error(artistConstant.errors.service.somethingWentWrong);
+    }
+    return artist;
   }
 
   async following(
@@ -137,11 +143,12 @@ export class ArtistService {
   }
 
   async unfollow(
-    _dto: ArtistUnfollowReqDto,
+    dto: ArtistUnfollowReqDto,
     id: number,
     sub: number
-  ): Promise<boolean> {
-    return this.relationService.remove({
+  ): Promise<DataArtistResDto> {
+    const artist = await this.dataArtistService.byId({ ...dto, id });
+    const remove = await this.relationService.remove({
       from: {
         id: sub,
         type: RelationEntityType.user
@@ -152,5 +159,9 @@ export class ArtistService {
       },
       relationType: RelationType.unfollows
     });
+    if (remove === false) {
+      throw new Error(artistConstant.errors.service.somethingWentWrong);
+    }
+    return artist;
   }
 }
