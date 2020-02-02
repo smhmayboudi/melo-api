@@ -14,12 +14,11 @@ export class AlbumPaginationResDto<T> {
   })
   @Allow()
   @IsArray()
-  @Type(options => {
-    if (options === undefined) {
-      return Function;
-    }
-    return (options.newObject as AlbumPaginationResDto<T>).type;
-  })
+  @Type(options =>
+    options === undefined
+      ? Function
+      : (options.newObject as AlbumPaginationResDto<T>).type
+  )
   @ValidateNested({
     each: true
   })

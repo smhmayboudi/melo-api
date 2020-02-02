@@ -24,11 +24,8 @@ export class DataSearchService {
       )
       .pipe(
         map(
-          (
-            value: AxiosResponse<DataPaginationResDto<DataSearchMusicResDto>>
-          ) => {
-            return value.data;
-          }
+          (value: AxiosResponse<DataPaginationResDto<DataSearchMusicResDto>>) =>
+            value.data
         )
       )
       .toPromise();
@@ -51,9 +48,10 @@ export class DataSearchService {
         }
       )
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
-          return value.data;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }

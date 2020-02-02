@@ -190,11 +190,7 @@ export class SongService {
         },
         update_id: 0
       })
-      .pipe(
-        map((value: AxiosResponse<number>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<number>) => value.data))
       .toPromise();
   }
 

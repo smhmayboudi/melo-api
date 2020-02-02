@@ -14,12 +14,11 @@ export class UserPaginationResDto<T> {
   })
   @Allow()
   @IsArray()
-  @Type(options => {
-    if (options === undefined) {
-      return Function;
-    }
-    return (options.newObject as UserPaginationResDto<T>).type;
-  })
+  @Type(options =>
+    options === undefined
+      ? Function
+      : (options.newObject as UserPaginationResDto<T>).type
+  )
   @ValidateNested({
     each: true
   })

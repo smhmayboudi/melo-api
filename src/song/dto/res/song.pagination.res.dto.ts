@@ -14,12 +14,11 @@ export class SongPaginationResDto<T> {
   })
   @Allow()
   @IsArray()
-  @Type(options => {
-    if (options === undefined) {
-      return Function;
-    }
-    return (options.newObject as SongPaginationResDto<T>).type;
-  })
+  @Type(options =>
+    options === undefined
+      ? Function
+      : (options.newObject as SongPaginationResDto<T>).type
+  )
   @ValidateNested({
     each: true
   })

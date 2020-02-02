@@ -39,9 +39,7 @@ export class RelationService {
         map(
           (
             value: AxiosResponse<RelationPaginationResDto<RelationEntityResDto>>
-          ) => {
-            return value.data;
-          }
+          ) => value.data
         )
       )
       .toPromise();
@@ -54,11 +52,7 @@ export class RelationService {
           dto.to
         )}/${dto.relationType}`
       )
-      .pipe(
-        map((value: AxiosResponse<boolean>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<boolean>) => value.data))
       .toPromise();
   }
 
@@ -71,11 +65,7 @@ export class RelationService {
           dto.from
         )}/${this.keys(dto.tos)}/${dto.relationType}`
       )
-      .pipe(
-        map((value: AxiosResponse<RelationMultiHasResDto[]>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<RelationMultiHasResDto[]>) => value.data))
       .toPromise();
   }
 
@@ -88,11 +78,7 @@ export class RelationService {
           relationType: dto.relationType
         }
       })
-      .pipe(
-        map((value: AxiosResponse<boolean>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<boolean>) => value.data))
       .toPromise();
   }
 
@@ -104,11 +90,7 @@ export class RelationService {
         entityId2: this.key(dto.to),
         relationType: dto.relationType
       })
-      .pipe(
-        map((value: AxiosResponse<boolean>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<boolean>) => value.data))
       .toPromise();
   }
 }

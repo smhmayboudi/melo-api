@@ -17,11 +17,7 @@ export class DataAlbumService {
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/album/${dto.id}`)
-      .pipe(
-        map((value: AxiosResponse<DataAlbumResDto>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<DataAlbumResDto>) => value.data))
       .toPromise();
   }
 
@@ -33,9 +29,10 @@ export class DataAlbumService {
         `${this.dataConfigService.uri}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) => {
-          return value.data;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }

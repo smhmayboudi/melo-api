@@ -28,9 +28,10 @@ export class DataArtistService {
         `${this.dataConfigService.uri}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) => {
-          return value.data;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }
@@ -38,11 +39,7 @@ export class DataArtistService {
   async byId(dto: DataArtistByIdReqDto): Promise<DataArtistResDto> {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/byId/${dto.id}`)
-      .pipe(
-        map((value: AxiosResponse<DataArtistResDto>) => {
-          return value.data;
-        })
-      )
+      .pipe(map((value: AxiosResponse<DataArtistResDto>) => value.data))
       .toPromise();
   }
 
@@ -56,9 +53,10 @@ export class DataArtistService {
         }
       })
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) => {
-          return value.data;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }
@@ -71,10 +69,10 @@ export class DataArtistService {
         `${this.dataConfigService.uri}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
-          return value.data;
-          DataSongResDto;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }
@@ -87,10 +85,10 @@ export class DataArtistService {
         `${this.dataConfigService.uri}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) => {
-          return value.data;
-          DataSongResDto;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }
@@ -99,9 +97,10 @@ export class DataArtistService {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/trending`)
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) => {
-          return value.data;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }
@@ -112,9 +111,10 @@ export class DataArtistService {
     return this.httpService
       .get(`${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`)
       .pipe(
-        map((value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) => {
-          return value.data;
-        })
+        map(
+          (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
+            value.data
+        )
       )
       .toPromise();
   }

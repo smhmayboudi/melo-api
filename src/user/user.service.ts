@@ -15,23 +15,24 @@ export class UserService {
   ) {}
 
   async find(): Promise<UserPaginationResDto<UserUserResDto>> {
-    const results = (await this.userEntityRepository.find()).map(value => {
-      return {
-        id: value.id,
-        avatar: value.avatar,
-        biography: value.biography,
-        birthday: value.birthday,
-        cellphone: value.cellphone,
-        email: value.email,
-        firstname: value.firstname,
-        gender: value.gender,
-        language_code: value.language_code,
-        lastname: value.lastname,
-        registered_date: value.registered_date,
-        telegram_id: value.telegram_id,
-        username: value.username
-      } as UserUserResDto;
-    });
+    const results = (await this.userEntityRepository.find()).map(
+      value =>
+        ({
+          id: value.id,
+          avatar: value.avatar,
+          biography: value.biography,
+          birthday: value.birthday,
+          cellphone: value.cellphone,
+          email: value.email,
+          firstname: value.firstname,
+          gender: value.gender,
+          language_code: value.language_code,
+          lastname: value.lastname,
+          registered_date: value.registered_date,
+          telegram_id: value.telegram_id,
+          username: value.username
+        } as UserUserResDto)
+    );
     return {
       results: results,
       total: results.length

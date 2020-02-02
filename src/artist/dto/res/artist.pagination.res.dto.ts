@@ -14,12 +14,11 @@ export class ArtistPaginationResDto<T> {
   })
   @Allow()
   @IsArray()
-  @Type(options => {
-    if (options === undefined) {
-      return Function;
-    }
-    return (options.newObject as ArtistPaginationResDto<T>).type;
-  })
+  @Type(options =>
+    options === undefined
+      ? Function
+      : (options.newObject as ArtistPaginationResDto<T>).type
+  )
   @ValidateNested({
     each: true
   })
