@@ -19,7 +19,6 @@ export default registerAs("app", () => ({
   imgProxyImageTypeSize: process.env.APP_IMG_PROXY_TYPE_SIZE,
   mangooseRetryAttempts: process.env.APP_MANGOOSE_RETRY_ATTEMPTS,
   mangooseRetryDelay: process.env.APP_MANGOOSE_RETRY_DELAY,
-  mangooseConnectionName: process.env.APP_MANGOOSE_CONNECTION_NAME,
   mangooseUri: process.env.APP_MANGOOSE_URI,
   port: process.env.APP_PORT,
   rateLimitMax: process.env.APP_RATE_LIMIIT_MAX,

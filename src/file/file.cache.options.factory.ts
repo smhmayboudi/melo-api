@@ -16,7 +16,7 @@ export class FileCacheOptionsFactory implements CacheOptionsFactory {
       max: this.fileConfigService.cacheMax,
       port: this.fileConfigService.cachePort,
       store: this.fileConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.fileConfigService.cacheTTL
+      ttl: this.fileConfigService.cacheTTL / 1000
     };
   }
 }

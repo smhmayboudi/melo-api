@@ -7,7 +7,6 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -16,7 +15,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { User } from "../decorator/user.decorator";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
@@ -34,7 +32,6 @@ import { PlaylistPaginationResDto } from "./dto/res/playlist.pagination.res.dto"
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")
-@UseFilters(HttpExceptionFilter)
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(

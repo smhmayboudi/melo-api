@@ -25,7 +25,7 @@ export class AppConfigService {
   }
 
   get cacheTTL(): number {
-    return ms(this.configService.get<string>("app.cacheTTL", "")) / 1000;
+    return ms(this.configService.get<string>("app.cacheTTL", "0"));
   }
 
   get hashIdAlphabet(): string {
@@ -84,10 +84,6 @@ export class AppConfigService {
     return ms(this.configService.get<string>("app.mangooseRetryDelay", "0"));
   }
 
-  get mangooseConnectionName(): string {
-    return this.configService.get<string>("app.mangooseConnectionName", "");
-  }
-
   get mangooseUri(): string {
     return this.configService.get<string>("app.mangooseUri", "");
   }
@@ -101,7 +97,7 @@ export class AppConfigService {
   }
 
   get rateLimitWindowMs(): number {
-    return ms(this.configService.get<string>("app.rateLimitWindowMs", ""));
+    return ms(this.configService.get<string>("app.rateLimitWindowMs", "0"));
   }
 
   get typeOrmDatabase(): string {

@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsEnum, IsNumber, ValidateNested } from "class-validator";
+import { IsEnum, IsNumberString, ValidateNested } from "class-validator";
 import { RelationType } from "../../type/relation.type";
 import { RelationEntityResDto } from "../res/relation.entity.res.dto";
 
@@ -21,7 +21,7 @@ export class RelationGetReqDto {
     description: "Starting point index",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   from: number;
 
   @ApiProperty({
@@ -35,7 +35,7 @@ export class RelationGetReqDto {
     description: "Count of results",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   limit: number;
 
   @ApiProperty({

@@ -2,7 +2,6 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
-  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -10,7 +9,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { ConstService } from "./const.service";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";
@@ -18,7 +16,6 @@ import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("const")
 @Controller("const")
-@UseFilters(HttpExceptionFilter)
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(

@@ -34,7 +34,6 @@ describe("AppService", () => {
   test.todo("imgProxySalt");
   test.todo("imgProxySignatureSize");
   test.todo("imgProxyImageTypeSize");
-  test.todo("mangooseConnectionName");
   test.todo("mangooseRetryAttempts");
   test.todo("mangooseRetryDelay");
   test.todo("mangooseUri");

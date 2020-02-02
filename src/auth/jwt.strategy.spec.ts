@@ -6,6 +6,7 @@ import { AtModule } from "../at/at.module";
 import { AtService } from "../at/at.service";
 import { JwksModule } from "../jwks/jwks.module";
 import { JwksService } from "../jwks/jwks.service";
+import { RtModule } from "../rt/rt.module";
 import { RtService } from "../rt/rt.service";
 import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
@@ -23,7 +24,8 @@ describe("JwtStrategy", () => {
         forwardRef(() => AppModule),
         ConfigModule.forFeature(config),
         AtModule,
-        JwksModule
+        JwksModule,
+        RtModule
       ],
       providers: [AuthConfigService]
     }).compile();

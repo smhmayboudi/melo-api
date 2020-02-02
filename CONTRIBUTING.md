@@ -1,6 +1,6 @@
-# Contributing to Nest
+# Contributing to Api
 
-We would love for you to contribute to Nest and help make it even better than it is
+We would love for you to contribute to Api and help make it even better than it is
 today! As a contributor, here are the guidelines we would like you to follow:
 
 <!--* [Code of Conduct](#coc)-->
@@ -15,7 +15,7 @@ today! As a contributor, here are the guidelines we would like you to follow:
   <!-- - [Signing the CLA](#cla) -->
 
 <!-- ## <a name="coc"></a> Code of Conduct
-Help us keep Nest open and inclusive. Please read and follow our [Code of Conduct][coc]. -->
+Help us keep Api open and inclusive. Please read and follow our [Code of Conduct][coc]. -->
 
 ## <a name="question"></a> Got a Question or Problem?
 
@@ -58,7 +58,7 @@ Before you submit an issue, please search the issue tracker, maybe an issue for 
 
 We want to fix all the issues as soon as possible, but before fixing a bug we need to reproduce and confirm it. In order to reproduce bugs we will systematically ask you to provide a minimal reproduction scenario using a repository or [Gist](https://gist.github.com/). Having a live, reproducible scenario gives us wealth of important information without going back & forth to you with additional questions like:
 
-- version of NestJS used
+- version of Api used
 - 3rd-party libraries and their versions
 - and most importantly - a use-case that fails
 
@@ -71,7 +71,7 @@ A minimal reproduce scenario using a repository or Gist allows us to quickly con
 
 Unfortunately, we are not able to investigate / fix bugs without a minimal reproduction, so if we don't hear back from you we are going to close an issue that don't have enough info to be reproduced.
 
-You can file new issues by filling out our [new issue form](https://github.com/nestjs/nest/issues/new).
+You can file new issues by filling out our [new issue form](https://gitlab.3re.ir/melobit/melo-api/issues/new).
 
 ### <a name="submit-pr"></a> Submitting a Pull Request (PR)
 
@@ -84,9 +84,9 @@ To the first point
 We cannot accept code without this.
 -->
 
-1. Search [GitHub](https://github.com/nestjs/nest/pulls) for an open or closed PR
+1. Search [GitHub](https://gitlab.3re.ir/melobit/melo-api/merge_requests) for an open or closed PR
    that relates to your submission. You don't want to duplicate effort.
-1. Fork the nestjs/nest repo.
+1. Fork the melobit/melo-api repo.
 1. Make your changes in a new git branch:
 
    ```shell
@@ -95,7 +95,7 @@ We cannot accept code without this.
 
 1. Create your patch, **including appropriate test cases**.
 1. Follow our [Coding Rules](#rules).
-1. Run the full Nest test suite (see [common scripts](#common-scripts)),
+1. Run the full Api test suite (see [common scripts](#common-scripts)),
    and ensure that all tests pass.
 1. Commit your changes using a descriptive commit message that follows our
    [commit message conventions](#commit). Adherence to these conventions
@@ -113,12 +113,12 @@ We cannot accept code without this.
    git push origin my-fix-branch
    ```
 
-1. In GitHub, send a pull request to `nestjs:master`.
+1. In GitHub, send a pull request to `melo-api:master`.
 
 - If we suggest changes then:
 
   - Make the required updates.
-  - Re-run the Nest test suites to ensure tests are still passing.
+  - Re-run the Api test suites to ensure tests are still passing.
   - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
 
     ```shell
@@ -211,7 +211,7 @@ To ensure consistency throughout the source code, keep these rules in mind as yo
 
 We have very precise rules over how our git commit messages can be formatted. This leads to **more
 readable messages** that are easy to follow when looking through the **project history**. But also,
-we use the git commit messages to **generate the Nest change log**.
+we use the git commit messages to **generate the Api change log**.
 
 ### Commit Message Format
 
@@ -233,7 +233,7 @@ to read on GitHub as well as in various git tools.
 
 Footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/) if any.
 
-Samples: (even more [samples](https://github.com/nestjs/nest/commits/master))
+Samples: (even more [samples](https://gitlab.3re.ir/melobit/melo-api/commits/master))
 
 ```
 docs(changelog) update change log to beta.5
@@ -316,9 +316,7 @@ changes to be accepted, the CLA must be signed. It's a quick process, we promise
 
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
 [corporate-cla]: http://code.google.com/legal/corporate-cla-v1.0.html
-[dev-doc]: https://github.com/nestjs/nest/blob/master/docs/DEVELOPER.md
-[github]: https://github.com/nestjs/nest
-[discord]: https://discordapp.com/invite/G7Qnnhy
+[gitlab]: https://gitlab.3re.ir/melobit/melo-api/
 [individual-cla]: http://code.google.com/legal/individual-cla-v1.0.html
 [js-style-guide]: https://google.github.io/styleguide/jsguide.html
 [jsfiddle]: http://jsfiddle.net

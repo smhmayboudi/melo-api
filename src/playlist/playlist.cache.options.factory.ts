@@ -17,7 +17,7 @@ export class PlaylistCacheOptionsFactory implements CacheOptionsFactory {
       port: this.playlistConfigService.cachePort,
       store:
         this.playlistConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.playlistConfigService.cacheTTL
+      ttl: this.playlistConfigService.cacheTTL / 1000
     };
   }
 }

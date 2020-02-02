@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { IsNumber, IsNumberString } from "class-validator";
 
 export class DataArtistSongsTopReqDto {
   constructor(id: number, from: number, limit: number) {
@@ -19,13 +19,13 @@ export class DataArtistSongsTopReqDto {
     description: "Starting point index",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "Count of results",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   limit: number;
 }

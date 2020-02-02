@@ -4,7 +4,6 @@ import {
   Get,
   Param,
   Query,
-  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -12,7 +11,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { SearchMoodParamReqDto } from "./dto/req/search.mood.param.req.dto";
 import { SearchMoodQueryReqDto } from "./dto/req/search.mood.query.req.dto";
@@ -25,7 +23,6 @@ import { SearchService } from "./search.service";
 @ApiBearerAuth("jwt")
 @ApiTags("search")
 @Controller("search")
-@UseFilters(HttpExceptionFilter)
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(

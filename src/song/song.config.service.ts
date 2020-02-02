@@ -39,21 +39,19 @@ export class SongConfigService {
   }
 
   get cacheTTL(): number {
-    return (
-      ms(
-        this.configService.get<string>(
-          "song.cacheTTL",
-          ms(1000 * this.appConfigService.cacheTTL)
-        )
-      ) / 1000
+    return ms(
+      this.configService.get<string>(
+        "song.cacheTTL",
+        ms(this.appConfigService.cacheTTL)
+      )
     );
   }
 
-  get timeout(): number {
-    return ms(this.configService.get<string>("song.timeout", ""));
+  get sendTelegramUrl(): string {
+    return this.configService.get<string>("song.uri", "");
   }
 
-  get uri(): string {
-    return this.configService.get<string>("song.uri", "");
+  get timeout(): number {
+    return ms(this.configService.get<string>("song.timeout", "0"));
   }
 }

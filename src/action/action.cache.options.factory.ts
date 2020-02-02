@@ -17,7 +17,7 @@ export class ActionCacheOptionsFactory implements CacheOptionsFactory {
       port: this.actionConfigService.cachePort,
       store:
         this.actionConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.actionConfigService.cacheTTL
+      ttl: this.actionConfigService.cacheTTL / 1000
     };
   }
 }

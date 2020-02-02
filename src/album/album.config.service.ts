@@ -39,13 +39,11 @@ export class AlbumConfigService {
   }
 
   get cacheTTL(): number {
-    return (
-      ms(
-        this.configService.get<string>(
-          "album.cacheTTL",
-          ms(1000 * this.appConfigService.cacheTTL)
-        )
-      ) / 1000
+    return ms(
+      this.configService.get<string>(
+        "album.cacheTTL",
+        ms(this.appConfigService.cacheTTL)
+      )
     );
   }
 }

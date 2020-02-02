@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNumberString, IsOptional } from "class-validator";
 
 export class SearchMoodQueryReqDto {
   constructor(
@@ -20,7 +20,7 @@ export class SearchMoodQueryReqDto {
     description: "The classy",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   classy?: number;
 
@@ -28,7 +28,7 @@ export class SearchMoodQueryReqDto {
     description: "The date",
     example: new Date()
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   date?: number;
 
@@ -36,7 +36,7 @@ export class SearchMoodQueryReqDto {
     description: "The energetic",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   energetic?: number;
 
@@ -44,7 +44,7 @@ export class SearchMoodQueryReqDto {
     description: "The happiness",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   happiness?: number;
 
@@ -52,7 +52,7 @@ export class SearchMoodQueryReqDto {
     description: "The romantic",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   romantic?: number;
 }

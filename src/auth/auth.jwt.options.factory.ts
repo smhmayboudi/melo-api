@@ -24,7 +24,7 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
           algorithm: "RS256",
           // keyid?: string;
           // /** @member {string} - expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).  Eg: 60, "2 days", "10h", "7d" */
-          expiresIn: this.authConfigService.jwtRefreshTokenExpiresIn
+          expiresIn: this.authConfigService.jwtAccessTokenExpiresIn / 1000
           // /** @member {string} - expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).  Eg: 60, "2 days", "10h", "7d" */
           // notBefore?: string | number;
           // audience?: string | string[];

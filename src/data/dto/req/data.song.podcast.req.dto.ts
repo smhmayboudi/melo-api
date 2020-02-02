@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsEnum, IsNumber, IsString } from "class-validator";
+import { IsArray, IsEnum, IsNumberString, IsString } from "class-validator";
 import { DataOrderByType } from "../../type/data.order-by.type";
 
 export class DataSongPodcastReqDto {
@@ -19,7 +19,7 @@ export class DataSongPodcastReqDto {
     description: "Starting point index",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   from: number;
 
   @ApiProperty({
@@ -34,7 +34,7 @@ export class DataSongPodcastReqDto {
     description: "Count of results",
     example: 0
   })
-  @IsNumber()
+  @IsNumberString()
   limit: number;
 
   @ApiProperty({
