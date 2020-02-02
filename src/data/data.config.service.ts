@@ -11,6 +11,6 @@ export class DataConfigService {
   }
 
   get uri(): string {
-    return this.configService.get<string>("data.uri", "");
+    return this.configService.get<string>("data.url", "");
   }
 }

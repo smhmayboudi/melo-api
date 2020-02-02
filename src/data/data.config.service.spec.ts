@@ -20,5 +20,5 @@ describe("DataService", () => {
   });
 
   test.todo("timeout");
-  test.todo("uri");
+  test.todo("url");
 });

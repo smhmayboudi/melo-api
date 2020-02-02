@@ -11,6 +11,6 @@ export class RelationConfigService {
   }
 
   get uri(): string {
-    return this.configService.get<string>("relation.uri", "");
+    return this.configService.get<string>("relation.url", "");
   }
 }
