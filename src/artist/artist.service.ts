@@ -1,10 +1,11 @@
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { AppMixSongService } from "../app.mix-song.service";
 import { DataArtistService } from "../data/data.artist.service";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
-// import { RelationMultiHasDto } from "../relation/dto/relaton.multi.has.dto";
 import { RelationType } from "../relation/type/relation.type";
+import { SongSongResDto } from "../song/dto/res/song.song.res.dto";
 import { artistConstant } from "./artist.constant";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
@@ -17,11 +18,11 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
 import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
 import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
-import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
 
 @Injectable()
 export class ArtistService {
   constructor(
+    private readonly appMixSongService: AppMixSongService,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
@@ -104,26 +105,57 @@ export class ArtistService {
     }) as unknown) as ArtistPaginationResDto<ArtistArtistResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async songs(
     dto: ArtistSongsReqDto,
-    id: number
-  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
-    return (this.dataArtistService.songs({
+    id: number,
+    sub: number
+  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
+    //TODO: change
+    const songs = await this.dataArtistService.songs({
       ...dto,
       id: id.toString()
-    }) as unknown) as Promise<ArtistPaginationResDto<ArtistSongResDto>>;
+    });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => {
+        return ({
+          ...value,
+          id: value.id.toString()
+        } as unknown) as SongSongResDto; //TODO: change
+      })
+    );
+    return {
+      results,
+      total: results.length
+    } as ArtistPaginationResDto<SongSongResDto>; //TODO: change
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async songsTop(
     dto: ArtistSongsTopReqDto,
-    id: number
-  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
-    return (this.dataArtistService.songsTop({
+    id: number,
+    sub: number
+  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
+    //ArtistSongResDto
+    //TODO: change
+    const songs = await this.dataArtistService.songsTop({
       ...dto,
       id: id.toString()
-    }) as unknown) as Promise<ArtistPaginationResDto<ArtistSongResDto>>;
+    });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => {
+        return ({
+          ...value,
+          id: value.id.toString()
+        } as unknown) as SongSongResDto;
+      })
+    );
+    return {
+      results,
+      total: results.length
+    } as ArtistPaginationResDto<SongSongResDto>; //TODO: change
   }
 
   // TODO: mixArtists
