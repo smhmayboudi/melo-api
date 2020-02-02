@@ -1,35 +1,31 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class PreviousSongDto {
-  constructor(
-    currentSongId: number,
-    currentSongPosition: number,
-    previousSongId: number
-  ) {
-    this.currentSongId = currentSongId;
-    this.currentSongPosition = currentSongPosition;
-    this.previousSongId = previousSongId;
+  constructor(currentId: string, currentPosition: number, previousId: string) {
+    this.currentId = currentId;
+    this.currentPosition = currentPosition;
+    this.previousId = previousId;
   }
 
   @ApiProperty({
     description: "The current song identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  currentSongId: number;
+  @IsString()
+  currentId: string;
 
   @ApiProperty({
     description: "The current song identification",
     example: 0
   })
   @IsNumber()
-  currentSongPosition: number;
+  currentPosition: number;
 
   @ApiProperty({
     description: "The previous song identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  previousSongId: number;
+  @IsString()
+  previousId: string;
 }

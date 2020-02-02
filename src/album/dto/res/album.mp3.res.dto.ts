@@ -16,7 +16,7 @@ export class AlbumMp3ResDto {
 
   @ApiProperty({
     description: "The url",
-    example: "abcdef"
+    example: "http://..."
   })
   @IsString()
   url: string;

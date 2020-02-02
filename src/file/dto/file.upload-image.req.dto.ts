@@ -5,14 +5,14 @@ export class FileUploadImageReqDto {
   constructor(
     buffer: Buffer,
     createdAt: Date,
-    fileId: string,
+    fileKey: string,
     mimeType: string,
     originalname: string,
     size: number
   ) {
     this.buffer = buffer;
     this.createdAt = createdAt;
-    this.fileId = fileId;
+    this.fileKey = fileKey;
     this.mimeType = mimeType;
     this.originalname = originalname;
     this.size = size;
@@ -36,7 +36,7 @@ export class FileUploadImageReqDto {
     example: "abcdef"
   })
   @IsString()
-  fileId: string;
+  fileKey: string;
 
   @ApiProperty({
     description: "The content type",

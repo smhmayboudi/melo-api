@@ -17,7 +17,7 @@ export class DataAlbumLatestReqDto {
 
   @ApiProperty({
     description: "The language",
-    example: "abcdef"
+    example: "fa"
   })
   @IsString()
   language: string;

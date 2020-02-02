@@ -71,7 +71,7 @@ export class FileService {
     });
     return {
       createdAt: fileEntity.created_at,
-      fileId: fileEntity.file_key,
+      fileKey: fileEntity.file_key,
       mimeType: fileEntity.mime_type,
       originalname: dto.originalname,
       size: fileEntity.size

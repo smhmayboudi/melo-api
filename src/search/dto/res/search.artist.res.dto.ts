@@ -16,7 +16,7 @@ import { SearchSongResDto } from "./search.song.res.dto";
 export class SearchArtistResDto {
   constructor(
     followersCount: number,
-    id: number,
+    id: string,
     type: SearchArtistType,
     albums?: SearchPaginationResDto<SearchAlbumResDto>,
     fullName?: string,
@@ -45,10 +45,10 @@ export class SearchArtistResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  id: number;
+  @IsString()
+  id: string;
 
   @ApiProperty({
     description: "The artist type",

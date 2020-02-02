@@ -14,7 +14,7 @@ import { DataSongResDto } from "./data.song.res.dto";
 export class DataPlaylistResDto {
   constructor(
     followersCount: number,
-    id: number,
+    id: string,
     image: DataImageResDto,
     isPublic: boolean,
     releaseDate: Date,
@@ -41,10 +41,10 @@ export class DataPlaylistResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "abcdef"
   })
   @IsString()
-  id: number;
+  id: string;
 
   @ApiProperty({
     description: "The cover",

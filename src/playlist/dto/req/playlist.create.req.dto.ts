@@ -9,7 +9,7 @@ export class PlaylistCreateReqDto {
 
   @ApiProperty({
     description: "The title",
-    example: "abcdef"
+    example: "black"
   })
   @IsString()
   title: string;

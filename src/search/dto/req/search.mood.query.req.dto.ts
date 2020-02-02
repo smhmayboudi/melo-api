@@ -26,7 +26,7 @@ export class SearchMoodQueryReqDto {
 
   @ApiProperty({
     description: "The date",
-    example: new Date()
+    example: 0
   })
   @IsNumberString()
   @IsOptional()

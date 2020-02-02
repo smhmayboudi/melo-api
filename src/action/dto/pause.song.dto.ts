@@ -1,10 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class PauseSongDto {
-  constructor(currentPosition: number, songId: number) {
+  constructor(currentPosition: number, id: string) {
     this.currentPosition = currentPosition;
-    this.songId = songId;
+    this.id = id;
   }
 
   @ApiProperty({
@@ -16,8 +16,8 @@ export class PauseSongDto {
 
   @ApiProperty({
     description: "The song identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  songId: number;
+  @IsString()
+  id: string;
 }

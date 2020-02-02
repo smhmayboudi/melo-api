@@ -24,7 +24,7 @@ export class DataSongLanguageReqDto {
 
   @ApiProperty({
     description: "The language",
-    example: "abcdef"
+    example: "fa"
   })
   @IsString()
   language: string;

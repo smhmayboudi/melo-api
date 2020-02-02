@@ -19,7 +19,7 @@ export class DataSongResDto {
     artists: DataArtistResDto[],
     audio: DataAudioResDto,
     duration: number,
-    id: number,
+    id: string,
     localized: boolean,
     releaseDate: Date,
     title: string,
@@ -74,10 +74,10 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: "abcdef"
   })
-  @IsNumber()
-  id: number;
+  @IsString()
+  id: string;
 
   @ApiProperty({
     description: "The localized",

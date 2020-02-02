@@ -4,13 +4,13 @@ import { IsDate, IsNumber, IsString } from "class-validator";
 export class FileUploadImageResDto {
   constructor(
     createdAt: Date,
-    fileId: string,
+    fileKey: string,
     mimeType: string,
     originalname: string,
     size: number
   ) {
     this.createdAt = createdAt;
-    this.fileId = fileId;
+    this.fileKey = fileKey;
     this.mimeType = mimeType;
     this.originalname = originalname;
     this.size = size;
@@ -28,7 +28,7 @@ export class FileUploadImageResDto {
     example: "abcdef"
   })
   @IsString()
-  fileId: string;
+  fileKey: string;
 
   @ApiProperty({
     description: "The content type",

@@ -16,8 +16,7 @@ export class RelationMultiHasResDto {
   }
 
   @ApiProperty({
-    description: "The from entity",
-    example: 0
+    description: "The from entity"
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
@@ -31,8 +30,7 @@ export class RelationMultiHasResDto {
   relation: RelationType;
 
   @ApiProperty({
-    description: "The to entity",
-    example: 0
+    description: "The to entity"
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()

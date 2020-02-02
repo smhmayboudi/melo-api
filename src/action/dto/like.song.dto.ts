@@ -1,18 +1,20 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsNumber } from "class-validator";
+import { IsBoolean, IsNumber, IsString } from "class-validator";
 
 export class LikeSongDto {
-  constructor(
-    like: boolean,
-    playing: boolean,
-    position: number,
-    songId: number
-  ) {
+  constructor(id: string, like: boolean, playing: boolean, position: number) {
+    this.id = id;
     this.like = like;
     this.playing = playing;
     this.position = position;
-    this.songId = songId;
   }
+
+  @ApiProperty({
+    description: "The song identification",
+    example: "abcdef"
+  })
+  @IsString()
+  id: string;
 
   @ApiProperty({
     description: "The like",
@@ -34,11 +36,4 @@ export class LikeSongDto {
   })
   @IsNumber()
   position: number;
-
-  @ApiProperty({
-    description: "The song identification",
-    example: 0
-  })
-  @IsNumber()
-  songId: number;
 }
