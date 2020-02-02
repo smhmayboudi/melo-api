@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  ParseIntPipe,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -10,12 +11,14 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { User } from "src/decorator/user.decorator";
+import { SongMixResDto } from "src/song/dto/res/song.mix.res.dto";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { AlbumService } from "./album.service";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
-import { AlbumAlbumResDto } from "./dto/res/album.album.res.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumAlbumResDto } from "./dto/res/album.album.res.dto";
 import { AlbumPaginationResDto } from "./dto/res/album.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
@@ -36,9 +39,10 @@ export class AlbumController {
   @Get(":id")
   async byId(
     @Param() dto: AlbumByIdReqDto,
-    @Param("id", HashIdPipe) id: number
-  ): Promise<AlbumAlbumResDto> {
-    return this.albumService.byId(dto, id);
+    @Param("id", HashIdPipe) id: number,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<SongMixResDto> {
+    return this.albumService.byId(dto, id, sub);
   }
 
   @Get("latest/:language/:from/:limit")

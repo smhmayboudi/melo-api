@@ -5,9 +5,10 @@ import {
 } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { AppMixSongService } from "../app.mix-song.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DataOrderByType } from "../data/type/data.order-by.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
@@ -28,6 +29,7 @@ import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.
 import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
+import { SongMixResDto } from "./dto/res/song.mix.res.dto";
 import { SongPaginationResDto } from "./dto/res/song.pagination.res.dto";
 import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongConfigService } from "./song.config.service";
@@ -37,6 +39,7 @@ import { SongOrderByType } from "./type/song.order-by.type";
 @Injectable()
 export class SongService {
   constructor(
+    private readonly appMixSongService: AppMixSongService,
     private readonly dataSongService: DataSongService,
     private readonly httpService: HttpService,
     private readonly relationService: RelationService,
@@ -44,35 +47,59 @@ export class SongService {
     private readonly userService: UserService
   ) {}
 
-  // TODO: mixSongs
-  async byId(dto: SongByIdReqDto, id: number): Promise<SongSongResDto> {
-    return (this.dataSongService.byId({ ...dto, id }) as unknown) as Promise<
-      SongSongResDto
-    >;
+  // TODO: CHECK(MIX)
+  async byId(
+    dto: SongByIdReqDto,
+    id: number,
+    sub: number
+  ): Promise<SongMixResDto> {
+    const song = await this.dataSongService.byId({ ...dto, id });
+
+    return this.appMixSongService.mixSong(sub, [
+      (song as unknown) as SongSongResDto
+    ])[0];
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async genre(
     paramDto: SongSongGenresParamReqDto,
     orderBy: SongOrderByType,
-    queryDto: SongSongGenresQueryReqDto
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.genre({
+    queryDto: SongSongGenresQueryReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.genre({
       ...paramDto,
       ...{ orderBy: (orderBy as unknown) as DataOrderByType },
       ...queryDto
-    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
+    });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongSongResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async language(
     dto: SongLanguageReqDto,
-    orderBy: SongOrderByType
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.language({
+    orderBy: SongOrderByType,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.language({
       ...dto,
       ...{ orderBy: (orderBy as unknown) as DataOrderByType }
-    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
+    });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongMixResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
   async like(
@@ -101,11 +128,11 @@ export class SongService {
     return song;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async liked(
     dto: SongLikedReqDto,
     sub: number
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
     const entityDtos = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
@@ -115,47 +142,87 @@ export class SongService {
       limit: dto.limit,
       relationType: RelationType.likedSongs
     });
-    return (this.dataSongService.byIds({
+    const songs = await this.dataSongService.byIds({
       ids: entityDtos.results.map(value => value.id)
-    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
+    });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongMixResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async mood(
-    dto: SongMoodReqDto
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.mood(dto) as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+    dto: SongMoodReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.mood(dto);
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongMixResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
-  async new(dto: SongNewReqDto): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.new(dto) as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+  // TODO: CHECK(MIX)
+  async new(
+    dto: SongNewReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.new(dto);
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongMixResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async newPodcast(
-    dto: DataSongNewPodcastReqDto
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.newPodcast({ ...dto }) as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+    dto: DataSongNewPodcastReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.newPodcast({ ...dto });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongMixResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async podcast(
     paramDto: SongPodcastGenresParamReqDto,
     queryDto: SongPodcastGenresQueryReqDto,
-    orderBy
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.podcast({
+    orderBy,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.podcast({
       ...paramDto,
       ...queryDto,
       orderBy
-    }) as unknown) as Promise<SongPaginationResDto<SongSongResDto>>;
+    });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(value => (value as unknown) as SongMixResDto)
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
   async sendTelegram(
@@ -194,41 +261,92 @@ export class SongService {
       .toPromise();
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async similar(
     dto: SongSimilarReqDto,
-    id: number
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.similar({ ...dto, id }) as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+    id: number,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.similar({ ...dto, id });
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(
+        value =>
+          (({
+            ...value,
+            id: value.id
+          } as unknown) as SongMixResDto)
+      )
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async sliderLatest(
-    _sub: number
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.sliderLatest() as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.sliderLatest();
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(
+        value =>
+          (({
+            ...value,
+            id: value.id
+          } as unknown) as SongMixResDto)
+      )
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async topDay(
-    dto: SongTopDayReqDto
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.topDay(dto) as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+    dto: SongTopDayReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.topDay(dto);
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(
+        value =>
+          (({
+            ...value,
+            id: value.id
+          } as unknown) as SongMixResDto)
+      )
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
-  // TODO: mixSongs
+  // TODO: CHECK(MIX)
   async topWeek(
-    dto: SongTopWeekReqDto
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
-    return (this.dataSongService.topWeek(dto) as unknown) as Promise<
-      SongPaginationResDto<SongSongResDto>
-    >;
+    dto: SongTopWeekReqDto,
+    sub: number
+  ): Promise<SongPaginationResDto<SongMixResDto>> {
+    const songs = await this.dataSongService.topWeek(dto);
+    const results = await this.appMixSongService.mixSong(
+      sub,
+      songs.results.map(
+        value =>
+          (({
+            ...value,
+            id: value.id
+          } as unknown) as SongMixResDto)
+      )
+    );
+    return {
+      results,
+      total: results.length
+    } as SongPaginationResDto<SongMixResDto>;
   }
 
   async unlike(

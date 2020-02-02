@@ -17,6 +17,7 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
+import { SongSongResDto } from "../song/dto/res/song.song.res.dto";
 import { ArtistService } from "./artist.service";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
@@ -29,7 +30,6 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
 import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
 import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
-import { ArtistSongResDto } from "./dto/res/artist.song.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
@@ -82,17 +82,21 @@ export class ArtistController {
   @Get("songs/:id/:from/:limit")
   async songs(
     @Param() dto: ArtistSongsReqDto,
-    @Param("id", HashIdPipe) id: number
-  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
-    return this.artistService.songs(dto, id);
+    @Param("id", HashIdPipe) id: number,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
+    //TODO: change
+    return this.artistService.songs(dto, id, sub);
   }
 
   @Get("songs/top/:id/:from/:limit")
   async songsTop(
     @Param() dto: ArtistSongsTopReqDto,
-    @Param("id", HashIdPipe) id: number
-  ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
-    return this.artistService.songsTop(dto, id);
+    @Param("id", HashIdPipe) id: number,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
+    // TODO: change
+    return this.artistService.songsTop(dto, id, sub);
   }
 
   @Get("trending")
