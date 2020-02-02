@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  ParseIntPipe,
   Post,
   UseGuards,
   UseInterceptors,
@@ -11,10 +12,12 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { User } from "src/decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
-import { UserEntity } from "./user.entity";
+import { UserPaginationResDto } from "./dto/res/user.pagination.res.dto";
+import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserService } from "./user.service";
 
 @ApiBearerAuth("jwt")
@@ -34,17 +37,17 @@ export class UserController {
 
   @Get()
   @UseInterceptors(HttpCacheInterceptor)
-  async find(): Promise<UserEntity[]> {
+  async find(): Promise<UserPaginationResDto<UserUserResDto>> {
     return this.userService.find();
   }
 
   @Post("profile/edit")
-  async edit(@Body() dto: UserEditReqDto): Promise<any> {
+  async edit(@Body() dto: UserEditReqDto): Promise<UserEditReqDto> {
     return this.userService.edit(dto);
   }
 
   @Get("profile")
-  async get(): Promise<any> {
-    return this.userService.get();
+  async get(@User("sub", ParseIntPipe) sub: number): Promise<UserUserResDto> {
+    return this.userService.get(sub);
   }
 }

@@ -1,9 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 import { DataArtistService } from "../data/data.artist.service";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 // import { RelationMultiHasDto } from "../relation/dto/relaton.multi.has.dto";
 import { RelationType } from "../relation/type/relation.type";
+import { artistConstant } from "./artist.constant";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
@@ -62,11 +64,11 @@ export class ArtistService {
     dto: ArtistFollowReqDto,
     id: number,
     sub: number
-  ): Promise<boolean> {
+  ): Promise<DataArtistResDto> {
     // There is no need to mixArtists instead
     // artistDto.follownig = true;
     const artist = await this.dataArtistService.byId({ ...dto, id });
-    return this.relationService.set({
+    const set = await this.relationService.set({
       createdAt: new Date(),
       from: {
         id: sub,
@@ -78,6 +80,10 @@ export class ArtistService {
       },
       relationType: RelationType.follows
     });
+    if (set === false) {
+      throw new Error(artistConstant.errors.service.somethingWentWrong);
+    }
+    return artist;
   }
 
   async following(
@@ -137,11 +143,12 @@ export class ArtistService {
   }
 
   async unfollow(
-    _dto: ArtistUnfollowReqDto,
+    dto: ArtistUnfollowReqDto,
     id: number,
     sub: number
-  ): Promise<boolean> {
-    return this.relationService.remove({
+  ): Promise<DataArtistResDto> {
+    const artist = await this.dataArtistService.byId({ ...dto, id });
+    const remove = await this.relationService.remove({
       from: {
         id: sub,
         type: RelationEntityType.user
@@ -152,5 +159,11 @@ export class ArtistService {
       },
       relationType: RelationType.unfollows
     });
+    if (remove === false) {
+      throw new InternalServerErrorException(
+        artistConstant.errors.service.somethingWentWrong
+      );
+    }
+    return artist;
   }
 }
