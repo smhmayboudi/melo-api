@@ -18,7 +18,6 @@ import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
-import { RtEntity } from "../rt/rt.entity";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -55,7 +54,7 @@ export class AuthController {
   @ApiBearerAuth("token")
   @Delete("logout")
   @UseGuards(AuthGuard("token"))
-  async logout(@Headers("token") token: string): Promise<RtEntity | undefined> {
+  async logout(@Headers("token") token: string): Promise<void> {
     return this.rtService.deleteByToken(token);
   }
 

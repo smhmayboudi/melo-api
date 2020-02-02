@@ -162,12 +162,12 @@ export class SongService {
     _dto: SongSendTelegramReqDto,
     id: number,
     sub: number
-  ): Promise<number> {
+  ): Promise<void> {
     const userEntity = await this.userService.findOneById(sub);
     if (userEntity === undefined || userEntity.telegram_id === undefined) {
       throw new Error(songConstant.errors.service.sendTelegram);
     }
-    return this.httpService
+    await this.httpService
       .post(this.songConfigService.sendTelegramUrl, {
         callback_query: {
           from: {

@@ -40,10 +40,8 @@ export class RtService {
     return rtEntity;
   }
 
-  async deleteByToken(token: string): Promise<RtEntity | undefined> {
-    const rtEntity = await this.findOneByToken(token);
+  async deleteByToken(token: string): Promise<void> {
     await this.rtEntityRepository.delete({ token });
-    return rtEntity;
   }
 
   async find(): Promise<RtEntity[]> {

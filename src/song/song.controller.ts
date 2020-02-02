@@ -132,7 +132,7 @@ export class SongController {
     @Body() dto: SongSendTelegramReqDto,
     @Body("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<number> {
+  ): Promise<void> {
     return this.songService.sendTelegram(dto, id, sub);
   }
 
