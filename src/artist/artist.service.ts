@@ -32,7 +32,7 @@ export class ArtistService {
   ): Promise<ArtistPaginationResDto<ArtistAlbumResDto>> {
     return (this.dataArtistService.albums({
       ...dto,
-      id
+      id: id.toString()
     }) as unknown) as Promise<ArtistPaginationResDto<ArtistAlbumResDto>>;
   }
 
@@ -71,7 +71,7 @@ export class ArtistService {
     const set = await this.relationService.set({
       createdAt: new Date(),
       from: {
-        id: sub,
+        id: sub.toString(),
         type: RelationEntityType.user
       },
       to: {
@@ -93,7 +93,7 @@ export class ArtistService {
     const relates = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        id,
+        id: id.toString(),
         type: RelationEntityType.following
       },
       limit: dto.limit,
@@ -111,7 +111,7 @@ export class ArtistService {
   ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
     return (this.dataArtistService.songs({
       ...dto,
-      id
+      id: id.toString()
     }) as unknown) as Promise<ArtistPaginationResDto<ArtistSongResDto>>;
   }
 
@@ -122,7 +122,7 @@ export class ArtistService {
   ): Promise<ArtistPaginationResDto<ArtistSongResDto>> {
     return (this.dataArtistService.songsTop({
       ...dto,
-      id
+      id: id.toString()
     }) as unknown) as Promise<ArtistPaginationResDto<ArtistSongResDto>>;
   }
 
@@ -150,11 +150,11 @@ export class ArtistService {
     const artist = await this.dataArtistService.byId({ ...dto, id });
     const remove = await this.relationService.remove({
       from: {
-        id: sub,
+        id: sub.toString(),
         type: RelationEntityType.user
       },
       to: {
-        id,
+        id: id.toString(),
         type: RelationEntityType.artist
       },
       relationType: RelationType.unfollows

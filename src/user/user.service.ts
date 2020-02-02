@@ -15,24 +15,10 @@ export class UserService {
   ) {}
 
   async find(): Promise<UserPaginationResDto<UserUserResDto>> {
-    const results = (await this.userEntityRepository.find()).map(
-      value =>
-        ({
-          id: value.id,
-          avatar: value.avatar,
-          biography: value.biography,
-          birthday: value.birthday,
-          cellphone: value.cellphone,
-          email: value.email,
-          firstname: value.firstname,
-          gender: value.gender,
-          language_code: value.language_code,
-          lastname: value.lastname,
-          registered_date: value.registered_date,
-          telegram_id: value.telegram_id,
-          username: value.username
-        } as UserUserResDto)
-    );
+    const results = (await this.userEntityRepository.find()).map(value => ({
+      ...value,
+      id: value.id.toString()
+    }));
     return {
       results: results,
       total: results.length
@@ -55,21 +41,10 @@ export class UserService {
 
   async edit(dto: UserEditReqDto): Promise<UserUserResDto> {
     const userEntity = await this.save({ ...dto, id: 0 });
-    return Promise.resolve({
-      id: userEntity.id,
-      avatar: userEntity.avatar,
-      biography: userEntity.biography,
-      birthday: userEntity.birthday,
-      cellphone: userEntity.cellphone,
-      email: userEntity.email,
-      firstname: userEntity.firstname,
-      gender: userEntity.gender,
-      language_code: userEntity.language_code,
-      lastname: userEntity.lastname,
-      registered_date: userEntity.registered_date,
-      telegram_id: userEntity.telegram_id,
-      username: userEntity.username
-    });
+    return {
+      ...userEntity,
+      id: userEntity.id.toString()
+    };
   }
 
   async get(sub: number): Promise<UserUserResDto> {
@@ -78,19 +53,8 @@ export class UserService {
       throw new Error(userConstant.errors.service.userNotFound);
     }
     return {
-      id: user.id,
-      avatar: user.avatar,
-      biography: user.biography,
-      birthday: user.birthday,
-      cellphone: user.cellphone,
-      email: user.email,
-      firstname: user.firstname,
-      gender: user.gender,
-      language_code: user.language_code,
-      lastname: user.lastname,
-      registered_date: user.registered_date,
-      telegram_id: user.telegram_id,
-      username: user.username
+      ...user,
+      id: user.id.toString()
     };
   }
 

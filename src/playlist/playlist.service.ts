@@ -41,7 +41,7 @@ export class PlaylistService {
     playlist.songs_ids.push(songId);
     await playlist.save();
     const playlistSongs = await this.dataSongService.byIds({
-      ids: playlist.songs_ids
+      ids: playlist.songs_ids.map(value => value.toString())
     });
     return {
       followersCount: playlist.followers_count,
@@ -131,7 +131,7 @@ export class PlaylistService {
     }
     await playlist.save();
     const playlistSongs = await this.dataSongService.byIds({
-      ids: playlist.songs_ids
+      ids: playlist.songs_ids.map(value => value.toString())
     });
     return {
       followersCount: playlist.followers_count,
@@ -193,7 +193,7 @@ export class PlaylistService {
       throw new Error(playlistConstant.errors.service.playlistNotFound);
     }
     const playlistSongs = await this.dataSongService.byIds({
-      ids: playlist.songs_ids
+      ids: playlist.songs_ids.map(value => value.toString())
     });
     return {
       followersCount: playlist.followers_count,
@@ -225,7 +225,7 @@ export class PlaylistService {
     const results = await Promise.all(
       playlists.map(async value => {
         const playlistSongs = await this.dataSongService.byIds({
-          ids: value.songs_ids
+          ids: value.songs_ids.map(value => value.toString())
         });
         return {
           followersCount: value.followers_count,
@@ -262,7 +262,7 @@ export class PlaylistService {
     const results = await Promise.all(
       playlists.map(async value => {
         const playlistSongs = await this.dataSongService.byIds({
-          ids: value.songs_ids
+          ids: value.songs_ids.map(value => value.toString())
         });
         return {
           followersCount: value.followers_count,

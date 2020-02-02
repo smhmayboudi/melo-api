@@ -84,11 +84,11 @@ export class SongService {
     const set = await this.relationService.set({
       createdAt: new Date(),
       from: {
-        id: sub,
+        id: sub.toString(),
         type: RelationEntityType.user
       },
       to: {
-        id,
+        id: id.toString(),
         type: RelationEntityType.song
       },
       relationType: RelationType.likedSongs
@@ -109,7 +109,7 @@ export class SongService {
     const entityDtos = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        id: sub,
+        id: sub.toString(),
         type: RelationEntityType.user
       },
       limit: dto.limit,
@@ -239,11 +239,11 @@ export class SongService {
     const song = await this.dataSongService.byId({ id });
     const remove = await this.relationService.remove({
       from: {
-        id: sub,
+        id: sub.toString(),
         type: RelationEntityType.user
       },
       to: {
-        id,
+        id: id.toString(),
         type: RelationEntityType.song
       },
       relationType: RelationType.likedSongs
