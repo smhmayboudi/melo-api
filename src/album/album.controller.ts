@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Param,
-  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -11,7 +10,6 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { AlbumService } from "./album.service";
@@ -23,7 +21,6 @@ import { AlbumPaginationResDto } from "./dto/res/album.pagination.res.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
-@UseFilters(HttpExceptionFilter)
 @UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(

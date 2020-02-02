@@ -6,7 +6,6 @@ import {
   Headers,
   ParseIntPipe,
   Post,
-  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -15,7 +14,6 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { User } from "../decorator/user.decorator";
-import { HttpExceptionFilter } from "../filter/http.exception.filter";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
@@ -24,7 +22,6 @@ import { RtEntity } from "../rt/rt.entity";
 
 @ApiTags("auth")
 @Controller("auth")
-@UseFilters(HttpExceptionFilter)
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
