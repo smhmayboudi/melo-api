@@ -5,7 +5,8 @@ import bluebird from "bluebird";
 import mime from "mime-types";
 import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
 import uuidv4 from "uuid/v4";
-import { FileUploadImageDto } from "./dto/file.upload.image.dto";
+import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
+import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
 import { fileConstant } from "./file.constant";
 import { FileEntity } from "./file.entity";
@@ -33,14 +34,17 @@ export class FileService {
     });
   }
 
-  async uploadImage(dto: FileUploadImageDto, sub: number): Promise<FileEntity> {
+  async uploadImage(
+    dto: FileUploadImageReqDto,
+    sub: number
+  ): Promise<FileUploadImageResDto> {
     if (dto === undefined) {
       throw new Error(fileConstant.errors.service.dtoValidation);
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
-    if (mimeType !== mime.lookup("jpeg")) {
+    if (mimeType !== mime.lookup("jpg")) {
       throw new Error(fileConstant.errors.service.mimeTypeValidatoion);
     }
     const extension = mime.extension(mimeType);
@@ -55,15 +59,22 @@ export class FileService {
         Key: `${uuidv4()}.${extension}`
       })
       .promise();
-    return this.fileEntityRepository.save({
+    const fileEntity = await this.fileEntityRepository.save({
       bucket: sendData.Bucket,
       created_at: new Date(),
       e_tag: sendData.ETag,
-      file_name: sendData.Key,
+      file_key: sendData.Key,
       id: 0,
       mime_type: mimeType,
       owner_user_id: sub,
       size: dto.size
     });
+    return {
+      createdAt: fileEntity.created_at,
+      fileId: fileEntity.file_key,
+      mimeType: fileEntity.mime_type,
+      originalname: dto.originalname,
+      size: fileEntity.size
+    };
   }
 }

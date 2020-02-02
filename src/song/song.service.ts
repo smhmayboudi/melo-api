@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataOrderByType } from "../data/type/data.order-by.type";

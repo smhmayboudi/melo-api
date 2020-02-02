@@ -52,8 +52,23 @@ export class UserService {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 
-  async edit(dto: UserEditReqDto): Promise<UserEditReqDto> {
-    return Promise.resolve(dto);
+  async edit(dto: UserEditReqDto): Promise<UserUserResDto> {
+    const userEntity = await this.save({ ...dto, id: 0 });
+    return Promise.resolve({
+      id: userEntity.id,
+      avatar: userEntity.avatar,
+      biography: userEntity.biography,
+      birthday: userEntity.birthday,
+      cellphone: userEntity.cellphone,
+      email: userEntity.email,
+      firstname: userEntity.firstname,
+      gender: userEntity.gender,
+      language_code: userEntity.language_code,
+      lastname: userEntity.lastname,
+      registered_date: userEntity.registered_date,
+      telegram_id: userEntity.telegram_id,
+      username: userEntity.username
+    });
   }
 
   async get(sub: number): Promise<UserUserResDto> {

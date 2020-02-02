@@ -34,7 +34,7 @@
       "downloads_count",
       "e_tag",
       "expire_at",
-      "file_name",
+      "file_key",
       "first_name",
       "followers_count",
       "is_blocked",

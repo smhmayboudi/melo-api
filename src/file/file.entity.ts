@@ -9,7 +9,7 @@ export class FileEntity {
     created_at: Date,
     bucket: string,
     e_tag: string,
-    file_name: string,
+    file_key: string,
     id: number,
     mime_type: string,
     owner_user_id: number,
@@ -18,7 +18,7 @@ export class FileEntity {
     this.created_at = created_at;
     this.bucket = bucket;
     this.e_tag = e_tag;
-    this.file_name = file_name;
+    this.file_key = file_key;
     this.id = id;
     this.mime_type = mime_type;
     this.owner_user_id = owner_user_id;
@@ -48,7 +48,7 @@ export class FileEntity {
   })
   @Column({ length: 200, type: "varchar" })
   @IsString()
-  file_name: string;
+  file_key: string;
 
   @ApiProperty({
     description: "The etag",

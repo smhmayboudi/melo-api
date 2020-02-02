@@ -62,7 +62,9 @@ export class RelationService {
       .toPromise();
   }
 
-  async multiHas(dto: RelationMultiHasReqDto): Promise<RelationMultiHasResDto> {
+  async multiHas(
+    dto: RelationMultiHasReqDto
+  ): Promise<RelationMultiHasResDto[]> {
     return this.httpService
       .get(
         `${this.relationConfigService.uri}/multiHas/${this.key(
@@ -70,7 +72,7 @@ export class RelationService {
         )}/${this.keys(dto.tos)}/${dto.relationType}`
       )
       .pipe(
-        map((value: AxiosResponse<RelationMultiHasResDto>) => {
+        map((value: AxiosResponse<RelationMultiHasResDto[]>) => {
           return value.data;
         })
       )

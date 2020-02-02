@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsNumber, IsString } from "class-validator";
 
-export class FileUploadImageDto {
+export class FileUploadImageReqDto {
   constructor(
     buffer: Buffer,
     createdAt: Date,

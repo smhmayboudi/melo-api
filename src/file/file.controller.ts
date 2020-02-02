@@ -14,8 +14,8 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { FileUploadImageDto } from "./dto/file.upload.image.dto";
-import { FileEntity } from "./file.entity";
+import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
+import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileService } from "./file.service";
 
 @ApiBearerAuth("jwt")
@@ -38,8 +38,8 @@ export class FileController {
   async uploadedPic(
     @User("sub", ParseIntPipe) sub: number,
     @UploadedFile("file")
-    dto: FileUploadImageDto
-  ): Promise<FileEntity> {
+    dto: FileUploadImageReqDto
+  ): Promise<FileUploadImageResDto> {
     return this.fileService.uploadImage(dto, sub);
   }
 }

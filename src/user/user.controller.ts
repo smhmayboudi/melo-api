@@ -12,7 +12,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { User } from "src/decorator/user.decorator";
+import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
@@ -42,7 +42,7 @@ export class UserController {
   }
 
   @Post("profile/edit")
-  async edit(@Body() dto: UserEditReqDto): Promise<UserEditReqDto> {
+  async edit(@Body() dto: UserEditReqDto): Promise<UserUserResDto> {
     return this.userService.edit(dto);
   }
 

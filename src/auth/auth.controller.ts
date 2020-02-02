@@ -17,7 +17,7 @@ import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
-import { AuthAccessTokenDto } from "./dto/auth.access-token.dto";
+import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 import { RtEntity } from "../rt/rt.entity";
 
 @ApiTags("auth")
@@ -48,7 +48,7 @@ export class AuthController {
   @UseGuards(AuthGuard("local"))
   async login(
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<AuthAccessTokenDto | undefined> {
+  ): Promise<AuthAccessTokenResDto | undefined> {
     return this.authService.refreshToken(sub);
   }
 
@@ -64,7 +64,7 @@ export class AuthController {
   @UseGuards(AuthGuard("telegram"))
   async telegram(
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<AuthAccessTokenDto | undefined> {
+  ): Promise<AuthAccessTokenResDto | undefined> {
     return this.authService.refreshToken(sub);
   }
 
@@ -73,7 +73,7 @@ export class AuthController {
   @UseGuards(AuthGuard("token"))
   async token(
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<AuthAccessTokenDto | undefined> {
+  ): Promise<AuthAccessTokenResDto | undefined> {
     return this.authService.accessToken(sub);
   }
 }
