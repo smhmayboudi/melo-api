@@ -6,7 +6,7 @@ import { DataArtistResDto } from "./data.artist.res.dto";
 import { DataPlaylistResDto } from "./data.playlist.res.dto";
 import { DataSongResDto } from "./data.song.res.dto";
 
-export class DataSearchMusicResDto {
+export class DataSearchResDto {
   constructor(
     type: DataSearchType,
     album?: DataAlbumResDto,

@@ -5,7 +5,7 @@ import { ActionDto } from "./dto/action.dto";
 export class ActionService {
   // constructor() {}
 
-  async bulk(dto: ActionDto): Promise<boolean> {
-    return Promise.resolve(dto === undefined);
+  async bulk(_dto: ActionDto): Promise<void> {
+    return Promise.resolve();
   }
 }

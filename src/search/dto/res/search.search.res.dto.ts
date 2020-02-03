@@ -6,7 +6,7 @@ import { SearchArtistResDto } from "./search.artist.res.dto";
 import { SearchPlaylistResDto } from "./search.playlist.res.dto";
 import { SearchSongResDto } from "./search.song.res.dto";
 
-export class SearchSearchMusicResDto {
+export class SearchSearchResDto {
   constructor(
     type: SearchSearchType,
     album?: SearchAlbumResDto,

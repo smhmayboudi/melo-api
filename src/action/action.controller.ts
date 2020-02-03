@@ -30,7 +30,7 @@ export class ActionController {
   constructor(private readonly actionService: ActionService) {}
 
   @Post("bulk")
-  async bulk(@Body("actions") actions: ActionDto): Promise<boolean> {
+  async bulk(@Body("actions") actions: ActionDto): Promise<void> {
     return this.actionService.bulk(actions);
   }
 }

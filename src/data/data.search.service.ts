@@ -5,7 +5,7 @@ import { DataConfigService } from "./data.config.service";
 import { DataSearchMoodReqDto } from "./dto/req/data.search.mood.req.dto";
 import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
-import { DataSearchMusicResDto } from "./dto/res/data.search-music.res.dto";
+import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
 
 @Injectable()
@@ -17,20 +17,21 @@ export class DataSearchService {
 
   async query(
     dto: DataSearchQueryReqDto
-  ): Promise<DataPaginationResDto<DataSearchMusicResDto>> {
+  ): Promise<DataPaginationResDto<DataSearchResDto>> {
     return this.httpService
       .get(
         `${this.dataConfigService.url}/search/query/${dto.query}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
-          (value: AxiosResponse<DataPaginationResDto<DataSearchMusicResDto>>) =>
+          (value: AxiosResponse<DataPaginationResDto<DataSearchResDto>>) =>
             value.data
         )
       )
       .toPromise();
   }
 
+  // TODO: move to Song Service
   async mood(
     dto: DataSearchMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {

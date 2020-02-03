@@ -20,6 +20,7 @@ export class DataArtistService {
     private readonly httpService: HttpService
   ) {}
 
+  // TODO: move to Album Service
   async albums(
     dto: DataArtistAlbumsReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
@@ -61,6 +62,7 @@ export class DataArtistService {
       .toPromise();
   }
 
+  // TODO: move to Song Service
   async songs(
     dto: DataArtistSongsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
@@ -77,6 +79,7 @@ export class DataArtistService {
       .toPromise();
   }
 
+  // TODO: move to Song Service
   async songsTop(
     dto: DataArtistSongsTopReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {

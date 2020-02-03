@@ -49,14 +49,20 @@ export class RelationService {
       .toPromise();
   }
 
-  async has(dto: RelationHasReqDto): Promise<boolean> {
+  async has(dto: RelationHasReqDto): Promise<void> {
     return this.httpService
       .get(
         `${this.relationConfigService.url}/has/${this.key(dto.from)}/${this.key(
           dto.to
         )}/${dto.relationType}`
       )
-      .pipe(map((value: AxiosResponse<boolean>) => value.data))
+      .pipe(
+        map((value: AxiosResponse<boolean>) => {
+          if (value.data === false) {
+            throw new InternalServerErrorException();
+          }
+        })
+      )
       .toPromise();
   }
 
