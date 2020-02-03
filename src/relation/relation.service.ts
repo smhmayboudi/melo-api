@@ -1,4 +1,8 @@
-import { HttpService, Injectable } from "@nestjs/common";
+import {
+  HttpService,
+  Injectable,
+  InternalServerErrorException
+} from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
@@ -69,7 +73,7 @@ export class RelationService {
       .toPromise();
   }
 
-  async remove(dto: RelationRemoveReqDto): Promise<boolean> {
+  async remove(dto: RelationRemoveReqDto): Promise<void> {
     return this.httpService
       .delete(`${this.relationConfigService.url}/remove`, {
         params: {
@@ -78,11 +82,17 @@ export class RelationService {
           relationType: dto.relationType
         }
       })
-      .pipe(map((value: AxiosResponse<boolean>) => value.data))
+      .pipe(
+        map((value: AxiosResponse<boolean>) => {
+          if (value.data === false) {
+            throw new InternalServerErrorException();
+          }
+        })
+      )
       .toPromise();
   }
 
-  async set(dto: RelationSetReqDto): Promise<boolean> {
+  async set(dto: RelationSetReqDto): Promise<void> {
     return this.httpService
       .post(`${this.relationConfigService.url}/set`, {
         createdAt: dto.createdAt,
@@ -90,7 +100,13 @@ export class RelationService {
         entityId2: this.key(dto.to),
         relationType: dto.relationType
       })
-      .pipe(map((value: AxiosResponse<boolean>) => value.data))
+      .pipe(
+        map((value: AxiosResponse<boolean>) => {
+          if (value.data === false) {
+            throw new InternalServerErrorException();
+          }
+        })
+      )
       .toPromise();
   }
 }

@@ -5,7 +5,6 @@ import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserPaginationResDto } from "./dto/res/user.pagination.res.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
-import { userConstant } from "./user.constant";
 
 @Injectable()
 export class UserService {
@@ -50,7 +49,7 @@ export class UserService {
   async get(sub: number): Promise<UserUserResDto> {
     const user = await this.findOneById(sub);
     if (user === undefined) {
-      throw new BadRequestException(userConstant.errors.service.userNotFound);
+      throw new BadRequestException();
     }
     return {
       ...user,

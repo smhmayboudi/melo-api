@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpService,
-  Injectable,
-  InternalServerErrorException
-} from "@nestjs/common";
+import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { AppMixSongService } from "../app.mix-song.service";
@@ -34,7 +29,6 @@ import { SongMixResDto } from "./dto/res/song.mix.res.dto";
 import { SongPaginationResDto } from "./dto/res/song.pagination.res.dto";
 import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongConfigService } from "./song.config.service";
-import { songConstant } from "./song.constant";
 import { SongOrderByType } from "./type/song.order-by.type";
 
 @Injectable()
@@ -109,7 +103,7 @@ export class SongService {
     sub: number
   ): Promise<DataSongResDto> {
     const song = this.dataSongService.byId({ id });
-    const set = await this.relationService.set({
+    await this.relationService.set({
       createdAt: new Date(),
       from: {
         id: sub.toString(),
@@ -121,9 +115,6 @@ export class SongService {
       },
       relationType: RelationType.likedSongs
     });
-    if (set === false) {
-      throw new InternalServerErrorException();
-    }
     return song;
   }
 
@@ -231,7 +222,7 @@ export class SongService {
   ): Promise<void> {
     const userEntity = await this.userService.findOneById(sub);
     if (userEntity === undefined || userEntity.telegram_id === undefined) {
-      throw new BadRequestException(songConstant.errors.service.sendTelegram);
+      throw new BadRequestException();
     }
     await this.httpService
       .post(this.songConfigService.sendTelegramUrl, {
@@ -354,7 +345,7 @@ export class SongService {
     sub: number
   ): Promise<DataSongResDto> {
     const song = await this.dataSongService.byId({ id });
-    const remove = await this.relationService.remove({
+    await this.relationService.remove({
       from: {
         id: sub.toString(),
         type: RelationEntityType.user
@@ -365,9 +356,6 @@ export class SongService {
       },
       relationType: RelationType.likedSongs
     });
-    if (remove === false) {
-      throw new BadRequestException(songConstant.errors.service.songNotFound);
-    }
     return song;
   }
 }

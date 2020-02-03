@@ -8,7 +8,6 @@ import uuidv4 from "uuid/v4";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
-import { fileConstant } from "./file.constant";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
 
@@ -39,21 +38,17 @@ export class FileService {
     sub: number
   ): Promise<FileUploadImageResDto> {
     if (dto === undefined) {
-      throw new BadRequestException(fileConstant.errors.service.dtoValidation);
+      throw new BadRequestException();
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
     if (mimeType !== mime.lookup("jpg")) {
-      throw new BadRequestException(
-        fileConstant.errors.service.mimeTypeValidatoion
-      );
+      throw new BadRequestException();
     }
     const extension = mime.extension(mimeType);
     if (extension === undefined) {
-      throw new BadRequestException(
-        fileConstant.errors.service.extensionValidatoion
-      );
+      throw new BadRequestException();
     }
     const sendData = await this.s3
       .upload({

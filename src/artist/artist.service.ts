@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
@@ -68,7 +68,7 @@ export class ArtistService {
     // There is no need to mixArtists instead
     // artistDto.follownig = true;
     const artist = await this.dataArtistService.byId({ ...dto, id });
-    const set = await this.relationService.set({
+    await this.relationService.set({
       createdAt: new Date(),
       from: {
         id: sub.toString(),
@@ -80,9 +80,6 @@ export class ArtistService {
       },
       relationType: RelationType.follows
     });
-    if (set === false) {
-      throw new InternalServerErrorException();
-    }
     return artist;
   }
 
@@ -179,7 +176,7 @@ export class ArtistService {
     sub: number
   ): Promise<DataArtistResDto> {
     const artist = await this.dataArtistService.byId({ ...dto, id });
-    const remove = await this.relationService.remove({
+    await this.relationService.remove({
       from: {
         id: sub.toString(),
         type: RelationEntityType.user
@@ -190,9 +187,6 @@ export class ArtistService {
       },
       relationType: RelationType.unfollows
     });
-    if (remove === false) {
-      throw new InternalServerErrorException();
-    }
     return artist;
   }
 }
