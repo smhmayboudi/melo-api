@@ -7,7 +7,8 @@ import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
 import { authConstant } from "./auth.constant";
-import { AuthJwtPayloadDto } from "./dto/auth.jwt-payload.dto";
+import { AuthJwtPayloadReqDto } from "./dto/req/auth.jwt-payload.req.dto";
+import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -61,7 +62,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(dto: AuthJwtPayloadDto): Promise<AuthJwtPayloadDto> {
+  async validate(dto: AuthJwtPayloadReqDto): Promise<AuthStrategyResDto> {
     const sub = parseInt(dto.sub, 10);
     const rtEntity = await this.rtService.validateBySub(sub);
     if (rtEntity === undefined) {
@@ -86,6 +87,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         token: dto.jti
       });
     }
-    return Promise.resolve({ ...dto });
+    return Promise.resolve({ sub: dto.sub });
   }
 }

@@ -8,14 +8,14 @@ import {
 import express from "express";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { AuthJwtPayloadDto } from "../auth/dto/auth.jwt-payload.dto";
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 
 @Injectable()
 export class ErrorInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context
       .switchToHttp()
-      .getRequest<express.Request & { user: AuthJwtPayloadDto }>();
+      .getRequest<express.Request & { user: AuthJwtPayloadReqDto }>();
     return next.handle().pipe(
       catchError((error: Error) => {
         Logger.error(

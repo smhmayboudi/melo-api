@@ -7,7 +7,7 @@ import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
-import { AuthRefreshTokenDto } from "./dto/auth.refresh-token.dto";
+import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 @Injectable()
 export class AuthService {
@@ -35,7 +35,7 @@ export class AuthService {
     });
   }
 
-  async refreshToken(sub: number): Promise<AuthRefreshTokenDto | undefined> {
+  async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)

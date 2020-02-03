@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from "class-validator";
 
-export class AuthJwtPayloadDto {
+export class AuthJwtPayloadReqDto {
   constructor(exp: number, iat: number, jti: string, sub: string) {
     this.exp = exp;
     this.iat = iat;

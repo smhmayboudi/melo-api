@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from "class-validator";
 
-export class AuthTelegramPayloadDto {
+export class AuthTelegramPayloadReqDto {
   constructor(
     auth_date: number,
     first_name: string,
