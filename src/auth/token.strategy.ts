@@ -20,7 +20,7 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
 
   async validate(token: string): Promise<AuthJwtPayloadDto> {
     const rtEntity = await this.rtService.validateByToken(token);
-    if (rtEntity === undefined || rtEntity.expire_at <= new Date()) {
+    if (rtEntity === undefined || rtEntity.expire_at < new Date()) {
       throw new UnauthorizedException();
     }
     return {

@@ -6,6 +6,7 @@ import { AtService } from "../at/at.service";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
+import { authConstant } from "./auth.constant";
 import { AuthJwtPayloadDto } from "./dto/auth.jwt-payload.dto";
 
 @Injectable()
@@ -49,7 +50,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             ).kid
           );
           if (jwksEntity === undefined) {
-            done(new Error("jwt.strategy secretOrKeyProvider failed."), null);
+            done(new Error(authConstant.errors.secretOrKeyProvider), null);
           } else {
             done(null, jwksEntity.public_key);
           }
@@ -66,19 +67,25 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (rtEntity === undefined) {
       throw new UnauthorizedException();
     }
-    const atEnity = await this.atService.validateByToken(dto.jti);
-    if (atEnity !== undefined) {
+    const atEntity = await this.atService.validateByToken(dto.jti);
+    if (
+      atEntity !== undefined &&
+      this.authConfigService.jwtAccessTokenExpiresCount - 1 < atEntity.count
+    ) {
       throw new UnauthorizedException();
     }
-    await this.atService.save([
-      {
+    if (atEntity !== undefined) {
+      await this.atService.update({ ...atEntity, count: atEntity.count + 1 });
+    } else {
+      await this.atService.save({
+        count: 1,
         created_at: new Date(1000 * dto.iat),
         expire_at: new Date(1000 * dto.exp),
         id: 0,
         user_id: sub,
         token: dto.jti
-      }
-    ]);
+      });
+    }
     return Promise.resolve({ ...dto });
   }
 }

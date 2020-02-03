@@ -55,7 +55,7 @@ export class UserEntity {
     description: "The avatar link",
     example: "http://www.google.com/avatar.jpg"
   })
-  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @Column({ length: 100, nullable: true, type: "varchar" })
   @IsOptional()
   @IsString()
   avatar?: string;
@@ -64,7 +64,7 @@ export class UserEntity {
     description: "Small description of user",
     example: "He tries to bridge the system."
   })
-  @Column({ default: null, nullable: true, type: "text" })
+  @Column({ nullable: true, type: "text" })
   @IsOptional()
   @IsString()
   biography?: string;
@@ -73,7 +73,7 @@ export class UserEntity {
     description: "The birthdate",
     example: new Date()
   })
-  @Column({ default: null, nullable: true, type: "date" })
+  @Column({ nullable: true, type: "date" })
   @IsDate()
   @IsOptional()
   birthday?: Date;
@@ -82,7 +82,7 @@ export class UserEntity {
     description: "The cellphone number",
     example: 9121234567
   })
-  @Column({ default: null, length: 100, nullable: true, type: "char" })
+  @Column({ length: 100, nullable: true, type: "char" })
   @IsPhoneNumber("IR")
   @IsOptional()
   @IsString()
@@ -92,7 +92,7 @@ export class UserEntity {
     description: "The primary key",
     example: "abc@def.ghi"
   })
-  @Column({ default: null, length: 200, nullable: true, type: "varchar" })
+  @Column({ length: 200, nullable: true, type: "varchar" })
   @IsEmail()
   @IsOptional()
   email?: string;
@@ -101,7 +101,7 @@ export class UserEntity {
     description: "The firstname",
     example: "john"
   })
-  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @Column({ length: 100, nullable: true, type: "varchar" })
   @IsOptional()
   @IsString()
   firstname?: string;
@@ -120,7 +120,7 @@ export class UserEntity {
     description: "The language",
     example: "en"
   })
-  @Column({ default: null, length: 20, nullable: true, type: "varchar" })
+  @Column({ length: 20, nullable: true, type: "varchar" })
   @IsOptional()
   @IsString()
   language_code?: string;
@@ -129,7 +129,7 @@ export class UserEntity {
     description: "The lastname",
     example: "smith"
   })
-  @Column({ default: null, length: 100, nullable: true, type: "varchar" })
+  @Column({ length: 100, nullable: true, type: "varchar" })
   @IsOptional()
   @IsString()
   lastname?: string;
@@ -138,7 +138,7 @@ export class UserEntity {
     description: "The registration date",
     example: new Date()
   })
-  @Column({ default: null, type: "datetime", nullable: true })
+  @Column({ type: "datetime", nullable: true })
   @IsDate()
   @IsOptional()
   registered_date?: Date;
@@ -147,7 +147,7 @@ export class UserEntity {
     description: "The telegram identification",
     example: "@johnsmith"
   })
-  @Column({ default: null, nullable: true, type: "bigint" })
+  @Column({ nullable: true, type: "bigint" })
   @IsNumber()
   @IsOptional()
   telegram_id?: number;
@@ -156,7 +156,7 @@ export class UserEntity {
     description: "The username",
     example: "johnsmith"
   })
-  @Column({ default: null, length: 30, nullable: true, type: "varchar" })
+  @Column({ length: 30, nullable: true, type: "varchar" })
   @IsOptional()
   @IsString()
   username?: string;

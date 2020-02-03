@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeleteResult } from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
 
@@ -31,8 +31,12 @@ export class AtService {
     return this.atEntityRepository.findOne({ token });
   }
 
-  async save(entities: AtEntity[]): Promise<AtEntity[]> {
-    return this.atEntityRepository.save(entities);
+  async save(entity: AtEntity): Promise<AtEntity> {
+    return this.atEntityRepository.save(entity);
+  }
+
+  async update(entity: AtEntity): Promise<UpdateResult> {
+    return this.atEntityRepository.update({ id: entity.id }, entity);
   }
 
   async validateByToken(token: string): Promise<AtEntity | undefined> {

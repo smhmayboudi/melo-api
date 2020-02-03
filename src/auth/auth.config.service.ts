@@ -6,6 +6,10 @@ import ms from "ms";
 export class AuthConfigService {
   constructor(private readonly configService: ConfigService) {}
 
+  get jwtAccessTokenExpiresCount(): number {
+    return this.configService.get<number>("auth.jwtAccessTokenExpiresCount", 0);
+  }
+
   get jwtAccessTokenExpiresIn(): number {
     return ms(
       this.configService.get<string>("auth.jwtAccessTokenExpiresIn", "0")
