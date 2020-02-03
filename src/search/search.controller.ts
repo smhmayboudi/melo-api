@@ -35,6 +35,7 @@ import { SearchService } from "./search.service";
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
+  // TODO: move to Song Controller
   @Get("mood/:from/:limit")
   async mood(
     @Param() paramDto: SearchMoodParamReqDto,

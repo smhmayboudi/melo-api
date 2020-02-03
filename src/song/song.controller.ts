@@ -84,6 +84,7 @@ export class SongController {
     return this.songService.language(dto, orderBy, sub);
   }
 
+  // TODO: return type SongMixResDto
   @Post("like")
   async like(
     @Body() dto: SongLikeReqDto,
@@ -93,6 +94,7 @@ export class SongController {
     return this.songService.like(dto, id, sub);
   }
 
+  // TODO: return type SongMixResDto
   @Get("liked/:from/:limit")
   async liked(
     @Param() dto: SongLikedReqDto,
@@ -176,6 +178,7 @@ export class SongController {
     return this.songService.topWeek(dto, sub);
   }
 
+  // TODO: return type SongMixResDto
   @Post("unlike")
   async unlike(
     @Body() dto: SongUnlikeReqDto,

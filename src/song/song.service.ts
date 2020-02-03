@@ -97,6 +97,7 @@ export class SongService {
     } as SongPaginationResDto<SongMixResDto>;
   }
 
+  // TODO: return type SongMixResDto
   async like(
     _dto: SongLikeReqDto,
     id: number,
@@ -118,6 +119,7 @@ export class SongService {
     return song;
   }
 
+  // TODO: return type SongMixResDto
   // TODO: CHECK(MIX)
   async liked(
     dto: SongLikedReqDto,
@@ -339,6 +341,7 @@ export class SongService {
     } as SongPaginationResDto<SongMixResDto>;
   }
 
+  // TODO: return type SongMixResDto
   async unlike(
     _dto: SongUnlikeReqDto,
     id: number,

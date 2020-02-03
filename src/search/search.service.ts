@@ -11,6 +11,7 @@ import { SearchSongResDto } from "./dto/res/search.song.res.dto";
 export class SearchService {
   constructor(private readonly dataSearchService: DataSearchService) {}
 
+  // TODO: move to Song Service
   async mood(
     paramDto: SearchMoodParamReqDto,
     querydto: SearchMoodQueryReqDto
