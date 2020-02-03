@@ -30,5 +30,4 @@ describe("DataSearchService", () => {
   });
 
   test.todo("query");
-  test.todo("mood");
 });

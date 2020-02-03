@@ -8,6 +8,7 @@ import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
 import { SearchHealthIndicator } from "./search.health.indicator";
 import { SearchService } from "./search.service";
+import { SongModule } from "src/song/song.module";
 
 @Module({
   controllers: [SearchController],
@@ -20,7 +21,8 @@ import { SearchService } from "./search.service";
       useClass: SearchCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    DataModule
+    DataModule,
+    SongModule
   ],
   providers: [SearchConfigService, SearchHealthIndicator, SearchService]
 })

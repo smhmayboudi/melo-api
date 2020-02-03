@@ -29,11 +29,8 @@ describe("DataArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("albums");
   test.todo("byId");
   test.todo("byIds");
-  test.todo("songs");
-  test.todo("songsTop");
   test.todo("trending");
   test.todo("trendingGenre");
 });

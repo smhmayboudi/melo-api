@@ -1,9 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumberString } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
-export class SearchMoodParamReqDto {
-  constructor(from: number, limit: number) {
+export class DataSongArtistSongsTopReqDto {
+  constructor(from: number, id: string, limit: number) {
     this.from = from;
+    this.id = id;
     this.limit = limit;
   }
 
@@ -13,6 +14,13 @@ export class SearchMoodParamReqDto {
   })
   @IsNumberString()
   from: number;
+
+  @ApiProperty({
+    description: "The artist identification",
+    example: "abcdef"
+  })
+  @IsString()
+  id: string;
 
   @ApiProperty({
     description: "Count of results",

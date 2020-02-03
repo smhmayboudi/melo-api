@@ -29,16 +29,19 @@ describe("DataSongService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("artistSongs");
+  test.todo("artistSongsTop");
   test.todo("byId");
   test.todo("byIds");
   test.todo("genre");
   test.todo("language");
   test.todo("mood");
-  test.todo("podcast");
   test.todo("new");
   test.todo("newPodcast");
+  test.todo("podcast");
+  test.todo("searchMood");
+  test.todo("similar");
+  test.todo("sliderLatest");
   test.todo("topDay");
   test.todo("topWeek");
-  test.todo("sliderLatest");
-  test.todo("similar");
 });
