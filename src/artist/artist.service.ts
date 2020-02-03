@@ -1,4 +1,6 @@
 import { Injectable } from "@nestjs/common";
+import { DataAlbumService } from "src/data/data.album.service";
+import { DataSongService } from "src/data/data.song.service";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
@@ -23,6 +25,8 @@ export class ArtistService {
   constructor(
     private readonly appMixSongService: AppMixSongService,
     private readonly dataArtistService: DataArtistService,
+    private readonly dataSongService: DataSongService,
+    private readonly dataAlbumService: DataAlbumService,
     private readonly relationService: RelationService
   ) {}
 
@@ -30,7 +34,7 @@ export class ArtistService {
     dto: ArtistAlbumsReqDto,
     id: number
   ): Promise<ArtistPaginationResDto<ArtistAlbumResDto>> {
-    return (this.dataArtistService.albums({
+    return (this.dataAlbumService.albums({
       ...dto,
       id: id.toString()
     }) as unknown) as Promise<ArtistPaginationResDto<ArtistAlbumResDto>>;
@@ -108,7 +112,7 @@ export class ArtistService {
     sub: number
   ): Promise<ArtistPaginationResDto<SongSongResDto>> {
     //TODO: change
-    const songs = await this.dataArtistService.songs({
+    const songs = await this.dataSongService.artistSongs({
       ...dto,
       id: id.toString()
     });
@@ -135,7 +139,7 @@ export class ArtistService {
   ): Promise<ArtistPaginationResDto<SongSongResDto>> {
     //ArtistSongResDto
     //TODO: change
-    const songs = await this.dataArtistService.songsTop({
+    const songs = await this.dataSongService.artistSongsTop({
       ...dto,
       id: id.toString()
     });

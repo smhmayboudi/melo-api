@@ -33,8 +33,8 @@ describe("ArtistService", () => {
   test.todo("follow");
   test.todo("following");
   test.todo("songs");
-  test.todo("songs/top");
+  test.todo("songsTop");
   test.todo("trending");
-  test.todo("trending/genre");
+  test.todo("trendingGenre");
   test.todo("unfollow");
 });

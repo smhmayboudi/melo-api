@@ -26,6 +26,5 @@ describe("SearchService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("mood");
   test.todo("query");
 });

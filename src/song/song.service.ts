@@ -1,6 +1,8 @@
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { SearchPaginationResDto } from "src/search/dto/res/search.pagination.res.dto";
+import { SearchSongResDto } from "src/search/dto/res/search.song.res.dto";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
@@ -18,6 +20,8 @@ import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
+import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
+import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
@@ -215,6 +219,16 @@ export class SongService {
       results,
       total: results.length
     } as SongPaginationResDto<SongMixResDto>;
+  }
+  // TODO: check response type
+  async searchMood(
+    paramDto: SongSearchMoodParamDto,
+    querydto: SongSearchMoodQueryDto
+  ): Promise<SearchPaginationResDto<SearchSongResDto>> {
+    return (this.dataSongService.searchMood({
+      ...paramDto,
+      ...querydto
+    }) as unknown) as Promise<SearchPaginationResDto<SearchSongResDto>>;
   }
 
   async sendTelegram(

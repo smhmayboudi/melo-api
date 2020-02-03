@@ -14,6 +14,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { SearchPaginationResDto } from "src/search/dto/res/search.pagination.res.dto";
+import { SearchSongResDto } from "src/search/dto/res/search.song.res.dto";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { User } from "../decorator/user.decorator";
@@ -28,6 +30,8 @@ import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
+import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
+import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
@@ -135,6 +139,14 @@ export class SongController {
     @User("sub", ParseIntPipe) sub: number
   ): Promise<SongPaginationResDto<SongMixResDto>> {
     return this.songService.podcast(paramDto, queryDto, orderBy, sub);
+  }
+
+  @Get("search/mood/:from/:limit")
+  async searchMood(
+    @Param() paramDto: SongSearchMoodParamDto,
+    @Query() querydto: SongSearchMoodQueryDto
+  ): Promise<SearchPaginationResDto<SearchSongResDto>> {
+    return this.songService.searchMood(paramDto, querydto);
   }
 
   @Post("send/telegram")
