@@ -25,7 +25,7 @@ export class DataArtistService {
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -38,7 +38,7 @@ export class DataArtistService {
 
   async byId(dto: DataArtistByIdReqDto): Promise<DataArtistResDto> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/byId/${dto.id}`)
+      .get(`${this.dataConfigService.url}/artist/byId/${dto.id}`)
       .pipe(map((value: AxiosResponse<DataArtistResDto>) => value.data))
       .toPromise();
   }
@@ -47,7 +47,7 @@ export class DataArtistService {
     dto: DataArtistByIdsReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/byIds`, {
+      .get(`${this.dataConfigService.url}/artist/byIds`, {
         params: {
           artistsIds: dto.ids
         }
@@ -66,7 +66,7 @@ export class DataArtistService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -82,7 +82,7 @@ export class DataArtistService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -95,7 +95,7 @@ export class DataArtistService {
 
   async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/trending`)
+      .get(`${this.dataConfigService.url}/artist/trending`)
       .pipe(
         map(
           (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
@@ -109,7 +109,7 @@ export class DataArtistService {
     dto: DataTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/artist/trending/genre/${dto.genre}`)
+      .get(`${this.dataConfigService.url}/artist/trending/genre/${dto.genre}`)
       .pipe(
         map(
           (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>

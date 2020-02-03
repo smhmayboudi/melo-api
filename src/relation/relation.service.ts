@@ -31,7 +31,7 @@ export class RelationService {
   ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/get/${this.key(dto.fromEntityDto)}/${
+        `${this.relationConfigService.url}/get/${this.key(dto.fromEntityDto)}/${
           dto.relationType
         }/${dto.from}/${dto.limit}`
       )
@@ -48,7 +48,7 @@ export class RelationService {
   async has(dto: RelationHasReqDto): Promise<boolean> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/has/${this.key(dto.from)}/${this.key(
+        `${this.relationConfigService.url}/has/${this.key(dto.from)}/${this.key(
           dto.to
         )}/${dto.relationType}`
       )
@@ -61,7 +61,7 @@ export class RelationService {
   ): Promise<RelationMultiHasResDto[]> {
     return this.httpService
       .get(
-        `${this.relationConfigService.uri}/multiHas/${this.key(
+        `${this.relationConfigService.url}/multiHas/${this.key(
           dto.from
         )}/${this.keys(dto.tos)}/${dto.relationType}`
       )
@@ -71,7 +71,7 @@ export class RelationService {
 
   async remove(dto: RelationRemoveReqDto): Promise<boolean> {
     return this.httpService
-      .delete(`${this.relationConfigService.uri}/remove`, {
+      .delete(`${this.relationConfigService.url}/remove`, {
         params: {
           entityId1: this.key(dto.from),
           entityId2: this.key(dto.to),
@@ -84,7 +84,7 @@ export class RelationService {
 
   async set(dto: RelationSetReqDto): Promise<boolean> {
     return this.httpService
-      .post(`${this.relationConfigService.uri}/set`, {
+      .post(`${this.relationConfigService.url}/set`, {
         createdAt: dto.createdAt,
         entityId1: this.key(dto.from),
         entityId2: this.key(dto.to),

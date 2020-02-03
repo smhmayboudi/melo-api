@@ -10,7 +10,7 @@ export class RelationConfigService {
     return ms(this.configService.get<string>("relation.timeout", "0"));
   }
 
-  get uri(): string {
+  get url(): string {
     return this.configService.get<string>("relation.url", "");
   }
 }

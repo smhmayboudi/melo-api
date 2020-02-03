@@ -25,7 +25,7 @@ export class DataSongService {
 
   async byId(dto: DataSongByIdReqDto): Promise<DataSongResDto> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/song/byId/${dto.id}`)
+      .get(`${this.dataConfigService.url}/song/byId/${dto.id}`)
       .pipe(map((value: AxiosResponse<DataSongResDto>) => value.data))
       .toPromise();
   }
@@ -34,7 +34,7 @@ export class DataSongService {
     dto: DataSongByIdsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/song/byIds`, {
+      .get(`${this.dataConfigService.url}/song/byIds`, {
         params: {
           ids: dto.ids
         }
@@ -53,7 +53,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/genre/${dto.orderBy}/${dto.from}/${dto.limit}/${dto.orderBy}`,
+        `${this.dataConfigService.url}/song/genre/${dto.orderBy}/${dto.from}/${dto.limit}/${dto.orderBy}`,
         {
           params: {
             genres: dto.genres
@@ -74,7 +74,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -90,7 +90,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -105,7 +105,7 @@ export class DataSongService {
     dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/song/new/${dto.from}/${dto.limit}`)
+      .get(`${this.dataConfigService.url}/song/new/${dto.from}/${dto.limit}`)
       .pipe(
         map(
           (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>
@@ -120,7 +120,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/new/podcast/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/song/new/podcast/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -137,7 +137,7 @@ export class DataSongService {
     // TODO: test params
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
+        `${this.dataConfigService.url}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
         {
           params: {
             genres: dto.genres
@@ -158,7 +158,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/similar/${dto.id}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/song/similar/${dto.id}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -171,7 +171,7 @@ export class DataSongService {
 
   async sliderLatest(): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/song/slider/latest`)
+      .get(`${this.dataConfigService.url}/song/slider/latest`)
       .pipe(
         map(
           (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>
@@ -186,7 +186,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/top/day/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/song/top/day/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -202,7 +202,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/song/top/week/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/song/top/week/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(

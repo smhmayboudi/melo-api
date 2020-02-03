@@ -20,7 +20,7 @@ export class DataSearchService {
   ): Promise<DataPaginationResDto<DataSearchMusicResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/search/query/${dto.query}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/search/query/${dto.query}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(
@@ -36,7 +36,7 @@ export class DataSearchService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/search/mood/${dto.from}/${dto.limit}`,
+        `${this.dataConfigService.url}/search/mood/${dto.from}/${dto.limit}`,
         {
           params: {
             date: dto.date,

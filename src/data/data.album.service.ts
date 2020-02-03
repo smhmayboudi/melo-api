@@ -16,7 +16,7 @@ export class DataAlbumService {
 
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
     return this.httpService
-      .get(`${this.dataConfigService.uri}/album/${dto.id}`)
+      .get(`${this.dataConfigService.url}/album/${dto.id}`)
       .pipe(map((value: AxiosResponse<DataAlbumResDto>) => value.data))
       .toPromise();
   }
@@ -26,7 +26,7 @@ export class DataAlbumService {
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.uri}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
+        `${this.dataConfigService.url}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
       )
       .pipe(
         map(

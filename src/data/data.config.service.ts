@@ -10,7 +10,7 @@ export class DataConfigService {
     return ms(this.configService.get<string>("data.timeout", "0"));
   }
 
-  get uri(): string {
+  get url(): string {
     return this.configService.get<string>("data.url", "");
   }
 }
