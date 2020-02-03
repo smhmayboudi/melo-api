@@ -1,6 +1,10 @@
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException
+} from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Error, Model, Types } from "mongoose";
+import { Model, Types } from "mongoose";
 import { AppImgProxyService } from "../app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
@@ -36,7 +40,9 @@ export class PlaylistService {
       new Types.ObjectId(dto.playlistId)
     );
     if (playlist === null || playlist === undefined) {
-      throw new Error(playlistConstant.errors.service.playlistNotFound);
+      throw new BadRequestException(
+        playlistConstant.errors.service.playlistNotFound
+      );
     }
     playlist.songs_ids.push(songId);
     await playlist.save();
@@ -98,16 +104,16 @@ export class PlaylistService {
     };
     const deletingPlaylist = await this.playlistModel.findOne(query);
     if (deletingPlaylist === undefined || deletingPlaylist === null) {
-      throw new Error(playlistConstant.errors.service.playlistNotFound);
+      throw new BadRequestException(
+        playlistConstant.errors.service.playlistNotFound
+      );
     }
     const deletedPlaylist = await this.playlistModel.deleteOne(query);
     if (
       deletedPlaylist.deletedCount === undefined ||
       deletedPlaylist.deletedCount === 0
     ) {
-      throw new InternalServerErrorException(
-        playlistConstant.errors.service.somethingWentWrong
-      );
+      throw new InternalServerErrorException();
     }
     return {
       followersCount: deletingPlaylist.followers_count,
@@ -127,7 +133,9 @@ export class PlaylistService {
   async edit(dto: PlaylistEditReqDto): Promise<PlaylistPlaylistResDto> {
     const playlist = await this.playlistModel.findById(dto.id);
     if (playlist === null || playlist === undefined) {
-      throw new Error(playlistConstant.errors.service.playlistNotFound);
+      throw new BadRequestException(
+        playlistConstant.errors.service.playlistNotFound
+      );
     }
     await playlist.save();
     const playlistSongs = await this.dataSongService.byIds({
@@ -163,7 +171,9 @@ export class PlaylistService {
       }
     );
     if (playlist === null || playlist === undefined) {
-      throw new Error(playlistConstant.errors.service.playlistNotFound);
+      throw new BadRequestException(
+        playlistConstant.errors.service.playlistNotFound
+      );
     }
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids
@@ -190,7 +200,9 @@ export class PlaylistService {
   async get(dto: PlaylistGetReqDto): Promise<PlaylistPlaylistResDto> {
     const playlist = await this.playlistModel.findById(dto.id);
     if (playlist === null || playlist === undefined) {
-      throw new Error(playlistConstant.errors.service.playlistNotFound);
+      throw new BadRequestException(
+        playlistConstant.errors.service.playlistNotFound
+      );
     }
     const playlistSongs = await this.dataSongService.byIds({
       ids: playlist.songs_ids.map(value => value.toString())

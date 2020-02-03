@@ -6,7 +6,6 @@ import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
 import { SongSongResDto } from "../song/dto/res/song.song.res.dto";
-import { artistConstant } from "./artist.constant";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
@@ -82,7 +81,7 @@ export class ArtistService {
       relationType: RelationType.follows
     });
     if (set === false) {
-      throw new Error(artistConstant.errors.service.somethingWentWrong);
+      throw new InternalServerErrorException();
     }
     return artist;
   }
@@ -192,9 +191,7 @@ export class ArtistService {
       relationType: RelationType.unfollows
     });
     if (remove === false) {
-      throw new InternalServerErrorException(
-        artistConstant.errors.service.somethingWentWrong
-      );
+      throw new InternalServerErrorException();
     }
     return artist;
   }

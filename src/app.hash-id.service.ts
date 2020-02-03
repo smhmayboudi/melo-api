@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, BadRequestException } from "@nestjs/common";
 import Hashids from "hashids/cjs";
 import { AppConfigService } from "./app.config.service";
 import { appConstant } from "./app.constant";
@@ -31,7 +31,7 @@ export class AppHashIdService {
       .toString("base64")
       .split("=")[0];
     if (encoded === "") {
-      throw new Error(appConstant.errors.service.encoded);
+      throw new BadRequestException(appConstant.errors.service.encoded);
     }
     return encoded;
   }

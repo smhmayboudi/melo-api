@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpService,
   Injectable,
   InternalServerErrorException
@@ -121,9 +122,7 @@ export class SongService {
       relationType: RelationType.likedSongs
     });
     if (set === false) {
-      throw new InternalServerErrorException(
-        songConstant.errors.service.somethingWentWrong
-      );
+      throw new InternalServerErrorException();
     }
     return song;
   }
@@ -232,7 +231,7 @@ export class SongService {
   ): Promise<void> {
     const userEntity = await this.userService.findOneById(sub);
     if (userEntity === undefined || userEntity.telegram_id === undefined) {
-      throw new Error(songConstant.errors.service.sendTelegram);
+      throw new BadRequestException(songConstant.errors.service.sendTelegram);
     }
     await this.httpService
       .post(this.songConfigService.sendTelegramUrl, {
@@ -367,7 +366,7 @@ export class SongService {
       relationType: RelationType.likedSongs
     });
     if (remove === false) {
-      throw new Error(songConstant.errors.service.songNotFound);
+      throw new BadRequestException(songConstant.errors.service.songNotFound);
     }
     return song;
   }

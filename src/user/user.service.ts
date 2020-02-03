@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserEntity } from "./user.entity";
@@ -50,7 +50,7 @@ export class UserService {
   async get(sub: number): Promise<UserUserResDto> {
     const user = await this.findOneById(sub);
     if (user === undefined) {
-      throw new Error(userConstant.errors.service.userNotFound);
+      throw new BadRequestException(userConstant.errors.service.userNotFound);
     }
     return {
       ...user,

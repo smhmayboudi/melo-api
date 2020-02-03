@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import aws from "aws-sdk";
 import bluebird from "bluebird";
@@ -39,17 +39,21 @@ export class FileService {
     sub: number
   ): Promise<FileUploadImageResDto> {
     if (dto === undefined) {
-      throw new Error(fileConstant.errors.service.dtoValidation);
+      throw new BadRequestException(fileConstant.errors.service.dtoValidation);
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
     if (mimeType !== mime.lookup("jpg")) {
-      throw new Error(fileConstant.errors.service.mimeTypeValidatoion);
+      throw new BadRequestException(
+        fileConstant.errors.service.mimeTypeValidatoion
+      );
     }
     const extension = mime.extension(mimeType);
     if (extension === undefined) {
-      throw new Error(fileConstant.errors.service.extensionValidatoion);
+      throw new BadRequestException(
+        fileConstant.errors.service.extensionValidatoion
+      );
     }
     const sendData = await this.s3
       .upload({
