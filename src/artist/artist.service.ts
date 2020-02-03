@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { DataAlbumService } from "src/data/data.album.service";
-import { DataSongService } from "src/data/data.song.service";
+import { DataAlbumService } from "../data/data.album.service";
+import { DataSongService } from "../data/data.song.service";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";

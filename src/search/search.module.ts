@@ -8,7 +8,7 @@ import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
 import { SearchHealthIndicator } from "./search.health.indicator";
 import { SearchService } from "./search.service";
-import { SongModule } from "src/song/song.module";
+import { SongModule } from "../song/song.module";
 
 @Module({
   controllers: [SearchController],

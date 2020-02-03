@@ -14,8 +14,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { SearchPaginationResDto } from "src/search/dto/res/search.pagination.res.dto";
-import { SearchSongResDto } from "src/search/dto/res/search.song.res.dto";
+import { SearchPaginationResDto } from "../search/dto/res/search.pagination.res.dto";
+import { SearchSongResDto } from "../search/dto/res/search.song.res.dto";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { User } from "../decorator/user.decorator";

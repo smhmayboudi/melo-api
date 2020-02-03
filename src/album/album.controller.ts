@@ -11,8 +11,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { User } from "src/decorator/user.decorator";
-import { SongMixResDto } from "src/song/dto/res/song.mix.res.dto";
+import { User } from "../decorator/user.decorator";
+import { SongMixResDto } from "../song/dto/res/song.mix.res.dto";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { AlbumService } from "./album.service";

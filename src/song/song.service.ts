@@ -1,8 +1,8 @@
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
-import { SearchPaginationResDto } from "src/search/dto/res/search.pagination.res.dto";
-import { SearchSongResDto } from "src/search/dto/res/search.song.res.dto";
+import { SearchPaginationResDto } from "../search/dto/res/search.pagination.res.dto";
+import { SearchSongResDto } from "../search/dto/res/search.song.res.dto";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
