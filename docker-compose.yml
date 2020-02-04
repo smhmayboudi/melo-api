@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:5.6
+    restart: always
+    environment:
+        - MYSQL_ROOT_PASSWORD=test123
+    volumes:
+        - ./storage/db:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    links:
+        - db:db
+    ports:
+        - 8090:80
+  mongo:
+    image: mongo:latest
+    restart: always
+  redis:
+    image: redis:latest
+    restart: always
+  minio:
+    image: minio/minio
+    environment: 
+        - MINIO_ACCESS_KEY=minioadmin
+        - MINIO_SECRET_KEY=minioadmin
+    ports:
+        - 9090:9000
+    command: server /data
+    volumes: 
+        - ./storage/minio:/data
+  melo-api:
+    build: .
+    restart: always
+    env_file:
+        - .env
+    links: 
+        - db:db
+        - mongo:mongo
+        - minio:minio
+        - redis:redis
+    ports:
+        - 3030:3000
