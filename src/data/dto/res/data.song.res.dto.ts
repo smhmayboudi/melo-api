@@ -29,6 +29,7 @@ export class DataSongResDto {
     hasVideo?: boolean,
     image?: DataImageResDto,
     likeCount?: number,
+    liked?: boolean,
     lyrics?: string,
     tags?: string[]
   ) {
@@ -45,6 +46,7 @@ export class DataSongResDto {
     this.hasVideo = hasVideo;
     this.image = image;
     this.likeCount = likeCount;
+    this.liked = liked;
     this.lyrics = lyrics;
     this.tags = tags;
   }
@@ -145,6 +147,14 @@ export class DataSongResDto {
   @IsNumber()
   @IsOptional()
   likeCount?: number;
+
+  @ApiProperty({
+    description: "If user liked the song",
+    example: false
+  })
+  @IsBoolean()
+  @IsOptional()
+  liked?: boolean;
 
   @ApiProperty({
     description: "The lyrics",

@@ -28,12 +28,9 @@ describe("ArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("albums");
   test.todo("byId");
   test.todo("follow");
   test.todo("following");
-  test.todo("songs");
-  test.todo("songsTop");
   test.todo("trending");
   test.todo("trendingGenre");
   test.todo("unfollow");

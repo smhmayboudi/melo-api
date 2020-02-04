@@ -37,6 +37,8 @@ describe("SongService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("artist/songs");
+  test.todo("artist/songs/top");
   test.todo("byId");
   test.todo("genre");
   test.todo("language");

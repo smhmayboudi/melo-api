@@ -3,6 +3,7 @@ import { AppMixSongService } from "../app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
@@ -12,6 +13,16 @@ export class AlbumService {
     private readonly appMixSongService: AppMixSongService,
     private readonly dataAlbumService: DataAlbumService
   ) {}
+
+  async artistAlbums(
+    dto: AlbumArtistAlbumsReqDto,
+    artistId: number
+  ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    return this.dataAlbumService.albums({
+      ...dto,
+      id: artistId
+    });
+  }
 
   // TODO: CHECK(MIX)
   async byId(

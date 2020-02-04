@@ -17,6 +17,7 @@ import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
 import { AlbumService } from "./album.service";
+import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
@@ -34,6 +35,14 @@ import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 )
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
+
+  @Get("artist/albums/:artistId/:from/:limit")
+  async artistAlbums(
+    @Param() dto: AlbumArtistAlbumsReqDto,
+    @Param("artistId", HashIdPipe) artistId: number
+  ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    return this.albumService.artistAlbums(dto, artistId);
+  }
 
   @Get(":id")
   async byId(

@@ -18,6 +18,7 @@ describe("AlbumService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("artistAlbums");
   test.todo("byId");
   test.todo("latest");
 });

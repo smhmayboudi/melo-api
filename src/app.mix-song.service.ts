@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { RelationEntityType } from "./relation/type/relation.entity.type";
 import { RelationType } from "./relation/type/relation.type";
-import { SongMixResDto } from "./song/dto/res/song.mix.res.dto";
 import { DataSongResDto } from "./data/dto/res/data.song.res.dto";
 import { RelationService } from "./relation/relation.service";
 import { AppHashIdService } from "./app.hash-id.service";
@@ -16,7 +15,7 @@ export class AppMixSongService {
   public async mixSong(
     sub: number,
     songs: DataSongResDto[]
-  ): Promise<SongMixResDto[]> {
+  ): Promise<DataSongResDto[]> {
     const relationMultiHasResDto = await this.relationService.multiHas({
       from: {
         id: sub.toString(),

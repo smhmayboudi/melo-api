@@ -236,7 +236,7 @@ export class PlaylistService {
     return {
       results: results,
       total: playlists.length
-    };
+    } as DataPaginationResDto<DataPlaylistResDto>;
   }
 
   async top(
@@ -271,6 +271,6 @@ export class PlaylistService {
     return {
       results: results,
       total: playlists.length
-    };
+    } as DataPaginationResDto<DataPlaylistResDto>;
   }
 }

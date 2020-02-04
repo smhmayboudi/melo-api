@@ -19,6 +19,7 @@ import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 
+@UseGuards(AuthGuard())
 @ApiTags("auth")
 @Controller("auth")
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
@@ -37,8 +38,9 @@ export class AuthController {
 
   @ApiBearerAuth("jwt")
   @Get("test")
-  @UseGuards(AuthGuard())
-  test(): any {
+  @UseGuards(AuthGuard("anonymous"))
+  test(@User("sub", ParseIntPipe) sub: number): any {
+    console.log("subsubsub", sub);
     return { test: "test" };
   }
 
