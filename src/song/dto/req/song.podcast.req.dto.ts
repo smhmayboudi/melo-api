@@ -1,13 +1,13 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsEnum, IsNumberString, IsString } from "class-validator";
-import { SongOrderByType } from "../../type/song.order-by.type";
+import { DataOrderByType } from "../../../data/type/data.order-by.type";
 
 export class SongPodcastReqDto {
   constructor(
     from: number,
     genres: string[],
     limit: number,
-    orderBy: SongOrderByType
+    orderBy: DataOrderByType
   ) {
     this.from = from;
     this.genres = genres;
@@ -39,8 +39,8 @@ export class SongPodcastReqDto {
 
   @ApiProperty({
     description: "The order",
-    example: SongOrderByType.release
+    example: DataOrderByType.release
   })
-  @IsEnum(SongOrderByType)
-  orderBy: SongOrderByType;
+  @IsEnum(DataOrderByType)
+  orderBy: DataOrderByType;
 }

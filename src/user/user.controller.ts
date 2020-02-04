@@ -16,7 +16,6 @@ import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
-import { UserPaginationResDto } from "./dto/res/user.pagination.res.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserService } from "./user.service";
 
@@ -35,19 +34,21 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  @UseInterceptors(HttpCacheInterceptor)
-  async find(): Promise<UserPaginationResDto<UserUserResDto>> {
-    return this.userService.find();
-  }
-
   @Post("profile/edit")
   async edit(@Body() dto: UserEditReqDto): Promise<UserUserResDto> {
     return this.userService.edit(dto);
   }
 
+  @Get()
+  @UseInterceptors(HttpCacheInterceptor)
+  async find(): Promise<UserUserResDto[]> {
+    return this.userService.find();
+  }
+
   @Get("profile")
-  async get(@User("sub", ParseIntPipe) sub: number): Promise<UserUserResDto> {
+  async get(
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<UserUserResDto | undefined> {
     return this.userService.get(sub);
   }
 }

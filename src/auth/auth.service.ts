@@ -19,15 +19,15 @@ export class AuthService {
   ) {}
 
   async accessToken(sub: number): Promise<AuthAccessTokenResDto | undefined> {
-    const randomJwksEntity = await this.jwksService.getOneRandom();
-    if (randomJwksEntity === undefined) {
+    const jwksEntity = await this.jwksService.getOneRandom();
+    if (jwksEntity === undefined) {
       return undefined;
     }
     return Promise.resolve({
       at: this.jwtService.sign(
         {},
         {
-          keyid: randomJwksEntity.id,
+          keyid: jwksEntity.id,
           jwtid: uuidv4(),
           subject: sub.toString()
         }
@@ -52,15 +52,15 @@ export class AuthService {
         token: rt
       }
     ]);
-    const randomJwksEntity = await this.jwksService.getOneRandom();
-    if (randomJwksEntity === undefined) {
+    const jwksEntity = await this.jwksService.getOneRandom();
+    if (jwksEntity === undefined) {
       return undefined;
     }
     return Promise.resolve({
       at: this.jwtService.sign(
         {},
         {
-          keyid: randomJwksEntity.id,
+          keyid: jwksEntity.id,
           jwtid: uuidv4(),
           subject: sub.toString()
         }

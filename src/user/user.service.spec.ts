@@ -28,9 +28,9 @@ describe("UserService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("edit");
   test.todo("findOneById");
   test.todo("findOneByTelegramId");
   test.todo("findOneByUsernam");
-  test.todo("edit");
   test.todo("get");
 });

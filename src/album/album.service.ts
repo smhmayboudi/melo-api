@@ -1,12 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
-import { SongMixResDto } from "../song/dto/res/song.mix.res.dto";
-import { SongSongResDto } from "../song/dto/res/song.song.res.dto";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
-import { AlbumAlbumResDto } from "./dto/res/album.album.res.dto";
-import { AlbumPaginationResDto } from "./dto/res/album.pagination.res.dto";
 
 @Injectable()
 export class AlbumService {
@@ -20,20 +18,22 @@ export class AlbumService {
     dto: AlbumByIdReqDto,
     id: number,
     sub: number
-  ): Promise<SongMixResDto> {
-    //AlbumAlbumResDto
-    //TODO: change
-    const song = await this.dataAlbumService.byId({ ...dto, id });
-    return this.appMixSongService.mixSong(sub, [
-      (song as unknown) as SongSongResDto
-    ])[0];
+  ): Promise<DataAlbumResDto> {
+    // TODO: DataAlbumResDto
+    const dataAlbumResDto = await this.dataAlbumService.byId({ ...dto, id });
+    const songMixResDto = await this.appMixSongService.mixSong(
+      sub,
+      dataAlbumResDto.songs?.results!
+    )[0];
+    return {
+      ...dataAlbumResDto,
+      songs: songMixResDto
+    };
   }
 
   async latest(
     dto: AlbumLatestReqDto
-  ): Promise<AlbumPaginationResDto<AlbumAlbumResDto>> {
-    return (this.dataAlbumService.lstest({ ...dto }) as unknown) as Promise<
-      AlbumPaginationResDto<AlbumAlbumResDto>
-    >;
+  ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    return this.dataAlbumService.lstest({ ...dto });
   }
 }

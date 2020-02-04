@@ -25,9 +25,9 @@ import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
-import { PlaylistPlaylistResDto } from "./dto/res/playlist.playlist.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { PlaylistService } from "./playlist.service";
-import { PlaylistPaginationResDto } from "./dto/res/playlist.pagination.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
@@ -48,7 +48,7 @@ export class PlaylistController {
   async addSong(
     @Body() dto: PlaylistAddSongReqDto,
     @Body("songId", HashIdPipe) songId: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     return this.playlistService.addSong(dto, songId);
   }
 
@@ -56,7 +56,7 @@ export class PlaylistController {
   async create(
     @Body() dto: PlaylistCreateReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     return this.playlistService.create(dto, sub);
   }
 
@@ -64,7 +64,7 @@ export class PlaylistController {
   async delete(
     @Param() dto: PlaylistDeleteReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     return this.playlistService.delete(dto, sub);
   }
 
@@ -72,17 +72,17 @@ export class PlaylistController {
   async deleteSong(
     @Param() dto: PlaylistSongReqDto,
     @Param("songId", HashIdPipe) songId: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     return this.playlistService.deleteSong(dto, songId);
   }
 
   @Post("edit")
-  async edit(@Body() dto: PlaylistEditReqDto): Promise<PlaylistPlaylistResDto> {
+  async edit(@Body() dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
     return this.playlistService.edit(dto);
   }
 
   @Get(":id")
-  async get(@Param() dto: PlaylistGetReqDto): Promise<PlaylistPlaylistResDto> {
+  async get(@Param() dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
     return this.playlistService.get(dto);
   }
 
@@ -90,14 +90,14 @@ export class PlaylistController {
   async my(
     @Param() dto: PlaylistMyReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<PlaylistPaginationResDto<PlaylistPlaylistResDto>> {
+  ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     return this.playlistService.my(dto, sub);
   }
 
   @Get("top")
   async top(
     @Param() dto: PlaylistTopReqDto
-  ): Promise<PlaylistPaginationResDto<PlaylistPlaylistResDto>> {
+  ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     return this.playlistService.top(dto);
   }
 }

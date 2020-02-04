@@ -1,13 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { DataAlbumService } from "../data/data.album.service";
-import { DataSongService } from "../data/data.song.service";
 import { AppMixSongService } from "../app.mix-song.service";
+import { DataAlbumService } from "../data/data.album.service";
 import { DataArtistService } from "../data/data.artist.service";
+import { DataSongService } from "../data/data.song.service";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationEntityType } from "../relation/type/relation.entity.type";
 import { RelationType } from "../relation/type/relation.type";
-import { SongSongResDto } from "../song/dto/res/song.song.res.dto";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
@@ -16,9 +18,6 @@ import { ArtistSongsTopReqDto } from "./dto/req/artist.songs-top.req.dto";
 import { ArtistSongsReqDto } from "./dto/req/artist.songs.req.dto";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
-import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
-import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
-import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
 
 @Injectable()
 export class ArtistService {
@@ -33,16 +32,16 @@ export class ArtistService {
   async albums(
     dto: ArtistAlbumsReqDto,
     id: number
-  ): Promise<ArtistPaginationResDto<ArtistAlbumResDto>> {
-    return (this.dataAlbumService.albums({
+  ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    return this.dataAlbumService.albums({
       ...dto,
-      id: id.toString()
-    }) as unknown) as Promise<ArtistPaginationResDto<ArtistAlbumResDto>>;
+      id
+    });
   }
 
   // TODO: mixArtists
-  async byId(dto: ArtistByIdReqDto, id: number): Promise<ArtistArtistResDto> {
-    // const artistDto = await this.dataArtistService.byId(id);
+  async byId(dto: ArtistByIdReqDto, id: number): Promise<DataArtistResDto> {
+    // const dataArtistResDto = await this.dataArtistService.byId(id);
     // const entityMultiHasDto = await this.relationService.multiHas({
     //   fromEntityDto: {
     //     id: sub,
@@ -55,12 +54,10 @@ export class ArtistService {
     //     }
     //   ],
     //   relationType: RelationType.follows
-    // } as RelationMultiHasDto);
-    // artistDto.follownig = entityMultiHasDto !== undefined;
-    // return artistDto;
-    return (this.dataArtistService.byId({ ...dto, id }) as unknown) as Promise<
-      ArtistArtistResDto
-    >;
+    // });
+    // dataArtistResDto.follownig = entityMultiHasDto !== undefined;
+    // return dataArtistResDto;
+    return this.dataArtistService.byId({ ...dto, id });
   }
 
   // TODO: mixArtists
@@ -69,9 +66,9 @@ export class ArtistService {
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    // There is no need to mixArtists instead
-    // artistDto.follownig = true;
-    const artist = await this.dataArtistService.byId({ ...dto, id });
+    // TODO: There is no need to mixArtists instead
+    // TODO: artistDto.follownig = true;
+    const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.set({
       createdAt: new Date(),
       from: {
@@ -79,19 +76,19 @@ export class ArtistService {
         type: RelationEntityType.user
       },
       to: {
-        id: artist.id,
+        id: dataArtistResDto.id,
         type: RelationEntityType.artist
       },
       relationType: RelationType.follows
     });
-    return artist;
+    return dataArtistResDto;
   }
 
   async following(
     dto: ArtistFollowingReqDto,
     id: number
-  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
-    const relates = await this.relationService.get({
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
+    const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
         id: id.toString(),
@@ -100,9 +97,9 @@ export class ArtistService {
       limit: dto.limit,
       relationType: RelationType.follows
     });
-    return (this.dataArtistService.byIds({
-      ids: relates.results.map(value => value.id)
-    }) as unknown) as ArtistPaginationResDto<ArtistArtistResDto>;
+    return this.dataArtistService.byIds({
+      ids: relationEntityResDto.results.map(value => value.id)
+    });
   }
 
   // TODO: CHECK(MIX)
@@ -110,25 +107,19 @@ export class ArtistService {
     dto: ArtistSongsReqDto,
     id: number,
     sub: number
-  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
-    //TODO: change
-    const songs = await this.dataSongService.artistSongs({
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
+    const dataSongResDto = await this.dataSongService.artistSongs({
       ...dto,
       id: id.toString()
     });
-    const results = await this.appMixSongService.mixSong(
+    const songMixResDto = await this.appMixSongService.mixSong(
       sub,
-      songs.results.map(value => {
-        return ({
-          ...value,
-          id: value.id.toString()
-        } as unknown) as SongSongResDto; //TODO: change
-      })
+      dataSongResDto.results
     );
     return {
-      results,
-      total: results.length
-    } as ArtistPaginationResDto<SongSongResDto>; //TODO: change
+      results: songMixResDto,
+      total: songMixResDto.length
+    };
   }
 
   // TODO: CHECK(MIX)
@@ -136,42 +127,34 @@ export class ArtistService {
     dto: ArtistSongsTopReqDto,
     id: number,
     sub: number
-  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
-    //ArtistSongResDto
-    //TODO: change
-    const songs = await this.dataSongService.artistSongsTop({
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
+    // TODO: ArtistSongResDto
+    const dataSongResDto = await this.dataSongService.artistSongsTop({
       ...dto,
       id: id.toString()
     });
-    const results = await this.appMixSongService.mixSong(
+    const songMixResDto = await this.appMixSongService.mixSong(
       sub,
-      songs.results.map(value => {
-        return ({
-          ...value,
-          id: value.id.toString()
-        } as unknown) as SongSongResDto;
-      })
+      dataSongResDto.results
     );
     return {
-      results,
-      total: results.length
-    } as ArtistPaginationResDto<SongSongResDto>; //TODO: change
+      results: songMixResDto,
+      total: songMixResDto.length
+    };
   }
 
   // TODO: mixArtists
-  async trending(): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
-    return (this.dataArtistService.trending() as unknown) as Promise<
-      ArtistPaginationResDto<ArtistArtistResDto>
-    >;
+  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
+    return this.dataArtistService.trending();
   }
 
   // TODO: mixArtists
   async trendingGenre(
     dto: ArtistTrendingGenreReqDto
-  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
-    return (this.dataArtistService.trendingGenre({
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
+    return this.dataArtistService.trendingGenre({
       ...dto
-    }) as unknown) as Promise<ArtistPaginationResDto<ArtistArtistResDto>>;
+    });
   }
 
   async unfollow(
@@ -179,7 +162,7 @@ export class ArtistService {
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    const artist = await this.dataArtistService.byId({ ...dto, id });
+    const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.remove({
       from: {
         id: sub.toString(),
@@ -191,6 +174,6 @@ export class ArtistService {
       },
       relationType: RelationType.unfollows
     });
-    return artist;
+    return dataArtistResDto;
   }
 }

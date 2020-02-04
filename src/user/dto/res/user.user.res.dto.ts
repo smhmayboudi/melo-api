@@ -12,7 +12,7 @@ import { UserGenderType } from "../../type/user.gender-type";
 
 export class UserUserResDto {
   constructor(
-    id: string,
+    id: number,
     avatar?: string,
     biography?: string,
     birthday?: Date,
@@ -43,10 +43,10 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The primary key",
-    example: "abcdef"
+    example: 0
   })
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @ApiProperty({
     description: "The avatar link",

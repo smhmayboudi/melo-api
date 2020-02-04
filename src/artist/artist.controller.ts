@@ -13,11 +13,13 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
-import { SongSongResDto } from "../song/dto/res/song.song.res.dto";
 import { ArtistService } from "./artist.service";
 import { ArtistAlbumsReqDto } from "./dto/req/artist.albums.req.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
@@ -27,9 +29,6 @@ import { ArtistSongsTopReqDto } from "./dto/req/artist.songs-top.req.dto";
 import { ArtistSongsReqDto } from "./dto/req/artist.songs.req.dto";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
-import { ArtistAlbumResDto } from "./dto/res/artist.album.res.dto";
-import { ArtistArtistResDto } from "./dto/res/artist.artist.res.dto";
-import { ArtistPaginationResDto } from "./dto/res/artist.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
@@ -50,7 +49,7 @@ export class ArtistController {
   async albums(
     @Param() dto: ArtistAlbumsReqDto,
     @Param("id", HashIdPipe) id: number
-  ): Promise<ArtistPaginationResDto<ArtistAlbumResDto>> {
+  ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.artistService.albums(dto, id);
   }
 
@@ -58,7 +57,7 @@ export class ArtistController {
   async byId(
     @Param() dto: ArtistByIdReqDto,
     @Param("id", HashIdPipe) id: number
-  ): Promise<ArtistArtistResDto> {
+  ): Promise<DataArtistResDto> {
     return this.artistService.byId(dto, id);
   }
 
@@ -75,7 +74,7 @@ export class ArtistController {
   async following(
     @Param() dto: ArtistFollowingReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.artistService.following(dto, sub);
   }
 
@@ -84,8 +83,7 @@ export class ArtistController {
     @Param() dto: ArtistSongsReqDto,
     @Param("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
-    //TODO: change
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.artistService.songs(dto, id, sub);
   }
 
@@ -94,20 +92,20 @@ export class ArtistController {
     @Param() dto: ArtistSongsTopReqDto,
     @Param("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<ArtistPaginationResDto<SongSongResDto>> {
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     // TODO: change
     return this.artistService.songsTop(dto, id, sub);
   }
 
   @Get("trending")
-  async trending(): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.artistService.trending();
   }
 
   @Get("trending/genre/:genre")
   async trendingGenre(
     @Param() dto: ArtistTrendingGenreReqDto
-  ): Promise<ArtistPaginationResDto<ArtistArtistResDto>> {
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.artistService.trendingGenre(dto);
   }
 

@@ -70,10 +70,18 @@ export class AppConfigService {
     );
   }
 
+  // TODO: Test the return value
   get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
-    return (JSON.parse(
-      this.configService.get<string>("app.imgProxyImageTypeSize", "")
-    ) as unknown) as ImgProxyImageTypeSize[];
+    return this.configService.get<ImgProxyImageTypeSize[]>(
+      "app.imgProxyImageTypeSize",
+      [
+        {
+          name: "",
+          width: 0,
+          height: 0
+        }
+      ]
+    );
   }
 
   get mangooseRetryAttempts(): number {

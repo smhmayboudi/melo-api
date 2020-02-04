@@ -57,7 +57,6 @@ import { UserModule } from "./user/user.module";
     DataModule,
     FileModule,
     JwksModule,
-    // MongooseModule.forRoot("mongodb://localhost:27017/test"), // TODO: change url
     MongooseModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],

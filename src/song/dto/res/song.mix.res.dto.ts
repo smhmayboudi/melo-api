@@ -9,27 +9,27 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { SongAlbumResDto } from "../res/song.album.res.dto";
-import { SongArtistResDto } from "../res/song.artist.res.dto";
-import { SongAudioResDto } from "../res/song.audio.res.dto";
-import { SongImageResDto } from "../res/song.image.res.dto";
+import { DataAlbumResDto } from "../../../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../../../data/dto/res/data.artist.res.dto";
+import { DataAudioResDto } from "../../../data/dto/res/data.audio.res.dto";
+import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
 
 export class SongMixResDto {
   constructor(
-    artists: SongArtistResDto[],
-    audio: SongAudioResDto,
+    artists: DataArtistResDto[],
+    audio: DataAudioResDto,
     duration: number,
     id: string,
+    liked: boolean,
     localized: boolean,
     releaseDate: Date,
     title: string,
-    album?: SongAlbumResDto,
+    album?: DataAlbumResDto,
     copyrighted?: boolean,
     downloadCount?: number,
     hasVideo?: boolean,
-    image?: SongImageResDto,
+    image?: DataImageResDto,
     likeCount?: number,
-    liked?: boolean,
     lyrics?: string,
     tags?: string[]
   ) {
@@ -37,6 +37,7 @@ export class SongMixResDto {
     this.audio = audio;
     this.duration = duration;
     this.id = id;
+    this.liked = liked;
     this.localized = localized;
     this.releaseDate = releaseDate;
     this.title = title;
@@ -46,7 +47,6 @@ export class SongMixResDto {
     this.hasVideo = hasVideo;
     this.image = image;
     this.likeCount = likeCount;
-    this.liked = liked;
     this.lyrics = lyrics;
     this.tags = tags;
   }
@@ -55,17 +55,17 @@ export class SongMixResDto {
     description: "The artists"
   })
   @IsArray()
-  @Type(() => SongArtistResDto)
+  @Type(() => DataArtistResDto)
   @ValidateNested({
     each: true
   })
-  artists: SongArtistResDto[];
+  artists: DataArtistResDto[];
 
   @ApiProperty({
     description: "The audio"
   })
   @ValidateNested()
-  audio: SongAudioResDto;
+  audio: DataAudioResDto;
 
   @ApiProperty({
     description: "The duration",
@@ -107,7 +107,7 @@ export class SongMixResDto {
   })
   @IsOptional()
   @ValidateNested()
-  album?: SongAlbumResDto;
+  album?: DataAlbumResDto;
 
   @ApiProperty({
     description: "The copyright",
@@ -138,7 +138,7 @@ export class SongMixResDto {
   })
   @IsOptional()
   @ValidateNested()
-  image?: SongImageResDto;
+  image?: DataImageResDto;
 
   @ApiProperty({
     description: "The count of like",
@@ -153,8 +153,7 @@ export class SongMixResDto {
     example: false
   })
   @IsBoolean()
-  @IsOptional()
-  liked?: boolean;
+  liked: boolean;
 
   @ApiProperty({
     description: "The lyrics",

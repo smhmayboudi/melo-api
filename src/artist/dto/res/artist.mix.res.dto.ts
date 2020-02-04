@@ -9,25 +9,25 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { ArtistAlbumResDto } from "./artist.album.res.dto";
-import { ArtistArtistResDto } from "./artist.artist.res.dto";
-import { ArtistAudioResDto } from "./artist.audio.res.dto";
-import { ArtistImageResDto } from "./artist.image.res.dto";
+import { DataAlbumResDto } from "../../../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../../../data/dto/res/data.artist.res.dto";
+import { DataAudioResDto } from "../../../data/dto/res/data.audio.res.dto";
+import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
 
 export class ArtistMixResDto {
   constructor(
-    artists: ArtistArtistResDto[],
-    audio: ArtistAudioResDto,
+    artists: DataArtistResDto[],
+    audio: DataAudioResDto,
     duration: number,
     id: string,
     localized: boolean,
     releaseDate: Date,
     title: string,
-    album?: ArtistAlbumResDto,
+    album?: DataAlbumResDto,
     copyrighted?: boolean,
     downloadCount?: number,
     hasVideo?: boolean,
-    image?: ArtistImageResDto,
+    image?: DataImageResDto,
     likeCount?: number,
     liked?: boolean,
     lyrics?: string,
@@ -55,17 +55,17 @@ export class ArtistMixResDto {
     description: "The artists"
   })
   @IsArray()
-  @Type(() => ArtistArtistResDto)
+  @Type(() => DataArtistResDto)
   @ValidateNested({
     each: true
   })
-  artists: ArtistArtistResDto[];
+  artists: DataArtistResDto[];
 
   @ApiProperty({
     description: "The audio"
   })
   @ValidateNested()
-  audio: ArtistAudioResDto;
+  audio: DataAudioResDto;
 
   @ApiProperty({
     description: "The duration",
@@ -107,7 +107,7 @@ export class ArtistMixResDto {
   })
   @IsOptional()
   @ValidateNested()
-  album?: ArtistAlbumResDto;
+  album?: DataAlbumResDto;
 
   @ApiProperty({
     description: "The copyright",
@@ -138,7 +138,7 @@ export class ArtistMixResDto {
   })
   @IsOptional()
   @ValidateNested()
-  image?: ArtistImageResDto;
+  image?: DataImageResDto;
 
   @ApiProperty({
     description: "The count of like",

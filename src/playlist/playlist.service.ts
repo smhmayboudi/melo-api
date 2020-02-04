@@ -7,6 +7,8 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
 import { AppImgProxyService } from "../app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
@@ -15,9 +17,6 @@ import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
-import { PlaylistPaginationResDto } from "./dto/res/playlist.pagination.res.dto";
-import { PlaylistPlaylistResDto } from "./dto/res/playlist.playlist.res.dto";
-import { PlaylistSongResDto } from "./dto/res/playlist.song.res.dto";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { Playlist } from "./type/playlist";
 
@@ -34,7 +33,7 @@ export class PlaylistService {
   async addSong(
     dto: PlaylistAddSongReqDto,
     songId: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(
       new Types.ObjectId(dto.playlistId)
     );
@@ -43,7 +42,7 @@ export class PlaylistService {
     }
     playlist.songs_ids.push(songId);
     await playlist.save();
-    const playlistSongs = await this.dataSongService.byIds({
+    const dataSongResDto = await this.dataSongService.byIds({
       ids: playlist.songs_ids.map(value => value.toString())
     });
     return {
@@ -56,18 +55,16 @@ export class PlaylistService {
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
-      songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
-        PlaylistSongResDto
-      >,
+      songs: dataSongResDto,
       title: playlist.title,
-      tracksCount: playlistSongs.total
+      tracksCount: dataSongResDto.total
     };
   }
 
   async create(
     dto: PlaylistCreateReqDto,
     sub: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     const playlist = await new this.playlistModel({
       download_count: 0,
       followers_count: 0,
@@ -95,44 +92,41 @@ export class PlaylistService {
   async delete(
     dto: PlaylistDeleteReqDto,
     sub: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     const query: any = {
       $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
     };
-    const deletingPlaylist = await this.playlistModel.findOne(query);
-    if (deletingPlaylist === undefined || deletingPlaylist === null) {
+    const playlist = await this.playlistModel.findOne(query);
+    if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
     // TODO: refactory to its own repository
-    const deletedPlaylist = await this.playlistModel.deleteOne(query);
-    if (
-      deletedPlaylist.deletedCount === undefined ||
-      deletedPlaylist.deletedCount === 0
-    ) {
+    const deleteOne = await this.playlistModel.deleteOne(query);
+    if (deleteOne.deletedCount === undefined || deleteOne.deletedCount === 0) {
       throw new InternalServerErrorException();
     }
     return {
-      followersCount: deletingPlaylist.followers_count,
-      id: deletingPlaylist._id,
+      followersCount: playlist.followers_count,
+      id: playlist._id,
       image: this.appImgProxyService.generateUrl(
-        deletingPlaylist.photo_id
-          ? this.playlistConfigService.imagePath(deletingPlaylist.photo_id)
+        playlist.photo_id
+          ? this.playlistConfigService.imagePath(playlist.photo_id)
           : this.playlistConfigService.defaultImagePath
       ),
-      isPublic: deletingPlaylist.isPublic,
-      releaseDate: deletingPlaylist.release_date,
-      title: deletingPlaylist.title,
-      tracksCount: deletingPlaylist.tracks_count
+      isPublic: playlist.isPublic,
+      releaseDate: playlist.release_date,
+      title: playlist.title,
+      tracksCount: playlist.tracks_count
     };
   }
 
-  async edit(dto: PlaylistEditReqDto): Promise<PlaylistPlaylistResDto> {
+  async edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(dto.id);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
     await playlist.save();
-    const playlistSongs = await this.dataSongService.byIds({
+    const dataSongResDto = await this.dataSongService.byIds({
       ids: playlist.songs_ids.map(value => value.toString())
     });
     return {
@@ -148,16 +142,14 @@ export class PlaylistService {
       releaseDate: playlist.release_date,
       title: playlist.title,
       tracksCount: playlist.tracks_count,
-      songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
-        PlaylistSongResDto
-      >
+      songs: dataSongResDto
     };
   }
 
   async deleteSong(
     dto: PlaylistSongReqDto,
     songId: number
-  ): Promise<PlaylistPlaylistResDto> {
+  ): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.updateOne(
       { _id: dto.playlistId },
       {
@@ -167,7 +159,7 @@ export class PlaylistService {
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    const playlistSongs = await this.dataSongService.byIds({
+    const dataSongResDto = await this.dataSongService.byIds({
       ids: playlist.songs_ids
     });
     return {
@@ -183,18 +175,16 @@ export class PlaylistService {
       releaseDate: playlist.release_date,
       title: playlist.title,
       tracksCount: playlist.tracks_count,
-      songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
-        PlaylistSongResDto
-      >
+      songs: dataSongResDto
     };
   }
 
-  async get(dto: PlaylistGetReqDto): Promise<PlaylistPlaylistResDto> {
+  async get(dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(dto.id);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    const playlistSongs = await this.dataSongService.byIds({
+    const dataSongResDto = await this.dataSongService.byIds({
       ids: playlist.songs_ids.map(value => value.toString())
     });
     return {
@@ -210,23 +200,21 @@ export class PlaylistService {
       releaseDate: playlist.release_date,
       title: playlist.title,
       tracksCount: playlist.tracks_count,
-      songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
-        PlaylistSongResDto
-      >
+      songs: dataSongResDto
     };
   }
 
   async my(
     dto: PlaylistMyReqDto,
     sub: number
-  ): Promise<PlaylistPaginationResDto<PlaylistPlaylistResDto>> {
+  ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     const playlists = await this.playlistModel
       .find({ owner_user_id: sub })
       .skip(dto.from)
       .limit(dto.limit);
     const results = await Promise.all(
       playlists.map(async value => {
-        const playlistSongs = await this.dataSongService.byIds({
+        const dataSongResDto = await this.dataSongService.byIds({
           ids: value.songs_ids.map(value => value.toString())
         });
         return {
@@ -241,21 +229,19 @@ export class PlaylistService {
           releaseDate: value.release_date,
           title: value.title,
           tracksCount: value.tracks_count,
-          songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
-            PlaylistSongResDto
-          >
-        } as PlaylistPlaylistResDto;
+          songs: dataSongResDto
+        };
       })
     );
     return {
       results: results,
       total: playlists.length
-    } as PlaylistPaginationResDto<PlaylistPlaylistResDto>;
+    };
   }
 
   async top(
     dto: PlaylistTopReqDto
-  ): Promise<PlaylistPaginationResDto<PlaylistPlaylistResDto>> {
+  ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     const playlists = await this.playlistModel
       .find()
       .sort({ created_at: -1 })
@@ -263,7 +249,7 @@ export class PlaylistService {
       .limit(dto.limit);
     const results = await Promise.all(
       playlists.map(async value => {
-        const playlistSongs = await this.dataSongService.byIds({
+        const dataSongResDto = await this.dataSongService.byIds({
           ids: value.songs_ids.map(value => value.toString())
         });
         return {
@@ -278,15 +264,13 @@ export class PlaylistService {
           releaseDate: value.release_date,
           title: value.title,
           tracksCount: value.tracks_count,
-          songs: (playlistSongs as unknown) as PlaylistPaginationResDto<
-            PlaylistSongResDto
-          >
-        } as PlaylistPlaylistResDto;
+          songs: dataSongResDto
+        };
       })
     );
     return {
       results: results,
       total: playlists.length
-    } as PlaylistPaginationResDto<PlaylistPlaylistResDto>;
+    };
   }
 }

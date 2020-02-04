@@ -14,10 +14,10 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { SearchPaginationResDto } from "../search/dto/res/search.pagination.res.dto";
-import { SearchSongResDto } from "../search/dto/res/search.song.res.dto";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { DataOrderByType } from "../data/type/data.order-by.type";
 import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
@@ -40,10 +40,7 @@ import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 import { SongMixResDto } from "./dto/res/song.mix.res.dto";
-import { SongPaginationResDto } from "./dto/res/song.pagination.res.dto";
-import { SongSongResDto } from "./dto/res/song.song.res.dto";
 import { SongService } from "./song.service";
-import { SongOrderByType } from "./type/song.order-by.type";
 
 @ApiBearerAuth("jwt")
 @ApiTags("song")
@@ -71,20 +68,20 @@ export class SongController {
 
   @Get("genre/:orderBy/:from/:limit")
   async genre(
-    @Param("orderBy", OrderByPipe) orderBy: SongOrderByType,
+    @Param("orderBy", OrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongSongGenresParamReqDto,
     @Query() queryDto: SongSongGenresQueryReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.genre(paramDto, orderBy, queryDto, sub);
   }
 
   @Get("language/:language/:orderBy/:from/:limit")
   async language(
-    @Param("orderBy", OrderByPipe) orderBy: SongOrderByType,
+    @Param("orderBy", OrderByPipe) orderBy: DataOrderByType,
     @Param() dto: SongLanguageReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.language(dto, orderBy, sub);
   }
 
@@ -103,7 +100,7 @@ export class SongController {
   async liked(
     @Param() dto: SongLikedReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongSongResDto>> {
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.songService.liked(dto, sub);
   }
 
@@ -111,7 +108,7 @@ export class SongController {
   async mood(
     @Param() dto: SongMoodReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.mood(dto, sub);
   }
 
@@ -119,7 +116,7 @@ export class SongController {
   async new(
     @Param() dto: SongNewReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.new(dto, sub);
   }
 
@@ -127,17 +124,17 @@ export class SongController {
   async newPodcast(
     @Param() dto: DataSongNewPodcastReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.newPodcast(dto, sub);
   }
 
   @Get("podcast/genres/:orderBy/:from/:limit")
   async podcast(
-    @Param("orderBy", OrderByPipe) orderBy: SongOrderByType,
+    @Param("orderBy", OrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongPodcastGenresParamReqDto,
     @Query() queryDto: SongPodcastGenresQueryReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.podcast(paramDto, queryDto, orderBy, sub);
   }
 
@@ -145,7 +142,7 @@ export class SongController {
   async searchMood(
     @Param() paramDto: SongSearchMoodParamDto,
     @Query() querydto: SongSearchMoodQueryDto
-  ): Promise<SearchPaginationResDto<SearchSongResDto>> {
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.songService.searchMood(paramDto, querydto);
   }
 
@@ -163,14 +160,14 @@ export class SongController {
     @Param() dto: SongSimilarReqDto,
     @Param("id", HashIdPipe) id: number,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.similar(dto, id, sub);
   }
 
   @Get("slider/latest")
   async sliderLatest(
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.sliderLatest(sub);
   }
 
@@ -178,7 +175,7 @@ export class SongController {
   async topDay(
     @Param() dto: SongTopDayReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.topDay(dto, sub);
   }
 
@@ -186,7 +183,7 @@ export class SongController {
   async topWeek(
     @Param() dto: SongTopWeekReqDto,
     @User("sub", ParseIntPipe) sub: number
-  ): Promise<SongPaginationResDto<SongMixResDto>> {
+  ): Promise<DataPaginationResDto<SongMixResDto>> {
     return this.songService.topWeek(dto, sub);
   }
 

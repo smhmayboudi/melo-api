@@ -5,14 +5,15 @@ import {
   Optional,
   PipeTransform
 } from "@nestjs/common";
-import { SongOrderByType } from "../song/type/song.order-by.type";
+import { DataOrderByType } from "../data/type/data.order-by.type";
 
 export interface OrderByPipeOptions {
   exceptionFactory?: (errors: string) => any;
 }
 
+// TODO: Make a generic pipe to check enum
 @Injectable()
-export class OrderByPipe implements PipeTransform<string, SongOrderByType> {
+export class OrderByPipe implements PipeTransform<string, DataOrderByType> {
   protected exceptionFactory: (errors: string) => any;
 
   constructor(@Optional() options?: OrderByPipeOptions) {
@@ -23,14 +24,14 @@ export class OrderByPipe implements PipeTransform<string, SongOrderByType> {
       ((error: string): any => new BadRequestException(error));
   }
 
-  transform(value: string, _metadata: ArgumentMetadata): SongOrderByType {
+  transform(value: string, _metadata: ArgumentMetadata): DataOrderByType {
     if (
       typeof value !== "string" &&
-      value !== SongOrderByType.downloads &&
-      value !== SongOrderByType.release
+      value !== DataOrderByType.downloads &&
+      value !== DataOrderByType.release
     ) {
       throw this.exceptionFactory("Validation failed (string is expected)");
     }
-    return value as SongOrderByType;
+    return value as DataOrderByType;
   }
 }

@@ -12,8 +12,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
-import { SearchPaginationResDto } from "./dto/res/search.pagination.res.dto";
-import { SearchSearchResDto } from "./dto/res/search.search.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import { SearchService } from "./search.service";
 
 @ApiBearerAuth("jwt")
@@ -34,7 +34,7 @@ export class SearchController {
   @Get("query/:query/:from/:limit")
   async query(
     @Param() dto: SearchQueryReqDto
-  ): Promise<SearchPaginationResDto<SearchSearchResDto>> {
+  ): Promise<DataPaginationResDto<DataSearchResDto>> {
     return this.searchService.query(dto);
   }
 }

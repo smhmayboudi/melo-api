@@ -50,7 +50,7 @@ export class FileService {
     if (extension === undefined) {
       throw new BadRequestException();
     }
-    const sendData = await this.s3
+    const managedUpload = await this.s3
       .upload({
         Body: dto.buffer,
         Bucket: this.fileConfigService.s3Bucket,
@@ -59,10 +59,10 @@ export class FileService {
       })
       .promise();
     const fileEntity = await this.fileEntityRepository.save({
-      bucket: sendData.Bucket,
+      bucket: managedUpload.Bucket,
       created_at: new Date(),
-      e_tag: sendData.ETag,
-      file_key: sendData.Key,
+      e_tag: managedUpload.ETag,
+      file_key: managedUpload.Key,
       id: 0,
       mime_type: mimeType,
       owner_user_id: sub,
