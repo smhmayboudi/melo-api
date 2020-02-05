@@ -191,12 +191,12 @@ export class SongController {
     return this.songService.similar(dto, id, sub);
   }
 
-  @Get("slider/latest")
+  @Get("slider")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  async sliderLatest(
+  async slider(
     @User("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.sliderLatest(sub);
+    return this.songService.slider(sub);
   }
 
   @Get("top/day/:from/:limit")

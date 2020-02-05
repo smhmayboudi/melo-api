@@ -52,7 +52,7 @@ describe("SongController", () => {
   test.todo("podcastGenres");
   test.todo("sendTelegram");
   test.todo("similar");
-  test.todo("sliderLatest");
+  test.todo("slider");
   test.todo("topDay");
   test.todo("topWeek");
   test.todo("unlike");

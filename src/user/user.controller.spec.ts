@@ -37,6 +37,6 @@ describe("UserController", () => {
   });
 
   test.todo("find");
-  test.todo("edit");
   test.todo("get");
+  test.todo("put");
 });

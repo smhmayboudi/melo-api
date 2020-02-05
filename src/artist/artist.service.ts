@@ -20,15 +20,6 @@ export class ArtistService {
     private readonly relationService: RelationService
   ) {}
 
-  async byId(
-    dto: ArtistByIdReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataArtistResDto> {
-    const artistResDto = await this.dataArtistService.byId({ ...dto, id });
-    return this.artistMixArtistService.mixArtist(sub, [artistResDto])[0];
-  }
-
   async follow(
     dto: ArtistFollowReqDto,
     id: number,
@@ -66,6 +57,15 @@ export class ArtistService {
     return this.dataArtistService.byIds({
       ids: relationEntityResDto.results.map(value => value.id)
     });
+  }
+
+  async profile(
+    dto: ArtistByIdReqDto,
+    id: number,
+    sub: number
+  ): Promise<DataArtistResDto> {
+    const artistResDto = await this.dataArtistService.byId({ ...dto, id });
+    return this.artistMixArtistService.mixArtist(sub, [artistResDto])[0];
   }
 
   async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {

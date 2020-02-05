@@ -12,10 +12,6 @@ export class UserService {
     private readonly userEntityRepository: UserEntityRepository
   ) {}
 
-  async edit(dto: UserEditReqDto): Promise<UserUserResDto> {
-    return this.save({ ...dto, id: 0 });
-  }
-
   async find(): Promise<UserUserResDto[]> {
     return this.userEntityRepository.find();
   }
@@ -24,20 +20,24 @@ export class UserService {
     return this.userEntityRepository.findOne({ id });
   }
 
-  async findOneByUsernam(
-    username: string
-  ): Promise<UserUserResDto | undefined> {
-    return this.userEntityRepository.findOne({ username });
-  }
-
   async findOneByTelegramId(
     telegramId: number
   ): Promise<UserEntity | undefined> {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 
+  async findOneByUsernam(
+    username: string
+  ): Promise<UserUserResDto | undefined> {
+    return this.userEntityRepository.findOne({ username });
+  }
+
   async get(sub: number): Promise<UserUserResDto | undefined> {
     return this.findOneById(sub);
+  }
+
+  async put(dto: UserEditReqDto): Promise<UserUserResDto> {
+    return this.save({ ...dto, id: 0 });
   }
 
   async save(dto: UserEntity): Promise<UserUserResDto> {

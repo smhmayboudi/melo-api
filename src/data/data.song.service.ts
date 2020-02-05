@@ -228,7 +228,7 @@ export class DataSongService {
       .toPromise();
   }
 
-  async sliderLatest(): Promise<DataPaginationResDto<DataSongResDto>> {
+  async slider(): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(`${this.dataConfigService.url}/song/slider/latest`)
       .pipe(

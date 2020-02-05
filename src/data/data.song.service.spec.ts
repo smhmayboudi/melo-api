@@ -41,7 +41,7 @@ describe("DataSongService", () => {
   test.todo("podcast");
   test.todo("searchMood");
   test.todo("similar");
-  test.todo("sliderLatest");
+  test.todo("slider");
   test.todo("topDay");
   test.todo("topWeek");
 });

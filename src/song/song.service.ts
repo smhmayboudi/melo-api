@@ -309,10 +309,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
-  async sliderLatest(
-    sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.sliderLatest();
+  async slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>> {
+    const dataSongResDto = await this.dataSongService.slider();
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
       dataSongResDto.results

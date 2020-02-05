@@ -30,9 +30,9 @@ describe("ArtistController", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("byId");
   test.todo("follow");
   test.todo("following");
+  test.todo("profile");
   test.todo("trending");
   test.todo("trending/genre");
   test.todo("unfollow");

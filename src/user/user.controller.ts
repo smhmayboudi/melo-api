@@ -4,7 +4,7 @@ import {
   Controller,
   Get,
   ParseIntPipe,
-  Post,
+  Put,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -34,11 +34,6 @@ import { UserService } from "./user.service";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post("profile/edit")
-  async edit(@Body() dto: UserEditReqDto): Promise<UserUserResDto> {
-    return this.userService.edit(dto);
-  }
-
   @Get()
   @UseInterceptors(HttpCacheInterceptor)
   async find(): Promise<UserUserResDto[]> {
@@ -50,5 +45,10 @@ export class UserController {
     @User("sub", ParseIntPipe) sub: number
   ): Promise<UserUserResDto | undefined> {
     return this.userService.get(sub);
+  }
+
+  @Put("profile")
+  async edit(@Body() dto: UserEditReqDto): Promise<UserUserResDto> {
+    return this.userService.put(dto);
   }
 }

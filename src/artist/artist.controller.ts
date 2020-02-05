@@ -39,16 +39,6 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
-  @Get("byId/:id")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  async byId(
-    @Param() dto: ArtistByIdReqDto,
-    @Param("id", HashIdPipe) id: number,
-    @User("sub", ParseIntPipe) sub: number
-  ): Promise<DataArtistResDto> {
-    return this.artistService.byId(dto, id, sub);
-  }
-
   @Post("follow")
   @UseGuards(AuthGuard("jwt"))
   async follow(
@@ -66,6 +56,16 @@ export class ArtistController {
     @User("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.artistService.following(dto, sub);
+  }
+
+  @Get("profile/:id")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  async profile(
+    @Param() dto: ArtistByIdReqDto,
+    @Param("id", HashIdPipe) id: number,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<DataArtistResDto> {
+    return this.artistService.profile(dto, id, sub);
   }
 
   @Get("trending")
