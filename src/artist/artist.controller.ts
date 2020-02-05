@@ -28,7 +28,6 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
 @Controller("artist")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -41,14 +40,17 @@ export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Get("byId/:id")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
     @Param() dto: ArtistByIdReqDto,
-    @Param("id", HashIdPipe) id: number
+    @Param("id", HashIdPipe) id: number,
+    @User("sub", ParseIntPipe) sub: number
   ): Promise<DataArtistResDto> {
-    return this.artistService.byId(dto, id);
+    return this.artistService.byId(dto, id, sub);
   }
 
   @Post("follow")
+  @UseGuards(AuthGuard("jwt"))
   async follow(
     @Body() dto: ArtistFollowReqDto,
     @Body("id", HashIdPipe) id: number,
@@ -58,6 +60,7 @@ export class ArtistController {
   }
 
   @Get("following/:from/:limit")
+  @UseGuards(AuthGuard("jwt"))
   async following(
     @Param() dto: ArtistFollowingReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -66,18 +69,24 @@ export class ArtistController {
   }
 
   @Get("trending")
-  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.artistService.trending();
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  async trending(
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<DataPaginationResDto<DataArtistResDto>> {
+    return this.artistService.trending(sub);
   }
 
   @Get("trending/genre/:genre")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async trendingGenre(
-    @Param() dto: ArtistTrendingGenreReqDto
+    @Param() dto: ArtistTrendingGenreReqDto,
+    @User("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.artistService.trendingGenre(dto);
+    return this.artistService.trendingGenre(dto, sub);
   }
 
   @Post("unfollow")
+  @UseGuards(AuthGuard("jwt"))
   async unfollow(
     @Body() dto: ArtistUnfollowReqDto,
     @Body("id", HashIdPipe) id: number,

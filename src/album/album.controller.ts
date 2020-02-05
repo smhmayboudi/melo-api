@@ -36,12 +36,13 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get("artist/albums/:artistId/:from/:limit")
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistAlbums(
     @Param() dto: AlbumArtistAlbumsReqDto,
-    @Param("artistId", HashIdPipe) artistId: number
+    @Param("artistId", HashIdPipe) artistId: number,
+    @User("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    return this.albumService.artistAlbums(dto, artistId);
+    return this.albumService.artistAlbums(dto, artistId, sub);
   }
 
   @Get(":id")

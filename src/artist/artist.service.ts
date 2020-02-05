@@ -10,32 +10,23 @@ import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { AppMixArtistService } from "../app.mix-artist.service";
 
 @Injectable()
 export class ArtistService {
   constructor(
+    private readonly artistMixArtistService: AppMixArtistService,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
 
-  async byId(dto: ArtistByIdReqDto, id: number): Promise<DataArtistResDto> {
-    // const dataArtistResDto = await this.dataArtistService.byId(id);
-    // const entityMultiHasDto = await this.relationService.multiHas({
-    //   fromEntityDto: {
-    //     id: sub,
-    //     type: RelationEntityType.user
-    //   },
-    //   toEntityDtos: [
-    //     {
-    //       id,
-    //       type: RelationEntityType.artist
-    //     }
-    //   ],
-    //   relationType: RelationType.follows
-    // });
-    // dataArtistResDto.follownig = entityMultiHasDto !== undefined;
-    // return dataArtistResDto;
-    return this.dataArtistService.byId({ ...dto, id });
+  async byId(
+    dto: ArtistByIdReqDto,
+    id: number,
+    sub: number
+  ): Promise<DataArtistResDto> {
+    const artistResDto = await this.dataArtistService.byId({ ...dto, id });
+    return this.artistMixArtistService.mixArtist(sub, [artistResDto])[0];
   }
 
   async follow(
@@ -77,16 +68,33 @@ export class ArtistService {
     });
   }
 
-  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.dataArtistService.trending();
+  async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {
+    const artistMixResDto = await this.dataArtistService.trending();
+    const results = await this.artistMixArtistService.mixArtist(
+      sub,
+      artistMixResDto.results
+    );
+    return {
+      results,
+      total: results.length
+    } as DataPaginationResDto<DataArtistResDto>;
   }
 
   async trendingGenre(
-    dto: ArtistTrendingGenreReqDto
+    dto: ArtistTrendingGenreReqDto,
+    sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.dataArtistService.trendingGenre({
+    const artistMixResDto = await this.dataArtistService.trendingGenre({
       ...dto
     });
+    const results = await this.artistMixArtistService.mixArtist(
+      sub,
+      artistMixResDto.results
+    );
+    return {
+      results,
+      total: results.length
+    } as DataPaginationResDto<DataArtistResDto>;
   }
 
   async unfollow(
