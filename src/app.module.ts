@@ -11,6 +11,7 @@ import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
+import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppMixSongService } from "./app.mix-song.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppService } from "./app.service";
@@ -37,6 +38,7 @@ import { UserModule } from "./user/user.module";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
+    AppMixArtistService,
     AppMixSongService,
     AppService
   ],
@@ -101,6 +103,7 @@ import { UserModule } from "./user/user.module";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
+    AppMixArtistService,
     AppMixSongService,
     AppService
   ]
