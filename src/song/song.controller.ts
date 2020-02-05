@@ -73,7 +73,6 @@ export class SongController {
     @Param("artistId", HashIdPipe) artistId: number,
     @User("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // TODO: change
     return this.songService.artistSongsTop(dto, artistId, sub);
   }
 

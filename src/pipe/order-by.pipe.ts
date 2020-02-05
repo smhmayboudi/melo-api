@@ -11,7 +11,6 @@ export interface OrderByPipeOptions {
   exceptionFactory?: (errors: string) => any;
 }
 
-// TODO: Make a generic pipe to check enum
 @Injectable()
 export class OrderByPipe implements PipeTransform<string, DataOrderByType> {
   protected exceptionFactory: (errors: string) => any;

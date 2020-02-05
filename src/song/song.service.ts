@@ -67,7 +67,6 @@ export class SongService {
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // TODO: ArtistSongResDto
     const dataSongResDto = await this.dataSongService.artistSongsTop({
       ...dto,
       id: artistId.toString()
@@ -245,7 +244,6 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
-  // TODO: check response type
   async searchMood(
     paramDto: SongSearchMoodParamDto,
     querydto: SongSearchMoodQueryDto

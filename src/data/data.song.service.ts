@@ -169,7 +169,6 @@ export class DataSongService {
   async podcast(
     dto: DataSongPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // TODO: test params
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,

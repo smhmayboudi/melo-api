@@ -5,7 +5,8 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested
+  ValidateNested,
+  IsBoolean
 } from "class-validator";
 import { DataArtistType } from "../../type/data.artist-type";
 import { DataAlbumResDto } from "./data.album.res.dto";
@@ -19,6 +20,7 @@ export class DataArtistResDto {
     id: string,
     type: DataArtistType,
     albums?: DataPaginationResDto<DataAlbumResDto>,
+    following?: boolean,
     fullName?: string,
     image?: DataImageResDto,
     songs?: DataPaginationResDto<DataSongResDto>,
@@ -29,6 +31,7 @@ export class DataArtistResDto {
     this.id = id;
     this.type = type;
     this.albums = albums;
+    this.following = following;
     this.fullName = fullName;
     this.image = image;
     this.songs = songs;
@@ -63,6 +66,14 @@ export class DataArtistResDto {
   @IsOptional()
   @ValidateNested()
   albums?: DataPaginationResDto<DataAlbumResDto>;
+
+  @ApiProperty({
+    description: "The following",
+    example: false
+  })
+  @IsOptional()
+  @IsBoolean()
+  following?: boolean;
 
   @ApiProperty({
     description: "The fullname",

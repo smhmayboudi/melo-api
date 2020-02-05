@@ -18,7 +18,6 @@ export class ArtistService {
     private readonly relationService: RelationService
   ) {}
 
-  // TODO: mixArtists
   async byId(dto: ArtistByIdReqDto, id: number): Promise<DataArtistResDto> {
     // const dataArtistResDto = await this.dataArtistService.byId(id);
     // const entityMultiHasDto = await this.relationService.multiHas({
@@ -39,14 +38,11 @@ export class ArtistService {
     return this.dataArtistService.byId({ ...dto, id });
   }
 
-  // TODO: mixArtists
   async follow(
     dto: ArtistFollowReqDto,
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    // TODO: There is no need to mixArtists instead
-    // TODO: artistDto.follownig = true;
     const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.set({
       createdAt: new Date(),
@@ -81,12 +77,10 @@ export class ArtistService {
     });
   }
 
-  // TODO: mixArtists
   async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.dataArtistService.trending();
   }
 
-  // TODO: mixArtists
   async trendingGenre(
     dto: ArtistTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {

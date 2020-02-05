@@ -24,13 +24,11 @@ export class AlbumService {
     });
   }
 
-  // TODO: CHECK(MIX)
   async byId(
     dto: AlbumByIdReqDto,
     id: number,
     sub: number
   ): Promise<DataAlbumResDto> {
-    // TODO: DataAlbumResDto
     const dataAlbumResDto = await this.dataAlbumService.byId({ ...dto, id });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
