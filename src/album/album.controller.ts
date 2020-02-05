@@ -24,7 +24,6 @@ import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -37,6 +36,7 @@ export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
   @Get("artist/albums/:artistId/:from/:limit")
+  @UseGuards(AuthGuard("jwt"))
   async artistAlbums(
     @Param() dto: AlbumArtistAlbumsReqDto,
     @Param("artistId", HashIdPipe) artistId: number
@@ -45,6 +45,7 @@ export class AlbumController {
   }
 
   @Get(":id")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
     @Param() dto: AlbumByIdReqDto,
     @Param("id", HashIdPipe) id: number,
@@ -54,6 +55,7 @@ export class AlbumController {
   }
 
   @Get("latest/:language/:from/:limit")
+  @UseGuards(AuthGuard("jwt"))
   async lstest(
     @Param() dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
