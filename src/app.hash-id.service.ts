@@ -1,5 +1,5 @@
 import { Injectable, BadRequestException } from "@nestjs/common";
-import Hashids from "hashids/cjs";
+import Hashids from "hashids";
 import { AppConfigService } from "./app.config.service";
 
 @Injectable()
