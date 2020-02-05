@@ -32,7 +32,6 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -45,6 +44,7 @@ export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
   @Post("addSong")
+  @UseGuards(AuthGuard("jwt"))
   async addSong(
     @Body() dto: PlaylistAddSongReqDto,
     @Body("songId", HashIdPipe) songId: number
@@ -53,6 +53,7 @@ export class PlaylistController {
   }
 
   @Post("create")
+  @UseGuards(AuthGuard("jwt"))
   async create(
     @Body() dto: PlaylistCreateReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -61,6 +62,7 @@ export class PlaylistController {
   }
 
   @Delete(":id")
+  @UseGuards(AuthGuard("jwt"))
   async delete(
     @Param() dto: PlaylistDeleteReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -69,6 +71,7 @@ export class PlaylistController {
   }
 
   @Delete("song/:playlistId/:songId")
+  @UseGuards(AuthGuard("jwt"))
   async deleteSong(
     @Param() dto: PlaylistSongReqDto,
     @Param("songId", HashIdPipe) songId: number
@@ -77,16 +80,19 @@ export class PlaylistController {
   }
 
   @Post("edit")
+  @UseGuards(AuthGuard("jwt"))
   async edit(@Body() dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
     return this.playlistService.edit(dto);
   }
 
   @Get(":id")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async get(@Param() dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
     return this.playlistService.get(dto);
   }
 
   @Get("my/:from/:limit")
+  @UseGuards(AuthGuard("jwt"))
   async my(
     @Param() dto: PlaylistMyReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -95,6 +101,7 @@ export class PlaylistController {
   }
 
   @Get("top")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async top(
     @Param() dto: PlaylistTopReqDto
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {

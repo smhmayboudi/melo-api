@@ -16,7 +16,6 @@ import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("const")
 @Controller("const")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -29,6 +28,7 @@ export class ConstController {
   constructor(private readonly constService: ConstService) {}
 
   @Get("images")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async images(): Promise<{ [key: string]: ConstImageResDto }> {
     return this.constService.images();
   }

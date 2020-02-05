@@ -109,6 +109,7 @@ export class SongController {
   }
 
   @Post("like")
+  @UseGuards(AuthGuard("jwt"))
   async like(
     @Body() dto: SongLikeReqDto,
     @Body("id", HashIdPipe) id: number,
@@ -165,6 +166,7 @@ export class SongController {
   }
 
   @Get("search/mood/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async searchMood(
     @Param() paramDto: SongSearchMoodParamDto,
     @Query() querydto: SongSearchMoodQueryDto
@@ -173,6 +175,7 @@ export class SongController {
   }
 
   @Post("send/telegram")
+  @UseGuards(AuthGuard("jwt"))
   async sendTelegram(
     @Body() dto: SongSendTelegramReqDto,
     @Body("id", HashIdPipe) id: number,
@@ -218,6 +221,7 @@ export class SongController {
   }
 
   @Post("unlike")
+  @UseGuards(AuthGuard("jwt"))
   async unlike(
     @Body() dto: SongUnlikeReqDto,
     @Body("id", HashIdPipe) id: number,
