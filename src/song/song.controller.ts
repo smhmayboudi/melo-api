@@ -46,7 +46,6 @@ import { SongService } from "./song.service";
 @ApiBearerAuth("jwt")
 @ApiTags("song")
 @Controller("song")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -59,6 +58,7 @@ export class SongController {
   constructor(private readonly songService: SongService) {}
 
   @Get("artist/songs/:artistId/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistSongs(
     @Param() dto: SongArtistSongsReqDto,
     @Param("artistId", HashIdPipe) artistId: number,
@@ -68,6 +68,7 @@ export class SongController {
   }
 
   @Get("artist/songs/top/:id/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistSongsTop(
     @Param() dto: SongArtistSongsTopReqDto,
     @Param("artistId", HashIdPipe) artistId: number,
@@ -77,6 +78,7 @@ export class SongController {
   }
 
   @Get(":id")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
     @Param() dto: SongByIdReqDto,
     @Param("id", HashIdPipe) id: number,
@@ -86,6 +88,7 @@ export class SongController {
   }
 
   @Get("genre/:orderBy/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async genre(
     @Param("orderBy", OrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongSongGenresParamReqDto,
@@ -96,6 +99,7 @@ export class SongController {
   }
 
   @Get("language/:language/:orderBy/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async language(
     @Param("orderBy", OrderByPipe) orderBy: DataOrderByType,
     @Param() dto: SongLanguageReqDto,
@@ -114,6 +118,7 @@ export class SongController {
   }
 
   @Get("liked/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async liked(
     @Param() dto: SongLikedReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -122,6 +127,7 @@ export class SongController {
   }
 
   @Get("mood/:mood/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async mood(
     @Param() dto: SongMoodReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -130,6 +136,7 @@ export class SongController {
   }
 
   @Get("new/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async new(
     @Param() dto: SongNewReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -138,6 +145,7 @@ export class SongController {
   }
 
   @Get("new/podcast/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async newPodcast(
     @Param() dto: DataSongNewPodcastReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -146,6 +154,7 @@ export class SongController {
   }
 
   @Get("podcast/genres/:orderBy/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async podcast(
     @Param("orderBy", OrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongPodcastGenresParamReqDto,
@@ -173,6 +182,7 @@ export class SongController {
   }
 
   @Get("similar/:id/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async similar(
     @Param() dto: SongSimilarReqDto,
     @Param("id", HashIdPipe) id: number,
@@ -182,6 +192,7 @@ export class SongController {
   }
 
   @Get("slider/latest")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async sliderLatest(
     @User("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
@@ -189,6 +200,7 @@ export class SongController {
   }
 
   @Get("top/day/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async topDay(
     @Param() dto: SongTopDayReqDto,
     @User("sub", ParseIntPipe) sub: number
@@ -197,6 +209,7 @@ export class SongController {
   }
 
   @Get("top/week/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async topWeek(
     @Param() dto: SongTopWeekReqDto,
     @User("sub", ParseIntPipe) sub: number
