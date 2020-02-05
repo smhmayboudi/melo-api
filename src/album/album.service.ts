@@ -32,7 +32,7 @@ export class AlbumService {
     const dataAlbumResDto = await this.dataAlbumService.byId({ ...dto, id });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
-      dataAlbumResDto.songs?.results!
+      dataAlbumResDto.songs === undefined ? [] : dataAlbumResDto.songs.results
     )[0];
     return {
       ...dataAlbumResDto,
