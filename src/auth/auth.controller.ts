@@ -38,7 +38,7 @@ export class AuthController {
 
   @ApiBearerAuth("jwt")
   @Get("test")
-  @UseGuards(AuthGuard(["jwt", "anonymId"]))
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   test(@User("sub", ParseIntPipe) sub: number): any {
     return { sub };
   }

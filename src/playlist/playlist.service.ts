@@ -235,7 +235,7 @@ export class PlaylistService {
     );
     return {
       results: results,
-      total: playlists.length
+      total: results.length
     } as DataPaginationResDto<DataPlaylistResDto>;
   }
 
@@ -270,7 +270,7 @@ export class PlaylistService {
     );
     return {
       results: results,
-      total: playlists.length
+      total: results.length
     } as DataPaginationResDto<DataPlaylistResDto>;
   }
 }
