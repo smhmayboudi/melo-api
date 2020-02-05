@@ -16,6 +16,9 @@ export class AppMixSongService {
     sub: number,
     songs: DataSongResDto[]
   ): Promise<DataSongResDto[]> {
+    if (sub === 0) {
+      return songs;
+    }
     const relationMultiHasResDto = await this.relationService.multiHas({
       from: {
         id: sub.toString(),

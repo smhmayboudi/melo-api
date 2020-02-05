@@ -46,7 +46,7 @@ export class AlbumController {
   }
 
   @Get(":id")
-  @UseGuards(AuthGuard("jwt"))
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
     @Param() dto: AlbumByIdReqDto,
     @Param("id", HashIdPipe) id: number,
