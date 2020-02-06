@@ -19,7 +19,6 @@ import { SearchService } from "./search.service";
 @ApiBearerAuth("jwt")
 @ApiTags("search")
 @Controller("search")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -32,6 +31,7 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get("query/:query/:from/:limit")
+  @UseGuards(AuthGuard("jwt"))
   async query(
     @Param() dto: SearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>> {

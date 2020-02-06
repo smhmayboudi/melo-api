@@ -21,7 +21,6 @@ import { FileService } from "./file.service";
 @ApiBearerAuth("jwt")
 @ApiTags("file")
 @Controller("file")
-@UseGuards(AuthGuard("jwt"))
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
@@ -34,6 +33,7 @@ export class FileController {
   constructor(private readonly fileService: FileService) {}
 
   @Post("upload/image")
+  @UseGuards(AuthGuard("jwt"))
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
     @User("sub", ParseIntPipe) sub: number,
