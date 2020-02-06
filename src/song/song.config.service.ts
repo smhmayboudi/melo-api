@@ -48,7 +48,7 @@ export class SongConfigService {
   }
 
   get sendTelegramUrl(): string {
-    return this.configService.get<string>("song.uri", "");
+    return this.configService.get<string>("song.url", "");
   }
 
   get timeout(): number {

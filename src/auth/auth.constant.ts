@@ -1,5 +1,7 @@
 export const authConstant = {
   errors: {
-    secretOrKeyProvider: "jwt.strategy secretOrKeyProvider failed."
+    jwtStrategy: {
+      secretOrKeyProvider: "jwt.strategy secretOrKeyProvider failed."
+    }
   }
 };

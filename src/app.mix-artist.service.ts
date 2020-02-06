@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
+import { DataArtistResDto } from "./data/dto/res/data.artist.res.dto";
+import { AppHashIdService } from "./app.hash-id.service";
+import { RelationService } from "./relation/relation.service";
 import { RelationEntityType } from "./relation/type/relation.entity.type";
 import { RelationType } from "./relation/type/relation.type";
-import { RelationService } from "./relation/relation.service";
-import { AppHashIdService } from "./app.hash-id.service";
-import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 
 @Injectable()
 export class AppMixArtistService {
