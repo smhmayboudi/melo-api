@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
@@ -21,27 +21,40 @@ export class AuthService {
   async accessToken(sub: number): Promise<AuthAccessTokenResDto | undefined> {
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
-      return undefined;
+      throw new InternalServerErrorException();
     }
-    return Promise.resolve({
-      at: this.jwtService.sign(
-        {},
-        {
-          keyid: jwksEntity.id,
-          jwtid: uuidv4(),
-          subject: sub.toString()
-        }
-      )
-    });
+    const at = this.jwtService.sign(
+      {},
+      {
+        keyid: jwksEntity.id,
+        jwtid: uuidv4(),
+        subject: sub.toString()
+      }
+    );
+    return {
+      at
+    };
   }
 
   async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
+    const jwksEntity = await this.jwksService.getOneRandom();
+    if (jwksEntity === undefined) {
+      throw new InternalServerErrorException();
+    }
+    const at = this.jwtService.sign(
+      {},
+      {
+        keyid: jwksEntity.id,
+        jwtid: uuidv4(),
+        subject: sub.toString()
+      }
+    );
     const rt = cryptoRandomString({ length: 256, type: "base64" });
     const now = new Date();
     const exp = moment(now)
       .add(this.authConfigService.jwtRefreshTokenExpiresIn, "ms")
       .toDate();
-    this.rtService.save([
+    await this.rtService.save([
       {
         created_at: now,
         description: "",
@@ -52,20 +65,9 @@ export class AuthService {
         token: rt
       }
     ]);
-    const jwksEntity = await this.jwksService.getOneRandom();
-    if (jwksEntity === undefined) {
-      return undefined;
-    }
-    return Promise.resolve({
-      at: this.jwtService.sign(
-        {},
-        {
-          keyid: jwksEntity.id,
-          jwtid: uuidv4(),
-          subject: sub.toString()
-        }
-      ),
+    return {
+      at,
       rt
-    });
+    };
   }
 }
