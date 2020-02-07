@@ -7,7 +7,7 @@
 <!-- A clear and concise description of what the regression is. -->
 
 ## Input Code
-<!--- If you have link to our REPL or a standalone repo please link that! -->
+<!--- If you have a link to our REPL or a standalone repo please link that! -->
 
 ```ts
 const your = (code) => here;
