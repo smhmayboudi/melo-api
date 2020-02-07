@@ -20,7 +20,7 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       password: this.appConfigService.typeOrmPassword,
       port: this.appConfigService.typeOrmPort,
       synchronize: this.appConfigService.typeOrmSynchronize,
-      type: "mariadb",
+      type: "mysql",
       username: this.appConfigService.typeOrmUsername
     };
   }

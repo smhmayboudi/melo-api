@@ -111,7 +111,12 @@ export class UserEntity {
     enum: ["female", "male"],
     example: UserGenderType.male
   })
-  @Column({ nullable: true, type: "enum" })
+  @Column({
+    enum: ["female", "male"],
+    enumName: "UserGenderType",
+    nullable: true,
+    type: "enum"
+  })
   @IsEnum(UserGenderType)
   @IsOptional()
   gender?: UserGenderType;

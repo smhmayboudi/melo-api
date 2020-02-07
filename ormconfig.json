@@ -1,8 +1,18 @@
 {
-  "type": "mariadb",
+  "cli": {
+    "entitiesDir": "entity",
+    "migrationsDir": "migration",
+    "subscribersDir": "subscriber"
+  },
+  "database": "meloapp",
+  "entities": [ "*.entity.js" ],
   "host": "127.0.0.1",
-  "port": 3306,
-  "username": "root",
+  "logging": "all",
+  "migrations": [ "*.migration.js" ],
   "password": "testpassword",
-  "database": "meloapp"
+  "port": 3306,
+  "subscribers": [ "*.subscriber.js" ],
+  "synchronize": "true",
+  "type": "mysql",
+  "username": "root"
 }
