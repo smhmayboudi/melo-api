@@ -25,12 +25,20 @@ export class OrderByPipe implements PipeTransform<string, DataOrderByType> {
 
   transform(value: string, _metadata: ArgumentMetadata): DataOrderByType {
     if (
-      typeof value !== "string" &&
-      value !== DataOrderByType.downloads &&
-      value !== DataOrderByType.release
+      (typeof value === "number" || typeof value !== "string") &&
+      (typeof value !== "number" || typeof value === "string")
     ) {
-      throw this.exceptionFactory("Validation failed (string is expected)");
+      throw this.exceptionFactory(
+        "Validation failed (number or string is expected)"
+      );
     }
-    return value as DataOrderByType;
+    switch (value) {
+      case DataOrderByType.downloads.toString():
+        return DataOrderByType.downloads;
+      case DataOrderByType.release.toString():
+        return DataOrderByType.release;
+      default:
+        throw new BadRequestException();
+    }
   }
 }
