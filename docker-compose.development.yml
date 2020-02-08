@@ -7,11 +7,15 @@ services:
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
     image: minio/minio
+    ports:
+      - 127.0.0.1:9000:9000
     restart: always
     volumes: 
       - ./temp/minio:/data
   mongo:
     image: mongo:latest
+    ports:
+      - 127.0.0.1:27017:27017
     restart: always
     volumes:
       - ./temp/mongo:/data/db
@@ -19,15 +23,18 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=testpassword
     image: mysql:5.6
+    ports:
+      - 127.0.0.1:3306:3306
     restart: always
     volumes:
       - ./temp/mysql:/var/lib/mysql
   node:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.development
     env_file:
       - .env.docker-compose
+    image: melo-api_node:development
     links:
       - minio:minio
       - mongo:mongo
@@ -35,7 +42,12 @@ services:
       - redis:redis
     ports:
       - 127.0.0.1:3000:3000
+      - 127.0.0.1:9229:9229
     restart: always
+    volumes:
+      - ./dist:/app/dist
   redis:
     image: redis:latest
+    ports:
+      - 127.0.0.1:6379:6379
     restart: always

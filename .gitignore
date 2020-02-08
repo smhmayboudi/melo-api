@@ -1,3 +1,4 @@
+.env.docker-compose
 
 # Created by https://www.gitignore.io/api/linux,macos,node,visualstudiocode,windows
 # Edit at https://www.gitignore.io/?templates=linux,macos,node,visualstudiocode,windows
@@ -189,4 +190,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/linux,macos,node,visualstudiocode,windows
-n
