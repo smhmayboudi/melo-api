@@ -45,7 +45,7 @@ services:
       - 127.0.0.1:9229:9229
     restart: always
     volumes:
-      - ./dist:/app/dist
+      - ./src:/app/src
   redis:
     image: redis:latest
     ports:

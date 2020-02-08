@@ -1,5 +1,12 @@
 FROM node:latest AS development
 WORKDIR /app
-COPY . /app
+COPY ./type /app/type
+COPY ./jest.config.json /app/jest.config.json
+COPY ./nest-cli.json /app/nest-cli.json
+COPY ./package-lock.json /app/package-lock.json
+COPY ./package.json /app/package.json
+COPY ./tsconfig.build.json /app/tsconfig.build.json
+COPY ./tsconfig.eslint.json /app/tsconfig.eslint.json
+COPY ./tsconfig.json /app/tsconfig.json
 RUN npm install
 CMD [ "npm", "run", "start:debug" ]
