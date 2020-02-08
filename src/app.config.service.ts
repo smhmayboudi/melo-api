@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { LogLevel } from "@sentry/types";
 import { SignatureSize } from "imgproxy/dist/types";
 import ms from "ms";
 import { ImgProxyImageTypeSize } from "./type/ImgProxyImageTypeSize";
@@ -98,6 +99,36 @@ export class AppConfigService {
 
   get rateLimitWindowMs(): number {
     return ms(this.configService.get<string>("app.rateLimitWindowMs", "0"));
+  }
+
+  get sentryDebug(): boolean {
+    return this.configService.get<boolean>("app.sentryDebug", true);
+  }
+
+  get sentryDsn(): string {
+    return this.configService.get<string>("app.sentryDsn", "");
+  }
+
+  get sentryEnviroment(): string {
+    return this.configService.get<string>("app.sentryEnviroment", "");
+  }
+
+  get sentryLogLevel(): LogLevel {
+    const logLevel = this.configService.get<number>("app.sentryLogLevel", 0);
+    switch (logLevel) {
+      case 1:
+        return LogLevel.Error;
+      case 2:
+        return LogLevel.Debug;
+      case 3:
+        return LogLevel.Verbose;
+      default:
+        return LogLevel.None;
+    }
+  }
+
+  get sentryRelease(): string {
+    return this.configService.get<string>("app.sentryRelease", "");
   }
 
   get typeOrmDatabase(): string {

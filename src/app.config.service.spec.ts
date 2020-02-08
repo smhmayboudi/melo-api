@@ -40,6 +40,11 @@ describe("AppService", () => {
   test.todo("port");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");
+  test.todo("sentryDebug");
+  test.todo("sentryDsn");
+  test.todo("sentryEnviroment");
+  test.todo("sentryLogLevel");
+  test.todo("sentryRelease");
   test.todo("typeOrmDatabase");
   test.todo("typeOrmHost");
   test.todo("typeOrmLogging");

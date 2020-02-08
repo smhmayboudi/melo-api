@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { TerminusModule } from "@nestjs/terminus";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { SentryModule } from "@ntegral/nestjs-sentry";
 import { ActionModule } from "./action/action.module";
 import { AlbumModule } from "./album/album.module";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
@@ -14,6 +15,7 @@ import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppMixSongService } from "./app.mix-song.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
+import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
@@ -53,9 +55,9 @@ import { UserModule } from "./user/user.module";
       imports: [AppModule],
       useClass: AppCacheOptionsFactory
     }),
-    ConstModule,
     ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConstModule,
     DataModule,
     FileModule,
     JwksModule,
@@ -68,6 +70,11 @@ import { UserModule } from "./user/user.module";
     RelationModule,
     RtModule,
     SearchModule,
+    SentryModule.forRootAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [AppModule],
+      useClass: AppSentryOptionsFactory
+    }),
     SongModule,
     TerminusModule.forRootAsync({
       imports: [
