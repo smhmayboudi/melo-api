@@ -121,7 +121,7 @@ export class PlaylistService {
   }
 
   async edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
-    const playlist = await this.playlistModel.findById(dto.id);
+    const playlist = await this.playlistModel.findById(Types.ObjectId(dto.id));
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
@@ -156,9 +156,6 @@ export class PlaylistService {
     }
     playlist.songs_ids.splice(playlist.songs_ids.indexOf(songId), 1);
     await playlist.save();
-    const dataSongResDto = await this.dataSongService.byIds({
-      ids: playlist.songs_ids.map(id => id.toString())
-    });
     return {
       followersCount: playlist.followers_count,
       // TODO: which one id or _id ?
@@ -172,7 +169,12 @@ export class PlaylistService {
       releaseDate: playlist.release_date,
       title: playlist.title,
       tracksCount: playlist.tracks_count,
-      songs: dataSongResDto
+      songs:
+        playlist.songs_ids.length !== 0
+          ? await this.dataSongService.byIds({
+              ids: playlist.songs_ids.map(id => id.toString())
+            })
+          : undefined
     };
   }
 
@@ -241,14 +243,11 @@ export class PlaylistService {
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     const playlists = await this.playlistModel
       .find()
-      .sort({ created_at: -1 })
-      .skip(dto.from)
-      .limit(dto.limit);
+      .skip(parseInt(dto.from.toString(), 10))
+      .limit(parseInt(dto.limit.toString(), 10));
+
     const results = await Promise.all(
       playlists.map(async value => {
-        const dataSongResDto = await this.dataSongService.byIds({
-          ids: value.songs_ids.map(value => value.toString())
-        });
         return {
           followersCount: value.followers_count,
           id: value._id,
@@ -261,7 +260,12 @@ export class PlaylistService {
           releaseDate: value.release_date,
           title: value.title,
           tracksCount: value.tracks_count,
-          songs: dataSongResDto
+          songs:
+            value.songs_ids.length !== 0
+              ? await this.dataSongService.byIds({
+                  ids: value.songs_ids.map(value => value.toString())
+                })
+              : undefined
         };
       })
     );
