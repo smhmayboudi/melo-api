@@ -13,7 +13,7 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -57,6 +57,10 @@ import { SongService } from "./song.service";
 export class SongController {
   constructor(private readonly songService: SongService) {}
 
+  @ApiParam({
+    name: "artistId",
+    type: String
+  })
   @Get("artist/songs/:artistId/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistSongs(
@@ -67,6 +71,10 @@ export class SongController {
     return this.songService.artistSongs(dto, artistId, sub);
   }
 
+  @ApiParam({
+    name: "artistId",
+    type: String
+  })
   @Get("artist/songs/top/:artistId/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistSongsTop(
@@ -77,6 +85,10 @@ export class SongController {
     return this.songService.artistSongsTop(dto, artistId, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Get("byId/:id")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
@@ -108,6 +120,10 @@ export class SongController {
     return this.songService.language(dto, orderBy, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Post("like")
   @UseGuards(AuthGuard("jwt"))
   async like(
@@ -174,6 +190,10 @@ export class SongController {
     return this.songService.searchMood(paramDto, querydto);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Post("send/telegram")
   @UseGuards(AuthGuard("jwt"))
   async sendTelegram(
@@ -184,6 +204,10 @@ export class SongController {
     return this.songService.sendTelegram(dto, id, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Get("similar/:id/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async similar(
@@ -220,6 +244,10 @@ export class SongController {
     return this.songService.topWeek(dto, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Post("unlike")
   @UseGuards(AuthGuard("jwt"))
   async unlike(

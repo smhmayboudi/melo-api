@@ -13,7 +13,9 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { User } from "../decorator/user.decorator";
 import { ErrorInterceptor } from "../interceptor/error.interceptor";
 import { HashIdPipe } from "../pipe/hash-id.pipe";
@@ -25,9 +27,7 @@ import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
-import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { PlaylistService } from "./playlist.service";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
@@ -43,6 +43,10 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
+  @ApiParam({
+    name: "songId",
+    type: String
+  })
   @Post("addSong")
   @UseGuards(AuthGuard("jwt"))
   async addSong(
@@ -70,6 +74,10 @@ export class PlaylistController {
     return this.playlistService.delete(dto, sub);
   }
 
+  @ApiParam({
+    name: "songId",
+    type: String
+  })
   @Delete("song/:playlistId/:songId")
   @UseGuards(AuthGuard("jwt"))
   async deleteSong(

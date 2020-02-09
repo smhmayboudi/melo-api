@@ -12,7 +12,7 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { User } from "../decorator/user.decorator";
@@ -39,6 +39,10 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Post("follow")
   @UseGuards(AuthGuard("jwt"))
   async follow(
@@ -58,6 +62,10 @@ export class ArtistController {
     return this.artistService.following(dto, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Get("profile/:id")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async profile(
@@ -85,6 +93,10 @@ export class ArtistController {
     return this.artistService.trendingGenre(dto, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Post("unfollow")
   @UseGuards(AuthGuard("jwt"))
   async unfollow(

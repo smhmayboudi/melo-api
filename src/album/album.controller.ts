@@ -10,7 +10,7 @@ import {
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { User } from "../decorator/user.decorator";
@@ -35,6 +35,10 @@ import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
+  @ApiParam({
+    name: "artistId",
+    type: String
+  })
   @Get("artist/albums/:artistId/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistAlbums(
@@ -45,6 +49,10 @@ export class AlbumController {
     return this.albumService.artistAlbums(dto, artistId, sub);
   }
 
+  @ApiParam({
+    name: "id",
+    type: String
+  })
   @Get(":id")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
