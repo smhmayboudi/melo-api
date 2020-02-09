@@ -1,3 +1,20 @@
+# 1st Time Run
+
+* Run MySqlWorkbench
+* Connect to 127.0.0.1
+* Create a new schema with 'meloapp' name
+* Run the api
+* Inser a key into jwkss table
+
+```bash
+# generate UUID
+$ uuidgen
+
+# generate publiic & private keys
+$ ssh-keygen -t rsa -b 1024 -m PEM -f jwtKey.key
+$ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
+```
+
 # Description
 
 Api based on [Nest](https://github.com/nestjs/nest).
