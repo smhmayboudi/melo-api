@@ -35,18 +35,16 @@ async function bootstrap(): Promise<void> {
       },
       "local"
     )
-    .addBearerAuth(
+    .addApiKey(
       {
         description: "It is used for the rest.",
-        bearerFormat: "JWT",
         in: "header",
         name: "Authorization",
-        scheme: "JWT",
         type: "apiKey"
       },
       "jwt"
     )
-    .addBearerAuth(
+    .addApiKey(
       {
         description: "It is used for getting access token procedure.",
         in: "header",

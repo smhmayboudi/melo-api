@@ -8,7 +8,9 @@ export class SongPodcastGenresQueryReqDto {
 
   @ApiProperty({
     description: "The genres",
-    example: ["pop"]
+    example: ["pop"],
+    isArray: true,
+    type: "string"
   })
   @IsArray()
   @IsString({ each: true })

@@ -8,7 +8,9 @@ export class DataArtistByIdsReqDto {
 
   @ApiProperty({
     description: "The artists identification",
-    example: 0
+    example: ["abcdef"],
+    isArray: true,
+    type: "string"
   })
   @IsArray()
   @IsString({ each: true })
