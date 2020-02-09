@@ -39,10 +39,6 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
-  @ApiParam({
-    name: "id",
-    type: String
-  })
   @Post("follow")
   @UseGuards(AuthGuard("jwt"))
   async follow(
@@ -93,10 +89,6 @@ export class ArtistController {
     return this.artistService.trendingGenre(dto, sub);
   }
 
-  @ApiParam({
-    name: "id",
-    type: String
-  })
   @Post("unfollow")
   @UseGuards(AuthGuard("jwt"))
   async unfollow(

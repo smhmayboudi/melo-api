@@ -31,7 +31,7 @@ export class PlaylistEditReqDto {
 
   @ApiProperty({
     description: "The photo identification",
-    example: 0
+    example: "abcdef"
   })
   @IsOptional()
   @IsString()
@@ -39,7 +39,7 @@ export class PlaylistEditReqDto {
 
   @ApiProperty({
     description: "The title",
-    example: 0
+    example: "abcdef"
   })
   @IsOptional()
   @IsString()

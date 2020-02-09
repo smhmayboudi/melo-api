@@ -16,7 +16,7 @@ export class PlaylistCreateReqDto {
 
   @ApiProperty({
     description: "The photo identification",
-    example: 0
+    example: "abcdef"
   })
   @IsOptional()
   @IsString()

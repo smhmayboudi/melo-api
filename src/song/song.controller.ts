@@ -99,6 +99,10 @@ export class SongController {
     return this.songService.byId(dto, id, sub);
   }
 
+  @ApiParam({
+    name: "orderBy",
+    type: String
+  })
   @Get("genre/:orderBy/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async genre(
@@ -110,6 +114,10 @@ export class SongController {
     return this.songService.genre(paramDto, orderBy, queryDto, sub);
   }
 
+  @ApiParam({
+    name: "orderBy",
+    type: String
+  })
   @Get("language/:language/:orderBy/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async language(
@@ -120,10 +128,6 @@ export class SongController {
     return this.songService.language(dto, orderBy, sub);
   }
 
-  @ApiParam({
-    name: "id",
-    type: String
-  })
   @Post("like")
   @UseGuards(AuthGuard("jwt"))
   async like(
@@ -170,6 +174,10 @@ export class SongController {
     return this.songService.newPodcast(dto, sub);
   }
 
+  @ApiParam({
+    name: "orderBy",
+    type: String
+  })
   @Get("podcast/genres/:orderBy/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async podcast(
@@ -190,10 +198,6 @@ export class SongController {
     return this.songService.searchMood(paramDto, querydto);
   }
 
-  @ApiParam({
-    name: "id",
-    type: String
-  })
   @Post("send/telegram")
   @UseGuards(AuthGuard("jwt"))
   async sendTelegram(
@@ -244,10 +248,6 @@ export class SongController {
     return this.songService.topWeek(dto, sub);
   }
 
-  @ApiParam({
-    name: "id",
-    type: String
-  })
   @Post("unlike")
   @UseGuards(AuthGuard("jwt"))
   async unlike(

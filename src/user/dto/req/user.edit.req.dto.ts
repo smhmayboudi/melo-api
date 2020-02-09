@@ -27,7 +27,7 @@ export class UserEditReqDto {
 
   @ApiProperty({
     description: "The firstname",
-    example: 0
+    example: "abcdef"
   })
   @IsOptional()
   @IsString()
