@@ -52,7 +52,9 @@ export class DataSongResDto {
   }
 
   @ApiProperty({
-    description: "The artists"
+    description: "The artists",
+    isArray: true,
+    type: DataArtistResDto
   })
   @IsArray()
   @Type(() => DataArtistResDto)
@@ -166,7 +168,9 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The tags",
-    example: ["pop"]
+    example: ["pop"],
+    isArray: true,
+    type: String
   })
   @IsOptional()
   @IsString()

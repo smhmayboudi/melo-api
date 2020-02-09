@@ -10,7 +10,7 @@ export class DataSongByIdsReqDto {
     description: "The songs identification",
     example: ["abcdef"],
     isArray: true,
-    type: "string"
+    type: String
   })
   @IsArray()
   @IsString({ each: true })

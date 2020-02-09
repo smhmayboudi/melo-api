@@ -107,7 +107,9 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The tags",
-    example: ["smith"]
+    example: ["smith"],
+    isArray: true,
+    type: String
   })
   @IsArray()
   @IsOptional()

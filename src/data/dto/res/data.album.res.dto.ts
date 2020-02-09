@@ -52,7 +52,8 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The artists",
-    example: ["smith"]
+    isArray: true,
+    type: DataArtistResDto
   })
   @IsArray()
   @IsOptional()
@@ -94,7 +95,9 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The tags",
-    example: ["pop"]
+    example: ["pop"],
+    isArray: true,
+    type: String
   })
   @IsArray()
   @IsOptional()
