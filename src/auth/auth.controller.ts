@@ -19,7 +19,6 @@ import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 
-// @UseGuards(AuthGuard("jwt"))
 @ApiTags("auth")
 @Controller("auth")
 @UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)

@@ -11,6 +11,6 @@ export class SongPodcastGenresQueryReqDto {
     example: ["pop"]
   })
   @IsArray()
-  @IsString()
+  @IsString({ each: true })
   genres: string[];
 }

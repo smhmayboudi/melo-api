@@ -88,7 +88,7 @@ export class DataSongService {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
       .get(
-        `${this.dataConfigService.url}/song/genre/${dto.orderBy}/${dto.from}/${dto.limit}/${dto.orderBy}`,
+        `${this.dataConfigService.url}/song/genre/${dto.orderBy}/${dto.from}/${dto.limit}`,
         {
           params: {
             genres: dto.genres

@@ -49,7 +49,7 @@ export class ConstConfigService {
 
   get staticImagePaths(): { [key: string]: string } {
     return JSON.parse(
-      this.configService.get<string>("app.staticImagePaths", "")
+      this.configService.get<string>("const.staticImagePaths", "")
     );
   }
 }

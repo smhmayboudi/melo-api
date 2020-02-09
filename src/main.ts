@@ -15,9 +15,7 @@ async function bootstrap(): Promise<void> {
     cors: true,
     logger: ["log", "error", "warn", "debug", "verbose"]
   });
-
   const appConfigService = app.get(AppConfigService);
-
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   // app.use(csurf({ cookie: true }));
@@ -28,7 +26,6 @@ async function bootstrap(): Promise<void> {
       windowMs: appConfigService.rateLimitWindowMs
     })
   );
-
   const options = new DocumentBuilder()
     .addBasicAuth(
       {

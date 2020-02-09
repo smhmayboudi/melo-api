@@ -11,6 +11,6 @@ export class DataArtistByIdsReqDto {
     example: 0
   })
   @IsArray()
-  @IsString()
+  @IsString({ each: true })
   ids: string[];
 }

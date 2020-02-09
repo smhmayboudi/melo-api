@@ -82,10 +82,10 @@ export class RelationService {
   async remove(dto: RelationRemoveReqDto): Promise<void> {
     return this.httpService
       .delete(`${this.relationConfigService.url}/remove`, {
-        params: {
+        data: {
           entityId1: this.key(dto.from),
           entityId2: this.key(dto.to),
-          relationType: dto.relationType
+          relType: dto.relationType
         }
       })
       .pipe(
@@ -104,7 +104,7 @@ export class RelationService {
         createdAt: dto.createdAt,
         entityId1: this.key(dto.from),
         entityId2: this.key(dto.to),
-        relationType: dto.relationType
+        relType: dto.relationType
       })
       .pipe(
         map((value: AxiosResponse<boolean>) => {

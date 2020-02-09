@@ -65,7 +65,10 @@ export class ArtistService {
     sub: number
   ): Promise<DataArtistResDto> {
     const artistResDto = await this.dataArtistService.byId({ ...dto, id });
-    return this.artistMixArtistService.mixArtist(sub, [artistResDto])[0];
+    const dataArtistResDto = await this.artistMixArtistService.mixArtist(sub, [
+      artistResDto
+    ]);
+    return dataArtistResDto[0];
   }
 
   async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {

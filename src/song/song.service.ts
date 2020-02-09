@@ -87,8 +87,10 @@ export class SongService {
     sub: number
   ): Promise<DataSongResDto> {
     const dataSongResDto = await this.dataSongService.byId({ ...dto, id });
-
-    return this.appMixSongService.mixSong(sub, [dataSongResDto])[0];
+    const songMixResDto = await this.appMixSongService.mixSong(sub, [
+      dataSongResDto
+    ]);
+    return songMixResDto[0];
   }
 
   async genre(
@@ -106,6 +108,8 @@ export class SongService {
       sub,
       dataSongResDto.results
     );
+    console.log("LOG: ", songMixResDto);
+
     return {
       results: songMixResDto,
       total: songMixResDto.length
