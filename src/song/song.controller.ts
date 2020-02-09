@@ -67,7 +67,7 @@ export class SongController {
     return this.songService.artistSongs(dto, artistId, sub);
   }
 
-  @Get("artist/songs/top/:id/:from/:limit")
+  @Get("artist/songs/top/:artistId/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistSongsTop(
     @Param() dto: SongArtistSongsTopReqDto,
@@ -77,7 +77,7 @@ export class SongController {
     return this.songService.artistSongsTop(dto, artistId, sub);
   }
 
-  @Get(":id")
+  @Get("byId/:id")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
     @Param() dto: SongByIdReqDto,

@@ -27,7 +27,7 @@ export class SongPodcastReqDto {
     example: ["pop"]
   })
   @IsArray()
-  @IsString()
+  @IsString({ each: true })
   genres: string[];
 
   @ApiProperty({

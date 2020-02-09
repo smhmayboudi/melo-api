@@ -48,7 +48,10 @@ export class UserController {
   }
 
   @Put("profile")
-  async edit(@Body() dto: UserEditReqDto): Promise<UserUserResDto> {
-    return this.userService.put(dto);
+  async edit(
+    @Body() dto: UserEditReqDto,
+    @User("sub", ParseIntPipe) sub: number
+  ): Promise<UserUserResDto> {
+    return this.userService.put(dto, sub);
   }
 }

@@ -150,17 +150,14 @@ export class PlaylistService {
     dto: PlaylistSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto> {
-    const playlist = await this.playlistModel.updateOne(
-      { _id: dto.playlistId },
-      {
-        $pull: { songs_ids: songId }
-      }
-    );
+    const playlist = await this.playlistModel.findById(dto.playlistId);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
+    playlist.songs_ids.splice(playlist.songs_ids.indexOf(songId), 1);
+    await playlist.save();
     const dataSongResDto = await this.dataSongService.byIds({
-      ids: playlist.songs_ids
+      ids: playlist.songs_ids.map(id => id.toString())
     });
     return {
       followersCount: playlist.followers_count,
@@ -210,8 +207,8 @@ export class PlaylistService {
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     const playlists = await this.playlistModel
       .find({ owner_user_id: sub })
-      .skip(dto.from)
-      .limit(dto.limit);
+      .skip(parseInt(dto.from.toString(), 10))
+      .limit(parseInt(dto.limit.toString(), 10));
     const results = await Promise.all(
       playlists.map(async value => {
         const dataSongResDto = await this.dataSongService.byIds({

@@ -36,8 +36,8 @@ export class UserService {
     return this.findOneById(sub);
   }
 
-  async put(dto: UserEditReqDto): Promise<UserUserResDto> {
-    return this.save({ ...dto, id: 0 });
+  async put(dto: UserEditReqDto, sub): Promise<UserUserResDto> {
+    return this.save({ ...dto, id: sub });
   }
 
   async save(dto: UserEntity): Promise<UserUserResDto> {
