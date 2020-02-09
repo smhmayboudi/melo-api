@@ -1,75 +1,148 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Description
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Api based on [Nest](https://github.com/nestjs/nest).
 
-## Description
+# Tooling
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+```bash
+$ brew cask install beyond-compare
+$ brew cask install docker
+$ brew cask install google-chrome
+$ brew cask install insomnia
+$ brew cask install mongodb-compass
+$ brew cask install mysqlworkbench
+$ brew cask install postman
+$ brew cask install proxifier
+$ brew cask install shadowsocksx-ng
+$ brew cask install visual-studio-code
+$ brew cask install skype
+```
 
-## Installation
+# Installation
 
 ```bash
 $ npm install
 ```
 
-## Running the app
+# Docker
+
+## Develpoment
 
 ```bash
-# development
+# run daemon dependencies
+$ docker-compose -f docker-compose.development.yml up -d minio mongo mysql redis
+
+# stop daemon dependencies
+$ docker-compose -f docker-compose.development.yml stop minio mongo mysql redis
+
+# run api foreground
+$ docker-compose -f docker-compose.development.yml up node
+
+# run api background
+$ docker-compose -f docker-compose.development.yml up -d node
+
+# stop api background
+$ docker-compose -f docker-compose.development.yml stop node
+
+# show api background logs
+$ docker-compose -f docker-compose.development.yml logs node
+
+```
+
+## Deployment
+
+```bash
+# run all background
+$ docker-compose -f docker-compose.yml up
+
+# stop all
+$ docker-compose -f docker-compose.yml stop
+```
+
+# NPM
+
+### Docker
+```bash
+# docker run all in deployment mode
+$ npm run docker-compose
+
+# docker build in deployment mode
+$ npm run docker-compose:build
+
+# docker run all in development mode
+$ npm run docker-compose:development
+
+# docker build in development mode
+$ npm run docker-compose:development:build
+```
+
+### Format
+```bash
+$ npm run format
+```
+
+### Lint
+```bash
+$ npm run lint
+
+# Fix errors
+$ npm run lint -- --fix
+```
+
+### Migration
+It needs to generate migration files (`migration:create`, `migration:generate`).
+```bash
+$ ./node_modules/.bin/typeorm --help
+
+$ npm run migration:revert
+$ npm run migration:run
+```
+
+### Start
+```bash
+# development mode
 $ npm run start
 
-# watch mode
+# debuging mode
+$ npm run start:debug
+
+# continuous development mode
 $ npm run start:dev
 
 # production mode
 $ npm run start:prod
 ```
 
-## Test
 
+
+### Test
 ```bash
 # unit tests
 $ npm run test
 
+# test coverage
+$ npm run test:cov
+
+# unit debug tests
+$ npm run test:debug
+
 # e2e tests
 $ npm run test:e2e
 
-# test coverage
-$ npm run test:cov
+# continuous unit tests
+$ npm run test:watch
 ```
 
-## Support
+### Version
+```bash
+# changelog
+$ npm run version
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+# TODOs
 
-## Stay in touch
+See the [gitlab issues](https://gitlab.3re.ir/melobit/melo-api/issues).
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+# License
 
-## License
-
-  Nest is [MIT licensed](LICENSE).
+Api is [MIT licensed](LICENSE).
