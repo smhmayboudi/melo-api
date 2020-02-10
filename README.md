@@ -35,6 +35,11 @@ $ brew cask install visual-studio-code
 $ brew cask install skype
 ```
 
+# Enviroment
+
+* For personal use fillout [.env.sample](.env.sample) and rename it to `.env`.
+* For docker use fillout [.env.sample](.env.sample) and rename it to `.env.docker`.
+
 # Installation
 
 ```bash
