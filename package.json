@@ -22,7 +22,7 @@
     "start:prod": "node ./dist/main",
     "test": "jest --config ./jest.config.json",
     "test:cov": "jest --config ./jest.config.json --coverage",
-    "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register jest --config ./jest.config.json --runInBand",
+    "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register jest --config ./jest.config.json --detectOpenHandles --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:watch": "jest --config ./jest.config.json --watch",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
@@ -113,6 +113,7 @@
     "conventional-changelog-cli": "^2.0.31",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-jest": "^23.7.0",
     "eslint-plugin-prettier": "^3.1.2",
     "husky": "^4.2.1",
     "hygen": "^5.0.3",
