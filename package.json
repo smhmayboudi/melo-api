@@ -1,32 +1,5 @@
 {
-  "name": "melo-api",
-  "version": "0.0.1",
-  "description": "",
   "author": "",
-  "license": "MIT",
-  "scripts": {
-    "prebuild": "rimraf ./dist",
-    "build": "nest build",
-    "commit": "commit",
-    "docker-compose": "docker-compose -f docker-compose.yml up",
-    "docker-compose:build": "docker-compose -f docker-compose.yml build",
-    "docker-compose:development": "docker-compose -f docker-compose.development.yml up",
-    "docker-compose:development:build": "docker-compose -f docker-compose.development.yml build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "eslint --ext .ts ./src",
-    "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert",
-    "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
-    "start": "nest start",
-    "start:debug": "nest start --debug=0.0.0.0:9229 --watch",
-    "start:dev": "nest start --watch",
-    "start:prod": "node ./dist/main",
-    "test": "jest --config ./jest.config.json",
-    "test:cov": "jest --config ./jest.config.json --coverage",
-    "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register jest --config ./jest.config.json --detectOpenHandles --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "test:watch": "jest --config ./jest.config.json --watch",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
-  },
   "dependencies": {
     "@godaddy/terminus": "^4.3.1",
     "@nestjs/common": "^6.11.6",
@@ -77,6 +50,7 @@
     "typeorm": "^0.2.22",
     "uuid": "^3.4.0"
   },
+  "description": "",
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-angular": "^8.3.4",
@@ -126,5 +100,32 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.7.5"
-  }
+  },
+  "license": "MIT",
+  "name": "melo-api",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "commit": "commit",
+    "docker-compose": "docker-compose -f docker-compose.yml up",
+    "docker-compose:build": "docker-compose -f docker-compose.yml build",
+    "docker-compose:development": "docker-compose -f docker-compose.development.yml up",
+    "docker-compose:development:build": "docker-compose -f docker-compose.development.yml build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "lint": "eslint --ext .ts ./src",
+    "migration:revert": "ts-node ./node_modules/.bin/typeorm migration:revert",
+    "migration:run": "ts-node ./node_modules/.bin/typeorm migration:run",
+    "prebuild": "rimraf ./dist",
+    "start": "nest start",
+    "start:debug": "nest start --debug=0.0.0.0:9229 --watch",
+    "start:dev": "nest start --watch",
+    "start:prod": "node ./dist/main",
+    "test": "jest --config ./jest.config.json",
+    "test:cov": "jest --config ./jest.config.json --coverage",
+    "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register jest --config ./jest.config.json --detectOpenHandles --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:watch": "jest --config ./jest.config.json --watch",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+  },
+  "version": "0.0.1"
 }
