@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
@@ -9,6 +10,8 @@ import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 @Injectable()
 export class DataSearchService {
   constructor(
+    @InjectCounterMetric("data_counter")
+    private readonly counterMetric: CounterMetric,
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService
   ) {}
@@ -16,6 +19,11 @@ export class DataSearchService {
   async query(
     dto: DataSearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>> {
+    this.counterMetric.inc(
+      { module: "data", service: "search", function: "query" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(
         `${this.dataConfigService.url}/search/query/${dto.query}/${dto.from}/${dto.limit}`

@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -20,6 +21,16 @@ import { JwksService } from "./jwks.service";
       useClass: JwksCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "jwks counter",
+          labelNames: ["function", "module", "service"],
+          name: "jwks_counter"
+        }
+      }
+    ]),
     TypeOrmModule.forFeature([JwksEntityRepository])
   ],
   providers: [JwksConfigService, JwksHealthIndicator, JwksService]

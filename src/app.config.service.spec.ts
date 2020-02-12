@@ -38,6 +38,7 @@ describe("AppService", () => {
   test.todo("mangooseRetryDelay");
   test.todo("mangooseUri");
   test.todo("port");
+  test.todo("promClientPrefix");
   test.todo("rateLimitMax");
   test.todo("rateLimitWindowMs");
   test.todo("sentryDebug");

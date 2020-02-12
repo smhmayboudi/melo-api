@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DataModule } from "../data/data.module";
@@ -20,7 +21,17 @@ import { AlbumService } from "./album.service";
       useClass: AlbumCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    DataModule
+    DataModule,
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "album counter",
+          labelNames: ["function", "module", "service"],
+          name: "album_counter"
+        }
+      }
+    ])
   ],
   providers: [AlbumConfigService, AlbumHealthIndicator, AlbumService]
 })

@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -20,6 +21,16 @@ import { AtService } from "./at.service";
       useClass: AtCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "at counter",
+          labelNames: ["function", "module", "service"],
+          name: "at_counter"
+        }
+      }
+    ]),
     TypeOrmModule.forFeature([AtEntityRepository])
   ],
   providers: [AtConfigService, AtHealthIndicator, AtService]

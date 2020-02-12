@@ -65,7 +65,7 @@ export class AlbumController {
 
   @Get("latest/:language/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  async lstest(
+  async latest(
     @Param() dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.albumService.latest(dto);

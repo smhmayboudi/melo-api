@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -23,7 +24,17 @@ import { PlaylistService } from "./playlist.service";
     }),
     ConfigModule.forFeature(config),
     DataModule,
-    MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }])
+    MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }]),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "playlist counter",
+          labelNames: ["function", "module", "service"],
+          name: "playlist_counter"
+        }
+      }
+    ])
   ],
   providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService]
 })

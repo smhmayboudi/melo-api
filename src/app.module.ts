@@ -1,3 +1,4 @@
+import { PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -67,6 +68,20 @@ import { UserModule } from "./user/user.module";
       useClass: AppMongooseOptionsFactory
     }),
     PlaylistModule,
+    PromModule.forRoot({
+      // customUrl?: string;
+      // defaultLabels?: {
+      //   [key: string]: any,
+      // };
+      prefix: "melo_api_",
+      // register?: register;
+      // registryName?: string;
+      // timeout?: number;
+      // timestamps?: boolean;
+      useHttpCounterMiddleware: true,
+      withDefaultController: true,
+      withDefaultsMetrics: true
+    }),
     RelationModule,
     RtModule,
     SearchModule,

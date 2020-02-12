@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
@@ -11,6 +12,8 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 @Injectable()
 export class DataArtistService {
   constructor(
+    @InjectCounterMetric("data_counter")
+    private readonly counterMetric: CounterMetric,
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService
   ) {}
@@ -25,6 +28,11 @@ export class DataArtistService {
   async byIds(
     dto: DataArtistByIdsReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
+    this.counterMetric.inc(
+      { module: "data", service: "artist", function: "byIds" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(`${this.dataConfigService.url}/artist/byIds`, {
         params: {
@@ -41,6 +49,11 @@ export class DataArtistService {
   }
 
   async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
+    this.counterMetric.inc(
+      { module: "data", service: "artist", function: "trending" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(`${this.dataConfigService.url}/artist/trending`)
       .pipe(
@@ -55,6 +68,11 @@ export class DataArtistService {
   async trendingGenre(
     dto: DataTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
+    this.counterMetric.inc(
+      { module: "data", service: "artist", function: "trendingGenre" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(`${this.dataConfigService.url}/artist/trending/genre/${dto.genre}`)
       .pipe(

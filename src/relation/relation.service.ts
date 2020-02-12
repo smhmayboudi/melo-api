@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import {
   HttpService,
   Injectable,
@@ -26,13 +27,20 @@ export class RelationService {
   }
 
   constructor(
-    private readonly relationConfigService: RelationConfigService,
-    private readonly httpService: HttpService
+    @InjectCounterMetric("relation_counter")
+    private readonly counterMetric: CounterMetric,
+    private readonly httpService: HttpService,
+    private readonly relationConfigService: RelationConfigService
   ) {}
 
   async get(
     dto: RelationGetReqDto
   ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
+    this.counterMetric.inc(
+      { module: "relation", service: "relation", function: "get" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(
         `${this.relationConfigService.url}/get/${this.key(dto.fromEntityDto)}/${
@@ -50,6 +58,11 @@ export class RelationService {
   }
 
   async has(dto: RelationHasReqDto): Promise<void> {
+    this.counterMetric.inc(
+      { module: "relation", service: "relation", function: "has" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(
         `${this.relationConfigService.url}/has/${this.key(dto.from)}/${this.key(
@@ -69,6 +82,11 @@ export class RelationService {
   async multiHas(
     dto: RelationMultiHasReqDto
   ): Promise<RelationMultiHasResDto[]> {
+    this.counterMetric.inc(
+      { module: "relation", service: "relation", function: "multiHas" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(
         `${this.relationConfigService.url}/multiHas/${this.key(
@@ -80,6 +98,11 @@ export class RelationService {
   }
 
   async remove(dto: RelationRemoveReqDto): Promise<void> {
+    this.counterMetric.inc(
+      { module: "relation", service: "relation", function: "remove" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .delete(`${this.relationConfigService.url}/remove`, {
         data: {
@@ -99,6 +122,11 @@ export class RelationService {
   }
 
   async set(dto: RelationSetReqDto): Promise<void> {
+    this.counterMetric.inc(
+      { module: "relation", service: "relation", function: "set" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .post(`${this.relationConfigService.url}/set`, {
         createdAt: dto.createdAt,

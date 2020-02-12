@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
@@ -25,6 +26,7 @@ import { TokenStrategy } from "./token.strategy";
   exports: [AuthConfigService, AuthHealthIndicator, AuthService],
   imports: [
     forwardRef(() => AppModule),
+    AtModule,
     ConfigModule.forFeature(config),
     JwksModule,
     JwtModule.registerAsync({
@@ -37,7 +39,16 @@ import { TokenStrategy } from "./token.strategy";
       imports: [AuthModule],
       useClass: AuthAuthOptionsFactory
     }),
-    AtModule,
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "auth counter",
+          labelNames: ["function", "module", "service"],
+          name: "auth_counter"
+        }
+      }
+    ]),
     RtModule,
     UserModule
   ],

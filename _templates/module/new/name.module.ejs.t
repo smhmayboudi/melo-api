@@ -2,6 +2,7 @@
 to: src/<%= h.changeCase.camel(name)%>/<%= h.changeCase.dot(name)%>.module.ts
 unless_exists: true
 ---
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -25,6 +26,16 @@ import { <%= h.changeCase.pascal(name)%>Service } from "./<%= h.changeCase.dot(n
       useClass: <%= h.changeCase.pascal(name)%>CacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "<%= h.changeCase.humanize(name, true)%> counter",
+          labelNames: ["function", "module", "service"],
+          name: "<%= h.changeCase.underscore(name)%>_counter"
+        }
+      }
+    ]),
     TypeOrmModule.forFeature([<%= h.changeCase.pascal(name)%>EntityRepository])
   ],
   providers: [<%= h.changeCase.pascal(name)%>ConfigService, <%= h.changeCase.pascal(name)%>Service]

@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable } from "@nestjs/common";
 import { AppMixSongService } from "../app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
@@ -13,6 +14,8 @@ export class AlbumService {
   constructor(
     private readonly appMixSongService: AppMixSongService,
     private readonly artistMixArtistService: AppMixArtistService,
+    @InjectCounterMetric("album_counter")
+    private readonly counterMetric: CounterMetric,
     private readonly dataAlbumService: DataAlbumService
   ) {}
 
@@ -21,6 +24,11 @@ export class AlbumService {
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    this.counterMetric.inc(
+      { module: "album", service: "album", function: "artistAlbums" },
+      1,
+      Date.now()
+    );
     const albumResDto = await this.dataAlbumService.albums({
       ...dto,
       id: artistId
@@ -50,6 +58,11 @@ export class AlbumService {
     id: number,
     sub: number
   ): Promise<DataAlbumResDto> {
+    this.counterMetric.inc(
+      { module: "album", service: "album", function: "byId" },
+      1,
+      Date.now()
+    );
     const dataAlbumResDto = await this.dataAlbumService.byId({ ...dto, id });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -64,6 +77,11 @@ export class AlbumService {
   async latest(
     dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    return this.dataAlbumService.lstest({ ...dto });
+    this.counterMetric.inc(
+      { module: "album", service: "album", function: "latest" },
+      1,
+      Date.now()
+    );
+    return this.dataAlbumService.latest({ ...dto });
   }
 }

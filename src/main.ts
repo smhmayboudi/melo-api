@@ -26,7 +26,7 @@ async function bootstrap(): Promise<void> {
       windowMs: appConfigService.rateLimitWindowMs
     })
   );
-  const options = new DocumentBuilder()
+  const documentBuilder = new DocumentBuilder()
     .addBasicAuth(
       {
         description: "It is used for login procedure.",
@@ -65,7 +65,7 @@ async function bootstrap(): Promise<void> {
     .setTitle("melo api")
     .setVersion("1.0")
     .build();
-  const document = SwaggerModule.createDocument(app, options);
+  const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup("api", app, document, {
     explorer: false,
     // customfavIcon?: string;

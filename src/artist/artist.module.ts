@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app.module";
@@ -22,6 +23,16 @@ import { RelationModule } from "../relation/relation.module";
     }),
     ConfigModule.forFeature(config),
     DataModule,
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "artist counter",
+          labelNames: ["function", "module", "service"],
+          name: "artist_counter"
+        }
+      }
+    ]),
     RelationModule
   ],
   providers: [ArtistConfigService, ArtistHealthIndicator, ArtistService]

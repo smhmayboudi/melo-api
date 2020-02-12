@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import cryptoRandomString from "crypto-random-string";
@@ -13,12 +14,19 @@ import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 export class AuthService {
   constructor(
     private readonly authConfigService: AuthConfigService,
+    @InjectCounterMetric("auth_counter")
+    private readonly counterMetric: CounterMetric,
     private readonly jwksService: JwksService,
     private readonly jwtService: JwtService,
     private readonly rtService: RtService
   ) {}
 
   async accessToken(sub: number): Promise<AuthAccessTokenResDto | undefined> {
+    this.counterMetric.inc(
+      { module: "auth", service: "auth", function: "accessToken" },
+      1,
+      Date.now()
+    );
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();
@@ -37,6 +45,11 @@ export class AuthService {
   }
 
   async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
+    this.counterMetric.inc(
+      { module: "auth", service: "auth", function: "refreshToken" },
+      1,
+      Date.now()
+    );
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();

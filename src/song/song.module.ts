@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { UserModule } from "../user/user.module";
@@ -29,6 +30,16 @@ import { SongService } from "./song.service";
       imports: [SongModule],
       useClass: SongHttpModuleOptionsFactory
     }),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "song counter",
+          labelNames: ["function", "module", "service"],
+          name: "song_counter"
+        }
+      }
+    ]),
     RelationModule,
     UserModule
   ],

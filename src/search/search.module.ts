@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DataModule } from "../data/data.module";
@@ -22,6 +23,16 @@ import { SongModule } from "../song/song.module";
     }),
     ConfigModule.forFeature(config),
     DataModule,
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "search counter",
+          labelNames: ["function", "module", "service"],
+          name: "search_counter"
+        }
+      }
+    ]),
     SongModule
   ],
   providers: [SearchConfigService, SearchHealthIndicator, SearchService]

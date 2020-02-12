@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DataAlbumService } from "./data.album.service";
@@ -27,7 +28,17 @@ import { DataSongService } from "./data.song.service";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [DataModule],
       useClass: DataHttpModuleOptionsFactory
-    })
+    }),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "data counter",
+          labelNames: ["function", "module", "service"],
+          name: "data_counter"
+        }
+      }
+    ])
   ],
   providers: [
     DataAlbumService,

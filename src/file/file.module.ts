@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MulterModule } from "@nestjs/platform-express";
@@ -28,6 +29,16 @@ import { FileService } from "./file.service";
       imports: [FileModule],
       useClass: FileMulterOptionsFactory
     }),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "file counter",
+          labelNames: ["function", "module", "service"],
+          name: "file_counter"
+        }
+      }
+    ]),
     TypeOrmModule.forFeature([FileEntityRepository])
   ],
   providers: [FileConfigService, FileHealthIndicator, FileService]

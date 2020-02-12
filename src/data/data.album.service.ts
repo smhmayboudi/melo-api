@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
@@ -11,6 +12,8 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 @Injectable()
 export class DataAlbumService {
   constructor(
+    @InjectCounterMetric("data_counter")
+    private readonly counterMetric: CounterMetric,
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService
   ) {}
@@ -18,6 +21,11 @@ export class DataAlbumService {
   async albums(
     dto: DataAlbumArtistsReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    this.counterMetric.inc(
+      { module: "data", service: "album", function: "albums" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(
         `${this.dataConfigService.url}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
@@ -32,15 +40,25 @@ export class DataAlbumService {
   }
 
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
+    this.counterMetric.inc(
+      { module: "data", service: "album", function: "byId" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(`${this.dataConfigService.url}/album/${dto.id}`)
       .pipe(map((value: AxiosResponse<DataAlbumResDto>) => value.data))
       .toPromise();
   }
 
-  async lstest(
+  async latest(
     dto: DataAlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
+    this.counterMetric.inc(
+      { module: "data", service: "album", function: "latest" },
+      1,
+      Date.now()
+    );
     return this.httpService
       .get(
         `${this.dataConfigService.url}/album/latest/${dto.language}/${dto.from}/${dto.limit}`

@@ -1,3 +1,4 @@
+import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import aws from "aws-sdk";
@@ -17,6 +18,8 @@ export class FileService {
   private readonly s3: aws.S3;
 
   constructor(
+    @InjectCounterMetric("file_counter")
+    private readonly counterMetric: CounterMetric,
     private readonly fileConfigService: FileConfigService,
     @InjectRepository(FileEntity)
     private readonly fileEntityRepository: FileEntityRepository
@@ -37,6 +40,11 @@ export class FileService {
     dto: FileUploadImageReqDto,
     sub: number
   ): Promise<FileUploadImageResDto> {
+    this.counterMetric.inc(
+      { module: "file", service: "file", function: "uploadImage" },
+      1,
+      Date.now()
+    );
     if (dto === undefined) {
       throw new BadRequestException();
     }

@@ -1,3 +1,4 @@
+import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app.module";
@@ -18,7 +19,17 @@ import { ActionService } from "./action.service";
       imports: [ActionModule],
       useClass: ActionCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    PromModule.forMetrics([
+      {
+        type: MetricType.Counter,
+        configuration: {
+          help: "action counter",
+          labelNames: ["function", "module", "service"],
+          name: "action_counter"
+        }
+      }
+    ])
   ],
   providers: [ActionConfigService, ActionHealthIndicator, ActionService]
 })
