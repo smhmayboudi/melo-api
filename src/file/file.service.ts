@@ -11,6 +11,7 @@ import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
+import { FileModule } from "./file.module";
 
 @Injectable()
 export class FileService {
@@ -40,11 +41,11 @@ export class FileService {
     dto: FileUploadImageReqDto,
     sub: number
   ): Promise<FileUploadImageResDto> {
-    this.counterMetric.inc(
-      { module: "file", service: "file", function: "uploadImage" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: FileModule.name,
+      service: FileService.name,
+      function: this.uploadImage.name
+    });
     if (dto === undefined) {
       throw new BadRequestException();
     }

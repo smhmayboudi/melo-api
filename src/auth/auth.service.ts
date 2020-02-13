@@ -7,6 +7,7 @@ import uuidv4 from "uuid/v4";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
+import { AuthModule } from "./auth.module";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
@@ -22,11 +23,11 @@ export class AuthService {
   ) {}
 
   async accessToken(sub: number): Promise<AuthAccessTokenResDto | undefined> {
-    this.counterMetric.inc(
-      { module: "auth", service: "auth", function: "accessToken" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: AuthModule.name,
+      service: AuthService.name,
+      function: this.accessToken.name
+    });
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();
@@ -45,11 +46,11 @@ export class AuthService {
   }
 
   async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
-    this.counterMetric.inc(
-      { module: "auth", service: "auth", function: "refreshToken" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: AuthModule.name,
+      service: AuthService.name,
+      function: this.refreshToken.name
+    });
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();

@@ -3,6 +3,7 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
+import { DataModule } from "./data.module";
 import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "./dto/res/data.search.res.dto";
@@ -19,11 +20,11 @@ export class DataSearchService {
   async query(
     dto: DataSearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "search", function: "query" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSearchService.name,
+      function: this.query.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/search/query/${dto.query}/${dto.from}/${dto.limit}`

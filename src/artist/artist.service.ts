@@ -12,6 +12,7 @@ import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 import { AppMixArtistService } from "../app.mix-artist.service";
+import { ArtistModule } from "./artist.module";
 
 @Injectable()
 export class ArtistService {
@@ -28,11 +29,11 @@ export class ArtistService {
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    this.counterMetric.inc(
-      { module: "artist", service: "artist", function: "follow" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: ArtistModule.name,
+      service: ArtistService.name,
+      function: this.follow.name
+    });
     const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.set({
       createdAt: new Date(),
@@ -53,11 +54,11 @@ export class ArtistService {
     dto: ArtistFollowingReqDto,
     id: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    this.counterMetric.inc(
-      { module: "artist", service: "artist", function: "following" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: ArtistModule.name,
+      service: ArtistService.name,
+      function: this.following.name
+    });
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
@@ -77,11 +78,11 @@ export class ArtistService {
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    this.counterMetric.inc(
-      { module: "artist", service: "artist", function: "profile" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: ArtistModule.name,
+      service: ArtistService.name,
+      function: this.profile.name
+    });
     const artistResDto = await this.dataArtistService.byId({ ...dto, id });
     const dataArtistResDto = await this.artistMixArtistService.mixArtist(sub, [
       artistResDto
@@ -90,11 +91,11 @@ export class ArtistService {
   }
 
   async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {
-    this.counterMetric.inc(
-      { module: "artist", service: "artist", function: "trending" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: ArtistModule.name,
+      service: ArtistService.name,
+      function: this.trending.name
+    });
     const artistMixResDto = await this.dataArtistService.trending();
     const results = await this.artistMixArtistService.mixArtist(
       sub,
@@ -110,11 +111,11 @@ export class ArtistService {
     dto: ArtistTrendingGenreReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    this.counterMetric.inc(
-      { module: "artist", service: "artist", function: "trendingGenre" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: ArtistModule.name,
+      service: ArtistService.name,
+      function: this.trendingGenre.name
+    });
     const artistMixResDto = await this.dataArtistService.trendingGenre({
       ...dto
     });
@@ -133,11 +134,11 @@ export class ArtistService {
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    this.counterMetric.inc(
-      { module: "artist", service: "artist", function: "unfollow" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: ArtistModule.name,
+      service: ArtistService.name,
+      function: this.unfollow.name
+    });
     const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.remove({
       from: {

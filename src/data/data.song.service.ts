@@ -19,6 +19,7 @@ import { DataSongTopDayReqDto } from "./dto/req/data.song.top-day.req.dto";
 import { DataSongTopWeekReqDto } from "./dto/req/data.song.top-week.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
+import { DataModule } from "./data.module";
 
 @Injectable()
 export class DataSongService {
@@ -32,11 +33,11 @@ export class DataSongService {
   async artistSongs(
     dto: DataSongArtistsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "artistSongs" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.artistSongs.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
@@ -53,11 +54,11 @@ export class DataSongService {
   async artistSongsTop(
     dto: DataSongArtistSongsTopReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "artistSongsTop" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.artistSongsTop.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
@@ -72,11 +73,11 @@ export class DataSongService {
   }
 
   async byId(dto: DataSongByIdReqDto): Promise<DataSongResDto> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "byId" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.byId.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/song/byId/${dto.id}`)
       .pipe(map((value: AxiosResponse<DataSongResDto>) => value.data))
@@ -86,11 +87,11 @@ export class DataSongService {
   async byIds(
     dto: DataSongByIdsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "byIds" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.byIds.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/song/byIds`, {
         params: {
@@ -109,11 +110,11 @@ export class DataSongService {
   async genre(
     dto: DataSongGenreReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "genre" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.genre.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/genre/${dto.orderBy}/${dto.from}/${dto.limit}`,
@@ -135,11 +136,11 @@ export class DataSongService {
   async language(
     dto: DataSongLanguageReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "language" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.language.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
@@ -156,11 +157,11 @@ export class DataSongService {
   async mood(
     dto: DataSongMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "mood" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.mood.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
@@ -177,11 +178,11 @@ export class DataSongService {
   async new(
     dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "new" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.new.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/song/new/${dto.from}/${dto.limit}`)
       .pipe(
@@ -196,11 +197,11 @@ export class DataSongService {
   async newPodcast(
     dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "newPodcast" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.newPodcast.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/new/podcast/${dto.from}/${dto.limit}`
@@ -217,11 +218,11 @@ export class DataSongService {
   async podcast(
     dto: DataSongPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "podcast" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.podcast.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
@@ -243,11 +244,11 @@ export class DataSongService {
   async searchMood(
     dto: DataSongSearchMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "searchMood" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.searchMood.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/search/mood/${dto.from}/${dto.limit}`,
@@ -273,11 +274,11 @@ export class DataSongService {
   async similar(
     dto: DataSongSimilarReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "similar" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.similar.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/similar/${dto.id}/${dto.from}/${dto.limit}`
@@ -292,11 +293,11 @@ export class DataSongService {
   }
 
   async slider(): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "slider" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.slider.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/song/slider/latest`)
       .pipe(
@@ -311,11 +312,11 @@ export class DataSongService {
   async topDay(
     dto: DataSongTopDayReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "topDay" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.topDay.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/top/day/${dto.from}/${dto.limit}`
@@ -332,11 +333,11 @@ export class DataSongService {
   async topWeek(
     dto: DataSongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "song", function: "topWeek" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataSongService.name,
+      function: this.topWeek.name
+    });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/song/top/week/${dto.from}/${dto.limit}`

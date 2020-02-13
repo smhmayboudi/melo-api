@@ -19,6 +19,7 @@ import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistConfigService } from "./playlist.config.service";
+import { PlaylistModule } from "./playlist.module";
 import { Playlist } from "./type/playlist";
 
 @Injectable()
@@ -37,11 +38,11 @@ export class PlaylistService {
     dto: PlaylistAddSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "addSong" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.addSong.name
+    });
     const playlist = await this.playlistModel.findById(
       new Types.ObjectId(dto.playlistId)
     );
@@ -73,11 +74,11 @@ export class PlaylistService {
     dto: PlaylistCreateReqDto,
     sub: number
   ): Promise<DataPlaylistResDto> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "create" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.create.name
+    });
     const playlist = await new this.playlistModel({
       download_count: 0,
       followers_count: 0,
@@ -106,11 +107,11 @@ export class PlaylistService {
     dto: PlaylistDeleteReqDto,
     sub: number
   ): Promise<DataPlaylistResDto> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "delete" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.delete.name
+    });
     const query: any = {
       $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
     };
@@ -139,11 +140,11 @@ export class PlaylistService {
   }
 
   async edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "edit" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.edit.name
+    });
     const playlist = await this.playlistModel.findById(Types.ObjectId(dto.id));
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
@@ -173,11 +174,11 @@ export class PlaylistService {
     dto: PlaylistSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "deleteSong" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.deleteSong.name
+    });
     const playlist = await this.playlistModel.findById(dto.playlistId);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
@@ -207,11 +208,11 @@ export class PlaylistService {
   }
 
   async get(dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "get" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.get.name
+    });
     const playlist = await this.playlistModel.findById(dto.id);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
@@ -240,11 +241,11 @@ export class PlaylistService {
     dto: PlaylistMyReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "my" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.my.name
+    });
     const playlists = await this.playlistModel
       .find({ owner_user_id: sub })
       .skip(parseInt(dto.from.toString(), 10))
@@ -279,11 +280,11 @@ export class PlaylistService {
   async top(
     dto: PlaylistTopReqDto
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
-    this.counterMetric.inc(
-      { module: "playlist", service: "playlist", function: "top" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: PlaylistModule.name,
+      service: PlaylistService.name,
+      function: this.top.name
+    });
     const playlists = await this.playlistModel
       .find()
       .skip(parseInt(dto.from.toString(), 10))

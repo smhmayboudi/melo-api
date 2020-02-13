@@ -3,6 +3,7 @@ import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { DataConfigService } from "./data.config.service";
+import { DataModule } from "./data.module";
 import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
 import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
 import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
@@ -28,11 +29,11 @@ export class DataArtistService {
   async byIds(
     dto: DataArtistByIdsReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "artist", function: "byIds" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataArtistService.name,
+      function: this.byIds.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/artist/byIds`, {
         params: {
@@ -49,11 +50,11 @@ export class DataArtistService {
   }
 
   async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "artist", function: "trending" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataArtistService.name,
+      function: this.trending.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/artist/trending`)
       .pipe(
@@ -68,11 +69,11 @@ export class DataArtistService {
   async trendingGenre(
     dto: DataTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    this.counterMetric.inc(
-      { module: "data", service: "artist", function: "trendingGenre" },
-      1,
-      Date.now()
-    );
+    this.counterMetric.inc({
+      module: DataModule.name,
+      service: DataArtistService.name,
+      function: this.trendingGenre.name
+    });
     return this.httpService
       .get(`${this.dataConfigService.url}/artist/trending/genre/${dto.genre}`)
       .pipe(
