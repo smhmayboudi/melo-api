@@ -43,12 +43,10 @@ export class <%= h.changeCase.pascal(name)%>ConfigService {
   }
 
   get cacheTTL(): number {
-    return (
-      ms(
-        this.configService.get<string>(
-          "<%= h.changeCase.camel(name)%>.cacheTTL",
-          ms(this.appConfigService.cacheTTL)
-        )
+    return ms(
+      this.configService.get<string>(
+        "apm.cacheTTL",
+        ms(this.appConfigService.cacheTTL)
       )
     );
   }
