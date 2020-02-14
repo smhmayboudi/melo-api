@@ -12,7 +12,7 @@ import config from "./<%= h.changeCase.dot(name)%>.config";
 import { <%= h.changeCase.pascal(name)%>ConfigService } from "./<%= h.changeCase.dot(name)%>.config.service";
 import { <%= h.changeCase.pascal(name)%>EntityRepository } from "./<%= h.changeCase.dot(name)%>.entity.repository";
 import { <%= h.changeCase.pascal(name)%>Controller } from "./<%= h.changeCase.dot(name)%>.controller";
-import { <%= h.changeCase.pascal(name)%>HealthIndicator } from "./action.health";
+import { <%= h.changeCase.pascal(name)%>HealthIndicator } from "./<%= h.changeCase.dot(name)%>.indicator";
 import { <%= h.changeCase.pascal(name)%>Service } from "./<%= h.changeCase.dot(name)%>.service";
 
 @Module({
@@ -30,9 +30,9 @@ import { <%= h.changeCase.pascal(name)%>Service } from "./<%= h.changeCase.dot(n
       {
         type: MetricType.Counter,
         configuration: {
-          help: "<%= h.changeCase.humanize(name, true)%> counter",
+          help: "<%= h.inflection.humanize(name, true)%> counter",
           labelNames: ["function", "module", "service"],
-          name: "<%= h.changeCase.underscore(name)%>_counter"
+          name: "<%= h.inflection.underscore(name)%>_counter"
         }
       }
     ]),
