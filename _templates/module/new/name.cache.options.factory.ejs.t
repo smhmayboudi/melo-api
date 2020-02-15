@@ -7,7 +7,7 @@ import {
   CacheOptionsFactory,
   Injectable
 } from "@nestjs/common";
-import redisStore from "cache-manager-redis-store";
+import redisStore from "cache-manager-ioredis";
 import { <%= h.changeCase.pascal(name)%>ConfigService } from "./<%= h.changeCase.dot(name)%>.config.service";
 
 @Injectable()
