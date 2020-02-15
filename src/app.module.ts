@@ -7,9 +7,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { SentryModule } from "@ntegral/nestjs-sentry";
 import { ActionModule } from "./action/action.module";
 import { AlbumModule } from "./album/album.module";
+import { ApmModule } from "./apm/apm.module";
+import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
+import { PATH_METRICS } from "./app.constant";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
@@ -46,6 +49,11 @@ import { UserModule } from "./user/user.module";
     AppService
   ],
   imports: [
+    ApmModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [AppModule],
+      useClass: AppApmOptionsFactory
+    }),
     ActionModule,
     AlbumModule,
     ArtistModule,
@@ -69,10 +77,10 @@ import { UserModule } from "./user/user.module";
     }),
     PlaylistModule,
     PromModule.forRoot({
-      // customUrl?: string;
-      // defaultLabels?: {
-      //   [key: string]: any,
-      // };
+      customUrl: PATH_METRICS,
+      defaultLabels: {
+        serviceName: "melo_api"
+      },
       prefix: "melo_api_",
       // register?: register;
       // registryName?: string;
@@ -95,6 +103,7 @@ import { UserModule } from "./user/user.module";
       imports: [
         ActionModule,
         AlbumModule,
+        ApmModule,
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         AppModule,
         ArtistModule,

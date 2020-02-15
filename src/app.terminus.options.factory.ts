@@ -8,6 +8,7 @@ import {
 } from "@nestjs/terminus";
 import { ActionHealthIndicator } from "./action/action.health.indicator";
 import { AlbumHealthIndicator } from "./album/album.health.indicator";
+import { PATH_HEALTH } from "./app.constant";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { ArtistHealthIndicator } from "./artist/artist.health.indicator";
 import { AtHealthIndicator } from "./at/at.health.indicator";
@@ -47,7 +48,7 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
 
   createTerminusOptions(): TerminusModuleOptions {
     const healthEndpoint: TerminusEndpoint = {
-      url: "/health",
+      url: PATH_HEALTH,
       healthIndicators: [
         async (): Promise<HealthIndicatorResult> =>
           this.actionHealthIndicator.isHealthy(),

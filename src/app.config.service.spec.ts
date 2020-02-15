@@ -19,6 +19,10 @@ describe("AppService", () => {
     expect(service).toBeDefined();
   });
 
+  test.todo("apmLogLevel");
+  test.todo("apmSecretToken");
+  test.todo("apmServerUrl");
+  test.todo("apmServiceName");
   test.todo("cacheHost");
   test.todo("cacheMax");
   test.todo("cachePort");

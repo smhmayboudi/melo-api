@@ -9,6 +9,22 @@ import { ImgProxyImageTypeSize } from "./type/ImgProxyImageTypeSize";
 export class AppConfigService {
   constructor(private readonly configService: ConfigService) {}
 
+  get apmLogLevel(): string {
+    return this.configService.get<string>("app.apmLogLevel", "");
+  }
+
+  get apmSecretToken(): string {
+    return this.configService.get<string>("app.apmSecretToken", "");
+  }
+
+  get apmServerUrl(): string {
+    return this.configService.get<string>("app.apmServerUrl", "");
+  }
+
+  get apmServiceName(): string {
+    return this.configService.get<string>("app.apmServiceName", "");
+  }
+
   get cacheHost(): string {
     return this.configService.get<string>("app.cacheHost", "");
   }

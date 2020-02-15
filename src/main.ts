@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import { start } from "elastic-apm-node";
 // import csurf from "csurf";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
@@ -16,6 +17,12 @@ async function bootstrap(): Promise<void> {
     logger: ["log", "error", "warn", "debug", "verbose"]
   });
   const appConfigService = app.get(AppConfigService);
+  // Add this to the VERY top of the first file loaded in your app
+  start({
+    serviceName: appConfigService.apmServiceName,
+    secretToken: appConfigService.apmSecretToken,
+    serverUrl: appConfigService.apmServerUrl
+  });
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   // app.use(csurf({ cookie: true }));
