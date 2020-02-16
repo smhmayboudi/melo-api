@@ -1,6 +1,6 @@
 import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable } from "@nestjs/common";
-import { AppImgProxyService } from "../app.img-proxy.service";
+import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { ConstConfigService } from "./const.config.service";
 import { ConstModule } from "./const.module";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";

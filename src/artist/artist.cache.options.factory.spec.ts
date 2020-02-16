@@ -1,7 +1,7 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import config from "./artist.config";
 import { ArtistConfigService } from "./artist.config.service";

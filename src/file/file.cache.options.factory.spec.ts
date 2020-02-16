@@ -3,7 +3,7 @@ import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import { FileConfigService } from "./file.config.service";
 import config from "./file.config";
 import { forwardRef } from "@nestjs/common";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 
 describe("FileCacheOptionsFactory", () => {

@@ -2,7 +2,7 @@ import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import config from "./user.config";
 import { UserConfigService } from "./user.config.service";

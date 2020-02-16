@@ -3,7 +3,7 @@ import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MulterModule } from "@nestjs/platform-express";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import config from "./file.config";
 import { FileConfigService } from "./file.config.service";

@@ -2,7 +2,7 @@ import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";

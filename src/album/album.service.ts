@@ -1,7 +1,7 @@
 import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable } from "@nestjs/common";
-import { AppMixArtistService } from "../app.mix-artist.service";
-import { AppMixSongService } from "../app.mix-song.service";
+import { AppMixArtistService } from "../app/app.mix-artist.service";
+import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";

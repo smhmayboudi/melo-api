@@ -2,7 +2,7 @@ import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import config from "./at.config";
 import { AtConfigService } from "./at.config.service";

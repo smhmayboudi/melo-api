@@ -2,7 +2,7 @@ import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import config from "./jwks.config";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksService } from "./jwks.service";

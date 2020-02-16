@@ -7,22 +7,24 @@ import { start } from "elastic-apm-node";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import "source-map-support/register";
-import { AppConfigService } from "./app.config.service";
-import { AppModule } from "./app.module";
+import { AppConfigService } from "./app/app.config.service";
+import { AppModule } from "./app/app.module";
+import { LogLevel } from "./apm/apm.module.interface";
 
 async function bootstrap(): Promise<void> {
+  // Add this to the VERY top of the first file loaded in your app
+  start({
+    logLevel: process.env.APP_APM_LOG_LEVEL as LogLevel,
+    serviceName: process.env.APP_APM_SERVICE_NAME,
+    secretToken: process.env.APP_APM_SECRET_TOKEN,
+    serverUrl: process.env.APP_APM_SERVER_URL
+  });
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
     cors: true,
     logger: ["log", "error", "warn", "debug", "verbose"]
   });
   const appConfigService = app.get(AppConfigService);
-  // Add this to the VERY top of the first file loaded in your app
-  start({
-    serviceName: appConfigService.apmServiceName,
-    secretToken: appConfigService.apmSecretToken,
-    serverUrl: appConfigService.apmServerUrl
-  });
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(cookieParser());
   // app.use(csurf({ cookie: true }));

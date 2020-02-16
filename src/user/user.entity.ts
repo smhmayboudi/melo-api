@@ -9,7 +9,7 @@ import {
   IsPhoneNumber
 } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { UserGenderType } from "./type/user.gender-type";
+import { UserGenderType } from "./user.gender.type";
 
 @Entity({ name: "users", orderBy: { id: "ASC" } })
 export class UserEntity {

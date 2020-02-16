@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Get,
   ParseIntPipe,
@@ -12,9 +11,8 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { User } from "../decorator/user.decorator";
-import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { HttpCacheInterceptor } from "../interceptor/http.cache.interceptor";
+import { AppHttpCacheInterceptor } from "../app/app.http-cache.interceptor";
+import { AppUser } from "../app/app.user.decorator";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserService } from "./user.service";
@@ -23,7 +21,6 @@ import { UserService } from "./user.service";
 @ApiTags("user")
 @Controller("user")
 @UseGuards(AuthGuard("jwt"))
-@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -35,14 +32,14 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @UseInterceptors(HttpCacheInterceptor)
+  @UseInterceptors(AppHttpCacheInterceptor)
   async find(): Promise<UserUserResDto[]> {
     return this.userService.find();
   }
 
   @Get("profile")
   async get(
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<UserUserResDto | undefined> {
     return this.userService.get(sub);
   }
@@ -50,7 +47,7 @@ export class UserController {
   @Put("profile")
   async edit(
     @Body() dto: UserEditReqDto,
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<UserUserResDto> {
     return this.userService.put(dto, sub);
   }

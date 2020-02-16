@@ -2,7 +2,7 @@ import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { config } from "process";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { ArtistConfigService } from "./artist.config.service";
 
 describe("ArtistService", () => {

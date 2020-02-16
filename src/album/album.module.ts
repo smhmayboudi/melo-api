@@ -2,7 +2,7 @@ import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DataModule } from "../data/data.module";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import config from "./album.config";
 import { AlbumConfigService } from "./album.config.service";

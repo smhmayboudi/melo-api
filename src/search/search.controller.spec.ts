@@ -2,7 +2,7 @@ import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { DataModule } from "../data/data.module";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import config from "./search.config";
 import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";

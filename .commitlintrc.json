@@ -11,15 +11,12 @@
       "always",
       [
         "build",
-        "chore",
         "ci",
         "docs",
         "feat",
         "fix",
         "perf",
         "refactor",
-        "revert",
-        "sample",
         "style",
         "test"
       ]

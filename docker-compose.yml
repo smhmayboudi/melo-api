@@ -20,6 +20,8 @@ services:
       - discovery.type=single-node
     image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
     restart: always
+    volumes: 
+      - ./temp/elasticsearch:/usr/share/elasticsearch/data
   kibana:
     depends_on:
       - elasticsearch
@@ -64,7 +66,7 @@ services:
       - mongo
       - mysql
       - redis
-      env_file:
+    env_file:
       - .env.docker-compose
     links:
       - apm-server:apm-server

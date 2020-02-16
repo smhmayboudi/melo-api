@@ -1,5 +1,4 @@
 import {
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -7,21 +6,18 @@ import {
   ParseIntPipe,
   Post,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { User } from "../decorator/user.decorator";
-import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { AppUser } from "../app/app.user.decorator";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 
 @ApiTags("auth")
 @Controller("auth")
-@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -38,7 +34,7 @@ export class AuthController {
   @ApiBearerAuth("jwt")
   @Get("test")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  test(@User("sub", ParseIntPipe) sub: number): any {
+  test(@AppUser("sub", ParseIntPipe) sub: number): any {
     return { sub };
   }
 
@@ -46,7 +42,7 @@ export class AuthController {
   @Post("login")
   @UseGuards(AuthGuard("local"))
   async login(
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<AuthAccessTokenResDto | undefined> {
     return this.authService.refreshToken(sub);
   }
@@ -62,7 +58,7 @@ export class AuthController {
   @Post("telegram/callback")
   @UseGuards(AuthGuard("telegram"))
   async telegram(
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<AuthAccessTokenResDto | undefined> {
     return this.authService.refreshToken(sub);
   }
@@ -71,7 +67,7 @@ export class AuthController {
   @Post("token")
   @UseGuards(AuthGuard("token"))
   async token(
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<AuthAccessTokenResDto | undefined> {
     return this.authService.accessToken(sub);
   }

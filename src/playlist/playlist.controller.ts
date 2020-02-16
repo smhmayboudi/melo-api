@@ -1,6 +1,5 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -8,7 +7,6 @@ import {
   ParseIntPipe,
   Post,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
@@ -16,9 +14,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
-import { User } from "../decorator/user.decorator";
-import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { HashIdPipe } from "../pipe/hash-id.pipe";
+import { AppUser } from "../app/app.user.decorator";
+import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
@@ -32,7 +29,6 @@ import { PlaylistService } from "./playlist.service";
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")
-@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -51,7 +47,7 @@ export class PlaylistController {
   @UseGuards(AuthGuard("jwt"))
   async addSong(
     @Body() dto: PlaylistAddSongReqDto,
-    @Body("songId", HashIdPipe) songId: number
+    @Body("songId", AppHashIdPipe) songId: number
   ): Promise<DataPlaylistResDto> {
     return this.playlistService.addSong(dto, songId);
   }
@@ -60,7 +56,7 @@ export class PlaylistController {
   @UseGuards(AuthGuard("jwt"))
   async create(
     @Body() dto: PlaylistCreateReqDto,
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPlaylistResDto> {
     return this.playlistService.create(dto, sub);
   }
@@ -69,7 +65,7 @@ export class PlaylistController {
   @UseGuards(AuthGuard("jwt"))
   async delete(
     @Param() dto: PlaylistDeleteReqDto,
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPlaylistResDto> {
     return this.playlistService.delete(dto, sub);
   }
@@ -82,7 +78,7 @@ export class PlaylistController {
   @UseGuards(AuthGuard("jwt"))
   async deleteSong(
     @Param() dto: PlaylistSongReqDto,
-    @Param("songId", HashIdPipe) songId: number
+    @Param("songId", AppHashIdPipe) songId: number
   ): Promise<DataPlaylistResDto> {
     return this.playlistService.deleteSong(dto, songId);
   }
@@ -103,7 +99,7 @@ export class PlaylistController {
   @UseGuards(AuthGuard("jwt"))
   async my(
     @Param() dto: PlaylistMyReqDto,
-    @User("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
     return this.playlistService.my(dto, sub);
   }

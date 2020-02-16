@@ -3,7 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { Test, TestingModule } from "@nestjs/testing";
 import { RtModule } from "../rt/rt.module";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { AtModule } from "../at/at.module";
 import { JwksModule } from "../jwks/jwks.module";
 import config from "./auth.config";

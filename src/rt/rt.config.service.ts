@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
-import { AppConfigService } from "../app.config.service";
+import { AppConfigService } from "../app/app.config.service";
 
 @Injectable()
 export class RtConfigService {

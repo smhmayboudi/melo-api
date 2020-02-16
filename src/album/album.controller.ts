@@ -1,11 +1,9 @@
 import {
-  ClassSerializerInterceptor,
   Controller,
   Get,
   Param,
   ParseIntPipe,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
@@ -13,9 +11,8 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { User } from "../decorator/user.decorator";
-import { ErrorInterceptor } from "../interceptor/error.interceptor";
-import { HashIdPipe } from "../pipe/hash-id.pipe";
+import { AppUser } from "../app/app.user.decorator";
+import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AlbumService } from "./album.service";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
@@ -24,7 +21,6 @@ import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
-@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -43,8 +39,8 @@ export class AlbumController {
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async artistAlbums(
     @Param() dto: AlbumArtistAlbumsReqDto,
-    @Param("artistId", HashIdPipe) artistId: number,
-    @User("sub", ParseIntPipe) sub: number
+    @Param("artistId", AppHashIdPipe) artistId: number,
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.albumService.artistAlbums(dto, artistId, sub);
   }
@@ -57,8 +53,8 @@ export class AlbumController {
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async byId(
     @Param() dto: AlbumByIdReqDto,
-    @Param("id", HashIdPipe) id: number,
-    @User("sub", ParseIntPipe) sub: number
+    @Param("id", AppHashIdPipe) id: number,
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataAlbumResDto> {
     return this.albumService.byId(dto, id, sub);
   }

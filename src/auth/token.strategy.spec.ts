@@ -1,6 +1,6 @@
 import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { JwksModule } from "../jwks/jwks.module";
 import { RtModule } from "../rt/rt.module";
 import { RtService } from "../rt/rt.service";

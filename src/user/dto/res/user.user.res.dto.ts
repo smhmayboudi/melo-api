@@ -8,7 +8,7 @@ import {
   IsPhoneNumber,
   IsString
 } from "class-validator";
-import { UserGenderType } from "../../type/user.gender-type";
+import { UserGenderType } from "../../user.gender.type";
 
 export class UserUserResDto {
   constructor(

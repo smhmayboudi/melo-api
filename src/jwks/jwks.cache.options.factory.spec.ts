@@ -1,7 +1,7 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 import config from "./jwks.config";
 import { JwksConfigService } from "./jwks.config.service";

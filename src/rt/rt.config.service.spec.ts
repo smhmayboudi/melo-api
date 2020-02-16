@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { RtConfigService } from "./rt.config.service";
 import config from "./rt.config";
 import { forwardRef } from "@nestjs/common";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 
 describe("RtService", () => {

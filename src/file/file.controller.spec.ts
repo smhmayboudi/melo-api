@@ -2,7 +2,7 @@ import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";

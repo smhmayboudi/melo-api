@@ -1,5 +1,4 @@
 import {
-  ClassSerializerInterceptor,
   Controller,
   ParseIntPipe,
   Post,
@@ -12,8 +11,7 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { User } from "../decorator/user.decorator";
-import { ErrorInterceptor } from "../interceptor/error.interceptor";
+import { AppUser } from "../app/app.user.decorator";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileService } from "./file.service";
@@ -21,7 +19,6 @@ import { FileService } from "./file.service";
 @ApiBearerAuth("jwt")
 @ApiTags("file")
 @Controller("file")
-@UseInterceptors(ClassSerializerInterceptor, ErrorInterceptor)
 @UsePipes(
   new ValidationPipe({
     forbidNonWhitelisted: true,
@@ -36,7 +33,7 @@ export class FileController {
   @UseGuards(AuthGuard("jwt"))
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
-    @User("sub", ParseIntPipe) sub: number,
+    @AppUser("sub", ParseIntPipe) sub: number,
     @UploadedFile("file")
     dto: FileUploadImageReqDto
   ): Promise<FileUploadImageResDto> {

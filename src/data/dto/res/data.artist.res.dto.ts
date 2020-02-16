@@ -8,7 +8,7 @@ import {
   ValidateNested,
   IsBoolean
 } from "class-validator";
-import { DataArtistType } from "../../type/data.artist-type";
+import { DataArtistType } from "../../data.artist.type";
 import { DataAlbumResDto } from "./data.album.res.dto";
 import { DataImageResDto } from "./data.image.res.dto";
 import { DataPaginationResDto } from "./data.pagination.res.dto";

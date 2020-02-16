@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNumberString, IsString } from "class-validator";
-import { DataOrderByType } from "../../../data/type/data.order-by.type";
+import { DataOrderByType } from "../../../data/data.order-by.type";
 
 export class SongLanguageReqDto {
   constructor(

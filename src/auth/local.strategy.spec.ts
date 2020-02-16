@@ -1,6 +1,6 @@
 import { forwardRef } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { UserModule } from "../user/user.module";
 import { UserService } from "../user/user.service";
 import { LocalStrategy } from "./local.strategy";

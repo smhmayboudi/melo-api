@@ -1,6 +1,6 @@
 import { IsDate, IsEnum, IsString, IsOptional } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { UserGenderType } from "../../type/user.gender-type";
+import { UserGenderType } from "../../user.gender.type";
 
 export class UserEditReqDto {
   constructor(

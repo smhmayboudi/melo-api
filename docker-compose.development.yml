@@ -25,6 +25,8 @@ services:
       - 127.0.0.1:9200:9200
       - 127.0.0.1:9300:9300
     restart: always
+    volumes: 
+      - ./temp/elasticsearch:/usr/share/elasticsearch/data
   kibana:
     depends_on:
       - elasticsearch

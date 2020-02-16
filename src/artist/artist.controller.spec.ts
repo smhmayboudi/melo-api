@@ -1,7 +1,7 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app.module";
+import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";
 import { RelationModule } from "../relation/relation.module";
 import config from "./artist.config";

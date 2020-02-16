@@ -1,18 +1,18 @@
 import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable } from "@nestjs/common";
+import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
-import { RelationEntityType } from "../relation/type/relation.entity.type";
-import { RelationType } from "../relation/type/relation.type";
+import { RelationType } from "../relation/relation.type";
+import { ArtistModule } from "./artist.module";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
-import { AppMixArtistService } from "../app.mix-artist.service";
-import { ArtistModule } from "./artist.module";
 
 @Injectable()
 export class ArtistService {
