@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import AwsLambda from "aws-lambda";
 import Connect from "connect";
-import APM from "elastic-apm-node";
 import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import {
   Agent,
@@ -25,7 +24,7 @@ import {
 export class ApmService {
   constructor(
     @Inject(APM_INSTANCE_TOKEN)
-    private readonly apm = (APM as unknown) as Agent
+    private readonly apm: Agent
   ) {}
 
   // Configuration

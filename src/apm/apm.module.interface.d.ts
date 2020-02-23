@@ -10,10 +10,10 @@ export interface ApmOptionsFactory {
 }
 
 export interface ApmModuleAsyncOptions extends Pick<ModuleMetadata, "imports"> {
-  useExisting?: Type<ApmOptionsFactory>;
-  useClass?: Type<ApmOptionsFactory>;
-  useFactory?: (...args: any[]) => Promise<ApmModuleOptions> | ApmModuleOptions;
   inject?: any[];
+  useClass?: Type<ApmOptionsFactory>;
+  useExisting?: Type<ApmOptionsFactory>;
+  useFactory?: (...args: any[]) => Promise<ApmModuleOptions> | ApmModuleOptions;
 }
 
 export interface Agent {

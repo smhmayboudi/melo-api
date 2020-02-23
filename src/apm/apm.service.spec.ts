@@ -16,10 +16,5 @@ describe("ApmService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("captureError");
-  test.todo("setCustomContext");
-  // test.todo("setTag");
-  test.todo("setTransactionName");
-  test.todo("startSpan");
-  test.todo("startTransaction");
+  test.todo("*");
 });
