@@ -2,11 +2,11 @@
 to: src/<%= h.changeCase.camel(name)%>/<%= h.changeCase.dot(name)%>.module.ts
 unless_exists: true
 ---
-import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app.module";
+import { PromModule } from "../prom/prom.module";
 import { <%= h.changeCase.pascal(name)%>CacheOptionsFactory } from "./<%= h.changeCase.dot(name)%>.cache.options.factory";
 import config from "./<%= h.changeCase.dot(name)%>.config";
 import { <%= h.changeCase.pascal(name)%>ConfigService } from "./<%= h.changeCase.dot(name)%>.config.service";
@@ -26,18 +26,16 @@ import { <%= h.changeCase.pascal(name)%>Service } from "./<%= h.changeCase.dot(n
       useClass: <%= h.changeCase.pascal(name)%>CacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    PromModule.forMetrics([
-      {
-        type: MetricType.Counter,
-        configuration: {
-          help: "<%= h.inflection.humanize(name, true)%> counter",
-          labelNames: ["function", "module", "service"],
-          name: "<%= h.inflection.underscore(name)%>_counter"
-        }
-      }
-    ]),
+    PromModule.forCounter({
+      help: "<%= h.inflection.humanize(name, true)%> counter",
+      labelNames: ["function", "module", "service"],
+      name: "<%= h.inflection.underscore(name)%>_counter"
+    }),
     TypeOrmModule.forFeature([<%= h.changeCase.pascal(name)%>EntityRepository])
   ],
-  providers: [<%= h.changeCase.pascal(name)%>ConfigService, <%= h.changeCase.pascal(name)%>Service]
+  providers: [
+    <%= h.changeCase.pascal(name)%>ConfigService,
+    <%= h.changeCase.pascal(name)%>Service
+]
 })
 export class <%= h.changeCase.pascal(name)%>Module {}
