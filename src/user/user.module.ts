@@ -1,15 +1,15 @@
-import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
+// import { PromModule } from "../prom/prom.module";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import config from "./user.config";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
-import { UserService } from "./user.service";
 import { UserHealthIndicator } from "./user.health.indicator";
+import { UserService } from "./user.service";
 
 @Module({
   controllers: [UserController],
@@ -22,16 +22,12 @@ import { UserHealthIndicator } from "./user.health.indicator";
       useClass: UserCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    PromModule.forMetrics([
-      {
-        type: MetricType.Counter,
-        configuration: {
-          help: "user counter",
-          labelNames: ["function", "module", "service"],
-          name: "user_counter"
-        }
-      }
-    ]),
+    // PromModule.register(),
+    // PromModule.register({
+    //   name: "user counter",
+    //   labelNames: ["function", "module", "service"],
+    //   name: "user"`
+    // })
     TypeOrmModule.forFeature([UserEntityRepository])
   ],
   providers: [UserConfigService, UserHealthIndicator, UserService]

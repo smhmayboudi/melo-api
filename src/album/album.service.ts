@@ -1,11 +1,12 @@
-import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable } from "@nestjs/common";
+// import { Counter } from "prom-client";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { AlbumModule } from "./album.module";
+// import { InjectCounter } from "../prom/prom.decorators";
+// import { AlbumModule } from "./album.module";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
@@ -15,8 +16,8 @@ export class AlbumService {
   constructor(
     private readonly appMixSongService: AppMixSongService,
     private readonly artistMixArtistService: AppMixArtistService,
-    @InjectCounterMetric("album_counter")
-    private readonly counterMetric: CounterMetric,
+    // @InjectCounter("album")
+    // private readonly counter: Counter,
     private readonly dataAlbumService: DataAlbumService
   ) {}
 
@@ -25,11 +26,11 @@ export class AlbumService {
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    this.counterMetric.inc({
-      module: AlbumModule.name,
-      service: AlbumService.name,
-      function: this.artistAlbums.name
-    });
+    // this.counter.inc({
+    //   module: AlbumModule.name,
+    //   service: AlbumService.name,
+    //   function: this.artistAlbums.name
+    // });
     const albumResDto = await this.dataAlbumService.albums({
       ...dto,
       id: artistId
@@ -59,11 +60,11 @@ export class AlbumService {
     id: number,
     sub: number
   ): Promise<DataAlbumResDto> {
-    this.counterMetric.inc({
-      module: AlbumModule.name,
-      service: AlbumService.name,
-      function: this.byId.name
-    });
+    // this.counter.inc({
+    //   module: AlbumModule.name,
+    //   service: AlbumService.name,
+    //   function: this.byId.name
+    // });
     const dataAlbumResDto = await this.dataAlbumService.byId({ ...dto, id });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -78,11 +79,11 @@ export class AlbumService {
   async latest(
     dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    this.counterMetric.inc({
-      module: AlbumModule.name,
-      service: AlbumService.name,
-      function: this.latest.name
-    });
+    // this.counter.inc({
+    //   module: AlbumModule.name,
+    //   service: AlbumService.name,
+    //   function: this.latest.name
+    // });
     return this.dataAlbumService.latest({ ...dto });
   }
 }

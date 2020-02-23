@@ -33,9 +33,10 @@ export class AppMixArtistService {
     return artists.map(artist => ({
       ...artist,
       following:
-        relationMultiHasResDto.find(value => {
-          value.to.id === this.appHashIdService.decode(artist.id).toString();
-        }) !== undefined
+        relationMultiHasResDto.find(
+          value =>
+            value.to.id === this.appHashIdService.decode(artist.id).toString()
+        ) !== undefined
     }));
   }
 }

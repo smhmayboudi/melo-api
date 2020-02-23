@@ -2,23 +2,15 @@ import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import { start } from "elastic-apm-node";
 // import csurf from "csurf";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import "source-map-support/register";
 import { AppConfigService } from "./app/app.config.service";
 import { AppModule } from "./app/app.module";
-import { LogLevel } from "./apm/apm.module.interface";
+// import { LogLevel } from "./apm/apm.module.interface";
 
 async function bootstrap(): Promise<void> {
-  // Add this to the VERY top of the first file loaded in your app
-  start({
-    logLevel: process.env.APP_APM_LOG_LEVEL as LogLevel,
-    serviceName: process.env.APP_APM_SERVICE_NAME,
-    secretToken: process.env.APP_APM_SECRET_TOKEN,
-    serverUrl: process.env.APP_APM_SERVER_URL
-  });
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
     cors: true,

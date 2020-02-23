@@ -1,9 +1,10 @@
-import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
+// import { Counter } from "prom-client";
 import { map } from "rxjs/operators";
+// import { InjectCounter } from "../prom/prom.decorators";
 import { DataConfigService } from "./data.config.service";
-import { DataModule } from "./data.module";
+// import { DataModule } from "./data.module";
 import { DataAlbumArtistsReqDto } from "./dto/req/data.album.artists.req.dto";
 import { DataAlbumByIdReqDto } from "./dto/req/data.album.by-id.req.dto";
 import { DataAlbumLatestReqDto } from "./dto/req/data.album.latest.req.dto";
@@ -13,8 +14,8 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 @Injectable()
 export class DataAlbumService {
   constructor(
-    @InjectCounterMetric("data_counter")
-    private readonly counterMetric: CounterMetric,
+    // @InjectCounter("data")
+    // private readonly counter: Counter,
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService
   ) {}
@@ -22,11 +23,11 @@ export class DataAlbumService {
   async albums(
     dto: DataAlbumArtistsReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    this.counterMetric.inc({
-      module: DataModule.name,
-      service: DataAlbumService.name,
-      function: this.albums.name
-    });
+    // this.counter.inc({
+    //   module: DataModule.name,
+    //   service: DataAlbumService.name,
+    //   function: this.albums.name
+    // });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
@@ -41,11 +42,11 @@ export class DataAlbumService {
   }
 
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
-    this.counterMetric.inc({
-      module: DataModule.name,
-      service: DataAlbumService.name,
-      function: this.byId.name
-    });
+    // this.counter.inc({
+    //   module: DataModule.name,
+    //   service: DataAlbumService.name,
+    //   function: this.byId.name
+    // });
     return this.httpService
       .get(`${this.dataConfigService.url}/album/${dto.id}`)
       .pipe(map((value: AxiosResponse<DataAlbumResDto>) => value.data))
@@ -55,11 +56,11 @@ export class DataAlbumService {
   async latest(
     dto: DataAlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    this.counterMetric.inc({
-      module: DataModule.name,
-      service: DataAlbumService.name,
-      function: this.latest.name
-    });
+    // this.counter.inc({
+    //   module: DataModule.name,
+    //   service: DataAlbumService.name,
+    //   function: this.latest.name
+    // });
     return this.httpService
       .get(
         `${this.dataConfigService.url}/album/latest/${dto.language}/${dto.from}/${dto.limit}`

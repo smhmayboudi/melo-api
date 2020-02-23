@@ -1,17 +1,18 @@
-import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import aws from "aws-sdk";
 import bluebird from "bluebird";
 import mime from "mime-types";
 import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
+// import { Counter } from "prom-client";
 import uuidv4 from "uuid/v4";
+// import { InjectCounter } from "../prom/prom.decorators";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
-import { FileModule } from "./file.module";
+// import { FileModule } from "./file.module";
 
 @Injectable()
 export class FileService {
@@ -19,8 +20,8 @@ export class FileService {
   private readonly s3: aws.S3;
 
   constructor(
-    @InjectCounterMetric("file_counter")
-    private readonly counterMetric: CounterMetric,
+    // @InjectCounter("file")
+    // private readonly counter: Counter,
     private readonly fileConfigService: FileConfigService,
     @InjectRepository(FileEntity)
     private readonly fileEntityRepository: FileEntityRepository
@@ -41,11 +42,11 @@ export class FileService {
     dto: FileUploadImageReqDto,
     sub: number
   ): Promise<FileUploadImageResDto> {
-    this.counterMetric.inc({
-      module: FileModule.name,
-      service: FileService.name,
-      function: this.uploadImage.name
-    });
+    // this.counter.inc({
+    //   module: FileModule.name,
+    //   service: FileService.name,
+    //   function: this.uploadImage.name
+    // });
     if (dto === undefined) {
       throw new BadRequestException();
     }

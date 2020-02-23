@@ -1,15 +1,15 @@
-import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
+import { DataModule } from "../data/data.module";
+// import { PromModule } from "../prom/prom.module";
+import { RelationModule } from "../relation/relation.module";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import config from "./artist.config";
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
 import { ArtistHealthIndicator } from "./artist.health.indicator";
 import { ArtistService } from "./artist.service";
-import { DataModule } from "../data/data.module";
-import { RelationModule } from "../relation/relation.module";
 
 @Module({
   controllers: [ArtistController],
@@ -23,16 +23,12 @@ import { RelationModule } from "../relation/relation.module";
     }),
     ConfigModule.forFeature(config),
     DataModule,
-    PromModule.forMetrics([
-      {
-        type: MetricType.Counter,
-        configuration: {
-          help: "artist counter",
-          labelNames: ["function", "module", "service"],
-          name: "artist_counter"
-        }
-      }
-    ]),
+    // PromModule.register(),
+    // PromModule.register({
+    //   name: "artist counter",
+    //   labelNames: ["function", "module", "service"],
+    //   name: "artist"
+    // })
     RelationModule
   ],
   providers: [ArtistConfigService, ArtistHealthIndicator, ArtistService]

@@ -1,14 +1,14 @@
-import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
+// import { PromModule } from "../prom/prom.module";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import config from "./rt.config";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
-import { RtService } from "./rt.service";
 import { RtHealthIndicator } from "./rt.health.indicator";
+import { RtService } from "./rt.service";
 
 @Module({
   controllers: [],
@@ -21,16 +21,11 @@ import { RtHealthIndicator } from "./rt.health.indicator";
       useClass: RtCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    PromModule.forMetrics([
-      {
-        type: MetricType.Counter,
-        configuration: {
-          help: "rt counter",
-          labelNames: ["function", "module", "service"],
-          name: "rt_counter"
-        }
-      }
-    ]),
+    // PromModule.register({
+    //   name: "rt counter",
+    //   labelNames: ["function", "module", "service"],
+    //   name: "rt"
+    // })
     TypeOrmModule.forFeature([RtEntityRepository])
   ],
   providers: [RtConfigService, RtHealthIndicator, RtService]

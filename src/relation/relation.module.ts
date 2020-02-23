@@ -1,6 +1,6 @@
-import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
+// import { PromModule } from "../prom/prom.module";
 import config from "./relation.config";
 import { RelationConfigService } from "./relation.config.service";
 import { RelationHealthIndicator } from "./relation.health.indicator";
@@ -16,17 +16,12 @@ import { RelationService } from "./relation.service";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [RelationModule],
       useClass: RelationHttpModuleOptionsFactory
-    }),
-    PromModule.forMetrics([
-      {
-        type: MetricType.Counter,
-        configuration: {
-          help: "relation counter",
-          labelNames: ["function", "module", "service"],
-          name: "relation_counter"
-        }
-      }
-    ])
+    })
+    // PromModule.register({
+    //   name: "relation counter",
+    //   labelNames: ["function", "module", "service"],
+    //   name: "relation"
+    // })
   ],
   providers: [RelationConfigService, RelationHealthIndicator, RelationService]
 })

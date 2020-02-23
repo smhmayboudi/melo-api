@@ -6,6 +6,7 @@ import { FileEntity } from "../file/file.entity";
 import { JwksEntity } from "../jwks/jwks.entity";
 import { RtEntity } from "../rt/rt.entity";
 import { UserEntity } from "../user/user.entity";
+import logger from "./app.type.orm.logger";
 
 @Injectable()
 export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
@@ -16,6 +17,7 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       database: this.appConfigService.typeOrmDatabase,
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
       host: this.appConfigService.typeOrmHost,
+      logger,
       logging: this.appConfigService.typeOrmLogging,
       password: this.appConfigService.typeOrmPassword,
       port: this.appConfigService.typeOrmPort,

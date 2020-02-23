@@ -1,15 +1,16 @@
-import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+// import { Counter } from "prom-client";
+// import { InjectCounter } from "../prom/prom.decorators";
 import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
-import { RtModule } from "./rt.module";
+// import { RtModule } from "./rt.module";
 
 @Injectable()
 export class RtService {
   constructor(
-    @InjectCounterMetric("rt_counter")
-    private readonly counterMetric: CounterMetric,
+    // @InjectCounter("rt")
+    // private readonly counter: Counter,
 
     @InjectRepository(RtEntity)
     private readonly rtEntityRepository: RtEntityRepository
@@ -19,11 +20,11 @@ export class RtService {
     id: number,
     description: string
   ): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.blockById.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.blockById.name
+    // });
     await this.rtEntityRepository.update(
       { id },
       { description, is_blocked: true }
@@ -36,11 +37,11 @@ export class RtService {
     token: string,
     description: string
   ): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.blockByToken.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.blockByToken.name
+    // });
     await this.rtEntityRepository.update(
       { token },
       { description, is_blocked: true }
@@ -50,59 +51,59 @@ export class RtService {
   }
 
   async deleteById(id: number): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.deleteById.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.deleteById.name
+    // });
     const rtEntity = await this.findOneById(id);
     await this.rtEntityRepository.delete({ id });
     return rtEntity;
   }
 
   async deleteByToken(token: string): Promise<void> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.deleteByToken.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.deleteByToken.name
+    // });
     await this.rtEntityRepository.delete({ token });
   }
 
   async find(): Promise<RtEntity[]> {
-    this.counterMetric.inc({ module: "rt", service: "rt", function: "find" });
+    // this.counter.inc({ module: "rt", service: "rt", function: "find" });
     return this.rtEntityRepository.find();
   }
 
   async findOneById(id: number): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.findOneById.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.findOneById.name
+    // });
     return this.rtEntityRepository.findOne(id);
   }
 
   async findOneByToken(token: string): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.findOneByToken.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.findOneByToken.name
+    // });
     return this.rtEntityRepository.findOne({ token });
   }
 
   async save(entities: RtEntity[]): Promise<RtEntity[]> {
-    this.counterMetric.inc({ module: "rt", service: "rt", function: "save" });
+    // this.counter.inc({ module: "rt", service: "rt", function: "save" });
     return this.rtEntityRepository.save(entities);
   }
 
   async validateBySub(sub: number): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.validateBySub.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.validateBySub.name
+    // });
     return this.rtEntityRepository.findOne({
       is_blocked: false,
       user_id: sub
@@ -110,11 +111,11 @@ export class RtService {
   }
 
   async validateByToken(token: string): Promise<RtEntity | undefined> {
-    this.counterMetric.inc({
-      module: RtModule.name,
-      service: RtService.name,
-      function: this.validateByToken.name
-    });
+    // this.counter.inc({
+    //   module: RtModule.name,
+    //   service: RtService.name,
+    //   function: this.validateByToken.name
+    // });
     return this.rtEntityRepository.findOne({ is_blocked: false, token });
   }
 }

@@ -1,11 +1,12 @@
-import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
 import {
   HttpService,
   Injectable,
   InternalServerErrorException
 } from "@nestjs/common";
 import { AxiosResponse } from "axios";
+// import { Counter } from "prom-client";
 import { map } from "rxjs/operators";
+// import { InjectCounter } from "../prom/prom.decorators";
 import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
 import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";
 import { RelationMultiHasReqDto } from "./dto/req/relation.multi-has.req.dto";
@@ -27,8 +28,8 @@ export class RelationService {
   }
 
   constructor(
-    @InjectCounterMetric("relation_counter")
-    private readonly counterMetric: CounterMetric,
+    // @InjectCounter("relation")
+    // private readonly counter: Counter,
     private readonly httpService: HttpService,
     private readonly relationConfigService: RelationConfigService
   ) {}
@@ -36,11 +37,11 @@ export class RelationService {
   async get(
     dto: RelationGetReqDto
   ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
-    this.counterMetric.inc({
-      module: "RelationModule",
-      service: RelationService.name,
-      function: this.get.name
-    });
+    // this.counter.inc({
+    //   module: "RelationModule",
+    //   service: RelationService.name,
+    //   function: this.get.name
+    // });
     return this.httpService
       .get(
         `${this.relationConfigService.url}/get/${this.key(dto.fromEntityDto)}/${
@@ -58,11 +59,11 @@ export class RelationService {
   }
 
   async has(dto: RelationHasReqDto): Promise<void> {
-    this.counterMetric.inc({
-      module: "RelationModule",
-      service: RelationService.name,
-      function: this.has.name
-    });
+    // this.counter.inc({
+    //   module: "RelationModule",
+    //   service: RelationService.name,
+    //   function: this.has.name
+    // });
     return this.httpService
       .get(
         `${this.relationConfigService.url}/has/${this.key(dto.from)}/${this.key(
@@ -82,11 +83,11 @@ export class RelationService {
   async multiHas(
     dto: RelationMultiHasReqDto
   ): Promise<RelationMultiHasResDto[]> {
-    this.counterMetric.inc({
-      module: "RelationModule",
-      service: RelationService.name,
-      function: this.multiHas.name
-    });
+    // this.counter.inc({
+    //   module: "RelationModule",
+    //   service: RelationService.name,
+    //   function: this.multiHas.name
+    // });
     return this.httpService
       .get(
         `${this.relationConfigService.url}/multiHas/${this.key(
@@ -98,11 +99,11 @@ export class RelationService {
   }
 
   async remove(dto: RelationRemoveReqDto): Promise<void> {
-    this.counterMetric.inc({
-      module: "RelationModule",
-      service: RelationService.name,
-      function: this.remove.name
-    });
+    // this.counter.inc({
+    //   module: "RelationModule",
+    //   service: RelationService.name,
+    //   function: this.remove.name
+    // });
     return this.httpService
       .delete(`${this.relationConfigService.url}/remove`, {
         data: {
@@ -122,11 +123,11 @@ export class RelationService {
   }
 
   async set(dto: RelationSetReqDto): Promise<void> {
-    this.counterMetric.inc({
-      module: "RelationModule",
-      service: RelationService.name,
-      function: this.set.name
-    });
+    // this.counter.inc({
+    //   module: "RelationModule",
+    //   service: RelationService.name,
+    //   function: this.set.name
+    // });
     return this.httpService
       .post(`${this.relationConfigService.url}/set`, {
         createdAt: dto.createdAt,

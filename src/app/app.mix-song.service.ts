@@ -33,9 +33,10 @@ export class AppMixSongService {
     return songs.map(song => ({
       ...song,
       liked:
-        relationMultiHasResDto.find(value => {
-          value.to.id === this.appHashIdService.decode(song.id).toString();
-        }) !== undefined
+        relationMultiHasResDto.find(
+          value =>
+            value.to.id === this.appHashIdService.decode(song.id).toString()
+        ) !== undefined
     }));
   }
 }

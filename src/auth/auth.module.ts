@@ -1,4 +1,3 @@
-import { MetricType, PromModule } from "@digikare/nestjs-prom";
 import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
@@ -6,6 +5,7 @@ import { PassportModule } from "@nestjs/passport";
 import { AppModule } from "../app/app.module";
 import { AtModule } from "../at/at.module";
 import { JwksModule } from "../jwks/jwks.module";
+// import { PromModule } from "../prom/prom.module";
 import { RtModule } from "../rt/rt.module";
 import { UserModule } from "../user/user.module";
 import { AnonymUUIDStrategy } from "./anonym-uuid.strategy";
@@ -39,16 +39,11 @@ import { TokenStrategy } from "./token.strategy";
       imports: [AuthModule],
       useClass: AuthAuthOptionsFactory
     }),
-    PromModule.forMetrics([
-      {
-        type: MetricType.Counter,
-        configuration: {
-          help: "auth counter",
-          labelNames: ["function", "module", "service"],
-          name: "auth_counter"
-        }
-      }
-    ]),
+    // PromModule.forCounter({
+    //   help: "auth counter",
+    //   labelNames: ["function", "module", "service"],
+    //   name: "auth"
+    // }),
     RtModule,
     UserModule
   ],

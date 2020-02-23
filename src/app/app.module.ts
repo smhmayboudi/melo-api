@@ -1,13 +1,10 @@
-import { PromModule } from "@digikare/nestjs-prom";
 import {
   CacheModule,
   ClassSerializerInterceptor,
-  MiddlewareConsumer,
-  Module,
-  NestModule
+  Module
 } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
+import { APP_INTERCEPTOR } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { TerminusModule } from "@nestjs/terminus";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -23,6 +20,7 @@ import { DataModule } from "../data/data.module";
 import { FileModule } from "../file/file.module";
 import { JwksModule } from "../jwks/jwks.module";
 import { PlaylistModule } from "../playlist/playlist.module";
+import { PromModule } from "../prom/prom.module";
 import { RelationModule } from "../relation/relation.module";
 import { RtModule } from "../rt/rt.module";
 import { SearchModule } from "../search/search.module";
@@ -32,20 +30,18 @@ import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
-import { PATH_METRICS } from "./app.constant";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health.indicator";
-import { AppHttpExceptionFilter } from "./app.http-exception.filter";
 import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppMixSongService } from "./app.mix-song.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
+// import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
-import { AppLoggerMiddleware } from "./app.logger.middleware";
 
 @Module({
   controllers: [],
@@ -86,20 +82,12 @@ import { AppLoggerMiddleware } from "./app.logger.middleware";
       useClass: AppMongooseOptionsFactory
     }),
     PlaylistModule,
-    PromModule.forRoot({
-      customUrl: PATH_METRICS,
-      defaultLabels: {
-        serviceName: "melo-api"
-      },
-      prefix: "melo_api_",
-      // register?: register;
-      // registryName?: string;
-      // timeout?: number;
-      // timestamps?: boolean;
-      useHttpCounterMiddleware: true,
-      withDefaultController: true,
-      withDefaultsMetrics: true
-    }),
+    // PromModule.forRootAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [AppModule],
+    //   useClass: AppPromOptionsFactory
+    // }),
+    PromModule.forRoot(),
     RelationModule,
     RtModule,
     SearchModule,
@@ -113,7 +101,6 @@ import { AppLoggerMiddleware } from "./app.logger.middleware";
       imports: [
         ActionModule,
         AlbumModule,
-        ApmModule,
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         AppModule,
         ArtistModule,
@@ -154,15 +141,7 @@ import { AppLoggerMiddleware } from "./app.logger.middleware";
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor
-    },
-    {
-      provide: APP_FILTER,
-      useClass: AppHttpExceptionFilter
     }
   ]
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer): any {
-    consumer.apply(AppLoggerMiddleware).forRoutes();
-  }
-}
+export class AppModule {}

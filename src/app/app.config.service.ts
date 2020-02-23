@@ -109,8 +109,8 @@ export class AppConfigService {
     return this.configService.get<number>("app.port", 0);
   }
 
-  get promClientPrefix(): string {
-    return this.configService.get<string>("app.promClientPrefix", "");
+  get promPrefix(): string {
+    return this.configService.get<string>("app.promPrefix", "");
   }
 
   get rateLimitMax(): number {

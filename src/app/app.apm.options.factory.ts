@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-// import { ApmLogger } from "./apm/apm.logger";
 import {
   ApmModuleOptions,
   ApmOptionsFactory,
@@ -16,7 +15,6 @@ export class AppApmOptionsFactory implements ApmOptionsFactory {
     return {
       errorOnAbortedRequests: true,
       ignoreUrls: [PATH_HEALTH, PATH_METRICS],
-      // logger: ApmLogger,
       logLevel: this.appConfigService.apmLogLevel as LogLevel,
       logUncaughtExceptions: true,
       secretToken: this.appConfigService.apmSecretToken,

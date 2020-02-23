@@ -25,7 +25,7 @@ export default registerAs("app", () => ({
   mangooseRetryDelay: process.env.APP_MANGOOSE_RETRY_DELAY,
   mangooseUri: process.env.APP_MANGOOSE_URI,
   port: process.env.APP_PORT,
-  promClientPrefix: process.env.APP_PROM_CLIENT_PREFIX,
+  promPrefix: process.env.APP_PROM_CLIENT_PREFIX,
   rateLimitMax: process.env.APP_RATE_LIMIIT_MAX,
   rateLimitWindowMs: process.env.APP_RATE_LIMIIT_WINDOW_MS,
   sentryDebug: process.env.APP_SENTRY_DEBUG,
