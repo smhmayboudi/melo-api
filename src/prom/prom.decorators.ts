@@ -1,4 +1,5 @@
 import { Inject } from "@nestjs/common";
+import { beforeInstance, beforeMethod } from "kaop-ts";
 import {
   getOrCreateCounter,
   getTokenCounter,
@@ -39,36 +40,23 @@ export const InjectSummary = (
   index?: number | undefined
 ) => void) => Inject(getTokenSummary(name));
 
-export const PromMethodCounter = () => (
-  target: Record<string, any>,
-  propertyKey: string | symbol,
-  descriptor: TypedPropertyDescriptor<Function>
-): void => {
-  const className = target.constructor.name;
+export const PromInstanceCounter = beforeInstance(meta => {
   const counterMetric = getOrCreateCounter({
-    help: `app_${className}#${propertyKey.toString()} calls total`,
-    name: `app_${className}_${propertyKey.toString()}_calls_total`
+    help: "app object instances total",
+    labelNames: ["service"],
+    name: "app_object_instances_total"
   });
-  const methodFunc = descriptor.value;
-  descriptor.value = function(...args): any {
-    counterMetric.inc(1);
-    if (methodFunc !== undefined) {
-      return methodFunc.apply(this, args);
-    }
-  };
-};
+  counterMetric.inc({ service: meta.target.constructor.name });
+});
 
-export const PromInstanceCounter = <T extends { new (...args: any[]): {} }>(
-  ctor: T
-): any => {
+export const PromMethodCounter = beforeMethod(meta => {
   const counterMetric = getOrCreateCounter({
-    help: `app_${ctor.name} object instances total`,
-    name: `app_${ctor.name}_instances_total`
+    help: "app method calls total",
+    labelNames: ["method", "service"],
+    name: "app_method_calls_total"
   });
-  return class extends ctor {
-    constructor(...args) {
-      counterMetric.inc(1);
-      super(...args);
-    }
-  };
-};
+  counterMetric.inc({
+    service: meta.target.constructor.name,
+    method: meta.method.name
+  });
+});

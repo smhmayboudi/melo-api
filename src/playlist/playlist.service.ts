@@ -5,12 +5,14 @@ import {
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
-// import { Counter } from "prom-client";
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
-// import { InjectCounter } from "../prom/prom.decorators";
+import {
+  // PromInstanceCounter,
+  PromMethodCounter
+} from "../prom/prom.decorators";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
@@ -20,30 +22,24 @@ import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistConfigService } from "./playlist.config.service";
-// import { PlaylistModule } from "./playlist.module";
 import { Playlist } from "./playlist.module.interface";
 
 @Injectable()
+// @PromInstanceCounter
 export class PlaylistService {
   constructor(
     private readonly appImgProxyService: AppImgProxyService,
-    // @InjectCounter("playlist")
-    // private readonly counter: Counter,
     private readonly dataSongService: DataSongService,
     private readonly playlistConfigService: PlaylistConfigService,
     @InjectModel("Playlist")
     private readonly playlistModel: Model<Playlist>
   ) {}
 
+  @PromMethodCounter
   async addSong(
     dto: PlaylistAddSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.addSong.name
-    // });
     const playlist = await this.playlistModel.findById(
       new Types.ObjectId(dto.playlistId)
     );
@@ -71,15 +67,11 @@ export class PlaylistService {
     };
   }
 
+  @PromMethodCounter
   async create(
     dto: PlaylistCreateReqDto,
     sub: number
   ): Promise<DataPlaylistResDto> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.create.name
-    // });
     const playlist = await new this.playlistModel({
       download_count: 0,
       followers_count: 0,
@@ -104,15 +96,11 @@ export class PlaylistService {
     };
   }
 
+  @PromMethodCounter
   async delete(
     dto: PlaylistDeleteReqDto,
     sub: number
   ): Promise<DataPlaylistResDto> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.delete.name
-    // });
     const query: any = {
       $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
     };
@@ -140,12 +128,8 @@ export class PlaylistService {
     };
   }
 
+  @PromMethodCounter
   async edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.edit.name
-    // });
     const playlist = await this.playlistModel.findById(Types.ObjectId(dto.id));
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
@@ -171,15 +155,11 @@ export class PlaylistService {
     };
   }
 
+  @PromMethodCounter
   async deleteSong(
     dto: PlaylistSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.deleteSong.name
-    // });
     const playlist = await this.playlistModel.findById(dto.playlistId);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
@@ -208,12 +188,8 @@ export class PlaylistService {
     };
   }
 
+  @PromMethodCounter
   async get(dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.get.name
-    // });
     const playlist = await this.playlistModel.findById(dto.id);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
@@ -238,15 +214,11 @@ export class PlaylistService {
     };
   }
 
+  @PromMethodCounter
   async my(
     dto: PlaylistMyReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.my.name
-    // });
     const playlists = await this.playlistModel
       .find({ owner_user_id: sub })
       .skip(parseInt(dto.from.toString(), 10))
@@ -278,14 +250,10 @@ export class PlaylistService {
     } as DataPaginationResDto<DataPlaylistResDto>;
   }
 
+  @PromMethodCounter
   async top(
     dto: PlaylistTopReqDto
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {
-    // this.counter.inc({
-    //   module: PlaylistModule.name,
-    //   service: PlaylistService.name,
-    //   function: this.top.name
-    // });
     const playlists = await this.playlistModel
       .find()
       .skip(parseInt(dto.from.toString(), 10))

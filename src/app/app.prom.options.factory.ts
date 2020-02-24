@@ -11,13 +11,16 @@ export class AppPromOptionsFactory implements PromOptionsFactory {
 
   createPromOptions(): Promise<PromModuleOptions> | PromModuleOptions {
     return {
-      path: "/metrics",
+      defaultLabels: this.appConfigService.promDefaultLabels,
       defaultMetrics: {
-        enabled: true,
+        enabled: this.appConfigService.promDefaultMetricsEnabled,
         config: {
           prefix: this.appConfigService.promPrefix
         }
-      }
+      },
+      path: this.appConfigService.promPath,
+      prefix: this.appConfigService.promPrefix,
+      registryName: undefined
     };
   }
 }

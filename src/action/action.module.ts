@@ -1,7 +1,6 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
-import { PromModule } from "../prom/prom.module";
 import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import config from "./action.config";
 import { ActionConfigService } from "./action.config.service";
@@ -19,12 +18,7 @@ import { ActionService } from "./action.service";
       imports: [ActionModule],
       useClass: ActionCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config),
-    PromModule.forCounter({
-      help: "counter",
-      labelNames: ["function", "module", "service"],
-      name: "action"
-    })
+    ConfigModule.forFeature(config)
   ],
   providers: [ActionConfigService, ActionHealthIndicator, ActionService]
 })

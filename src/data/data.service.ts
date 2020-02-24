@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
+// import { PromInstanceCounter } from "../prom/prom.decorators";
 
 @Injectable()
-export class DataService {
-  // constructor() {}
-}
+// @PromInstanceCounter
+export class DataService {}

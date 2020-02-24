@@ -79,6 +79,7 @@ export class PromCoreModule {
     options?: PromModuleOptions
   ): PromModuleOptions {
     return {
+      defaultLabels: options === undefined ? {} : options.defaultLabels,
       defaultMetrics: {
         config:
           options === undefined || options.defaultMetrics === undefined
@@ -90,11 +91,44 @@ export class PromCoreModule {
             : options.defaultMetrics.enabled
       },
       path: options === undefined ? PATH_METRICS : options.path,
+      prefix: options === undefined ? "" : options.prefix,
       registryName:
         options === undefined || options.registryName === undefined
           ? undefined
           : options.registryName
     };
+  }
+
+  private static promConfigurationProviderImp(
+    promConfigurationName: string,
+    _options: PromModuleOptions
+  ): void {
+    // const opts = PromCoreModule.makeDefaultOptions(options);
+    if (promConfigurationName !== PROM_CONFIGURATION_DEFAULT) {
+      // TODO: DEFULT CONFIG
+    }
+    // TODO: CONFIG
+  }
+
+  private static promRegistryProviderImp(
+    promRegistryName: string,
+    options: PromModuleOptions
+  ): Registry {
+    const opts = PromCoreModule.makeDefaultOptions(options);
+    let registry = register;
+    if (promRegistryName !== PROM_REGISTRY_DEFAULT) {
+      registry = new Registry();
+    }
+    register.setDefaultLabels({ ...options.defaultLabels });
+    if (opts.defaultMetrics?.enabled !== false) {
+      const defaultMetricsOptions = {
+        ...opts.defaultMetrics?.config,
+        register: registry
+      };
+      collectDefaultMetrics(defaultMetricsOptions);
+      Reflect.defineMetadata(PATH_METADATA, opts.path, PromController);
+    }
+    return registry;
   }
 
   static forRoot(options: PromModuleOptions = {}): DynamicModule {
@@ -106,12 +140,11 @@ export class PromCoreModule {
     };
     const promConfigurationProvider = {
       provide: promConfigurationName,
-      useFactory: (): void => {
-        if (promConfigurationName !== PROM_CONFIGURATION_DEFAULT) {
-          // TODO: DEFULT CONFIG
-        }
-        // TODO: CONFIG
-      }
+      useFactory: (): void =>
+        PromCoreModule.promConfigurationProviderImp(
+          promConfigurationName,
+          options
+        )
     };
     const promRegistryName = getTokenRegistry(opts.registryName);
     const promRegistryNameProvider = {
@@ -120,21 +153,8 @@ export class PromCoreModule {
     };
     const promRegistryProvider = {
       provide: promRegistryName,
-      useFactory: (): Registry => {
-        let registry = register;
-        if (promRegistryName !== PROM_REGISTRY_DEFAULT) {
-          registry = new Registry();
-        }
-        if (opts.defaultMetrics?.enabled === true) {
-          const defaultMetricsOptions = {
-            ...opts.defaultMetrics?.config,
-            register: registry
-          };
-          collectDefaultMetrics(defaultMetricsOptions);
-          Reflect.defineMetadata(PATH_METADATA, opts.path, PromController);
-        }
-        return registry;
-      }
+      useFactory: (options: PromModuleOptions): Registry =>
+        PromCoreModule.promRegistryProviderImp(promRegistryName, options)
     };
     return {
       exports: [
@@ -162,14 +182,11 @@ export class PromCoreModule {
     const promConfigurationProvider = {
       inject: [PROM_MODULE_OPTIONS],
       provide: promConfigurationName,
-      useFactory: (options: PromModuleOptions): void => {
-        const opts = PromCoreModule.makeDefaultOptions(options);
-        console.log(opts);
-        if (promConfigurationName !== PROM_CONFIGURATION_DEFAULT) {
-          // TODO: DEFULT CONFIG
-        }
-        // TODO: CONFIG
-      }
+      useFactory: (options: PromModuleOptions): void =>
+        PromCoreModule.promConfigurationProviderImp(
+          promConfigurationName,
+          options
+        )
     };
     const promRegistryName = getTokenRegistry(options.registryName);
     const promRegistryNameProvider = {
@@ -179,22 +196,8 @@ export class PromCoreModule {
     const promRegistryProvider = {
       inject: [PROM_MODULE_OPTIONS],
       provide: promRegistryName,
-      useFactory: (options: PromModuleOptions): Registry => {
-        const opts = PromCoreModule.makeDefaultOptions(options);
-        let registry = register;
-        if (promRegistryName !== PROM_REGISTRY_DEFAULT) {
-          registry = new Registry();
-        }
-        if (opts.defaultMetrics?.enabled !== false) {
-          const defaultMetricsOptions = {
-            ...opts.defaultMetrics?.config,
-            register: registry
-          };
-          collectDefaultMetrics(defaultMetricsOptions);
-          Reflect.defineMetadata(PATH_METADATA, opts.path, PromController);
-        }
-        return registry;
-      }
+      useFactory: (options: PromModuleOptions): Registry =>
+        PromCoreModule.promRegistryProviderImp(promRegistryName, options)
     };
     const asyncProviders = PromCoreModule.createAsyncProviders(options);
     return {

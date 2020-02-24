@@ -4,28 +4,29 @@ import aws from "aws-sdk";
 import bluebird from "bluebird";
 import mime from "mime-types";
 import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
-// import { Counter } from "prom-client";
 import uuidv4 from "uuid/v4";
-// import { InjectCounter } from "../prom/prom.decorators";
+import {
+  // PromInstanceCounter,
+  PromMethodCounter
+} from "../prom/prom.decorators";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
-// import { FileModule } from "./file.module";
 
 @Injectable()
+// // @PromInstanceCounter
 export class FileService {
   private readonly mmmagic: Magic;
   private readonly s3: aws.S3;
 
   constructor(
-    // @InjectCounter("file")
-    // private readonly counter: Counter,
     private readonly fileConfigService: FileConfigService,
     @InjectRepository(FileEntity)
     private readonly fileEntityRepository: FileEntityRepository
   ) {
+    console.log(this.fileConfigService.s3AccessKeyId);
     bluebird.promisifyAll(Magic.prototype);
     this.mmmagic = new Magic(MAGIC_MIME_TYPE);
     aws.config.setPromisesDependency(bluebird);
@@ -38,15 +39,11 @@ export class FileService {
     });
   }
 
+  @PromMethodCounter
   async uploadImage(
     dto: FileUploadImageReqDto,
     sub: number
   ): Promise<FileUploadImageResDto> {
-    // this.counter.inc({
-    //   module: FileModule.name,
-    //   service: FileService.name,
-    //   function: this.uploadImage.name
-    // });
     if (dto === undefined) {
       throw new BadRequestException();
     }

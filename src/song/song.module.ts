@@ -2,7 +2,6 @@ import { CacheModule, forwardRef, HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";
-import { PromModule } from "../prom/prom.module";
 import { RelationModule } from "../relation/relation.module";
 import { UserModule } from "../user/user.module";
 import { SongCacheOptionsFactory } from "./song.cache.options.factory";
@@ -29,11 +28,6 @@ import { SongService } from "./song.service";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [SongModule],
       useClass: SongHttpModuleOptionsFactory
-    }),
-    PromModule.forCounter({
-      help: "counter",
-      labelNames: ["function", "module", "service"],
-      name: "song"
     }),
     RelationModule,
     UserModule

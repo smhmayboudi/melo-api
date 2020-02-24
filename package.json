@@ -27,6 +27,7 @@
     "hashids": "^2.2.1",
     "helmet": "^3.21.2",
     "imgproxy": "^0.1.2",
+    "kaop-ts": "^4.3.0",
     "lodash": "^4.17.15",
     "mime": "^2.4.4",
     "mime-types": "^2.1.26",

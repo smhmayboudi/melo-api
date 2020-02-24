@@ -19,11 +19,13 @@ export interface MetricTypeConfigurationInterface {
 }
 
 export interface PromModuleOptions {
+  defaultLabels?: Record<string, string>;
   defaultMetrics?: {
     config?: DefaultMetricsCollectorConfiguration;
     enabled: boolean;
   };
   path?: string;
+  prefix?: string;
   registryName?: string;
 }
 

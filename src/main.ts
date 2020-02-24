@@ -8,7 +8,6 @@ import helmet from "helmet";
 import "source-map-support/register";
 import { AppConfigService } from "./app/app.config.service";
 import { AppModule } from "./app/app.module";
-// import { LogLevel } from "./apm/apm.module.interface";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {

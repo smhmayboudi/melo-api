@@ -1,22 +1,15 @@
 import { Injectable } from "@nestjs/common";
-// import { Counter } from "prom-client";
-// import { InjectCounter } from "../prom/prom.decorators";
-// import { ActionModule } from "./action.module";
+import {
+  // PromInstanceCounter,
+  PromMethodCounter
+} from "../prom/prom.decorators";
 import { ActionDto } from "./dto/action.dto";
 
 @Injectable()
+// @PromInstanceCounter
 export class ActionService {
-  // constructor(
-  //   @InjectCounter("action")
-  //   private readonly counter: Counter
-  // ) {}
-
+  @PromMethodCounter
   async bulk(_dto: ActionDto): Promise<void> {
-    // this.counter.inc({
-    //   module: ActionModule.name,
-    //   service: ActionService.name,
-    //   function: this.bulk.name
-    // });
     return Promise.resolve();
   }
 }

@@ -1,14 +1,15 @@
 import { Injectable } from "@nestjs/common";
-// import { Counter } from "prom-client";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-// import { InjectCounter } from "../prom/prom.decorators";
+import {
+  // PromInstanceCounter,
+  PromMethodCounter
+} from "../prom/prom.decorators";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
-// import { ArtistModule } from "./artist.module";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -16,25 +17,20 @@ import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.d
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 
 @Injectable()
+// @PromInstanceCounter
 export class ArtistService {
   constructor(
     private readonly artistMixArtistService: AppMixArtistService,
-    // @InjectCounter("artist")
-    // private readonly counter: Counter,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
 
+  @PromMethodCounter
   async follow(
     dto: ArtistFollowReqDto,
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    // this.counter.inc({
-    //   module: ArtistModule.name,
-    //   service: ArtistService.name,
-    //   function: this.follow.name
-    // });
     const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.set({
       createdAt: new Date(),
@@ -51,15 +47,11 @@ export class ArtistService {
     return dataArtistResDto;
   }
 
+  @PromMethodCounter
   async following(
     dto: ArtistFollowingReqDto,
     id: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    // this.counter.inc({
-    //   module: ArtistModule.name,
-    //   service: ArtistService.name,
-    //   function: this.following.name
-    // });
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
@@ -74,16 +66,12 @@ export class ArtistService {
     });
   }
 
+  @PromMethodCounter
   async profile(
     dto: ArtistByIdReqDto,
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    // this.counter.inc({
-    //   module: ArtistModule.name,
-    //   service: ArtistService.name,
-    //   function: this.profile.name
-    // });
     const artistResDto = await this.dataArtistService.byId({ ...dto, id });
     const dataArtistResDto = await this.artistMixArtistService.mixArtist(sub, [
       artistResDto
@@ -91,12 +79,8 @@ export class ArtistService {
     return dataArtistResDto[0];
   }
 
+  @PromMethodCounter
   async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {
-    // this.counter.inc({
-    //   module: ArtistModule.name,
-    //   service: ArtistService.name,
-    //   function: this.trending.name
-    // });
     const artistMixResDto = await this.dataArtistService.trending();
     const results = await this.artistMixArtistService.mixArtist(
       sub,
@@ -108,15 +92,11 @@ export class ArtistService {
     } as DataPaginationResDto<DataArtistResDto>;
   }
 
+  @PromMethodCounter
   async trendingGenre(
     dto: ArtistTrendingGenreReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    // this.counter.inc({
-    //   module: ArtistModule.name,
-    //   service: ArtistService.name,
-    //   function: this.trendingGenre.name
-    // });
     const artistMixResDto = await this.dataArtistService.trendingGenre({
       ...dto
     });
@@ -130,16 +110,12 @@ export class ArtistService {
     } as DataPaginationResDto<DataArtistResDto>;
   }
 
+  @PromMethodCounter
   async unfollow(
     dto: ArtistUnfollowReqDto,
     id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    // this.counter.inc({
-    //   module: ArtistModule.name,
-    //   service: ArtistService.name,
-    //   function: this.unfollow.name
-    // });
     const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
     await this.relationService.remove({
       from: {

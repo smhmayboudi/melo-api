@@ -5,7 +5,6 @@ import { PassportModule } from "@nestjs/passport";
 import { AppModule } from "../app/app.module";
 import { AtModule } from "../at/at.module";
 import { JwksModule } from "../jwks/jwks.module";
-import { PromModule } from "../prom/prom.module";
 import { RtModule } from "../rt/rt.module";
 import { UserModule } from "../user/user.module";
 import { AnonymUUIDStrategy } from "./anonym-uuid.strategy";
@@ -38,11 +37,6 @@ import { TokenStrategy } from "./token.strategy";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AuthModule],
       useClass: AuthAuthOptionsFactory
-    }),
-    PromModule.forCounter({
-      help: "counter",
-      labelNames: ["function", "module", "service"],
-      name: "auth"
     }),
     RtModule,
     UserModule

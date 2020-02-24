@@ -5,7 +5,6 @@ import {
   InternalServerErrorException
 } from "@nestjs/common";
 import { AxiosResponse } from "axios";
-// import { Counter } from "prom-client";
 import { map } from "rxjs/operators";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataOrderByType } from "../data/data.order-by.type";
@@ -13,7 +12,10 @@ import { DataSongService } from "../data/data.song.service";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-// import { InjectCounter } from "../prom/prom.decorators";
+import {
+  // PromInstanceCounter,
+  PromMethodCounter
+} from "../prom/prom.decorators";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
@@ -38,14 +40,12 @@ import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 import { SongConfigService } from "./song.config.service";
-// import { SongModule } from "./song.module";
 
 @Injectable()
+// @PromInstanceCounter
 export class SongService {
   constructor(
     private readonly appMixSongService: AppMixSongService,
-    // @InjectCounter("song")
-    // private readonly counter: Counter,
     private readonly dataSongService: DataSongService,
     private readonly httpService: HttpService,
     private readonly relationService: RelationService,
@@ -53,16 +53,12 @@ export class SongService {
     private readonly userService: UserService
   ) {}
 
+  @PromMethodCounter
   async artistSongs(
     dto: SongArtistSongsReqDto,
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.artistSongs.name
-    // });
     const dataSongResDto = await this.dataSongService.artistSongs({
       ...dto,
       id: artistId.toString()
@@ -77,16 +73,12 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async artistSongsTop(
     dto: SongArtistSongsTopReqDto,
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.artistSongsTop.name
-    // });
     const dataSongResDto = await this.dataSongService.artistSongsTop({
       ...dto,
       id: artistId.toString()
@@ -101,16 +93,12 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async byId(
     dto: SongByIdReqDto,
     id: number,
     sub: number
   ): Promise<DataSongResDto> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.byId.name
-    // });
     const dataSongResDto = await this.dataSongService.byId({ ...dto, id });
     const songMixResDto = await this.appMixSongService.mixSong(sub, [
       dataSongResDto
@@ -118,17 +106,13 @@ export class SongService {
     return songMixResDto[0];
   }
 
+  @PromMethodCounter
   async genre(
     paramDto: SongSongGenresParamReqDto,
     orderBy: DataOrderByType,
     queryDto: SongSongGenresQueryReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.genre.name
-    // });
     const dataSongResDto = await this.dataSongService.genre({
       ...paramDto,
       orderBy: orderBy,
@@ -144,16 +128,12 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async language(
     dto: SongLanguageReqDto,
     orderBy: DataOrderByType,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.language.name
-    // });
     const dataSongResDto = await this.dataSongService.language({
       ...dto,
       orderBy
@@ -168,16 +148,12 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async like(
     _dto: SongLikeReqDto,
     id: number,
     sub: number
   ): Promise<DataSongResDto> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.like.name
-    // });
     const song = await this.dataSongService.byId({ id });
     await this.relationService.set({
       createdAt: new Date(),
@@ -194,15 +170,11 @@ export class SongService {
     return { ...song, liked: true };
   }
 
+  @PromMethodCounter
   async liked(
     dto: SongLikedReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.liked.name
-    // });
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
@@ -228,15 +200,11 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async mood(
     dto: SongMoodReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.mood.name
-    // });
     const dataSongResDto = await this.dataSongService.mood(dto);
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -248,15 +216,11 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async new(
     dto: SongNewReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.new.name
-    // });
     const dataSongResDto = await this.dataSongService.new(dto);
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -268,15 +232,11 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async newPodcast(
     dto: DataSongNewPodcastReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.newPodcast.name
-    // });
     const dataSongResDto = await this.dataSongService.newPodcast({ ...dto });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -288,17 +248,13 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async podcast(
     paramDto: SongPodcastGenresParamReqDto,
     queryDto: SongPodcastGenresQueryReqDto,
     orderBy,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.podcast.name
-    // });
     const dataSongResDto = await this.dataSongService.podcast({
       ...paramDto,
       ...queryDto,
@@ -314,31 +270,23 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async searchMood(
     paramDto: SongSearchMoodParamDto,
     querydto: SongSearchMoodQueryDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.searchMood.name
-    // });
     return this.dataSongService.searchMood({
       ...paramDto,
       ...querydto
     });
   }
 
+  @PromMethodCounter
   async sendTelegram(
     _dto: SongSendTelegramReqDto,
     id: number,
     sub: number
   ): Promise<void> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.sendTelegram.name
-    // });
     const userUserResDto = await this.userService.findOneById(sub);
     if (
       userUserResDto === undefined ||
@@ -373,16 +321,12 @@ export class SongService {
       .toPromise();
   }
 
+  @PromMethodCounter
   async similar(
     dto: SongSimilarReqDto,
     id: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.similar.name
-    // });
     const dataSongResDto = await this.dataSongService.similar({ ...dto, id });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -394,12 +338,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.slider.name
-    // });
     const dataSongResDto = await this.dataSongService.slider();
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -411,15 +351,11 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async topDay(
     dto: SongTopDayReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.topDay.name
-    // });
     const dataSongResDto = await this.dataSongService.topDay(dto);
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -431,15 +367,11 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async topWeek(
     dto: SongTopWeekReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.topWeek.name
-    // });
     const dataSongResDto = await this.dataSongService.topWeek(dto);
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
@@ -451,16 +383,12 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @PromMethodCounter
   async unlike(
     _dto: SongUnlikeReqDto,
     id: number,
     sub: number
   ): Promise<DataSongResDto> {
-    // this.counter.inc({
-    //   module: SongModule.name,
-    //   service: SongService.name,
-    //   function: this.unlike.name
-    // });
     const dataSongResDto = await this.dataSongService.byId({ id });
     await this.relationService.remove({
       from: {

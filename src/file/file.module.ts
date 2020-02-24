@@ -3,7 +3,6 @@ import { ConfigModule } from "@nestjs/config";
 import { MulterModule } from "@nestjs/platform-express";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
-import { PromModule } from "../prom/prom.module";
 import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
@@ -28,11 +27,6 @@ import { FileService } from "./file.service";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [FileModule],
       useClass: FileMulterOptionsFactory
-    }),
-    PromModule.forCounter({
-      help: "counter",
-      labelNames: ["function", "module", "service"],
-      name: "file"
     }),
     TypeOrmModule.forFeature([FileEntityRepository])
   ],

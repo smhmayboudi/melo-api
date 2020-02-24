@@ -109,6 +109,23 @@ export class AppConfigService {
     return this.configService.get<number>("app.port", 0);
   }
 
+  get promDefaultLabels(): Record<string, string> {
+    return JSON.parse(
+      this.configService.get<string>("app.promDefaultLabels", "")
+    );
+  }
+
+  get promDefaultMetricsEnabled(): boolean {
+    return this.configService.get<boolean>(
+      "app.promDefaultMetricsEnabled",
+      true
+    );
+  }
+
+  get promPath(): string {
+    return this.configService.get<string>("app.promPath", "");
+  }
+
   get promPrefix(): string {
     return this.configService.get<string>("app.promPrefix", "");
   }
