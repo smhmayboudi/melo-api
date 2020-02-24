@@ -1,84 +1,137 @@
 import typeorm from "typeorm";
 import { Logger } from "@nestjs/common";
-import util from "util";
 
-// export class AppTypeOrmLogger implements typeorm.Logger {
-export default {
+export class AppTypeOrmLogger implements typeorm.Logger {
+  private options?:
+    | boolean
+    | "all"
+    | ("log" | "info" | "warn" | "query" | "schema" | "error" | "migration")[]
+    | undefined;
+
+  constructor(
+    options?:
+      | boolean
+      | "all"
+      | ("log" | "info" | "warn" | "query" | "schema" | "error" | "migration")[]
+      | undefined
+  ) {
+    this.options = options;
+  }
+
   logQuery(
     query: string,
     parameters?: any[] | undefined,
-    queryRunner?: typeorm.QueryRunner | undefined
+    _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
-    Logger.log(
-      `${query} => ${parameters} => ${queryRunner}`,
-      "AppTypeOrmLogger"
-    );
-    Logger.log(util.format(query, parameters, queryRunner), "AppTypeOrmLogger");
-  },
+    if (
+      this.options === "all" ||
+      this.options === true ||
+      (this.options instanceof Array && this.options.includes("query"))
+    ) {
+      const sql =
+        query +
+        (parameters && parameters.length
+          ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+          : "");
+      Logger.log(`query: ${sql}`, "AppTypeOrmLogger");
+    }
+  }
+
   logQueryError(
     error: string,
     query: string,
     parameters?: any[] | undefined,
-    queryRunner?: typeorm.QueryRunner | undefined
+    _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
-    Logger.error(
-      `${error} => ${query} => ${parameters} => ${queryRunner}`,
-      undefined,
-      "AppTypeOrmLogger"
-    );
-    Logger.error(
-      util.format(error, query, parameters, queryRunner),
-      undefined,
-      "AppTypeOrmLogger"
-    );
-  },
+    if (
+      this.options === "all" ||
+      this.options === true ||
+      (this.options instanceof Array && this.options.includes("error"))
+    ) {
+      const sql =
+        query +
+        (parameters && parameters.length
+          ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+          : "");
+      Logger.error(
+        `query failed: ${sql}, with error: ${error}`,
+        undefined,
+        "AppTypeOrmLogger"
+      );
+    }
+  }
+
   logQuerySlow(
     time: number,
     query: string,
     parameters?: any[] | undefined,
-    queryRunner?: typeorm.QueryRunner | undefined
+    _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
+    const sql =
+      query +
+      (parameters && parameters.length
+        ? " -- PARAMETERS: " + this.stringifyParams(parameters)
+        : "");
     Logger.log(
-      `${time} => ${query} => ${parameters} => ${queryRunner}`,
+      `query is slow: ${sql}, with execution time: ${time}`,
       "AppTypeOrmLogger"
     );
-    Logger.log(
-      util.format(time, query, parameters, queryRunner),
-      "AppTypeOrmLogger"
-    );
-  },
+  }
+
   logSchemaBuild(
     message: string,
-    queryRunner?: typeorm.QueryRunner | undefined
+    _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
-    Logger.log(`${message} => ${queryRunner}`, "AppTypeOrmLogger");
-    Logger.log(util.format(message, queryRunner), "AppTypeOrmLogger");
-  },
+    if (
+      this.options === "all" ||
+      (this.options instanceof Array && this.options.includes("schema"))
+    ) {
+      Logger.log(message, "AppTypeOrmLogger");
+    }
+  }
+
   logMigration(
     message: string,
-    queryRunner?: typeorm.QueryRunner | undefined
+    _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
-    Logger.log(`${message} => ${queryRunner}`, "AppTypeOrmLogger");
-    Logger.log(util.format(message, queryRunner), "AppTypeOrmLogger");
-  },
+    Logger.log(message, "AppTypeOrmLogger");
+  }
+
   log(
     level: "log" | "info" | "warn",
     message: any,
-    queryRunner?: typeorm.QueryRunner | undefined
+    _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
     switch (level) {
-      case "info":
-        Logger.log(`info: ${message} => ${queryRunner}`, "AppTypeOrmLogger");
-        Logger.log(util.format(message, queryRunner), "AppTypeOrmLogger");
-        break;
       case "log":
-        Logger.log(`log: ${message} => ${queryRunner}`, "AppTypeOrmLogger");
-        Logger.log(util.format(message, queryRunner), "AppTypeOrmLogger");
+        if (
+          this.options === "all" ||
+          (this.options instanceof Array && this.options.includes("log"))
+        )
+          Logger.log(message, "AppTypeOrmLogger");
+        break;
+      case "info":
+        if (
+          this.options === "all" ||
+          (this.options instanceof Array && this.options.includes("info"))
+        )
+          Logger.log(`INFO: ${message}`, "AppTypeOrmLogger");
         break;
       case "warn":
-        Logger.log(`warn: ${message} => ${queryRunner}`, "AppTypeOrmLogger");
-        Logger.log(util.format(message, queryRunner), "AppTypeOrmLogger");
+        if (
+          this.options === "all" ||
+          (this.options instanceof Array && this.options.includes("warn"))
+        )
+          Logger.warn(message, "AppTypeOrmLogger");
         break;
     }
   }
-};
+
+  stringifyParams(parameters: any[]): any {
+    try {
+      return JSON.stringify(parameters);
+    } catch (error) {
+      return parameters;
+    }
+  }
+}

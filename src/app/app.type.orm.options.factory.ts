@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
-import { AppConfigService } from "./app.config.service";
 import { AtEntity } from "../at/at.entity";
 import { FileEntity } from "../file/file.entity";
 import { JwksEntity } from "../jwks/jwks.entity";
 import { RtEntity } from "../rt/rt.entity";
 import { UserEntity } from "../user/user.entity";
-import logger from "./app.type.orm.logger";
+import { AppConfigService } from "./app.config.service";
+import { AppTypeOrmLogger } from "./app.type.orm.logger";
 
 @Injectable()
 export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
@@ -17,7 +17,7 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       database: this.appConfigService.typeOrmDatabase,
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
       host: this.appConfigService.typeOrmHost,
-      logger,
+      logger: new AppTypeOrmLogger(this.appConfigService.typeOrmLogging),
       logging: this.appConfigService.typeOrmLogging,
       password: this.appConfigService.typeOrmPassword,
       port: this.appConfigService.typeOrmPort,
