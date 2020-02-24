@@ -12,7 +12,16 @@ import {
 } from "./apm.module.interface";
 import { ApmService } from "./apm.service";
 
-@Module({})
+@Module({
+  exports: [ApmService],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ApmInterceptor
+    },
+    ApmService
+  ]
+})
 export class ApmModule {
   private static createAsyncOptionsProvider(
     options: ApmModuleAsyncOptions
@@ -48,49 +57,31 @@ export class ApmModule {
   }
 
   static register(options: ApmModuleOptions = {}): DynamicModule {
+    const apmInstanceProvider = {
+      provide: APM_INSTANCE_TOKEN,
+      useValue: (apm.start({ logger, ...options }) as unknown) as Agent
+    };
     return {
-      controllers: [],
-      exports: [ApmService],
-      imports: [],
       module: ApmModule,
-      providers: [
-        {
-          provide: APM_INSTANCE_TOKEN,
-          useValue: apm.start({ logger, ...options })
-        },
-        {
-          provide: APP_INTERCEPTOR,
-          useClass: ApmInterceptor
-        },
-        ApmService
-      ]
+      providers: [apmInstanceProvider]
     };
   }
 
   static registerAsync(options: ApmModuleAsyncOptions = {}): DynamicModule {
     const asyncProviders = this.createAsyncProviders(options);
+    const apmInstanceProvider = {
+      inject: [APM_MODULE_OPTIONS],
+      provide: APM_INSTANCE_TOKEN,
+      useFactory: (options: ApmModuleOptions): Agent =>
+        (apm.start({
+          logger,
+          ...options
+        }) as unknown) as Agent
+    };
     return {
-      controllers: [],
-      exports: [ApmService],
       imports: options.imports,
       module: ApmModule,
-      providers: [
-        ...asyncProviders,
-        {
-          inject: [APM_MODULE_OPTIONS],
-          provide: APM_INSTANCE_TOKEN,
-          useFactory: (opts: ApmModuleOptions): Agent =>
-            (apm.start({
-              logger,
-              ...opts
-            }) as unknown) as Agent
-        },
-        {
-          provide: APP_INTERCEPTOR,
-          useClass: ApmInterceptor
-        },
-        ApmService
-      ]
+      providers: [...asyncProviders, apmInstanceProvider]
     };
   }
 }

@@ -2,7 +2,7 @@ import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
-// import { PromModule } from "../prom/prom.module";
+import { PromModule } from "../prom/prom.module";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import config from "./user.config";
 import { UserConfigService } from "./user.config.service";
@@ -22,12 +22,11 @@ import { UserService } from "./user.service";
       useClass: UserCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
-    // PromModule.register(),
-    // PromModule.register({
-    //   name: "user counter",
-    //   labelNames: ["function", "module", "service"],
-    //   name: "user"`
-    // })
+    PromModule.forCounter({
+      help: "counter",
+      labelNames: ["function", "module", "service"],
+      name: "user"
+    }),
     TypeOrmModule.forFeature([UserEntityRepository])
   ],
   providers: [UserConfigService, UserHealthIndicator, UserService]

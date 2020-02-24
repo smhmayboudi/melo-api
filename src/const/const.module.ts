@@ -1,7 +1,7 @@
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
-// import { PromModule } from "../prom/prom.module";
+import { PromModule } from "../prom/prom.module";
 import { ConstCacheOptionsFactory } from "./const.cache.options.factory";
 import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
@@ -19,12 +19,12 @@ import { ConstService } from "./const.service";
       imports: [ConstModule],
       useClass: ConstCacheOptionsFactory
     }),
-    ConfigModule.forFeature(config)
-    // PromModule.register({
-    //   help: "const counter",
-    //   labelNames: ["function", "module", "service"],
-    //   name: "const"
-    // })
+    ConfigModule.forFeature(config),
+    PromModule.forCounter({
+      help: "counter",
+      labelNames: ["function", "module", "service"],
+      name: "const"
+    })
   ],
   providers: [ConstConfigService, ConstHealthIndicator, ConstService]
 })

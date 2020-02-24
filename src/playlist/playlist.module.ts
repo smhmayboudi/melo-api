@@ -3,7 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";
-// import { PromModule } from "../prom/prom.module";
+import { PromModule } from "../prom/prom.module";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
@@ -24,12 +24,12 @@ import { PlaylistService } from "./playlist.service";
     }),
     ConfigModule.forFeature(config),
     DataModule,
-    MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }])
-    // PromModule.register({
-    //   help: "playlist counter",
-    //   labelNames: ["function", "module", "service"],
-    //   name: "playlist"
-    // })
+    MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }]),
+    PromModule.forCounter({
+      help: "counter",
+      labelNames: ["function", "module", "service"],
+      name: "playlist"
+    })
   ],
   providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService]
 })

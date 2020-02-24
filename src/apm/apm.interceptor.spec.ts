@@ -7,7 +7,6 @@ describe("ApmInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [],
       providers: [ApmService]
     }).compile();
 

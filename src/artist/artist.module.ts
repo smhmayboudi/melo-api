@@ -2,7 +2,7 @@ import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";
-// import { PromModule } from "../prom/prom.module";
+import { PromModule } from "../prom/prom.module";
 import { RelationModule } from "../relation/relation.module";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import config from "./artist.config";
@@ -23,12 +23,11 @@ import { ArtistService } from "./artist.service";
     }),
     ConfigModule.forFeature(config),
     DataModule,
-    // PromModule.register(),
-    // PromModule.register({
-    //   name: "artist counter",
-    //   labelNames: ["function", "module", "service"],
-    //   name: "artist"
-    // })
+    PromModule.forCounter({
+      help: "counter",
+      labelNames: ["function", "module", "service"],
+      name: "artist"
+    }),
     RelationModule
   ],
   providers: [ArtistConfigService, ArtistHealthIndicator, ArtistService]

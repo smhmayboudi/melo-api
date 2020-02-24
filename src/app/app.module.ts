@@ -37,14 +37,13 @@ import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppMixSongService } from "./app.mix-song.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
-// import { AppPromOptionsFactory } from "./app.prom.options.factory";
+import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 
 @Module({
-  controllers: [],
   exports: [
     AppConfigService,
     AppHashIdService,
@@ -82,12 +81,11 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
       useClass: AppMongooseOptionsFactory
     }),
     PlaylistModule,
-    // PromModule.forRootAsync({
-    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    //   imports: [AppModule],
-    //   useClass: AppPromOptionsFactory
-    // }),
-    PromModule.forRoot(),
+    PromModule.forRootAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [AppModule],
+      useClass: AppPromOptionsFactory
+    }),
     RelationModule,
     RtModule,
     SearchModule,

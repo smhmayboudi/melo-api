@@ -2,13 +2,13 @@ import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
-// import { Counter } from "prom-client";
+import { Counter } from "prom-client";
 import uuidv4 from "uuid/v4";
 import { JwksService } from "../jwks/jwks.service";
-// import { InjectCounter } from "../prom/prom.decorators";
+import { InjectCounter } from "../prom/prom.decorators";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
-// import { AuthModule } from "./auth.module";
+import { AuthModule } from "./auth.module";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
@@ -16,19 +16,19 @@ import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 export class AuthService {
   constructor(
     private readonly authConfigService: AuthConfigService,
-    // @InjectCounter("auth")
-    // private readonly counter: Counter<string>,
+    @InjectCounter("auth")
+    private readonly counter: Counter<string>,
     private readonly jwksService: JwksService,
     private readonly jwtService: JwtService,
     private readonly rtService: RtService
   ) {}
 
   async accessToken(sub: number): Promise<AuthAccessTokenResDto | undefined> {
-    // this.counter.inc({
-    //   module: AuthModule.name,
-    //   service: AuthService.name,
-    //   function: this.accessToken.name
-    // });
+    this.counter.inc({
+      module: AuthModule.name,
+      service: AuthService.name,
+      function: this.accessToken.name
+    });
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();
@@ -47,11 +47,11 @@ export class AuthService {
   }
 
   async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
-    // this.counter.inc({
-    //   module: AuthModule.name,
-    //   service: AuthService.name,
-    //   function: this.refreshToken.name
-    // });
+    this.counter.inc({
+      module: AuthModule.name,
+      service: AuthService.name,
+      function: this.refreshToken.name
+    });
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();

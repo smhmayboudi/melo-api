@@ -1,6 +1,6 @@
 import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-// import { PromModule } from "../prom/prom.module";
+import { PromModule } from "../prom/prom.module";
 import { DataAlbumService } from "./data.album.service";
 import { DataArtistService } from "./data.artist.service";
 import config from "./data.config";
@@ -12,7 +12,6 @@ import { DataService } from "./data.service";
 import { DataSongService } from "./data.song.service";
 
 @Module({
-  controllers: [],
   exports: [
     DataAlbumService,
     DataHealthIndicator,
@@ -28,12 +27,12 @@ import { DataSongService } from "./data.song.service";
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [DataModule],
       useClass: DataHttpModuleOptionsFactory
+    }),
+    PromModule.forCounter({
+      help: "counter",
+      labelNames: ["function", "module", "service"],
+      name: "data"
     })
-    // PromModule.register({
-    //   name: "data counter",
-    //   labelNames: ["function", "module", "service"],
-    //   name: "data"
-    // })
   ],
   providers: [
     DataAlbumService,

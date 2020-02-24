@@ -2,7 +2,7 @@ import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";
-// import { PromModule } from "../prom/prom.module";
+import { PromModule } from "../prom/prom.module";
 import { SongModule } from "../song/song.module";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import config from "./search.config";
@@ -23,11 +23,11 @@ import { SearchService } from "./search.service";
     }),
     ConfigModule.forFeature(config),
     DataModule,
-    // PromModule.register({
-    //   name: "search counter",
-    //   labelNames: ["function", "module", "service"],
-    //   name: "search"
-    // })
+    PromModule.forCounter({
+      help: "counter",
+      labelNames: ["function", "module", "service"],
+      name: "search"
+    }),
     SongModule
   ],
   providers: [SearchConfigService, SearchHealthIndicator, SearchService]

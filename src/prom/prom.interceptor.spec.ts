@@ -7,7 +7,6 @@ describe("PromInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [],
       providers: [PromService]
     }).compile();
 
