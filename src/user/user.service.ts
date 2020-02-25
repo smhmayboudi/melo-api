@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserEntity } from "./user.entity";

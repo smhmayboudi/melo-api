@@ -20,7 +20,7 @@ import {
   getTokenHistogram,
   getTokenRegistry,
   getTokenSummary
-} from "./prom.utils";
+} from "./prom.util";
 
 export function createCounterProvider(
   configuration: CounterConfiguration<string>,

@@ -9,7 +9,7 @@ import { Counter } from "prom-client";
 import { Observable } from "rxjs";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { HTTP_REQUESTS_TOTAL } from "./prom.constant";
-import { InjectCounter } from "./prom.decorators";
+import { InjectCounter } from "./prom.decorator";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {

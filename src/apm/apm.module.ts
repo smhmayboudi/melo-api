@@ -1,9 +1,7 @@
 import { DynamicModule, Module, Provider } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
-import apm from "elastic-apm-node";
 import { APM_INSTANCE_TOKEN, APM_MODULE_OPTIONS } from "./apm.constant";
 import { ApmInterceptor } from "./apm.interceptor";
-import logger from "./apm.logger";
 import {
   Agent,
   ApmModuleAsyncOptions,
@@ -11,6 +9,7 @@ import {
   ApmOptionsFactory
 } from "./apm.module.interface";
 import { ApmService } from "./apm.service";
+import { createApmClient } from "./apm.util";
 
 @Module({
   exports: [ApmService],
@@ -59,7 +58,7 @@ export class ApmModule {
   static register(options: ApmModuleOptions = {}): DynamicModule {
     const apmInstanceProvider = {
       provide: APM_INSTANCE_TOKEN,
-      useValue: (apm.start({ logger, ...options }) as unknown) as Agent
+      useValue: createApmClient(options)
     };
     return {
       module: ApmModule,
@@ -72,11 +71,7 @@ export class ApmModule {
     const apmInstanceProvider = {
       inject: [APM_MODULE_OPTIONS],
       provide: APM_INSTANCE_TOKEN,
-      useFactory: (options: ApmModuleOptions): Agent =>
-        (apm.start({
-          logger,
-          ...options
-        }) as unknown) as Agent
+      useFactory: (options: ApmModuleOptions): Agent => createApmClient(options)
     };
     return {
       imports: options.imports,

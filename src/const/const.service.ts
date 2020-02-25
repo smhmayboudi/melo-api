@@ -3,7 +3,7 @@ import { AppImgProxyService } from "../app/app.img-proxy.service";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { ConstConfigService } from "./const.config.service";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 

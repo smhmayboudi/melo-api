@@ -20,7 +20,7 @@ import {
 } from "./prom.module.interface";
 import { createCounterProvider } from "./prom.provider";
 import { PromService } from "./prom.service";
-import { getTokenConfiguration, getTokenRegistry } from "./prom.utils";
+import { getTokenConfiguration, getTokenRegistry } from "./prom.util";
 
 @Global()
 @Module({

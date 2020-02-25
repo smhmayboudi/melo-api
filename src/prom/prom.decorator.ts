@@ -6,7 +6,7 @@ import {
   getTokenGauge,
   getTokenHistogram,
   getTokenSummary
-} from "./prom.utils";
+} from "./prom.util";
 
 export const InjectCounter = (
   name: string

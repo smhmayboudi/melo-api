@@ -7,7 +7,7 @@ import { JwksService } from "../jwks/jwks.service";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";

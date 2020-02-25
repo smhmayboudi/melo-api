@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
 import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";

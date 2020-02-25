@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { ActionDto } from "./dto/action.dto";
 
 @Injectable()

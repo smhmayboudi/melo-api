@@ -5,7 +5,7 @@ import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 
 @Injectable()

@@ -7,7 +7,7 @@ import {
   HistogramConfiguration,
   SummaryConfiguration
 } from "prom-client";
-import { MetricType } from "./prom.utils";
+import { MetricType } from "./prom.util";
 
 export interface MetricTypeConfigurationInterface {
   metricType: MetricType;

@@ -14,7 +14,7 @@ import {
   getOrCreateGauge,
   getOrCreateHistogram,
   getOrCreateSummary
-} from "./prom.utils";
+} from "./prom.util";
 
 @Injectable()
 export class PromService {

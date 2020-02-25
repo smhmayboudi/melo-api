@@ -17,7 +17,7 @@ import {
   createHistogramProvider,
   createSummaryProvider
 } from "./prom.provider";
-import { MetricType } from "./prom.utils";
+import { MetricType } from "./prom.util";
 
 @Module({})
 export class PromModule {

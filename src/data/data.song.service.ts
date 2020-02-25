@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
 import { DataSongArtistSongsTopReqDto } from "./dto/req/data.song.artist-songs-top.req.dto";
 import { DataSongArtistsReqDto } from "./dto/req/data.song.artists.req.dto";

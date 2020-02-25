@@ -4,7 +4,7 @@ import { DeleteResult, UpdateResult } from "typeorm";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
 
