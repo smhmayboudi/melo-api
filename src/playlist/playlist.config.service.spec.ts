@@ -8,7 +8,7 @@ import { PlaylistConfigService } from "./playlist.config.service";
 describe("PlaylistService", () => {
   let service: PlaylistConfigService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [PlaylistConfigService]
@@ -21,11 +21,31 @@ describe("PlaylistService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("cacheHost");
-  test.todo("cacheMax");
-  test.todo("cachePort");
-  test.todo("cacheStore");
-  test.todo("cacheTTL");
-  test.todo("defaultImagePath");
-  test.todo("imagePath");
+  it("cacheHost should be defined", () => {
+    expect(service.cacheHost).toBeDefined();
+  });
+
+  it("cacheMax should be defined", () => {
+    expect(service.cacheMax).toBeDefined();
+  });
+
+  it("cachePort should be defined", () => {
+    expect(service.cachePort).toBeDefined();
+  });
+
+  it("cacheStore should be defined", () => {
+    expect(service.cacheStore).toBeDefined();
+  });
+
+  it("cacheTTL should be defined", () => {
+    expect(service.cacheTTL).toBeDefined();
+  });
+
+  it("defaultImagePath should be defined", () => {
+    expect(service.defaultImagePath).toBeDefined();
+  });
+
+  it("imagePath should be defined", () => {
+    expect(service.imagePath("")).toBeDefined();
+  });
 });

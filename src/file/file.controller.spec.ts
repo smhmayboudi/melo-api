@@ -1,13 +1,13 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
 import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
 import { FileEntityRepository } from "./file.entity.repository";
 import { FileService } from "./file.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
 describe("FileController", () => {
   let controller: FileController;

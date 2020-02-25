@@ -9,7 +9,7 @@ import { SearchService } from "./search.service";
 describe("SearchService", () => {
   let service: SearchService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         forwardRef(() => AppModule),

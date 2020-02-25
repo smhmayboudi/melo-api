@@ -8,7 +8,7 @@ import { AlbumConfigService } from "./album.config.service";
 describe("AlbumService", () => {
   let service: AlbumConfigService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [AlbumConfigService]
@@ -21,9 +21,23 @@ describe("AlbumService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("cacheHost");
-  test.todo("cacheMax");
-  test.todo("cachePort");
-  test.todo("cacheStore");
-  test.todo("cacheTTL");
+  it("cacheHost cacheHostshould be defined", () => {
+    expect(service.cacheHost).toBeDefined();
+  });
+
+  it("cacheMax should be defined", () => {
+    expect(service.cacheMax).toBeDefined();
+  });
+
+  it("cachePort should be defined", () => {
+    expect(service.cachePort).toBeDefined();
+  });
+
+  it("cacheStore should be defined", () => {
+    expect(service.cacheStore).toBeDefined();
+  });
+
+  it("cacheTTL should be defined", () => {
+    expect(service.cacheTTL).toBeDefined();
+  });
 });

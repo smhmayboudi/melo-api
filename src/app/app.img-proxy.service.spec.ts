@@ -7,7 +7,7 @@ import { AppImgProxyService } from "./app.img-proxy.service";
 describe("ImgProxyService", () => {
   let service: AppImgProxyService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppImgProxyService]
@@ -20,6 +20,7 @@ describe("ImgProxyService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("all");
-  test.todo("make");
+  it("all should be defined", () => {
+    expect(service.generateUrl("")).toBeDefined();
+  });
 });

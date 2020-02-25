@@ -8,7 +8,7 @@ import { SongConfigService } from "./song.config.service";
 describe("SongService", () => {
   let service: SongConfigService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [SongConfigService]
@@ -21,11 +21,31 @@ describe("SongService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("cacheHost");
-  test.todo("cacheMax");
-  test.todo("cachePort");
-  test.todo("cacheStore");
-  test.todo("cacheTTL");
-  test.todo("sendTelegramUrl");
-  test.todo("sendTelegramTimeout");
+  it("cacheHost should be defined", () => {
+    expect(service.cacheHost).toBeDefined();
+  });
+
+  it("cacheMax should be defined", () => {
+    expect(service.cacheMax).toBeDefined();
+  });
+
+  it("cachePort should be defined", () => {
+    expect(service.cachePort).toBeDefined();
+  });
+
+  it("cacheStore should be defined", () => {
+    expect(service.cacheStore).toBeDefined();
+  });
+
+  it("cacheTTL should be defined", () => {
+    expect(service.cacheTTL).toBeDefined();
+  });
+
+  it("sendTelegramUrl should be defined", () => {
+    expect(service.sendTelegramUrl).toBeDefined();
+  });
+
+  it("sendTelegramTimeout should be defined", () => {
+    expect(service.timeout).toBeDefined();
+  });
 });

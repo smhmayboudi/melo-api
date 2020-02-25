@@ -7,7 +7,7 @@ import { AppHashIdService } from "./app.hash-id.service";
 describe("AppHashIdService", () => {
   let service: AppHashIdService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppHashIdService]
@@ -20,6 +20,13 @@ describe("AppHashIdService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("decode");
-  test.todo("encode");
+  it("decode should be defined", () => {
+    jest.spyOn(service, "decode").mockImplementation(() => 0);
+    expect(service.decode("")).toBeDefined();
+  });
+
+  it("encode should be defined", () => {
+    jest.spyOn(service, "encode").mockImplementation(() => "");
+    expect(service.encode(0)).toBeDefined();
+  });
 });

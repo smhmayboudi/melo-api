@@ -8,7 +8,7 @@ import { AuthConfigService } from "./auth.config.service";
 describe("AuthService", () => {
   let service: AuthConfigService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [AuthConfigService]
@@ -21,10 +21,27 @@ describe("AuthService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("jwtAccessTokenExpiresCount");
-  test.todo("jwtAccessTokenExpiresIn");
-  test.todo("jwtAuhSchema");
-  test.todo("jwtRefreshTokenExpiresIn");
-  test.todo("telegramBotToken");
-  test.todo("telegramQueryExpiration");
+  it("jwtAccessTokenExpiresCount should be defined", () => {
+    expect(service.jwtAccessTokenExpiresCount).toBeDefined();
+  });
+
+  it("jwtAccessTokenExpiresIn should be defined", () => {
+    expect(service.jwtAccessTokenExpiresIn).toBeDefined();
+  });
+
+  it("jwtAuhSchema should be defined", () => {
+    expect(service.jwtAuhSchema).toBeDefined();
+  });
+
+  it("jwtRefreshTokenExpiresIn should be defined", () => {
+    expect(service.jwtRefreshTokenExpiresIn).toBeDefined();
+  });
+
+  it("telegramBotToken should be defined", () => {
+    expect(service.telegramBotToken).toBeDefined();
+  });
+
+  it("telegramQueryExpiration should be defined", () => {
+    expect(service.telegramQueryExpiration).toBeDefined();
+  });
 });

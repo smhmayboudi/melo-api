@@ -18,6 +18,8 @@ export class AlbumService {
   constructor(
     private readonly appMixSongService: AppMixSongService,
     private readonly artistMixArtistService: AppMixArtistService,
+    // @InjectCounterMetric("album_counter")
+    // private readonly counterMetric: CounterMetric,
     private readonly dataAlbumService: DataAlbumService
   ) {}
 

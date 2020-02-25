@@ -11,7 +11,7 @@ import { RtService } from "./rt.service";
 describe("RtService", () => {
   let service: RtService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         forwardRef(() => AppModule),

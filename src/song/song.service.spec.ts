@@ -14,7 +14,7 @@ import { SongService } from "./song.service";
 describe("SongService", () => {
   let service: SongService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         forwardRef(() => AppModule),

@@ -1,7 +1,7 @@
 import config from "./search.config";
 
 describe("SearchConfig", () => {
-  it("should be defined", async () => {
-    expect((await config()).toBeDefined());
+  it("should be defined", () => {
+    expect(config).toBeDefined();
   });
 });
