@@ -50,7 +50,7 @@ export class PromModule {
   static forCounter(
     configuration: CounterConfiguration<string>
   ): DynamicModule {
-    return PromModule.forMetrics([
+    return this.forMetrics([
       {
         configuration,
         metricType: MetricType.Counter
@@ -59,7 +59,7 @@ export class PromModule {
   }
 
   static forGauge(configuration: GaugeConfiguration<string>): DynamicModule {
-    return PromModule.forMetrics([
+    return this.forMetrics([
       {
         configuration,
         metricType: MetricType.Gauge
@@ -70,7 +70,7 @@ export class PromModule {
   static forHistogram(
     configuration: HistogramConfiguration<string>
   ): DynamicModule {
-    return PromModule.forMetrics([
+    return this.forMetrics([
       {
         configuration,
         metricType: MetricType.Histogram
@@ -81,7 +81,7 @@ export class PromModule {
   static forSummary(
     configuration: SummaryConfiguration<string>
   ): DynamicModule {
-    return PromModule.forMetrics([
+    return this.forMetrics([
       {
         configuration,
         metricType: MetricType.Summary

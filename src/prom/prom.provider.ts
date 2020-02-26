@@ -25,7 +25,7 @@ import {
 export function createCounterProvider(
   configuration: CounterConfiguration<string>,
   registryName?: string
-): Provider {
+): Provider<Counter<string>> {
   return {
     inject: [getTokenRegistry(registryName)],
     provide: getTokenCounter(configuration.name),
@@ -43,7 +43,7 @@ export function createCounterProvider(
 export function createGaugeProvider(
   configuration: GaugeConfiguration<string>,
   registryName?: string
-): Provider {
+): Provider<Gauge<string>> {
   return {
     inject: [getTokenRegistry(registryName)],
     provide: getTokenGauge(configuration.name),
@@ -61,7 +61,7 @@ export function createGaugeProvider(
 export function createHistogramProvider(
   configuration: HistogramConfiguration<string>,
   registryName?: string
-): Provider {
+): Provider<Histogram<string>> {
   return {
     inject: [getTokenRegistry(registryName)],
     provide: getTokenHistogram(configuration.name),
@@ -79,7 +79,7 @@ export function createHistogramProvider(
 export function createSummaryProvider(
   configuration: SummaryConfiguration<string>,
   registryName?: string
-): Provider {
+): Provider<Summary<string>> {
   return {
     inject: [getTokenRegistry(registryName)],
     provide: getTokenSummary(configuration.name),

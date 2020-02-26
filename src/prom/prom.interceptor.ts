@@ -1,6 +1,7 @@
 import {
   CallHandler,
   ExecutionContext,
+  Inject,
   Injectable,
   NestInterceptor
 } from "@nestjs/common";
@@ -8,14 +9,20 @@ import express from "express";
 import { Counter } from "prom-client";
 import { Observable } from "rxjs";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
-import { HTTP_REQUESTS_TOTAL } from "./prom.constant";
+import {
+  PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
+  PROM_MODULE_OPTIONS
+} from "./prom.constant";
 import { InjectCounter } from "./prom.decorator";
+import { PromModuleOptions } from "./prom.module.interface";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {
   constructor(
-    @InjectCounter(HTTP_REQUESTS_TOTAL)
-    private readonly counter: Counter<string>
+    @InjectCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
+    private readonly counter: Counter<string>,
+    @Inject(PROM_MODULE_OPTIONS)
+    private readonly options: PromModuleOptions
   ) {}
 
   intercept(
@@ -25,11 +32,16 @@ export class PromInterceptor implements NestInterceptor {
     const request = context
       .switchToHttp()
       .getRequest<express.Request & { user: AuthJwtPayloadReqDto }>();
-    this.counter.inc({
-      method: request.method,
-      path: request.route.path,
-      status: 200
-    });
+    if (
+      this.options.ignorePaths !== undefined &&
+      !this.options.ignorePaths.includes(request.route.path)
+    ) {
+      this.counter.inc({
+        method: request.method,
+        path: request.route.path,
+        status: 200
+      });
+    }
     return next.handle();
   }
 }

@@ -24,6 +24,7 @@ export interface PromModuleOptions {
     config?: DefaultMetricsCollectorConfiguration;
     enabled: boolean;
   };
+  ignorePaths?: string[];
   path?: string;
   prefix?: string;
   registryName?: string;
