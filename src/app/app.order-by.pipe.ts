@@ -17,7 +17,6 @@ export class AppOrderByPipe implements PipeTransform<string, DataOrderByType> {
 
   constructor(@Optional() options?: AppOrderByPipeOptions) {
     options = options || {};
-
     this.exceptionFactory =
       options.exceptionFactory ||
       ((error: string): any => new BadRequestException(error));

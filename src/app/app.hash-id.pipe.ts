@@ -20,7 +20,6 @@ export class AppHashIdPipe implements PipeTransform<string, number> {
     @Optional() options?: AppHashIdPipeOptions
   ) {
     options = options || {};
-
     this.exceptionFactory =
       options.exceptionFactory ||
       ((error: string): any => new BadRequestException(error));

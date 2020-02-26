@@ -75,7 +75,6 @@ async function bootstrap(): Promise<void> {
     // swaggerOptions?: any;
     // swaggerUrl?: string;
   });
-
   await app.listen(appConfigService.port);
 }
 bootstrap();
