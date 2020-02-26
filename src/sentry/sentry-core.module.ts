@@ -65,7 +65,7 @@ export class SentryCoreModule {
     ];
   }
 
-  public static forRoot(optoins: SentryModuleOptions): DynamicModule {
+  public static forRoot(optoins: SentryModuleOptions = {}): DynamicModule {
     const opts = makeDefaultOptions(optoins);
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       provide: SENTRY_INSTANCE_TOKEN,
