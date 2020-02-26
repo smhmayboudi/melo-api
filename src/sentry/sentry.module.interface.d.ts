@@ -1,5 +1,15 @@
 import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
 import { LogLevel } from "@sentry/types";
+import * as Sentry from "@sentry/node";
+
+export interface SentryFilterFunction {
+  (exception: any): boolean;
+}
+
+export interface SentryInterceptorOptionsFilter {
+  filter?: SentryFilterFunction;
+  type: any;
+}
 
 export interface SentryModuleOptions {
   debug: boolean;
@@ -7,6 +17,21 @@ export interface SentryModuleOptions {
   environment?: string;
   logLevel?: LogLevel;
   release?: string;
+
+  context?: "Http" | "Ws" | "Rpc" | "GraphQL";
+  extra?: { [key: string]: any };
+  filters?: SentryInterceptorOptionsFilter[];
+  fingerprint?: string[];
+  level?: Sentry.Severity;
+  tags?: { [key: string]: string };
+
+  // https://github.com/getsentry/sentry-javascript/blob/master/packages/node/src/handlers.ts#L163
+  request?: boolean;
+  serverName?: boolean;
+  // https://github.com/getsentry/sentry-javascript/blob/master/packages/node/src/handlers.ts#L16
+  transaction?: boolean | "path" | "methodPath" | "handler";
+  user?: boolean | string[];
+  version?: boolean;
 }
 
 export interface SentryOptionsFactory {

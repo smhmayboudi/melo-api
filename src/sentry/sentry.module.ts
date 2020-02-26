@@ -1,8 +1,8 @@
-import { Module, DynamicModule } from "@nestjs/common";
+import { DynamicModule, Module } from "@nestjs/common";
 import { SentryCoreModule } from "./sentry-core.module";
 import {
-  SentryModuleOptions,
-  SentryModuleAsyncOptions
+  SentryModuleAsyncOptions,
+  SentryModuleOptions
 } from "./sentry.module.interface";
 
 @Module({})

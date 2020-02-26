@@ -5,6 +5,7 @@ import { SentryModuleOptions } from "./sentry.module.interface";
 export function createSentryClient(
   options: SentryModuleOptions
 ): typeof Sentry {
+  console.log("Sentry.init");
   Sentry.init({
     dsn: options.dsn,
     debug: options.debug === true ? false : options.debug,
@@ -13,11 +14,11 @@ export function createSentryClient(
     logLevel: options.logLevel,
     integrations: [
       new Sentry.Integrations.OnUncaughtException({
-        onFatalError: (err: Error): void => {
-          if (err.name !== "SentryError") {
+        onFatalError: (error): void => {
+          if (error.name !== "SentryError") {
             (Sentry.getCurrentHub().getClient<Client<Options>>() as Client<
               Options
-            >).captureException(err);
+            >).captureException(error);
             process.exit(1);
           }
         }
