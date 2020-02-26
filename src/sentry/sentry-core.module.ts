@@ -12,7 +12,7 @@ import {
   SentryOptionsFactory
 } from "./sentry.module.interface";
 import { SentryService } from "./sentry.service";
-import { createSentryClient } from "./sentry.util";
+import { createSentryClient, makeDefaultOptions } from "./sentry.util";
 
 @Global()
 @Module({
@@ -26,22 +26,6 @@ import { createSentryClient } from "./sentry.util";
   ]
 })
 export class SentryCoreModule {
-  private static createAsyncProviders(
-    options: SentryModuleAsyncOptions
-  ): Provider[] {
-    if (options.useExisting || options.useFactory) {
-      return [this.createAsyncOptionsProvider(options)];
-    }
-    const useClass = options.useClass as Type<SentryOptionsFactory>;
-    return [
-      this.createAsyncOptionsProvider(options),
-      {
-        provide: useClass,
-        useClass
-      }
-    ];
-  }
-
   private static createAsyncOptionsProvider(
     options: SentryModuleAsyncOptions
   ): Provider<Promise<SentryModuleOptions> | SentryModuleOptions> {
@@ -60,14 +44,32 @@ export class SentryCoreModule {
       provide: SENTRY_MODULE_OPTIONS,
       useFactory: async (
         optionsFactory: SentryOptionsFactory
-      ): Promise<SentryModuleOptions> => optionsFactory.createSentryOptions()
+      ): Promise<SentryModuleOptions> =>
+        makeDefaultOptions(await optionsFactory.createSentryOptions())
     };
   }
 
-  public static forRoot(options: SentryModuleOptions): DynamicModule {
+  private static createAsyncProviders(
+    options: SentryModuleAsyncOptions
+  ): Provider[] {
+    if (options.useExisting || options.useFactory) {
+      return [this.createAsyncOptionsProvider(options)];
+    }
+    const useClass = options.useClass as Type<SentryOptionsFactory>;
+    return [
+      this.createAsyncOptionsProvider(options),
+      {
+        provide: useClass,
+        useClass
+      }
+    ];
+  }
+
+  public static forRoot(optoins: SentryModuleOptions): DynamicModule {
+    const opts = makeDefaultOptions(optoins);
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       provide: SENTRY_INSTANCE_TOKEN,
-      useValue: createSentryClient(options)
+      useValue: createSentryClient(opts)
     };
     return {
       exports: [sentryInstanceProvider],
@@ -76,7 +78,9 @@ export class SentryCoreModule {
     };
   }
 
-  public static forRootAsync(options: SentryModuleAsyncOptions): DynamicModule {
+  public static forRootAsync(
+    options: SentryModuleAsyncOptions = {}
+  ): DynamicModule {
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       inject: [SENTRY_MODULE_OPTIONS],
       provide: SENTRY_INSTANCE_TOKEN,

@@ -9,7 +9,7 @@ import {
   ApmOptionsFactory
 } from "./apm.module.interface";
 import { ApmService } from "./apm.service";
-import { createApmClient } from "./apm.util";
+import { createApmClient, makeDefaultOptions } from "./apm.util";
 
 @Module({
   exports: [ApmService],
@@ -40,7 +40,8 @@ export class ApmModule {
       provide: APM_MODULE_OPTIONS,
       useFactory: async (
         optionsFactory: ApmOptionsFactory
-      ): Promise<ApmModuleOptions> => optionsFactory.createApmOptions()
+      ): Promise<ApmModuleOptions> =>
+        makeDefaultOptions(await optionsFactory.createApmOptions())
     };
   }
 
@@ -60,10 +61,11 @@ export class ApmModule {
     ];
   }
 
-  static register(options: ApmModuleOptions = {}): DynamicModule {
+  static register(options: ApmModuleOptions): DynamicModule {
+    const opts = makeDefaultOptions(options);
     const apmInstanceProvider: Provider<Agent> = {
       provide: APM_INSTANCE_TOKEN,
-      useValue: createApmClient(options)
+      useValue: createApmClient(opts)
     };
     return {
       module: ApmModule,
@@ -71,7 +73,7 @@ export class ApmModule {
     };
   }
 
-  static registerAsync(options: ApmModuleAsyncOptions = {}): DynamicModule {
+  static registerAsync(options: ApmModuleAsyncOptions): DynamicModule {
     const asyncProviders = this.createAsyncProviders(options);
     const apmInstanceProvider: Provider<Agent> = {
       inject: [APM_MODULE_OPTIONS],

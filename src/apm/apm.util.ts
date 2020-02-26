@@ -5,3 +5,11 @@ import { Agent, ApmModuleOptions } from "./apm.module.interface";
 export function createApmClient(options: ApmModuleOptions): Agent {
   return (apm.start({ logger, ...options }) as unknown) as Agent;
 }
+
+export function makeDefaultOptions(
+  options?: ApmModuleOptions
+): ApmModuleOptions {
+  return {
+    ...options
+  };
+}

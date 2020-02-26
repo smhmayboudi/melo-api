@@ -28,3 +28,11 @@ export function createSentryClient(
   });
   return Sentry;
 }
+
+export function makeDefaultOptions(
+  options?: SentryModuleOptions
+): SentryModuleOptions {
+  return {
+    ...options
+  };
+}

@@ -12,8 +12,8 @@ export interface SentryInterceptorOptionsFilter {
 }
 
 export interface SentryModuleOptions {
-  debug: boolean;
-  dsn: string;
+  debug?: boolean;
+  dsn?: string;
   environment?: string;
   logLevel?: LogLevel;
   release?: string;
