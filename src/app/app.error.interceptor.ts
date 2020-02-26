@@ -17,7 +17,7 @@ export class AppErrorInterceptor implements NestInterceptor {
       .switchToHttp()
       .getRequest<express.Request & { user: AuthJwtPayloadReqDto }>();
     return next.handle().pipe(
-      catchError((error: Error) => {
+      catchError(error => {
         Logger.error(
           `${JSON.stringify({
             path: request.path,
