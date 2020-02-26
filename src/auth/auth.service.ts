@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import { JwksService } from "../jwks/jwks.service";
 import {
   // PromInstanceCounter,
