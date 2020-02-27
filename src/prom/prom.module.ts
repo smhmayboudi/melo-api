@@ -90,16 +90,20 @@ export class PromModule {
   }
 
   static forRoot(options: PromModuleOptions = {}): DynamicModule {
+    const dynamicModule = PromCoreModule.forRoot(options);
     return {
+      exports: [dynamicModule],
       module: PromModule,
-      imports: [PromCoreModule.forRoot(options)]
+      imports: [dynamicModule]
     };
   }
 
   static forRootAsync(options: PromModuleAsyncOptions = {}): DynamicModule {
+    const dynamicModule = PromCoreModule.forRootAsync(options);
     return {
+      exports: [dynamicModule],
       module: PromModule,
-      imports: [PromCoreModule.forRootAsync(options)]
+      imports: [dynamicModule]
     };
   }
 }

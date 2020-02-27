@@ -1,4 +1,4 @@
-import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
+import { DynamicModule, Module, Provider, Type } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { Registry } from "prom-client";
 import {
@@ -19,12 +19,11 @@ import { PromService } from "./prom.service";
 import {
   getTokenConfiguration,
   getTokenRegistry,
+  makeDefaultOptions,
   promConfigurationProviderImp,
-  promRegistryProviderImp,
-  makeDefaultOptions
+  promRegistryProviderImp
 } from "./prom.util";
 
-@Global()
 @Module({
   controllers: [PromController],
   exports: [PromService],

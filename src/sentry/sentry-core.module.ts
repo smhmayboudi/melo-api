@@ -1,4 +1,4 @@
-import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
+import { DynamicModule, Module, Provider, Type } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import * as Sentry from "@sentry/node";
 import {
@@ -14,7 +14,6 @@ import {
 import { SentryService } from "./sentry.service";
 import { createSentryClient, makeDefaultOptions } from "./sentry.util";
 
-@Global()
 @Module({
   exports: [SentryService],
   providers: [
