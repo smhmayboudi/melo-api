@@ -30,8 +30,6 @@ export class SentryInterceptor implements NestInterceptor {
   ) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    console.log("intercept_intercept");
-    this.sentry.captureMessage("HIHIHI");
     const http = context.switchToHttp();
     const ws = context.switchToWs();
     const rpc = context.switchToRpc();
@@ -111,7 +109,6 @@ export class SentryInterceptor implements NestInterceptor {
     if (data.user !== undefined) {
       scope.setUser(data.user);
     }
-    console.log("exception, scope", exception, scope);
     this.captureException(exception, scope);
   }
 

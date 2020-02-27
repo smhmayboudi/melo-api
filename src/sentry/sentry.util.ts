@@ -5,7 +5,6 @@ import { SentryModuleOptions } from "./sentry.module.interface";
 export function createSentryClient(
   options: SentryModuleOptions
 ): typeof Sentry {
-  console.log("Sentry.init");
   Sentry.init({
     dsn: options.dsn,
     debug: options.debug === true ? false : options.debug,
