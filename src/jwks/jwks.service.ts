@@ -8,7 +8,7 @@ import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class JwksService {
   constructor(
     @InjectRepository(JwksEntity)

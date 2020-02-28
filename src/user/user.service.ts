@@ -10,7 +10,7 @@ import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)

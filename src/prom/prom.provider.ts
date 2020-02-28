@@ -30,11 +30,9 @@ export function createCounterProvider(
     inject: [getTokenRegistry(registryName)],
     provide: getTokenCounter(configuration.name),
     useFactory(registry: Registry): Counter<string> {
-      const { registers, ...configs } = configuration;
       return getOrCreateCounter({
-        ...configs,
-        registers:
-          registers === undefined ? [registry] : [...registers, registry]
+        ...configuration,
+        registers: [registry]
       });
     }
   };
@@ -48,11 +46,9 @@ export function createGaugeProvider(
     inject: [getTokenRegistry(registryName)],
     provide: getTokenGauge(configuration.name),
     useFactory(registry: Registry): Gauge<string> {
-      const { registers, ...configs } = configuration;
       return getOrCreateGauge({
-        ...configs,
-        registers:
-          registers === undefined ? [registry] : [...registers, registry]
+        ...configuration,
+        registers: [registry]
       });
     }
   };
@@ -66,11 +62,9 @@ export function createHistogramProvider(
     inject: [getTokenRegistry(registryName)],
     provide: getTokenHistogram(configuration.name),
     useFactory(registry: Registry): Histogram<string> {
-      const { registers, ...configs } = configuration;
       return getOrCreateHistogram({
-        ...configs,
-        registers:
-          registers === undefined ? [registry] : [...registers, registry]
+        ...configuration,
+        registers: [registry]
       });
     }
   };
@@ -84,11 +78,9 @@ export function createSummaryProvider(
     inject: [getTokenRegistry(registryName)],
     provide: getTokenSummary(configuration.name),
     useFactory(registry: Registry): Summary<string> {
-      const { registers, ...configs } = configuration;
       return getOrCreateSummary({
-        ...configs,
-        registers:
-          registers === undefined ? [registry] : [...registers, registry]
+        ...configuration,
+        registers: [registry]
       });
     }
   };

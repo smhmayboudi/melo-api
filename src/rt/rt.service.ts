@@ -8,7 +8,7 @@ import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class RtService {
   constructor(
     @InjectRepository(RtEntity)

@@ -16,7 +16,7 @@ import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class FileService {
   private readonly mmmagic: Magic;
   private readonly s3: aws.S3;

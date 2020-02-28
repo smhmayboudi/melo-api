@@ -8,20 +8,16 @@ import {
 @Module({})
 export class SentryModule {
   public static forRoot(options: SentryModuleOptions): DynamicModule {
-    const dynamicModule = SentryCoreModule.forRoot(options);
     return {
-      exports: [dynamicModule],
       module: SentryModule,
-      imports: [dynamicModule]
+      imports: [SentryCoreModule.forRoot(options)]
     };
   }
 
   public static forRootAsync(options: SentryModuleAsyncOptions): DynamicModule {
-    const dynamicModule = SentryCoreModule.forRootAsync(options);
     return {
-      exports: [dynamicModule],
       module: SentryModule,
-      imports: [dynamicModule]
+      imports: [SentryCoreModule.forRootAsync(options)]
     };
   }
 }

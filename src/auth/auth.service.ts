@@ -14,7 +14,7 @@ import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class AuthService {
   constructor(
     private readonly authConfigService: AuthConfigService,

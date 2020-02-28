@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Provider, Type } from "@nestjs/common";
+import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { Registry } from "prom-client";
 import {
@@ -24,6 +24,7 @@ import {
   promRegistryProviderImp
 } from "./prom.util";
 
+@Global()
 @Module({
   controllers: [PromController],
   exports: [PromService],
@@ -130,6 +131,7 @@ export class PromCoreModule {
       useFactory: (options: PromModuleOptions) =>
         promConfigurationProviderImp(promConfigurationName, options)
     };
+    console.log("options.registryName", options.registryName);
     const promRegistryName = getTokenRegistry(options.registryName);
     const promRegistryNameProvider: Provider<string> = {
       provide: PROM_REGISTRY_NAME,

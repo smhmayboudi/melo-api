@@ -9,7 +9,7 @@ import {
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class SearchService {
   constructor(private readonly dataSearchService: DataSearchService) {}
 

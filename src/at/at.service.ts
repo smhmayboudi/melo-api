@@ -9,7 +9,7 @@ import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class AtService {
   constructor(
     @InjectRepository(AtEntity)
