@@ -11,6 +11,7 @@ import {
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
@@ -61,10 +62,13 @@ export class AlbumService {
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
       dataAlbumResDto.songs === undefined ? [] : dataAlbumResDto.songs.results
-    )[0];
+    );
     return {
       ...dataAlbumResDto,
-      songs: songMixResDto
+      songs: {
+        results: songMixResDto,
+        total: songMixResDto.length
+      } as DataPaginationResDto<DataSongResDto>
     };
   }
 
