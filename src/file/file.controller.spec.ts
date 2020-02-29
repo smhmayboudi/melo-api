@@ -1,34 +1,71 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { Test, TestingModule } from "@nestjs/testing";
+import { Test } from "@nestjs/testing";
+import { getRepositoryToken } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
 import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
-import { FileEntityRepository } from "./file.entity.repository";
 import { FileService } from "./file.service";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { FileEntity } from "./file.entity";
 
 describe("FileController", () => {
-  let controller: FileController;
+  let fileController: FileController;
+  let fileService: FileService;
+
+  const mockRepository = jest.fn(() => ({
+    save: {
+      bucket: "",
+      created_at: new Date(),
+      e_tag: "",
+      file_key: "",
+      id: 0,
+      mime_type: "",
+      owner_user_id: 0,
+      size: 0
+    }
+  }));
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [FileController],
-      imports: [
-        forwardRef(() => AppModule),
-        ConfigModule.forFeature(config),
-        TypeOrmModule.forFeature([FileEntityRepository])
-      ],
-      providers: [FileConfigService, FileService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [
+        FileConfigService,
+        FileService,
+        {
+          provide: getRepositoryToken(FileEntity),
+          useValue: mockRepository
+        }
+      ]
     }).compile();
 
-    controller = module.get<FileController>(FileController);
+    fileService = module.get<FileService>(FileService);
+    fileController = module.get<FileController>(FileController);
   });
 
-  it("should be defined", () => {
-    expect(controller).toBeDefined();
-  });
+  describe("uploadImage", () => {
+    it("should be defined", async () => {
+      const res = {
+        createdAt: new Date(),
+        fileKey: "",
+        mimeType: "",
+        originalname: "",
+        size: 0
+      };
+      const req = {
+        buffer: new Buffer(""),
+        createdAt: new Date(),
+        fileKey: "",
+        mimeType: "",
+        originalname: "",
+        size: 0
+      };
+      jest
+        .spyOn(fileService, "uploadImage")
+        .mockImplementation(() => Promise.resolve(res));
 
-  test.todo("uploadImage");
+      expect(await fileController.uploadedPic(0, req)).toBe(res);
+    });
+  });
 });

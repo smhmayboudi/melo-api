@@ -8,21 +8,36 @@ import { ConstController } from "./const.controller";
 import { ConstService } from "./const.service";
 
 describe("ConstController", () => {
-  let controller: ConstController;
+  let constController: ConstController;
+  let constService: ConstService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConstController],
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [ConstConfigService, ConstService]
     }).compile();
 
-    controller = module.get<ConstController>(ConstController);
+    constController = module.get<ConstController>(ConstController);
+    constService = module.get<ConstService>(ConstService);
   });
 
   it("should be defined", () => {
-    expect(controller).toBeDefined();
+    expect(constController).toBeDefined();
   });
 
-  test.todo("images");
+  it("images should be defined", async () => {
+    const res = {
+      "": {
+        "": {
+          url: ""
+        }
+      }
+    };
+    jest
+      .spyOn(constService, "images")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await constController.images()).toBe(res);
+  });
 });

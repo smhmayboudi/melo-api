@@ -6,7 +6,7 @@ import { DataConfigService } from "./data.config.service";
 describe("DataService", () => {
   let service: DataConfigService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [DataConfigService]
@@ -19,6 +19,11 @@ describe("DataService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("timeout");
-  test.todo("url");
+  it("timeout should be defined", () => {
+    expect(service.timeout).toBeDefined();
+  });
+
+  it("url should be defined", () => {
+    expect(service.url).toBeDefined();
+  });
 });

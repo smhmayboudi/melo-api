@@ -8,7 +8,7 @@ import { FileConfigService } from "./file.config.service";
 describe("FileService", () => {
   let service: FileConfigService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [FileConfigService]
@@ -21,14 +21,43 @@ describe("FileService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("cacheHost");
-  test.todo("cacheMax");
-  test.todo("cachePort");
-  test.todo("cacheStore");
-  test.todo("cacheTTL");
-  test.todo("s3AccessKeyId");
-  test.todo("s3Bucket");
-  test.todo("s3Endpoint");
-  test.todo("s3SecretAccessKey");
-  test.todo("S3SslEnabled");
+  it("cacheHost should be defined", () => {
+    expect(service.cacheHost).toBeDefined();
+  });
+
+  it("cacheMax should be defined", () => {
+    expect(service.cacheMax).toBeDefined();
+  });
+
+  it("cachePort should be defined", () => {
+    expect(service.cachePort).toBeDefined();
+  });
+
+  it("cacheStore should be defined", () => {
+    expect(service.cacheStore).toBeDefined();
+  });
+
+  it("cacheTTL should be defined", () => {
+    expect(service.cacheTTL).toBeDefined();
+  });
+
+  it("s3AccessKeyId should be defined", () => {
+    expect(service.s3AccessKeyId).toBeDefined();
+  });
+
+  it("s3Bucket should be defined", () => {
+    expect(service.s3Bucket).toBeDefined();
+  });
+
+  it("s3Endpoint should be defined", () => {
+    expect(service.s3Endpoint).toBeDefined();
+  });
+
+  it("s3SecretAccessKey should be defined", () => {
+    expect(service.s3SecretAccessKey).toBeDefined();
+  });
+
+  it("s3SslEnabled should be defined", () => {
+    expect(service.s3SslEnabled).toBeDefined();
+  });
 });

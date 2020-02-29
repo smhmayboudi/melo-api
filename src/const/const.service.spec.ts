@@ -5,14 +5,26 @@ import { AppModule } from "../app/app.module";
 import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
 import { ConstService } from "./const.service";
+import { AppImgProxyService } from "../app/app.img-proxy.service";
 
 describe("ConstService", () => {
   let service: ConstService;
 
-  beforeEach(async () => {
+  const appImgProxyServiceMock = jest.fn(() => ({
+    generateUrl: {
+      "": {
+        url: ""
+      }
+    }
+  }));
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ConstConfigService, ConstService]
+      providers: [
+        ConstConfigService,
+        ConstService,
+        { provide: AppImgProxyService, useValue: appImgProxyServiceMock }
+      ]
     }).compile();
 
     service = module.get<ConstService>(ConstService);
@@ -22,5 +34,18 @@ describe("ConstService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("images");
+  it("images should be defined", async () => {
+    const res = {
+      "": {
+        "": {
+          url: ""
+        }
+      }
+    };
+    jest
+      .spyOn(service, "images")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.images()).toBe(res);
+  });
 });

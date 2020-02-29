@@ -26,7 +26,6 @@ export class FileService {
     @InjectRepository(FileEntity)
     private readonly fileEntityRepository: FileEntityRepository
   ) {
-    console.log(this.fileConfigService.s3AccessKeyId);
     bluebird.promisifyAll(Magic.prototype);
     this.mmmagic = new Magic(MAGIC_MIME_TYPE);
     aws.config.setPromisesDependency(bluebird);

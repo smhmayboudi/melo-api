@@ -53,7 +53,7 @@ describe("AppTerminusOptionsFactory", () => {
   let songHealthIndicatorService: SongHealthIndicator;
   let userHealthIndicatorService: UserHealthIndicator;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
         TerminusModule.forRootAsync({

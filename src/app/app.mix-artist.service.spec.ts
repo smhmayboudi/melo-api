@@ -5,6 +5,8 @@ import { AppConfigService } from "./app.config.service";
 import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { RelationService } from "../relation/relation.service";
+import { DataArtistType } from "../data/data.artist.type";
+
 describe("AppMixArtistService", () => {
   let service: AppMixArtistService;
 
@@ -29,7 +31,7 @@ describe("AppMixArtistService", () => {
     }
   }));
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [
@@ -45,5 +47,20 @@ describe("AppMixArtistService", () => {
 
   it("should be defined", () => {
     expect(service).toBeDefined();
+  });
+
+  it("mixArtist should be defined", async () => {
+    const reqRes = [
+      {
+        followersCount: 0,
+        id: "",
+        type: DataArtistType.prime
+      }
+    ];
+    jest
+      .spyOn(service, "mixArtist")
+      .mockImplementation(() => Promise.resolve(reqRes));
+
+    expect(await service.mixArtist(0, reqRes)).toBe(reqRes);
   });
 });
