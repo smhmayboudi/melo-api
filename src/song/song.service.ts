@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  HttpService,
-  Injectable,
-  InternalServerErrorException
-} from "@nestjs/common";
+import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { AppMixSongService } from "../app/app.mix-song.service";
@@ -185,7 +180,10 @@ export class SongService {
       relationType: RelationType.likedSongs
     });
     if (relationEntityResDto.results.length === 0) {
-      throw new InternalServerErrorException();
+      return ({
+        results: [],
+        total: 0
+      } as unknown) as DataPaginationResDto<DataSongResDto>;
     }
     const dataSongResDto = await this.dataSongService.byIds({
       ids: relationEntityResDto.results.map(value => value.id)
