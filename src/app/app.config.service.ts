@@ -65,7 +65,7 @@ export class AppConfigService {
   }
 
   get imgProxyBaseUrl(): string {
-    return this.configService.get<string>("app.imgProxyUrl", "");
+    return this.configService.get<string>("app.imgProxyBaseUrl", "");
   }
 
   get imgProxyEncode(): boolean {
