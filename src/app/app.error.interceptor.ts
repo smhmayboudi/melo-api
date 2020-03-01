@@ -7,7 +7,7 @@ import {
 } from "@nestjs/common";
 import express from "express";
 import { Observable } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 
 @Injectable()
@@ -17,7 +17,7 @@ export class AppErrorInterceptor implements NestInterceptor {
       .switchToHttp()
       .getRequest<express.Request & { user: AuthJwtPayloadReqDto }>();
     return next.handle().pipe(
-      catchError(error => {
+      tap(undefined, error => {
         Logger.error(
           `${JSON.stringify({
             path: request.path,
@@ -26,7 +26,6 @@ export class AppErrorInterceptor implements NestInterceptor {
           undefined,
           "AppErrorInterceptor"
         );
-        throw error;
       })
     );
   }

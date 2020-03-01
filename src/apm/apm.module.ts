@@ -29,7 +29,10 @@ export class ApmModule {
       return {
         inject: options.inject || [],
         provide: APM_MODULE_OPTIONS,
-        useFactory: options.useFactory
+        useFactory: async (...args): Promise<ApmModuleOptions> =>
+          makeDefaultOptions(
+            options.useFactory && (await options.useFactory(args))
+          )
       };
     }
     const inject = [

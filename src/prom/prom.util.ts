@@ -87,24 +87,24 @@ export function getOrCreateSummary(
   >;
 }
 
-function getToken(metricType: MetricType, name: string): string {
+function getTokenMetric(metricType: MetricType, name: string): string {
   return `${PROM_METRIC}_${metricType
     .toString()
     .toUpperCase()}_${name.toUpperCase()}`;
 }
 
 export function getTokenCounter(name: string): string {
-  return getToken(MetricType.Counter, name);
+  return getTokenMetric(MetricType.Counter, name);
 }
 
 export function getTokenGauge(name: string): string {
-  return getToken(MetricType.Gauge, name);
+  return getTokenMetric(MetricType.Gauge, name);
 }
 export function getTokenHistogram(name: string): string {
-  return getToken(MetricType.Histogram, name);
+  return getTokenMetric(MetricType.Histogram, name);
 }
 export function getTokenSummary(name: string): string {
-  return getToken(MetricType.Summary, name);
+  return getTokenMetric(MetricType.Summary, name);
 }
 
 export function getTokenConfiguration(name?: string): string {
@@ -159,18 +159,19 @@ export function makeDefaultOptions(
 }
 
 export function promConfigurationProviderImp(
-  promConfigurationName: string,
-  _options: PromModuleOptions
+  options: PromModuleOptions,
+  promConfigurationName: string
 ): void {
+  let path = PATH_METRICS;
   if (promConfigurationName !== PROM_CONFIGURATION_DEFAULT) {
-    // TODO: DEFULT CONFIG
+    path = options.path || PATH_METRICS;
   }
-  // TODO: CONFIG
+  Reflect.defineMetadata(PATH_METADATA, path, PromController);
 }
 
 export function promRegistryProviderImp(
-  promRegistryName: string,
-  options: PromModuleOptions
+  options: PromModuleOptions,
+  promRegistryName: string
 ): Registry {
   let registry = register;
   if (promRegistryName !== PROM_REGISTRY_DEFAULT) {
@@ -183,7 +184,6 @@ export function promRegistryProviderImp(
       register: registry
     };
     collectDefaultMetrics(defaultMetricsOptions);
-    Reflect.defineMetadata(PATH_METADATA, options.path, PromController);
   }
   return registry;
 }

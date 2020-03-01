@@ -15,10 +15,10 @@ import { Scope } from "@sentry/hub";
 import * as Sentry from "@sentry/node";
 import { Handlers } from "@sentry/node";
 import { Observable } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { SENTRY_MODULE_OPTIONS } from "./sentry.constant";
-import { SentryModuleOptions } from "./sentry.module.interface";
 import { InjectSentry } from "./sentry.decorator";
+import { SentryModuleOptions } from "./sentry.module.interface";
 
 @Injectable()
 export class SentryInterceptor implements NestInterceptor {
@@ -37,7 +37,7 @@ export class SentryInterceptor implements NestInterceptor {
       this.options.context = "Http";
     }
     return next.handle().pipe(
-      catchError(error => {
+      tap(undefined, error => {
         if (this.shouldReport(error)) {
           this.sentry.withScope(scope => {
             // TODO: When https://github.com/nestjs/nest/issues/1581 gets implemented switch to that
@@ -61,7 +61,6 @@ export class SentryInterceptor implements NestInterceptor {
             }
           });
         }
-        throw error;
       })
     );
   }

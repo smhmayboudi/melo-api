@@ -49,7 +49,10 @@ export class PromCoreModule {
       return {
         inject: options.inject || [],
         provide: PROM_MODULE_OPTIONS,
-        useFactory: options.useFactory
+        useFactory: async (...args): Promise<PromModuleOptions> =>
+          makeDefaultOptions(
+            options.useFactory && (await options.useFactory(args))
+          )
       };
     }
     const inject = [
@@ -91,7 +94,7 @@ export class PromCoreModule {
     const promConfigurationProvider: Provider<void> = {
       provide: promConfigurationName,
       useFactory: () =>
-        promConfigurationProviderImp(promConfigurationName, opts)
+        promConfigurationProviderImp(opts, promConfigurationName)
     };
     const promRegistryName = getTokenRegistry(opts.registryName);
     const promRegistryNameProvider: Provider<string> = {
@@ -100,7 +103,7 @@ export class PromCoreModule {
     };
     const promRegistryProvider: Provider<Registry> = {
       provide: promRegistryName,
-      useFactory: () => promRegistryProviderImp(promRegistryName, opts)
+      useFactory: () => promRegistryProviderImp(opts, promRegistryName)
     };
     return {
       exports: [
@@ -128,10 +131,15 @@ export class PromCoreModule {
     const promConfigurationProvider: Provider<void> = {
       inject: [PROM_MODULE_OPTIONS],
       provide: promConfigurationName,
-      useFactory: (options: PromModuleOptions) =>
-        promConfigurationProviderImp(promConfigurationName, options)
+      useFactory: (opts: PromModuleOptions) =>
+        promConfigurationProviderImp(
+          {
+            ...opts,
+            registryName: options.registryName
+          },
+          promConfigurationName
+        )
     };
-    console.log("options.registryName", options.registryName);
     const promRegistryName = getTokenRegistry(options.registryName);
     const promRegistryNameProvider: Provider<string> = {
       provide: PROM_REGISTRY_NAME,
@@ -140,8 +148,14 @@ export class PromCoreModule {
     const promRegistryProvider: Provider<Registry> = {
       inject: [PROM_MODULE_OPTIONS],
       provide: promRegistryName,
-      useFactory: (options: PromModuleOptions) =>
-        promRegistryProviderImp(promRegistryName, options)
+      useFactory: (opts: PromModuleOptions) =>
+        promRegistryProviderImp(
+          {
+            ...opts,
+            registryName: options.registryName
+          },
+          promRegistryName
+        )
     };
     const asyncProviders = this.createAsyncProviders(options);
     return {

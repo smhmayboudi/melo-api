@@ -33,7 +33,10 @@ export class SentryCoreModule {
       return {
         inject: options.inject || [],
         provide: SENTRY_MODULE_OPTIONS,
-        useFactory: options.useFactory
+        useFactory: async (...args): Promise<SentryModuleOptions> =>
+          makeDefaultOptions(
+            options.useFactory && (await options.useFactory(args))
+          )
       };
     }
     const inject = [

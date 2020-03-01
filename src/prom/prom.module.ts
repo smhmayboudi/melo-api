@@ -27,13 +27,16 @@ export class PromModule {
     const providers = metrics.map(value => {
       switch (value.metricType) {
         case MetricType.Counter:
-          return createCounterProvider(value.configuration);
+          return createCounterProvider(value.configuration, value.registryName);
         case MetricType.Gauge:
-          return createGaugeProvider(value.configuration);
+          return createGaugeProvider(value.configuration, value.registryName);
         case MetricType.Histogram:
-          return createHistogramProvider(value.configuration);
+          return createHistogramProvider(
+            value.configuration,
+            value.registryName
+          );
         case MetricType.Summary:
-          return createSummaryProvider(value.configuration);
+          return createSummaryProvider(value.configuration, value.registryName);
         default:
           throw new ReferenceError(
             `The type ${value.metricType} is not supported.`
@@ -48,59 +51,68 @@ export class PromModule {
   }
 
   static forCounter(
-    configuration: CounterConfiguration<string>
+    configuration: CounterConfiguration<string>,
+    registryName?: string
   ): DynamicModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Counter
+        metricType: MetricType.Counter,
+        registryName
       }
     ]);
   }
 
-  static forGauge(configuration: GaugeConfiguration<string>): DynamicModule {
+  static forGauge(
+    configuration: GaugeConfiguration<string>,
+    registryName?: string
+  ): DynamicModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Gauge
+        metricType: MetricType.Gauge,
+        registryName
       }
     ]);
   }
 
   static forHistogram(
-    configuration: HistogramConfiguration<string>
+    configuration: HistogramConfiguration<string>,
+    registryName?: string
   ): DynamicModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Histogram
+        metricType: MetricType.Histogram,
+        registryName
       }
     ]);
   }
 
   static forSummary(
-    configuration: SummaryConfiguration<string>
+    configuration: SummaryConfiguration<string>,
+    registryName?: string
   ): DynamicModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Summary
+        metricType: MetricType.Summary,
+        registryName
       }
     ]);
   }
 
   static forRoot(options: PromModuleOptions = {}): DynamicModule {
     return {
-      module: PromModule,
-      imports: [PromCoreModule.forRoot(options)]
+      imports: [PromCoreModule.forRoot(options)],
+      module: PromModule
     };
   }
 
   static forRootAsync(options: PromModuleAsyncOptions = {}): DynamicModule {
-    console.log("options.registryName", options.registryName);
     return {
-      module: PromModule,
-      imports: [PromCoreModule.forRootAsync(options)]
+      imports: [PromCoreModule.forRootAsync(options)],
+      module: PromModule
     };
   }
 }

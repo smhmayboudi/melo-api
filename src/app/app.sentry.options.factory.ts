@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import {
   SentryModuleOptions,
   SentryOptionsFactory
-} from "src/sentry/sentry.module.interface";
+} from "../sentry/sentry.module.interface";
 import { AppConfigService } from "./app.config.service";
 
 @Injectable()
