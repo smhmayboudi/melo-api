@@ -14,7 +14,7 @@ import {
   PromModuleOptions,
   PromOptionsFactory
 } from "./prom.module.interface";
-import { createCounterProvider } from "./prom.provider";
+import { getOrCreateCounterProvider } from "./prom.provider";
 import { PromService } from "./prom.service";
 import {
   getTokenConfiguration,
@@ -34,7 +34,7 @@ import {
       provide: APP_INTERCEPTOR,
       useClass: PromInterceptor
     },
-    createCounterProvider({
+    getOrCreateCounterProvider({
       help: "counter",
       labelNames: ["method", "path", "status"],
       name: PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL

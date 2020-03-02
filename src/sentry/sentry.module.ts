@@ -7,7 +7,7 @@ import {
 
 @Module({})
 export class SentryModule {
-  public static forRoot(options: SentryModuleOptions): DynamicModule {
+  public static forRoot(options?: SentryModuleOptions): DynamicModule {
     return {
       module: SentryModule,
       imports: [SentryCoreModule.forRoot(options)]

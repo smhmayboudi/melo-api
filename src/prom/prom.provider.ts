@@ -22,7 +22,7 @@ import {
   getTokenSummary
 } from "./prom.util";
 
-export function createCounterProvider(
+export function getOrCreateCounterProvider(
   configuration: CounterConfiguration<string>,
   registryName?: string
 ): Provider<Counter<string>> {
@@ -38,7 +38,7 @@ export function createCounterProvider(
   };
 }
 
-export function createGaugeProvider(
+export function getOrCreateGaugeProvider(
   configuration: GaugeConfiguration<string>,
   registryName?: string
 ): Provider<Gauge<string>> {
@@ -54,7 +54,7 @@ export function createGaugeProvider(
   };
 }
 
-export function createHistogramProvider(
+export function getOrCreateHistogramProvider(
   configuration: HistogramConfiguration<string>,
   registryName?: string
 ): Provider<Histogram<string>> {
@@ -70,7 +70,7 @@ export function createHistogramProvider(
   };
 }
 
-export function createSummaryProvider(
+export function getOrCreateSummaryProvider(
   configuration: SummaryConfiguration<string>,
   registryName?: string
 ): Provider<Summary<string>> {

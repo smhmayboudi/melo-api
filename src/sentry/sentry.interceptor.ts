@@ -16,8 +16,10 @@ import * as Sentry from "@sentry/node";
 import { Handlers } from "@sentry/node";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { SENTRY_MODULE_OPTIONS } from "./sentry.constant";
-import { InjectSentry } from "./sentry.decorator";
+import {
+  SENTRY_INSTANCE_TOKEN,
+  SENTRY_MODULE_OPTIONS
+} from "./sentry.constant";
 import { SentryModuleOptions } from "./sentry.module.interface";
 
 @Injectable()
@@ -25,7 +27,7 @@ export class SentryInterceptor implements NestInterceptor {
   constructor(
     @Inject(SENTRY_MODULE_OPTIONS)
     private readonly options: SentryModuleOptions,
-    @InjectSentry()
+    @Inject(SENTRY_INSTANCE_TOKEN)
     private readonly sentry: typeof Sentry
   ) {}
 

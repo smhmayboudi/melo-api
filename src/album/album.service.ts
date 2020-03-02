@@ -1,9 +1,11 @@
 import { Injectable } from "@nestjs/common";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import {
   // PromInstanceCounter,
   PromMethodCounter
@@ -11,7 +13,6 @@ import {
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
@@ -22,6 +23,8 @@ export class AlbumService {
     private readonly dataAlbumService: DataAlbumService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async artistAlbums(
     dto: AlbumArtistAlbumsReqDto,
@@ -52,6 +55,8 @@ export class AlbumService {
     } as DataPaginationResDto<DataAlbumResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byId(
     dto: AlbumByIdReqDto,
@@ -72,6 +77,8 @@ export class AlbumService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async latest(
     dto: AlbumLatestReqDto

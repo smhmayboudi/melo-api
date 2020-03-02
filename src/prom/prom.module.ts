@@ -12,10 +12,10 @@ import {
   PromModuleOptions
 } from "./prom.module.interface";
 import {
-  createCounterProvider,
-  createGaugeProvider,
-  createHistogramProvider,
-  createSummaryProvider
+  getOrCreateCounterProvider,
+  getOrCreateGaugeProvider,
+  getOrCreateHistogramProvider,
+  getOrCreateSummaryProvider
 } from "./prom.provider";
 import { MetricType } from "./prom.util";
 
@@ -27,16 +27,25 @@ export class PromModule {
     const providers = metrics.map(value => {
       switch (value.metricType) {
         case MetricType.Counter:
-          return createCounterProvider(value.configuration, value.registryName);
+          return getOrCreateCounterProvider(
+            value.configuration,
+            value.registryName
+          );
         case MetricType.Gauge:
-          return createGaugeProvider(value.configuration, value.registryName);
+          return getOrCreateGaugeProvider(
+            value.configuration,
+            value.registryName
+          );
         case MetricType.Histogram:
-          return createHistogramProvider(
+          return getOrCreateHistogramProvider(
             value.configuration,
             value.registryName
           );
         case MetricType.Summary:
-          return createSummaryProvider(value.configuration, value.registryName);
+          return getOrCreateSummaryProvider(
+            value.configuration,
+            value.registryName
+          );
         default:
           throw new ReferenceError(
             `The type ${value.metricType} is not supported.`

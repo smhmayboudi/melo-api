@@ -12,7 +12,7 @@ import {
   SentryOptionsFactory
 } from "./sentry.module.interface";
 import { SentryService } from "./sentry.service";
-import { createSentryClient, makeDefaultOptions } from "./sentry.util";
+import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
 
 @Global()
 @Module({
@@ -68,11 +68,11 @@ export class SentryCoreModule {
     ];
   }
 
-  public static forRoot(optoins: SentryModuleOptions = {}): DynamicModule {
+  public static forRoot(optoins?: SentryModuleOptions): DynamicModule {
     const opts = makeDefaultOptions(optoins);
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       provide: SENTRY_INSTANCE_TOKEN,
-      useValue: createSentryClient(opts)
+      useValue: getOrCreateSentryInstance(opts)
     };
     return {
       exports: [sentryInstanceProvider],
@@ -87,7 +87,8 @@ export class SentryCoreModule {
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       inject: [SENTRY_MODULE_OPTIONS],
       provide: SENTRY_INSTANCE_TOKEN,
-      useFactory: (options: SentryModuleOptions) => createSentryClient(options)
+      useFactory: (options: SentryModuleOptions) =>
+        getOrCreateSentryInstance(options)
     };
     return {
       exports: [sentryInstanceProvider],

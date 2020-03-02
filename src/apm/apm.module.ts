@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Provider, Type } from "@nestjs/common";
+import { DynamicModule, Module, Provider, Type, Global } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { APM_INSTANCE_TOKEN, APM_MODULE_OPTIONS } from "./apm.constant";
 import { ApmInterceptor } from "./apm.interceptor";
@@ -9,8 +9,9 @@ import {
   ApmOptionsFactory
 } from "./apm.module.interface";
 import { ApmService } from "./apm.service";
-import { createApmClient, makeDefaultOptions } from "./apm.util";
+import { getOrCreateApmInstance, makeDefaultOptions } from "./apm.util";
 
+@Global()
 @Module({
   exports: [ApmService],
   providers: [
@@ -64,11 +65,11 @@ export class ApmModule {
     ];
   }
 
-  static register(options: ApmModuleOptions): DynamicModule {
+  static register(options?: ApmModuleOptions): DynamicModule {
     const opts = makeDefaultOptions(options);
     const apmInstanceProvider: Provider<Agent> = {
       provide: APM_INSTANCE_TOKEN,
-      useValue: createApmClient(opts)
+      useValue: getOrCreateApmInstance(opts)
     };
     return {
       module: ApmModule,
@@ -81,7 +82,7 @@ export class ApmModule {
     const apmInstanceProvider: Provider<Agent> = {
       inject: [APM_MODULE_OPTIONS],
       provide: APM_INSTANCE_TOKEN,
-      useFactory: (options: ApmModuleOptions) => createApmClient(options)
+      useFactory: (options: ApmModuleOptions) => getOrCreateApmInstance(options)
     };
     return {
       imports: options.imports,

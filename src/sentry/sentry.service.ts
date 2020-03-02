@@ -1,13 +1,13 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Inject, Injectable, Logger } from "@nestjs/common";
 import * as Sentry from "@sentry/node";
-import { InjectSentry } from "./sentry.decorator";
+import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
 
 export abstract class SentryBaseService extends Logger {}
 
 @Injectable()
 export class SentryService extends Logger {
   constructor(
-    @InjectSentry()
+    @Inject(SENTRY_INSTANCE_TOKEN)
     private readonly sentry: typeof Sentry
   ) {
     super();

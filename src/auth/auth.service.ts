@@ -3,6 +3,7 @@ import { JwtService } from "@nestjs/jwt";
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { JwksService } from "../jwks/jwks.service";
 import {
   // PromInstanceCounter,
@@ -23,6 +24,8 @@ export class AuthService {
     private readonly rtService: RtService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async accessToken(sub: number): Promise<AuthAccessTokenResDto | undefined> {
     const jwksEntity = await this.jwksService.getOneRandom();
@@ -42,6 +45,8 @@ export class AuthService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
     const jwksEntity = await this.jwksService.getOneRandom();

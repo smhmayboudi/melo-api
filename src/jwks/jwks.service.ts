@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
@@ -15,11 +16,19 @@ export class JwksService {
     private readonly jwksEntityRepository: JwksEntityRepository
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async findOneById(id: string): Promise<JwksEntity | undefined> {
     return this.jwksEntityRepository.findOne(id);
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async getOneRandom(): Promise<JwksEntity | undefined> {
     return this.jwksEntityRepository

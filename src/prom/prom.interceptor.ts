@@ -15,7 +15,6 @@ import {
 } from "./prom.constant";
 import { InjectCounter } from "./prom.decorator";
 import { PromModuleOptions } from "./prom.module.interface";
-import { tap } from "rxjs/operators";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {
@@ -30,36 +29,23 @@ export class PromInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler
   ): Observable<Response> {
-    const request = context
-      .switchToHttp()
-      .getRequest<express.Request & { user: AuthJwtPayloadReqDto }>();
-    return next.handle().pipe(
-      tap(
-        next => {
-          if (
-            this.options.ignorePaths !== undefined &&
-            !this.options.ignorePaths.includes(request.route.path)
-          ) {
-            this.counter.inc({
-              method: request.method,
-              path: request.route.path,
-              status: next.status
-            });
-          }
-        },
-        error => {
-          if (
-            this.options.ignorePaths !== undefined &&
-            !this.options.ignorePaths.includes(request.route.path)
-          ) {
-            this.counter.inc({
-              method: request.method,
-              path: request.route.path,
-              status: error.status
-            });
-          }
-        }
-      )
-    );
+    const http = context.switchToHttp();
+    const request = http.getRequest<
+      express.Request & { user: AuthJwtPayloadReqDto }
+    >();
+    const response = http.getResponse<
+      express.Response & { user: AuthJwtPayloadReqDto }
+    >();
+    if (
+      this.options.ignorePaths !== undefined &&
+      !this.options.ignorePaths.includes(request.route.path)
+    ) {
+      this.counter.inc({
+        method: request.method,
+        path: request.route.path,
+        status: response.statusCode
+      });
+    }
+    return next.handle();
   }
 }

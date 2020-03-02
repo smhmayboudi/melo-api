@@ -13,9 +13,10 @@ import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 @Injectable()
 export class AppErrorInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    const request = context
-      .switchToHttp()
-      .getRequest<express.Request & { user: AuthJwtPayloadReqDto }>();
+    const http = context.switchToHttp();
+    const request = http.getRequest<
+      express.Request & { user: AuthJwtPayloadReqDto }
+    >();
     return next.handle().pipe(
       tap(undefined, error => {
         Logger.error(

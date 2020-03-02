@@ -1,6 +1,7 @@
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataSongService } from "../data/data.song.service";
@@ -48,6 +49,8 @@ export class SongService {
     private readonly userService: UserService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async artistSongs(
     dto: SongArtistSongsReqDto,
@@ -68,6 +71,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async artistSongsTop(
     dto: SongArtistSongsTopReqDto,
@@ -88,6 +93,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byId(
     dto: SongByIdReqDto,
@@ -101,6 +108,8 @@ export class SongService {
     return songMixResDto[0];
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async genre(
     paramDto: SongSongGenresParamReqDto,
@@ -123,6 +132,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async language(
     dto: SongLanguageReqDto,
@@ -143,6 +154,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async like(
     _dto: SongLikeReqDto,
@@ -165,6 +178,8 @@ export class SongService {
     return { ...song, liked: true };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async liked(
     dto: SongLikedReqDto,
@@ -198,6 +213,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async mood(
     dto: SongMoodReqDto,
@@ -214,6 +231,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async new(
     dto: SongNewReqDto,
@@ -230,6 +249,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async newPodcast(
     dto: DataSongNewPodcastReqDto,
@@ -246,6 +267,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async podcast(
     paramDto: SongPodcastGenresParamReqDto,
@@ -268,6 +291,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async searchMood(
     paramDto: SongSearchMoodParamDto,
@@ -279,6 +304,8 @@ export class SongService {
     });
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async sendTelegram(
     _dto: SongSendTelegramReqDto,
@@ -319,6 +346,8 @@ export class SongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async similar(
     dto: SongSimilarReqDto,
@@ -336,6 +365,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>> {
     const dataSongResDto = await this.dataSongService.slider();
@@ -349,6 +380,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async topDay(
     dto: SongTopDayReqDto,
@@ -365,6 +398,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async topWeek(
     dto: SongTopWeekReqDto,
@@ -381,6 +416,8 @@ export class SongService {
     } as DataPaginationResDto<DataSongResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async unlike(
     _dto: SongUnlikeReqDto,

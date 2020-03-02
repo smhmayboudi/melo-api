@@ -1,6 +1,7 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
@@ -20,6 +21,8 @@ export class DataAlbumService {
     private readonly httpService: HttpService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async albums(
     dto: DataAlbumArtistsReqDto
@@ -37,6 +40,8 @@ export class DataAlbumService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
     return this.httpService
@@ -45,6 +50,8 @@ export class DataAlbumService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async latest(
     dto: DataAlbumLatestReqDto

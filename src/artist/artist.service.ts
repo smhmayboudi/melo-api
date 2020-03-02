@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
@@ -25,6 +26,8 @@ export class ArtistService {
     private readonly relationService: RelationService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async follow(
     dto: ArtistFollowReqDto,
@@ -47,6 +50,8 @@ export class ArtistService {
     return dataArtistResDto;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async following(
     dto: ArtistFollowingReqDto,
@@ -66,6 +71,8 @@ export class ArtistService {
     });
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async profile(
     dto: ArtistByIdReqDto,
@@ -79,6 +86,8 @@ export class ArtistService {
     return dataArtistResDto[0];
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {
     const artistMixResDto = await this.dataArtistService.trending();
@@ -92,6 +101,8 @@ export class ArtistService {
     } as DataPaginationResDto<DataArtistResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async trendingGenre(
     dto: ArtistTrendingGenreReqDto,
@@ -110,6 +121,8 @@ export class ArtistService {
     } as DataPaginationResDto<DataArtistResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async unfollow(
     dto: ArtistUnfollowReqDto,
