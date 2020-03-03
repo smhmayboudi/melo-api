@@ -1,28 +1,81 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { MongooseModule } from "@nestjs/mongoose";
+import { getModelToken } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "../app/app.module";
-import { DataModule } from "../data/data.module";
 import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
-import { PlaylistSchema } from "./playlist.schema";
 import { PlaylistService } from "./playlist.service";
+import { AppImgProxyService } from "../app/app.img-proxy.service";
+import { DataArtistType } from "../data/data.artist.type";
+import { DataSongService } from "../data/data.song.service";
+import { DataPaginationResDto } from "src/data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "src/data/dto/res/data.playlist.res.dto";
 
 describe("PlaylistService", () => {
   let service: PlaylistService;
 
-  beforeEach(async () => {
+  const appImgProxyServiceMock = jest.fn(() => ({
+    generateUrl: {
+      "": {
+        url: ""
+      }
+    }
+  }));
+
+  const dataSongServiceMock = jest.fn(() => ({
+    byIds: [
+      {
+        results: [
+          {
+            artists: [
+              {
+                followersCount: 0,
+                id: "",
+                type: DataArtistType.prime
+              }
+            ],
+            audio: {},
+            duration: 0,
+            id: "",
+            localized: false,
+            releaseDate: new Date(),
+            title: ""
+          }
+        ],
+        total: 1
+      }
+    ]
+  }));
+
+  const playlistRespose = {
+    followersCount: 0,
+    id: "",
+    image: {
+      "": {
+        url: ""
+      }
+    },
+    isPublic: false,
+    releaseDate: new Date(),
+    title: "",
+    tracksCount: 0
+  };
+  const playlistModelMock = jest.fn(() => ({
+    save: playlistRespose,
+    findById: playlistRespose,
+    findOne: playlistRespose
+  }));
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        forwardRef(() => AppModule),
-        ConfigModule.forFeature(config),
-        DataModule,
-        MongooseModule.forFeature([
-          { name: "Playlist", schema: PlaylistSchema }
-        ])
-      ],
-      providers: [PlaylistConfigService, PlaylistService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [
+        PlaylistConfigService,
+        PlaylistService,
+        { provide: AppImgProxyService, useValue: appImgProxyServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
+        { provide: getModelToken("Playlist"), useValue: playlistModelMock }
+      ]
     }).compile();
 
     service = module.get<PlaylistService>(PlaylistService);
@@ -32,12 +85,198 @@ describe("PlaylistService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("addSong");
-  test.todo("create");
-  test.todo("delete");
-  test.todo("deleteSong");
-  test.todo("edit");
-  test.todo("get");
-  test.todo("my");
-  test.todo("top");
+  it("addSong should return a playlist", async () => {
+    const req = { playlistId: "", songId: "" };
+    const res = {
+      followersCount: 0,
+      id: "",
+      image: {
+        "": {
+          url: ""
+        }
+      },
+      isPublic: false,
+      releaseDate: new Date(),
+      title: "",
+      tracksCount: 0
+    };
+    jest
+      .spyOn(service, "addSong")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.addSong(req, 0)).toBe(res);
+  });
+
+  it("create shoud return a playlist", async () => {
+    const req = {
+      title: ""
+    };
+    const res = {
+      followersCount: 0,
+      id: "",
+      image: {
+        "": {
+          url: ""
+        }
+      },
+      isPublic: false,
+      releaseDate: new Date(),
+      title: "",
+      tracksCount: 0
+    };
+    jest
+      .spyOn(service, "create")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.create(req, 0)).toBe(res);
+  });
+
+  it("delete should return a playlist", async () => {
+    const req = {
+      id: ""
+    };
+    const res = {
+      followersCount: 0,
+      id: "",
+      image: {
+        "": {
+          url: ""
+        }
+      },
+      isPublic: false,
+      releaseDate: new Date(),
+      title: "",
+      tracksCount: 0
+    };
+    jest
+      .spyOn(service, "delete")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.delete(req, 0)).toBe(res);
+  });
+
+  it("edit should return a playlist", async () => {
+    const req = {
+      id: ""
+    };
+    const res = {
+      followersCount: 0,
+      id: "",
+      image: {
+        "": {
+          url: ""
+        }
+      },
+      isPublic: false,
+      releaseDate: new Date(),
+      title: "",
+      tracksCount: 0
+    };
+    jest.spyOn(service, "edit").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.edit(req)).toBe(res);
+  });
+
+  it("deleteSong should return a playlist", async () => {
+    const req = {
+      playlistId: "",
+      songId: ""
+    };
+    const res = {
+      followersCount: 0,
+      id: "",
+      image: {
+        "": {
+          url: ""
+        }
+      },
+      isPublic: false,
+      releaseDate: new Date(),
+      title: "",
+      tracksCount: 0
+    };
+    jest
+      .spyOn(service, "deleteSong")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.deleteSong(req, 0)).toBe(res);
+  });
+
+  it("get should return a playlist", async () => {
+    const req = {
+      id: ""
+    };
+    const res = {
+      followersCount: 0,
+      id: "",
+      image: {
+        "": {
+          url: ""
+        }
+      },
+      isPublic: false,
+      releaseDate: new Date(),
+      title: "",
+      tracksCount: 0
+    };
+    jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.get(req)).toBe(res);
+  });
+
+  it("my should return a list playlists", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = ({
+      results: [
+        {
+          followersCount: 0,
+          id: "",
+          image: {
+            "": {
+              url: ""
+            }
+          },
+          isPublic: false,
+          releaseDate: new Date(),
+          title: "",
+          tracksCount: 0
+        }
+      ],
+      total: 1
+    } as unknown) as DataPaginationResDto<DataPlaylistResDto>;
+    jest.spyOn(service, "my").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.my(req, 0)).toBe(res);
+  });
+
+  it("top should return a list of playlists", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = ({
+      results: [
+        {
+          followersCount: 0,
+          id: "",
+          image: {
+            "": {
+              url: ""
+            }
+          },
+          isPublic: false,
+          releaseDate: new Date(),
+          title: "",
+          tracksCount: 0
+        }
+      ],
+      total: 1
+    } as unknown) as DataPaginationResDto<DataPlaylistResDto>;
+    jest.spyOn(service, "top").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.top(req)).toBe(res);
+  });
 });

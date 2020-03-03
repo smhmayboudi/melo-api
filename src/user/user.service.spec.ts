@@ -1,7 +1,6 @@
 import { forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
 import config from "./user.config";
 import { UserConfigService } from "./user.config.service";
@@ -11,14 +10,27 @@ import { UserService } from "./user.service";
 describe("UserService", () => {
   let service: UserService;
 
-  beforeEach(async () => {
+  const userEntityRepositoryMock = jest.fn(() => ({
+    find: [
+      {
+        id: 0
+      }
+    ],
+    findOne: {
+      id: 0
+    },
+    save: {
+      id: 0
+    }
+  }));
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        forwardRef(() => AppModule),
-        ConfigModule.forFeature(config),
-        TypeOrmModule.forFeature([UserEntityRepository])
-      ],
-      providers: [UserConfigService, UserService]
+      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
+      providers: [
+        UserConfigService,
+        UserService,
+        { provide: UserEntityRepository, useValue: userEntityRepositoryMock }
+      ]
     }).compile();
 
     service = module.get<UserService>(UserService);
@@ -28,11 +40,52 @@ describe("UserService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("find");
-  test.todo("findOneById");
-  test.todo("findOneByTelegramId");
-  test.todo("findOneByUsernam");
-  test.todo("get");
-  test.todo("put");
-  test.todo("save");
+  it("find should return an array of users", async () => {
+    const res = [{ id: 0 }];
+    jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.find()).toBe(res);
+  });
+
+  it("findOneById should return a users", async () => {
+    const res = { id: 0 };
+    jest
+      .spyOn(service, "findOneById")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.findOneById(0)).toBe(res);
+  });
+
+  it("findOneByTelegramId should return a users", async () => {
+    const res = { id: 0 };
+    jest
+      .spyOn(service, "findOneByTelegramId")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.findOneByTelegramId(0)).toBe(res);
+  });
+
+  it("get should return a users", async () => {
+    const res = { id: 0 };
+    jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.get(0)).toBe(res);
+  });
+
+  it("put should return a users", async () => {
+    const req = {};
+    const res = { id: 0 };
+    jest.spyOn(service, "put").mockImplementation(() => Promise.resolve(res));
+
+    expect(await service.put(req, {})).toBe(res);
+  });
+
+  it("save should return a users", async () => {
+    const reqRes = { id: 0 };
+    jest
+      .spyOn(service, "save")
+      .mockImplementation(() => Promise.resolve(reqRes));
+
+    expect(await service.save(reqRes)).toBe(reqRes);
+  });
 });

@@ -128,7 +128,7 @@
     "start:debug": "nest start --debug=0.0.0.0:9229 --watch",
     "start:dev": "nest start --watch",
     "start:prod": "node ./dist/main",
-    "test": "jest --config ./jest.config.json --detectOpenHandles --runInBand src/artist/artist.controller.spec.ts",
+    "test": "jest --config ./jest.config.json --detectOpenHandles --runInBand src/prom/prom.utils.spec",
     "test:cov": "jest --config ./jest.config.json --coverage --detectOpenHandles --runInBand",
     "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register jest --config ./jest.config.json --detectOpenHandles --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",

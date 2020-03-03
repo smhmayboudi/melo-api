@@ -14,11 +14,32 @@ import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongService } from "./song.service";
+import { DataOrderByType } from "../data/data.order-by.type";
 
 describe("SongController", () => {
   let controller: SongController;
   let service: SongService;
 
+  const songPaginationResponseMock = {
+    results: [
+      {
+        artists: [
+          {
+            followersCount: 0,
+            id: "",
+            type: DataArtistType.feat
+          }
+        ],
+        audio: {},
+        duration: 0,
+        id: "",
+        localized: false,
+        releaseDate: new Date(),
+        title: ""
+      }
+    ],
+    total: 1
+  };
   const appMixSongServiceMock = jest.fn(() => ({
     mixSong: {
       return: [
@@ -67,46 +88,8 @@ describe("SongController", () => {
       ],
       total: 1
     },
-    artistSongs: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    artistSongsTop: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
+    artistSongs: songPaginationResponseMock,
+    artistSongsTop: songPaginationResponseMock,
     byId: {
       artists: [
         {
@@ -122,226 +105,17 @@ describe("SongController", () => {
       releaseDate: new Date(),
       title: ""
     },
-    genre: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    language: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    mood: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    new: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    newPodcast: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    podcast: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    searchMood: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    similar: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    slider: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    topDay: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    topWeek: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.feat
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    }
+    genre: songPaginationResponseMock,
+    language: songPaginationResponseMock,
+    mood: songPaginationResponseMock,
+    new: songPaginationResponseMock,
+    newPodcast: songPaginationResponseMock,
+    podcast: songPaginationResponseMock,
+    searchMood: songPaginationResponseMock,
+    similar: songPaginationResponseMock,
+    slider: songPaginationResponseMock,
+    topDay: songPaginationResponseMock,
+    topWeek: songPaginationResponseMock
   }));
 
   const songHttpServiceMock = jest.fn(() => ({
@@ -456,20 +230,479 @@ describe("SongController", () => {
     expect(await controller.artistSongs(req, 0, 0)).toBe(res);
   });
 
-  test.todo("");
-  test.todo("byId");
-  test.todo("genre");
-  test.todo("language");
-  test.todo("like");
-  test.todo("liked");
-  test.todo("mood");
-  test.todo("new");
-  test.todo("newPodcast");
-  test.todo("podcastGenres");
-  test.todo("sendTelegram");
-  test.todo("similar");
-  test.todo("slider");
-  test.todo("topDay");
-  test.todo("topWeek");
-  test.todo("unlike");
+  it("byId should return a song", async () => {
+    const req = {
+      id: ""
+    };
+    const res = {
+      artists: [
+        {
+          followersCount: 0,
+          id: "",
+          type: DataArtistType.prime
+        }
+      ],
+      audio: {},
+      duration: 0,
+      id: "",
+      localized: false,
+      releaseDate: new Date(),
+      title: ""
+    };
+    jest.spyOn(service, "byId").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.byId(req, 0, 0)).toBe(res);
+  });
+
+  it("genre should return a list of songs", async () => {
+    const params = {
+      from: 0,
+      limit: 0,
+      orderBy: DataOrderByType.downloads
+    };
+    const query = {
+      genres: [""]
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest.spyOn(service, "genre").mockImplementation(() => Promise.resolve(res));
+
+    expect(
+      await controller.genre(DataOrderByType.downloads, params, query, 0)
+    ).toBe(res);
+  });
+
+  it("language should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      language: "",
+      limit: 0,
+      orderBy: DataOrderByType.downloads
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "language")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.language(DataOrderByType.downloads, req, 0)).toBe(
+      res
+    );
+  });
+
+  it("like should return a songs", async () => {
+    const req = {
+      id: ""
+    };
+    const res = {
+      artists: [
+        {
+          followersCount: 0,
+          id: "",
+          type: DataArtistType.prime
+        }
+      ],
+      audio: {},
+      duration: 0,
+      id: "",
+      localized: false,
+      releaseDate: new Date(),
+      title: ""
+    };
+    jest.spyOn(service, "like").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.like(req, 0, 0)).toBe(res);
+  });
+
+  it("liked should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest.spyOn(service, "liked").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.liked(req, 0)).toBe(res);
+  });
+
+  it("mood should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0,
+      mood: ""
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest.spyOn(service, "mood").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.mood(req, 0)).toBe(res);
+  });
+
+  it("new should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest.spyOn(service, "new").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.new(req, 0)).toBe(res);
+  });
+
+  it("newPodcast should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "newPodcast")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.newPodcast(req, 0)).toBe(res);
+  });
+
+  it("podcastGenre should return a list of songs", async () => {
+    const params = {
+      from: 0,
+      limit: 0,
+      orderBy: DataOrderByType.downloads
+    };
+    const query = {
+      genres: [""]
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "podcast")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(
+      await controller.podcast(DataOrderByType.downloads, params, query, 0)
+    ).toBe(res);
+  });
+
+  it("searchMood should return a list of songs", async () => {
+    const params = {
+      from: 0,
+      limit: 0
+    };
+    const query = {};
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "searchMood")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.searchMood(params, query)).toBe(res);
+  });
+
+  it("sendTelegram should be defined", async () => {
+    const req = {
+      id: ""
+    };
+    jest
+      .spyOn(service, "sendTelegram")
+      .mockImplementation(() => Promise.resolve(undefined));
+
+    expect(await controller.sendTelegram(req, 0, 0)).toBe(undefined);
+  });
+
+  it("similar should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0,
+      id: ""
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "similar")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.similar(req, 0, 0)).toBe(res);
+  });
+
+  it("slider should return a list of songs", async () => {
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "slider")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.slider(0)).toBe(res);
+  });
+
+  it("topDay should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "topDay")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.topDay(req, 0)).toBe(res);
+  });
+
+  it("topWeek should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "topWeek")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.topWeek(req, 0)).toBe(res);
+  });
+
+  it("unlike should return a songs", async () => {
+    const req = {
+      id: ""
+    };
+    const res = {
+      artists: [
+        {
+          followersCount: 0,
+          id: "",
+          type: DataArtistType.prime
+        }
+      ],
+      audio: {},
+      duration: 0,
+      id: "",
+      localized: false,
+      releaseDate: new Date(),
+      title: ""
+    };
+    jest
+      .spyOn(service, "unlike")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.unlike(req, 0, 0)).toBe(res);
+  });
 });
