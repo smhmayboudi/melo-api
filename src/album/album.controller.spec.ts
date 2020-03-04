@@ -55,7 +55,7 @@ describe("AlbumController", () => {
     })
   };
 
-  let albumController: AlbumController;
+  let controller: AlbumController;
   let service: AlbumService;
 
   beforeEach(async () => {
@@ -69,12 +69,12 @@ describe("AlbumController", () => {
         { provide: DataAlbumService, useValue: dataAlbumServiceMock }
       ]
     }).compile();
-    albumController = module.get<AlbumController>(AlbumController);
+    controller = module.get<AlbumController>(AlbumController);
     service = module.get<AlbumService>(AlbumService);
   });
 
   it("should be defined", () => {
-    expect(albumController).toBeDefined();
+    expect(controller).toBeDefined();
   });
 
   it("artistAlbums should return list of albums", async () => {
@@ -95,7 +95,7 @@ describe("AlbumController", () => {
     jest
       .spyOn(service, "artistAlbums")
       .mockImplementation(() => Promise.resolve(res));
-    expect(await albumController.artistAlbums(req, 0, 0)).toEqual(res);
+    expect(await controller.artistAlbums(req, 0, 0)).toEqual(res);
   });
 
   it("byId should return an album", async () => {
@@ -107,7 +107,7 @@ describe("AlbumController", () => {
       releaseDate
     };
     jest.spyOn(service, "byId").mockImplementation(() => Promise.resolve(res));
-    expect(await albumController.byId(req, 0, 0)).toEqual(res);
+    expect(await controller.byId(req, 0, 0)).toEqual(res);
   });
 
   it("latest should return list of albums", async () => {
@@ -128,6 +128,6 @@ describe("AlbumController", () => {
     jest
       .spyOn(service, "latest")
       .mockImplementation(() => Promise.resolve(res));
-    expect(await albumController.latest(req)).toEqual(res);
+    expect(await controller.latest(req)).toEqual(res);
   });
 });
