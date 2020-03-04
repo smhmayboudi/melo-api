@@ -1,84 +1,69 @@
-// import { forwardRef } from "@nestjs/common";
-// import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-// import config from "./album.config";
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
 
 describe("AlbumController", () => {
-  let albumController: AlbumController;
-  let service: AlbumService;
-
   const releaseDate = new Date();
-
+  const appHashIdServiceMock = {
+    decode: () => "",
+    encode: () => ""
+  };
+  const mixArtist = {
+    followersCount: 0,
+    id: "",
+    type: DataArtistType.prime
+  };
+  const mixSong = {
+    artists: [mixArtist],
+    audio: {},
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate: new Date(),
+    title: ""
+  };
   const appMixArtistServiceMock = {
-    mixArtist: (): any => {
-      [
-        {
-          followersCount: 0,
-          id: "",
-          type: DataArtistType.prime
-        }
-      ];
+    mixArtist: () => {
+      [mixArtist];
     }
   };
   const appMixSongServiceMock = {
-    mixSong: (): any => {
-      [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ];
+    mixSong: () => {
+      [mixSong];
     }
   };
+  const album = {
+    name: "",
+    releaseDate
+  };
   const dataAlbumServiceMock = {
-    albums: (): any => ({
-      results: [
-        {
-          name: "",
-          releaseDate
-        }
-      ],
+    albums: () => ({
+      results: [album],
       total: 1
     }),
-    byId: (): any => ({
-      name: "",
-      releaseDate
-    }),
-    latest: (): any => ({
-      results: [
-        {
-          name: "",
-          releaseDate
-        }
-      ],
+    byId: () => album,
+    latest: () => ({
+      results: [album],
       total: 1
     })
   };
+
+  let albumController: AlbumController;
+  let service: AlbumService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AlbumController],
-      // imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
         AlbumService,
+        { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
         { provide: AppMixSongService, useValue: appMixSongServiceMock },
         { provide: DataAlbumService, useValue: dataAlbumServiceMock }

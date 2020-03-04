@@ -7,139 +7,175 @@ import { AlbumService } from "./album.service";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
-  const appMixSongServiceMock = {
-    mixSong: (): any => [
-      {
-        artists: [
-          {
-            followersCount: 0,
-            id: 0,
-            type: "prime"
-          }
-        ],
-        audio: {
-          high: {
-            fingerprint: "",
-            url: ""
-          }
-        },
-        duration: 0,
-        id: "",
-        localized: false,
-        releaseDate,
-        title: ""
-      }
-    ]
+  const mixArtist = {
+    followersCount: 0,
+    id: "",
+    type: "prime"
   };
-
+  const mixSong = {
+    artists: [mixArtist],
+    audio: {
+      high: {
+        fingerprint: "",
+        url: ""
+      }
+    },
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate,
+    title: ""
+  };
   const appMixArtistServiceMock = {
-    mixArtist: (): any => [
-      {
-        followersCount: 0,
-        id: "",
-        type: "prime"
-      }
-    ]
+    mixArtist: () => [mixArtist]
   };
-
+  const appMixSongServiceMock = {
+    mixSong: () => [mixSong]
+  };
+  const album = {
+    name: "",
+    releaseDate,
+    songs: {
+      results: [mixSong],
+      total: 1
+    }
+  };
   const dataAlbumServiceMock = {
-    albums: (): any => ({
+    albums: () => ({
+      results: [album],
+      total: 1
+    }),
+    byId: () => album,
+    latest: () => ({
+      results: [album],
+      total: 1
+    })
+  };
+  const dataAlbumServiceMockArtistsUndefined = {
+    ...dataAlbumServiceMock,
+    albums: () => ({
       results: [
         {
-          name: "",
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: "prime"
-            }
-          ],
-          releaseDate
+          ...album,
+          artists: undefined
         }
       ],
       total: 1
-    }),
-    byId: (): any => ({
-      name: "",
-      releaseDate,
-      songs: {
-        results: [
-          {
-            artists: [
-              {
-                followersCount: 0,
-                id: 0,
-                type: "prime"
-              }
-            ],
-            audio: {
-              high: {
-                fingerprint: "",
-                url: ""
-              }
-            },
-            duration: 0,
-            id: "",
-            localized: false,
-            releaseDate,
-            title: ""
-          }
-        ],
-        total: 1
-      }
-    }),
-    latest: (): any => ({
-      results: [],
-      total: 0
     })
   };
+  const dataAlbumServiceMockSongsUndefined = {
+    ...dataAlbumServiceMock,
+    byId: () => ({
+      ...album,
+      songs: undefined
+    })
+  };
+
   let albumService: AlbumService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [DataModule],
-      providers: [
-        AlbumService,
-        { provide: AppMixSongService, useValue: appMixSongServiceMock },
-        { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
-        { provide: DataAlbumService, useValue: dataAlbumServiceMock }
-      ]
-    }).compile();
-    albumService = module.get<AlbumService>(AlbumService);
+  describe("AlbumService", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [DataModule],
+        providers: [
+          AlbumService,
+          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          { provide: DataAlbumService, useValue: dataAlbumServiceMock }
+        ]
+      }).compile();
+      albumService = module.get<AlbumService>(AlbumService);
+    });
+
+    it("should be defined", () => {
+      expect(albumService).toBeDefined();
+    });
+
+    it("artistAlbums should return list of artists", async () => {
+      const req = {
+        artistId: "",
+        from: 0,
+        limit: 0
+      };
+      expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
+        dataAlbumServiceMock.albums()
+      );
+    });
+
+    it("byId should return an artist", async () => {
+      const req = {
+        id: ""
+      };
+      expect(await albumService.byId(req, 0, 0)).toEqual(
+        dataAlbumServiceMock.byId()
+      );
+    });
+
+    it("latest should return list of albums", async () => {
+      const req = {
+        from: 0,
+        language: "",
+        limit: 0
+      };
+      expect(await albumService.latest(req)).toEqual(
+        dataAlbumServiceMock.latest()
+      );
+    });
   });
 
-  it("should be defined", () => {
-    expect(albumService).toBeDefined();
+  describe("AlbumService Artists Undefined", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [DataModule],
+        providers: [
+          AlbumService,
+          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          {
+            provide: DataAlbumService,
+            useValue: dataAlbumServiceMockArtistsUndefined
+          }
+        ]
+      }).compile();
+      albumService = module.get<AlbumService>(AlbumService);
+    });
+
+    it("artistAlbums should handle artists undefined", async () => {
+      const req = {
+        artistId: "",
+        from: 0,
+        limit: 0
+      };
+      expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
+        dataAlbumServiceMock.albums()
+      );
+    });
   });
 
-  it("artistAlbums should return list of artists", async () => {
-    const req = {
-      from: 0,
-      artistId: "",
-      limit: 0
-    };
-    expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
-      dataAlbumServiceMock.albums()
-    );
-  });
+  describe("AlbumService Songs Undefined", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        imports: [DataModule],
+        providers: [
+          AlbumService,
+          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          {
+            provide: DataAlbumService,
+            useValue: dataAlbumServiceMockSongsUndefined
+          }
+        ]
+      }).compile();
+      albumService = module.get<AlbumService>(AlbumService);
+    });
 
-  it("byId should return an artist", async () => {
-    const req = {
-      id: ""
-    };
-    expect(await albumService.byId(req, 0, 0)).toEqual(
-      dataAlbumServiceMock.byId()
-    );
-  });
-
-  it("latest should return list of albums", async () => {
-    const req = {
-      from: 0,
-      language: "",
-      limit: 0
-    };
-    expect(await albumService.latest(req)).toEqual(
-      dataAlbumServiceMock.latest()
-    );
+    it("byId should handle songs undefnied", async () => {
+      const req = {
+        id: ""
+      };
+      expect(await albumService.byId(req, 0, 0)).toEqual(
+        dataAlbumServiceMock.byId()
+      );
+    });
   });
 });
