@@ -1,29 +1,30 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./const.config";
+import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { ConstConfigService } from "./const.config.service";
 import { ConstService } from "./const.service";
-import { AppImgProxyService } from "../app/app.img-proxy.service";
 
 describe("ConstService", () => {
   let service: ConstService;
 
-  const appImgProxyServiceMock = jest.fn(() => ({
-    generateUrl: {
+  const appImgProxyServiceMock = {
+    generateUrl: (): any => ({
       "": {
         url: ""
       }
-    }
-  }));
-  beforeAll(async () => {
+    })
+  };
+  const constConfigServiceMock = {
+    staticImagePaths: (): any => ({
+      // eslint-disable-next-line prettier/prettier
+      "pop_genre": "/asset/pop.jpg"
+    })
+  };
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
-        ConstConfigService,
         ConstService,
-        { provide: AppImgProxyService, useValue: appImgProxyServiceMock }
+        { provide: AppImgProxyService, useValue: appImgProxyServiceMock },
+        { provide: ConstConfigService, useValue: constConfigServiceMock }
       ]
     }).compile();
     service = module.get<ConstService>(ConstService);
@@ -41,10 +42,7 @@ describe("ConstService", () => {
         }
       }
     };
-    jest
-      .spyOn(service, "images")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.images()).toBe(res);
+    console.log("LOG: ", await service.images());
+    expect(await service.images()).toEqual(res);
   });
 });
