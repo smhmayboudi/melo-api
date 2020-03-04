@@ -1,13 +1,13 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataArtistType } from "../data/data.artist.type";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
+import { DataArtistType } from "../data/data.artist.type";
 import { DataModule } from "../data/data.module";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { AlbumService } from "./album.service";
 
 describe("AlbumService", () => {
@@ -17,10 +17,6 @@ describe("AlbumService", () => {
     id: "",
     type: DataArtistType.prime
   };
-  const mixArtistPagination: DataPaginationResDto<DataArtistResDto> = {
-    results: [mixArtist],
-    total: 1
-  } as DataPaginationResDto<DataArtistResDto>;
   const mixSong: DataSongResDto = {
     artists: [mixArtist],
     audio: {
