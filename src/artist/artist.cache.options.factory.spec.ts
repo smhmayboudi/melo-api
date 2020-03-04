@@ -1,23 +1,57 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
-import config from "./artist.config";
 import { ArtistConfigService } from "./artist.config.service";
+import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
 
 describe("ArtistCacheOptionsFactory", () => {
   let service: ArtistConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ArtistConfigService]
+      providers: [
+        ArtistConfigService,
+        {
+          provide: AppConfigService,
+          useValue: jest.fn()
+        },
+        {
+          provide: ConfigService,
+          useValue: jest.fn()
+        }
+      ]
     }).compile();
     service = module.get<ArtistConfigService>(ArtistConfigService);
   });
 
   it("should be defined", () => {
+    jest.spyOn(service, "cacheHost", "get").mockReturnValue("");
+    jest.spyOn(service, "cacheMax", "get").mockReturnValue(0);
+    jest.spyOn(service, "cachePort", "get").mockReturnValue(0);
+    jest.spyOn(service, "cacheStore", "get").mockReturnValue("");
+    jest.spyOn(service, "cacheTTL", "get").mockReturnValue(0);
     expect(new ArtistCacheOptionsFactory(service)).toBeDefined();
+  });
+
+  it("createCacheOptions should be defined", () => {
+    jest.spyOn(service, "cacheHost", "get").mockReturnValue("");
+    jest.spyOn(service, "cacheMax", "get").mockReturnValue(0);
+    jest.spyOn(service, "cachePort", "get").mockReturnValue(0);
+    jest.spyOn(service, "cacheStore", "get").mockReturnValue("");
+    jest.spyOn(service, "cacheTTL", "get").mockReturnValue(0);
+    expect(
+      new ArtistCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
+  });
+
+  it("createCacheOptions should be defined with store none", () => {
+    jest.spyOn(service, "cacheHost", "get").mockReturnValue("");
+    jest.spyOn(service, "cacheMax", "get").mockReturnValue(0);
+    jest.spyOn(service, "cachePort", "get").mockReturnValue(0);
+    jest.spyOn(service, "cacheStore", "get").mockReturnValue("none");
+    jest.spyOn(service, "cacheTTL", "get").mockReturnValue(0);
+    expect(
+      new ArtistCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 });
