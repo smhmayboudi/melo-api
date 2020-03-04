@@ -4,4 +4,8 @@ describe("ActionHealthIndicator", () => {
   it("should be defined", () => {
     expect(new ActionHealthIndicator()).toBeDefined();
   });
+
+  it("isHealthy should be defined", () => {
+    expect(new ActionHealthIndicator().isHealthy()).toBeDefined();
+  });
 });

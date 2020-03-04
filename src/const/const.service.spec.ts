@@ -26,7 +26,6 @@ describe("ConstService", () => {
         { provide: AppImgProxyService, useValue: appImgProxyServiceMock }
       ]
     }).compile();
-
     service = module.get<ConstService>(ConstService);
   });
 

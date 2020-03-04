@@ -9,8 +9,8 @@ import { PlaylistService } from "./playlist.service";
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataSongService } from "../data/data.song.service";
-import { DataPaginationResDto } from "src/data/dto/res/data.pagination.res.dto";
-import { DataPlaylistResDto } from "src/data/dto/res/data.playlist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 
 describe("PlaylistService", () => {
   let service: PlaylistService;
@@ -77,7 +77,6 @@ describe("PlaylistService", () => {
         { provide: getModelToken("Playlist"), useValue: playlistModelMock }
       ]
     }).compile();
-
     service = module.get<PlaylistService>(PlaylistService);
   });
 

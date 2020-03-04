@@ -33,7 +33,6 @@ describe("DataSearchService", () => {
         { provide: HttpService, useValue: searchHttpServiceMock }
       ]
     }).compile();
-
     service = module.get<DataSearchService>(DataSearchService);
   });
 

@@ -1,26 +1,24 @@
-import { Test, TestingModule } from "@nestjs/testing";
-import { Counter } from "prom-client";
-import { HTTP_REQUESTS_TOTAL } from "./prom.constant";
-import { PromInterceptor } from "./prom.interceptor";
-import { getTokenCounter } from "./prom.utils";
+import {
+  getOrCreateCounterProvider,
+  getOrCreateGaugeProvider,
+  getOrCreateHistogramProvider,
+  getOrCreateSummaryProvider
+} from "./prom.provider";
 
-describe("PromInterceptor", () => {
-  let counter: Counter<string>;
-
-  const counterMock = jest.fn(() => ({
-    inc: {}
-  }));
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        { provide: getTokenCounter(HTTP_REQUESTS_TOTAL), useValue: counterMock }
-      ]
-    }).compile();
-
-    counter = module.get<Counter<string>>(getTokenCounter(HTTP_REQUESTS_TOTAL));
+describe("PromProvider", () => {
+  it("getOrCreateCounterProvider should be defined", () => {
+    expect(getOrCreateCounterProvider({ name: "", help: "" })).toBeDefined();
   });
 
-  it("should be defined", () => {
-    expect(new PromInterceptor(counter)).toBeDefined();
+  it("getOrCreateGaugeProvider should be defined", () => {
+    expect(getOrCreateGaugeProvider({ name: "", help: "" })).toBeDefined();
+  });
+
+  it("getOrCreateHistogramProvider should be defined", () => {
+    expect(getOrCreateHistogramProvider({ name: "", help: "" })).toBeDefined();
+  });
+
+  it("getOrCreateSummaryProvider should be defined", () => {
+    expect(getOrCreateSummaryProvider({ name: "", help: "" })).toBeDefined();
   });
 });

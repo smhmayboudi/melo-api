@@ -13,7 +13,6 @@ describe("ActionService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [ActionConfigService]
     }).compile();
-
     service = module.get<ActionConfigService>(ActionConfigService);
   });
 

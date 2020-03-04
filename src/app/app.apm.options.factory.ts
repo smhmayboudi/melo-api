@@ -6,6 +6,7 @@ import {
 } from "../apm/apm.module.interface";
 import { AppConfigService } from "./app.config.service";
 import { PATH_HEALTH, PATH_METRICS } from "./app.constant";
+import AppApmLogger from "./app.apm.logger";
 
 @Injectable()
 export class AppApmOptionsFactory implements ApmOptionsFactory {
@@ -16,6 +17,7 @@ export class AppApmOptionsFactory implements ApmOptionsFactory {
       errorOnAbortedRequests: true,
       ignoreUrls: [PATH_HEALTH, PATH_METRICS],
       logLevel: this.appConfigService.apmLogLevel as LogLevel,
+      logger: AppApmLogger,
       logUncaughtExceptions: true,
       secretToken: this.appConfigService.apmSecretToken,
       serverUrl: this.appConfigService.apmServerUrl,

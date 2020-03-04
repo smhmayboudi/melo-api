@@ -12,7 +12,7 @@ import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
@@ -23,6 +23,7 @@ import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { Playlist } from "./playlist.module.interface";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 
 @Injectable()
 // @PromInstanceCounter
@@ -35,6 +36,8 @@ export class PlaylistService {
     private readonly playlistModel: Model<Playlist>
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async addSong(
     dto: PlaylistAddSongReqDto,
@@ -67,6 +70,8 @@ export class PlaylistService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async create(
     dto: PlaylistCreateReqDto,
@@ -96,6 +101,8 @@ export class PlaylistService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async delete(
     dto: PlaylistDeleteReqDto,
@@ -128,6 +135,8 @@ export class PlaylistService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(Types.ObjectId(dto.id));
@@ -155,6 +164,8 @@ export class PlaylistService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async deleteSong(
     dto: PlaylistSongReqDto,
@@ -188,6 +199,8 @@ export class PlaylistService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async get(dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(dto.id);
@@ -214,6 +227,8 @@ export class PlaylistService {
     };
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async my(
     dto: PlaylistMyReqDto,
@@ -250,6 +265,8 @@ export class PlaylistService {
     } as DataPaginationResDto<DataPlaylistResDto>;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async top(
     dto: PlaylistTopReqDto

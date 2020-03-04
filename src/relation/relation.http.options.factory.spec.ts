@@ -12,7 +12,6 @@ describe("RelationHttpModuleOptionsFactory", () => {
       imports: [ConfigModule.forFeature(config)],
       providers: [RelationConfigService]
     }).compile();
-
     service = module.get<RelationConfigService>(RelationConfigService);
   });
 

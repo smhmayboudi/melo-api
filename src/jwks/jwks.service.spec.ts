@@ -30,7 +30,6 @@ describe("JwksService", () => {
         { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock }
       ]
     }).compile();
-
     service = module.get<JwksService>(JwksService);
   });
 

@@ -9,8 +9,8 @@ import config from "./artist.config";
 import { ArtistController } from "./artist.controller";
 import { ArtistService } from "./artist.service";
 import { DataArtistType } from "../data/data.artist.type";
-import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "src/data/dto/res/data.pagination.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 describe("ArtistController", () => {
   let artistController: ArtistController;
@@ -77,7 +77,6 @@ describe("ArtistController", () => {
         { provide: RelationService, useValue: relationServiceMock }
       ]
     }).compile();
-
     artistController = module.get<ArtistController>(ArtistController);
     artistService = module.get<ArtistService>(ArtistService);
   });

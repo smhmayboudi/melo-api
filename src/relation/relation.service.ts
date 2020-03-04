@@ -5,10 +5,11 @@ import {
 } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
 import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";
 import { RelationMultiHasReqDto } from "./dto/req/relation.multi-has.req.dto";
@@ -35,6 +36,8 @@ export class RelationService {
     private readonly relationConfigService: RelationConfigService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async get(
     dto: RelationGetReqDto
@@ -55,6 +58,8 @@ export class RelationService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async has(dto: RelationHasReqDto): Promise<void> {
     return this.httpService
@@ -73,6 +78,8 @@ export class RelationService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async multiHas(
     dto: RelationMultiHasReqDto
@@ -87,6 +94,8 @@ export class RelationService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async remove(dto: RelationRemoveReqDto): Promise<void> {
     return this.httpService
@@ -107,6 +116,8 @@ export class RelationService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async set(dto: RelationSetReqDto): Promise<void> {
     return this.httpService

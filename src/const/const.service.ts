@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { ConstConfigService } from "./const.config.service";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 
@@ -15,6 +16,8 @@ export class ConstService {
     private readonly appImgProxyService: AppImgProxyService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async images(): Promise<{ [key: string]: ConstImageResDto }> {
     const images: { [key: string]: ConstImageResDto } = {};

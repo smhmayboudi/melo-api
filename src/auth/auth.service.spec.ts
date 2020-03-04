@@ -1,29 +1,29 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { Test, TestingModule } from "@nestjs/testing";
 import { JwksService } from "../jwks/jwks.service";
 import { RtService } from "../rt/rt.service";
-import { AppModule } from "../app/app.module";
-import config from "./auth.config";
-import { AuthConfigService } from "./auth.config.service";
+// import { AuthConfigService } from "./auth.config.service";
 import { AuthService } from "./auth.service";
+import { AuthConfigService } from "./auth.config.service";
 
 describe("AuthService", () => {
   let service: AuthService;
 
-  const jwksServiceMock = jest.fn(() => ({
-    getOneRandom: {
+  const authConfigServiceMock = {
+    jwtRefreshTokenExpiresIn: (): any => 0
+  };
+  const jwksServiceMock = {
+    getOneRandom: (): any => ({
       id: "",
       public_key: "",
       private_key: ""
-    }
-  }));
-  const jwtServiceMock = jest.fn(() => ({
-    sign: ""
-  }));
-  const rtServiceMock = jest.fn(() => ({
-    save: [
+    })
+  };
+  const jwtServiceMock = {
+    sign: (): any => 0
+  };
+  const rtServiceMock = {
+    save: (): any => [
       {
         created_at: new Date(),
         description: "",
@@ -34,19 +34,17 @@ describe("AuthService", () => {
         token: ""
       }
     ]
-  }));
-  beforeAll(async () => {
+  };
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
-        AuthConfigService,
         AuthService,
+        { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JwksService, useValue: jwksServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: RtService, useValue: rtServiceMock }
       ]
     }).compile();
-
     service = module.get<AuthService>(AuthService);
   });
 
@@ -56,24 +54,17 @@ describe("AuthService", () => {
 
   it("accessToken should be defined", async () => {
     const res = {
-      at: ""
+      at: 0
     };
-    jest
-      .spyOn(service, "accessToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.accessToken(0)).toBe(res);
+    expect(await service.accessToken(0)).toEqual(res);
   });
 
   it("refreshToken should be defined", async () => {
+    jest.mock("crypto-random-string").fn(() => "");
     const res = {
-      at: "",
+      at: 0,
       rt: ""
     };
-    jest
-      .spyOn(service, "refreshToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.refreshToken(0)).toBe(res);
+    expect(await service.refreshToken(0)).toEqual(res);
   });
 });

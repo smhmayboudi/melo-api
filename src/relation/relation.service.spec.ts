@@ -37,7 +37,6 @@ describe("RelationService", () => {
         { provide: HttpService, useValue: relationHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<RelationService>(RelationService);
     const req = {
       from: 0,
@@ -72,7 +71,6 @@ describe("RelationService", () => {
         { provide: HttpService, useValue: relationHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<RelationService>(RelationService);
     const req = {
       from: { id: "", type: RelationEntityType.album },
@@ -111,7 +109,6 @@ describe("RelationService", () => {
         { provide: HttpService, useValue: relationHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<RelationService>(RelationService);
     const req = {
       from: { id: "", type: RelationEntityType.album },
@@ -144,7 +141,6 @@ describe("RelationService", () => {
         { provide: HttpService, useValue: relationHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<RelationService>(RelationService);
     const req = {
       from: { id: "", type: RelationEntityType.album },
@@ -177,7 +173,6 @@ describe("RelationService", () => {
         { provide: HttpService, useValue: relationHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<RelationService>(RelationService);
     const req = {
       createdAt: new Date(),

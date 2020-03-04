@@ -41,7 +41,6 @@ describe("AppMixArtistService", () => {
         { provide: RelationService, useValue: relationServiceMock }
       ]
     }).compile();
-
     service = module.get<AppMixArtistService>(AppMixArtistService);
   });
 

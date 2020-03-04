@@ -4,11 +4,12 @@ import aws from "aws-sdk";
 import bluebird from "bluebird";
 import mime from "mime-types";
 import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
@@ -16,7 +17,7 @@ import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
 
 @Injectable()
-// // @PromInstanceCounter
+// @PromInstanceCounter
 export class FileService {
   private readonly mmmagic: Magic;
   private readonly s3: aws.S3;
@@ -38,6 +39,8 @@ export class FileService {
     });
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async uploadImage(
     dto: FileUploadImageReqDto,

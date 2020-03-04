@@ -5,8 +5,9 @@ import {
   getTokenCounter,
   getTokenGauge,
   getTokenHistogram,
+  getTokenRegistry,
   getTokenSummary
-} from "./prom.utils";
+} from "./prom.util";
 
 export const InjectCounter = (
   name: string
@@ -39,6 +40,14 @@ export const InjectSummary = (
   key: string | symbol,
   index?: number | undefined
 ) => void) => Inject(getTokenSummary(name));
+
+export const InjectRegister = (
+  name?: string
+): ((
+  target: object,
+  key: string | symbol,
+  index?: number | undefined
+) => void) => Inject(getTokenRegistry(name));
 
 export const PromInstanceCounter = beforeInstance(meta => {
   const counterMetric = getOrCreateCounter({

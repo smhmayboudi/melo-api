@@ -5,7 +5,7 @@ import {
   InjectSummary,
   PromInstanceCounter,
   PromMethodCounter
-} from "./prom.decorators";
+} from "./prom.decorator";
 
 describe("PromDecorator", () => {
   it("InjectCounter should be defined", () => {

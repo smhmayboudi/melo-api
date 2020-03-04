@@ -14,7 +14,6 @@ describe("FileCacheOptionsFactory", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [FileConfigService]
     }).compile();
-
     service = module.get<FileConfigService>(FileConfigService);
   });
 

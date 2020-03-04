@@ -45,7 +45,6 @@ describe("UserController", () => {
         { provide: UserEntityRepository, useValue: userEntityRepositoryMock }
       ]
     }).compile();
-
     controller = module.get<UserController>(UserController);
     service = module.get<UserService>(UserService);
   });

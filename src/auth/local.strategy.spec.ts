@@ -12,7 +12,6 @@ describe("LocalStrategy", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), UserModule]
     }).compile();
-
     userService = module.get<UserService>(UserService);
   });
 

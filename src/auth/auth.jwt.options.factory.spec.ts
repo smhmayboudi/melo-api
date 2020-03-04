@@ -28,7 +28,6 @@ describe("AuthJwtOptionsFactory", () => {
       ],
       providers: [AuthConfigService]
     }).compile();
-
     authConfigService = module.get<AuthConfigService>(AuthConfigService);
     jwksService = module.get<JwksService>(JwksService);
   });

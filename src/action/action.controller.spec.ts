@@ -15,7 +15,6 @@ describe("ActionController", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [ActionService]
     }).compile();
-
     controller = module.get<ActionController>(ActionController);
   });
 

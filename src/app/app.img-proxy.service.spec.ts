@@ -12,7 +12,6 @@ describe("ImgProxyService", () => {
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppImgProxyService]
     }).compile();
-
     service = module.get<AppImgProxyService>(AppImgProxyService);
   });
 

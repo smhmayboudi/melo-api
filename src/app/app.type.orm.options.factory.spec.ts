@@ -10,7 +10,6 @@ describe("AppTypeOrmOptionsFactory", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [AppConfigService, ConfigService]
     }).compile();
-
     service = module.get<AppConfigService>(AppConfigService);
   });
 

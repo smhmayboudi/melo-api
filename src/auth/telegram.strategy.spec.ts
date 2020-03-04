@@ -21,7 +21,6 @@ describe("TelegramStrategy", () => {
       ],
       providers: [AuthConfigService]
     }).compile();
-
     authConfigService = module.get<AuthConfigService>(AuthConfigService);
     userService = module.get<UserService>(UserService);
   });

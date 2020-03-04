@@ -1,10 +1,11 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
 import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
@@ -18,6 +19,8 @@ export class DataSearchService {
     private readonly httpService: HttpService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async query(
     dto: DataSearchQueryReqDto

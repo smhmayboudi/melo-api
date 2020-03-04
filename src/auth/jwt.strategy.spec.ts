@@ -29,7 +29,6 @@ describe("JwtStrategy", () => {
       ],
       providers: [AuthConfigService]
     }).compile();
-
     atService = module.get<AtService>(AtService);
     authConfigService = module.get<AuthConfigService>(AuthConfigService);
     jwksService = module.get<JwksService>(JwksService);

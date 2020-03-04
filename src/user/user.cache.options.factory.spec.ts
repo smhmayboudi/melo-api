@@ -14,7 +14,6 @@ describe("UserCacheOptionsFactory", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [UserConfigService]
     }).compile();
-
     service = module.get<UserConfigService>(UserConfigService);
   });
 

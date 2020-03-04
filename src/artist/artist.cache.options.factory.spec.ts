@@ -14,7 +14,6 @@ describe("ArtistCacheOptionsFactory", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [ArtistConfigService]
     }).compile();
-
     service = module.get<ArtistConfigService>(ArtistConfigService);
   });
 

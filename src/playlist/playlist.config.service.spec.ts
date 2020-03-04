@@ -13,7 +13,6 @@ describe("PlaylistService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [PlaylistConfigService]
     }).compile();
-
     service = module.get<PlaylistConfigService>(PlaylistConfigService);
   });
 

@@ -11,7 +11,6 @@ describe("RelationService", () => {
       imports: [ConfigModule.forFeature(config)],
       providers: [RelationConfigService]
     }).compile();
-
     service = module.get<RelationConfigService>(RelationConfigService);
   });
 

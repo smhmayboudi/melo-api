@@ -32,7 +32,6 @@ describe("DataArtistService", () => {
         { provide: HttpService, useValue: artistHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataArtistService>(DataArtistService);
     const req = {
       id: 0
@@ -75,7 +74,6 @@ describe("DataArtistService", () => {
         { provide: HttpService, useValue: artistHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataArtistService>(DataArtistService);
     const req = {
       ids: []
@@ -123,7 +121,6 @@ describe("DataArtistService", () => {
         { provide: HttpService, useValue: artistHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataArtistService>(DataArtistService);
     const res = {
       results: [
@@ -170,7 +167,6 @@ describe("DataArtistService", () => {
         { provide: HttpService, useValue: artistHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataArtistService>(DataArtistService);
     const req = {
       genre: ""

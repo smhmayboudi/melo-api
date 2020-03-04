@@ -12,7 +12,6 @@ describe("AppCacheOptionsFactory", () => {
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService]
     }).compile();
-
     service = module.get<AppConfigService>(AppConfigService);
   });
 

@@ -1,5 +1,3 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { DataArtistService } from "../data/data.artist.service";
@@ -7,24 +5,24 @@ import { DataArtistType } from "../data/data.artist.type";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { RelationService } from "../relation/relation.service";
-import { AppModule } from "../app/app.module";
-import config from "./artist.config";
 import { ArtistService } from "./artist.service";
 
 describe("ArtistService", () => {
   let artistService: ArtistService;
 
-  const appMixArtistServiceMock = jest.fn(() => ({
-    mixArtist: [{ followersCount: 0, id: "", type: DataArtistType.prime }]
-  }));
+  const appMixArtistServiceMock = {
+    mixArtist: (): any => [
+      { followersCount: 0, id: "", type: DataArtistType.prime }
+    ]
+  };
 
-  const dataArtistServiceMock = jest.fn(() => ({
-    byId: {
+  const dataArtistServiceMock = {
+    byId: (): any => ({
       followersCount: 0,
       id: "",
       type: DataArtistType.prime
-    },
-    byIds: {
+    }),
+    byIds: (): any => ({
       results: [
         {
           followersCount: 0,
@@ -33,8 +31,8 @@ describe("ArtistService", () => {
         }
       ],
       total: 1
-    },
-    trending: {
+    }),
+    trending: (): any => ({
       results: [
         {
           followersCount: 0,
@@ -43,8 +41,8 @@ describe("ArtistService", () => {
         }
       ],
       total: 1
-    },
-    trendingGenre: {
+    }),
+    trendingGenre: (): any => ({
       results: [
         {
           followersCount: 0,
@@ -53,20 +51,19 @@ describe("ArtistService", () => {
         }
       ],
       total: 1
-    }
-  }));
+    })
+  };
 
-  const relationServiceMock = jest.fn(() => ({
-    set: jest.fn(),
-    get: {
+  const relationServiceMock = {
+    set: (): any => ({}),
+    get: (): any => ({
       results: [],
       total: 0
-    },
-    remove: jest.fn()
-  }));
-  beforeAll(async () => {
+    }),
+    remove: (): any => ({})
+  };
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
         ArtistService,
         { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
@@ -74,7 +71,6 @@ describe("ArtistService", () => {
         { provide: RelationService, useValue: relationServiceMock }
       ]
     }).compile();
-
     artistService = module.get<ArtistService>(ArtistService);
   });
 
@@ -91,11 +87,7 @@ describe("ArtistService", () => {
       id: "",
       type: DataArtistType.prime
     };
-    jest
-      .spyOn(artistService, "follow")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await artistService.follow(req, 0, 0)).toBe(res);
+    expect(await artistService.follow(req, 0, 0)).toEqual(res);
   });
 
   it("following should return list of artists", async () => {
@@ -111,13 +103,9 @@ describe("ArtistService", () => {
           type: DataArtistType.prime
         }
       ],
-      total: 0
+      total: 1
     } as DataPaginationResDto<DataArtistResDto>;
-    jest
-      .spyOn(artistService, "following")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await artistService.following(req, 0)).toBe(res);
+    expect(await artistService.following(req, 0)).toEqual(res);
   });
 
   it("profile should return an artist", async () => {
@@ -129,11 +117,7 @@ describe("ArtistService", () => {
       id: "",
       type: DataArtistType.prime
     };
-    jest
-      .spyOn(artistService, "profile")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await artistService.profile(req, 0, 0)).toBe(res);
+    expect(await artistService.profile(req, 0, 0)).toEqual(res);
   });
 
   it("trending should return list of artists", async () => {
@@ -147,11 +131,7 @@ describe("ArtistService", () => {
       ],
       total: 1
     } as DataPaginationResDto<DataArtistResDto>;
-    jest
-      .spyOn(artistService, "trending")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await artistService.trending(0)).toBe(res);
+    expect(await artistService.trending(0)).toEqual(res);
   });
 
   it("trendingGenre should return list of artists", async () => {
@@ -168,11 +148,7 @@ describe("ArtistService", () => {
       ],
       total: 1
     } as DataPaginationResDto<DataArtistResDto>;
-    jest
-      .spyOn(artistService, "trendingGenre")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await artistService.trendingGenre(req, 0)).toBe(res);
+    expect(await artistService.trendingGenre(req, 0)).toEqual(res);
   });
 
   it("unfollow should return an artist", async () => {
@@ -184,10 +160,6 @@ describe("ArtistService", () => {
       id: "",
       type: DataArtistType.prime
     };
-    jest
-      .spyOn(artistService, "unfollow")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await artistService.unfollow(req, 0, 0)).toBe(res);
+    expect(await artistService.unfollow(req, 0, 0)).toEqual(res);
   });
 });

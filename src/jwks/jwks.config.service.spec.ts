@@ -13,7 +13,6 @@ describe("JwksService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [JwksConfigService]
     }).compile();
-
     service = module.get<JwksConfigService>(JwksConfigService);
   });
 

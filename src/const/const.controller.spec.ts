@@ -17,7 +17,6 @@ describe("ConstController", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [ConstConfigService, ConstService]
     }).compile();
-
     constController = module.get<ConstController>(ConstController);
     constService = module.get<ConstService>(ConstService);
   });

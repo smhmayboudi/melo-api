@@ -155,7 +155,6 @@ describe("SongController", () => {
         { provide: UserService, useValue: userServiceMock }
       ]
     }).compile();
-
     controller = module.get<SongController>(SongController);
     service = module.get<SongService>(SongService);
   });

@@ -39,7 +39,6 @@ describe("FileController", () => {
         }
       ]
     }).compile();
-
     fileService = module.get<FileService>(FileService);
     fileController = module.get<FileController>(FileController);
   });

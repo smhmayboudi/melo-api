@@ -1,67 +1,59 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./at.config";
 import { AtEntityRepository } from "./at.entity.repository";
 import { AtService } from "./at.service";
 
 describe("AtService", () => {
   let service: AtService;
 
-  const atEntityRepositoryMock = jest.fn(() => ({
-    delete: {
+  const created_at = new Date();
+  const expire_at = new Date();
+  const atEntityRepositoryMock = {
+    delete: (): any => ({
       raw: ""
-    },
-    find: [
+    }),
+    find: (): any => [
       {
         count: 0,
-        created_at: new Date(),
-        expire_at: new Date(),
+        created_at,
+        expire_at,
         id: 0,
         user_id: 0,
         token: ""
       }
     ],
-    findOne: {
+    findOne: (): any => ({
       count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
+      created_at,
+      expire_at,
       id: 0,
       user_id: 0,
       token: ""
-    },
-    save: {
+    }),
+    save: (): any => ({
       count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
+      created_at,
+      expire_at,
       id: 0,
       user_id: 0,
       token: ""
-    },
-    update: {
+    }),
+    update: (): any => ({
       raw: "",
       generatedMaps: [
         {
           "": ""
         }
       ]
-    }
-  }));
+    })
+  };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        forwardRef(() => AppModule),
-        ConfigModule.forFeature(config)
-        // TypeOrmModule.forFeature([AtEntityRepository])
-      ],
       providers: [
         AtService,
         { provide: AtEntityRepository, useValue: atEntityRepositoryMock }
       ]
     }).compile();
-
     service = module.get<AtService>(AtService);
   });
 
@@ -70,144 +62,78 @@ describe("AtService", () => {
   });
 
   it("deleteById should be defined", async () => {
-    const res = {
-      raw: ""
-    };
-    jest
-      .spyOn(service, "deleteById")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.deleteById(0)).toBe(res);
+    expect(await service.deleteById(0)).toEqual(
+      atEntityRepositoryMock.delete()
+    );
   });
 
   it("deleteByToken should be defined", async () => {
-    const res = {
-      raw: ""
-    };
-    jest
-      .spyOn(service, "deleteByToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.deleteByToken("")).toBe(res);
+    expect(await service.deleteByToken("")).toEqual(
+      atEntityRepositoryMock.delete()
+    );
   });
 
   it("find shoud be defined", async () => {
-    const res = [
-      {
-        count: 0,
-        created_at: new Date(),
-        expire_at: new Date(),
-        id: 0,
-        user_id: 0,
-        token: ""
-      }
-    ];
-    jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.find()).toBe(res);
+    expect(await service.find()).toEqual(atEntityRepositoryMock.find());
   });
 
   it("findOneById should be defined", async () => {
-    const res = {
-      count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
-      id: 0,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "findOneById")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.findOneById(0)).toBe(res);
+    expect(await service.findOneById(0)).toEqual(
+      atEntityRepositoryMock.find()[0]
+    );
   });
 
   it("findOneByToken should be defined", async () => {
-    const res = {
-      count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
-      id: 0,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "findOneByToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.findOneByToken("")).toBe(res);
+    expect(await service.findOneByToken("")).toEqual(
+      atEntityRepositoryMock.find()[0]
+    );
   });
 
   it("save should be defined", async () => {
-    const reqRes = {
+    const req = {
       count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
+      created_at,
+      expire_at,
       id: 0,
       user_id: 0,
       token: ""
     };
-    jest
-      .spyOn(service, "save")
-      .mockImplementation(() => Promise.resolve(reqRes));
-
-    expect(await service.save(reqRes)).toBe(reqRes);
+    expect(await service.save(req)).toEqual(atEntityRepositoryMock.save());
   });
 
   it("update should be defined", async () => {
     const req = {
       count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
+      created_at,
+      expire_at,
       id: 0,
       user_id: 0,
       token: ""
     };
-    const res = {
-      raw: "",
-      generatedMaps: [
-        {
-          "": ""
-        }
-      ]
-    };
-    jest
-      .spyOn(service, "update")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.update(req)).toBe(res);
+    expect(await service.update(req)).toEqual(atEntityRepositoryMock.update());
   });
 
   it("validateBySub should be defined", async () => {
     const res = {
       count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
+      created_at,
+      expire_at,
       id: 0,
       user_id: 0,
       token: ""
     };
-    jest
-      .spyOn(service, "validateBySub")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.validateBySub(0)).toBe(res);
+    expect(await service.validateBySub(0)).toEqual(res);
   });
 
   it("validateByToken should be defined", async () => {
     const res = {
       count: 0,
-      created_at: new Date(),
-      expire_at: new Date(),
+      created_at,
+      expire_at,
       id: 0,
       user_id: 0,
       token: ""
     };
-    jest
-      .spyOn(service, "validateByToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.validateByToken("")).toBe(res);
+    expect(await service.validateByToken("")).toEqual(res);
   });
 });

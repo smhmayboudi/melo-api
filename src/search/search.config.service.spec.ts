@@ -13,7 +13,6 @@ describe("SearchService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [SearchConfigService]
     }).compile();
-
     service = module.get<SearchConfigService>(SearchConfigService);
   });
 

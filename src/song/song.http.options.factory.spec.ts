@@ -14,7 +14,6 @@ describe("SongHttpModuleOptionsFactory", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [SongConfigService]
     }).compile();
-
     service = module.get<SongConfigService>(SongConfigService);
   });
 

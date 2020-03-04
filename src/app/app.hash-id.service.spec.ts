@@ -12,7 +12,6 @@ describe("AppHashIdService", () => {
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppHashIdService]
     }).compile();
-
     service = module.get<AppHashIdService>(AppHashIdService);
   });
 

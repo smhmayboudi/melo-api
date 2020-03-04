@@ -4,4 +4,8 @@ describe("ArtistHealthIndicator", () => {
   it("should be defined", () => {
     expect(new ArtistHealthIndicator()).toBeDefined();
   });
+
+  it("isHealthy should be defined", () => {
+    expect(new ArtistHealthIndicator().isHealthy()).toBeDefined();
+  });
 });

@@ -35,7 +35,6 @@ describe("AuthController", () => {
         { provide: RtService, useValue: rtServiceMock }
       ]
     }).compile();
-
     authController = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);
     rtService = module.get<RtService>(RtService);

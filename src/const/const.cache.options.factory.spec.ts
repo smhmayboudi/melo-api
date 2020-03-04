@@ -14,7 +14,6 @@ describe("ConstCacheOptionsFactory", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [ConstConfigService]
     }).compile();
-
     service = module.get<ConstConfigService>(ConstConfigService);
   });
 

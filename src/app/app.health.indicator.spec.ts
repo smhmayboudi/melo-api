@@ -4,4 +4,8 @@ describe("AppConfig", () => {
   it("should be defined", () => {
     expect(new AppHealthIndicator()).toBeDefined();
   });
+
+  it("isHealthy should be defined", () => {
+    expect(new AppHealthIndicator().isHealthy()).toBeDefined();
+  });
 });

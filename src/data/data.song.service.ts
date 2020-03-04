@@ -1,10 +1,11 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
 import { DataSongArtistSongsTopReqDto } from "./dto/req/data.song.artist-songs-top.req.dto";
 import { DataSongArtistsReqDto } from "./dto/req/data.song.artists.req.dto";
@@ -31,6 +32,8 @@ export class DataSongService {
     private readonly httpService: HttpService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async artistSongs(
     dto: DataSongArtistsReqDto
@@ -48,6 +51,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async artistSongsTop(
     dto: DataSongArtistSongsTopReqDto
@@ -65,6 +70,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byId(dto: DataSongByIdReqDto): Promise<DataSongResDto> {
     return this.httpService
@@ -73,6 +80,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byIds(
     dto: DataSongByIdsReqDto
@@ -92,6 +101,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async genre(
     dto: DataSongGenreReqDto
@@ -114,6 +125,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async language(
     dto: DataSongLanguageReqDto
@@ -131,6 +144,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async mood(
     dto: DataSongMoodReqDto
@@ -148,6 +163,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async new(
     dto: DataSongNewReqDto
@@ -163,6 +180,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async newPodcast(
     dto: DataSongNewPodcastReqDto
@@ -180,6 +199,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async podcast(
     dto: DataSongPodcastReqDto
@@ -202,6 +223,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async searchMood(
     dto: DataSongSearchMoodReqDto
@@ -228,6 +251,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async similar(
     dto: DataSongSimilarReqDto
@@ -245,6 +270,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async slider(): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
@@ -258,6 +285,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async topDay(
     dto: DataSongTopDayReqDto
@@ -275,6 +304,8 @@ export class DataSongService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async topWeek(
     dto: DataSongTopWeekReqDto

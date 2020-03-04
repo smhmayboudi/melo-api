@@ -34,7 +34,6 @@ describe("DataAlbumService", () => {
         { provide: HttpService, useValue: albumsHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataAlbumService>(DataAlbumService);
     const req = {
       from: 0,
@@ -80,7 +79,6 @@ describe("DataAlbumService", () => {
         { provide: HttpService, useValue: albumsHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataAlbumService>(DataAlbumService);
     const req = {
       id: 0
@@ -120,7 +118,6 @@ describe("DataAlbumService", () => {
         { provide: HttpService, useValue: albumsHttpServiceMock }
       ]
     }).compile();
-
     const service = module.get<DataAlbumService>(DataAlbumService);
     const req = {
       from: 0,

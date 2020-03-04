@@ -10,7 +10,6 @@ export class UserHealthIndicator extends HealthIndicator {
       message: "OK",
       statusCode: 200
     });
-
     if (isHealthy) {
       return Promise.resolve(result);
     }

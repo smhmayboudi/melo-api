@@ -13,7 +13,6 @@ describe("TokenStrategy", () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), JwksModule, RtModule]
     }).compile();
-
     rtService = module.get<RtService>(RtService);
   });
 

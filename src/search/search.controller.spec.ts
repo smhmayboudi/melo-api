@@ -35,7 +35,6 @@ describe("SearchController", () => {
         { provide: DataSearchService, useValue: dataSearchServiceMock }
       ]
     }).compile();
-
     controller = module.get<SearchController>(SearchController);
     service = module.get<SearchService>(SearchService);
   });

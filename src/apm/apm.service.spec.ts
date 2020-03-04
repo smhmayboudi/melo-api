@@ -36,7 +36,6 @@ describe("ApmService", () => {
         { provide: APM_INSTANCE_TOKEN, useValue: ampMock }
       ]
     }).compile();
-
     service = module.get<ApmService>(ApmService);
   });
 

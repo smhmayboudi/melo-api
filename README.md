@@ -30,9 +30,10 @@ $ brew cask install mongodb-compass
 $ brew cask install mysqlworkbench
 $ brew cask install postman
 $ brew cask install proxifier
+$ brew cask install rocket-chat
 $ brew cask install shadowsocksx-ng
-$ brew cask install visual-studio-code
 $ brew cask install skype
+$ brew cask install visual-studio-code
 ```
 
 # Enviroment

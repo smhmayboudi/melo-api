@@ -13,7 +13,6 @@ describe("RtService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [RtConfigService]
     }).compile();
-
     service = module.get<RtConfigService>(RtConfigService);
   });
 

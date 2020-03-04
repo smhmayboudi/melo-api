@@ -13,7 +13,6 @@ describe("AtService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [AtConfigService]
     }).compile();
-
     service = module.get<AtConfigService>(AtConfigService);
   });
 

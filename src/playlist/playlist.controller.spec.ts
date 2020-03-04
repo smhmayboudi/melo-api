@@ -10,8 +10,8 @@ import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistService } from "./playlist.service";
-import { DataPaginationResDto } from "src/data/dto/res/data.pagination.res.dto";
-import { DataPlaylistResDto } from "src/data/dto/res/data.playlist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 
 describe("PlaylistController", () => {
   let controller: PlaylistController;
@@ -79,7 +79,6 @@ describe("PlaylistController", () => {
         { provide: getModelToken("Playlist"), useValue: playlistModelMock }
       ]
     }).compile();
-
     controller = module.get<PlaylistController>(PlaylistController);
     service = module.get<PlaylistService>(PlaylistService);
   });

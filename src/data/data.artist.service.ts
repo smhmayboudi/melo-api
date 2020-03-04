@@ -1,10 +1,11 @@
 import { HttpService, Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   // PromInstanceCounter,
   PromMethodCounter
-} from "../prom/prom.decorators";
+} from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
 import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
 import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
@@ -20,6 +21,8 @@ export class DataArtistService {
     private readonly httpService: HttpService
   ) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byId(dto: DataArtistByIdReqDto): Promise<DataArtistResDto> {
     return this.httpService
@@ -28,6 +31,8 @@ export class DataArtistService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async byIds(
     dto: DataArtistByIdsReqDto
@@ -47,6 +52,8 @@ export class DataArtistService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
@@ -60,6 +67,8 @@ export class DataArtistService {
       .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
   @PromMethodCounter
   async trendingGenre(
     dto: DataTrendingGenreReqDto

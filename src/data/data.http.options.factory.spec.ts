@@ -12,7 +12,6 @@ describe("DataHttpModuleOptionsFactory", () => {
       imports: [ConfigModule.forFeature(config)],
       providers: [DataConfigService]
     }).compile();
-
     service = module.get<DataConfigService>(DataConfigService);
   });
 

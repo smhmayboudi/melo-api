@@ -13,7 +13,6 @@ describe("AuthService", () => {
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [AuthConfigService]
     }).compile();
-
     service = module.get<AuthConfigService>(AuthConfigService);
   });
 

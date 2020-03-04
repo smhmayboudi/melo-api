@@ -1,4 +1,6 @@
+import { PATH_METADATA } from "@nestjs/common/constants";
 import {
+  collectDefaultMetrics,
   Counter,
   CounterConfiguration,
   Gauge,
@@ -7,17 +9,20 @@ import {
   HistogramConfiguration,
   Metric,
   register,
+  Registry,
   Summary,
   SummaryConfiguration
 } from "prom-client";
+import { PATH_HEALTH, PATH_METRICS } from "../app/app.constant";
 import {
   PROM_CONFIGURATION_DEFAULT,
   PROM_CONFIGURATION_NAME,
-  // PROM_CONFIGURATION,
   PROM_METRIC,
   PROM_REGISTRY_DEFAULT,
   PROM_REGISTRY_NAME
 } from "./prom.constant";
+import { PromController } from "./prom.controller";
+import { PromModuleOptions } from "./prom.module.interface";
 
 export const enum MetricType {
   Counter = "Counter",
@@ -82,24 +87,24 @@ export function getOrCreateSummary(
   >;
 }
 
-function getToken(metricType: MetricType, name: string): string {
+function getTokenMetric(metricType: MetricType, name: string): string {
   return `${PROM_METRIC}_${metricType
     .toString()
     .toUpperCase()}_${name.toUpperCase()}`;
 }
 
 export function getTokenCounter(name: string): string {
-  return getToken(MetricType.Counter, name);
+  return getTokenMetric(MetricType.Counter, name);
 }
 
 export function getTokenGauge(name: string): string {
-  return getToken(MetricType.Gauge, name);
+  return getTokenMetric(MetricType.Gauge, name);
 }
 export function getTokenHistogram(name: string): string {
-  return getToken(MetricType.Histogram, name);
+  return getTokenMetric(MetricType.Histogram, name);
 }
 export function getTokenSummary(name: string): string {
-  return getToken(MetricType.Summary, name);
+  return getTokenMetric(MetricType.Summary, name);
 }
 
 export function getTokenConfiguration(name?: string): string {
@@ -112,4 +117,73 @@ export function getTokenRegistry(name?: string): string {
   return name === undefined
     ? PROM_REGISTRY_DEFAULT
     : `${PROM_REGISTRY_NAME}_${name.toUpperCase()}`;
+}
+
+export function makeDefaultOptions(
+  options?: PromModuleOptions
+): PromModuleOptions {
+  return {
+    defaultLabels:
+      options === undefined || options.defaultLabels === undefined
+        ? {}
+        : options.defaultLabels,
+    defaultMetrics: {
+      config:
+        options === undefined ||
+        options.defaultMetrics === undefined ||
+        options.defaultMetrics.config === undefined
+          ? {}
+          : options.defaultMetrics.config,
+      enabled:
+        options === undefined || options.defaultMetrics === undefined
+          ? true
+          : options.defaultMetrics.enabled
+    },
+    ignorePaths:
+      options === undefined || options.ignorePaths === undefined
+        ? [PATH_HEALTH, PATH_METRICS]
+        : options.ignorePaths,
+    path:
+      options === undefined || options.path === undefined
+        ? PATH_METRICS
+        : options.path,
+    prefix:
+      options === undefined || options.prefix === undefined
+        ? ""
+        : options.prefix,
+    registryName:
+      options === undefined || options.registryName === undefined
+        ? undefined
+        : options.registryName
+  };
+}
+
+export function promConfigurationProviderImp(
+  options: PromModuleOptions,
+  promConfigurationName: string
+): void {
+  let path = PATH_METRICS;
+  if (promConfigurationName !== PROM_CONFIGURATION_DEFAULT) {
+    path = options.path || PATH_METRICS;
+  }
+  Reflect.defineMetadata(PATH_METADATA, path, PromController);
+}
+
+export function promRegistryProviderImp(
+  options: PromModuleOptions,
+  promRegistryName: string
+): Registry {
+  let registry = register;
+  if (promRegistryName !== PROM_REGISTRY_DEFAULT) {
+    registry = new Registry();
+  }
+  register.setDefaultLabels({ ...options.defaultLabels });
+  if (options.defaultMetrics?.enabled !== false) {
+    const defaultMetricsOptions = {
+      ...options.defaultMetrics?.config,
+      register: registry
+    };
+    collectDefaultMetrics(defaultMetricsOptions);
+  }
+  return registry;
 }

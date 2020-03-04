@@ -59,7 +59,6 @@ describe("RtService", () => {
         { provide: RtEntityRepository, useValue: rtEntityRepositoryMock }
       ]
     }).compile();
-
     service = module.get<RtService>(RtService);
   });
 

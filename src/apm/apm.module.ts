@@ -1,9 +1,7 @@
-import { DynamicModule, Module, Provider } from "@nestjs/common";
+import { DynamicModule, Module, Provider, Type, Global } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
-import apm from "elastic-apm-node";
 import { APM_INSTANCE_TOKEN, APM_MODULE_OPTIONS } from "./apm.constant";
 import { ApmInterceptor } from "./apm.interceptor";
-import logger from "./apm.logger";
 import {
   Agent,
   ApmModuleAsyncOptions,
@@ -11,34 +9,44 @@ import {
   ApmOptionsFactory
 } from "./apm.module.interface";
 import { ApmService } from "./apm.service";
+import { getOrCreateApmInstance, makeDefaultOptions } from "./apm.util";
 
+@Global()
 @Module({
   exports: [ApmService],
   providers: [
+    ApmService,
     {
       provide: APP_INTERCEPTOR,
       useClass: ApmInterceptor
-    },
-    ApmService
+    }
   ]
 })
 export class ApmModule {
   private static createAsyncOptionsProvider(
     options: ApmModuleAsyncOptions
-  ): Provider {
+  ): Provider<Promise<ApmModuleOptions> | ApmModuleOptions> {
     if (options.useFactory) {
       return {
         inject: options.inject || [],
         provide: APM_MODULE_OPTIONS,
-        useFactory: options.useFactory
+        useFactory: async (...args): Promise<ApmModuleOptions> =>
+          makeDefaultOptions(
+            options.useFactory && (await options.useFactory(args))
+          )
       };
     }
+    const inject = [
+      (options.useClass || options.useExisting) as Type<ApmOptionsFactory>
+    ];
     return {
-      inject: [options.useClass || options.useExisting],
+      inject,
       provide: APM_MODULE_OPTIONS,
-      useFactory: async (optionsFactory: ApmOptionsFactory) =>
-        optionsFactory.createApmOptions()
-    } as Provider;
+      useFactory: async (
+        optionsFactory: ApmOptionsFactory
+      ): Promise<ApmModuleOptions> =>
+        makeDefaultOptions(await optionsFactory.createApmOptions())
+    };
   }
 
   private static createAsyncProviders(
@@ -47,19 +55,21 @@ export class ApmModule {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];
     }
+    const useClass = options.useClass as Type<ApmOptionsFactory>;
     return [
       this.createAsyncOptionsProvider(options),
       {
-        provide: options.useClass,
-        useClass: options.useClass
-      } as Provider
+        provide: useClass,
+        useClass
+      }
     ];
   }
 
-  static register(options: ApmModuleOptions = {}): DynamicModule {
-    const apmInstanceProvider = {
+  static register(options?: ApmModuleOptions): DynamicModule {
+    const opts = makeDefaultOptions(options);
+    const apmInstanceProvider: Provider<Agent> = {
       provide: APM_INSTANCE_TOKEN,
-      useValue: (apm.start({ logger, ...options }) as unknown) as Agent
+      useValue: getOrCreateApmInstance(opts)
     };
     return {
       module: ApmModule,
@@ -67,16 +77,12 @@ export class ApmModule {
     };
   }
 
-  static registerAsync(options: ApmModuleAsyncOptions = {}): DynamicModule {
+  static registerAsync(options: ApmModuleAsyncOptions): DynamicModule {
     const asyncProviders = this.createAsyncProviders(options);
-    const apmInstanceProvider = {
+    const apmInstanceProvider: Provider<Agent> = {
       inject: [APM_MODULE_OPTIONS],
       provide: APM_INSTANCE_TOKEN,
-      useFactory: (options: ApmModuleOptions): Agent =>
-        (apm.start({
-          logger,
-          ...options
-        }) as unknown) as Agent
+      useFactory: (options: ApmModuleOptions) => getOrCreateApmInstance(options)
     };
     return {
       imports: options.imports,
