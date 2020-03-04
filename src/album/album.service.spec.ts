@@ -1,18 +1,27 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataArtistType } from "../data/data.artist.type";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataModule } from "../data/data.module";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { AlbumService } from "./album.service";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
-  const mixArtist = {
+  const mixArtist: DataArtistResDto = {
     followersCount: 0,
     id: "",
-    type: "prime"
+    type: DataArtistType.prime
   };
-  const mixSong = {
+  const mixArtistPagination: DataPaginationResDto<DataArtistResDto> = {
+    results: [mixArtist],
+    total: 1
+  } as DataPaginationResDto<DataArtistResDto>;
+  const mixSong: DataSongResDto = {
     artists: [mixArtist],
     audio: {
       high: {
@@ -26,46 +35,46 @@ describe("AlbumService", () => {
     releaseDate,
     title: ""
   };
+  const mixSongPagination: DataPaginationResDto<DataSongResDto> = {
+    results: [mixSong],
+    total: 1
+  } as DataPaginationResDto<DataSongResDto>;
   const appMixArtistServiceMock = {
-    mixArtist: () => [mixArtist]
+    mixArtist: (): DataArtistResDto[] => [mixArtist]
   };
   const appMixSongServiceMock = {
-    mixSong: () => [mixSong]
+    mixSong: (): DataSongResDto[] => [mixSong]
   };
-  const album = {
+  const album: DataAlbumResDto = {
     name: "",
     releaseDate,
-    songs: {
-      results: [mixSong],
-      total: 1
-    }
+    songs: mixSongPagination
   };
+  const albumPagination: DataPaginationResDto<DataAlbumResDto> = {
+    results: [album],
+    total: 1
+  } as DataPaginationResDto<DataAlbumResDto>;
   const dataAlbumServiceMock = {
-    albums: () => ({
-      results: [album],
-      total: 1
-    }),
-    byId: () => album,
-    latest: () => ({
-      results: [album],
-      total: 1
-    })
+    albums: (): DataPaginationResDto<DataAlbumResDto> => albumPagination,
+    byId: (): DataAlbumResDto => album,
+    latest: (): DataPaginationResDto<DataAlbumResDto> => albumPagination
   };
   const dataAlbumServiceMockArtistsUndefined = {
     ...dataAlbumServiceMock,
-    albums: () => ({
-      results: [
-        {
-          ...album,
-          artists: undefined
-        }
-      ],
-      total: 1
-    })
+    albums: (): DataPaginationResDto<DataAlbumResDto> =>
+      ({
+        results: [
+          {
+            ...album,
+            artists: undefined
+          }
+        ],
+        total: 1
+      } as DataPaginationResDto<DataAlbumResDto>)
   };
   const dataAlbumServiceMockSongsUndefined = {
     ...dataAlbumServiceMock,
-    byId: () => ({
+    byId: (): DataAlbumResDto => ({
       ...album,
       songs: undefined
     })
@@ -98,7 +107,7 @@ describe("AlbumService", () => {
         limit: 0
       };
       expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
-        dataAlbumServiceMock.albums()
+        albumPagination
       );
     });
 
@@ -106,9 +115,7 @@ describe("AlbumService", () => {
       const req = {
         id: ""
       };
-      expect(await albumService.byId(req, 0, 0)).toEqual(
-        dataAlbumServiceMock.byId()
-      );
+      expect(await albumService.byId(req, 0, 0)).toEqual(album);
     });
 
     it("latest should return list of albums", async () => {
@@ -117,9 +124,7 @@ describe("AlbumService", () => {
         language: "",
         limit: 0
       };
-      expect(await albumService.latest(req)).toEqual(
-        dataAlbumServiceMock.latest()
-      );
+      expect(await albumService.latest(req)).toEqual(albumPagination);
     });
   });
 
@@ -147,7 +152,7 @@ describe("AlbumService", () => {
         limit: 0
       };
       expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
-        dataAlbumServiceMock.albums()
+        albumPagination
       );
     });
   });
@@ -173,9 +178,7 @@ describe("AlbumService", () => {
       const req = {
         id: ""
       };
-      expect(await albumService.byId(req, 0, 0)).toEqual(
-        dataAlbumServiceMock.byId()
-      );
+      expect(await albumService.byId(req, 0, 0)).toEqual(album);
     });
   });
 });

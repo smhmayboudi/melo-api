@@ -5,22 +5,24 @@ import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
 
 describe("AlbumController", () => {
   const releaseDate = new Date();
   const appHashIdServiceMock = {
-    decode: () => "",
-    encode: () => ""
+    decode: (): string => "",
+    encode: (): string => ""
   };
-  const mixArtist = {
+  const mixArtist: DataArtistResDto = {
     followersCount: 0,
     id: "",
     type: DataArtistType.prime
   };
-  const mixSong = {
+  const mixSong: DataSongResDto = {
     artists: [mixArtist],
     audio: {},
     duration: 0,
@@ -30,29 +32,23 @@ describe("AlbumController", () => {
     title: ""
   };
   const appMixArtistServiceMock = {
-    mixArtist: () => {
-      [mixArtist];
-    }
+    mixArtist: (): DataArtistResDto[] => [mixArtist]
   };
   const appMixSongServiceMock = {
-    mixSong: () => {
-      [mixSong];
-    }
+    mixSong: (): DataSongResDto[] => [mixSong]
   };
-  const album = {
+  const album: DataAlbumResDto = {
     name: "",
     releaseDate
   };
+  const albumPagination: DataPaginationResDto<DataAlbumResDto> = {
+    results: [album],
+    total: 1
+  } as DataPaginationResDto<DataAlbumResDto>;
   const dataAlbumServiceMock = {
-    albums: () => ({
-      results: [album],
-      total: 1
-    }),
-    byId: () => album,
-    latest: () => ({
-      results: [album],
-      total: 1
-    })
+    albums: (): DataPaginationResDto<DataAlbumResDto> => albumPagination,
+    byId: (): DataAlbumResDto => album,
+    latest: (): DataPaginationResDto<DataAlbumResDto> => albumPagination
   };
 
   let controller: AlbumController;
@@ -83,31 +79,20 @@ describe("AlbumController", () => {
       from: 0,
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          name: "",
-          releaseDate
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataAlbumResDto>;
     jest
       .spyOn(service, "artistAlbums")
-      .mockImplementation(() => Promise.resolve(res));
-    expect(await controller.artistAlbums(req, 0, 0)).toEqual(res);
+      .mockImplementation(() => Promise.resolve(albumPagination));
+    expect(await controller.artistAlbums(req, 0, 0)).toEqual(albumPagination);
   });
 
   it("byId should return an album", async () => {
     const req = {
       id: ""
     };
-    const res = {
-      name: "",
-      releaseDate
-    };
-    jest.spyOn(service, "byId").mockImplementation(() => Promise.resolve(res));
-    expect(await controller.byId(req, 0, 0)).toEqual(res);
+    jest
+      .spyOn(service, "byId")
+      .mockImplementation(() => Promise.resolve(album));
+    expect(await controller.byId(req, 0, 0)).toEqual(album);
   });
 
   it("latest should return list of albums", async () => {
@@ -116,18 +101,9 @@ describe("AlbumController", () => {
       language: "",
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          name: "",
-          releaseDate
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataAlbumResDto>;
     jest
       .spyOn(service, "latest")
-      .mockImplementation(() => Promise.resolve(res));
-    expect(await controller.latest(req)).toEqual(res);
+      .mockImplementation(() => Promise.resolve(albumPagination));
+    expect(await controller.latest(req)).toEqual(albumPagination);
   });
 });
