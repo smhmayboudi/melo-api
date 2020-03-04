@@ -8,7 +8,7 @@ import { FileConfigService } from "./file.config.service";
 describe("FileService", () => {
   let service: FileConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [FileConfigService]

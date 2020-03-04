@@ -8,7 +8,7 @@ import { JwksConfigService } from "./jwks.config.service";
 describe("JwksService", () => {
   let service: JwksConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [JwksConfigService]

@@ -8,7 +8,7 @@ import { ConfigModule } from "@nestjs/config";
 describe("RtService", () => {
   let service: RtConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [RtConfigService]

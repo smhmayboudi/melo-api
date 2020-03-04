@@ -8,7 +8,7 @@ import { PlaylistConfigService } from "./playlist.config.service";
 describe("PlaylistService", () => {
   let service: PlaylistConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [PlaylistConfigService]

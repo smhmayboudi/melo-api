@@ -8,7 +8,7 @@ import { AtConfigService } from "./at.config.service";
 describe("AtService", () => {
   let service: AtConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [AtConfigService]

@@ -8,7 +8,7 @@ import { AuthConfigService } from "./auth.config.service";
 describe("AuthService", () => {
   let service: AuthConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [AuthConfigService]

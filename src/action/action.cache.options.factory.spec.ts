@@ -10,11 +10,11 @@ describe("ActionCacheOptionsFactory", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ActionConfigService,
         {
           provide: AppConfigService,
           useValue: jest.fn()
         },
+        ActionConfigService,
         {
           provide: ConfigService,
           useValue: jest.fn()

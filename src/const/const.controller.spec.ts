@@ -11,7 +11,7 @@ describe("ConstController", () => {
   let constController: ConstController;
   let constService: ConstService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConstController],
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],

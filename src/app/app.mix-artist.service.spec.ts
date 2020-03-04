@@ -31,7 +31,7 @@ describe("AppMixArtistService", () => {
     }
   }));
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [

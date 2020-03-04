@@ -141,7 +141,7 @@ describe("SongController", () => {
       id: 0
     }
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SongController],
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],

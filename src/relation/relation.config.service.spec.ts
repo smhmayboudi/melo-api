@@ -6,7 +6,7 @@ import { RelationConfigService } from "./relation.config.service";
 describe("RelationService", () => {
   let service: RelationConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [RelationConfigService]

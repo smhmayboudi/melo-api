@@ -6,7 +6,7 @@ import { DataConfigService } from "./data.config.service";
 describe("DataService", () => {
   let service: DataConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [DataConfigService]

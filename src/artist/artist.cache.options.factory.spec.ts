@@ -10,11 +10,11 @@ describe("ArtistCacheOptionsFactory", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ArtistConfigService,
         {
           provide: AppConfigService,
           useValue: jest.fn()
         },
+        ArtistConfigService,
         {
           provide: ConfigService,
           useValue: jest.fn()

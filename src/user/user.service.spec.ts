@@ -23,7 +23,7 @@ describe("UserService", () => {
       id: 0
     }
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [

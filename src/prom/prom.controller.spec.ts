@@ -10,7 +10,7 @@ describe("Prom Controller", () => {
   const registryMock = jest.fn(() => ({
     metrics: ""
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PromController],
       providers: [{ provide: PROM_REGISTRY_DEFAULT, useValue: registryMock }]

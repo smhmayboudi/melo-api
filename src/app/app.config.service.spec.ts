@@ -6,7 +6,7 @@ import { AppConfigService } from "./app.config.service";
 describe("AppService", () => {
   let service: AppConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService]

@@ -54,7 +54,7 @@ describe("ArtistController", () => {
   let artistController: ArtistController;
   let artistService: ArtistService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ArtistController],
       providers: [

@@ -4,7 +4,7 @@ import { PromService } from "./prom.service";
 describe("PromService", () => {
   let service: PromService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [PromService]
     }).compile();

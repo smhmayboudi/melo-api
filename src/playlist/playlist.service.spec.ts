@@ -66,7 +66,7 @@ describe("PlaylistService", () => {
     findById: playlistRespose,
     findOne: playlistRespose
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [

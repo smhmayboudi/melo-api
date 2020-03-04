@@ -7,7 +7,7 @@ import { AppHashIdService } from "./app.hash-id.service";
 describe("AppHashIdService", () => {
   let service: AppHashIdService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppHashIdService]

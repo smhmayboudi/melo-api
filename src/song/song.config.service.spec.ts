@@ -8,7 +8,7 @@ import { SongConfigService } from "./song.config.service";
 describe("SongService", () => {
   let service: SongConfigService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [SongConfigService]

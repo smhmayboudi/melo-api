@@ -7,7 +7,7 @@ import { AppImgProxyService } from "./app.img-proxy.service";
 describe("ImgProxyService", () => {
   let service: AppImgProxyService;
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppImgProxyService]

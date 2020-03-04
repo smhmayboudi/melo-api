@@ -8,7 +8,7 @@ describe("SentryService", () => {
   const sentryMock = jest.fn(() => ({
     withScope: {}
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SentryService,

@@ -67,7 +67,7 @@ describe("PlaylistController", () => {
     findById: playlistRespose,
     findOne: playlistRespose
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PlaylistController],
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],

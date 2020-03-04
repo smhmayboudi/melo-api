@@ -8,7 +8,7 @@ describe("AppHashIdPipe", () => {
   }));
 
   let appHashIdPipe: AppHashIdPipe;
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
         AppHashIdPipe,

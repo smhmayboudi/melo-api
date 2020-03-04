@@ -25,7 +25,7 @@ describe("AuthController", () => {
   const rtServiceMock = jest.fn(() => ({
     // deleteByToken: undefined
   }));
-  beforeAll(async () => {
+  beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
