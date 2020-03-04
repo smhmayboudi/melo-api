@@ -6,10 +6,10 @@ import { ActionConfigService } from "./action.config.service";
 describe("ActionService", () => {
   describe("ActionService get: number", () => {
     const appConfigServiceMock = {
-      get: (): any => 0
+      get: (): number => 0
     };
     const configServiceMock = {
-      get: (): any => 0
+      get: (): number => 0
     };
 
     let service: ActionConfigService;
@@ -46,10 +46,10 @@ describe("ActionService", () => {
 
   describe("ActionService get: string", () => {
     const appConfigServiceMock = {
-      get: (): any => ""
+      get: (): string => ""
     };
     const configServiceMock = {
-      get: (): any => ""
+      get: (): string => ""
     };
 
     let service: ActionConfigService;
