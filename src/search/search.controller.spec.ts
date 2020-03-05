@@ -1,13 +1,11 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app/app.config.service";
-import { DataSearchService } from "../data/data.search.service";
 import { DataSearchType } from "../data/data.search.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
-import { SearchConfigService } from "./search.config.service";
+import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { SearchController } from "./search.controller";
 import { SearchService } from "./search.service";
+import { SearchServiceInterface } from "./search.service.interface";
 
 describe("SearchController", () => {
   const search: DataSearchResDto = {
@@ -17,32 +15,20 @@ describe("SearchController", () => {
     results: [search],
     total: 1
   } as DataPaginationResDto<DataSearchResDto>;
-  const dataSearchServiceMock = {
-    query: (): DataPaginationResDto<DataSearchResDto> => searchPagination
+
+  const searchServiceMock: SearchServiceInterface = {
+    query: (): Promise<DataPaginationResDto<DataSearchResDto>> =>
+      Promise.resolve(searchPagination)
   };
 
   let controller: SearchController;
-  let service: SearchService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SearchController],
-      providers: [
-        {
-          provide: AppConfigService,
-          useValue: {}
-        },
-        {
-          provide: ConfigService,
-          useValue: {}
-        },
-        { provide: DataSearchService, useValue: dataSearchServiceMock },
-        SearchConfigService,
-        SearchService
-      ]
+      providers: [{ provide: SearchService, useValue: searchServiceMock }]
     }).compile();
     controller = module.get<SearchController>(SearchController);
-    service = module.get<SearchService>(SearchService);
   });
 
   it("should be defined", () => {
@@ -50,11 +36,11 @@ describe("SearchController", () => {
   });
 
   it("query should return a list of search results", async () => {
-    const req = {
+    const dto: SearchQueryReqDto = {
       from: 0,
       limit: 0,
-      query: ""
+      query: "0"
     };
-    expect(await service.query(req)).toBe(searchPagination);
+    expect(await controller.query(dto)).toBe(searchPagination);
   });
 });

@@ -4,10 +4,7 @@ import { AppConfigService } from "../app/app.config.service";
 import { SearchConfigService } from "./search.config.service";
 
 describe("SearchService", () => {
-  describe("SearchService get: number", () => {
-    const appConfigServiceMock = {
-      get: (): number => 0
-    };
+  describe("get: number", () => {
     const configServiceMock = {
       get: (): number => 0
     };
@@ -20,7 +17,7 @@ describe("SearchService", () => {
           SearchConfigService,
           {
             provide: AppConfigService,
-            useValue: appConfigServiceMock
+            useValue: {}
           },
           {
             provide: ConfigService,
@@ -44,10 +41,7 @@ describe("SearchService", () => {
     });
   });
 
-  describe("SearchService get: string", () => {
-    const appConfigServiceMock = {
-      get: (): string => ""
-    };
+  describe("get: string", () => {
     const configServiceMock = {
       get: (): string => ""
     };
@@ -60,7 +54,7 @@ describe("SearchService", () => {
           SearchConfigService,
           {
             provide: AppConfigService,
-            useValue: appConfigServiceMock
+            useValue: {}
           },
           {
             provide: ConfigService,

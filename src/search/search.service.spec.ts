@@ -1,8 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { DataSearchService } from "../data/data.search.service";
+import { DataSearchServiceInterface } from "../data/data.search.service.interface";
 import { DataSearchType } from "../data/data.search.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { SearchService } from "./search.service";
 
 describe("SearchService", () => {
@@ -13,8 +15,10 @@ describe("SearchService", () => {
     results: [search],
     total: 1
   } as DataPaginationResDto<DataSearchResDto>;
-  const dataSearchServiceMock = {
-    query: (): DataPaginationResDto<DataSearchResDto> => searchPagination
+
+  const dataSearchServiceMock: DataSearchServiceInterface = {
+    query: (): Promise<DataPaginationResDto<DataSearchResDto>> =>
+      Promise.resolve(searchPagination)
   };
 
   let service: SearchService;
@@ -34,11 +38,11 @@ describe("SearchService", () => {
   });
 
   it("query should return a list of search results", async () => {
-    const req = {
+    const dto: SearchQueryReqDto = {
       from: 0,
       limit: 0,
       query: ""
     };
-    expect(await service.query(req)).toBe(searchPagination);
+    expect(await service.query(dto)).toBe(searchPagination);
   });
 });
