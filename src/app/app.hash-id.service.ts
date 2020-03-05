@@ -1,9 +1,10 @@
-import { Injectable, BadRequestException } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import Hashids from "hashids/cjs";
 import { AppConfigService } from "./app.config.service";
+import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 
 @Injectable()
-export class AppHashIdService {
+export class AppHashIdService implements AppHashIdServiceInterface {
   private readonly hashIds: Hashids;
 
   constructor(private readonly appConfigService: AppConfigService) {

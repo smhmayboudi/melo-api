@@ -7,6 +7,7 @@ import {
   PromMethodCounter
 } from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
+import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataSongArtistSongsTopReqDto } from "./dto/req/data.song.artist-songs-top.req.dto";
 import { DataSongArtistsReqDto } from "./dto/req/data.song.artists.req.dto";
 import { DataSongByIdReqDto } from "./dto/req/data.song.by-id.req.dto";
@@ -26,7 +27,7 @@ import { DataSongResDto } from "./dto/res/data.song.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
-export class DataSongService {
+export class DataSongService implements DataSongServiceInterface {
   constructor(
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService

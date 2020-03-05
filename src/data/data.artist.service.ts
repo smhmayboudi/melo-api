@@ -6,6 +6,7 @@ import {
   // PromInstanceCounter,
   PromMethodCounter
 } from "../prom/prom.decorator";
+import { DataArtistServiceInterface } from "./data.artist.service.interface";
 import { DataConfigService } from "./data.config.service";
 import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
 import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
@@ -15,7 +16,7 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
-export class DataArtistService {
+export class DataArtistService implements DataArtistServiceInterface {
   constructor(
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService

@@ -11,12 +11,13 @@ import {
 } from "../prom/prom.decorator";
 import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
+import { AuthServiceInterface } from "./auth.service.interface";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
-export class AuthService {
+export class AuthService implements AuthServiceInterface {
   constructor(
     private readonly authConfigService: AuthConfigService,
     private readonly jwksService: JwksService,

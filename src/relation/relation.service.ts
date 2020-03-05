@@ -19,10 +19,11 @@ import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
 import { RelationPaginationResDto } from "./dto/res/relation.pagination.res.dto";
 import { RelationConfigService } from "./relation.config.service";
+import { RelationServiceInterface } from "./relation.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class RelationService {
+export class RelationService implements RelationServiceInterface {
   private key(dto: RelationEntityResDto): string {
     return `${dto.type}_${dto.id}`;
   }

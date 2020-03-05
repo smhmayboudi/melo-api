@@ -15,10 +15,11 @@ import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileConfigService } from "./file.config.service";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
+import { FileServiceInterface } from "./file.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class FileService {
+export class FileService implements FileServiceInterface {
   private readonly mmmagic: Magic;
   private readonly s3: aws.S3;
 

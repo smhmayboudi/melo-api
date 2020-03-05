@@ -7,13 +7,14 @@ import {
   PromMethodCounter
 } from "../prom/prom.decorator";
 import { DataConfigService } from "./data.config.service";
+import { DataSearchServiceInterface } from "./data.search.service.interface";
 import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
-export class DataSearchService {
+export class DataSearchService implements DataSearchServiceInterface {
   constructor(
     private readonly dataConfigService: DataConfigService,
     private readonly httpService: HttpService
