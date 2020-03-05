@@ -9,6 +9,9 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { AlbumService } from "./album.service";
+import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
+import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
+import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
@@ -35,12 +38,6 @@ describe("AlbumService", () => {
     results: [mixSong],
     total: 1
   } as DataPaginationResDto<DataSongResDto>;
-  const appMixArtistServiceMock = {
-    mixArtist: (): DataArtistResDto[] => [mixArtist]
-  };
-  const appMixSongServiceMock = {
-    mixSong: (): DataSongResDto[] => [mixSong]
-  };
   const album: DataAlbumResDto = {
     name: "",
     releaseDate,
@@ -50,6 +47,13 @@ describe("AlbumService", () => {
     results: [album],
     total: 1
   } as DataPaginationResDto<DataAlbumResDto>;
+
+  const appMixArtistServiceMock = {
+    mixArtist: (): DataArtistResDto[] => [mixArtist]
+  };
+  const appMixSongServiceMock = {
+    mixSong: (): DataSongResDto[] => [mixSong]
+  };
   const dataAlbumServiceMock = {
     albums: (): DataPaginationResDto<DataAlbumResDto> => albumPagination,
     byId: (): DataAlbumResDto => album,
@@ -97,30 +101,30 @@ describe("AlbumService", () => {
     });
 
     it("artistAlbums should return list of artists", async () => {
-      const req = {
-        artistId: "",
+      const dto: AlbumArtistAlbumsReqDto = {
+        artistId: "0",
         from: 0,
         limit: 0
       };
-      expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
+      expect(await albumService.artistAlbums(dto, 0, 0)).toEqual(
         albumPagination
       );
     });
 
     it("byId should return an artist", async () => {
-      const req = {
-        id: ""
+      const dto: AlbumByIdReqDto = {
+        id: "0"
       };
-      expect(await albumService.byId(req, 0, 0)).toEqual(album);
+      expect(await albumService.byId(dto, 0, 0)).toEqual(album);
     });
 
     it("latest should return list of albums", async () => {
-      const req = {
+      const dto: AlbumLatestReqDto = {
         from: 0,
         language: "",
         limit: 0
       };
-      expect(await albumService.latest(req)).toEqual(albumPagination);
+      expect(await albumService.latest(dto)).toEqual(albumPagination);
     });
   });
 
@@ -142,12 +146,12 @@ describe("AlbumService", () => {
     });
 
     it("artistAlbums should handle artists undefined", async () => {
-      const req = {
+      const dto: AlbumArtistAlbumsReqDto = {
         artistId: "",
         from: 0,
         limit: 0
       };
-      expect(await albumService.artistAlbums(req, 0, 0)).toEqual(
+      expect(await albumService.artistAlbums(dto, 0, 0)).toEqual(
         albumPagination
       );
     });
@@ -171,10 +175,10 @@ describe("AlbumService", () => {
     });
 
     it("byId should handle songs undefnied", async () => {
-      const req = {
+      const dto: AlbumByIdReqDto = {
         id: ""
       };
-      expect(await albumService.byId(req, 0, 0)).toEqual(album);
+      expect(await albumService.byId(dto, 0, 0)).toEqual(album);
     });
   });
 });

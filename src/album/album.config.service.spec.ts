@@ -4,7 +4,7 @@ import { AppConfigService } from "../app/app.config.service";
 import { AlbumConfigService } from "./album.config.service";
 
 describe("AlbumService", () => {
-  describe("AlbumService get: number", () => {
+  describe("get: number", () => {
     const appConfigServiceMock = {
       get: (): number => 0
     };
@@ -44,7 +44,7 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("AlbumService get: string", () => {
+  describe("get: string", () => {
     const appConfigServiceMock = {
       get: (): string => ""
     };

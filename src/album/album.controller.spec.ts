@@ -4,6 +4,9 @@ import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
+import { AlbumArtistAlbumsReqDto } from "./dto/dto/album.artist-albums.req.dto";
+import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
+import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
 describe("AlbumController", () => {
   const releaseDate = new Date();
@@ -15,10 +18,11 @@ describe("AlbumController", () => {
     results: [album],
     total: 1
   } as DataPaginationResDto<DataAlbumResDto>;
+
   const albumServiceMock = {
-    artistAlbums: () => albumPagination,
-    byId: () => album,
-    latest: () => albumPagination
+    artistAlbums: (): DataPaginationResDto<DataAlbumResDto> => albumPagination,
+    byId: (): DataAlbumResDto => album,
+    latest: (): DataPaginationResDto<DataAlbumResDto> => albumPagination
   };
   const appHashIdServiceMock = {
     decode: (): number => 0,
@@ -43,27 +47,27 @@ describe("AlbumController", () => {
   });
 
   it("artistAlbums should return list of albums", async () => {
-    const req = {
-      artistId: "",
+    const dto: AlbumArtistAlbumsReqDto = {
+      artistId: "0",
       from: 0,
       limit: 0
     };
-    expect(await controller.artistAlbums(req, 0, 0)).toEqual(albumPagination);
+    expect(await controller.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
   });
 
   it("byId should return an album", async () => {
-    const req = {
-      id: ""
+    const dto: AlbumByIdReqDto = {
+      id: "0"
     };
-    expect(await controller.byId(req, 0, 0)).toEqual(album);
+    expect(await controller.byId(dto, 0, 0)).toEqual(album);
   });
 
   it("latest should return list of albums", async () => {
-    const req = {
+    const dto: AlbumLatestReqDto = {
       from: 0,
       language: "",
       limit: 0
     };
-    expect(await controller.latest(req)).toEqual(albumPagination);
+    expect(await controller.latest(dto)).toEqual(albumPagination);
   });
 });
