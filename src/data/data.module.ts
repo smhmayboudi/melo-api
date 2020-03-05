@@ -5,7 +5,7 @@ import { DataArtistService } from "./data.artist.service";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
 import { DataHealthIndicator } from "./data.health.indicator";
-import { DataHttpModuleOptionsFactory } from "./data.http.options.factory";
+import { DataHttpOptionsFactory } from "./data.http.options.factory";
 import { DataSearchService } from "./data.search.service";
 import { DataService } from "./data.service";
 import { DataSongService } from "./data.song.service";
@@ -25,7 +25,7 @@ import { DataSongService } from "./data.song.service";
     HttpModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [DataModule],
-      useClass: DataHttpModuleOptionsFactory
+      useClass: DataHttpOptionsFactory
     })
   ],
   providers: [

@@ -1,22 +1,48 @@
 import { HttpService } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataSongService } from "../data/data.song.service";
+import { DataSongServiceInterface } from "../data/data.song.service.interface";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import { RelationEntityType } from "../relation/relation.entity.type";
-import { RelationService } from "../relation/relation.service";
-import { UserService } from "../user/user.service";
-import { SongConfigService } from "./song.config.service";
-import { SongService } from "./song.service";
-import { RelationServiceInterface } from "../relation/relation.service.interface";
-import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationService } from "../relation/relation.service";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
-import { AppMixSongServiceInterface } from "src/app/app.mix-song.service.interface";
+import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
+import { UserService } from "../user/user.service";
+import { UserServiceInterface } from "../user/user.service.interface";
+import { SongArtistSongsTopReqDto } from "./dto/req/song.artist-songs-top.req.dto";
+import { SongArtistSongsReqDto } from "./dto/req/song.artist-songs.req.dto";
+import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
+import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
+import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
+import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
+import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
+import { SongNewReqDto } from "./dto/req/song.new.req.dto";
+import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
+import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
+import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
+import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
+import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
+import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
+import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
+import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.dto";
+import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
+import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
+import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
+import { SongConfigService } from "./song.config.service";
+import { SongConfigServiceInterface } from "./song.config.service.interface";
+import { SongService } from "./song.service";
+import { Observable, of } from "rxjs";
+import { AxiosResponse } from "axios";
 
 describe("SongService", () => {
   const releaseDate = new Date();
@@ -43,14 +69,14 @@ describe("SongService", () => {
   const appMixSongServiceMock: AppMixSongServiceInterface = {
     mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
   };
-  const dataSongServiceMock = {
-    byIds: (): Promise<DataPaginationResDto<DataSongResDto>> =>
-      Promise.resolve(songPagination),
+  const dataSongServiceMock: DataSongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     artistSongsTop: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     byId: (): Promise<DataSongResDto> => Promise.resolve(song),
+    byIds: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
     genre: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     language: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -74,8 +100,16 @@ describe("SongService", () => {
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination)
   };
+  // TODO: interface ?
   const httpServiceMock = {
-    post: (): number => 0
+    post: (): Observable<AxiosResponse<number>> =>
+      of({
+        data: 0,
+        status: 200,
+        statusText: "",
+        headers: {},
+        config: {}
+      })
   };
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
@@ -106,17 +140,30 @@ describe("SongService", () => {
     remove: (): Promise<void> => Promise.resolve(undefined),
     set: (): Promise<void> => Promise.resolve(undefined)
   };
-  const songConfigServiceMock = {
+  const songConfigServiceMock: SongConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
+    sendTelegramUrl: "",
+    timeout: 0
   };
-  const userServiceMock = {
-    findOneById: () => ({
-      id: 0
-    })
+  const user: UserUserResDto = {
+    id: 0,
+    telegram_id: 0
+  };
+  const userServiceMock: UserServiceInterface = {
+    find: (): Promise<UserUserResDto[]> => Promise.resolve([user]),
+    findOneById: (): Promise<UserUserResDto | undefined> =>
+      Promise.resolve(user),
+    findOneByTelegramId: (): Promise<UserUserResDto | undefined> =>
+      Promise.resolve(user),
+    findOneByUsernam: (): Promise<UserUserResDto | undefined> =>
+      Promise.resolve(user),
+    get: (): Promise<UserUserResDto | undefined> => Promise.resolve(user),
+    put: (): Promise<UserUserResDto> => Promise.resolve(user),
+    save: (): Promise<UserUserResDto> => Promise.resolve(user)
   };
 
   let service: SongService;
@@ -144,542 +191,163 @@ describe("SongService", () => {
   });
 
   it("artistSongs should return a list of songs", async () => {
-    const req = {
+    const dto: SongArtistSongsReqDto = {
       from: 0,
-      artistId: "",
+      artistId: "0",
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "artistSongs")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.artistSongs(req, 0, 0)).toBe(res);
+    expect(await service.artistSongs(dto, 0, 0)).toEqual(songPagination);
   });
 
   it("artistSongsTop should return a list of songs", async () => {
-    const req = {
+    const dto: SongArtistSongsTopReqDto = {
       from: 0,
-      artistId: "",
+      artistId: "0",
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "artistSongsTop")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.artistSongsTop(req, 0, 0)).toBe(res);
+    expect(await service.artistSongsTop(dto, 0, 0)).toEqual(songPagination);
   });
 
   it("byId should return a songs", async () => {
-    const req = {
+    const dto: SongByIdReqDto = {
       id: ""
     };
-    const res = {
-      artists: [
-        {
-          followersCount: 0,
-          id: "",
-          type: DataArtistType.prime
-        }
-      ],
-      audio: {},
-      duration: 0,
-      id: "",
-      localized: false,
-      releaseDate,
-      title: ""
-    };
-    jest.spyOn(service, "byId").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.byId(req, 0, 0)).toBe(res);
+    expect(await service.byId(dto, 0, 0)).toEqual(song);
   });
 
   it("genre should return a list of songs", async () => {
-    const params = {
+    const paramDto: SongSongGenresParamReqDto = {
       from: 0,
       limit: 0,
       orderBy: DataOrderByType.downloads
     };
-    const query = {
+    const queryDto: SongSongGenresQueryReqDto = {
       genres: [""]
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest.spyOn(service, "genre").mockImplementation(() => Promise.resolve(res));
-
     expect(
-      await service.genre(params, DataOrderByType.downloads, query, 0)
-    ).toBe(res);
+      await service.genre(DataOrderByType.downloads, paramDto, queryDto, 0)
+    ).toEqual(songPagination);
   });
 
   it("language should return a list of songs", async () => {
-    const req = {
+    const dto: SongLanguageReqDto = {
       from: 0,
       language: "",
       limit: 0,
       orderBy: DataOrderByType.downloads
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "language")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.language(req, DataOrderByType.downloads, 0)).toBe(res);
+    expect(await service.language(dto, DataOrderByType.downloads, 0)).toEqual(
+      songPagination
+    );
   });
 
   it("like should return a songs", async () => {
-    const req = {
+    const dto: SongLikeReqDto = {
       id: ""
     };
-    const res = {
-      artists: [
-        {
-          followersCount: 0,
-          id: "",
-          type: DataArtistType.prime
-        }
-      ],
-      audio: {},
-      duration: 0,
-      id: "",
-      localized: false,
-      releaseDate,
-      title: ""
-    };
-    jest.spyOn(service, "like").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.like(req, 0, 0)).toBe(res);
+    expect(await service.like(dto, 0, 0)).toEqual({ ...song, liked: true });
   });
 
   it("liked should return a list of songs", async () => {
-    const req = {
+    const dto: SongLikedReqDto = {
       from: 0,
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest.spyOn(service, "liked").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.liked(req, 0)).toBe(res);
+    expect(await service.liked(dto, 0)).toEqual(songPagination);
   });
 
   it("mood should return a list of songs", async () => {
-    const req = {
+    const dto: SongMoodReqDto = {
       from: 0,
       limit: 0,
       mood: ""
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest.spyOn(service, "mood").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.mood(req, 0)).toBe(res);
+    expect(await service.mood(dto, 0)).toEqual(songPagination);
   });
 
   it("new should return a list of songs", async () => {
-    const req = {
+    const dto: SongNewReqDto = {
       from: 0,
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest.spyOn(service, "new").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.newSong(req, 0)).toBe(res);
+    expect(await service.newSong(dto, 0)).toEqual(songPagination);
   });
 
   it("newPodcast should return a list of songs", async () => {
-    const req = {
+    const dto: DataSongNewPodcastReqDto = {
       from: 0,
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "newPodcast")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.newPodcast(req, 0)).toBe(res);
+    expect(await service.newPodcast(dto, 0)).toEqual(songPagination);
   });
 
   it("podcast should return a list of songs", async () => {
-    const params = {
+    const paramDto: SongPodcastGenresParamReqDto = {
       from: 0,
       limit: 0,
       orderBy: DataOrderByType.downloads
     };
-    const query = {
+    const queryDto: SongPodcastGenresQueryReqDto = {
       genres: [""]
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "podcast")
-      .mockImplementation(() => Promise.resolve(res));
-
     expect(
-      await service.podcast(params, query, DataOrderByType.downloads, 0)
-    ).toBe(res);
+      await service.podcast(DataOrderByType.downloads, paramDto, queryDto, 0)
+    ).toEqual(songPagination);
   });
 
   it("searchMood should return a list of songs", async () => {
-    const params = {
+    const paramDto: SongSearchMoodParamDto = {
       from: 0,
       limit: 0
     };
-    const query = {};
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "searchMood")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.searchMood(params, query)).toBe(res);
+    const queryDto: SongSearchMoodQueryDto = {};
+    expect(await service.searchMood(paramDto, queryDto)).toEqual(
+      songPagination
+    );
   });
 
   it("sendTelegram should return a list of songs", async () => {
-    const req = {
-      id: ""
+    const dto: SongSendTelegramReqDto = {
+      id: "0"
     };
-    jest
-      .spyOn(service, "sendTelegram")
-      .mockImplementation(() => Promise.resolve(undefined));
-
-    expect(await service.sendTelegram(req, 0, 0)).toBe(undefined);
+    expect(await service.sendTelegram(dto, 0, 0)).toEqual(undefined);
   });
 
+  it.todo("sendTelegram should throw exception");
+
   it("similar should return a list of songs", async () => {
-    const req = {
+    const dto: SongSimilarReqDto = {
       from: 0,
       limit: 0,
       id: ""
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "similar")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.similar(req, 0, 0)).toBe(res);
+    expect(await service.similar(dto, 0, 0)).toEqual(songPagination);
   });
 
   it("slider should return a list of songs", async () => {
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "slider")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.slider(0)).toBe(res);
+    expect(await service.slider(0)).toEqual(songPagination);
   });
 
   it("topDay should return a list of songs", async () => {
-    const req = {
+    const dto: SongTopDayReqDto = {
       from: 0,
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "topDay")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.topDay(req, 0)).toBe(res);
+    expect(await service.topDay(dto, 0)).toEqual(songPagination);
   });
 
   it("topWeek should return a list of songs", async () => {
-    const req = {
+    const dto: SongTopWeekReqDto = {
       from: 0,
       limit: 0
     };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate,
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest
-      .spyOn(service, "topWeek")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.topWeek(req, 0)).toBe(res);
+    expect(await service.topWeek(dto, 0)).toEqual(songPagination);
   });
 
   it("unlike should return a songs", async () => {
-    const req = {
+    const dto: SongUnlikeReqDto = {
       id: ""
     };
-    const res = {
-      artists: [
-        {
-          followersCount: 0,
-          id: "",
-          type: DataArtistType.prime
-        }
-      ],
-      audio: {},
-      duration: 0,
-      id: "",
-      localized: false,
-      releaseDate,
-      title: ""
-    };
-    jest
-      .spyOn(service, "unlike")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.unlike(req, 0, 0)).toBe(res);
+    expect(await service.unlike(dto, 0, 0)).toEqual({ ...song, liked: false });
   });
 });

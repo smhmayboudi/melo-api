@@ -7,7 +7,9 @@ describe("SongConfig", () => {
       cacheMax: undefined,
       cachePort: undefined,
       cacheStore: undefined,
-      cacheTTL: undefined
+      cacheTTL: undefined,
+      sendTelegramTimeout: undefined,
+      sendTelegramUrl: undefined
     });
   });
 });

@@ -42,7 +42,6 @@ describe("ConstService", () => {
         }
       }
     };
-    console.log("LOG: ", await service.images());
     expect(await service.images()).toEqual(res);
   });
 });

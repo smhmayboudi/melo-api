@@ -1,5 +1,4 @@
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
-import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AppMixSongService } from "../app/app.mix-song.service";
@@ -113,8 +112,8 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async genre(
-    paramDto: SongSongGenresParamReqDto,
     orderBy: DataOrderByType,
+    paramDto: SongSongGenresParamReqDto,
     queryDto: SongSongGenresQueryReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
@@ -195,12 +194,6 @@ export class SongService implements SongServiceInterface {
       limit: dto.limit,
       relationType: RelationType.likedSongs
     });
-    if (relationEntityResDto.results.length === 0) {
-      return ({
-        results: [],
-        total: 0
-      } as unknown) as DataPaginationResDto<DataSongResDto>;
-    }
     const dataSongResDto = await this.dataSongService.byIds({
       ids: relationEntityResDto.results.map(value => value.id)
     });
@@ -272,9 +265,9 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async podcast(
+    orderBy,
     paramDto: SongPodcastGenresParamReqDto,
     queryDto: SongPodcastGenresQueryReqDto,
-    orderBy,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     const dataSongResDto = await this.dataSongService.podcast({
@@ -321,7 +314,7 @@ export class SongService implements SongServiceInterface {
       throw new BadRequestException();
     }
     await this.httpService
-      .post(this.songConfigService.sendTelegramUrl, {
+      .post<number>(this.songConfigService.sendTelegramUrl, {
         callback_query: {
           from: {
             first_name: "",
@@ -343,7 +336,7 @@ export class SongService implements SongServiceInterface {
         },
         update_id: 0
       })
-      .pipe(map((value: AxiosResponse<number>) => value.data))
+      .pipe(map(value => value.data))
       .toPromise();
   }
 

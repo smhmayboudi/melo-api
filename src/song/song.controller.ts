@@ -107,7 +107,7 @@ export class SongController {
     @Query() queryDto: SongSongGenresQueryReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.genre(paramDto, orderBy, queryDto, sub);
+    return this.songService.genre(orderBy, paramDto, queryDto, sub);
   }
 
   @ApiParam({
@@ -182,7 +182,7 @@ export class SongController {
     @Query() queryDto: SongPodcastGenresQueryReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.podcast(paramDto, queryDto, orderBy, sub);
+    return this.songService.podcast(orderBy, paramDto, queryDto, sub);
   }
 
   @Get("search/mood/:from/:limit")

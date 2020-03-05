@@ -89,7 +89,7 @@ describe("PlaylistController", () => {
 
   it("addSong should return a playlist", async () => {
     const req = {
-      playlistId: "",
+      playlistId: "0",
       songId: ""
     };
     const res = {
@@ -162,7 +162,7 @@ describe("PlaylistController", () => {
 
   it("deleteSong should return a playlist", async () => {
     const req = {
-      playlistId: "",
+      playlistId: "0",
       songId: ""
     };
     const res = {

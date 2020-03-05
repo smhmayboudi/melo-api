@@ -39,6 +39,10 @@ describe("SongService", () => {
     it("cachePort should be defined", () => {
       expect(service.cachePort).toBe(0);
     });
+
+    it("timeout should be defined", () => {
+      expect(service.timeout).toBe("0ms");
+    });
   });
 
   describe("get: string", () => {
@@ -78,5 +82,9 @@ describe("SongService", () => {
     });
 
     it.todo("cacheTTL should be defined");
+
+    it("sendTelegramUrl should be defined", () => {
+      expect(service.sendTelegramUrl).toBe("");
+    });
   });
 });

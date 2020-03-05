@@ -1,5 +1,4 @@
 import { HttpService, Injectable } from "@nestjs/common";
-import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
@@ -29,15 +28,10 @@ export class DataAlbumService implements DataAlbumServiceInterface {
     dto: DataAlbumArtistsReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.httpService
-      .get(
+      .get<DataPaginationResDto<DataAlbumResDto>>(
         `${this.dataConfigService.url}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
       )
-      .pipe(
-        map(
-          (value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) =>
-            value.data
-        )
-      )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 
@@ -46,8 +40,8 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   @PromMethodCounter
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
     return this.httpService
-      .get(`${this.dataConfigService.url}/album/${dto.id}`)
-      .pipe(map((value: AxiosResponse<DataAlbumResDto>) => value.data))
+      .get<DataAlbumResDto>(`${this.dataConfigService.url}/album/${dto.id}`)
+      .pipe(map(value => value.data))
       .toPromise();
   }
 
@@ -58,15 +52,10 @@ export class DataAlbumService implements DataAlbumServiceInterface {
     dto: DataAlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     return this.httpService
-      .get(
+      .get<DataPaginationResDto<DataAlbumResDto>>(
         `${this.dataConfigService.url}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
       )
-      .pipe(
-        map(
-          (value: AxiosResponse<DataPaginationResDto<DataAlbumResDto>>) =>
-            value.data
-        )
-      )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 }

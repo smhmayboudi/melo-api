@@ -20,10 +20,10 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(dto: AuthTelegramPayloadReqDto): Promise<AuthStrategyResDto> {
-    const userEntity = await this.userService.findOneByTelegramId(dto.id);
-    if (userEntity === undefined) {
+    const user = await this.userService.findOneByTelegramId(dto.id);
+    if (user === undefined) {
       // throw new UnauthorizedException();
-      const userUserResDto = await this.userService.save({
+      const newUser = await this.userService.save({
         id: 0,
         // avatar?: string,
         // biography?: string,
@@ -39,11 +39,11 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
         // username?: string
       });
       return {
-        sub: userUserResDto.id.toString()
+        sub: newUser.id.toString()
       };
     }
     return {
-      sub: userEntity.id.toString()
+      sub: user.id.toString()
     };
   }
 }

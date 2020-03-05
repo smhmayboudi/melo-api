@@ -60,7 +60,6 @@ describe("DataSearchService", () => {
       ],
       total: 1
     } as DataPaginationResDto<DataSearchResDto>;
-    console.log("LOG", await service.query(req));
 
     jest
       .spyOn(httpService, "get")

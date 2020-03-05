@@ -35,8 +35,8 @@ export interface SongServiceInterface {
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   byId(dto: SongByIdReqDto, id: number, sub: number): Promise<DataSongResDto>;
   genre(
-    paramDto: SongSongGenresParamReqDto,
     orderBy: DataOrderByType,
+    paramDto: SongSongGenresParamReqDto,
     queryDto: SongSongGenresQueryReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
@@ -63,9 +63,9 @@ export interface SongServiceInterface {
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   podcast(
+    orderBy,
     paramDto: SongPodcastGenresParamReqDto,
     queryDto: SongPodcastGenresQueryReqDto,
-    orderBy,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   searchMood(

@@ -2,9 +2,9 @@ import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
-import { DataHttpModuleOptionsFactory } from "./data.http.options.factory";
+import { DataHttpOptionsFactory } from "./data.http.options.factory";
 
-describe("DataHttpModuleOptionsFactory", () => {
+describe("DataHttpOptionsFactory", () => {
   let service: DataConfigService;
 
   beforeEach(async () => {
@@ -16,6 +16,6 @@ describe("DataHttpModuleOptionsFactory", () => {
   });
 
   it("should be defined", () => {
-    expect(new DataHttpModuleOptionsFactory(service)).toBeDefined();
+    expect(new DataHttpOptionsFactory(service)).toBeDefined();
   });
 });

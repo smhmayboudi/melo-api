@@ -85,7 +85,7 @@ describe("PlaylistService", () => {
   });
 
   it("addSong should return a playlist", async () => {
-    const req = { playlistId: "", songId: "" };
+    const req = { playlistId: "0", songId: "" };
     const res = {
       followersCount: 0,
       id: "",
@@ -178,7 +178,7 @@ describe("PlaylistService", () => {
 
   it("deleteSong should return a playlist", async () => {
     const req = {
-      playlistId: "",
+      playlistId: "0",
       songId: ""
     };
     const res = {

@@ -1,4 +1,4 @@
-import { LogLevel } from "@nestjs/common";
+import { LogLevel } from "@sentry/types";
 import { SignatureSize } from "imgproxy/dist/types";
 import { ImgProxyImageTypeSize } from "./app.module.interface";
 

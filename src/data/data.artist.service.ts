@@ -1,5 +1,4 @@
 import { HttpService, Injectable } from "@nestjs/common";
-import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
@@ -27,8 +26,10 @@ export class DataArtistService implements DataArtistServiceInterface {
   @PromMethodCounter
   async byId(dto: DataArtistByIdReqDto): Promise<DataArtistResDto> {
     return this.httpService
-      .get(`${this.dataConfigService.url}/artist/byId/${dto.id}`)
-      .pipe(map((value: AxiosResponse<DataArtistResDto>) => value.data))
+      .get<DataArtistResDto>(
+        `${this.dataConfigService.url}/artist/byId/${dto.id}`
+      )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 
@@ -39,17 +40,15 @@ export class DataArtistService implements DataArtistServiceInterface {
     dto: DataArtistByIdsReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.url}/artist/byIds`, {
-        params: {
-          artistsIds: dto.ids
+      .get<DataPaginationResDto<DataArtistResDto>>(
+        `${this.dataConfigService.url}/artist/byIds`,
+        {
+          params: {
+            artistsIds: dto.ids
+          }
         }
-      })
-      .pipe(
-        map(
-          (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
-            value.data
-        )
       )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 
@@ -58,13 +57,10 @@ export class DataArtistService implements DataArtistServiceInterface {
   @PromMethodCounter
   async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.url}/artist/trending`)
-      .pipe(
-        map(
-          (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
-            value.data
-        )
+      .get<DataPaginationResDto<DataArtistResDto>>(
+        `${this.dataConfigService.url}/artist/trending`
       )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 
@@ -75,13 +71,10 @@ export class DataArtistService implements DataArtistServiceInterface {
     dto: DataTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.url}/artist/trending/genre/${dto.genre}`)
-      .pipe(
-        map(
-          (value: AxiosResponse<DataPaginationResDto<DataArtistResDto>>) =>
-            value.data
-        )
+      .get<DataPaginationResDto<DataArtistResDto>>(
+        `${this.dataConfigService.url}/artist/trending/genre/${dto.genre}`
       )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 }

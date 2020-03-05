@@ -152,7 +152,7 @@ describe("AlbumService", () => {
 
     it("artistAlbums should handle artists undefined", async () => {
       const dto: AlbumArtistAlbumsReqDto = {
-        artistId: "",
+        artistId: "0",
         from: 0,
         limit: 0
       };

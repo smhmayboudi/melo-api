@@ -38,7 +38,7 @@ export class UserService implements UserServiceInterface {
   @PromMethodCounter
   async findOneByTelegramId(
     telegramId: number
-  ): Promise<UserEntity | undefined> {
+  ): Promise<UserUserResDto | undefined> {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 

@@ -1,5 +1,4 @@
 import { HttpService, Injectable } from "@nestjs/common";
-import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
@@ -27,15 +26,10 @@ export class DataSearchService implements DataSearchServiceInterface {
     dto: DataSearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>> {
     return this.httpService
-      .get(
+      .get<DataPaginationResDto<DataSearchResDto>>(
         `${this.dataConfigService.url}/search/query/${dto.query}/${dto.from}/${dto.limit}`
       )
-      .pipe(
-        map(
-          (value: AxiosResponse<DataPaginationResDto<DataSearchResDto>>) =>
-            value.data
-        )
-      )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 }
