@@ -30,11 +30,11 @@ describe("SearchController", () => {
       providers: [
         {
           provide: AppConfigService,
-          useValue: jest.fn()
+          useValue: {}
         },
         {
           provide: ConfigService,
-          useValue: jest.fn()
+          useValue: {}
         },
         { provide: DataSearchService, useValue: dataSearchServiceMock },
         SearchConfigService,

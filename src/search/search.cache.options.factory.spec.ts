@@ -12,11 +12,11 @@ describe("SearchCacheOptionsFactory", () => {
       providers: [
         {
           provide: AppConfigService,
-          useValue: jest.fn()
+          useValue: {}
         },
         {
           provide: ConfigService,
-          useValue: jest.fn()
+          useValue: {}
         },
         SearchConfigService
       ]
