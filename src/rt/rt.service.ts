@@ -7,10 +7,11 @@ import {
 } from "../prom/prom.decorator";
 import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
+import { RtServiceInterface } from "./rt.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class RtService {
+export class RtService implements RtServiceInterface {
   constructor(
     @InjectRepository(RtEntity)
     private readonly rtEntityRepository: RtEntityRepository

@@ -167,7 +167,7 @@ export class DataSongService implements DataSongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async new(
+  async newSong(
     dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService

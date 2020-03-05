@@ -9,10 +9,11 @@ import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
+import { UserServiceInterface } from "./user.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class UserService {
+export class UserService implements UserServiceInterface {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userEntityRepository: UserEntityRepository

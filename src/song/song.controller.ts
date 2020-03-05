@@ -152,15 +152,6 @@ export class SongController {
     return this.songService.mood(dto, sub);
   }
 
-  @Get("new/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  async new(
-    @Param() dto: SongNewReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.new(dto, sub);
-  }
-
   @Get("new/podcast/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async newPodcast(
@@ -168,6 +159,15 @@ export class SongController {
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.songService.newPodcast(dto, sub);
+  }
+
+  @Get("new/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  async newSong(
+    @Param() dto: SongNewReqDto,
+    @AppUser("sub", ParseIntPipe) sub: number
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
+    return this.songService.newSong(dto, sub);
   }
 
   @ApiParam({

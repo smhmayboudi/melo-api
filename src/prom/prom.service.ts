@@ -15,9 +15,10 @@ import {
   getOrCreateHistogram,
   getOrCreateSummary
 } from "./prom.util";
+import { PromServiceInterface } from "./prom.service.interface";
 
 @Injectable()
-export class PromService {
+export class PromService implements PromServiceInterface {
   getOrCreateCounter(
     configuration: CounterConfiguration<string>
   ): Counter<string> {

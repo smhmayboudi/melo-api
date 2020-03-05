@@ -359,55 +359,6 @@ describe("DataSongService", () => {
     expect(await service.mood(req)).toEqual(data);
   });
 
-  it("new should return a list of songs", async () => {
-    const data = ({
-      results: {
-        artists: [
-          {
-            followersCount: 0,
-            id: "",
-            type: DataArtistType.prime
-          }
-        ],
-        audio: {},
-        duration: 0,
-        id: "",
-        localized: false,
-        releaseDate: new Date(),
-        title: ""
-      },
-      total: 1
-    } as unknown) as DataPaginationResDto<DataSongResDto>;
-    const songHttpServiceMock = {
-      get: (): any => ({
-        data,
-        status: 0,
-        statusText: "",
-        headers: "",
-        config: {}
-      })
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
-      providers: [
-        DataSongService,
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
-        { provide: HttpService, useValue: songHttpServiceMock }
-      ]
-    }).compile();
-    const service = module.get<DataSongService>(DataSongService);
-    const httpService = module.get<HttpService>(HttpService);
-    const req = {
-      from: 0,
-      limit: 0
-    };
-    jest
-      .spyOn(httpService, "get")
-      .mockImplementationOnce(() => of(songHttpServiceMock.get()));
-    expect(await service.new(req)).toEqual(data);
-  });
-
   it("newPodcast should return a list of songs", async () => {
     const data = ({
       results: {
@@ -455,6 +406,55 @@ describe("DataSongService", () => {
       .spyOn(httpService, "get")
       .mockImplementationOnce(() => of(songHttpServiceMock.get()));
     expect(await service.newPodcast(req)).toEqual(data);
+  });
+
+  it("newSong should return a list of songs", async () => {
+    const data = ({
+      results: {
+        artists: [
+          {
+            followersCount: 0,
+            id: "",
+            type: DataArtistType.prime
+          }
+        ],
+        audio: {},
+        duration: 0,
+        id: "",
+        localized: false,
+        releaseDate: new Date(),
+        title: ""
+      },
+      total: 1
+    } as unknown) as DataPaginationResDto<DataSongResDto>;
+    const songHttpServiceMock = {
+      get: (): any => ({
+        data,
+        status: 0,
+        statusText: "",
+        headers: "",
+        config: {}
+      })
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigModule.forFeature(config)],
+      providers: [
+        DataSongService,
+        { provide: DataConfigService, useValue: dataConfigServiceMock },
+        { provide: HttpService, useValue: songHttpServiceMock }
+      ]
+    }).compile();
+    const service = module.get<DataSongService>(DataSongService);
+    const httpService = module.get<HttpService>(HttpService);
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    jest
+      .spyOn(httpService, "get")
+      .mockImplementationOnce(() => of(songHttpServiceMock.get()));
+    expect(await service.newSong(req)).toEqual(data);
   });
 
   it("podcast should return a list of songs", async () => {

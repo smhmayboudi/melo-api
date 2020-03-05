@@ -36,10 +36,11 @@ import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 import { SongConfigService } from "./song.config.service";
+import { SongServiceInterface } from "./song.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class SongService {
+export class SongService implements SongServiceInterface {
   constructor(
     private readonly appMixSongService: AppMixSongService,
     private readonly dataSongService: DataSongService,
@@ -234,11 +235,11 @@ export class SongService {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async new(
-    dto: SongNewReqDto,
+  async newPodcast(
+    dto: DataSongNewPodcastReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.new(dto);
+    const dataSongResDto = await this.dataSongService.newPodcast({ ...dto });
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
       dataSongResDto.results
@@ -252,11 +253,11 @@ export class SongService {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async newPodcast(
-    dto: DataSongNewPodcastReqDto,
+  async newSong(
+    dto: SongNewReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.newPodcast({ ...dto });
+    const dataSongResDto = await this.dataSongService.newSong(dto);
     const songMixResDto = await this.appMixSongService.mixSong(
       sub,
       dataSongResDto.results

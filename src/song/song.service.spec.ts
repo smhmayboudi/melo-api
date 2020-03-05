@@ -2,18 +2,18 @@ import { forwardRef, HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppModule } from "../app/app.module";
 import { DataArtistType } from "../data/data.artist.type";
+import { DataOrderByType } from "../data/data.order-by.type";
 import { DataSongService } from "../data/data.song.service";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { UserService } from "../user/user.service";
-import { AppModule } from "../app/app.module";
 import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongService } from "./song.service";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import { DataOrderByType } from "../data/data.order-by.type";
 
 describe("SongService", () => {
   let service: SongService;
@@ -431,7 +431,7 @@ describe("SongService", () => {
     } as DataPaginationResDto<DataSongResDto>;
     jest.spyOn(service, "new").mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.new(req, 0)).toBe(res);
+    expect(await service.newSong(req, 0)).toBe(res);
   });
 
   it("newPodcast should return a list of songs", async () => {

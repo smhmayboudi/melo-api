@@ -108,8 +108,8 @@ describe("SongController", () => {
     genre: songPaginationResponseMock,
     language: songPaginationResponseMock,
     mood: songPaginationResponseMock,
-    new: songPaginationResponseMock,
     newPodcast: songPaginationResponseMock,
+    newSong: songPaginationResponseMock,
     podcast: songPaginationResponseMock,
     searchMood: songPaginationResponseMock,
     similar: songPaginationResponseMock,
@@ -410,36 +410,6 @@ describe("SongController", () => {
     expect(await controller.mood(req, 0)).toBe(res);
   });
 
-  it("new should return a list of songs", async () => {
-    const req = {
-      from: 0,
-      limit: 0
-    };
-    const res = {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSongResDto>;
-    jest.spyOn(service, "new").mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.new(req, 0)).toBe(res);
-  });
-
   it("newPodcast should return a list of songs", async () => {
     const req = {
       from: 0,
@@ -470,6 +440,38 @@ describe("SongController", () => {
       .mockImplementation(() => Promise.resolve(res));
 
     expect(await controller.newPodcast(req, 0)).toBe(res);
+  });
+
+  it("newSong should return a list of songs", async () => {
+    const req = {
+      from: 0,
+      limit: 0
+    };
+    const res = {
+      results: [
+        {
+          artists: [
+            {
+              followersCount: 0,
+              id: "",
+              type: DataArtistType.prime
+            }
+          ],
+          audio: {},
+          duration: 0,
+          id: "",
+          localized: false,
+          releaseDate: new Date(),
+          title: ""
+        }
+      ],
+      total: 1
+    } as DataPaginationResDto<DataSongResDto>;
+    jest
+      .spyOn(service, "newSong")
+      .mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.newSong(req, 0)).toBe(res);
   });
 
   it("podcastGenre should return a list of songs", async () => {

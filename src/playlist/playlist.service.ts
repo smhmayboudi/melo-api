@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, Types } from "mongoose";
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { DataSongService } from "../data/data.song.service";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -23,11 +24,11 @@ import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { Playlist } from "./playlist.module.interface";
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { PlaylistServiceInterface } from "./playlist.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class PlaylistService {
+export class PlaylistService implements PlaylistServiceInterface {
   constructor(
     private readonly appImgProxyService: AppImgProxyService,
     private readonly dataSongService: DataSongService,
