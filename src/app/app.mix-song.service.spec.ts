@@ -1,11 +1,17 @@
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationType } from "../relation/relation.type";
+import { DataArtistType } from "../data/data.artist.type";
+import { RelationService } from "../relation/relation.service";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
-import { AppMixSongService } from "./app.mix-song.service";
-import { DataArtistType } from "../data/data.artist.type";
 import { AppHashIdService } from "./app.hash-id.service";
-import { RelationService } from "../relation/relation.service";
+import { AppMixSongService } from "./app.mix-song.service";
 
 describe("AppMixSongService", () => {
   let service: AppMixSongService;
@@ -15,21 +21,35 @@ describe("AppMixSongService", () => {
     encode: (): string => ""
   };
 
-  const relationServiceMock = jest.fn(() => ({
-    multiHas: {
-      from: {
-        id: 0,
-        name: "",
-        type: ""
-      },
-      to: {
-        id: 0,
-        name: "",
-        type: ""
-      },
-      rellation: ""
-    }
-  }));
+  const relationServiceMock: RelationServiceInterface = {
+    get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+      Promise.resolve({
+        results: [
+          {
+            id: "",
+            type: RelationEntityType.album
+          }
+        ],
+        total: 1
+      } as RelationPaginationResDto<RelationEntityResDto>),
+    has: (): Promise<void> => Promise.resolve(undefined),
+    multiHas: (): Promise<RelationMultiHasResDto[]> =>
+      Promise.resolve([
+        {
+          from: {
+            id: "0",
+            type: RelationEntityType.album
+          },
+          relation: RelationType.dislikedSongs,
+          to: {
+            id: "1",
+            type: RelationEntityType.album
+          }
+        }
+      ]),
+    remove: (): Promise<void> => Promise.resolve(undefined),
+    set: (): Promise<void> => Promise.resolve(undefined)
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

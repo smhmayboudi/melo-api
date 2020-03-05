@@ -6,6 +6,12 @@ import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { RelationService } from "../relation/relation.service";
 import { DataArtistType } from "../data/data.artist.type";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationType } from "../relation/relation.type";
 
 describe("AppMixArtistService", () => {
   let service: AppMixArtistService;
@@ -15,21 +21,35 @@ describe("AppMixArtistService", () => {
     encode: (): string => ""
   };
 
-  const relationServiceMock = jest.fn(() => ({
-    multiHas: {
-      from: {
-        id: 0,
-        name: "",
-        type: ""
-      },
-      to: {
-        id: 0,
-        name: "",
-        type: ""
-      },
-      rellation: ""
-    }
-  }));
+  const relationServiceMock: RelationServiceInterface = {
+    get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+      Promise.resolve({
+        results: [
+          {
+            id: "",
+            type: RelationEntityType.album
+          }
+        ],
+        total: 1
+      } as RelationPaginationResDto<RelationEntityResDto>),
+    has: (): Promise<void> => Promise.resolve(undefined),
+    multiHas: (): Promise<RelationMultiHasResDto[]> =>
+      Promise.resolve([
+        {
+          from: {
+            id: "0",
+            type: RelationEntityType.album
+          },
+          relation: RelationType.dislikedSongs,
+          to: {
+            id: "1",
+            type: RelationEntityType.album
+          }
+        }
+      ]),
+    remove: (): Promise<void> => Promise.resolve(undefined),
+    set: (): Promise<void> => Promise.resolve(undefined)
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
