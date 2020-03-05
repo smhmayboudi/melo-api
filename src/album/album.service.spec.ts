@@ -1,6 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
+import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
 import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataModule } from "../data/data.module";
@@ -12,6 +14,7 @@ import { AlbumService } from "./album.service";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
@@ -48,16 +51,18 @@ describe("AlbumService", () => {
     total: 1
   } as DataPaginationResDto<DataAlbumResDto>;
 
-  const appMixArtistServiceMock = {
-    mixArtist: (): DataArtistResDto[] => [mixArtist]
+  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
+    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist])
   };
-  const appMixSongServiceMock = {
-    mixSong: (): DataSongResDto[] => [mixSong]
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([mixSong])
   };
-  const dataAlbumServiceMock = {
-    albums: (): DataPaginationResDto<DataAlbumResDto> => albumPagination,
-    byId: (): DataAlbumResDto => album,
-    latest: (): DataPaginationResDto<DataAlbumResDto> => albumPagination
+  const dataAlbumServiceMock: DataAlbumServiceInterface = {
+    albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
+      Promise.resolve(albumPagination),
+    byId: (): Promise<DataAlbumResDto> => Promise.resolve(album),
+    latest: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
+      Promise.resolve(albumPagination)
   };
   const dataAlbumServiceMockArtistsUndefined = {
     ...dataAlbumServiceMock,

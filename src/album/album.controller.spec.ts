@@ -4,7 +4,8 @@ import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
-import { AlbumArtistAlbumsReqDto } from "./dto/dto/album.artist-albums.req.dto";
+import { AlbumServiceInterface } from "./album.service.interface";
+import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
@@ -19,10 +20,12 @@ describe("AlbumController", () => {
     total: 1
   } as DataPaginationResDto<DataAlbumResDto>;
 
-  const albumServiceMock = {
-    artistAlbums: (): DataPaginationResDto<DataAlbumResDto> => albumPagination,
-    byId: (): DataAlbumResDto => album,
-    latest: (): DataPaginationResDto<DataAlbumResDto> => albumPagination
+  const albumServiceMock: AlbumServiceInterface = {
+    artistAlbums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
+      Promise.resolve(albumPagination),
+    byId: (): Promise<DataAlbumResDto> => Promise.resolve(album),
+    latest: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
+      Promise.resolve(albumPagination)
   };
   const appHashIdServiceMock = {
     decode: (): number => 0,
