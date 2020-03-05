@@ -1,15 +1,22 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppHashIdService } from "../app/app.hash-id.service";
+import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { ActionController } from "./action.controller";
 import { ActionService } from "./action.service";
+import { ActionServiceInterface } from "./action.service.interface";
 import { ActionType } from "./action.type";
 import { ActionDto } from "./dto/action.dto";
 
 describe("ActionController", () => {
-  const actionServiceMock = {
-    bulk: (): {} => ({})
+  const datetime = new Date().toString();
+  const action: ActionDto = {
+    datetime,
+    type: ActionType.likeSong
   };
-  const appHashIdServiceMock = {
+  const actionServiceMock: ActionServiceInterface = {
+    bulk: (): Promise<ActionDto> => Promise.resolve(action)
+  };
+  const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
   };

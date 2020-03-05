@@ -6,6 +6,8 @@ import { ActionDto } from "./dto/action.dto";
 describe("ActionService", () => {
   let service: ActionService;
 
+  const datetime = new Date().toString();
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [ActionService]
@@ -18,10 +20,10 @@ describe("ActionService", () => {
   });
 
   it("bulk should be defined", async () => {
-    const req: ActionDto = {
-      datetime: new Date().toString(),
+    const dto: ActionDto = {
+      datetime,
       type: ActionType.likeSong
     };
-    expect(await service.bulk(req)).toBeDefined();
+    expect(await service.bulk(dto)).toBeDefined();
   });
 });
