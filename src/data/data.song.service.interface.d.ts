@@ -39,10 +39,12 @@ export interface DataSongServiceInterface {
 
   mood(dto: DataSongMoodReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
 
-  new (dto: DataSongNewReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
-
   newPodcast(
     dto: DataSongNewPodcastReqDto
+  ): Promise<DataPaginationResDto<DataSongResDto>>;
+
+  newSong(
+    dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
 
   podcast(

@@ -167,11 +167,13 @@ export class DataSongService implements DataSongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async newSong(
-    dto: DataSongNewReqDto
+  async newPodcast(
+    dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
-      .get(`${this.dataConfigService.url}/song/new/${dto.from}/${dto.limit}`)
+      .get(
+        `${this.dataConfigService.url}/song/new/podcast/${dto.from}/${dto.limit}`
+      )
       .pipe(
         map(
           (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>
@@ -184,13 +186,11 @@ export class DataSongService implements DataSongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async newPodcast(
-    dto: DataSongNewPodcastReqDto
+  async newSong(
+    dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.httpService
-      .get(
-        `${this.dataConfigService.url}/song/new/podcast/${dto.from}/${dto.limit}`
-      )
+      .get(`${this.dataConfigService.url}/song/new/${dto.from}/${dto.limit}`)
       .pipe(
         map(
           (value: AxiosResponse<DataPaginationResDto<DataSongResDto>>) =>

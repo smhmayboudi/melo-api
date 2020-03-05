@@ -1,5 +1,5 @@
-import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "src/data/dto/res/data.pagination.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
