@@ -11,6 +11,7 @@ import {
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
+import { ArtistServiceInterface } from "./artist.servcie.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -19,7 +20,7 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 
 @Injectable()
 // @PromInstanceCounter
-export class ArtistService {
+export class ArtistService implements ArtistServiceInterface {
   constructor(
     private readonly artistMixArtistService: AppMixArtistService,
     private readonly dataArtistService: DataArtistService,
