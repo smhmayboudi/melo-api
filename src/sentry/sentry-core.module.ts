@@ -68,7 +68,7 @@ export class SentryCoreModule {
     ];
   }
 
-  public static forRoot(optoins?: SentryModuleOptions): DynamicModule {
+  static forRoot(optoins?: SentryModuleOptions): DynamicModule {
     const opts = makeDefaultOptions(optoins);
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       provide: SENTRY_INSTANCE_TOKEN,
@@ -81,9 +81,7 @@ export class SentryCoreModule {
     };
   }
 
-  public static forRootAsync(
-    options: SentryModuleAsyncOptions = {}
-  ): DynamicModule {
+  static forRootAsync(options: SentryModuleAsyncOptions = {}): DynamicModule {
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       inject: [SENTRY_MODULE_OPTIONS],
       provide: SENTRY_INSTANCE_TOKEN,
