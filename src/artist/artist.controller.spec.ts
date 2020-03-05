@@ -14,7 +14,7 @@ import { ArtistService } from "./artist.service";
 
 describe("ArtistController", () => {
   const appHashIdServiceMock = {
-    decode: (): string => "",
+    decode: (): number => 0,
     encode: (): string => ""
   };
   const mixArtist: DataArtistResDto = {

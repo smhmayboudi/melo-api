@@ -3,9 +3,10 @@ import { AppHashIdPipe } from "./app.hash-id.pipe";
 import { AppHashIdService } from "./app.hash-id.service";
 
 describe("AppHashIdPipe", () => {
-  const appHashIdServiceMock = jest.fn(() => ({
-    decode: 0
-  }));
+  const appHashIdServiceMock = {
+    decode: (): number => 0,
+    encode: (): string => ""
+  };
 
   let appHashIdPipe: AppHashIdPipe;
   beforeEach(async () => {

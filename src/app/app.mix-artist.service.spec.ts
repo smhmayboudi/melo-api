@@ -10,10 +10,10 @@ import { DataArtistType } from "../data/data.artist.type";
 describe("AppMixArtistService", () => {
   let service: AppMixArtistService;
 
-  const appHashIdServiceMock = jest.fn(() => ({
-    decode: 0,
-    encode: ""
-  }));
+  const appHashIdServiceMock = {
+    decode: (): number => 0,
+    encode: (): string => ""
+  };
 
   const relationServiceMock = jest.fn(() => ({
     multiHas: {

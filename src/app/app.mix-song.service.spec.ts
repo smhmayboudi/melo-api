@@ -10,10 +10,10 @@ import { RelationService } from "../relation/relation.service";
 describe("AppMixSongService", () => {
   let service: AppMixSongService;
 
-  const appHashIdServiceMock = jest.fn(() => ({
-    decode: 0,
-    encode: ""
-  }));
+  const appHashIdServiceMock = {
+    decode: (): number => 0,
+    encode: (): string => ""
+  };
 
   const relationServiceMock = jest.fn(() => ({
     multiHas: {
