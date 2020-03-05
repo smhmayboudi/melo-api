@@ -12,7 +12,7 @@ export class ActionService {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async bulk(_dto: ActionDto): Promise<void> {
-    return Promise.resolve();
+  async bulk(dto: ActionDto): Promise<ActionDto> {
+    return Promise.resolve(dto);
   }
 }

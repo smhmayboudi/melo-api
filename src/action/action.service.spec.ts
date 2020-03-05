@@ -1,5 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { ActionService } from "./action.service";
+import { ActionType } from "./action.type";
+import { ActionDto } from "./dto/action.dto";
 
 describe("ActionService", () => {
   let service: ActionService;
@@ -15,5 +17,11 @@ describe("ActionService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("bulk");
+  it("bulk should be defined", async () => {
+    const req: ActionDto = {
+      datetime: new Date().toString(),
+      type: ActionType.likeSong
+    };
+    expect(await service.bulk(req)).toBeDefined();
+  });
 });

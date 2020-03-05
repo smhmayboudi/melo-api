@@ -4,10 +4,7 @@ import { AppConfigService } from "../app/app.config.service";
 import { ActionConfigService } from "./action.config.service";
 
 describe("ActionService", () => {
-  describe("ActionService get: number", () => {
-    const appConfigServiceMock = {
-      get: (): number => 0
-    };
+  describe("get: number", () => {
     const configServiceMock = {
       get: (): number => 0
     };
@@ -20,7 +17,7 @@ describe("ActionService", () => {
           ActionConfigService,
           {
             provide: AppConfigService,
-            useValue: appConfigServiceMock
+            useValue: {}
           },
           {
             provide: ConfigService,
@@ -44,10 +41,7 @@ describe("ActionService", () => {
     });
   });
 
-  describe("ActionService get: string", () => {
-    const appConfigServiceMock = {
-      get: (): string => ""
-    };
+  describe("get: string", () => {
     const configServiceMock = {
       get: (): string => ""
     };
@@ -60,7 +54,7 @@ describe("ActionService", () => {
           ActionConfigService,
           {
             provide: AppConfigService,
-            useValue: appConfigServiceMock
+            useValue: {}
           },
           {
             provide: ConfigService,
