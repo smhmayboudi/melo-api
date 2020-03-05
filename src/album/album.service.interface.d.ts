@@ -10,9 +10,7 @@ export interface AlbumServiceInterface {
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataAlbumResDto>>;
-
   byId(dto: AlbumByIdReqDto, id: number, sub: number): Promise<DataAlbumResDto>;
-
   latest(
     dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>>;

@@ -11,12 +11,8 @@ export interface RelationServiceInterface {
   get(
     dto: RelationGetReqDto
   ): Promise<RelationPaginationResDto<RelationEntityResDto>>;
-
   has(dto: RelationHasReqDto): Promise<void>;
-
   multiHas(dto: RelationMultiHasReqDto): Promise<RelationMultiHasResDto[]>;
-
   remove(dto: RelationRemoveReqDto): Promise<void>;
-
   set(dto: RelationSetReqDto): Promise<void>;
 }

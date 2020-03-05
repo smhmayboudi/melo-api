@@ -28,86 +28,69 @@ export interface SongServiceInterface {
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   artistSongsTop(
     dto: SongArtistSongsTopReqDto,
     artistId: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   byId(dto: SongByIdReqDto, id: number, sub: number): Promise<DataSongResDto>;
-
   genre(
     paramDto: SongSongGenresParamReqDto,
     orderBy: DataOrderByType,
     queryDto: SongSongGenresQueryReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   language(
     dto: SongLanguageReqDto,
     orderBy: DataOrderByType,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   like(dto: SongLikeReqDto, id: number, sub: number): Promise<DataSongResDto>;
-
   liked(
     dto: SongLikedReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   mood(
     dto: SongMoodReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   newPodcast(
     dto: DataSongNewPodcastReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   newSong(
     dto: SongNewReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   podcast(
     paramDto: SongPodcastGenresParamReqDto,
     queryDto: SongPodcastGenresQueryReqDto,
     orderBy,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   searchMood(
     paramDto: SongSearchMoodParamDto,
     querydto: SongSearchMoodQueryDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   sendTelegram(
     dto: SongSendTelegramReqDto,
     id: number,
     sub: number
   ): Promise<void>;
-
   similar(
     dto: SongSimilarReqDto,
     id: number,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>>;
-
   topDay(
     dto: SongTopDayReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   topWeek(
     dto: SongTopWeekReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   unlike(
     dto: SongUnlikeReqDto,
     id: number,

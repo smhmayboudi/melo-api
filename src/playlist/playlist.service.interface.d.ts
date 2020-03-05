@@ -14,25 +14,18 @@ export interface PlaylistServiceInterface {
     dto: PlaylistAddSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto>;
-
   create(dto: PlaylistCreateReqDto, sub: number): Promise<DataPlaylistResDto>;
-
   delete(dto: PlaylistDeleteReqDto, sub: number): Promise<DataPlaylistResDto>;
-
   edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto>;
-
   deleteSong(
     dto: PlaylistSongReqDto,
     songId: number
   ): Promise<DataPlaylistResDto>;
-
   get(dto: PlaylistGetReqDto): Promise<DataPlaylistResDto>;
-
   my(
     dto: PlaylistMyReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataPlaylistResDto>>;
-
   top(
     dto: PlaylistTopReqDto
   ): Promise<DataPaginationResDto<DataPlaylistResDto>>;

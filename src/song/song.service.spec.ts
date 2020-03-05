@@ -1,8 +1,6 @@
-import { forwardRef, HttpService } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { HttpService } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppModule } from "../app/app.module";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataSongService } from "../data/data.song.service";
@@ -11,144 +9,130 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { UserService } from "../user/user.service";
-import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongService } from "./song.service";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationType } from "../relation/relation.type";
+import { AppMixSongServiceInterface } from "src/app/app.mix-song.service.interface";
 
 describe("SongService", () => {
-  let service: SongService;
-
-  const songPaginationResponseMock = {
-    results: [
+  const releaseDate = new Date();
+  const song: DataSongResDto = {
+    artists: [
       {
-        artists: [
-          {
-            followersCount: 0,
-            id: "",
-            type: DataArtistType.feat
-          }
-        ],
-        audio: {},
-        duration: 0,
+        followersCount: 0,
         id: "",
-        localized: false,
-        releaseDate: new Date(),
-        title: ""
+        type: DataArtistType.feat
       }
     ],
-    total: 1
+    audio: {},
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate,
+    title: ""
   };
-  const appMixSongServiceMock = jest.fn(() => ({
-    mixSong: {
-      return: [
+  const songPagination: DataPaginationResDto<DataSongResDto> = {
+    results: [song],
+    total: 1
+  } as DataPaginationResDto<DataSongResDto>;
+
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  };
+  const dataSongServiceMock = {
+    byIds: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    artistSongsTop: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    byId: (): Promise<DataSongResDto> => Promise.resolve(song),
+    genre: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    language: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    mood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    newPodcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    newSong: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    podcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    searchMood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    similar: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    slider: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    topDay: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination)
+  };
+  const httpServiceMock = {
+    post: (): number => 0
+  };
+  const relationServiceMock: RelationServiceInterface = {
+    get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+      Promise.resolve({
+        results: [
+          {
+            id: "",
+            type: RelationEntityType.album
+          }
+        ],
+        total: 1
+      } as RelationPaginationResDto<RelationEntityResDto>),
+    has: (): Promise<void> => Promise.resolve(undefined),
+    multiHas: (): Promise<RelationMultiHasResDto[]> =>
+      Promise.resolve([
         {
-          artists: [
-            {
-              followersCount: 0,
-              id: 0,
-              type: "prime"
-            }
-          ],
-          audio: {
-            high: {
-              fingerprint: "",
-              url: ""
-            }
+          from: {
+            id: "0",
+            type: RelationEntityType.album
           },
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
+          relation: RelationType.dislikedSongs,
+          to: {
+            id: "1",
+            type: RelationEntityType.album
+          }
         }
-      ]
-    }
-  }));
-
-  const dataSongServiceMock = jest.fn(() => ({
-    byIds: {
-      results: [
-        {
-          artists: [
-            {
-              followersCount: 0,
-              id: "",
-              type: DataArtistType.prime
-            }
-          ],
-          audio: {},
-          duration: 0,
-          id: "",
-          localized: false,
-          releaseDate: new Date(),
-          title: ""
-        }
-      ],
-      total: 1
-    },
-    artistSongs: songPaginationResponseMock,
-    artistSongsTop: songPaginationResponseMock,
-    byId: {
-      artists: [
-        {
-          followersCount: 0,
-          id: "",
-          type: DataArtistType.feat
-        }
-      ],
-      audio: {},
-      duration: 0,
-      id: "",
-      localized: false,
-      releaseDate: new Date(),
-      title: ""
-    },
-    genre: songPaginationResponseMock,
-    language: songPaginationResponseMock,
-    mood: songPaginationResponseMock,
-    new: songPaginationResponseMock,
-    newPodcast: songPaginationResponseMock,
-    podcast: songPaginationResponseMock,
-    searchMood: songPaginationResponseMock,
-    similar: songPaginationResponseMock,
-    slider: songPaginationResponseMock,
-    topDay: songPaginationResponseMock,
-    topWeek: songPaginationResponseMock
-  }));
-
-  const songHttpServiceMock = jest.fn(() => ({
-    post: 0
-  }));
-
-  const relationServiceMock = jest.fn(() => ({
-    get: {
-      results: [
-        {
-          id: "",
-          type: RelationEntityType.album
-        }
-      ],
-      total: 1
-    },
-    remove: {},
-    set: {}
-  }));
-
-  const userServiceMock = jest.fn(() => ({
-    findOneById: {
+      ]),
+    remove: (): Promise<void> => Promise.resolve(undefined),
+    set: (): Promise<void> => Promise.resolve(undefined)
+  };
+  const songConfigServiceMock = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0
+  };
+  const userServiceMock = {
+    findOneById: () => ({
       id: 0
-    }
-  }));
+    })
+  };
+
+  let service: SongService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
-        SongConfigService,
         SongService,
         { provide: AppMixSongService, useValue: appMixSongServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
-        { provide: HttpService, useValue: songHttpServiceMock },
+        { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
+        {
+          provide: SongConfigService,
+          useValue: songConfigServiceMock
+        },
         { provide: UserService, useValue: userServiceMock }
       ]
     }).compile();
@@ -179,7 +163,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -212,7 +196,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -241,7 +225,7 @@ describe("SongService", () => {
       duration: 0,
       id: "",
       localized: false,
-      releaseDate: new Date(),
+      releaseDate,
       title: ""
     };
     jest.spyOn(service, "byId").mockImplementation(() => Promise.resolve(res));
@@ -272,7 +256,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -306,7 +290,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -335,7 +319,7 @@ describe("SongService", () => {
       duration: 0,
       id: "",
       localized: false,
-      releaseDate: new Date(),
+      releaseDate,
       title: ""
     };
     jest.spyOn(service, "like").mockImplementation(() => Promise.resolve(res));
@@ -362,7 +346,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -393,7 +377,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -423,7 +407,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -453,7 +437,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -489,7 +473,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -524,7 +508,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -568,7 +552,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -596,7 +580,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -628,7 +612,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -660,7 +644,7 @@ describe("SongService", () => {
           duration: 0,
           id: "",
           localized: false,
-          releaseDate: new Date(),
+          releaseDate,
           title: ""
         }
       ],
@@ -689,7 +673,7 @@ describe("SongService", () => {
       duration: 0,
       id: "",
       localized: false,
-      releaseDate: new Date(),
+      releaseDate,
       title: ""
     };
     jest

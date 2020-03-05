@@ -6,13 +6,10 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 
 export interface DataArtistServiceInterface {
   byId(dto: DataArtistByIdReqDto): Promise<DataArtistResDto>;
-
   byIds(
     dto: DataArtistByIdsReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>>;
-
   trending(): Promise<DataPaginationResDto<DataArtistResDto>>;
-
   trendingGenre(
     dto: DataTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>>;

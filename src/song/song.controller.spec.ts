@@ -1,20 +1,25 @@
 import { forwardRef, HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationType } from "../relation/relation.type";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { AppModule } from "../app/app.module";
 import { DataArtistType } from "../data/data.artist.type";
+import { DataOrderByType } from "../data/data.order-by.type";
 import { DataSongService } from "../data/data.song.service";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { UserService } from "../user/user.service";
 import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongService } from "./song.service";
-import { DataOrderByType } from "../data/data.order-by.type";
 
 describe("SongController", () => {
   let controller: SongController;
@@ -122,19 +127,35 @@ describe("SongController", () => {
     post: 0
   }));
 
-  const relationServiceMock = jest.fn(() => ({
-    get: {
-      results: [
+  const relationServiceMock: RelationServiceInterface = {
+    get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+      Promise.resolve({
+        results: [
+          {
+            id: "",
+            type: RelationEntityType.album
+          }
+        ],
+        total: 1
+      } as RelationPaginationResDto<RelationEntityResDto>),
+    has: (): Promise<void> => Promise.resolve(undefined),
+    multiHas: (): Promise<RelationMultiHasResDto[]> =>
+      Promise.resolve([
         {
-          id: "",
-          type: RelationEntityType.album
+          from: {
+            id: "0",
+            type: RelationEntityType.album
+          },
+          relation: RelationType.dislikedSongs,
+          to: {
+            id: "1",
+            type: RelationEntityType.album
+          }
         }
-      ],
-      total: 1
-    },
-    remove: {},
-    set: {}
-  }));
+      ]),
+    remove: (): Promise<void> => Promise.resolve(undefined),
+    set: (): Promise<void> => Promise.resolve(undefined)
+  };
 
   const userServiceMock = jest.fn(() => ({
     findOneById: {

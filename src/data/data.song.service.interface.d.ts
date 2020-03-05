@@ -19,52 +19,39 @@ export interface DataSongServiceInterface {
   artistSongs(
     dto: DataSongArtistsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   artistSongsTop(
     dto: DataSongArtistSongsTopReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   byId(dto: DataSongByIdReqDto): Promise<DataSongResDto>;
   byIds(
     dto: DataSongByIdsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   genre(
     dto: DataSongGenreReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   language(
     dto: DataSongLanguageReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   mood(dto: DataSongMoodReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
-
   newPodcast(
     dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   newSong(
     dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   podcast(
     dto: DataSongPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   searchMood(
     dto: DataSongSearchMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   similar(
     dto: DataSongSimilarReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   slider(): Promise<DataPaginationResDto<DataSongResDto>>;
-
   topDay(
     dto: DataSongTopDayReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-
   topWeek(
     dto: DataSongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;

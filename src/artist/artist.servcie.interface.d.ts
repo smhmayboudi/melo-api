@@ -12,25 +12,20 @@ export interface ArtistServiceInterface {
     id: number,
     sub: number
   ): Promise<DataArtistResDto>;
-
   following(
     dto: ArtistFollowingReqDto,
     id: number
   ): Promise<DataPaginationResDto<DataArtistResDto>>;
-
   profile(
     dto: ArtistByIdReqDto,
     id: number,
     sub: number
   ): Promise<DataArtistResDto>;
-
   trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>>;
-
   trendingGenre(
     dto: ArtistTrendingGenreReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>>;
-
   unfollow(
     dto: ArtistUnfollowReqDto,
     id: number,

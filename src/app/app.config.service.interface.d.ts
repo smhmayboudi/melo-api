@@ -1,0 +1,46 @@
+import { LogLevel } from "@nestjs/common";
+import { SignatureSize } from "imgproxy/dist/types";
+import { ImgProxyImageTypeSize } from "./app.module.interface";
+
+export interface AppConfigServiceInterface {
+  apmSecretToken: string;
+  apmServerUrl: string;
+  apmServiceName: string;
+  cacheHost: string;
+  cacheMax: number;
+  cachePort: number;
+  cacheStore: string;
+  cacheTTL: number;
+  hashIdAlphabet: string;
+  hashIdMinLength: number;
+  hashIdSalt: string;
+  hashIdSeps: string;
+  imgProxyBaseUrl: string;
+  imgProxyEncode: boolean;
+  imgProxyImageTypeSize: ImgProxyImageTypeSize[];
+  imgProxyKey: string;
+  imgProxySalt: string;
+  imgProxySignatureSize: SignatureSize;
+  mangooseRetryAttempts: number;
+  mangooseRetryDelay: number;
+  mangooseUri: string;
+  port: number;
+  promDefaultLabels: Record<string, string>;
+  promDefaultMetricsEnabled: boolean;
+  promPath: string;
+  promPrefix: string;
+  rateLimitMax: number;
+  rateLimitWindowMs: number;
+  sentryDebug: boolean;
+  sentryDsn: string;
+  sentryEnviroment: string;
+  sentryLogLevel: LogLevel;
+  sentryRelease: string;
+  typeOrmDatabase: string;
+  typeOrmHost: string;
+  typeOrmLogging: boolean;
+  typeOrmPassword: string;
+  typeOrmPort: number;
+  typeOrmSynchronize: boolean;
+  typeOrmUsername: string;
+}

@@ -19,9 +19,10 @@ import {
   TransactionOptions,
   UserObject
 } from "./apm.module.interface";
+import { ApmServiceInterface } from "./apm.service.interface";
 
 @Injectable()
-export class ApmService {
+export class ApmService implements ApmServiceInterface {
   constructor(
     @Inject(APM_INSTANCE_TOKEN)
     private readonly apm: Agent
@@ -116,6 +117,9 @@ export class ApmService {
     options?
   ): Transaction | null {
     return this.apm.startTransaction(name, type, subtype, action, options);
+  }
+  setTransactionName(name: string): void {
+    this.apm.setTransactionName(name);
   }
   endTransaction(result?: string | number, endTime?: number): void {
     this.apm.endTransaction(result, endTime);

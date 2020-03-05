@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
+import { RelationConfigServiceInterface } from "./relation.config.service.interface";
 
 @Injectable()
-export class RelationConfigService {
+export class RelationConfigService implements RelationConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
