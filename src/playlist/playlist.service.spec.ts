@@ -138,28 +138,28 @@ describe("PlaylistService", () => {
       playlistId: "000000000000",
       songId: "0"
     };
-    expect(await service.addSong(dto, 0)).toBe(playlist);
+    expect(await service.addSong(dto, 0)).toEqual(playlist);
   });
 
   it("create shoud return a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
       title: ""
     };
-    expect(await service.create(dto, 0)).toBe(playlist);
+    expect(await service.create(dto, 0)).toEqual(playlist);
   });
 
   it("delete should return a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
       id: ""
     };
-    expect(await service.delete(dto, 0)).toBe(playlist);
+    expect(await service.delete(dto, 0)).toEqual(playlist);
   });
 
   it("edit should return a playlist", async () => {
     const dto: PlaylistEditReqDto = {
       id: ""
     };
-    expect(await service.edit(dto)).toBe(playlist);
+    expect(await service.edit(dto)).toEqual(playlist);
   });
 
   it("deleteSong should return a playlist", async () => {
@@ -167,14 +167,14 @@ describe("PlaylistService", () => {
       playlistId: "000000000000",
       songId: "0"
     };
-    expect(await service.deleteSong(dto, 0)).toBe(playlist);
+    expect(await service.deleteSong(dto, 0)).toEqual(playlist);
   });
 
   it("get should return a playlist", async () => {
     const dto: PlaylistGetReqDto = {
       id: ""
     };
-    expect(await service.get(dto)).toBe(playlist);
+    expect(await service.get(dto)).toEqual(playlist);
   });
 
   it("my should return a list playlists", async () => {
@@ -182,7 +182,7 @@ describe("PlaylistService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.my(dto, 0)).toBe(playlistPagination);
+    expect(await service.my(dto, 0)).toEqual(playlistPagination);
   });
 
   it("top should return a list of playlists", async () => {
@@ -190,6 +190,6 @@ describe("PlaylistService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.top(dto)).toBe(playlistPagination);
+    expect(await service.top(dto)).toEqual(playlistPagination);
   });
 });

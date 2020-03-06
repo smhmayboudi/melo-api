@@ -64,7 +64,7 @@ describe("FileController", () => {
         .spyOn(service, "uploadImage")
         .mockImplementation(() => Promise.resolve(res));
 
-      expect(await controller.uploadedPic(0, req)).toBe(res);
+      expect(await controller.uploadedPic(0, req)).toEqual(res);
     });
   });
 });

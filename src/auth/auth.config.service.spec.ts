@@ -34,19 +34,19 @@ describe("AuthService", () => {
     });
 
     it("jwtAccessTokenExpiresCount should be defined", () => {
-      expect(service.jwtAccessTokenExpiresCount).toBe(0);
+      expect(service.jwtAccessTokenExpiresCount).toEqual(0);
     });
 
     it("jwtAccessTokenExpiresIn should be defined", () => {
-      expect(service.jwtAccessTokenExpiresIn).toBe("0ms");
+      expect(service.jwtAccessTokenExpiresIn).toEqual("0ms");
     });
 
     it("jwtRefreshTokenExpiresIn should be defined", () => {
-      expect(service.jwtRefreshTokenExpiresIn).toBe("0ms");
+      expect(service.jwtRefreshTokenExpiresIn).toEqual("0ms");
     });
 
     it("telegramQueryExpiration should be defined", () => {
-      expect(service.telegramQueryExpiration).toBe("0ms");
+      expect(service.telegramQueryExpiration).toEqual("0ms");
     });
   });
 
@@ -80,11 +80,11 @@ describe("AuthService", () => {
     });
 
     it("jwtAuhSchema cacheHostshould be defined", () => {
-      expect(service.jwtAuhSchema).toBe("");
+      expect(service.jwtAuhSchema).toEqual("");
     });
 
     it("telegramBotToken should be defined", () => {
-      expect(service.telegramBotToken).toBe("");
+      expect(service.telegramBotToken).toEqual("");
     });
   });
 });

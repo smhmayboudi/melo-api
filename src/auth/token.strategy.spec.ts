@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { RtServiceInterface } from "src/rt/rt.service.interface";
 import { RtEntity } from "../rt/rt.entity";
 import { RtService } from "../rt/rt.service";
+import { RtServiceInterface } from "../rt/rt.service.interface";
 import { TokenStrategy } from "./token.strategy";
 
 describe("TokenStrategy", () => {

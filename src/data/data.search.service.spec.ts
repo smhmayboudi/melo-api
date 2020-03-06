@@ -23,7 +23,7 @@ describe("DataSearchService", () => {
   };
   // TODO: interface ?
   const searchHttpServiceMock = {
-    get: (): any => ({
+    get: () => ({
       data,
       status: 0,
       statusText: "",

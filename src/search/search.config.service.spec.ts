@@ -34,11 +34,11 @@ describe("SearchService", () => {
     });
 
     it("cacheMax should be defined", () => {
-      expect(service.cacheMax).toBe(0);
+      expect(service.cacheMax).toEqual(0);
     });
 
     it("cachePort should be defined", () => {
-      expect(service.cachePort).toBe(0);
+      expect(service.cachePort).toEqual(0);
     });
   });
 
@@ -72,11 +72,11 @@ describe("SearchService", () => {
     });
 
     it("cacheHost cacheHostshould be defined", () => {
-      expect(service.cacheHost).toBe("");
+      expect(service.cacheHost).toEqual("");
     });
 
     it("cacheStore should be defined", () => {
-      expect(service.cacheStore).toBe("");
+      expect(service.cacheStore).toEqual("");
     });
 
     it.todo("cacheTTL should be defined");

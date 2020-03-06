@@ -61,7 +61,7 @@ describe("ArtistController", () => {
     const dto: ArtistFollowReqDto = {
       id: "0"
     };
-    expect(await controller.follow(dto, 0, 0)).toBe(mixArtist);
+    expect(await controller.follow(dto, 0, 0)).toEqual(mixArtist);
   });
 
   it("following should return list of artists", async () => {
@@ -69,31 +69,31 @@ describe("ArtistController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.following(dto, 0)).toBe(mixArtistPagination);
+    expect(await controller.following(dto, 0)).toEqual(mixArtistPagination);
   });
 
   it("profile should return an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: "0"
     };
-    expect(await controller.profile(dto, 0, 0)).toBe(mixArtist);
+    expect(await controller.profile(dto, 0, 0)).toEqual(mixArtist);
   });
 
   it("trending should return list of artists", async () => {
-    expect(await controller.trending(0)).toBe(mixArtistPagination);
+    expect(await controller.trending(0)).toEqual(mixArtistPagination);
   });
 
   it("trending/genre should return list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
       genre: "pop"
     };
-    expect(await controller.trendingGenre(dto, 0)).toBe(mixArtistPagination);
+    expect(await controller.trendingGenre(dto, 0)).toEqual(mixArtistPagination);
   });
 
   it("unfollow should return an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: "0"
     };
-    expect(await controller.unfollow(dto, 0, 0)).toBe(mixArtist);
+    expect(await controller.unfollow(dto, 0, 0)).toEqual(mixArtist);
   });
 });

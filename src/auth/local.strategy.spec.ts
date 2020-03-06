@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserServiceInterface } from "src/user/user.service.interface";
 import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
 import { UserService } from "../user/user.service";
+import { UserServiceInterface } from "../user/user.service.interface";
 import { LocalStrategy } from "./local.strategy";
 
 describe("LocalStrategy", () => {

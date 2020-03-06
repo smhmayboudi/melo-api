@@ -62,7 +62,7 @@ describe("UserController", () => {
     ];
     jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
 
-    expect(await controller.find()).toBe(res);
+    expect(await controller.find()).toEqual(res);
   });
 
   it("get hould return a users", async () => {
@@ -71,7 +71,7 @@ describe("UserController", () => {
     };
     jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
 
-    expect(await controller.get(0)).toBe(res);
+    expect(await controller.get(0)).toEqual(res);
   });
 
   it("put hould return a users", async () => {
@@ -81,6 +81,6 @@ describe("UserController", () => {
     };
     jest.spyOn(service, "put").mockImplementation(() => Promise.resolve(res));
 
-    expect(await controller.edit(req, 0)).toBe(res);
+    expect(await controller.edit(req, 0)).toEqual(res);
   });
 });

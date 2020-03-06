@@ -60,7 +60,7 @@ describe("PromUtil", () => {
   });
 
   it("promConfigurationProviderImp should be defined", () => {
-    expect(promConfigurationProviderImp({}, "")).toBe(undefined);
+    expect(promConfigurationProviderImp({}, "")).toEqual(undefined);
   });
 
   it("promRegistryProviderImp should be defined", () => {

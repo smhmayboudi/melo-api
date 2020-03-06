@@ -34,11 +34,11 @@ describe("PlaylistService", () => {
     });
 
     it("cacheMax should be defined", () => {
-      expect(service.cacheMax).toBe(0);
+      expect(service.cacheMax).toEqual(0);
     });
 
     it("cachePort should be defined", () => {
-      expect(service.cachePort).toBe(0);
+      expect(service.cachePort).toEqual(0);
     });
   });
 
@@ -72,21 +72,21 @@ describe("PlaylistService", () => {
     });
 
     it("cacheHost cacheHostshould be defined", () => {
-      expect(service.cacheHost).toBe("");
+      expect(service.cacheHost).toEqual("");
     });
 
     it("cacheStore should be defined", () => {
-      expect(service.cacheStore).toBe("");
+      expect(service.cacheStore).toEqual("");
     });
 
     it.todo("cacheTTL should be defined");
 
     it("defaultImagePath should be defined", () => {
-      expect(service.defaultImagePath).toBe("");
+      expect(service.defaultImagePath).toEqual("");
     });
 
     it("imagePath should be defined", () => {
-      expect(service.imagePath("0")).toBe("");
+      expect(service.imagePath("0")).toEqual("");
     });
   });
 });

@@ -1,16 +1,12 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
+import { RtEntity } from "../rt/rt.entity";
 import { RtService } from "../rt/rt.service";
-import config from "./auth.config";
+import { RtServiceInterface } from "../rt/rt.service.interface";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { AuthServiceInterface } from "./auth.service.interface";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
 import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
-import { RtServiceInterface } from "src/rt/rt.service.interface";
-import { RtEntity } from "../rt/rt.entity";
 
 describe("AuthController", () => {
   const date = new Date();
@@ -52,22 +48,17 @@ describe("AuthController", () => {
       Promise.resolve(rtEntity)
   };
 
-  let authService: AuthService;
   let controller: AuthController;
-  let rtService: RtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
         { provide: RtService, useValue: rtServiceMock }
       ]
     }).compile();
     controller = module.get<AuthController>(AuthController);
-    authService = module.get<AuthService>(AuthService);
-    rtService = module.get<RtService>(RtService);
   });
 
   it("should be defined", () => {
@@ -75,45 +66,29 @@ describe("AuthController", () => {
   });
 
   it("login should be defined", async () => {
-    const res = {
+    const res: AuthRefreshTokenResDto = {
       at: "",
       rt: ""
     };
-    jest
-      .spyOn(authService, "refreshToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.login(0)).toBe(res);
+    expect(await controller.login(0)).toEqual(res);
   });
 
   it("logout should be defined", async () => {
-    jest
-      .spyOn(rtService, "deleteByToken")
-      .mockImplementation(() => Promise.resolve(undefined));
-
-    expect(await controller.logout("")).toBe(undefined);
+    expect(await controller.logout("")).toEqual(undefined);
   });
 
   it("telegram/callback should be defined", async () => {
-    const res = {
+    const res: AuthRefreshTokenResDto = {
       rt: "",
       at: ""
     };
-    jest
-      .spyOn(authService, "refreshToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.telegram(0)).toBe(res);
+    expect(await controller.telegram(0)).toEqual(res);
   });
 
   it("token should be defined", async () => {
-    const res = {
+    const res: AuthAccessTokenResDto = {
       at: ""
     };
-    jest
-      .spyOn(authService, "accessToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.token(0)).toBe(res);
+    expect(await controller.token(0)).toEqual(res);
   });
 });

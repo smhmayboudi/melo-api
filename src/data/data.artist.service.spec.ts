@@ -23,7 +23,7 @@ describe("DataArtistService", () => {
     };
     // TODO: interface ?
     const artistHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -68,7 +68,7 @@ describe("DataArtistService", () => {
     };
     // TODO: interface ?
     const artistHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -118,7 +118,7 @@ describe("DataArtistService", () => {
     };
     // TODO: interface ?
     const artistHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -165,7 +165,7 @@ describe("DataArtistService", () => {
     };
     // TODO: interface ?
     const artistHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",

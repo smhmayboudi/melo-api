@@ -51,7 +51,7 @@ describe("RelationService", () => {
     };
     jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(data));
 
-    expect(await service.get(req)).toBe(data);
+    expect(await service.get(req)).toEqual(data);
   });
 
   it("has should be defined", async () => {
@@ -85,7 +85,7 @@ describe("RelationService", () => {
       .spyOn(service, "has")
       .mockImplementation(() => Promise.resolve(undefined));
 
-    expect(await service.has(req)).toBe(undefined);
+    expect(await service.has(req)).toEqual(undefined);
   });
 
   it("multiHas should return an array of relation entities ", async () => {
@@ -125,7 +125,7 @@ describe("RelationService", () => {
       .spyOn(service, "multiHas")
       .mockImplementation(() => Promise.resolve(data));
 
-    expect(await service.multiHas(req)).toBe(data);
+    expect(await service.multiHas(req)).toEqual(data);
   });
 
   it("remove should be defined", async () => {
@@ -159,7 +159,7 @@ describe("RelationService", () => {
       .spyOn(service, "remove")
       .mockImplementation(() => Promise.resolve(undefined));
 
-    expect(await service.remove(req)).toBe(undefined);
+    expect(await service.remove(req)).toEqual(undefined);
   });
 
   it("set should be defined", async () => {
@@ -194,6 +194,6 @@ describe("RelationService", () => {
       .spyOn(service, "set")
       .mockImplementation(() => Promise.resolve(undefined));
 
-    expect(await service.set(req)).toBe(undefined);
+    expect(await service.set(req)).toEqual(undefined);
   });
 });

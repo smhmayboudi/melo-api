@@ -81,6 +81,6 @@ describe("AppMixArtistService", () => {
       .spyOn(service, "mixArtist")
       .mockImplementation(() => Promise.resolve(reqRes));
 
-    expect(await service.mixArtist(0, reqRes)).toBe(reqRes);
+    expect(await service.mixArtist(0, reqRes)).toEqual(reqRes);
   });
 });

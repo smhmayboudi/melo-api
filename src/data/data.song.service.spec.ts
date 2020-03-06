@@ -37,7 +37,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -88,7 +88,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -136,7 +136,7 @@ describe("DataSongService", () => {
     };
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -185,7 +185,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -234,7 +234,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -286,7 +286,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -338,7 +338,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -389,7 +389,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -439,7 +439,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -489,7 +489,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -541,7 +541,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -591,7 +591,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -642,7 +642,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -688,7 +688,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
@@ -738,7 +738,7 @@ describe("DataSongService", () => {
     } as unknown) as DataPaginationResDto<DataSongResDto>;
     // TODO: interface ?
     const songHttpServiceMock = {
-      get: (): any => ({
+      get: () => ({
         data,
         status: 0,
         statusText: "",
