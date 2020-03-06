@@ -4,5 +4,5 @@ export interface ConstConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
-  staticImagePaths: string;
+  staticImagePaths: { [key: string]: string };
 }

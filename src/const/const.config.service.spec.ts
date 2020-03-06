@@ -1,46 +1,86 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./const.config";
+import { AppConfigService } from "../app/app.config.service";
 import { ConstConfigService } from "./const.config.service";
 
 describe("ConstService", () => {
-  let service: ConstConfigService;
+  describe("get: number", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ConstConfigService]
-    }).compile();
-    service = module.get<ConstConfigService>(ConstConfigService);
+    let service: ConstConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          ConstConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<ConstConfigService>(ConstConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("cacheMax should be defined", () => {
+      expect(service.cacheMax).toBe(0);
+    });
+
+    it("cachePort should be defined", () => {
+      expect(service.cachePort).toBe(0);
+    });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
+  describe("get: string", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => ""
+    };
 
-  it("cacheHost should be defined", () => {
-    expect(service.cacheHost).toBeDefined();
-  });
+    let service: ConstConfigService;
 
-  it("cacheMax should be defined", () => {
-    expect(service.cacheMax).toBeDefined();
-  });
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          ConstConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<ConstConfigService>(ConstConfigService);
+    });
 
-  it("cachePort should be defined", () => {
-    expect(service.cachePort).toBeDefined();
-  });
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
 
-  it("cacheStore should be defined", () => {
-    expect(service.cacheStore).toBeDefined();
-  });
+    it("cacheHost cacheHostshould be defined", () => {
+      expect(service.cacheHost).toBe("");
+    });
 
-  it("cacheTTL should be defined", () => {
-    expect(service.cacheTTL).toBeDefined();
-  });
+    it("cacheStore should be defined", () => {
+      expect(service.cacheStore).toBe("");
+    });
 
-  it("staticImagePaths should be defined", () => {
-    expect(service.staticImagePaths).toBeDefined();
+    it.todo("cacheTTL should be defined");
+
+    it.todo("staticImagePaths should be defined");
   });
 });

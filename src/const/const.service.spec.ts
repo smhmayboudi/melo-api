@@ -7,14 +7,14 @@ import { ConstConfigServiceInterface } from "./const.config.service.interface";
 import { ConstService } from "./const.service";
 
 describe("ConstService", () => {
-  let service: ConstService;
+  const image = {
+    pop: {
+      url: "/asset/pop.jpg"
+    }
+  };
 
   const appImgProxyServiceMock: AppImgProxyServiceInterface = {
-    generateUrl: (): DataImageResDto => ({
-      "": {
-        url: ""
-      }
-    })
+    generateUrl: (): DataImageResDto => image
   };
   const constConfigServiceMock: ConstConfigServiceInterface = {
     cacheHost: "",
@@ -22,8 +22,11 @@ describe("ConstService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    staticImagePaths: "/asset/pop.jpg"
+    staticImagePaths: { pop: "/asset/pop.jpg" }
   };
+
+  let service: ConstService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -40,13 +43,6 @@ describe("ConstService", () => {
   });
 
   it("images should be defined", async () => {
-    const res = {
-      "": {
-        "": {
-          url: ""
-        }
-      }
-    };
-    expect(await service.images()).toEqual(res);
+    expect(await service.images()).toEqual({ pop: image });
   });
 });

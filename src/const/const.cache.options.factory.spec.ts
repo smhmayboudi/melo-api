@@ -1,23 +1,79 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
+import { AppConfigService } from "../app/app.config.service";
 import { ConstCacheOptionsFactory } from "./const.cache.options.factory";
-import config from "./const.config";
 import { ConstConfigService } from "./const.config.service";
+import { ConstConfigServiceInterface } from "./const.config.service.interface";
 
 describe("ConstCacheOptionsFactory", () => {
+  const constConfigServiceMock: ConstConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0,
+    staticImagePaths: {}
+  };
+
   let service: ConstConfigService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ConstConfigService]
-    }).compile();
-    service = module.get<ConstConfigService>(ConstConfigService);
+  describe("cacheStore", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ConstConfigService,
+            useValue: constConfigServiceMock
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<ConstConfigService>(ConstConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(new ConstCacheOptionsFactory(service)).toBeDefined();
+    });
+
+    it("createCacheOptions should be defined", () => {
+      expect(
+        new ConstCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 
-  it("should be defined", () => {
-    expect(new ConstCacheOptionsFactory(service)).toBeDefined();
+  describe("cacheStore none", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ConstConfigService,
+            useValue: { ...constConfigServiceMock, cacheStore: "none" }
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<ConstConfigService>(ConstConfigService);
+    });
+
+    it("createCacheOptions should be defined with store none", () => {
+      expect(
+        new ConstCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 });
