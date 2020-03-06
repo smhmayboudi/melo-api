@@ -5,17 +5,18 @@ import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 
 describe("ArtistCacheOptionsFactory", () => {
+  const artistConfigServiceMock = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0
+  };
+
   let service: ArtistConfigService;
 
   describe("cacheStore", () => {
     beforeEach(async () => {
-      const artistConfigServiceMock = {
-        cacheHost: "",
-        cacheMax: 0,
-        cachePort: 0,
-        cacheStore: "",
-        cacheTTL: 0
-      };
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           {
@@ -48,13 +49,6 @@ describe("ArtistCacheOptionsFactory", () => {
 
   describe("cacheStore none", () => {
     beforeEach(async () => {
-      const artistConfigServiceMock = {
-        cacheHost: "",
-        cacheMax: 0,
-        cachePort: 0,
-        cacheStore: "none",
-        cacheTTL: 0
-      };
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           {
@@ -63,7 +57,7 @@ describe("ArtistCacheOptionsFactory", () => {
           },
           {
             provide: ArtistConfigService,
-            useValue: artistConfigServiceMock
+            useValue: { ...artistConfigServiceMock, cacheStore: "none" }
           },
           {
             provide: ConfigService,

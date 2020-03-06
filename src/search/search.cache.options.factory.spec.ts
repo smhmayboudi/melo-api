@@ -5,17 +5,18 @@ import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 
 describe("SearchCacheOptionsFactory", () => {
+  const searchConfigServiceMock = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0
+  };
+
   let service: SearchConfigService;
 
   describe("cacheStore", () => {
     beforeEach(async () => {
-      const searchConfigServiceMock = {
-        cacheHost: "",
-        cacheMax: 0,
-        cachePort: 0,
-        cacheStore: "",
-        cacheTTL: 0
-      };
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           {
@@ -48,13 +49,6 @@ describe("SearchCacheOptionsFactory", () => {
 
   describe("cacheStore none", () => {
     beforeEach(async () => {
-      const searchConfigServiceMock = {
-        cacheHost: "",
-        cacheMax: 0,
-        cachePort: 0,
-        cacheStore: "none",
-        cacheTTL: 0
-      };
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           {
@@ -63,7 +57,7 @@ describe("SearchCacheOptionsFactory", () => {
           },
           {
             provide: SearchConfigService,
-            useValue: searchConfigServiceMock
+            useValue: { ...searchConfigServiceMock, cacheStore: "none" }
           },
           {
             provide: ConfigService,

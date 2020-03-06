@@ -65,6 +65,10 @@ describe("SongService", () => {
     results: [song],
     total: 1
   } as DataPaginationResDto<DataSongResDto>;
+  const user: UserUserResDto = {
+    id: 0,
+    telegram_id: 0
+  };
 
   const appMixSongServiceMock: AppMixSongServiceInterface = {
     mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
@@ -148,10 +152,6 @@ describe("SongService", () => {
     cacheTTL: 0,
     sendTelegramUrl: "",
     timeout: 0
-  };
-  const user: UserUserResDto = {
-    id: 0,
-    telegram_id: 0
   };
   const userServiceMock: UserServiceInterface = {
     find: (): Promise<UserUserResDto[]> => Promise.resolve([user]),

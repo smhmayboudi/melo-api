@@ -13,6 +13,7 @@ describe("ActionController", () => {
     datetime,
     type: ActionType.likeSong
   };
+
   const actionServiceMock: ActionServiceInterface = {
     bulk: (): Promise<ActionDto> => Promise.resolve(action)
   };
