@@ -1,11 +1,12 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "../app/app.config.service";
 import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import { AlbumConfigService } from "./album.config.service";
-import { AppConfigService } from "../app/app.config.service";
-import { ConfigService } from "@nestjs/config";
+import { AlbumConfigServiceInterface } from "./album.config.service.interface";
 
 describe("AlbumCacheOptionsFactory", () => {
-  const albumConfigServiceMock = {
+  const albumConfigServiceMock: AlbumConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,

@@ -1,6 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
+import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
 import { DataArtistService } from "../data/data.artist.service";
+import { DataArtistServiceInterface } from "../data/data.artist.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -29,12 +31,14 @@ describe("ArtistService", () => {
     total: 1
   } as DataPaginationResDto<DataArtistResDto>;
 
-  const dataArtistServiceMock = {
-    byId: (): DataArtistResDto => mixArtist,
-    byIds: (): DataPaginationResDto<DataArtistResDto> => mixArtistPaginatin,
-    trending: (): DataPaginationResDto<DataArtistResDto> => mixArtistPaginatin,
-    trendingGenre: (): DataPaginationResDto<DataArtistResDto> =>
-      mixArtistPaginatin
+  const dataArtistServiceMock: DataArtistServiceInterface = {
+    byId: (): Promise<DataArtistResDto> => Promise.resolve(mixArtist),
+    byIds: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
+      Promise.resolve(mixArtistPaginatin),
+    trending: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
+      Promise.resolve(mixArtistPaginatin),
+    trendingGenre: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
+      Promise.resolve(mixArtistPaginatin)
   };
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
@@ -65,8 +69,8 @@ describe("ArtistService", () => {
     remove: (): Promise<void> => Promise.resolve(undefined),
     set: (): Promise<void> => Promise.resolve(undefined)
   };
-  const appMixArtistServiceMock = {
-    mixArtist: (): DataArtistResDto[] => [mixArtist]
+  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
+    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist])
   };
 
   let artistService: ArtistService;

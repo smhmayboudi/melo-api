@@ -1,23 +1,80 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
+import { AppConfigService } from "../app/app.config.service";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
-import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
+import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 
 describe("PlaylistCacheOptionsFactory", () => {
+  const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0,
+    defaultImagePath: "",
+    imagePath: () => ""
+  };
+
   let service: PlaylistConfigService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [PlaylistConfigService]
-    }).compile();
-    service = module.get<PlaylistConfigService>(PlaylistConfigService);
+  describe("cacheStore", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: PlaylistConfigService,
+            useValue: playlistConfigServiceMock
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<PlaylistConfigService>(PlaylistConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(new PlaylistCacheOptionsFactory(service)).toBeDefined();
+    });
+
+    it("createCacheOptions should be defined", () => {
+      expect(
+        new PlaylistCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 
-  it("should be defined", () => {
-    expect(new PlaylistCacheOptionsFactory(service)).toBeDefined();
+  describe("cacheStore none", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: PlaylistConfigService,
+            useValue: { ...playlistConfigServiceMock, cacheStore: "none" }
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<PlaylistConfigService>(PlaylistConfigService);
+    });
+
+    it("createCacheOptions should be defined with store none", () => {
+      expect(
+        new PlaylistCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 });

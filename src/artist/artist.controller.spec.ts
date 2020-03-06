@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppHashIdService } from "../app/app.hash-id.service";
+import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -23,7 +24,7 @@ describe("ArtistController", () => {
     total: 1
   } as DataPaginationResDto<DataArtistResDto>;
 
-  const appHashIdServiceMock = {
+  const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
   };

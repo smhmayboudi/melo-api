@@ -1,17 +1,19 @@
 import { HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { of } from "rxjs";
 import { DataArtistService } from "./data.artist.service";
 import { DataArtistType } from "./data.artist.type";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
+import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
-import { of } from "rxjs";
 
 describe("DataArtistService", () => {
-  const dataConfigServiceMock = {
-    url: (): any => ""
+  const dataConfigServiceMock: DataConfigServiceInterface = {
+    timeout: 0,
+    url: ""
   };
   it("byId should return an artist", async () => {
     const data = {
@@ -19,6 +21,7 @@ describe("DataArtistService", () => {
       id: "",
       type: DataArtistType.prime
     };
+    // TODO: interface ?
     const artistHttpServiceMock = {
       get: (): any => ({
         data,
@@ -63,6 +66,7 @@ describe("DataArtistService", () => {
       ],
       total: 1
     };
+    // TODO: interface ?
     const artistHttpServiceMock = {
       get: (): any => ({
         data,
@@ -112,6 +116,7 @@ describe("DataArtistService", () => {
       ],
       total: 1
     };
+    // TODO: interface ?
     const artistHttpServiceMock = {
       get: (): any => ({
         data,
@@ -158,6 +163,7 @@ describe("DataArtistService", () => {
       ],
       total: 1
     };
+    // TODO: interface ?
     const artistHttpServiceMock = {
       get: (): any => ({
         data,

@@ -1,18 +1,20 @@
 import { HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { of } from "rxjs";
 import { DataArtistType } from "./data.artist.type";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
+import { DataConfigServiceInterface } from "./data.config.service.interface";
+import { DataOrderByType } from "./data.order-by.type";
 import { DataSongService } from "./data.song.service";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
-import { DataOrderByType } from "./data.order-by.type";
-import { of } from "rxjs";
 
 describe("DataSongService", () => {
-  const dataConfigServiceMock = {
-    url: (): any => ""
+  const dataConfigServiceMock: DataConfigServiceInterface = {
+    timeout: 0,
+    url: ""
   };
   it("artistSongs should return a list of songs", async () => {
     const data = ({
@@ -33,6 +35,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -83,6 +86,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -130,6 +134,7 @@ describe("DataSongService", () => {
       releaseDate: new Date(),
       title: ""
     };
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -178,6 +183,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -226,6 +232,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -277,6 +284,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -328,6 +336,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -378,6 +387,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -427,6 +437,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -476,6 +487,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -527,6 +539,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -576,6 +589,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -626,6 +640,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -671,6 +686,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,
@@ -720,6 +736,7 @@ describe("DataSongService", () => {
       },
       total: 1
     } as unknown) as DataPaginationResDto<DataSongResDto>;
+    // TODO: interface ?
     const songHttpServiceMock = {
       get: (): any => ({
         data,

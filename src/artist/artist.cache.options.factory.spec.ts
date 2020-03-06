@@ -1,11 +1,12 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "../app/app.config.service";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import { ArtistConfigService } from "./artist.config.service";
-import { AppConfigService } from "../app/app.config.service";
-import { ConfigService } from "@nestjs/config";
+import { ArtistConfigServiceInterface } from "./artist.config.service.interface";
 
 describe("ArtistCacheOptionsFactory", () => {
-  const artistConfigServiceMock = {
+  const artistConfigServiceMock: ArtistConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,

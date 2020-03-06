@@ -1,11 +1,12 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "../app/app.config.service";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import { SearchConfigService } from "./search.config.service";
-import { AppConfigService } from "../app/app.config.service";
-import { ConfigService } from "@nestjs/config";
+import { SearchConfigServiceInterface } from "./search.config.service.interface";
 
 describe("SearchCacheOptionsFactory", () => {
-  const searchConfigServiceMock = {
+  const searchConfigServiceMock: SearchConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,

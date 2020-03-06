@@ -1,17 +1,19 @@
 import { HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { of } from "rxjs";
 import { DataAlbumService } from "./data.album.service";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
+import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataAlbumResDto } from "./dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
-import { of } from "rxjs";
 
 describe("DataAlbumService", () => {
   const releaseDate = new Date();
-  const dataConfigServiceMock = {
-    url: (): any => ""
+  const dataConfigServiceMock: DataConfigServiceInterface = {
+    timeout: 0,
+    url: ""
   };
   it("albums should return list of albums", async () => {
     const data = {
@@ -23,6 +25,7 @@ describe("DataAlbumService", () => {
       ],
       total: 1
     };
+    // TODO: interface ?
     const albumsHttpServiceMock = {
       get: (): any => ({
         data,
@@ -68,6 +71,7 @@ describe("DataAlbumService", () => {
       name: "",
       releaseDate
     };
+    // TODO: interface ?
     const albumsHttpServiceMock = {
       get: (): any => ({
         data,
@@ -111,6 +115,7 @@ describe("DataAlbumService", () => {
       ],
       total: 1
     };
+    // TODO: interface ?
     const albumsHttpServiceMock = {
       get: (): any => ({
         data,

@@ -5,6 +5,7 @@ import { SongConfigService } from "./song.config.service";
 
 describe("SongService", () => {
   describe("get: number", () => {
+    // TODO: interface ?
     const configServiceMock = {
       get: (): number => 0
     };
@@ -46,6 +47,7 @@ describe("SongService", () => {
   });
 
   describe("get: string", () => {
+    // TODO: interface ?
     const configServiceMock = {
       get: (): string => ""
     };

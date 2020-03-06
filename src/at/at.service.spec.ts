@@ -7,6 +7,7 @@ describe("AtService", () => {
 
   const created_at = new Date();
   const expire_at = new Date();
+  // TODO: interface ?
   const atEntityRepositoryMock = {
     delete: (): any => ({
       raw: ""

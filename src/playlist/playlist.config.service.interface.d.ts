@@ -5,5 +5,5 @@ export interface PlaylistConfigServiceInterface {
   cacheStore: string;
   cacheTTL: number;
   defaultImagePath: string;
-  imagePath: string;
+  imagePath: (id: string) => string;
 }

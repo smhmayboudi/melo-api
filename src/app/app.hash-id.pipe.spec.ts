@@ -1,9 +1,10 @@
 import { Test } from "@nestjs/testing";
 import { AppHashIdPipe } from "./app.hash-id.pipe";
 import { AppHashIdService } from "./app.hash-id.service";
+import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 
 describe("AppHashIdPipe", () => {
-  const appHashIdServiceMock = {
+  const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
   };

@@ -1,24 +1,27 @@
+import { HttpService } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { of } from "rxjs";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
+import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataSearchService } from "./data.search.service";
 import { DataSearchType } from "./data.search.type";
-import { HttpService } from "@nestjs/common";
-import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
-import { of } from "rxjs";
+import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 
 describe("DataSearchService", () => {
   let service: DataSearchService;
   let httpService: HttpService;
 
-  const dataConfigServiceMock = {
-    url: (): any => ""
+  const dataConfigServiceMock: DataConfigServiceInterface = {
+    timeout: 0,
+    url: ""
   };
   const data = {
     type: DataSearchType.album
   };
+  // TODO: interface ?
   const searchHttpServiceMock = {
     get: (): any => ({
       data,

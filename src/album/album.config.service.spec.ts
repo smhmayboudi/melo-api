@@ -1,13 +1,10 @@
 import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app/app.config.service";
 import { AlbumConfigService } from "./album.config.service";
 
 describe("AlbumService", () => {
   describe("get: number", () => {
-    const appConfigServiceMock = {
-      get: (): number => 0
-    };
+    // TODO: interface ?
     const configServiceMock = {
       get: (): number => 0
     };
@@ -18,10 +15,6 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumConfigService,
-          {
-            provide: AppConfigService,
-            useValue: appConfigServiceMock
-          },
           {
             provide: ConfigService,
             useValue: configServiceMock
@@ -45,9 +38,7 @@ describe("AlbumService", () => {
   });
 
   describe("get: string", () => {
-    const appConfigServiceMock = {
-      get: (): string => ""
-    };
+    // TODO: interface ?
     const configServiceMock = {
       get: (): string => ""
     };
@@ -58,10 +49,6 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumConfigService,
-          {
-            provide: AppConfigService,
-            useValue: appConfigServiceMock
-          },
           {
             provide: ConfigService,
             useValue: configServiceMock

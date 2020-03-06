@@ -1,22 +1,23 @@
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataArtistType } from "../data/data.artist.type";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationService } from "../relation/relation.service";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationType } from "../relation/relation.type";
 import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
-import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppHashIdService } from "./app.hash-id.service";
-import { RelationService } from "../relation/relation.service";
-import { DataArtistType } from "../data/data.artist.type";
-import { RelationServiceInterface } from "../relation/relation.service.interface";
-import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
-import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
-import { RelationEntityType } from "../relation/relation.entity.type";
-import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
-import { RelationType } from "../relation/relation.type";
+import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
+import { AppMixArtistService } from "./app.mix-artist.service";
 
 describe("AppMixArtistService", () => {
   let service: AppMixArtistService;
 
-  const appHashIdServiceMock = {
+  const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
   };

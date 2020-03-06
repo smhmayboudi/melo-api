@@ -5,6 +5,7 @@ import { ActionConfigService } from "./action.config.service";
 
 describe("ActionService", () => {
   describe("get: number", () => {
+    // TODO: interface ?
     const configServiceMock = {
       get: (): number => 0
     };
@@ -42,6 +43,7 @@ describe("ActionService", () => {
   });
 
   describe("get: string", () => {
+    // TODO: interface ?
     const configServiceMock = {
       get: (): string => ""
     };

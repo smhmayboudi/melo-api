@@ -1,23 +1,28 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppImgProxyService } from "../app/app.img-proxy.service";
+import { AppImgProxyServiceInterface } from "../app/app.img-proxy.service.interface";
+import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 import { ConstConfigService } from "./const.config.service";
+import { ConstConfigServiceInterface } from "./const.config.service.interface";
 import { ConstService } from "./const.service";
 
 describe("ConstService", () => {
   let service: ConstService;
 
-  const appImgProxyServiceMock = {
-    generateUrl: (): any => ({
+  const appImgProxyServiceMock: AppImgProxyServiceInterface = {
+    generateUrl: (): DataImageResDto => ({
       "": {
         url: ""
       }
     })
   };
-  const constConfigServiceMock = {
-    staticImagePaths: (): any => ({
-      // eslint-disable-next-line prettier/prettier
-      "pop_genre": "/asset/pop.jpg"
-    })
+  const constConfigServiceMock: ConstConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0,
+    staticImagePaths: "/asset/pop.jpg"
   };
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
