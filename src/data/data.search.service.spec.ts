@@ -11,7 +11,7 @@ import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 
 describe("DataSearchService", () => {
-  let service: DataSearchService;
+  let dataSearchService: DataSearchService;
   let httpService: HttpService;
 
   const dataConfigServiceMock: DataConfigServiceInterface = {
@@ -41,12 +41,12 @@ describe("DataSearchService", () => {
         { provide: HttpService, useValue: searchHttpServiceMock }
       ]
     }).compile();
-    service = module.get<DataSearchService>(DataSearchService);
+    dataSearchService = module.get<DataSearchService>(DataSearchService);
     httpService = module.get<HttpService>(HttpService);
   });
 
   it("should be defined", () => {
-    expect(service).toBeDefined();
+    expect(dataSearchService).toBeDefined();
   });
 
   it("query should return a list of search results", async () => {
@@ -67,6 +67,6 @@ describe("DataSearchService", () => {
     jest
       .spyOn(httpService, "get")
       .mockImplementationOnce(() => of(searchHttpServiceMock.get()));
-    expect(await service.query(req)).toEqual(res);
+    expect(await dataSearchService.query(req)).toEqual(res);
   });
 });

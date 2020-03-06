@@ -73,7 +73,7 @@ describe("ArtistService", () => {
     mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist])
   };
 
-  let artistService: ArtistService;
+  let service: ArtistService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -84,18 +84,18 @@ describe("ArtistService", () => {
         { provide: RelationService, useValue: relationServiceMock }
       ]
     }).compile();
-    artistService = module.get<ArtistService>(ArtistService);
+    service = module.get<ArtistService>(ArtistService);
   });
 
   it("should be defined", () => {
-    expect(artistService).toBeDefined();
+    expect(service).toBeDefined();
   });
 
   it("follow should return an artist", async () => {
     const dto: ArtistFollowReqDto = {
       id: ""
     };
-    expect(await artistService.follow(dto, 0, 0)).toEqual(mixArtist);
+    expect(await service.follow(dto, 0, 0)).toEqual(mixArtist);
   });
 
   it("following should return list of artists", async () => {
@@ -103,33 +103,31 @@ describe("ArtistService", () => {
       from: 0,
       limit: 0
     };
-    expect(await artistService.following(dto, 0)).toEqual(mixArtistPaginatin);
+    expect(await service.following(dto, 0)).toEqual(mixArtistPaginatin);
   });
 
   it("profile should return an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: ""
     };
-    expect(await artistService.profile(dto, 0, 0)).toEqual(mixArtist);
+    expect(await service.profile(dto, 0, 0)).toEqual(mixArtist);
   });
 
   it("trending should return list of artists", async () => {
-    expect(await artistService.trending(0)).toEqual(mixArtistPaginatin);
+    expect(await service.trending(0)).toEqual(mixArtistPaginatin);
   });
 
   it("trendingGenre should return list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
       genre: ""
     };
-    expect(await artistService.trendingGenre(dto, 0)).toEqual(
-      mixArtistPaginatin
-    );
+    expect(await service.trendingGenre(dto, 0)).toEqual(mixArtistPaginatin);
   });
 
   it("unfollow should return an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: ""
     };
-    expect(await artistService.unfollow(dto, 0, 0)).toEqual(mixArtist);
+    expect(await service.unfollow(dto, 0, 0)).toEqual(mixArtist);
   });
 });

@@ -10,8 +10,8 @@ import { FileService } from "./file.service";
 import { FileEntity } from "./file.entity";
 
 describe("FileController", () => {
-  let fileController: FileController;
-  let fileService: FileService;
+  let controller: FileController;
+  let service: FileService;
 
   const mockRepository = jest.fn(() => ({
     save: {
@@ -39,8 +39,8 @@ describe("FileController", () => {
         }
       ]
     }).compile();
-    fileService = module.get<FileService>(FileService);
-    fileController = module.get<FileController>(FileController);
+    service = module.get<FileService>(FileService);
+    controller = module.get<FileController>(FileController);
   });
 
   describe("uploadImage", () => {
@@ -61,10 +61,10 @@ describe("FileController", () => {
         size: 0
       };
       jest
-        .spyOn(fileService, "uploadImage")
+        .spyOn(service, "uploadImage")
         .mockImplementation(() => Promise.resolve(res));
 
-      expect(await fileController.uploadedPic(0, req)).toBe(res);
+      expect(await controller.uploadedPic(0, req)).toBe(res);
     });
   });
 });
