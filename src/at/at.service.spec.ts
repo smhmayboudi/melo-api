@@ -1,53 +1,38 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { DeleteResult, UpdateResult } from "typeorm";
+import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
+import { AtEntityRepositoryInterface } from "./at.entity.repository.interface";
 import { AtService } from "./at.service";
 
 describe("AtService", () => {
-  let service: AtService;
-
-  const created_at = new Date();
-  const expire_at = new Date();
-
-  // TODO: interface ?
-  const atEntityRepositoryMock = {
-    delete: () => ({
-      raw: ""
-    }),
-    find: () => [
-      {
-        count: 0,
-        created_at,
-        expire_at,
-        id: 0,
-        user_id: 0,
-        token: ""
-      }
-    ],
-    findOne: () => ({
-      count: 0,
-      created_at,
-      expire_at,
-      id: 0,
-      user_id: 0,
-      token: ""
-    }),
-    save: () => ({
-      count: 0,
-      created_at,
-      expire_at,
-      id: 0,
-      user_id: 0,
-      token: ""
-    }),
-    update: () => ({
-      raw: "",
-      generatedMaps: [
-        {
-          "": ""
-        }
-      ]
-    })
+  const date = new Date();
+  const atEntity: AtEntity = {
+    count: 0,
+    created_at: date,
+    expire_at: date,
+    id: 0,
+    user_id: 0,
+    token: ""
   };
+  const deleteResult: DeleteResult = {
+    raw: ""
+  };
+  const updateResult: UpdateResult = {
+    generatedMaps: [{}],
+    raw: ""
+  };
+
+  const atEntityRepositoryMock: AtEntityRepositoryInterface = {
+    delete: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
+    find: (): Promise<AtEntity[]> => Promise.resolve([atEntity]),
+    findOne: (): Promise<AtEntity | undefined> => Promise.resolve(atEntity),
+    save: <AtEntity>(): Promise<AtEntity> =>
+      (Promise.resolve(atEntity) as unknown) as Promise<AtEntity>,
+    update: (): Promise<UpdateResult> => Promise.resolve(updateResult)
+  };
+
+  let service: AtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -64,78 +49,54 @@ describe("AtService", () => {
   });
 
   it("deleteById should be defined", async () => {
-    expect(await service.deleteById(0)).toEqual(
-      atEntityRepositoryMock.delete()
-    );
+    expect(await service.deleteById(0)).toEqual(deleteResult);
   });
 
   it("deleteByToken should be defined", async () => {
-    expect(await service.deleteByToken("")).toEqual(
-      atEntityRepositoryMock.delete()
-    );
+    expect(await service.deleteByToken("")).toEqual(deleteResult);
   });
 
   it("find shoud be defined", async () => {
-    expect(await service.find()).toEqual(atEntityRepositoryMock.find());
+    expect(await service.find()).toEqual([atEntity]);
   });
 
   it("findOneById should be defined", async () => {
-    expect(await service.findOneById(0)).toEqual(
-      atEntityRepositoryMock.find()[0]
-    );
+    expect(await service.findOneById(0)).toEqual(atEntity);
   });
 
   it("findOneByToken should be defined", async () => {
-    expect(await service.findOneByToken("")).toEqual(
-      atEntityRepositoryMock.find()[0]
-    );
+    expect(await service.findOneByToken("")).toEqual(atEntity);
   });
 
   it("save should be defined", async () => {
-    const req = {
+    const entity: AtEntity = {
       count: 0,
-      created_at,
-      expire_at,
+      created_at: date,
+      expire_at: date,
       id: 0,
       user_id: 0,
       token: ""
     };
-    expect(await service.save(req)).toEqual(atEntityRepositoryMock.save());
+    expect(await service.save(entity)).toEqual(atEntity);
   });
 
   it("update should be defined", async () => {
-    const req = {
+    const entity: AtEntity = {
       count: 0,
-      created_at,
-      expire_at,
+      created_at: date,
+      expire_at: date,
       id: 0,
       user_id: 0,
       token: ""
     };
-    expect(await service.update(req)).toEqual(atEntityRepositoryMock.update());
+    expect(await service.update(entity)).toEqual(updateResult);
   });
 
   it("validateBySub should be defined", async () => {
-    const res = {
-      count: 0,
-      created_at,
-      expire_at,
-      id: 0,
-      user_id: 0,
-      token: ""
-    };
-    expect(await service.validateBySub(0)).toEqual(res);
+    expect(await service.validateBySub(0)).toEqual(atEntity);
   });
 
   it("validateByToken should be defined", async () => {
-    const res = {
-      count: 0,
-      created_at,
-      expire_at,
-      id: 0,
-      user_id: 0,
-      token: ""
-    };
-    expect(await service.validateByToken("")).toEqual(res);
+    expect(await service.validateByToken("")).toEqual(atEntity);
   });
 });

@@ -42,8 +42,8 @@ describe("JwtStrategy", () => {
     token: ""
   };
   const updateResult: UpdateResult = {
-    raw: {},
-    generatedMaps: [{}]
+    generatedMaps: [{}],
+    raw: {}
   };
 
   const atServiceMock: AtServiceInterface = {
