@@ -9,6 +9,12 @@ import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthService } from "./auth.service";
 
 describe("AuthService", () => {
+  const jwksEntity: JwksEntity = {
+    id: "",
+    public_key: "",
+    private_key: ""
+  };
+
   let service: AuthService;
 
   const authConfigServiceMock: AuthConfigServiceInterface = {
@@ -16,13 +22,8 @@ describe("AuthService", () => {
     jwtAccessTokenExpiresIn: 0,
     jwtAuhSchema: "",
     jwtRefreshTokenExpiresIn: 0,
-    telegramBotToken: "",
+    telegramBotToken: "000000000:00000000000000000000000000000000000",
     telegramQueryExpiration: 0
-  };
-  const jwksEntity = {
-    id: "",
-    public_key: "",
-    private_key: ""
   };
   const jwksServiceMock: JwksServiceInterface = {
     findOneById: (): Promise<JwksEntity | undefined> =>

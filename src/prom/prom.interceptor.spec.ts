@@ -9,16 +9,18 @@ import { getTokenCounter, getTokenConfiguration } from "./prom.util";
 import { PromModuleOptions } from "./prom.module.interface";
 
 describe("PromInterceptor", () => {
+  // TODO: interface ?
+  const counterMock = {
+    inc: {}
+  };
+  // TODO: interface ?
+  const optionsMock = {
+    ignorePaths: {}
+  };
+
   let counter: Counter<string>;
   let options: PromModuleOptions;
 
-  const counterMock = jest.fn(() => ({
-    inc: {}
-  }));
-
-  const optionsMock = jest.fn(() => ({
-    ignorePaths: {}
-  }));
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

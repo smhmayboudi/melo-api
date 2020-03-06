@@ -10,7 +10,8 @@ import { RtService } from "./rt.service";
 describe("RtService", () => {
   let service: RtService;
 
-  const rtEntityRepositoryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const rtEntityRepositoryMock = {
     update: {
       raw: {}
     },
@@ -48,7 +49,7 @@ describe("RtService", () => {
         token: ""
       }
     ]
-  }));
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

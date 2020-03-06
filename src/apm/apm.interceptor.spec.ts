@@ -4,9 +4,7 @@ import { ApmInterceptor } from "./apm.interceptor";
 import { ApmService } from "./apm.service";
 
 describe("ApmInterceptor", () => {
-  let service: ApmService;
-
-  const ampMock = jest.fn(() => ({
+  const ampMock = {
     start: {},
     isStarted: {},
     setFramework: {},
@@ -28,7 +26,10 @@ describe("ApmInterceptor", () => {
     addTransactionFilter: {},
     flush: {},
     destroy: {}
-  }));
+  };
+
+  let service: ApmService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

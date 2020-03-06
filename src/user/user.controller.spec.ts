@@ -14,7 +14,8 @@ describe("UserController", () => {
   let controller: UserController;
   let service: UserService;
 
-  const userEntityRepositoryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const userEntityRepositoryMock = {
     find: [
       {
         id: 0
@@ -26,7 +27,7 @@ describe("UserController", () => {
     save: {
       id: 0
     }
-  }));
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

@@ -10,7 +10,8 @@ import { UserService } from "./user.service";
 describe("UserService", () => {
   let service: UserService;
 
-  const userEntityRepositoryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const userEntityRepositoryMock = {
     find: [
       {
         id: 0
@@ -22,7 +23,8 @@ describe("UserService", () => {
     save: {
       id: 0
     }
-  }));
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],

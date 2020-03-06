@@ -11,13 +11,16 @@ describe("SentryInterceptor", () => {
   let sentry: typeof Sentry;
   let options: SentryModuleOptions;
 
-  const sentryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const sentryMock = {
     withScope: {}
-  }));
+  };
 
-  const optionsMock = jest.fn(() => ({
+  // TODO: interface ?
+  const optionsMock = {
     context: {}
-  }));
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [

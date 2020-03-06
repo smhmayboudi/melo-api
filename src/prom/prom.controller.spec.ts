@@ -7,9 +7,11 @@ describe("Prom Controller", () => {
   let controller: PromController;
   let registry: Registry;
 
-  const registryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const registryMock = {
     metrics: ""
-  }));
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PromController],

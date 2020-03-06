@@ -8,36 +8,38 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { FileEntity } from "./file.entity";
 
-const fileEntityRepositoryMock = jest.fn(() => ({
-  save: {
-    bucket: "",
-    created_at: new Date(),
-    e_tag: "",
-    file_key: "",
-    id: 0,
-    mime_type: "",
-    owner_user_id: 0,
-    size: 0
-  }
-}));
-
-const req = {
-  buffer: new Buffer(""),
-  createdAt: new Date(),
-  fileKey: "",
-  mimeType: "",
-  originalname: "",
-  size: 0
-};
-const res = {
-  createdAt: new Date(),
-  fileKey: "",
-  mimeType: "",
-  originalname: "",
-  size: 0
-};
-
 describe("FileService", () => {
+  // TODO: interface ?
+  const fileEntityRepositoryMock = {
+    save: {
+      bucket: "",
+      created_at: new Date(),
+      e_tag: "",
+      file_key: "",
+      id: 0,
+      mime_type: "",
+      owner_user_id: 0,
+      size: 0
+    }
+  };
+
+  const req = {
+    buffer: new Buffer(""),
+    createdAt: new Date(),
+    fileKey: "",
+    mimeType: "",
+    originalname: "",
+    size: 0
+  };
+
+  const res = {
+    createdAt: new Date(),
+    fileKey: "",
+    mimeType: "",
+    originalname: "",
+    size: 0
+  };
+
   let service: FileService;
 
   beforeEach(async () => {

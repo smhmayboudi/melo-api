@@ -20,7 +20,9 @@ describe("RelationService", () => {
       ],
       total: 1
     } as RelationPaginationResDto<RelationEntityResDto>;
-    const relationHttpServiceMock = jest.fn(() => ({
+
+    // TODO: interface ?
+    const relationHttpServiceMock = {
       get: {
         data,
         status: 0,
@@ -28,7 +30,7 @@ describe("RelationService", () => {
         headers: "",
         config: {}
       }
-    }));
+    };
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [
@@ -54,7 +56,9 @@ describe("RelationService", () => {
 
   it("has should be defined", async () => {
     const data = false;
-    const relationHttpServiceMock = jest.fn(() => ({
+
+    // TODO: interface ?
+    const relationHttpServiceMock = {
       get: {
         data,
         status: 0,
@@ -62,7 +66,7 @@ describe("RelationService", () => {
         headers: "",
         config: {}
       }
-    }));
+    };
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [
@@ -92,7 +96,9 @@ describe("RelationService", () => {
         relation: RelationType.follows
       }
     ];
-    const relationHttpServiceMock = jest.fn(() => ({
+
+    // TODO: interface ?
+    const relationHttpServiceMock = {
       get: {
         data,
         status: 0,
@@ -100,7 +106,7 @@ describe("RelationService", () => {
         headers: "",
         config: {}
       }
-    }));
+    };
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [
@@ -124,7 +130,9 @@ describe("RelationService", () => {
 
   it("remove should be defined", async () => {
     const data = false;
-    const relationHttpServiceMock = jest.fn(() => ({
+
+    // TODO: interface ?
+    const relationHttpServiceMock = {
       get: {
         data,
         status: 0,
@@ -132,7 +140,7 @@ describe("RelationService", () => {
         headers: "",
         config: {}
       }
-    }));
+    };
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [
@@ -156,7 +164,9 @@ describe("RelationService", () => {
 
   it("set should be defined", async () => {
     const data = false;
-    const relationHttpServiceMock = jest.fn(() => ({
+
+    // TODO: interface ?
+    const relationHttpServiceMock = {
       get: {
         data,
         status: 0,
@@ -164,7 +174,7 @@ describe("RelationService", () => {
         headers: "",
         config: {}
       }
-    }));
+    };
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule.forFeature(config)],
       providers: [

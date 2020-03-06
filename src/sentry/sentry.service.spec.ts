@@ -5,9 +5,11 @@ import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
 describe("SentryService", () => {
   let service: SentryService;
 
-  const sentryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const sentryMock = {
     withScope: {}
-  }));
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
