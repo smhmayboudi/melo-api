@@ -1,5 +1,6 @@
 import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppConfigService } from "../app/app.config.service";
 import { ArtistConfigService } from "./artist.config.service";
 
 describe("ArtistService", () => {
@@ -14,6 +15,10 @@ describe("ArtistService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
           ArtistConfigService,
           {
             provide: ConfigService,
@@ -48,6 +53,10 @@ describe("ArtistService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
           ArtistConfigService,
           {
             provide: ConfigService,

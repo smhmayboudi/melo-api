@@ -15,11 +15,11 @@ describe("SongService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
-          SongConfigService,
           {
             provide: AppConfigService,
             useValue: {}
           },
+          SongConfigService,
           {
             provide: ConfigService,
             useValue: configServiceMock
@@ -57,11 +57,11 @@ describe("SongService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
-          SongConfigService,
           {
             provide: AppConfigService,
             useValue: {}
           },
+          SongConfigService,
           {
             provide: ConfigService,
             useValue: configServiceMock

@@ -15,11 +15,11 @@ describe("SearchService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
-          SearchConfigService,
           {
             provide: AppConfigService,
             useValue: {}
           },
+          SearchConfigService,
           {
             provide: ConfigService,
             useValue: configServiceMock
@@ -53,11 +53,11 @@ describe("SearchService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
-          SearchConfigService,
           {
             provide: AppConfigService,
             useValue: {}
           },
+          SearchConfigService,
           {
             provide: ConfigService,
             useValue: configServiceMock
