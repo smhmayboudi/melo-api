@@ -18,21 +18,21 @@ describe("ConstController", () => {
       Promise.resolve(image)
   };
 
-  let constController: ConstController;
+  let controller: ConstController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConstController],
       providers: [{ provide: ConstService, useValue: constServiceMock }]
     }).compile();
-    constController = module.get<ConstController>(ConstController);
+    controller = module.get<ConstController>(ConstController);
   });
 
   it("should be defined", () => {
-    expect(constController).toBeDefined();
+    expect(controller).toBeDefined();
   });
 
   it("images should be defined", async () => {
-    expect(await constController.images()).toEqual(image);
+    expect(await controller.images()).toEqual(image);
   });
 });

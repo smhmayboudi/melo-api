@@ -40,7 +40,7 @@ describe("DataSearchService", () => {
     url: ""
   };
 
-  let service: DataSearchService;
+  let dataSearchService: DataSearchService;
   let httpService: HttpService;
 
   beforeEach(async () => {
@@ -51,12 +51,12 @@ describe("DataSearchService", () => {
         { provide: HttpService, useValue: searchHttpServiceMock }
       ]
     }).compile();
-    service = module.get<DataSearchService>(DataSearchService);
+    dataSearchService = module.get<DataSearchService>(DataSearchService);
     httpService = module.get<HttpService>(HttpService);
   });
 
   it("should be defined", () => {
-    expect(service).toBeDefined();
+    expect(dataSearchService).toBeDefined();
   });
 
   it("query should return a list of search results", async () => {
@@ -68,6 +68,6 @@ describe("DataSearchService", () => {
     jest
       .spyOn(httpService, "get")
       .mockImplementationOnce(() => of(dataPaginationObservable));
-    expect(await service.query(dto)).toEqual(searchPagination);
+    expect(await dataSearchService.query(dto)).toEqual(searchPagination);
   });
 });

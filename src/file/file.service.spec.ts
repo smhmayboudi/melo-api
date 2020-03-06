@@ -38,7 +38,7 @@ const res = {
 };
 
 describe("FileService", () => {
-  let fileService: FileService;
+  let service: FileService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -52,13 +52,13 @@ describe("FileService", () => {
         }
       ]
     }).compile();
-    fileService = module.get<FileService>(FileService);
+    service = module.get<FileService>(FileService);
   });
   it("uploadImage should defined", async () => {
     jest
-      .spyOn(fileService, "uploadImage")
+      .spyOn(service, "uploadImage")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await fileService.uploadImage(req, 0)).toBe(res);
+    expect(await service.uploadImage(req, 0)).toBe(res);
   });
 });

@@ -3,24 +3,24 @@ import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppModule } from "../app/app.module";
 import config from "./jwks.config";
+import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksService } from "./jwks.service";
 
 describe("JwksService", () => {
+  const jwks: JwksEntity = {
+    id: "",
+    public_key: "",
+    private_key: ""
+  };
+
   let service: JwksService;
 
-  const jwksEntityRepositoryMock = jest.fn(() => ({
-    findOne: {
-      id: "",
-      public_key: "",
-      private_key: ""
-    },
-    getOne: {
-      id: "",
-      public_key: "",
-      private_key: ""
-    }
-  }));
+  // TODO: iinterface ?
+  const jwksEntityRepositoryMock = {
+    findOne: () => jwks,
+    getOne: () => jwks
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

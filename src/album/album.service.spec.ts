@@ -85,7 +85,7 @@ describe("AlbumService", () => {
     })
   };
 
-  let albumService: AlbumService;
+  let service: AlbumService;
 
   describe("AlbumService", () => {
     beforeEach(async () => {
@@ -98,11 +98,11 @@ describe("AlbumService", () => {
           { provide: DataAlbumService, useValue: dataAlbumServiceMock }
         ]
       }).compile();
-      albumService = module.get<AlbumService>(AlbumService);
+      service = module.get<AlbumService>(AlbumService);
     });
 
     it("should be defined", () => {
-      expect(albumService).toBeDefined();
+      expect(service).toBeDefined();
     });
 
     it("artistAlbums should return list of artists", async () => {
@@ -111,16 +111,14 @@ describe("AlbumService", () => {
         from: 0,
         limit: 0
       };
-      expect(await albumService.artistAlbums(dto, 0, 0)).toEqual(
-        albumPagination
-      );
+      expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
     });
 
     it("byId should return an artist", async () => {
       const dto: AlbumByIdReqDto = {
         id: "0"
       };
-      expect(await albumService.byId(dto, 0, 0)).toEqual(album);
+      expect(await service.byId(dto, 0, 0)).toEqual(album);
     });
 
     it("latest should return list of albums", async () => {
@@ -129,7 +127,7 @@ describe("AlbumService", () => {
         language: "",
         limit: 0
       };
-      expect(await albumService.latest(dto)).toEqual(albumPagination);
+      expect(await service.latest(dto)).toEqual(albumPagination);
     });
   });
 
@@ -147,7 +145,7 @@ describe("AlbumService", () => {
           }
         ]
       }).compile();
-      albumService = module.get<AlbumService>(AlbumService);
+      service = module.get<AlbumService>(AlbumService);
     });
 
     it("artistAlbums should handle artists undefined", async () => {
@@ -156,9 +154,7 @@ describe("AlbumService", () => {
         from: 0,
         limit: 0
       };
-      expect(await albumService.artistAlbums(dto, 0, 0)).toEqual(
-        albumPagination
-      );
+      expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
     });
   });
 
@@ -176,14 +172,14 @@ describe("AlbumService", () => {
           }
         ]
       }).compile();
-      albumService = module.get<AlbumService>(AlbumService);
+      service = module.get<AlbumService>(AlbumService);
     });
 
     it("byId should handle songs undefnied", async () => {
       const dto: AlbumByIdReqDto = {
         id: ""
       };
-      expect(await albumService.byId(dto, 0, 0)).toEqual(album);
+      expect(await service.byId(dto, 0, 0)).toEqual(album);
     });
   });
 });

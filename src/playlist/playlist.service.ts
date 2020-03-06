@@ -23,7 +23,7 @@ import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 import { PlaylistConfigService } from "./playlist.config.service";
-import { Playlist } from "./playlist.module.interface";
+import { PlaylistInterface } from "./playlist.module.interface";
 import { PlaylistServiceInterface } from "./playlist.service.interface";
 
 @Injectable()
@@ -34,7 +34,7 @@ export class PlaylistService implements PlaylistServiceInterface {
     private readonly dataSongService: DataSongService,
     private readonly playlistConfigService: PlaylistConfigService,
     @InjectModel("Playlist")
-    private readonly playlistModel: Model<Playlist>
+    private readonly playlistModel: Model<PlaylistInterface>
   ) {}
 
   @ApmAfterMethod
