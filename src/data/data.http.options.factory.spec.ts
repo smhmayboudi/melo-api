@@ -28,11 +28,6 @@ describe("DataHttpModuleOptionsFactory", () => {
   });
 
   it("createHttpOptions should be defined", () => {
-    console.log(
-      "LOG: ",
-      new DataHttpOptionsFactory(dataConfigService).createHttpOptions()
-    );
-
     expect(
       new DataHttpOptionsFactory(dataConfigService).createHttpOptions()
     ).toEqual(httpModuleOptions);
