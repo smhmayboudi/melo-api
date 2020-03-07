@@ -5,7 +5,15 @@ describe("PlaylistHealthIndicator", () => {
     expect(new PlaylistHealthIndicator()).toBeDefined();
   });
 
-  it("isHealthy should be defined", () => {
-    expect(new PlaylistHealthIndicator().isHealthy()).toBeDefined();
+  it("isHealthy is true", async () => {
+    expect(await new PlaylistHealthIndicator().isHealthy()).toEqual({
+      action: {
+        message: "OK",
+        status: "up",
+        statusCode: 200
+      }
+    });
   });
+
+  it.todo("isHealthy is false");
 });

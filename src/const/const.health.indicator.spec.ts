@@ -5,7 +5,15 @@ describe("ConstHealthIndicator", () => {
     expect(new ConstHealthIndicator()).toBeDefined();
   });
 
-  it("isHealthy should be defined", () => {
-    expect(new ConstHealthIndicator().isHealthy()).toBeDefined();
+  it("isHealthy is true", async () => {
+    expect(await new ConstHealthIndicator().isHealthy()).toEqual({
+      action: {
+        message: "OK",
+        status: "up",
+        statusCode: 200
+      }
+    });
   });
+
+  it.todo("isHealthy is false");
 });
