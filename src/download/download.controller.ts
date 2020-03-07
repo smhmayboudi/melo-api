@@ -2,7 +2,7 @@ import {
   Controller,
   Get,
   Param,
-  // ParseIntPipe,
+  ParseIntPipe,
   Query,
   UseGuards,
   UsePipes,
@@ -10,7 +10,7 @@ import {
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-// import { AppUser } from "../app/app.user.decorator";
+import { AppUser } from "../app/app.user.decorator";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadOrderByPipe } from "./downlaod.order-by.pipe";
 import { DownloadOrderByType } from "./download.order-by.type";
@@ -49,8 +49,7 @@ export class DownloadController {
     @Param("orderBy", DownloadOrderByPipe) orderBy: DownloadOrderByType,
     @Param("sortBy", DownloadSortByPipe) sortBy: DownloadSortByType,
     @Query() queryDto: DownloadSongQueryReqDto,
-    // @AppUser("sub", ParseIntPipe) sub: number
-    sub = 6823597
+    @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DownloadSongResDto>> {
     return this.downloadService.downloadedSongs(
       paramDto,
