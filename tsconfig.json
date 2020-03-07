@@ -21,9 +21,9 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "resolveJsonModule": true,
-    "target": "es6",
     // "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "target": "es6"
   },
   "exclude": [
     "./node_modules",

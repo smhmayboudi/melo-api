@@ -34,15 +34,15 @@ describe("SongService", () => {
     });
 
     it("cacheMax should be defined", () => {
-      expect(service.cacheMax).toBe(0);
+      expect(service.cacheMax).toEqual(0);
     });
 
     it("cachePort should be defined", () => {
-      expect(service.cachePort).toBe(0);
+      expect(service.cachePort).toEqual(0);
     });
 
     it("timeout should be defined", () => {
-      expect(service.timeout).toBe("0ms");
+      expect(service.timeout).toEqual("0ms");
     });
   });
 
@@ -76,17 +76,17 @@ describe("SongService", () => {
     });
 
     it("cacheHost cacheHostshould be defined", () => {
-      expect(service.cacheHost).toBe("");
+      expect(service.cacheHost).toEqual("");
     });
 
     it("cacheStore should be defined", () => {
-      expect(service.cacheStore).toBe("");
+      expect(service.cacheStore).toEqual("");
     });
 
     it.todo("cacheTTL should be defined");
 
     it("sendTelegramUrl should be defined", () => {
-      expect(service.sendTelegramUrl).toBe("");
+      expect(service.sendTelegramUrl).toEqual("");
     });
   });
 });

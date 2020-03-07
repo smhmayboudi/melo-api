@@ -10,7 +10,8 @@ import { RtService } from "./rt.service";
 describe("RtService", () => {
   let service: RtService;
 
-  const rtEntityRepositoryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const rtEntityRepositoryMock = {
     update: {
       raw: {}
     },
@@ -48,7 +49,7 @@ describe("RtService", () => {
         token: ""
       }
     ]
-  }));
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -80,7 +81,7 @@ describe("RtService", () => {
       .spyOn(service, "blockById")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.blockById(0, "")).toBe(res);
+    expect(await service.blockById(0, "")).toEqual(res);
   });
 
   it("blockByToken should return an RT entity", async () => {
@@ -97,7 +98,7 @@ describe("RtService", () => {
       .spyOn(service, "blockByToken")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.blockByToken("", "")).toBe(res);
+    expect(await service.blockByToken("", "")).toEqual(res);
   });
 
   it("deleteById should return an RT entity", async () => {
@@ -114,7 +115,7 @@ describe("RtService", () => {
       .spyOn(service, "deleteById")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.deleteById(0)).toBe(res);
+    expect(await service.deleteById(0)).toEqual(res);
   });
 
   it("deleteByToken should be defined", async () => {
@@ -122,7 +123,7 @@ describe("RtService", () => {
       .spyOn(service, "deleteByToken")
       .mockImplementation(() => Promise.resolve(undefined));
 
-    expect(await service.deleteByToken("")).toBe(undefined);
+    expect(await service.deleteByToken("")).toEqual(undefined);
   });
 
   it("find should return an array of RT entities", async () => {
@@ -139,7 +140,7 @@ describe("RtService", () => {
     ];
     jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.find()).toBe(res);
+    expect(await service.find()).toEqual(res);
   });
 
   it("findOneById should return an RT entity", async () => {
@@ -156,7 +157,7 @@ describe("RtService", () => {
       .spyOn(service, "findOneById")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.findOneById(0)).toBe(res);
+    expect(await service.findOneById(0)).toEqual(res);
   });
 
   it("findOneByToken should return an RT entity", async () => {
@@ -173,7 +174,7 @@ describe("RtService", () => {
       .spyOn(service, "findOneByToken")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.findOneByToken("")).toBe(res);
+    expect(await service.findOneByToken("")).toEqual(res);
   });
 
   it("save should return an array of RT entities", async () => {
@@ -192,7 +193,7 @@ describe("RtService", () => {
       .spyOn(service, "save")
       .mockImplementation(() => Promise.resolve(reqRes));
 
-    expect(await service.save(reqRes)).toBe(reqRes);
+    expect(await service.save(reqRes)).toEqual(reqRes);
   });
 
   it("validateBySub should return an RT entity", async () => {
@@ -209,7 +210,7 @@ describe("RtService", () => {
       .spyOn(service, "validateBySub")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.validateBySub(0)).toBe(res);
+    expect(await service.validateBySub(0)).toEqual(res);
   });
 
   it("validateByToken should return an RT entity", async () => {
@@ -226,6 +227,6 @@ describe("RtService", () => {
       .spyOn(service, "validateByToken")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.validateByToken("")).toBe(res);
+    expect(await service.validateByToken("")).toEqual(res);
   });
 });

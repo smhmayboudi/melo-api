@@ -3,9 +3,7 @@ import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import { ApmService } from "./apm.service";
 
 describe("ApmService", () => {
-  let service: ApmService;
-
-  const ampMock = jest.fn(() => ({
+  const ampMock = {
     start: {},
     isStarted: {},
     setFramework: {},
@@ -27,7 +25,9 @@ describe("ApmService", () => {
     addTransactionFilter: {},
     flush: {},
     destroy: {}
-  }));
+  };
+
+  let service: ApmService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

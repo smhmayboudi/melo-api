@@ -1,46 +1,90 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./auth.config";
+import { AppConfigService } from "../app/app.config.service";
 import { AuthConfigService } from "./auth.config.service";
 
 describe("AuthService", () => {
-  let service: AuthConfigService;
+  describe("get: number", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [AuthConfigService]
-    }).compile();
-    service = module.get<AuthConfigService>(AuthConfigService);
+    let service: AuthConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AuthConfigService,
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AuthConfigService>(AuthConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("jwtAccessTokenExpiresCount should be defined", () => {
+      expect(service.jwtAccessTokenExpiresCount).toEqual(0);
+    });
+
+    it("jwtAccessTokenExpiresIn should be defined", () => {
+      expect(service.jwtAccessTokenExpiresIn).toEqual("0ms");
+    });
+
+    it("jwtRefreshTokenExpiresIn should be defined", () => {
+      expect(service.jwtRefreshTokenExpiresIn).toEqual("0ms");
+    });
+
+    it("telegramQueryExpiration should be defined", () => {
+      expect(service.telegramQueryExpiration).toEqual("0ms");
+    });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
+  describe("get: string", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => ""
+    };
 
-  it("jwtAccessTokenExpiresCount should be defined", () => {
-    expect(service.jwtAccessTokenExpiresCount).toBeDefined();
-  });
+    let service: AuthConfigService;
 
-  it("jwtAccessTokenExpiresIn should be defined", () => {
-    expect(service.jwtAccessTokenExpiresIn).toBeDefined();
-  });
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AuthConfigService,
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AuthConfigService>(AuthConfigService);
+    });
 
-  it("jwtAuhSchema should be defined", () => {
-    expect(service.jwtAuhSchema).toBeDefined();
-  });
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
 
-  it("jwtRefreshTokenExpiresIn should be defined", () => {
-    expect(service.jwtRefreshTokenExpiresIn).toBeDefined();
-  });
+    it("jwtAuhSchema cacheHostshould be defined", () => {
+      expect(service.jwtAuhSchema).toEqual("");
+    });
 
-  it("telegramBotToken should be defined", () => {
-    expect(service.telegramBotToken).toBeDefined();
-  });
-
-  it("telegramQueryExpiration should be defined", () => {
-    expect(service.telegramQueryExpiration).toBeDefined();
+    it("telegramBotToken should be defined", () => {
+      expect(service.telegramBotToken).toEqual("");
+    });
   });
 });

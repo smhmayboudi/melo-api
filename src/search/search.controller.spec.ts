@@ -41,6 +41,6 @@ describe("SearchController", () => {
       limit: 0,
       query: "0"
     };
-    expect(await controller.query(dto)).toBe(searchPagination);
+    expect(await controller.query(dto)).toEqual(searchPagination);
   });
 });

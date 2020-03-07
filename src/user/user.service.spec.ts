@@ -10,7 +10,8 @@ import { UserService } from "./user.service";
 describe("UserService", () => {
   let service: UserService;
 
-  const userEntityRepositoryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const userEntityRepositoryMock = {
     find: [
       {
         id: 0
@@ -22,7 +23,8 @@ describe("UserService", () => {
     save: {
       id: 0
     }
-  }));
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
@@ -43,7 +45,7 @@ describe("UserService", () => {
     const res = [{ id: 0 }];
     jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.find()).toBe(res);
+    expect(await service.find()).toEqual(res);
   });
 
   it("findOneById should return a users", async () => {
@@ -52,7 +54,7 @@ describe("UserService", () => {
       .spyOn(service, "findOneById")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.findOneById(0)).toBe(res);
+    expect(await service.findOneById(0)).toEqual(res);
   });
 
   it("findOneByTelegramId should return a users", async () => {
@@ -61,14 +63,14 @@ describe("UserService", () => {
       .spyOn(service, "findOneByTelegramId")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.findOneByTelegramId(0)).toBe(res);
+    expect(await service.findOneByTelegramId(0)).toEqual(res);
   });
 
   it("get should return a users", async () => {
     const res = { id: 0 };
     jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.get(0)).toBe(res);
+    expect(await service.get(0)).toEqual(res);
   });
 
   it("put should return a users", async () => {
@@ -76,7 +78,7 @@ describe("UserService", () => {
     const res = { id: 0 };
     jest.spyOn(service, "put").mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.put(req, {})).toBe(res);
+    expect(await service.put(req, {})).toEqual(res);
   });
 
   it("save should return a users", async () => {
@@ -85,6 +87,6 @@ describe("UserService", () => {
       .spyOn(service, "save")
       .mockImplementation(() => Promise.resolve(reqRes));
 
-    expect(await service.save(reqRes)).toBe(reqRes);
+    expect(await service.save(reqRes)).toEqual(reqRes);
   });
 });

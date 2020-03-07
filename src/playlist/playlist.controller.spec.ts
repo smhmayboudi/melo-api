@@ -81,14 +81,14 @@ describe("PlaylistController", () => {
     const req: PlaylistCreateReqDto = {
       title: ""
     };
-    expect(await controller.create(req, 0)).toBe(playlist);
+    expect(await controller.create(req, 0)).toEqual(playlist);
   });
 
   it("delete should return a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
       id: ""
     };
-    expect(await controller.delete(dto, 0)).toBe(playlist);
+    expect(await controller.delete(dto, 0)).toEqual(playlist);
   });
 
   it("deleteSong should return a playlist", async () => {
@@ -96,21 +96,21 @@ describe("PlaylistController", () => {
       playlistId: "000000000000",
       songId: "0"
     };
-    expect(await controller.deleteSong(dto, 0)).toBe(playlist);
+    expect(await controller.deleteSong(dto, 0)).toEqual(playlist);
   });
 
   it("edit should return a playlist", async () => {
     const dto: PlaylistEditReqDto = {
       id: ""
     };
-    expect(await controller.edit(dto)).toBe(playlist);
+    expect(await controller.edit(dto)).toEqual(playlist);
   });
 
   it("get should return a playlist", async () => {
     const dto: PlaylistGetReqDto = {
       id: ""
     };
-    expect(await controller.get(dto)).toBe(playlist);
+    expect(await controller.get(dto)).toEqual(playlist);
   });
 
   it("my should return a list of  playlists", async () => {
@@ -118,7 +118,7 @@ describe("PlaylistController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.my(dto, 0)).toBe(playlistPagination);
+    expect(await controller.my(dto, 0)).toEqual(playlistPagination);
   });
 
   it("top should return a list of  playlists", async () => {
@@ -126,6 +126,6 @@ describe("PlaylistController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.top(dto)).toBe(playlistPagination);
+    expect(await controller.top(dto)).toEqual(playlistPagination);
   });
 });

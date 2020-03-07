@@ -14,7 +14,8 @@ describe("UserController", () => {
   let controller: UserController;
   let service: UserService;
 
-  const userEntityRepositoryMock = jest.fn(() => ({
+  // TODO: interface ?
+  const userEntityRepositoryMock = {
     find: [
       {
         id: 0
@@ -26,7 +27,7 @@ describe("UserController", () => {
     save: {
       id: 0
     }
-  }));
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -61,7 +62,7 @@ describe("UserController", () => {
     ];
     jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
 
-    expect(await controller.find()).toBe(res);
+    expect(await controller.find()).toEqual(res);
   });
 
   it("get hould return a users", async () => {
@@ -70,7 +71,7 @@ describe("UserController", () => {
     };
     jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
 
-    expect(await controller.get(0)).toBe(res);
+    expect(await controller.get(0)).toEqual(res);
   });
 
   it("put hould return a users", async () => {
@@ -80,6 +81,6 @@ describe("UserController", () => {
     };
     jest.spyOn(service, "put").mockImplementation(() => Promise.resolve(res));
 
-    expect(await controller.edit(req, 0)).toBe(res);
+    expect(await controller.edit(req, 0)).toEqual(res);
   });
 });

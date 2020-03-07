@@ -43,6 +43,6 @@ describe("SearchService", () => {
       limit: 0,
       query: ""
     };
-    expect(await service.query(dto)).toBe(searchPagination);
+    expect(await service.query(dto)).toEqual(searchPagination);
   });
 });

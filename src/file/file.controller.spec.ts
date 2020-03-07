@@ -10,10 +10,7 @@ import { FileService } from "./file.service";
 import { FileEntity } from "./file.entity";
 
 describe("FileController", () => {
-  let controller: FileController;
-  let service: FileService;
-
-  const mockRepository = jest.fn(() => ({
+  const mockRepository = {
     save: {
       bucket: "",
       created_at: new Date(),
@@ -24,7 +21,10 @@ describe("FileController", () => {
       owner_user_id: 0,
       size: 0
     }
-  }));
+  };
+
+  let controller: FileController;
+  let service: FileService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -64,7 +64,7 @@ describe("FileController", () => {
         .spyOn(service, "uploadImage")
         .mockImplementation(() => Promise.resolve(res));
 
-      expect(await controller.uploadedPic(0, req)).toBe(res);
+      expect(await controller.uploadedPic(0, req)).toEqual(res);
     });
   });
 });

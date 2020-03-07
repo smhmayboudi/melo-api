@@ -47,7 +47,7 @@ describe("JwksService", () => {
       .spyOn(service, "findOneById")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.findOneById("")).toBe(res);
+    expect(await service.findOneById("")).toEqual(res);
   });
 
   it("getOneRandom should return an jwksEntity", async () => {
@@ -60,6 +60,6 @@ describe("JwksService", () => {
       .spyOn(service, "getOneRandom")
       .mockImplementation(() => Promise.resolve(res));
 
-    expect(await service.getOneRandom()).toBe(res);
+    expect(await service.getOneRandom()).toEqual(res);
   });
 });

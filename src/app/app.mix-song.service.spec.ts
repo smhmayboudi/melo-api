@@ -96,6 +96,6 @@ describe("AppMixSongService", () => {
       .spyOn(service, "mixSong")
       .mockImplementation(() => Promise.resolve(reqRes));
 
-    expect(await service.mixSong(0, reqRes)).toBe(reqRes);
+    expect(await service.mixSong(0, reqRes)).toEqual(reqRes);
   });
 });

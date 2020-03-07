@@ -7,12 +7,13 @@ describe("AtService", () => {
 
   const created_at = new Date();
   const expire_at = new Date();
+
   // TODO: interface ?
   const atEntityRepositoryMock = {
-    delete: (): any => ({
+    delete: () => ({
       raw: ""
     }),
-    find: (): any => [
+    find: () => [
       {
         count: 0,
         created_at,
@@ -22,7 +23,7 @@ describe("AtService", () => {
         token: ""
       }
     ],
-    findOne: (): any => ({
+    findOne: () => ({
       count: 0,
       created_at,
       expire_at,
@@ -30,7 +31,7 @@ describe("AtService", () => {
       user_id: 0,
       token: ""
     }),
-    save: (): any => ({
+    save: () => ({
       count: 0,
       created_at,
       expire_at,
@@ -38,7 +39,7 @@ describe("AtService", () => {
       user_id: 0,
       token: ""
     }),
-    update: (): any => ({
+    update: () => ({
       raw: "",
       generatedMaps: [
         {
