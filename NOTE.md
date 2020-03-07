@@ -1,3 +1,5 @@
+TEST
+
 const client = require('prom-client');
 
 const gauge = new client.Gauge({ name: 'metric_name', help: 'metric_help' });
