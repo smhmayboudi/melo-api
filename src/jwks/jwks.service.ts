@@ -28,6 +28,6 @@ export class JwksService implements JwksServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async getOneRandom(): Promise<JwksEntity | undefined> {
-    return this.jwksEntityRepository.getOne();
+    return this.jwksEntityRepository.getOneRandom();
   }
 }

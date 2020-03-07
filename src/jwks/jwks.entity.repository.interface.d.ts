@@ -6,5 +6,5 @@ export interface JwksEntityRepositoryInterface {
     id?: string | number | Date | ObjectID,
     options?: FindOneOptions<JwksEntity>
   ): Promise<JwksEntity | undefined>;
-  getOne(): Promise<JwksEntity | undefined>;
+  getOneRandom(): Promise<JwksEntity | undefined>;
 }

@@ -6,6 +6,7 @@ import {
   PromMethodCounter
 } from "../prom/prom.decorator";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
+import { UserSaveReqDto } from "./dto/req/user.save.req.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
@@ -68,7 +69,7 @@ export class UserService implements UserServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async save(dto: UserEntity): Promise<UserUserResDto> {
+  async save(dto: UserSaveReqDto): Promise<UserUserResDto> {
     return this.userEntityRepository.save(dto);
   }
 }

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
-import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.inteerface";
+import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.interface";
 import { JwksService } from "./jwks.service";
 
 describe("JwksService", () => {
@@ -13,7 +13,8 @@ describe("JwksService", () => {
 
   const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {
     findOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity),
-    getOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity)
+    getOneRandom: (): Promise<JwksEntity | undefined> =>
+      Promise.resolve(jwksEntity)
   };
 
   let service: JwksService;

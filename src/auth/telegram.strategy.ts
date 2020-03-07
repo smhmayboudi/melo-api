@@ -25,18 +25,7 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
       // throw new UnauthorizedException();
       const newUser = await this.userService.save({
         id: 0,
-        // avatar?: string,
-        // biography?: string,
-        // birthday?: Date,
-        // cellphone?: string,
-        // email?: string,
-        // firstname?: string,
-        // gender?: Gender,
-        // language_code?: string,
-        // lastname?: string,
-        // registered_date?: Date,
-        telegram_id: dto.id
-        // username?: string
+        telegramId: dto.id
       });
       return {
         sub: newUser.id.toString()
