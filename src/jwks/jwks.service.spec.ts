@@ -1,30 +1,25 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./jwks.config";
 import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
+import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.inteerface";
 import { JwksService } from "./jwks.service";
 
 describe("JwksService", () => {
-  const jwks: JwksEntity = {
+  const jwksEntity: JwksEntity = {
     id: "",
     public_key: "",
     private_key: ""
   };
 
-  let service: JwksService;
-
-  // TODO: iinterface ?
-  const jwksEntityRepositoryMock = {
-    findOne: () => jwks,
-    getOne: () => jwks
+  const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {
+    findOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity),
+    getOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity)
   };
+
+  let service: JwksService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
         JwksService,
         { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock }
@@ -38,28 +33,10 @@ describe("JwksService", () => {
   });
 
   it("findOneById should return an jwksEntity", async () => {
-    const res = {
-      id: "",
-      public_key: "",
-      private_key: ""
-    };
-    jest
-      .spyOn(service, "findOneById")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.findOneById("")).toEqual(res);
+    expect(await service.findOneById("")).toEqual(jwksEntity);
   });
 
   it("getOneRandom should return an jwksEntity", async () => {
-    const res = {
-      id: "",
-      public_key: "",
-      private_key: ""
-    };
-    jest
-      .spyOn(service, "getOneRandom")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.getOneRandom()).toEqual(res);
+    expect(await service.getOneRandom()).toEqual(jwksEntity);
   });
 });
