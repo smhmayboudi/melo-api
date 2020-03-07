@@ -5,7 +5,15 @@ describe("RtHealthIndicator", () => {
     expect(new RtHealthIndicator()).toBeDefined();
   });
 
-  it("isHealthy should be defined", () => {
-    expect(new RtHealthIndicator().isHealthy()).toBeDefined();
+  it("isHealthy is true", async () => {
+    expect(await new RtHealthIndicator().isHealthy()).toEqual({
+      action: {
+        message: "OK",
+        status: "up",
+        statusCode: 200
+      }
+    });
   });
+
+  it.todo("isHealthy is false");
 });

@@ -5,7 +5,15 @@ describe("RelationHealthIndicator", () => {
     expect(new RelationHealthIndicator()).toBeDefined();
   });
 
-  it("isHealthy should be defined", () => {
-    expect(new RelationHealthIndicator().isHealthy()).toBeDefined();
+  it("isHealthy is true", async () => {
+    expect(await new RelationHealthIndicator().isHealthy()).toEqual({
+      action: {
+        message: "OK",
+        status: "up",
+        statusCode: 200
+      }
+    });
   });
+
+  it.todo("isHealthy is false");
 });
