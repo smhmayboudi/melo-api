@@ -42,6 +42,7 @@ import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
+import { DownloadModule } from "src/download/download.module";
 
 @Module({
   exports: [
@@ -73,6 +74,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
     ConfigModule.forFeature(config),
     ConstModule,
     DataModule,
+    DownloadModule,
     FileModule,
     JwksModule,
     MongooseModule.forRootAsync({
@@ -106,6 +108,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
         AuthModule,
         ConstModule,
         DataModule,
+        DownloadModule,
         FileModule,
         JwksModule,
         PlaylistModule,
