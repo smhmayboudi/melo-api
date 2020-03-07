@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import Imgproxy from "imgproxy";
-import { AppConfigService } from "./app.config.service";
 import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
+import { AppConfigService } from "./app.config.service";
+import { AppImgProxyServiceInterface } from "./app.img-proxy.service.interface";
 import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 @Injectable()
-export class AppImgProxyService {
+export class AppImgProxyService implements AppImgProxyServiceInterface {
   private readonly imgproxy: Imgproxy;
 
   constructor(private readonly appConfigService: AppConfigService) {
@@ -19,7 +20,7 @@ export class AppImgProxyService {
     });
   }
 
-  public generateUrl(normal: string, slider?: string): DataImageResDto {
+  generateUrl(normal: string, slider?: string): DataImageResDto {
     const images: DataImageResDto = {};
     this.appConfigService.imgProxyImageTypeSize
       .filter(

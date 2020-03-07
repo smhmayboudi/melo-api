@@ -26,7 +26,7 @@ export class ActionController {
   constructor(private readonly actionService: ActionService) {}
 
   @Post("bulk")
-  async bulk(@Body("actions") actions: ActionDto): Promise<void> {
+  async bulk(@Body("actions") actions: ActionDto): Promise<ActionDto> {
     return this.actionService.bulk(actions);
   }
 }

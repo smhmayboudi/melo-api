@@ -1,19 +1,48 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { Counter } from "prom-client";
+import {
+  PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
+  PROM_MODULE_OPTIONS
+} from "./prom.constant";
 import { PromInterceptor } from "./prom.interceptor";
-import { PromService } from "./prom.service";
+import { getTokenCounter, getTokenConfiguration } from "./prom.util";
+import { PromModuleOptions } from "./prom.module.interface";
 
 describe("PromInterceptor", () => {
-  let service: PromService;
+  // TODO: interface ?
+  const counterMock = {
+    inc: {}
+  };
+  // TODO: interface ?
+  const optionsMock = {
+    ignorePaths: {}
+  };
+
+  let counter: Counter<string>;
+  let options: PromModuleOptions;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PromService]
+      providers: [
+        {
+          provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
+          useValue: counterMock
+        },
+        {
+          provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
+          useValue: optionsMock
+        }
+      ]
     }).compile();
-
-    service = module.get<PromService>(PromService);
+    counter = module.get<Counter<string>>(
+      getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
+    );
+    options = module.get<PromModuleOptions>(
+      getTokenConfiguration(PROM_MODULE_OPTIONS)
+    );
   });
 
   it("should be defined", () => {
-    expect(new PromInterceptor(service)).toBeDefined();
+    expect(new PromInterceptor(counter, options)).toBeDefined();
   });
 });

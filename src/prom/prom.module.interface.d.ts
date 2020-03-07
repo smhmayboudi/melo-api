@@ -18,7 +18,6 @@ export interface MetricTypeConfigurationInterface {
   metricType: MetricType;
   registryName?: string;
 }
-
 export interface PromModuleOptions {
   defaultLabels?: Record<string, string>;
   defaultMetrics?: {
@@ -30,11 +29,9 @@ export interface PromModuleOptions {
   prefix?: string;
   registryName?: string;
 }
-
 export interface PromOptionsFactory {
   createPromOptions(): Promise<PromModuleOptions> | PromModuleOptions;
 }
-
 export interface PromModuleAsyncOptions
   extends Pick<ModuleMetadata, "imports"> {
   inject?: any[];

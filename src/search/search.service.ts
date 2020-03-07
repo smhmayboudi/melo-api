@@ -8,10 +8,11 @@ import {
   PromMethodCounter
 } from "../prom/prom.decorator";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
+import { SearchServiceInterface } from "./search.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class SearchService {
+export class SearchService implements SearchServiceInterface {
   constructor(private readonly dataSearchService: DataSearchService) {}
 
   @ApmAfterMethod

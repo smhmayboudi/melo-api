@@ -4,15 +4,16 @@ import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
 import { AppHashIdService } from "./app.hash-id.service";
+import { AppMixArtistServiceInterface } from "./app.mix-artist.service.interface";
 
 @Injectable()
-export class AppMixArtistService {
+export class AppMixArtistService implements AppMixArtistServiceInterface {
   constructor(
     private readonly appHashIdService: AppHashIdService,
     private readonly relationService: RelationService
   ) {}
 
-  public async mixArtist(
+  async mixArtist(
     sub: number,
     artists: DataArtistResDto[]
   ): Promise<DataArtistResDto[]> {

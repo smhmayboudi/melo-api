@@ -1,9 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
+import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 
 @Injectable()
-export class AuthConfigService {
+export class AuthConfigService implements AuthConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get jwtAccessTokenExpiresCount(): number {

@@ -6,11 +6,12 @@ import {
   PromMethodCounter
 } from "../prom/prom.decorator";
 import { ConstConfigService } from "./const.config.service";
+import { ConstServiceInterface } from "./const.service.interface";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
-export class ConstService {
+export class ConstService implements ConstServiceInterface {
   constructor(
     private readonly constConfigService: ConstConfigService,
     private readonly appImgProxyService: AppImgProxyService

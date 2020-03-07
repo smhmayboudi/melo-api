@@ -15,6 +15,7 @@ import { AppUser } from "../app/app.user.decorator";
 import { RtService } from "../rt/rt.service";
 import { AuthService } from "./auth.service";
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
+import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -43,7 +44,7 @@ export class AuthController {
   @UseGuards(AuthGuard("local"))
   async login(
     @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<AuthAccessTokenResDto | undefined> {
+  ): Promise<AuthRefreshTokenResDto | undefined> {
     return this.authService.refreshToken(sub);
   }
 
@@ -59,7 +60,7 @@ export class AuthController {
   @UseGuards(AuthGuard("telegram"))
   async telegram(
     @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<AuthAccessTokenResDto | undefined> {
+  ): Promise<AuthRefreshTokenResDto | undefined> {
     return this.authService.refreshToken(sub);
   }
 

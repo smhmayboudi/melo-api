@@ -12,7 +12,6 @@ describe("ImgProxyService", () => {
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppImgProxyService]
     }).compile();
-
     service = module.get<AppImgProxyService>(AppImgProxyService);
   });
 
@@ -20,6 +19,7 @@ describe("ImgProxyService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("all");
-  test.todo("make");
+  it("all should be defined", () => {
+    expect(service.generateUrl("")).toBeDefined();
+  });
 });

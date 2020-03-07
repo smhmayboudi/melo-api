@@ -3,10 +3,11 @@ import { ConfigService } from "@nestjs/config";
 import { LogLevel } from "@sentry/types";
 import { SignatureSize } from "imgproxy/dist/types";
 import ms from "ms";
+import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 @Injectable()
-export class AppConfigService {
+export class AppConfigService implements AppConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get apmLogLevel(): string {
@@ -72,6 +73,12 @@ export class AppConfigService {
     return this.configService.get<boolean>("app.imgProxyEncode", true);
   }
 
+  get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
+    return JSON.parse(
+      this.configService.get<string>("app.imgProxyImageTypeSize", "")
+    ) as ImgProxyImageTypeSize[];
+  }
+
   get imgProxyKey(): string {
     return this.configService.get<string>("app.imgProxyKey", "");
   }
@@ -85,12 +92,6 @@ export class AppConfigService {
       "app.imgProxySignatureSize",
       1
     );
-  }
-
-  get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
-    return JSON.parse(
-      this.configService.get<string>("app.imgProxyImageTypeSize", "")
-    ) as ImgProxyImageTypeSize[];
   }
 
   get mangooseRetryAttempts(): number {

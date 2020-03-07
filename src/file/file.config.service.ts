@@ -2,9 +2,10 @@ import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import ms from "ms";
 import { AppConfigService } from "../app/app.config.service";
+import { FileConfigServiceInterface } from "./file.config.service.interface";
 
 @Injectable()
-export class FileConfigService {
+export class FileConfigService implements FileConfigServiceInterface {
   constructor(
     private readonly appConfigService: AppConfigService,
     private readonly configService: ConfigService

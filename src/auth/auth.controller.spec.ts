@@ -1,46 +1,63 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { JwtModule } from "@nestjs/jwt";
-import { PassportModule } from "@nestjs/passport";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import { AtModule } from "../at/at.module";
-import { JwksModule } from "../jwks/jwks.module";
-import { RtModule } from "../rt/rt.module";
-import { UserModule } from "../user/user.module";
-import config from "./auth.config";
-import { AuthConfigService } from "./auth.config.service";
+import { RtEntity } from "../rt/rt.entity";
+import { RtService } from "../rt/rt.service";
+import { RtServiceInterface } from "../rt/rt.service.interface";
 import { AuthController } from "./auth.controller";
-import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
-import { AuthModule } from "./auth.module";
-import { AuthAuthOptionsFactory } from "./auth.options.factory";
 import { AuthService } from "./auth.service";
+import { AuthServiceInterface } from "./auth.service.interface";
+import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
+import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 describe("AuthController", () => {
+  const date = new Date();
+  const rtEntity: RtEntity = {
+    created_at: date,
+    description: "",
+    expire_at: new Date(Date.now() + 1000),
+    id: 0,
+    is_blocked: false,
+    user_id: 0,
+    token: ""
+  };
+
+  const authServiceMock: AuthServiceInterface = {
+    accessToken: (): Promise<AuthAccessTokenResDto | undefined> =>
+      Promise.resolve({
+        at: ""
+      }),
+    refreshToken: (): Promise<AuthRefreshTokenResDto | undefined> =>
+      Promise.resolve({
+        at: "",
+        rt: ""
+      })
+  };
+  const rtServiceMock: RtServiceInterface = {
+    blockById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
+    blockByToken: (): Promise<RtEntity | undefined> =>
+      Promise.resolve(rtEntity),
+    deleteById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
+    deleteByToken: (): Promise<void> => Promise.resolve(undefined),
+    find: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    findOneById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
+    findOneByToken: (): Promise<RtEntity | undefined> =>
+      Promise.resolve(rtEntity),
+    save: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    validateBySub: (): Promise<RtEntity | undefined> =>
+      Promise.resolve(rtEntity),
+    validateByToken: (): Promise<RtEntity | undefined> =>
+      Promise.resolve(rtEntity)
+  };
+
   let controller: AuthController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      imports: [
-        forwardRef(() => AppModule),
-        ConfigModule.forFeature(config),
-        JwksModule,
-        JwtModule.registerAsync({
-          imports: [AuthModule, JwksModule],
-          useClass: AuthJwtOptionsFactory
-        }),
-        PassportModule.registerAsync({
-          imports: [AuthModule],
-          useClass: AuthAuthOptionsFactory
-        }),
-        AtModule,
-        RtModule,
-        UserModule
-      ],
-      providers: [AuthConfigService, AuthService]
+      providers: [
+        { provide: AuthService, useValue: authServiceMock },
+        { provide: RtService, useValue: rtServiceMock }
+      ]
     }).compile();
-
     controller = module.get<AuthController>(AuthController);
   });
 
@@ -48,9 +65,30 @@ describe("AuthController", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("test");
-  test.todo("login");
-  test.todo("logout");
-  test.todo("telegram");
-  test.todo("token");
+  it("login should be defined", async () => {
+    const res: AuthRefreshTokenResDto = {
+      at: "",
+      rt: ""
+    };
+    expect(await controller.login(0)).toEqual(res);
+  });
+
+  it("logout should be defined", async () => {
+    expect(await controller.logout("")).toEqual(undefined);
+  });
+
+  it("telegram/callback should be defined", async () => {
+    const res: AuthRefreshTokenResDto = {
+      rt: "",
+      at: ""
+    };
+    expect(await controller.telegram(0)).toEqual(res);
+  });
+
+  it("token should be defined", async () => {
+    const res: AuthAccessTokenResDto = {
+      at: ""
+    };
+    expect(await controller.token(0)).toEqual(res);
+  });
 });

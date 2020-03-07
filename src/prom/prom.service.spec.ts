@@ -8,13 +8,30 @@ describe("PromService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [PromService]
     }).compile();
-
     service = module.get<PromService>(PromService);
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
+  it("getOrCreateCounter should be defined", () => {
+    expect(
+      service.getOrCreateCounter({ name: "name", help: "help" })
+    ).toBeDefined();
   });
 
-  test.todo("*");
+  it("getOrCreateGauge should be defined", () => {
+    expect(
+      service.getOrCreateGauge({ name: "name", help: "help" })
+    ).toBeDefined();
+  });
+
+  it("getOrCreateHistogram should be defined", () => {
+    expect(
+      service.getOrCreateHistogram({ name: "name", help: "help" })
+    ).toBeDefined();
+  });
+
+  it("getOrCreateSummary should be defined", () => {
+    expect(
+      service.getOrCreateSummary({ name: "name", help: "help" })
+    ).toBeDefined();
+  });
 });

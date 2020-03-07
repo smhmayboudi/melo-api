@@ -1,24 +1,78 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
+import { AppConfigService } from "../app/app.config.service";
 import { SongCacheOptionsFactory } from "./song.cache.options.factory";
-import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
+import { SongConfigServiceInterface } from "./song.config.service.interface";
 
 describe("SongCacheOptionsFactory", () => {
+  const songConfigServiceMock: SongConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0
+  };
+
   let service: SongConfigService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [SongConfigService]
-    }).compile();
+  describe("cacheStore", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: SongConfigService,
+            useValue: songConfigServiceMock
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<SongConfigService>(SongConfigService);
+    });
 
-    service = module.get<SongConfigService>(SongConfigService);
+    it("should be defined", () => {
+      expect(new SongCacheOptionsFactory(service)).toBeDefined();
+    });
+
+    it("createCacheOptions should be defined", () => {
+      expect(
+        new SongCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 
-  it("should be defined", () => {
-    expect(new SongCacheOptionsFactory(service)).toBeDefined();
+  describe("cacheStore none", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: SongConfigService,
+            useValue: { ...songConfigServiceMock, cacheStore: "none" }
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<SongConfigService>(SongConfigService);
+    });
+
+    it("createCacheOptions should be defined with store none", () => {
+      expect(
+        new SongCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 });

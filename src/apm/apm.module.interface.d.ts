@@ -8,14 +8,12 @@ export type ApmModuleOptions = AgentConfigOptions;
 export interface ApmOptionsFactory {
   createApmOptions(): Promise<ApmModuleOptions> | ApmModuleOptions;
 }
-
 export interface ApmModuleAsyncOptions extends Pick<ModuleMetadata, "imports"> {
   inject?: any[];
   useClass?: Type<ApmOptionsFactory>;
   useExisting?: Type<ApmOptionsFactory>;
   useFactory?: (...args: any[]) => Promise<ApmModuleOptions> | ApmModuleOptions;
 }
-
 export interface Agent {
   // Configuration
   start(options?: AgentConfigOptions): Agent;
@@ -34,13 +32,11 @@ export interface Agent {
     handler: string | PatchHandler
   ): void;
   clearPatches(modules: string | Array<string>): void;
-
   // Data collection hooks
   middleware: { connect(): Connect.ErrorHandleFunction };
   lambda(handler: AwsLambda.Handler): AwsLambda.Handler;
   lambda(type: string, handler: AwsLambda.Handler): AwsLambda.Handler;
   handleUncaughtExceptions(fn?: (err: Error) => void): void;
-
   // Errors
   captureError(
     err: Error | string | ParameterizedMessageObject,
@@ -51,10 +47,8 @@ export interface Agent {
     options?: CaptureErrorOptions,
     callback?: CaptureErrorCallback
   ): void;
-
   // Distributed Tracing
   currentTraceparent: string | null;
-
   // Transactions
   startTransaction(
     name?: string | null,
@@ -81,7 +75,6 @@ export interface Agent {
   setTransactionName(name: string): void;
   endTransaction(result?: string | number, endTime?: number): void;
   currentTransaction: Transaction | null;
-
   // Spans
   startSpan(name?: string | null, options?: SpanOptions): Span | null;
   startSpan(
@@ -103,13 +96,11 @@ export interface Agent {
     options?: SpanOptions
   ): Span | null;
   currentSpan: Span | null;
-
   // Context
   setLabel(name: string, value: LabelValue): boolean;
   addLabels(labels: Labels): boolean;
   setUserContext(user: UserObject): void;
   setCustomContext(custom: object): void;
-
   // Transport
   addFilter(fn: FilterFn): void;
   addErrorFilter(fn: FilterFn): void;
@@ -117,20 +108,16 @@ export interface Agent {
   addTransactionFilter(fn: FilterFn): void;
   flush(callback?: Function): void;
   destroy(): void;
-
   // Utils
   logger: Logger;
 }
-
 export interface GenericSpan {
   // The following properties and methods are currently not documented as their API isn't considered official:
   // timestamp, ended, id, traceId, parentId, sampled, duration()
-
   type: string | null;
   subtype: string | null;
   action: string | null;
   traceparent: string;
-
   setType(
     type?: string | null,
     subtype?: string | null,
@@ -139,14 +126,11 @@ export interface GenericSpan {
   setLabel(name: string, value: LabelValue): boolean;
   addLabels(labels: Labels): boolean;
 }
-
 export interface Transaction extends GenericSpan {
   // The following properties and methods are currently not documented as their API isn't considered official:
   // setUserContext(), setCustomContext(), toJSON(), setDefaultName(), setDefaultNameFromRequest()
-
   name: string;
   result: string | number;
-
   startSpan(name?: string | null, options?: SpanOptions): Span | null;
   startSpan(
     name: string | null,
@@ -169,17 +153,13 @@ export interface Transaction extends GenericSpan {
   ensureParentId(): string;
   end(result?: string | number | null, endTime?: number): void;
 }
-
 export interface Span extends GenericSpan {
   // The following properties and methods are currently not documented as their API isn't considered official:
   // customStackTrace(), setDbContext()
-
   transaction: Transaction;
   name: string;
-
   end(endTime?: number): void;
 }
-
 export interface AgentConfigOptions {
   abortedErrorThreshold?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
   active?: boolean;
@@ -232,7 +212,6 @@ export interface AgentConfigOptions {
   usePathAsTransactionName?: boolean;
   verifyServerCert?: boolean;
 }
-
 export interface CaptureErrorOptions {
   request?: IncomingMessage;
   response?: ServerResponse;
@@ -244,22 +223,18 @@ export interface CaptureErrorOptions {
   custom?: object;
   message?: string;
 }
-
 export interface Labels {
   [key: string]: LabelValue;
 }
-
 export interface UserObject {
   id?: string | number;
   username?: string;
   email?: string;
 }
-
 export interface ParameterizedMessageObject {
   message: string;
   params: Array<any>;
 }
-
 export interface Logger {
   fatal(msg: string, ...args: any[]): void;
   fatal(obj: {}, msg?: string, ...args: any[]): void;
@@ -275,39 +250,31 @@ export interface Logger {
   trace(obj: {}, msg?: string, ...args: any[]): void;
   [propName: string]: any;
 }
-
 export interface TransactionOptions {
   startTime?: number;
   childOf?: Transaction | Span | string;
 }
-
 export interface SpanOptions {
   childOf?: Transaction | Span | string;
 }
-
 type CaptureBody = "off" | "errors" | "transactions" | "all";
 type CaptureErrorLogStackTraces = "never" | "messages" | "always";
 type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
-
 type CaptureErrorCallback = (err: Error | null, id: string) => void;
 type FilterFn = (payload: Payload) => Payload | boolean | void;
 type LabelValue = string | number | boolean | null | undefined;
 type KeyValueConfig = string | Labels | Array<Array<LabelValue>>;
-
 type Payload = { [propName: string]: any };
-
 type PatchHandler = (exports: any, agent: Agent, options: PatchOptions) => any;
 
 export interface PatchOptions {
   version: string | undefined;
   enabled: boolean;
 }
-
 export interface Taggable {
   setLabel(name: string, value: LabelValue): boolean;
   addLabels(labels: Labels): boolean;
 }
-
 export interface StartSpanFn {
   startSpan(name?: string | null, options?: SpanOptions): Span | null;
   startSpan(

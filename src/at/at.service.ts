@@ -8,10 +8,11 @@ import {
 } from "../prom/prom.decorator";
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
+import { AtServiceInterface } from "./at.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class AtService {
+export class AtService implements AtServiceInterface {
   constructor(
     @InjectRepository(AtEntity)
     private readonly atEntityRepository: AtEntityRepository

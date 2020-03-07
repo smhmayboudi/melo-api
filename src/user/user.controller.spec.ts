@@ -1,7 +1,6 @@
 import { CacheModule, forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { AppModule } from "../app/app.module";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import config from "./user.config";
@@ -13,6 +12,22 @@ import { UserService } from "./user.service";
 
 describe("UserController", () => {
   let controller: UserController;
+  let service: UserService;
+
+  // TODO: interface ?
+  const userEntityRepositoryMock = {
+    find: [
+      {
+        id: 0
+      }
+    ],
+    findOne: {
+      id: 0
+    },
+    save: {
+      id: 0
+    }
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,21 +37,50 @@ describe("UserController", () => {
           imports: [UserModule],
           useClass: UserCacheOptionsFactory
         }),
-        ConfigModule.forFeature(config),
-        TypeOrmModule.forFeature([UserEntityRepository])
+        ConfigModule.forFeature(config)
       ],
       controllers: [UserController],
-      providers: [UserConfigService, UserService]
+      providers: [
+        UserConfigService,
+        UserService,
+        { provide: UserEntityRepository, useValue: userEntityRepositoryMock }
+      ]
     }).compile();
-
     controller = module.get<UserController>(UserController);
+    service = module.get<UserService>(UserService);
   });
 
   it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("find");
-  test.todo("get");
-  test.todo("put");
+  it("fins hould return an array of users", async () => {
+    const res = [
+      {
+        id: 0
+      }
+    ];
+    jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.find()).toEqual(res);
+  });
+
+  it("get hould return a users", async () => {
+    const res = {
+      id: 0
+    };
+    jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.get(0)).toEqual(res);
+  });
+
+  it("put hould return a users", async () => {
+    const req = {};
+    const res = {
+      id: 0
+    };
+    jest.spyOn(service, "put").mockImplementation(() => Promise.resolve(res));
+
+    expect(await controller.edit(req, 0)).toEqual(res);
+  });
 });

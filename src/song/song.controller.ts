@@ -107,7 +107,7 @@ export class SongController {
     @Query() queryDto: SongSongGenresQueryReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.genre(paramDto, orderBy, queryDto, sub);
+    return this.songService.genre(orderBy, paramDto, queryDto, sub);
   }
 
   @ApiParam({
@@ -152,15 +152,6 @@ export class SongController {
     return this.songService.mood(dto, sub);
   }
 
-  @Get("new/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  async new(
-    @Param() dto: SongNewReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.new(dto, sub);
-  }
-
   @Get("new/podcast/:from/:limit")
   @UseGuards(AuthGuard(["anonymId", "jwt"]))
   async newPodcast(
@@ -168,6 +159,15 @@ export class SongController {
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.songService.newPodcast(dto, sub);
+  }
+
+  @Get("new/:from/:limit")
+  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  async newSong(
+    @Param() dto: SongNewReqDto,
+    @AppUser("sub", ParseIntPipe) sub: number
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
+    return this.songService.newSong(dto, sub);
   }
 
   @ApiParam({
@@ -182,7 +182,7 @@ export class SongController {
     @Query() queryDto: SongPodcastGenresQueryReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.podcast(paramDto, queryDto, orderBy, sub);
+    return this.songService.podcast(orderBy, paramDto, queryDto, sub);
   }
 
   @Get("search/mood/:from/:limit")

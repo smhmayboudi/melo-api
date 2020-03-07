@@ -6,7 +6,7 @@ import {
 import { DataConfigService } from "./data.config.service";
 
 @Injectable()
-export class DataHttpModuleOptionsFactory implements HttpModuleOptionsFactory {
+export class DataHttpOptionsFactory implements HttpModuleOptionsFactory {
   constructor(private readonly dataConfigService: DataConfigService) {}
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {

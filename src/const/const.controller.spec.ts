@@ -1,22 +1,30 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./const.config";
-import { ConstConfigService } from "./const.config.service";
 import { ConstController } from "./const.controller";
 import { ConstService } from "./const.service";
+import { ConstServiceInterface } from "./const.service.interface";
+import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 
 describe("ConstController", () => {
+  const image = {
+    pop: {
+      cover: {
+        url: "/asset/pop.jpg"
+      }
+    }
+  };
+
+  const constServiceMock: ConstServiceInterface = {
+    images: (): Promise<{ [key: string]: ConstImageResDto }> =>
+      Promise.resolve(image)
+  };
+
   let controller: ConstController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConstController],
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ConstConfigService, ConstService]
+      providers: [{ provide: ConstService, useValue: constServiceMock }]
     }).compile();
-
     controller = module.get<ConstController>(ConstController);
   });
 
@@ -24,5 +32,7 @@ describe("ConstController", () => {
     expect(controller).toBeDefined();
   });
 
-  test.todo("images");
+  it("images should be defined", async () => {
+    expect(await controller.images()).toEqual(image);
+  });
 });

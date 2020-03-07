@@ -5,26 +5,22 @@ import * as Sentry from "@sentry/node";
 export interface SentryFilterFunction {
   (exception: any): boolean;
 }
-
 export interface SentryInterceptorOptionsFilter {
   filter?: SentryFilterFunction;
   type: any;
 }
-
 export interface SentryModuleOptions {
   debug?: boolean;
   dsn?: string;
   environment?: string;
   logLevel?: LogLevel;
   release?: string;
-
   context?: "Http" | "Ws" | "Rpc" | "GraphQL";
   extra?: { [key: string]: any };
   filters?: SentryInterceptorOptionsFilter[];
   fingerprint?: string[];
   level?: Sentry.Severity;
   tags?: { [key: string]: string };
-
   // https://github.com/getsentry/sentry-javascript/blob/master/packages/node/src/handlers.ts#L163
   request?: boolean;
   serverName?: boolean;
@@ -33,11 +29,9 @@ export interface SentryModuleOptions {
   user?: boolean | string[];
   version?: boolean;
 }
-
 export interface SentryOptionsFactory {
   createSentryOptions(): Promise<SentryModuleOptions> | SentryModuleOptions;
 }
-
 export interface SentryModuleAsyncOptions
   extends Pick<ModuleMetadata, "imports"> {
   inject?: any[];
@@ -47,7 +41,6 @@ export interface SentryModuleAsyncOptions
     ...args: any[]
   ) => Promise<SentryModuleOptions> | SentryModuleOptions;
 }
-
 import { Breadcrumb, Severity, Scope, User } from "@sentry/node";
 
 export interface SentryService {

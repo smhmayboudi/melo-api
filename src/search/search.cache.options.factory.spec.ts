@@ -1,24 +1,78 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
+import { AppConfigService } from "../app/app.config.service";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
-import config from "./search.config";
 import { SearchConfigService } from "./search.config.service";
+import { SearchConfigServiceInterface } from "./search.config.service.interface";
 
 describe("SearchCacheOptionsFactory", () => {
+  const searchConfigServiceMock: SearchConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0
+  };
+
   let service: SearchConfigService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [SearchConfigService]
-    }).compile();
+  describe("cacheStore", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: SearchConfigService,
+            useValue: searchConfigServiceMock
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<SearchConfigService>(SearchConfigService);
+    });
 
-    service = module.get<SearchConfigService>(SearchConfigService);
+    it("should be defined", () => {
+      expect(new SearchCacheOptionsFactory(service)).toBeDefined();
+    });
+
+    it("createCacheOptions should be defined", () => {
+      expect(
+        new SearchCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 
-  it("should be defined", () => {
-    expect(new SearchCacheOptionsFactory(service)).toBeDefined();
+  describe("cacheStore none", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: SearchConfigService,
+            useValue: { ...searchConfigServiceMock, cacheStore: "none" }
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<SearchConfigService>(SearchConfigService);
+    });
+
+    it("createCacheOptions should be defined with store none", () => {
+      expect(
+        new SearchCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 });

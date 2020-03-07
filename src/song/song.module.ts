@@ -9,7 +9,7 @@ import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongHealthIndicator } from "./song.health.indicator";
-import { SongHttpModuleOptionsFactory } from "./song.http.options.factory";
+import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
 
 @Module({
@@ -27,7 +27,7 @@ import { SongService } from "./song.service";
     HttpModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [SongModule],
-      useClass: SongHttpModuleOptionsFactory
+      useClass: SongHttpOptionsFactory
     }),
     RelationModule,
     UserModule

@@ -7,17 +7,16 @@ import {
 } from "../prom/prom.decorator";
 import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
+import { JwksServiceInterface } from "./jwks.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class JwksService {
+export class JwksService implements JwksServiceInterface {
   constructor(
     @InjectRepository(JwksEntity)
     private readonly jwksEntityRepository: JwksEntityRepository
   ) {}
 
-  @ApmAfterMethod
-  @ApmBeforeMethod
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
@@ -27,14 +26,8 @@ export class JwksService {
 
   @ApmAfterMethod
   @ApmBeforeMethod
-  @ApmAfterMethod
-  @ApmBeforeMethod
   @PromMethodCounter
   async getOneRandom(): Promise<JwksEntity | undefined> {
-    return this.jwksEntityRepository
-      .createQueryBuilder()
-      .orderBy("RAND()")
-      .limit(1)
-      .getOne();
+    return this.jwksEntityRepository.getOneRandom();
   }
 }

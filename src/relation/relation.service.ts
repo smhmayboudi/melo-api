@@ -3,7 +3,6 @@ import {
   Injectable,
   InternalServerErrorException
 } from "@nestjs/common";
-import { AxiosResponse } from "axios";
 import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
@@ -19,10 +18,11 @@ import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
 import { RelationPaginationResDto } from "./dto/res/relation.pagination.res.dto";
 import { RelationConfigService } from "./relation.config.service";
+import { RelationServiceInterface } from "./relation.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class RelationService {
+export class RelationService implements RelationServiceInterface {
   private key(dto: RelationEntityResDto): string {
     return `${dto.type}_${dto.id}`;
   }
@@ -43,16 +43,20 @@ export class RelationService {
     dto: RelationGetReqDto
   ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
     return this.httpService
-      .get(
+      .get<RelationPaginationResDto<RelationEntityResDto>>(
         `${this.relationConfigService.url}/get/${this.key(dto.fromEntityDto)}/${
           dto.relationType
         }/${dto.from}/${dto.limit}`
       )
       .pipe(
-        map(
-          (
-            value: AxiosResponse<RelationPaginationResDto<RelationEntityResDto>>
-          ) => value.data
+        // TODO: should change the external service
+        map(value =>
+          value.data.results.length === 0
+            ? (({
+                results: [],
+                total: 0
+              } as unknown) as RelationPaginationResDto<RelationEntityResDto>)
+            : value.data
         )
       )
       .toPromise();
@@ -63,13 +67,13 @@ export class RelationService {
   @PromMethodCounter
   async has(dto: RelationHasReqDto): Promise<void> {
     return this.httpService
-      .get(
+      .get<boolean>(
         `${this.relationConfigService.url}/has/${this.key(dto.from)}/${this.key(
           dto.to
         )}/${dto.relationType}`
       )
       .pipe(
-        map((value: AxiosResponse<boolean>) => {
+        map(value => {
           if (value.data === false) {
             throw new InternalServerErrorException();
           }
@@ -85,12 +89,12 @@ export class RelationService {
     dto: RelationMultiHasReqDto
   ): Promise<RelationMultiHasResDto[]> {
     return this.httpService
-      .get(
+      .get<RelationMultiHasResDto[]>(
         `${this.relationConfigService.url}/multiHas/${this.key(
           dto.from
         )}/${this.keys(dto.tos)}/${dto.relationType}`
       )
-      .pipe(map((value: AxiosResponse<RelationMultiHasResDto[]>) => value.data))
+      .pipe(map(value => value.data))
       .toPromise();
   }
 
@@ -99,7 +103,7 @@ export class RelationService {
   @PromMethodCounter
   async remove(dto: RelationRemoveReqDto): Promise<void> {
     return this.httpService
-      .delete(`${this.relationConfigService.url}/remove`, {
+      .delete<boolean>(`${this.relationConfigService.url}/remove`, {
         data: {
           entityId1: this.key(dto.from),
           entityId2: this.key(dto.to),
@@ -107,7 +111,7 @@ export class RelationService {
         }
       })
       .pipe(
-        map((value: AxiosResponse<boolean>) => {
+        map(value => {
           if (value.data === false) {
             throw new InternalServerErrorException();
           }
@@ -121,14 +125,14 @@ export class RelationService {
   @PromMethodCounter
   async set(dto: RelationSetReqDto): Promise<void> {
     return this.httpService
-      .post(`${this.relationConfigService.url}/set`, {
+      .post<boolean>(`${this.relationConfigService.url}/set`, {
         createdAt: dto.createdAt,
         entityId1: this.key(dto.from),
         entityId2: this.key(dto.to),
         relType: dto.relationType
       })
       .pipe(
-        map((value: AxiosResponse<boolean>) => {
+        map(value => {
           if (value.data === false) {
             throw new InternalServerErrorException();
           }

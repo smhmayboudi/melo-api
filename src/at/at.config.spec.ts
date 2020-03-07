@@ -1,7 +1,13 @@
 import config from "./at.config";
 
-describe("AtCoonfig", () => {
-  it("should be defined", async () => {
-    expect((await config()).toBeDefined());
+describe("AtConfig", () => {
+  it("should be defined", () => {
+    expect(config()).toStrictEqual({
+      cacheHost: undefined,
+      cacheMax: undefined,
+      cachePort: undefined,
+      cacheStore: undefined,
+      cacheTTL: undefined
+    });
   });
 });

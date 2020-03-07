@@ -6,13 +6,15 @@ import {
   PromMethodCounter
 } from "../prom/prom.decorator";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
+import { UserSaveReqDto } from "./dto/req/user.save.req.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
+import { UserServiceInterface } from "./user.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
-export class UserService {
+export class UserService implements UserServiceInterface {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userEntityRepository: UserEntityRepository
@@ -37,7 +39,7 @@ export class UserService {
   @PromMethodCounter
   async findOneByTelegramId(
     telegramId: number
-  ): Promise<UserEntity | undefined> {
+  ): Promise<UserUserResDto | undefined> {
     return this.userEntityRepository.findOne({ telegram_id: telegramId });
   }
 
@@ -67,7 +69,7 @@ export class UserService {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async save(dto: UserEntity): Promise<UserUserResDto> {
+  async save(dto: UserSaveReqDto): Promise<UserUserResDto> {
     return this.userEntityRepository.save(dto);
   }
 }

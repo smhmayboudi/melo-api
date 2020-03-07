@@ -6,7 +6,7 @@ import {
 import { SongConfigService } from "./song.config.service";
 
 @Injectable()
-export class SongHttpModuleOptionsFactory implements HttpModuleOptionsFactory {
+export class SongHttpOptionsFactory implements HttpModuleOptionsFactory {
   constructor(private readonly songConfigService: SongConfigService) {}
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {

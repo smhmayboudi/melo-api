@@ -1,24 +1,58 @@
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import config from "./relation.config";
 import { RelationConfigService } from "./relation.config.service";
 
 describe("RelationService", () => {
-  let service: RelationConfigService;
+  describe("get: number", () => {
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
-      providers: [RelationConfigService]
-    }).compile();
+    let service: RelationConfigService;
 
-    service = module.get<RelationConfigService>(RelationConfigService);
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          RelationConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<RelationConfigService>(RelationConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("timeout should be defined", () => {
+      expect(service.timeout).toBeDefined();
+    });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
+  describe("get: string", () => {
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  test.todo("timeout");
-  test.todo("url");
+    let service: RelationConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          RelationConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<RelationConfigService>(RelationConfigService);
+    });
+    it("url should be defined", () => {
+      expect(service.url).toBeDefined();
+    });
+  });
 });

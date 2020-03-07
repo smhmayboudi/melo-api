@@ -1,24 +1,78 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
+import { AppConfigService } from "../app/app.config.service";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
-import config from "./artist.config";
 import { ArtistConfigService } from "./artist.config.service";
+import { ArtistConfigServiceInterface } from "./artist.config.service.interface";
 
 describe("ArtistCacheOptionsFactory", () => {
+  const artistConfigServiceMock: ArtistConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0
+  };
+
   let service: ArtistConfigService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ArtistConfigService]
-    }).compile();
+  describe("cacheStore", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ArtistConfigService,
+            useValue: artistConfigServiceMock
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<ArtistConfigService>(ArtistConfigService);
+    });
 
-    service = module.get<ArtistConfigService>(ArtistConfigService);
+    it("should be defined", () => {
+      expect(new ArtistCacheOptionsFactory(service)).toBeDefined();
+    });
+
+    it("createCacheOptions should be defined", () => {
+      expect(
+        new ArtistCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 
-  it("should be defined", () => {
-    expect(new ArtistCacheOptionsFactory(service)).toBeDefined();
+  describe("cacheStore none", () => {
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ArtistConfigService,
+            useValue: { ...artistConfigServiceMock, cacheStore: "none" }
+          },
+          {
+            provide: ConfigService,
+            useValue: {}
+          }
+        ]
+      }).compile();
+      service = module.get<ArtistConfigService>(ArtistConfigService);
+    });
+
+    it("createCacheOptions should be defined with store none", () => {
+      expect(
+        new ArtistCacheOptionsFactory(service).createCacheOptions()
+      ).toBeDefined();
+    });
   });
 });

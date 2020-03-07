@@ -1,11 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { template } from "lodash";
 import ms from "ms";
 import { AppConfigService } from "../app/app.config.service";
-import { template } from "lodash";
+import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 
 @Injectable()
-export class PlaylistConfigService {
+export class PlaylistConfigService implements PlaylistConfigServiceInterface {
   constructor(
     private readonly appConfigService: AppConfigService,
     private readonly configService: ConfigService

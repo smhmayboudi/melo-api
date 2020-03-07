@@ -12,7 +12,6 @@ describe("AppHashIdService", () => {
       imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [AppConfigService, AppHashIdService]
     }).compile();
-
     service = module.get<AppHashIdService>(AppHashIdService);
   });
 
@@ -20,6 +19,13 @@ describe("AppHashIdService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("decode");
-  test.todo("encode");
+  it("decode should be defined", () => {
+    jest.spyOn(service, "decode").mockImplementation(() => 0);
+    expect(service.decode("")).toBeDefined();
+  });
+
+  it("encode should be defined", () => {
+    jest.spyOn(service, "encode").mockImplementation(() => "");
+    expect(service.encode(0)).toBeDefined();
+  });
 });

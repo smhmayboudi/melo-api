@@ -6,8 +6,7 @@ import {
 import { RelationConfigService } from "./relation.config.service";
 
 @Injectable()
-export class RelationHttpModuleOptionsFactory
-  implements HttpModuleOptionsFactory {
+export class RelationHttpOptionsFactory implements HttpModuleOptionsFactory {
   constructor(private readonly relationConfigService: RelationConfigService) {}
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {

@@ -2,6 +2,10 @@
 to: src/<%= h.changeCase.camel(name)%>/<%= h.changeCase.dot(name)%>.service.ts
 unless_exists: true
 ---
+<<<<<<< Updated upstream
+=======
+//import { CounterMetric, InjectCounterMetric } from "@digikare/nestjs-prom";
+>>>>>>> Stashed changes
 import { Injectable } from "@nestjs/common";
 // import { Counter } from "prom-client";
 // import { InjectMetric } from "../prom/prom.injector";

@@ -5,10 +5,6 @@ import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
 
 @Injectable()
 export class AnonymUUIDStrategy extends PassportStrategy(Strategy) {
-  constructor() {
-    super();
-  }
-
   async validate(): Promise<AuthStrategyResDto> {
     return Promise.resolve({
       sub: "0"

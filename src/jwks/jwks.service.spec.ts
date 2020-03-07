@@ -1,25 +1,31 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { AppModule } from "../app/app.module";
-import config from "./jwks.config";
+import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
+import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.interface";
 import { JwksService } from "./jwks.service";
 
 describe("JwksService", () => {
+  const jwksEntity: JwksEntity = {
+    id: "",
+    public_key: "",
+    private_key: ""
+  };
+
+  const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {
+    findOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity),
+    getOneRandom: (): Promise<JwksEntity | undefined> =>
+      Promise.resolve(jwksEntity)
+  };
+
   let service: JwksService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        forwardRef(() => AppModule),
-        ConfigModule.forFeature(config),
-        TypeOrmModule.forFeature([JwksEntityRepository])
-      ],
-      providers: [JwksService]
+      providers: [
+        JwksService,
+        { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock }
+      ]
     }).compile();
-
     service = module.get<JwksService>(JwksService);
   });
 
@@ -27,6 +33,11 @@ describe("JwksService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("findOneById");
-  test.todo("getOneRandom");
+  it("findOneById should return an jwksEntity", async () => {
+    expect(await service.findOneById("")).toEqual(jwksEntity);
+  });
+
+  it("getOneRandom should return an jwksEntity", async () => {
+    expect(await service.getOneRandom()).toEqual(jwksEntity);
+  });
 });

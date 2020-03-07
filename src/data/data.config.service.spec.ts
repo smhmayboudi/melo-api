@@ -11,7 +11,6 @@ describe("DataService", () => {
       imports: [ConfigModule.forFeature(config)],
       providers: [DataConfigService]
     }).compile();
-
     service = module.get<DataConfigService>(DataConfigService);
   });
 
@@ -19,6 +18,11 @@ describe("DataService", () => {
     expect(service).toBeDefined();
   });
 
-  test.todo("timeout");
-  test.todo("url");
+  it("timeout should be defined", () => {
+    expect(service.timeout).toBeDefined();
+  });
+
+  it("url should be defined", () => {
+    expect(service.url).toBeDefined();
+  });
 });

@@ -12,7 +12,7 @@ export class AppMixSongService {
     private readonly relationService: RelationService
   ) {}
 
-  public async mixSong(
+  async mixSong(
     sub: number,
     songs: DataSongResDto[]
   ): Promise<DataSongResDto[]> {

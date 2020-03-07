@@ -4,4 +4,6 @@ describe("JwksEntityRepository", () => {
   it("should be defined", () => {
     expect(new JwksEntityRepository()).toBeDefined();
   });
+
+  it.todo("getOne");
 });

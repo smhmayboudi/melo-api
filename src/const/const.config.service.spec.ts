@@ -1,30 +1,86 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import config from "./const.config";
+import { AppConfigService } from "../app/app.config.service";
 import { ConstConfigService } from "./const.config.service";
 
 describe("ConstService", () => {
-  let service: ConstConfigService;
+  describe("get: number", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
-      providers: [ConstConfigService]
-    }).compile();
+    let service: ConstConfigService;
 
-    service = module.get<ConstConfigService>(ConstConfigService);
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          ConstConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<ConstConfigService>(ConstConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("cacheMax should be defined", () => {
+      expect(service.cacheMax).toEqual(0);
+    });
+
+    it("cachePort should be defined", () => {
+      expect(service.cachePort).toEqual(0);
+    });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
+  describe("get: string", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => ""
+    };
 
-  test.todo("cacheHost");
-  test.todo("cacheMax");
-  test.todo("cachePort");
-  test.todo("cacheStore");
-  test.todo("cacheTTL");
-  test.todo("staticImagePaths");
+    let service: ConstConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          ConstConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<ConstConfigService>(ConstConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("cacheHost cacheHostshould be defined", () => {
+      expect(service.cacheHost).toEqual("");
+    });
+
+    it("cacheStore should be defined", () => {
+      expect(service.cacheStore).toEqual("");
+    });
+
+    it.todo("cacheTTL should be defined");
+
+    it.todo("staticImagePaths should be defined");
+  });
 });
