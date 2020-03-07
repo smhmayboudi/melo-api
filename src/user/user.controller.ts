@@ -5,13 +5,11 @@ import {
   ParseIntPipe,
   Put,
   UseGuards,
-  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AppHttpCacheInterceptor } from "../app/app.http-cache.interceptor";
 import { AppUser } from "../app/app.user.decorator";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserUserResDto } from "./dto/res/user.user.res.dto";
@@ -32,7 +30,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  @UseInterceptors(AppHttpCacheInterceptor)
   async find(): Promise<UserUserResDto[]> {
     return this.userService.find();
   }

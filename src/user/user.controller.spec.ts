@@ -1,53 +1,37 @@
-import { CacheModule, forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppModule } from "../app/app.module";
-import { UserCacheOptionsFactory } from "./user.cache.options.factory";
-import config from "./user.config";
-import { UserConfigService } from "./user.config.service";
+import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserController } from "./user.controller";
-import { UserEntityRepository } from "./user.entity.repository";
-import { UserModule } from "./user.module";
 import { UserService } from "./user.service";
+import { UserServiceInterface } from "./user.service.interface";
+import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 
 describe("UserController", () => {
-  let controller: UserController;
-  let service: UserService;
-
-  // TODO: interface ?
-  const userEntityRepositoryMock = {
-    find: [
-      {
-        id: 0
-      }
-    ],
-    findOne: {
-      id: 0
-    },
-    save: {
-      id: 0
-    }
+  const user: UserUserResDto = {
+    id: 0,
+    telegram_id: 0
   };
+
+  const userServiceMock: UserServiceInterface = {
+    find: (): Promise<UserUserResDto[]> => Promise.resolve([user]),
+    findOneById: (): Promise<UserUserResDto | undefined> =>
+      Promise.resolve(user),
+    findOneByTelegramId: (): Promise<UserUserResDto | undefined> =>
+      Promise.resolve(user),
+    findOneByUsernam: (): Promise<UserUserResDto | undefined> =>
+      Promise.resolve(user),
+    get: (): Promise<UserUserResDto | undefined> => Promise.resolve(user),
+    put: (): Promise<UserUserResDto> => Promise.resolve(user),
+    save: (): Promise<UserUserResDto> => Promise.resolve(user)
+  };
+
+  let controller: UserController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [
-        forwardRef(() => AppModule),
-        CacheModule.registerAsync({
-          imports: [UserModule],
-          useClass: UserCacheOptionsFactory
-        }),
-        ConfigModule.forFeature(config)
-      ],
       controllers: [UserController],
-      providers: [
-        UserConfigService,
-        UserService,
-        { provide: UserEntityRepository, useValue: userEntityRepositoryMock }
-      ]
+      providers: [{ provide: UserService, useValue: userServiceMock }]
     }).compile();
     controller = module.get<UserController>(UserController);
-    service = module.get<UserService>(UserService);
   });
 
   it("should be defined", () => {
@@ -55,32 +39,15 @@ describe("UserController", () => {
   });
 
   it("fins hould return an array of users", async () => {
-    const res = [
-      {
-        id: 0
-      }
-    ];
-    jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.find()).toEqual(res);
+    expect(await controller.find()).toEqual([user]);
   });
 
   it("get hould return a users", async () => {
-    const res = {
-      id: 0
-    };
-    jest.spyOn(service, "get").mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.get(0)).toEqual(res);
+    expect(await controller.get(0)).toEqual(user);
   });
 
   it("put hould return a users", async () => {
-    const req = {};
-    const res = {
-      id: 0
-    };
-    jest.spyOn(service, "put").mockImplementation(() => Promise.resolve(res));
-
-    expect(await controller.edit(req, 0)).toEqual(res);
+    const req: UserEditReqDto = {};
+    expect(await controller.edit(req, 0)).toEqual(user);
   });
 });

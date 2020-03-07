@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
-import { UserSaveReqDto } from "./dto/req/user.savee.req.dto";
+import { UserSaveReqDto } from "./dto/req/user.save.req.dto";
 import { UserEntity } from "./user.entity";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserEntityRepositoryInterface } from "./user.entity.repository.interface";
@@ -35,7 +35,7 @@ describe("UserService", () => {
   });
 
   it("find should return an array of users", async () => {
-    expect(await service.find()).toEqual(userEntity);
+    expect(await service.find()).toEqual([userEntity]);
   });
 
   it("findOneById should return a users", async () => {
@@ -44,6 +44,10 @@ describe("UserService", () => {
 
   it("findOneByTelegramId should return a users", async () => {
     expect(await service.findOneByTelegramId(0)).toEqual(userEntity);
+  });
+
+  it("findOneByUsernam should return a users", async () => {
+    expect(await service.findOneByUsernam("")).toEqual(userEntity);
   });
 
   it("get should return a users", async () => {

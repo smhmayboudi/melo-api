@@ -1,8 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber } from "class-validator";
+import { IsNumber, IsOptional } from "class-validator";
 
 export class UserSaveReqDto {
-  constructor(id: number, telegramId: number) {
+  constructor(id: number, telegramId?: number) {
     this.id = id;
     this.telegramId = telegramId;
   }
@@ -19,5 +19,6 @@ export class UserSaveReqDto {
     example: 0
   })
   @IsNumber()
-  telegramId: number;
+  @IsOptional()
+  telegramId?: number;
 }
