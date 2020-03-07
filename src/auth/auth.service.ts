@@ -67,17 +67,15 @@ export class AuthService implements AuthServiceInterface {
     const exp = moment(now)
       .add(this.authConfigService.jwtRefreshTokenExpiresIn, "ms")
       .toDate();
-    await this.rtService.save([
-      {
-        created_at: now,
-        description: "",
-        expire_at: exp,
-        id: 0,
-        is_blocked: false,
-        user_id: sub,
-        token: rt
-      }
-    ]);
+    await this.rtService.save({
+      created_at: now,
+      description: "",
+      expire_at: exp,
+      id: 0,
+      is_blocked: false,
+      user_id: sub,
+      token: rt
+    });
     return {
       at,
       rt

@@ -1,63 +1,45 @@
-import { forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app/app.config.service";
-import { AppModule } from "../app/app.module";
-import config from "./rt.config";
+import { DeleteResult, UpdateResult } from "typeorm";
+import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
+import { RtEntityRepositoryInterface } from "./rt.entity.repository.interface";
 import { RtService } from "./rt.service";
 
 describe("RtService", () => {
-  let service: RtService;
-
-  // TODO: interface ?
-  const rtEntityRepositoryMock = {
-    update: {
-      raw: {}
-    },
-    delete: {
-      raw: {}
-    },
-    find: [
-      {
-        created_at: new Date(),
-        description: "",
-        expire_at: new Date(),
-        id: 0,
-        is_blocked: false,
-        user_id: 0,
-        token: ""
-      }
-    ],
-    findOne: {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    },
-    save: [
-      {
-        created_at: new Date(),
-        description: "",
-        expire_at: new Date(),
-        id: 0,
-        is_blocked: false,
-        user_id: 0,
-        token: ""
-      }
-    ]
+  const date = new Date();
+  const rtEntity: RtEntity = {
+    created_at: date,
+    description: "",
+    expire_at: date,
+    id: 0,
+    is_blocked: false,
+    user_id: 0,
+    token: ""
   };
+  const deleteResult: DeleteResult = {
+    raw: ""
+  };
+  const updateResult: UpdateResult = {
+    generatedMaps: [{}],
+    raw: ""
+  };
+
+  const rtEntityRepositoryMock: RtEntityRepositoryInterface = {
+    delete: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
+    find: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    findOne: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
+    save: <RtEntity>(): Promise<RtEntity> =>
+      (Promise.resolve(rtEntity) as unknown) as Promise<RtEntity>,
+    update: (): Promise<UpdateResult> => Promise.resolve(updateResult)
+  };
+
+  let service: RtService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [forwardRef(() => AppModule), ConfigModule.forFeature(config)],
       providers: [
-        AppConfigService,
-        RtService,
-        { provide: RtEntityRepository, useValue: rtEntityRepositoryMock }
+        { provide: RtEntityRepository, useValue: rtEntityRepositoryMock },
+        RtService
       ]
     }).compile();
     service = module.get<RtService>(RtService);
@@ -68,165 +50,42 @@ describe("RtService", () => {
   });
 
   it("blockById should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "blockById")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.blockById(0, "")).toEqual(res);
+    expect(await service.blockById(0, "")).toEqual(rtEntity);
   });
 
   it("blockByToken should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "blockByToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.blockByToken("", "")).toEqual(res);
+    expect(await service.blockByToken("", "")).toEqual(rtEntity);
   });
 
   it("deleteById should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "deleteById")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.deleteById(0)).toEqual(res);
+    expect(await service.deleteById(0)).toEqual(rtEntity);
   });
 
   it("deleteByToken should be defined", async () => {
-    jest
-      .spyOn(service, "deleteByToken")
-      .mockImplementation(() => Promise.resolve(undefined));
-
     expect(await service.deleteByToken("")).toEqual(undefined);
   });
 
   it("find should return an array of RT entities", async () => {
-    const res = [
-      {
-        created_at: new Date(),
-        description: "",
-        expire_at: new Date(),
-        id: 0,
-        is_blocked: false,
-        user_id: 0,
-        token: ""
-      }
-    ];
-    jest.spyOn(service, "find").mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.find()).toEqual(res);
+    expect(await service.find()).toEqual([rtEntity]);
   });
 
   it("findOneById should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "findOneById")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.findOneById(0)).toEqual(res);
+    expect(await service.findOneById(0)).toEqual(rtEntity);
   });
 
   it("findOneByToken should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "findOneByToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.findOneByToken("")).toEqual(res);
+    expect(await service.findOneByToken("")).toEqual(rtEntity);
   });
 
   it("save should return an array of RT entities", async () => {
-    const reqRes = [
-      {
-        created_at: new Date(),
-        description: "",
-        expire_at: new Date(),
-        id: 0,
-        is_blocked: false,
-        user_id: 0,
-        token: ""
-      }
-    ];
-    jest
-      .spyOn(service, "save")
-      .mockImplementation(() => Promise.resolve(reqRes));
-
-    expect(await service.save(reqRes)).toEqual(reqRes);
+    expect(await service.save(rtEntity)).toEqual(rtEntity);
   });
 
   it("validateBySub should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "validateBySub")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.validateBySub(0)).toEqual(res);
+    expect(await service.validateBySub(0)).toEqual(rtEntity);
   });
 
   it("validateByToken should return an RT entity", async () => {
-    const res = {
-      created_at: new Date(),
-      description: "",
-      expire_at: new Date(),
-      id: 0,
-      is_blocked: false,
-      user_id: 0,
-      token: ""
-    };
-    jest
-      .spyOn(service, "validateByToken")
-      .mockImplementation(() => Promise.resolve(res));
-
-    expect(await service.validateByToken("")).toEqual(res);
+    expect(await service.validateByToken("")).toEqual(rtEntity);
   });
 });

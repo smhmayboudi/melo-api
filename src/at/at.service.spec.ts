@@ -37,8 +37,8 @@ describe("AtService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AtService,
-        { provide: AtEntityRepository, useValue: atEntityRepositoryMock }
+        { provide: AtEntityRepository, useValue: atEntityRepositoryMock },
+        AtService
       ]
     }).compile();
     service = module.get<AtService>(AtService);
@@ -69,27 +69,11 @@ describe("AtService", () => {
   });
 
   it("save should be defined", async () => {
-    const entity: AtEntity = {
-      count: 0,
-      created_at: date,
-      expire_at: date,
-      id: 0,
-      user_id: 0,
-      token: ""
-    };
-    expect(await service.save(entity)).toEqual(atEntity);
+    expect(await service.save(atEntity)).toEqual(atEntity);
   });
 
   it("update should be defined", async () => {
-    const entity: AtEntity = {
-      count: 0,
-      created_at: date,
-      expire_at: date,
-      id: 0,
-      user_id: 0,
-      token: ""
-    };
-    expect(await service.update(entity)).toEqual(updateResult);
+    expect(await service.update(atEntity)).toEqual(updateResult);
   });
 
   it("validateBySub should be defined", async () => {

@@ -87,8 +87,8 @@ export class RtService implements RtServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async save(entities: RtEntity[]): Promise<RtEntity[]> {
-    return this.rtEntityRepository.save(entities);
+  async save(entity: RtEntity): Promise<RtEntity> {
+    return this.rtEntityRepository.save(entity);
   }
 
   @ApmAfterMethod
