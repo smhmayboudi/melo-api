@@ -48,17 +48,7 @@ export class RelationService implements RelationServiceInterface {
           dto.relationType
         }/${dto.from}/${dto.limit}`
       )
-      .pipe(
-        // TODO: should change the external service
-        map(value =>
-          value.data.results.length === 0
-            ? (({
-                results: [],
-                total: 0
-              } as unknown) as RelationPaginationResDto<RelationEntityResDto>)
-            : value.data
-        )
-      )
+      .pipe(map(value => value.data))
       .toPromise();
   }
 

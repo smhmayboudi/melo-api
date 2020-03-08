@@ -39,7 +39,6 @@ export class AlbumService {
       albumResDto.results
         .filter(value => value !== undefined)
         .map(async value => {
-          // TODO: undefined !?
           const artists = await this.appMixArtistService.mixArtist(
             sub,
             value.artists === undefined ? [] : value.artists

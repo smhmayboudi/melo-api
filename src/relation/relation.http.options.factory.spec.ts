@@ -9,7 +9,8 @@ describe("RelationHttpOptionsFactory", () => {
     timeout: 0
   };
   const relationConfigServiceMock: RelationConfigServiceInterface = {
-    timeout: 0
+    timeout: 0,
+    url: ""
   };
   let service: RelationConfigService;
 
@@ -26,7 +27,7 @@ describe("RelationHttpOptionsFactory", () => {
     expect(new RelationHttpOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should be defined", () => {
+  it("createHttpOptions should return an option", () => {
     expect(new RelationHttpOptionsFactory(service).createHttpOptions()).toEqual(
       httpModuleOptions
     );

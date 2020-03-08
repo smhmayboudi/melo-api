@@ -1,68 +1,60 @@
 import { HttpService } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { of } from "rxjs";
+import { AxiosResponse } from "axios";
+import { Observable, of } from "rxjs";
 import { DataConfigService } from "./data.config.service";
-import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataSearchService } from "./data.search.service";
 import { DataSearchType } from "./data.search.type";
+import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 
 describe("DataSearchService", () => {
-  let dataSearchService: DataSearchService;
-  let httpService: HttpService;
-
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    timeout: 0
-  };
-  const data = {
+  const dataSearchResDto: DataSearchResDto = {
     type: DataSearchType.album
   };
+  const searchPagination: DataPaginationResDto<DataSearchResDto> = {
+    results: [dataSearchResDto],
+    total: 1
+  } as DataPaginationResDto<DataSearchResDto>;
+
   // TODO: interface ?
-  const searchHttpServiceMock = {
-    get: () => ({
-      config: {},
-      data,
-      headers: "",
-      status: 0,
-      statusText: ""
-    })
+  const httpServiceMock = {
+    get: (): Observable<
+      AxiosResponse<DataPaginationResDto<DataSearchResDto>>
+    > =>
+      of({
+        config: {},
+        data: searchPagination,
+        headers: {},
+        status: 200,
+        statusText: ""
+      })
   };
+
+  let service: DataSearchService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DataSearchService,
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
-        { provide: HttpService, useValue: searchHttpServiceMock }
+        { provide: DataConfigService, useValue: {} },
+        { provide: HttpService, useValue: httpServiceMock }
       ]
     }).compile();
-    dataSearchService = module.get<DataSearchService>(DataSearchService);
-    httpService = module.get<HttpService>(HttpService);
+    service = module.get<DataSearchService>(DataSearchService);
   });
 
   it("should be defined", () => {
-    expect(dataSearchService).toBeDefined();
+    expect(service).toBeDefined();
   });
 
   it("query should return a list of search results", async () => {
-    const req = {
+    const dto: DataSearchQueryReqDto = {
       from: 0,
       limit: 0,
       query: ""
     };
-    const res = {
-      results: [
-        {
-          type: DataSearchType.album
-        }
-      ],
-      total: 1
-    } as DataPaginationResDto<DataSearchResDto>;
-
-    jest
-      .spyOn(httpService, "get")
-      .mockImplementationOnce(() => of(searchHttpServiceMock.get()));
-    expect(await dataSearchService.query(req)).toEqual(res);
+    expect(await service.query(dto)).toEqual(searchPagination);
   });
 });

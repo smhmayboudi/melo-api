@@ -29,7 +29,7 @@ describe("DataArtistService", () => {
   };
   // TODO: interface ?
   const httpServiceMock = {
-    post: (): Observable<
+    get: (): Observable<
       AxiosResponse<DataPaginationResDto<DataArtistResDto>>
     > =>
       of({
@@ -55,10 +55,10 @@ describe("DataArtistService", () => {
   });
 
   it("byIds should return list of artists", async () => {
-    const req: DataArtistByIdsReqDto = {
+    const dto: DataArtistByIdsReqDto = {
       ids: []
     };
-    expect(await service.byIds(req)).toEqual(artistPagination);
+    expect(await service.byIds(dto)).toEqual(artistPagination);
   });
 
   it("trending should return list of artists", async () => {
@@ -76,7 +76,7 @@ describe("DataArtistService", () => {
     // TODO: interface ?
     const httpServiceMockSingleArtist = {
       ...httpServiceMock,
-      post: (): Observable<AxiosResponse<DataArtistResDto>> =>
+      get: (): Observable<AxiosResponse<DataArtistResDto>> =>
         of({
           config: {},
           data: artist,

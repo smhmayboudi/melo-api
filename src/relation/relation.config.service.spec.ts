@@ -34,7 +34,7 @@ describe("RelationService", () => {
 
   describe("get: string", () => {
     const configServiceMock = {
-      get: (): number => 0
+      get: (): string => "0"
     };
 
     let service: RelationConfigService;

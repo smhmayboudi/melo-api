@@ -28,9 +28,7 @@ describe("DataAlbumService", () => {
   };
   // TODO: interface ?
   const httpServiceMock = {
-    post: (): Observable<
-      AxiosResponse<DataPaginationResDto<DataAlbumResDto>>
-    > =>
+    get: (): Observable<AxiosResponse<DataPaginationResDto<DataAlbumResDto>>> =>
       of({
         config: {},
         data: albumPagination,
@@ -75,7 +73,7 @@ describe("DataAlbumService", () => {
     // TODO: interface ?
     const httpServiceMockSingleAlbum = {
       ...httpServiceMock,
-      post: (): Observable<AxiosResponse<DataAlbumResDto>> =>
+      get: (): Observable<AxiosResponse<DataAlbumResDto>> =>
         of({
           config: {},
           data: album,
