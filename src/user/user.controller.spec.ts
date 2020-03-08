@@ -47,7 +47,7 @@ describe("UserController", () => {
   });
 
   it("put hould return a users", async () => {
-    const req: UserEditReqDto = {};
-    expect(await controller.edit(req, 0)).toEqual(user);
+    const dto: UserEditReqDto = {};
+    expect(await controller.edit(dto, 0)).toEqual(user);
   });
 });

@@ -1,28 +1,74 @@
-import { ConfigModule } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import config from "./data.config";
+import { AppConfigService } from "../app/app.config.service";
 import { DataConfigService } from "./data.config.service";
 
 describe("DataService", () => {
-  let service: DataConfigService;
+  describe("get: number", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
-      providers: [DataConfigService]
-    }).compile();
-    service = module.get<DataConfigService>(DataConfigService);
+    let service: DataConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          DataConfigService,
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<DataConfigService>(DataConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("timeout should be defined", () => {
+      expect(service.timeout).toEqual("0ms");
+    });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
-  });
+  describe("get: string", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => ""
+    };
 
-  it("timeout should be defined", () => {
-    expect(service.timeout).toBeDefined();
-  });
+    let service: DataConfigService;
 
-  it("url should be defined", () => {
-    expect(service.url).toBeDefined();
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          DataConfigService,
+          {
+            provide: AppConfigService,
+            useValue: {}
+          },
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<DataConfigService>(DataConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("jwtAuhSchema cacheHostshould be defined", () => {
+      expect(service.url).toEqual("");
+    });
   });
 });

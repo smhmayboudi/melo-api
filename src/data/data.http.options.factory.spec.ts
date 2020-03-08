@@ -1,33 +1,35 @@
-import { HttpModuleOptions } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
 import { DataHttpOptionsFactory } from "./data.http.options.factory";
+import { DataConfigServiceInterface } from "./data.config.service.interface";
 
 describe("DataHttpOptionsFactory", () => {
-  const httpModuleOptions: HttpModuleOptions = {
+  const dataConfigServiceMock: DataConfigServiceInterface = {
     timeout: 0,
     url: ""
   };
 
-  let dataConfigService: DataConfigService;
+  let service: DataConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
-      providers: [DataConfigService]
+      providers: [
+        {
+          provide: DataConfigService,
+          useValue: dataConfigServiceMock
+        }
+      ]
     }).compile();
-    dataConfigService = module.get<DataConfigService>(DataConfigService);
+    service = module.get<DataConfigService>(DataConfigService);
   });
 
   it("should be defined", () => {
-    expect(new DataHttpOptionsFactory(dataConfigService)).toBeDefined();
+    expect(new DataHttpOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should be defined", () => {
+  it("createHttpOptions should return an option", () => {
     expect(
-      new DataHttpOptionsFactory(dataConfigService).createHttpOptions()
-    ).toEqual(httpModuleOptions);
+      new DataHttpOptionsFactory(service).createHttpOptions()
+    ).toBeDefined();
   });
 });

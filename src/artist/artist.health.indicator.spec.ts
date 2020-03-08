@@ -7,7 +7,7 @@ describe("ArtistHealthIndicator", () => {
 
   it("isHealthy is true", async () => {
     expect(await new ArtistHealthIndicator().isHealthy()).toEqual({
-      action: {
+      artist: {
         message: "OK",
         status: "up",
         statusCode: 200

@@ -78,10 +78,10 @@ describe("PlaylistController", () => {
   });
 
   it("create should return a playlist", async () => {
-    const req: PlaylistCreateReqDto = {
+    const dto: PlaylistCreateReqDto = {
       title: ""
     };
-    expect(await controller.create(req, 0)).toEqual(playlist);
+    expect(await controller.create(dto, 0)).toEqual(playlist);
   });
 
   it("delete should return a playlist", async () => {

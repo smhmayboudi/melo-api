@@ -5,5 +5,5 @@ describe("JwksEntityRepository", () => {
     expect(new JwksEntityRepository()).toBeDefined();
   });
 
-  it.todo("getOne");
+  it.todo("getOneRandom");
 });

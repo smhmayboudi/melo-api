@@ -7,7 +7,7 @@ describe("RelationHealthIndicator", () => {
 
   it("isHealthy is true", async () => {
     expect(await new RelationHealthIndicator().isHealthy()).toEqual({
-      action: {
+      relation: {
         message: "OK",
         status: "up",
         statusCode: 200
