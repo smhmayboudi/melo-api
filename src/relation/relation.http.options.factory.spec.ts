@@ -9,8 +9,7 @@ describe("RelationHttpOptionsFactory", () => {
     timeout: 0
   };
   const relationConfigServiceMock: RelationConfigServiceInterface = {
-    timeout: 0,
-    url: ""
+    timeout: 0
   };
   let service: RelationConfigService;
 

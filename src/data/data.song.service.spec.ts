@@ -1,9 +1,7 @@
 import { HttpService } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { of } from "rxjs";
 import { DataArtistType } from "./data.artist.type";
-import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataOrderByType } from "./data.order-by.type";
@@ -38,16 +36,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -89,16 +86,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -137,16 +133,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -186,16 +181,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -235,16 +229,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -287,16 +280,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -339,16 +331,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -390,16 +381,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -440,16 +430,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -490,16 +479,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -542,16 +530,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -592,16 +579,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -643,16 +629,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -689,16 +674,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
@@ -739,16 +723,15 @@ describe("DataSongService", () => {
     // TODO: interface ?
     const songHttpServiceMock = {
       get: () => ({
+        config: {},
         data,
-        status: 0,
-        statusText: "",
         headers: "",
-        config: {}
+        status: 0,
+        statusText: ""
       })
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSongService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },

@@ -27,10 +27,10 @@ describe("RelationService", () => {
       total: 1
     } as RelationPaginationResDto<RelationEntityResDto>;
     const observable = {
-      status: 0,
-      statusText: "",
+      config: {},
       headers: "",
-      config: {}
+      status: 0,
+      statusText: ""
     };
     const dataPaginationObservable = {
       data: relationPagination,
@@ -84,10 +84,10 @@ describe("RelationService", () => {
 
   describe("get: boolean", () => {
     const observable = {
-      status: 0,
-      statusText: "",
+      config: {},
       headers: "",
-      config: {}
+      status: 0,
+      statusText: ""
     };
     const dataObservable = {
       data: true,
@@ -166,10 +166,10 @@ describe("RelationService", () => {
       relation: RelationType.follows
     };
     const observable = {
-      status: 0,
-      statusText: "",
+      config: {},
       headers: "",
-      config: {}
+      status: 0,
+      statusText: ""
     };
     const dataObservable = {
       data: [relationMultiHas],

@@ -1,6 +1,7 @@
 import { HttpService } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { of } from "rxjs";
+import { AxiosResponse } from "axios";
+import { Observable, of } from "rxjs";
 import { DataArtistService } from "./data.artist.service";
 import { DataArtistType } from "./data.artist.type";
 import { DataConfigService } from "./data.config.service";
@@ -12,117 +13,95 @@ import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 
 describe("DataArtistService", () => {
-  describe("paginated artists", () => {
-    const artist: DataArtistResDto = {
-      followersCount: 0,
-      id: "",
-      type: DataArtistType.prime
-    };
-    const artistPagination: DataPaginationResDto<DataArtistResDto> = {
-      results: [artist],
-      total: 1
-    } as DataPaginationResDto<DataArtistResDto>;
-    const observable = {
-      status: 0,
-      statusText: "",
-      headers: "",
-      config: {}
-    };
-    const dataPaginationObservable = {
-      data: artistPagination,
-      ...observable
-    };
-    const dataConfigServiceMock: DataConfigServiceInterface = {
-      timeout: 0,
-      url: ""
-    };
-    beforeEach(async () => {
-      const artistHttpServiceMock = {
-        get: (): any => dataPaginationObservable
-      };
+  const artist: DataArtistResDto = {
+    followersCount: 0,
+    id: "",
+    type: DataArtistType.prime
+  };
+  const artistPagination: DataPaginationResDto<DataArtistResDto> = {
+    results: [artist],
+    total: 1
+  } as DataPaginationResDto<DataArtistResDto>;
 
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          DataArtistService,
-          { provide: DataConfigService, useValue: dataConfigServiceMock },
-          { provide: HttpService, useValue: artistHttpServiceMock }
-        ]
-      }).compile();
-      const service = module.get<DataArtistService>(DataArtistService);
-      const httpService = module.get<HttpService>(HttpService);
+  const dataConfigServiceMock: DataConfigServiceInterface = {
+    timeout: 0,
+    url: ""
+  };
+  // TODO: interface ?
+  const httpServiceMock = {
+    post: (): Observable<
+      AxiosResponse<DataPaginationResDto<DataArtistResDto>>
+    > =>
+      of({
+        config: {},
+        data: artistPagination,
+        headers: {},
+        status: 200,
+        statusText: ""
+      })
+  };
 
-      it("byIds should return list of artists", async () => {
-        const req: DataArtistByIdsReqDto = {
-          ids: []
-        };
-        jest
-          .spyOn(httpService, "get")
-          .mockImplementationOnce(() => of(dataPaginationObservable));
-        expect(await service.byIds(req)).toEqual(artistPagination);
-      });
+  let service: DataArtistService;
 
-      it("trending should return list of artists", async () => {
-        jest
-          .spyOn(httpService, "get")
-          .mockImplementationOnce(() => of(dataPaginationObservable));
-        expect(await service.trending()).toEqual(artistPagination);
-      });
-
-      it("trendingGenre should return list of artists", async () => {
-        const dto: DataTrendingGenreReqDto = {
-          genre: ""
-        };
-        jest
-          .spyOn(httpService, "get")
-          .mockImplementationOnce(() => of(dataPaginationObservable));
-        expect(await service.trendingGenre(dto)).toEqual(artistPagination);
-      });
-    });
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        DataArtistService,
+        { provide: DataConfigService, useValue: dataConfigServiceMock },
+        { provide: HttpService, useValue: httpServiceMock }
+      ]
+    }).compile();
+    service = module.get<DataArtistService>(DataArtistService);
   });
 
-  describe("single artists", () => {
-    const artist: DataArtistResDto = {
-      followersCount: 0,
-      id: "",
-      type: DataArtistType.prime
+  it("byIds should return list of artists", async () => {
+    const req: DataArtistByIdsReqDto = {
+      ids: []
     };
-    const observable = {
-      status: 0,
-      statusText: "",
-      headers: "",
-      config: {}
-    };
-    const dataObservable = {
-      data: artist,
-      ...observable
-    };
-    const dataConfigServiceMock: DataConfigServiceInterface = {
-      timeout: 0,
-      url: ""
-    };
-    beforeEach(async () => {
-      const artistHttpServiceMock = {
-        get: (): any => dataObservable
-      };
+    expect(await service.byIds(req)).toEqual(artistPagination);
+  });
 
+  it("trending should return list of artists", async () => {
+    expect(await service.trending()).toEqual(artistPagination);
+  });
+
+  it("trendingGenre should return list of artists", async () => {
+    const dto: DataTrendingGenreReqDto = {
+      genre: ""
+    };
+    expect(await service.trendingGenre(dto)).toEqual(artistPagination);
+  });
+
+  describe("Single Artist", () => {
+    // TODO: interface ?
+    const httpServiceMockSingleArtist = {
+      ...httpServiceMock,
+      post: (): Observable<AxiosResponse<DataArtistResDto>> =>
+        of({
+          config: {},
+          data: artist,
+          headers: {},
+          status: 200,
+          statusText: ""
+        })
+    };
+
+    beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           DataArtistService,
           { provide: DataConfigService, useValue: dataConfigServiceMock },
-          { provide: HttpService, useValue: artistHttpServiceMock }
+          { provide: HttpService, useValue: httpServiceMockSingleArtist }
         ]
       }).compile();
-      const service = module.get<DataArtistService>(DataArtistService);
-      const httpService = module.get<HttpService>(HttpService);
-      it("byId should return an artist", async () => {
-        const dto: DataArtistByIdReqDto = {
-          id: 0
-        };
-        jest
-          .spyOn(httpService, "get")
-          .mockImplementationOnce(() => of(dataObservable));
-        expect(await service.byId(dto)).toEqual(artist);
-      });
+      service = module.get<DataArtistService>(DataArtistService);
+    });
+
+    it("byId should return an artist", async () => {
+      const dto: DataArtistByIdReqDto = {
+        id: 0
+      };
+      expect(await service.byId(dto)).toEqual(artist);
     });
   });
 });

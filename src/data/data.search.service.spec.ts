@@ -1,8 +1,6 @@
 import { HttpService } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { of } from "rxjs";
-import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataSearchService } from "./data.search.service";
@@ -15,8 +13,7 @@ describe("DataSearchService", () => {
   let httpService: HttpService;
 
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    timeout: 0,
-    url: ""
+    timeout: 0
   };
   const data = {
     type: DataSearchType.album
@@ -24,17 +21,16 @@ describe("DataSearchService", () => {
   // TODO: interface ?
   const searchHttpServiceMock = {
     get: () => ({
+      config: {},
       data,
-      status: 0,
-      statusText: "",
       headers: "",
-      config: {}
+      status: 0,
+      statusText: ""
     })
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forFeature(config)],
       providers: [
         DataSearchService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },

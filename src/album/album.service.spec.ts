@@ -4,8 +4,8 @@ import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.inte
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataAlbumService } from "../data/data.album.service";
+import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
-import { DataModule } from "../data/data.module";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -14,7 +14,6 @@ import { AlbumService } from "./album.service";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
-import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
@@ -71,7 +70,6 @@ describe("AlbumService", () => {
   describe("AlbumService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DataModule],
         providers: [
           AlbumService,
           { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
@@ -129,7 +127,6 @@ describe("AlbumService", () => {
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DataModule],
         providers: [
           AlbumService,
           {
@@ -168,7 +165,6 @@ describe("AlbumService", () => {
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DataModule],
         providers: [
           AlbumService,
           { provide: AppMixArtistService, useValue: appMixArtistServiceMock },

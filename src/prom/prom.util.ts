@@ -22,17 +22,11 @@ import {
   PROM_REGISTRY_NAME
 } from "./prom.constant";
 import { PromController } from "./prom.controller";
+import { PromMetricType } from "./prom.metric.type";
 import { PromModuleOptions } from "./prom.module.interface";
 
-export const enum MetricType {
-  Counter = "Counter",
-  Gauge = "Gauge",
-  Histogram = "Histogram",
-  Summary = "Summary"
-}
-
 function getOrCreateMetric(
-  metricType: MetricType,
+  metricType: PromMetricType,
   configuration:
     | CounterConfiguration<string>
     | GaugeConfiguration<string>
@@ -42,13 +36,13 @@ function getOrCreateMetric(
   const existingMetric = register.getSingleMetric(configuration.name);
   if (existingMetric === undefined) {
     switch (metricType) {
-      case MetricType.Counter:
+      case PromMetricType.counter:
         return new Counter(configuration);
-      case MetricType.Gauge:
+      case PromMetricType.gauge:
         return new Gauge(configuration);
-      case MetricType.Histogram:
+      case PromMetricType.histogram:
         return new Histogram(configuration);
-      case MetricType.Summary:
+      case PromMetricType.summary:
         return new Summary(configuration);
       default:
         throw new ReferenceError(`The type ${metricType} is not supported.`);
@@ -60,7 +54,7 @@ function getOrCreateMetric(
 export function getOrCreateCounter(
   configuration: CounterConfiguration<string>
 ): Counter<string> {
-  return getOrCreateMetric(MetricType.Counter, configuration) as Counter<
+  return getOrCreateMetric(PromMetricType.counter, configuration) as Counter<
     string
   >;
 }
@@ -68,43 +62,46 @@ export function getOrCreateCounter(
 export function getOrCreateGauge(
   configuration: GaugeConfiguration<string>
 ): Gauge<string> {
-  return getOrCreateMetric(MetricType.Gauge, configuration) as Gauge<string>;
+  return getOrCreateMetric(PromMetricType.gauge, configuration) as Gauge<
+    string
+  >;
 }
 
 export function getOrCreateHistogram(
   configuration: HistogramConfiguration<string>
 ): Histogram<string> {
-  return getOrCreateMetric(MetricType.Histogram, configuration) as Histogram<
-    string
-  >;
+  return getOrCreateMetric(
+    PromMetricType.histogram,
+    configuration
+  ) as Histogram<string>;
 }
 
 export function getOrCreateSummary(
   configuration: SummaryConfiguration<string>
 ): Summary<string> {
-  return getOrCreateMetric(MetricType.Summary, configuration) as Summary<
+  return getOrCreateMetric(PromMetricType.summary, configuration) as Summary<
     string
   >;
 }
 
-function getTokenMetric(metricType: MetricType, name: string): string {
+function getTokenMetric(metricType: PromMetricType, name: string): string {
   return `${PROM_METRIC}_${metricType
     .toString()
     .toUpperCase()}_${name.toUpperCase()}`;
 }
 
 export function getTokenCounter(name: string): string {
-  return getTokenMetric(MetricType.Counter, name);
+  return getTokenMetric(PromMetricType.counter, name);
 }
 
 export function getTokenGauge(name: string): string {
-  return getTokenMetric(MetricType.Gauge, name);
+  return getTokenMetric(PromMetricType.gauge, name);
 }
 export function getTokenHistogram(name: string): string {
-  return getTokenMetric(MetricType.Histogram, name);
+  return getTokenMetric(PromMetricType.histogram, name);
 }
 export function getTokenSummary(name: string): string {
-  return getTokenMetric(MetricType.Summary, name);
+  return getTokenMetric(PromMetricType.summary, name);
 }
 
 export function getTokenConfiguration(name?: string): string {
