@@ -69,5 +69,42 @@ describe("TelegramStrategy", () => {
     });
   });
 
-  it.todo("user === undefined");
+  describe("FindOneByUsernam Undefined", () => {
+    const userServiceMockFindOneByUsernamUndefined: UserServiceInterface = {
+      ...userServiceMock,
+      findOneByTelegramId: (): Promise<UserUserResDto | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          { provide: AuthConfigService, useValue: authConfigServiceMock },
+          {
+            provide: UserService,
+            useValue: userServiceMockFindOneByUsernamUndefined
+          }
+        ]
+      }).compile();
+      authConfigService = module.get<AuthConfigService>(AuthConfigService);
+      userService = module.get<UserService>(UserService);
+    });
+
+    it("validate should return a token", async () => {
+      const dto: AuthTelegramPayloadReqDto = {
+        auth_date: 0,
+        first_name: "",
+        hash: "",
+        id: 0,
+        last_name: "",
+        photo_url: "",
+        username: ""
+      };
+      expect(
+        await new TelegramStrategy(authConfigService, userService).validate(dto)
+      ).toEqual({
+        sub: "0"
+      });
+    });
+  });
 });

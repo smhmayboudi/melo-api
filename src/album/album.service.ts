@@ -18,8 +18,8 @@ import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 // @PromInstanceCounter
 export class AlbumService {
   constructor(
+    private readonly appMixArtistService: AppMixArtistService,
     private readonly appMixSongService: AppMixSongService,
-    private readonly artistMixArtistService: AppMixArtistService,
     private readonly dataAlbumService: DataAlbumService
   ) {}
 
@@ -39,7 +39,8 @@ export class AlbumService {
       albumResDto.results
         .filter(value => value !== undefined)
         .map(async value => {
-          const artists = await this.artistMixArtistService.mixArtist(
+          // TODO: undefined !?
+          const artists = await this.appMixArtistService.mixArtist(
             sub,
             value.artists === undefined ? [] : value.artists
           );

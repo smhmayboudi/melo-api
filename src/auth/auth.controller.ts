@@ -1,7 +1,6 @@
 import {
   Controller,
   Delete,
-  Get,
   Headers,
   ParseIntPipe,
   Post,
@@ -31,13 +30,6 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly rtService: RtService
   ) {}
-
-  @ApiBearerAuth("jwt")
-  @Get("test")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
-  test(@AppUser("sub", ParseIntPipe) sub: number): any {
-    return { sub };
-  }
 
   @ApiBearerAuth("local")
   @Post("login")

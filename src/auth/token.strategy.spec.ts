@@ -26,7 +26,7 @@ describe("TokenStrategy", () => {
     findOneById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
     findOneByToken: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
-    save: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    save: (): Promise<RtEntity> => Promise.resolve(rtEntity),
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
@@ -57,5 +57,31 @@ describe("TokenStrategy", () => {
     });
   });
 
-  it.todo("UnauthorizedException");
+  describe("ValidateByToken Undefined", () => {
+    const rtServiceMockValidateByTokenUndefined: RtServiceInterface = {
+      ...rtServiceMock,
+      validateByToken: (): Promise<RtEntity | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: RtService,
+            useValue: rtServiceMockValidateByTokenUndefined
+          }
+        ]
+      }).compile();
+      service = module.get<RtService>(RtService);
+    });
+
+    it("validate should throw an exception", async () => {
+      try {
+        expect(await new TokenStrategy(service).validate("")).toThrowError();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 });

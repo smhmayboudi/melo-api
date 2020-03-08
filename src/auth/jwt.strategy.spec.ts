@@ -84,7 +84,7 @@ describe("JwtStrategy", () => {
     findOneById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
     findOneByToken: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
-    save: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    save: (): Promise<RtEntity> => Promise.resolve(rtEntity),
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
@@ -136,7 +136,142 @@ describe("JwtStrategy", () => {
     });
   });
 
-  it.todo("UnauthorizedException 1");
-  it.todo("UnauthorizedException 2");
-  it.todo("else");
+  describe("ValidateBySub Undefined", () => {
+    const rtServiceMockValidateBySubUndefined: RtServiceInterface = {
+      ...rtServiceMock,
+      validateBySub: (): Promise<RtEntity | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          { provide: AtService, useValue: atServiceMock },
+          { provide: AuthConfigService, useValue: authConfigServiceMock },
+          { provide: JwksService, useValue: jwksServiceMock },
+          { provide: RtService, useValue: rtServiceMockValidateBySubUndefined }
+        ]
+      }).compile();
+      atService = module.get<AtService>(AtService);
+      authConfigService = module.get<AuthConfigService>(AuthConfigService);
+      jwksService = module.get<JwksService>(JwksService);
+      rtService = module.get<RtService>(RtService);
+    });
+
+    it("validate should throw an exception", async () => {
+      const dto: AuthJwtPayloadReqDto = {
+        exp: 0,
+        iat: 0,
+        jti: "",
+        sub: ""
+      };
+      try {
+        expect(
+          await new JwtStrategy(
+            atService,
+            authConfigService,
+            jwksService,
+            rtService
+          ).validate(dto)
+        ).toThrowError();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  describe("JwtAccessTokenExpiresCount Zero", () => {
+    const authConfigServiceMockJwtAccessTokenExpiresCount: AuthConfigServiceInterface = {
+      ...authConfigServiceMock,
+      jwtAccessTokenExpiresCount: 0
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AtService,
+            useValue: atServiceMock
+          },
+          {
+            provide: AuthConfigService,
+            useValue: authConfigServiceMockJwtAccessTokenExpiresCount
+          },
+          { provide: JwksService, useValue: jwksServiceMock },
+          { provide: RtService, useValue: rtServiceMock }
+        ]
+      }).compile();
+      atService = module.get<AtService>(AtService);
+      authConfigService = module.get<AuthConfigService>(AuthConfigService);
+      jwksService = module.get<JwksService>(JwksService);
+      rtService = module.get<RtService>(RtService);
+    });
+
+    it("validate should throw an exception", async () => {
+      const dto: AuthJwtPayloadReqDto = {
+        exp: 0,
+        iat: 0,
+        jti: "",
+        sub: ""
+      };
+      try {
+        expect(
+          await new JwtStrategy(
+            atService,
+            authConfigService,
+            jwksService,
+            rtService
+          ).validate(dto)
+        ).toThrowError();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
+
+  describe("ValidateByToken Undefined", () => {
+    const atServiceMockValidateByTokenUndefined: AtServiceInterface = {
+      ...atServiceMock,
+      validateByToken: (): Promise<AtEntity | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: AtService,
+            useValue: atServiceMockValidateByTokenUndefined
+          },
+          {
+            provide: AuthConfigService,
+            useValue: authConfigServiceMock
+          },
+          { provide: JwksService, useValue: jwksServiceMock },
+          { provide: RtService, useValue: rtServiceMock }
+        ]
+      }).compile();
+      atService = module.get<AtService>(AtService);
+      authConfigService = module.get<AuthConfigService>(AuthConfigService);
+      jwksService = module.get<JwksService>(JwksService);
+      rtService = module.get<RtService>(RtService);
+    });
+
+    it("validate should throw an exception", async () => {
+      const dto: AuthJwtPayloadReqDto = {
+        exp: 0,
+        iat: 0,
+        jti: "",
+        sub: ""
+      };
+      expect(
+        await new JwtStrategy(
+          atService,
+          authConfigService,
+          jwksService,
+          rtService
+        ).validate(dto)
+      ).toEqual({ sub: "" });
+    });
+  });
 });

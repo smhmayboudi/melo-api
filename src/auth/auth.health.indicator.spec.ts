@@ -7,7 +7,7 @@ describe("AuthHealthIndicator", () => {
 
   it("isHealthy is true", async () => {
     expect(await new AuthHealthIndicator().isHealthy()).toEqual({
-      action: {
+      auth: {
         message: "OK",
         status: "up",
         statusCode: 200

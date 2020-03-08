@@ -18,8 +18,8 @@ export class SentryService extends Logger implements SentryServiceInterface {
     try {
       this.sentry.captureMessage(message, Sentry.Severity.Log);
       super.log(message, context);
-    } catch (err) {
-      // console.error(message, err);
+    } catch (error) {
+      // console.error(message, error);
     }
   }
 
@@ -27,8 +27,8 @@ export class SentryService extends Logger implements SentryServiceInterface {
     try {
       this.sentry.captureMessage(message, Sentry.Severity.Error);
       super.error(message, trace, context);
-    } catch (err) {
-      // console.error(message, err);
+    } catch (error) {
+      // console.error(message, error);
     }
   }
 
@@ -36,8 +36,8 @@ export class SentryService extends Logger implements SentryServiceInterface {
     try {
       this.sentry.captureMessage(message, Sentry.Severity.Warning);
       super.warn(message, context);
-    } catch (err) {
-      // console.error(message, err);
+    } catch (error) {
+      // console.error(message, error);
     }
   }
 
@@ -45,8 +45,8 @@ export class SentryService extends Logger implements SentryServiceInterface {
     try {
       this.sentry.captureMessage(message, Sentry.Severity.Debug);
       super.debug(message, context);
-    } catch (err) {
-      // console.error(message, err);
+    } catch (error) {
+      // console.error(message, error);
     }
   }
 
@@ -54,8 +54,8 @@ export class SentryService extends Logger implements SentryServiceInterface {
     try {
       this.sentry.captureMessage(message, Sentry.Severity.Info);
       super.verbose(message, context);
-    } catch (err) {
-      // console.error(message, err);
+    } catch (error) {
+      // console.error(message, error);
     }
   }
 }

@@ -65,5 +65,34 @@ describe("AuthJwtOptionsFactory", () => {
     });
   });
 
-  it.todo("createJwtOptions should return an option with jwks undefined");
+  describe("GetOneRandom Undefined", () => {
+    const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
+      ...jwksServiceMock,
+      getOneRandom: (): Promise<JwksEntity | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          { provide: AuthConfigService, useValue: authConfigServiceMock },
+          {
+            provide: JwksService,
+            useValue: jwksServiceMockGetOneRandomUndefined
+          }
+        ]
+      }).compile();
+      authConfigService = module.get<AuthConfigService>(AuthConfigService);
+      jwksService = module.get<JwksService>(JwksService);
+    });
+
+    it("createJwtOptions should return an option with jwks undefined", async () => {
+      expect(
+        await new AuthJwtOptionsFactory(
+          authConfigService,
+          jwksService
+        ).createJwtOptions()
+      ).toEqual({});
+    });
+  });
 });

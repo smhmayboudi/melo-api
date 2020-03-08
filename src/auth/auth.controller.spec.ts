@@ -41,7 +41,7 @@ describe("AuthController", () => {
     findOneById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
     findOneByToken: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
-    save: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    save: (): Promise<RtEntity> => Promise.resolve(rtEntity),
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
