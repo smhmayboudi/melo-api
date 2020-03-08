@@ -12,7 +12,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import { AppUser } from "../app/app.user.decorator";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DownloadOrderByPipe } from "./downlaod.order-by.pipe";
+import { DownloadOrderByPipe } from "./download.order-by.pipe";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
 import { DownloadSortByPipe } from "./download.sort-by.pipe";
@@ -46,9 +46,9 @@ export class DownloadController {
   @UseGuards(AuthGuard("jwt"))
   async downloadedSongs(
     @Param() paramDto: DownloadSongParamReqDto,
+    @Query() queryDto: DownloadSongQueryReqDto,
     @Param("orderBy", DownloadOrderByPipe) orderBy: DownloadOrderByType,
     @Param("sortBy", DownloadSortByPipe) sortBy: DownloadSortByType,
-    @Query() queryDto: DownloadSongQueryReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DownloadSongResDto>> {
     return this.downloadService.downloadedSongs(

@@ -24,14 +24,6 @@ export class DownloadSortByPipe
   }
 
   transform(value: string, _metadata: ArgumentMetadata): DownloadSortByType {
-    if (
-      (typeof value === "number" || typeof value !== "string") &&
-      (typeof value !== "number" || typeof value === "string")
-    ) {
-      throw this.exceptionFactory(
-        "Validation failed (number or string is expected)"
-      );
-    }
     switch (value) {
       case DownloadSortByType.date.toString():
         return DownloadSortByType.date;

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumberString, IsEnum } from "class-validator";
-import { DownloadOrderByType } from "src/download/download.order-by.type";
-import { DownloadSortByType } from "src/download/download.sort-by.type";
+import { DownloadOrderByType } from "../../download.order-by.type";
+import { DownloadSortByType } from "../../download.sort-by.type";
 
 export class DownloadSongParamReqDto {
   constructor(

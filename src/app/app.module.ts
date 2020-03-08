@@ -42,7 +42,7 @@ import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
-import { DownloadModule } from "src/download/download.module";
+import { DownloadModule } from "../download/download.module";
 
 @Module({
   exports: [
