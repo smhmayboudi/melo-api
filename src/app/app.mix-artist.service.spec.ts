@@ -1,4 +1,3 @@
-import { ConfigModule } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { DataArtistType } from "../data/data.artist.type";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
@@ -8,7 +7,6 @@ import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
-import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
@@ -54,7 +52,6 @@ describe("AppMixArtistService", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
       providers: [
         AppConfigService,
         AppMixArtistService,

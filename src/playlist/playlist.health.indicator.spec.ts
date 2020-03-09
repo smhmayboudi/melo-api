@@ -7,7 +7,7 @@ describe("PlaylistHealthIndicator", () => {
 
   it("isHealthy is true", async () => {
     expect(await new PlaylistHealthIndicator().isHealthy()).toEqual({
-      action: {
+      playlist: {
         message: "OK",
         status: "up",
         statusCode: 200

@@ -42,5 +42,33 @@ describe("LocalStrategy", () => {
     });
   });
 
-  it.todo("UnauthorizedException");
+  describe("FindOneByUsernam Undefined", () => {
+    const userServiceMockFindOneByUsernamUndefined: UserServiceInterface = {
+      ...userServiceMock,
+      findOneByUsernam: (): Promise<UserUserResDto | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          {
+            provide: UserService,
+            useValue: userServiceMockFindOneByUsernamUndefined
+          }
+        ]
+      }).compile();
+      service = module.get<UserService>(UserService);
+    });
+
+    it("validate should throw an exception", async () => {
+      try {
+        expect(
+          await new LocalStrategy(service).validate("", "")
+        ).toThrowError();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  });
 });

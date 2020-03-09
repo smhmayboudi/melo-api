@@ -7,7 +7,7 @@ describe("SearchHealthIndicator", () => {
 
   it("isHealthy is true", async () => {
     expect(await new SearchHealthIndicator().isHealthy()).toEqual({
-      action: {
+      search: {
         message: "OK",
         status: "up",
         statusCode: 200

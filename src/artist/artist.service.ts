@@ -22,7 +22,7 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    private readonly artistMixArtistService: AppMixArtistService,
+    private readonly appMixArtistService: AppMixArtistService,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
@@ -81,7 +81,7 @@ export class ArtistService implements ArtistServiceInterface {
     sub: number
   ): Promise<DataArtistResDto> {
     const artistResDto = await this.dataArtistService.byId({ ...dto, id });
-    const dataArtistResDto = await this.artistMixArtistService.mixArtist(sub, [
+    const dataArtistResDto = await this.appMixArtistService.mixArtist(sub, [
       artistResDto
     ]);
     return dataArtistResDto[0];
@@ -92,7 +92,7 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {
     const artistMixResDto = await this.dataArtistService.trending();
-    const results = await this.artistMixArtistService.mixArtist(
+    const results = await this.appMixArtistService.mixArtist(
       sub,
       artistMixResDto.results
     );
@@ -112,7 +112,7 @@ export class ArtistService implements ArtistServiceInterface {
     const artistMixResDto = await this.dataArtistService.trendingGenre({
       ...dto
     });
-    const results = await this.artistMixArtistService.mixArtist(
+    const results = await this.appMixArtistService.mixArtist(
       sub,
       artistMixResDto.results
     );

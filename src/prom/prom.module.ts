@@ -17,7 +17,7 @@ import {
   getOrCreateHistogramProvider,
   getOrCreateSummaryProvider
 } from "./prom.provider";
-import { MetricType } from "./prom.util";
+import { PromMetricType } from "./prom.metric.type";
 
 @Module({})
 export class PromModule {
@@ -26,22 +26,22 @@ export class PromModule {
   ): DynamicModule {
     const providers = metrics.map(value => {
       switch (value.metricType) {
-        case MetricType.Counter:
+        case PromMetricType.counter:
           return getOrCreateCounterProvider(
             value.configuration,
             value.registryName
           );
-        case MetricType.Gauge:
+        case PromMetricType.gauge:
           return getOrCreateGaugeProvider(
             value.configuration,
             value.registryName
           );
-        case MetricType.Histogram:
+        case PromMetricType.histogram:
           return getOrCreateHistogramProvider(
             value.configuration,
             value.registryName
           );
-        case MetricType.Summary:
+        case PromMetricType.summary:
           return getOrCreateSummaryProvider(
             value.configuration,
             value.registryName
@@ -66,7 +66,7 @@ export class PromModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Counter,
+        metricType: PromMetricType.counter,
         registryName
       }
     ]);
@@ -79,7 +79,7 @@ export class PromModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Gauge,
+        metricType: PromMetricType.gauge,
         registryName
       }
     ]);
@@ -92,7 +92,7 @@ export class PromModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Histogram,
+        metricType: PromMetricType.histogram,
         registryName
       }
     ]);
@@ -105,7 +105,7 @@ export class PromModule {
     return this.forMetrics([
       {
         configuration,
-        metricType: MetricType.Summary,
+        metricType: PromMetricType.summary,
         registryName
       }
     ]);

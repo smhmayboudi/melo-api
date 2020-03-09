@@ -1,5 +1,7 @@
 import { HttpService } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
+import { AxiosResponse } from "axios";
+import { Observable, of } from "rxjs";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
@@ -41,8 +43,6 @@ import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 import { SongConfigService } from "./song.config.service";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongService } from "./song.service";
-import { Observable, of } from "rxjs";
-import { AxiosResponse } from "axios";
 
 describe("SongService", () => {
   const releaseDate = new Date();
@@ -108,11 +108,11 @@ describe("SongService", () => {
   const httpServiceMock = {
     post: (): Observable<AxiosResponse<number>> =>
       of({
+        config: {},
         data: 0,
-        status: 200,
-        statusText: "",
         headers: {},
-        config: {}
+        status: 200,
+        statusText: ""
       })
   };
   const relationServiceMock: RelationServiceInterface = {

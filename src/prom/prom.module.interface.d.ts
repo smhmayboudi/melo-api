@@ -7,7 +7,7 @@ import {
   HistogramConfiguration,
   SummaryConfiguration
 } from "prom-client";
-import { MetricType } from "./prom.util";
+import { PromMetricType } from "./prom.metric.type";
 
 export interface MetricTypeConfigurationInterface {
   configuration:
@@ -15,7 +15,7 @@ export interface MetricTypeConfigurationInterface {
     | GaugeConfiguration<string>
     | HistogramConfiguration<string>
     | SummaryConfiguration<string>;
-  metricType: MetricType;
+  metricType: PromMetricType;
   registryName?: string;
 }
 export interface PromModuleOptions {

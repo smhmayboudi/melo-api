@@ -4,8 +4,8 @@ import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.inte
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataAlbumService } from "../data/data.album.service";
+import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
-import { DataModule } from "../data/data.module";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -14,7 +14,6 @@ import { AlbumService } from "./album.service";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
-import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
@@ -42,6 +41,7 @@ describe("AlbumService", () => {
     total: 1
   } as DataPaginationResDto<DataSongResDto>;
   const album: DataAlbumResDto = {
+    artists: [mixArtist],
     name: "",
     releaseDate,
     songs: mixSongPagination
@@ -64,33 +64,12 @@ describe("AlbumService", () => {
     latest: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
       Promise.resolve(albumPagination)
   };
-  const dataAlbumServiceMockArtistsUndefined = {
-    ...dataAlbumServiceMock,
-    albums: (): DataPaginationResDto<DataAlbumResDto> =>
-      ({
-        results: [
-          {
-            ...album,
-            artists: undefined
-          }
-        ],
-        total: 1
-      } as DataPaginationResDto<DataAlbumResDto>)
-  };
-  const dataAlbumServiceMockSongsUndefined = {
-    ...dataAlbumServiceMock,
-    byId: (): DataAlbumResDto => ({
-      ...album,
-      songs: undefined
-    })
-  };
 
   let service: AlbumService;
 
   describe("AlbumService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DataModule],
         providers: [
           AlbumService,
           { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
@@ -131,13 +110,29 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("AlbumService Artists Undefined", () => {
+  describe("Artists Undefined", () => {
+    const dataAlbumServiceMockArtistsUndefined: DataAlbumServiceInterface = {
+      ...dataAlbumServiceMock,
+      albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
+        Promise.resolve({
+          results: [
+            {
+              ...album,
+              artists: undefined
+            }
+          ],
+          total: 1
+        } as DataPaginationResDto<DataAlbumResDto>)
+    };
+
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DataModule],
         providers: [
           AlbumService,
-          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          {
+            provide: AppMixArtistService,
+            useValue: appMixArtistServiceMock
+          },
           { provide: AppMixSongService, useValue: appMixSongServiceMock },
           {
             provide: DataAlbumService,
@@ -148,7 +143,7 @@ describe("AlbumService", () => {
       service = module.get<AlbumService>(AlbumService);
     });
 
-    it("artistAlbums should handle artists undefined", async () => {
+    it("artistAlbums should return list of artists undefined", async () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: "0",
         from: 0,
@@ -158,10 +153,18 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("AlbumService Songs Undefined", () => {
+  describe("Songs Undefined", () => {
+    const dataAlbumServiceMockSongsUndefined: DataAlbumServiceInterface = {
+      ...dataAlbumServiceMock,
+      byId: (): Promise<DataAlbumResDto> =>
+        Promise.resolve({
+          ...album,
+          songs: undefined
+        })
+    };
+
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        imports: [DataModule],
         providers: [
           AlbumService,
           { provide: AppMixArtistService, useValue: appMixArtistServiceMock },

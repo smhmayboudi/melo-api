@@ -59,12 +59,13 @@ describe("AuthService", () => {
     findOneById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
     findOneByToken: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
-    save: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
+    save: (): Promise<RtEntity> => Promise.resolve(rtEntity),
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity)
   };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -76,25 +77,65 @@ describe("AuthService", () => {
       ]
     }).compile();
     service = module.get<AuthService>(AuthService);
+    jest.mock("crypto-random-string").fn(() => "");
   });
 
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
 
-  it("accessToken should be defined", async () => {
+  it("accessToken should return a token", async () => {
     const res: AuthAccessTokenResDto = {
       at: "0"
     };
     expect(await service.accessToken(0)).toEqual(res);
   });
 
-  it("refreshToken should be defined", async () => {
-    jest.mock("crypto-random-string").fn(() => "");
+  it("refreshToken should return a token", async () => {
     const res: AuthRefreshTokenResDto = {
       at: "0",
       rt: ""
     };
     expect(await service.refreshToken(0)).toEqual(res);
+  });
+
+  describe("GetOneRandom Undefined", () => {
+    const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
+      ...jwksServiceMock,
+      getOneRandom: (): Promise<JwksEntity | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AuthService,
+          { provide: AuthConfigService, useValue: authConfigServiceMock },
+          {
+            provide: JwksService,
+            useValue: jwksServiceMockGetOneRandomUndefined
+          },
+          { provide: JwtService, useValue: jwtServiceMock },
+          { provide: RtService, useValue: rtServiceMock }
+        ]
+      }).compile();
+      service = module.get<AuthService>(AuthService);
+    });
+
+    it("accessToken should throw an exception", async () => {
+      try {
+        expect(await service.accessToken(0)).toThrowError();
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    it("refreshToken should throw an exception", async () => {
+      try {
+        expect(await service.refreshToken(0)).toThrowError();
+      } catch (error) {
+        console.log(error);
+      }
+    });
   });
 });
