@@ -3,12 +3,12 @@ import { SentryService } from "./sentry.service";
 import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
 
 describe("SentryService", () => {
-  let service: SentryService;
-
   // TODO: interface ?
   const sentryMock = {
-    withScope: {}
+    captureMessage: jest.fn()
   };
+
+  let service: SentryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,28 +27,28 @@ describe("SentryService", () => {
     expect(service).toBeDefined();
   });
 
-  it("log be defined", () => {
-    jest.spyOn(service, "log").mockImplementation(() => null);
-    expect(service.log("")).toBeDefined();
+  it("log be called", () => {
+    service.log("");
+    expect(sentryMock.captureMessage).toBeCalled();
   });
 
-  it("error be defined", () => {
-    jest.spyOn(service, "error").mockImplementation(() => null);
-    expect(service.error("")).toBeDefined();
+  it("error be called", () => {
+    service.error("");
+    expect(sentryMock.captureMessage).toBeCalled();
   });
 
-  it("warn be defined", () => {
-    jest.spyOn(service, "warn").mockImplementation(() => null);
-    expect(service.warn("")).toBeDefined();
+  it("warn be called", () => {
+    service.warn("");
+    expect(sentryMock.captureMessage).toBeCalled();
   });
 
-  it("debug be defined", () => {
-    jest.spyOn(service, "debug").mockImplementation(() => null);
-    expect(service.debug("")).toBeDefined();
+  it("debug be called", () => {
+    service.debug("");
+    expect(sentryMock.captureMessage).toBeCalled();
   });
 
-  it("verbose be defined", () => {
-    jest.spyOn(service, "verbose").mockImplementation(() => null);
-    expect(service.verbose("")).toBeDefined();
+  it("verbose be called", () => {
+    service.verbose("");
+    expect(sentryMock.captureMessage).toBeCalled();
   });
 });

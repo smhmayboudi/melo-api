@@ -8,18 +8,16 @@ import { SentryInterceptor } from "./sentry.interceptor";
 import { SentryModuleOptions } from "./sentry.module.interface";
 
 describe("SentryInterceptor", () => {
-  let sentry: typeof Sentry;
-  let options: SentryModuleOptions;
-
   // TODO: interface ?
   const sentryMock = {
     withScope: {}
   };
 
   // TODO: interface ?
-  const optionsMock = {
-    context: {}
-  };
+  const optionsMock: SentryModuleOptions = {};
+
+  let sentry: typeof Sentry;
+  let options: SentryModuleOptions;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
