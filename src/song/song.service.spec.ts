@@ -190,7 +190,7 @@ describe("SongService", () => {
     expect(service).toBeDefined();
   });
 
-  it("artistSongs should return a list of songs", async () => {
+  it("artistSongs should equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
       from: 0,
       artistId: "0",
@@ -199,7 +199,7 @@ describe("SongService", () => {
     expect(await service.artistSongs(dto, 0, 0)).toEqual(songPagination);
   });
 
-  it("artistSongsTop should return a list of songs", async () => {
+  it("artistSongsTop should equal to a list of songs", async () => {
     const dto: SongArtistSongsTopReqDto = {
       from: 0,
       artistId: "0",
@@ -208,14 +208,14 @@ describe("SongService", () => {
     expect(await service.artistSongsTop(dto, 0, 0)).toEqual(songPagination);
   });
 
-  it("byId should return a songs", async () => {
+  it("byId should equal to a songs", async () => {
     const dto: SongByIdReqDto = {
       id: ""
     };
     expect(await service.byId(dto, 0, 0)).toEqual(song);
   });
 
-  it("genre should return a list of songs", async () => {
+  it("genre should equal to a list of songs", async () => {
     const paramDto: SongSongGenresParamReqDto = {
       from: 0,
       limit: 0,
@@ -229,7 +229,7 @@ describe("SongService", () => {
     ).toEqual(songPagination);
   });
 
-  it("language should return a list of songs", async () => {
+  it("language should equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
       from: 0,
       language: "",
@@ -241,14 +241,14 @@ describe("SongService", () => {
     );
   });
 
-  it("like should return a songs", async () => {
+  it("like should equal to a songs", async () => {
     const dto: SongLikeReqDto = {
       id: ""
     };
     expect(await service.like(dto, 0, 0)).toEqual({ ...song, liked: true });
   });
 
-  it("liked should return a list of songs", async () => {
+  it("liked should equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
       from: 0,
       limit: 0
@@ -256,7 +256,7 @@ describe("SongService", () => {
     expect(await service.liked(dto, 0)).toEqual(songPagination);
   });
 
-  it("mood should return a list of songs", async () => {
+  it("mood should equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
       from: 0,
       limit: 0,
@@ -265,7 +265,7 @@ describe("SongService", () => {
     expect(await service.mood(dto, 0)).toEqual(songPagination);
   });
 
-  it("new should return a list of songs", async () => {
+  it("new should equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
       from: 0,
       limit: 0
@@ -273,7 +273,7 @@ describe("SongService", () => {
     expect(await service.newSong(dto, 0)).toEqual(songPagination);
   });
 
-  it("newPodcast should return a list of songs", async () => {
+  it("newPodcast should equal to a list of songs", async () => {
     const dto: DataSongNewPodcastReqDto = {
       from: 0,
       limit: 0
@@ -281,7 +281,7 @@ describe("SongService", () => {
     expect(await service.newPodcast(dto, 0)).toEqual(songPagination);
   });
 
-  it("podcast should return a list of songs", async () => {
+  it("podcast should equal to a list of songs", async () => {
     const paramDto: SongPodcastGenresParamReqDto = {
       from: 0,
       limit: 0,
@@ -295,7 +295,7 @@ describe("SongService", () => {
     ).toEqual(songPagination);
   });
 
-  it("searchMood should return a list of songs", async () => {
+  it("searchMood should equal to a list of songs", async () => {
     const paramDto: SongSearchMoodParamDto = {
       from: 0,
       limit: 0
@@ -306,7 +306,7 @@ describe("SongService", () => {
     );
   });
 
-  it("sendTelegram should return a list of songs", async () => {
+  it("sendTelegram should equal to a list of songs", async () => {
     const dto: SongSendTelegramReqDto = {
       id: "0"
     };
@@ -315,7 +315,7 @@ describe("SongService", () => {
 
   it.todo("sendTelegram should throw exception");
 
-  it("similar should return a list of songs", async () => {
+  it("similar should equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
       from: 0,
       limit: 0,
@@ -324,11 +324,11 @@ describe("SongService", () => {
     expect(await service.similar(dto, 0, 0)).toEqual(songPagination);
   });
 
-  it("slider should return a list of songs", async () => {
+  it("slider should equal to a list of songs", async () => {
     expect(await service.slider(0)).toEqual(songPagination);
   });
 
-  it("topDay should return a list of songs", async () => {
+  it("topDay should equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
       from: 0,
       limit: 0
@@ -336,7 +336,7 @@ describe("SongService", () => {
     expect(await service.topDay(dto, 0)).toEqual(songPagination);
   });
 
-  it("topWeek should return a list of songs", async () => {
+  it("topWeek should equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
       from: 0,
       limit: 0
@@ -344,7 +344,7 @@ describe("SongService", () => {
     expect(await service.topWeek(dto, 0)).toEqual(songPagination);
   });
 
-  it("unlike should return a songs", async () => {
+  it("unlike should equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
       id: ""
     };

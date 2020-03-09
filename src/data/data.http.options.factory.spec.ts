@@ -27,7 +27,7 @@ describe("DataHttpOptionsFactory", () => {
     expect(new DataHttpOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should return an option", () => {
+  it("createHttpOptions should equal to an option", () => {
     expect(
       new DataHttpOptionsFactory(service).createHttpOptions()
     ).toBeDefined();

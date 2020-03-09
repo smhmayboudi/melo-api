@@ -52,7 +52,7 @@ describe("TelegramStrategy", () => {
     expect(new TelegramStrategy(authConfigService, userService)).toBeDefined();
   });
 
-  it("validate should return an auth strategy", async () => {
+  it("validate should equal to an auth strategy", async () => {
     const dto: AuthTelegramPayloadReqDto = {
       auth_date: 0,
       first_name: "",
@@ -90,7 +90,7 @@ describe("TelegramStrategy", () => {
       userService = module.get<UserService>(UserService);
     });
 
-    it("validate should return a token", async () => {
+    it("validate should equal to a token", async () => {
       const dto: AuthTelegramPayloadReqDto = {
         auth_date: 0,
         first_name: "",

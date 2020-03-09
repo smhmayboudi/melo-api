@@ -5,7 +5,7 @@ describe("AnonymUUIDStrategy", () => {
     expect(new AnonymUUIDStrategy()).toBeDefined();
   });
 
-  it("validate should return a sub", async () => {
+  it("validate should equal to a sub", async () => {
     expect(await new AnonymUUIDStrategy().validate()).toEqual({
       sub: "0"
     });

@@ -50,7 +50,7 @@ describe("AlbumController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("artistAlbums should return list of albums", async () => {
+  it("artistAlbums should equal list of albums", async () => {
     const dto: AlbumArtistAlbumsReqDto = {
       artistId: "0",
       from: 0,
@@ -59,14 +59,14 @@ describe("AlbumController", () => {
     expect(await controller.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
   });
 
-  it("byId should return an album", async () => {
+  it("byId should equal to an album", async () => {
     const dto: AlbumByIdReqDto = {
       id: "0"
     };
     expect(await controller.byId(dto, 0, 0)).toEqual(album);
   });
 
-  it("latest should return list of albums", async () => {
+  it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
       from: 0,
       language: "",

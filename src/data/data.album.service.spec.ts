@@ -51,7 +51,7 @@ describe("DataAlbumService", () => {
     service = module.get<DataAlbumService>(DataAlbumService);
   });
 
-  it("albums should return list of albums", async () => {
+  it("albums should equal list of albums", async () => {
     const dto: DataAlbumArtistsReqDto = {
       from: 0,
       id: 0,
@@ -60,7 +60,7 @@ describe("DataAlbumService", () => {
     expect(await service.albums(dto)).toEqual(albumPagination);
   });
 
-  it("latest should return list of albums", async () => {
+  it("latest should equal list of albums", async () => {
     const dto: DataAlbumLatestReqDto = {
       from: 0,
       language: "",
@@ -94,7 +94,7 @@ describe("DataAlbumService", () => {
       service = module.get<DataAlbumService>(DataAlbumService);
     });
 
-    it("byId should return an album", async () => {
+    it("byId should equal to an album", async () => {
       const dto: DataAlbumByIdReqDto = {
         id: 0
       };

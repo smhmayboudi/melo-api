@@ -49,7 +49,7 @@ describe("DataSearchService", () => {
     expect(service).toBeDefined();
   });
 
-  it("query should return a list of search results", async () => {
+  it("query should equal to a list of search results", async () => {
     const dto: DataSearchQueryReqDto = {
       from: 0,
       limit: 0,

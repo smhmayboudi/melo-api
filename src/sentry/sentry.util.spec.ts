@@ -9,11 +9,11 @@ describe("SentryUtil", () => {
     expect(getOrCreateSentryInstance({ debug: true }, true)).toBeDefined();
   });
 
-  it("getOrCreateSentryInstance should return same instance", () => {
+  it("getOrCreateSentryInstance should equal same instance", () => {
     expect(getOrCreateSentryInstance({}, false)).toBeDefined();
   });
 
-  it("makeDefaultOptions should return an option", () => {
+  it("makeDefaultOptions should equal to an option", () => {
     expect(makeDefaultOptions({})).toEqual({});
   });
 });

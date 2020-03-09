@@ -32,7 +32,7 @@ describe("SongHttpOptionsFactory", () => {
     expect(new SongHttpOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should return an option", () => {
+  it("createHttpOptions should equal to an option", () => {
     expect(
       new SongHttpOptionsFactory(service).createHttpOptions()
     ).toBeDefined();

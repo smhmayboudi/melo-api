@@ -49,15 +49,15 @@ describe("RtService", () => {
     expect(service).toBeDefined();
   });
 
-  it("blockById should return an RT entity", async () => {
+  it("blockById should equal to an RT entity", async () => {
     expect(await service.blockById(0, "")).toEqual(rtEntity);
   });
 
-  it("blockByToken should return an RT entity", async () => {
+  it("blockByToken should equal to an RT entity", async () => {
     expect(await service.blockByToken("", "")).toEqual(rtEntity);
   });
 
-  it("deleteById should return an RT entity", async () => {
+  it("deleteById should equal to an RT entity", async () => {
     expect(await service.deleteById(0)).toEqual(rtEntity);
   });
 
@@ -65,27 +65,27 @@ describe("RtService", () => {
     expect(await service.deleteByToken("")).toEqual(undefined);
   });
 
-  it("find should return an array of RT entities", async () => {
+  it("find should equal to an array of RT entities", async () => {
     expect(await service.find()).toEqual([rtEntity]);
   });
 
-  it("findOneById should return an RT entity", async () => {
+  it("findOneById should equal to an RT entity", async () => {
     expect(await service.findOneById(0)).toEqual(rtEntity);
   });
 
-  it("findOneByToken should return an RT entity", async () => {
+  it("findOneByToken should equal to an RT entity", async () => {
     expect(await service.findOneByToken("")).toEqual(rtEntity);
   });
 
-  it("save should return an array of RT entities", async () => {
+  it("save should equal to an array of RT entities", async () => {
     expect(await service.save(rtEntity)).toEqual(rtEntity);
   });
 
-  it("validateBySub should return an RT entity", async () => {
+  it("validateBySub should equal to an RT entity", async () => {
     expect(await service.validateBySub(0)).toEqual(rtEntity);
   });
 
-  it("validateByToken should return an RT entity", async () => {
+  it("validateByToken should equal to an RT entity", async () => {
     expect(await service.validateByToken("")).toEqual(rtEntity);
   });
 });

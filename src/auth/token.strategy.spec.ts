@@ -51,7 +51,7 @@ describe("TokenStrategy", () => {
     expect(new TokenStrategy(service)).toBeDefined();
   });
 
-  it("validate should return an auth strategy", async () => {
+  it("validate should equal to an auth strategy", async () => {
     expect(await new TokenStrategy(service).validate("")).toEqual({
       sub: "0"
     });
