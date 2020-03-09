@@ -1,34 +1,74 @@
+import { SELF_DECLARED_DEPS_METADATA } from "@nestjs/common/constants";
+import { Counter, Gauge, Histogram, Summary } from "prom-client";
 import {
   InjectCounter,
   InjectGauge,
   InjectHistogram,
-  InjectSummary,
-  PromInstanceCounter,
-  PromMethodCounter
+  InjectSummary
 } from "./prom.decorator";
+import {
+  getTokenCounter,
+  getTokenGauge,
+  getTokenHistogram,
+  getTokenSummary
+} from "./prom.util";
 
 describe("PromDecorator", () => {
-  it("InjectCounter should be defined", () => {
-    expect(InjectCounter).toBeDefined();
+  const tokenCounter = "counter";
+  const tokenGauge = "gauge";
+  const tokenHistogram = "histogram";
+  const tokenSummary = "summary";
+
+  class Test {
+    constructor(
+      @InjectCounter(tokenCounter)
+      private readonly counter: Counter<string>,
+      @InjectGauge(tokenGauge)
+      private readonly gauge: Gauge<string>,
+      @InjectHistogram(tokenHistogram)
+      private readonly histogram: Histogram<string>,
+      @InjectSummary(tokenSummary)
+      private readonly summary: Summary<string>
+    ) {
+      this.counter.inc();
+      this.gauge.inc();
+      this.histogram.observe(0);
+      this.summary.observe(0);
+    }
+  }
+
+  it("InjectCounter enhance component with counter", () => {
+    const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
+    expect(metadata[3]).toEqual({
+      index: 0,
+      param: getTokenCounter(tokenCounter)
+    });
   });
 
-  it("InjectGauge should be defined", () => {
-    expect(InjectGauge).toBeDefined();
+  it("InjectGauge enhance component with gauge", () => {
+    const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
+    expect(metadata[2]).toEqual({
+      index: 1,
+      param: getTokenGauge(tokenGauge)
+    });
   });
 
-  it("InjectHistogram should be defined", () => {
-    expect(InjectHistogram).toBeDefined();
+  it("InjectHistogram enhance component with summery", () => {
+    const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
+    expect(metadata[1]).toEqual({
+      index: 2,
+      param: getTokenHistogram(tokenHistogram)
+    });
   });
 
-  it("InjectSummary should be defined", () => {
-    expect(InjectSummary).toBeDefined();
+  it("InjectSummery enhance component with summery", () => {
+    const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
+    expect(metadata[0]).toEqual({
+      index: 3,
+      param: getTokenSummary(tokenSummary)
+    });
   });
 
-  it("PromInstanceCounter should be defined", () => {
-    expect(PromInstanceCounter).toBeDefined();
-  });
-
-  it("PromMethodCounter should be defined", () => {
-    expect(PromMethodCounter).toBeDefined();
-  });
+  it.todo("PromInstanceCounter enhance instance with counter");
+  it.todo("PromMethodCounter enhance method with counter");
 });

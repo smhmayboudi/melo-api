@@ -1,3 +1,4 @@
+import { Registry, Summary, Histogram, Gauge, Counter } from "prom-client";
 import {
   getOrCreateCounter,
   getOrCreateGauge,
@@ -15,55 +16,147 @@ import {
 } from "./prom.util";
 
 describe("PromUtil", () => {
-  it("getOrCreateCounter should be defined", () => {
-    expect(getOrCreateCounter({ name: "name", help: "help" })).toBeDefined();
+  it("getOrCreateCounter should be instance of a counter metric", () => {
+    expect(
+      getOrCreateCounter({ name: "counter", help: "counter" })
+    ).toBeInstanceOf(Counter);
   });
 
-  it("getOrCreateGauge should be defined", () => {
-    expect(getOrCreateGauge({ name: "name", help: "help" })).toBeDefined();
+  it("getOrCreateCounter should be instance of same counter metric", () => {
+    expect(
+      getOrCreateCounter({ name: "counter", help: "counter" })
+    ).toBeInstanceOf(Counter);
   });
 
-  it("getOrCreateHistogram should be defined", () => {
-    expect(getOrCreateHistogram({ name: "name", help: "help" })).toBeDefined();
+  it("getOrCreateGauge should be instance of a gauge metric", () => {
+    expect(getOrCreateGauge({ name: "gauge", help: "gauge" })).toBeInstanceOf(
+      Gauge
+    );
   });
 
-  it("getOrCreateSummary should be defined", () => {
-    expect(getOrCreateSummary({ name: "name", help: "help" })).toBeDefined();
+  it("getOrCreateHistogram should be instance of a histogram metric", () => {
+    expect(
+      getOrCreateHistogram({ name: "histogram", help: "histogram" })
+    ).toBeInstanceOf(Histogram);
   });
 
-  it("getTokenCounter should be defined", () => {
-    expect(getTokenCounter("")).toBeDefined();
+  it("getOrCreateSummary should be instance of a summary metric", () => {
+    expect(
+      getOrCreateSummary({ name: "summary", help: "summary" })
+    ).toBeInstanceOf(Summary);
   });
 
-  it("getTokenGauge should be defined", () => {
-    expect(getTokenGauge("")).toBeDefined();
+  it("getTokenCounter should equal to a string", () => {
+    expect(getTokenCounter("test")).toEqual("PROM_COUNTER_TEST");
   });
 
-  it("getTokenHistogram should be defined", () => {
-    expect(getTokenHistogram("")).toBeDefined();
+  it("getTokenGauge should equal to a string", () => {
+    expect(getTokenGauge("test")).toEqual("PROM_GAUGE_TEST");
   });
 
-  it("getTokenSummary should be defined", () => {
-    expect(getTokenSummary("")).toBeDefined();
+  it("getTokenHistogram should equal to a string", () => {
+    expect(getTokenHistogram("test")).toEqual("PROM_HISTOGRAM_TEST");
   });
 
-  it("getTokenConfiguration should be defined", () => {
-    expect(getTokenConfiguration()).toBeDefined();
+  it("getTokenSummary should equal to a string", () => {
+    expect(getTokenSummary("test")).toEqual("PROM_SUMMARY_TEST");
   });
 
-  it("getTokenRegistry should be defined", () => {
-    expect(getTokenRegistry("")).toBeDefined();
+  it("getTokenConfiguration should equal to a string", () => {
+    expect(getTokenConfiguration()).toEqual("PROM_CONFIGURATION_DEFAULT");
   });
 
-  it("makeDefaultOptions should be defined", () => {
-    expect(makeDefaultOptions()).toBeDefined();
+  it("getTokenConfiguration should equal to a string with name", () => {
+    expect(getTokenConfiguration("TEST")).toEqual("PROM_CONFIGURATION_TEST");
   });
 
-  it("promConfigurationProviderImp should be defined", () => {
-    expect(promConfigurationProviderImp({}, "")).toEqual(undefined);
+  it("getTokenRegistry should be equal to a string", () => {
+    expect(getTokenRegistry()).toEqual("PROM_REGISTRY_DEFAULT");
   });
 
-  it("promRegistryProviderImp should be defined", () => {
-    expect(promRegistryProviderImp({}, "")).toBeDefined();
+  it("getTokenRegistry should bef defined with name", () => {
+    expect(getTokenRegistry("TEST")).toEqual("PROM_REGISTRY_TEST");
+  });
+
+  it("makeDefaultOptions should equal to an option", () => {
+    expect(makeDefaultOptions()).toEqual({
+      defaultLabels: {},
+      defaultMetrics: {
+        config: {},
+        enabled: true
+      },
+      ignorePaths: ["/health", "/metrics"],
+      path: "/metrics",
+      prefix: "",
+      registryName: undefined
+    });
+  });
+
+  it("makeDefaultOptions should equal to an option with custom", () => {
+    expect(
+      makeDefaultOptions({
+        defaultLabels: {
+          test: "test"
+        },
+        defaultMetrics: {
+          config: {
+            eventLoopMonitoringPrecision: 1
+          },
+          enabled: false
+        },
+        ignorePaths: [],
+        path: "",
+        prefix: "test",
+        registryName: "test"
+      })
+    ).toEqual({
+      defaultLabels: {
+        test: "test"
+      },
+      defaultMetrics: {
+        config: {
+          eventLoopMonitoringPrecision: 1
+        },
+        enabled: false
+      },
+      ignorePaths: [],
+      path: "",
+      prefix: "test",
+      registryName: "test"
+    });
+  });
+
+  it("promConfigurationProviderImp should be undefined", () => {
+    expect(promConfigurationProviderImp({}, "")).toBeUndefined();
+  });
+
+  it("promConfigurationProviderImp should be undefined with promConfigurationName", () => {
+    expect(
+      promConfigurationProviderImp({}, "PROM_CONFIGURATION_DEFAULT")
+    ).toBeUndefined();
+  });
+
+  it("promRegistryProviderImp should be instance of registry", () => {
+    expect(promRegistryProviderImp({}, "")).toBeInstanceOf(Registry);
+  });
+
+  it("promRegistryProviderImp should be instance of registry with promRegistryName", () => {
+    expect(promRegistryProviderImp({}, "PROM_REGISTRY_DEFAULT")).toBeInstanceOf(
+      Registry
+    );
+  });
+
+  it("promRegistryProviderImp should be instance of registry with defaultMetrics", () => {
+    expect(
+      promRegistryProviderImp(
+        {
+          defaultMetrics: {
+            config: {},
+            enabled: true
+          }
+        },
+        ""
+      )
+    ).toBeInstanceOf(Registry);
   });
 });

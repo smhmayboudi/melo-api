@@ -5,49 +5,20 @@ import {
   getTokenCounter,
   getTokenGauge,
   getTokenHistogram,
-  getTokenRegistry,
   getTokenSummary
 } from "./prom.util";
 
-export const InjectCounter = (
-  name: string
-): ((
-  target: object,
-  key: string | symbol,
-  index?: number | undefined
-) => void) => Inject(getTokenCounter(name));
+export const InjectCounter = (name: string): ParameterDecorator =>
+  Inject(getTokenCounter(name));
 
-export const InjectGauge = (
-  name: string
-): ((
-  target: object,
-  key: string | symbol,
-  index?: number | undefined
-) => void) => Inject(getTokenGauge(name));
+export const InjectGauge = (name: string): ParameterDecorator =>
+  Inject(getTokenGauge(name));
 
-export const InjectHistogram = (
-  name: string
-): ((
-  target: object,
-  key: string | symbol,
-  index?: number | undefined
-) => void) => Inject(getTokenHistogram(name));
+export const InjectHistogram = (name: string): ParameterDecorator =>
+  Inject(getTokenHistogram(name));
 
-export const InjectSummary = (
-  name: string
-): ((
-  target: object,
-  key: string | symbol,
-  index?: number | undefined
-) => void) => Inject(getTokenSummary(name));
-
-export const InjectRegister = (
-  name?: string
-): ((
-  target: object,
-  key: string | symbol,
-  index?: number | undefined
-) => void) => Inject(getTokenRegistry(name));
+export const InjectSummary = (name: string): ParameterDecorator =>
+  Inject(getTokenSummary(name));
 
 export const PromInstanceCounter = beforeInstance(meta => {
   const counterMetric = getOrCreateCounter({
