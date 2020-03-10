@@ -39,7 +39,8 @@ describe("PromDecorator", () => {
 
   it("InjectCounter enhance component with counter", () => {
     const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
-    expect(metadata[3]).toEqual({
+    const key = Object.keys(metadata)[3];
+    expect(metadata[key]).toEqual({
       index: 0,
       param: getTokenCounter(tokenCounter)
     });
@@ -47,7 +48,8 @@ describe("PromDecorator", () => {
 
   it("InjectGauge enhance component with gauge", () => {
     const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
-    expect(metadata[2]).toEqual({
+    const key = Object.keys(metadata)[2];
+    expect(metadata[key]).toEqual({
       index: 1,
       param: getTokenGauge(tokenGauge)
     });
@@ -55,7 +57,8 @@ describe("PromDecorator", () => {
 
   it("InjectHistogram enhance component with summery", () => {
     const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
-    expect(metadata[1]).toEqual({
+    const key = Object.keys(metadata)[1];
+    expect(metadata[key]).toEqual({
       index: 2,
       param: getTokenHistogram(tokenHistogram)
     });
@@ -63,7 +66,8 @@ describe("PromDecorator", () => {
 
   it("InjectSummery enhance component with summery", () => {
     const metadata = Reflect.getMetadata(SELF_DECLARED_DEPS_METADATA, Test);
-    expect(metadata[0]).toEqual({
+    const key = Object.keys(metadata)[0];
+    expect(metadata[key]).toEqual({
       index: 3,
       param: getTokenSummary(tokenSummary)
     });
