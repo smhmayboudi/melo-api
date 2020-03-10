@@ -25,5 +25,6 @@ describe("PromController", () => {
   it("index should be called", () => {
     controller.index("");
     expect(registryMock.metrics).toBeCalled();
+    registryMock.metrics.mockReset();
   });
 });

@@ -10,12 +10,11 @@ import { PromModuleOptions } from "./prom.module.interface";
 import { getTokenConfiguration, getTokenCounter } from "./prom.util";
 
 describe("PromInterceptor", () => {
+  // TODO: interface ?
   const executionContext: any = {
     switchToHttp: jest.fn().mockReturnThis(),
-    getRequest: () => ({ method: "", route: { path: "" } }),
-    getResponse: () => ({
-      status: 200
-    })
+    getRequest: jest.fn(() => ({ method: "", route: { path: "" } })),
+    getResponse: jest.fn(() => 200)
   };
   const callHandler = {
     handle: jest.fn()
@@ -23,7 +22,7 @@ describe("PromInterceptor", () => {
 
   // TODO: interface ?
   const counterMock = {
-    inc: () => undefined
+    inc: jest.fn(() => undefined)
   };
   // TODO: interface ?
   const optionsMock = {
@@ -68,6 +67,13 @@ describe("PromInterceptor", () => {
       callHandler
     );
     expect(executionContext.switchToHttp).toHaveBeenCalled();
+    expect(executionContext.getRequest).toHaveBeenCalled();
+    expect(executionContext.getResponse).toHaveBeenCalled();
+    expect(counterMock.inc).not.toHaveBeenCalled();
+    // executionContext.switchToHttp.mockReset();
+    // executionContext.getRequest.mockReset();
+    // executionContext.getResponse.mockReset();
+    counterMock.inc.mockReset();
   });
 
   describe("includes: false", () => {
@@ -110,6 +116,13 @@ describe("PromInterceptor", () => {
         callHandler
       );
       expect(executionContext.switchToHttp).toHaveBeenCalled();
+      expect(executionContext.getRequest).toHaveBeenCalled();
+      expect(executionContext.getResponse).toHaveBeenCalled();
+      expect(counterMock.inc).toHaveBeenCalled();
+      // executionContext.switchToHttp.mockReset();
+      // executionContext.getRequest.mockReset();
+      // executionContext.getResponse.mockReset();
+      counterMock.inc.mockReset();
     });
   });
 
@@ -153,6 +166,13 @@ describe("PromInterceptor", () => {
         callHandler
       );
       expect(executionContext.switchToHttp).toHaveBeenCalled();
+      expect(executionContext.getRequest).toHaveBeenCalled();
+      expect(executionContext.getResponse).toHaveBeenCalled();
+      expect(counterMock.inc).not.toHaveBeenCalled();
+      // executionContext.switchToHttp.mockReset();
+      // executionContext.getRequest.mockReset();
+      // executionContext.getResponse.mockReset();
+      counterMock.inc.mockReset();
     });
   });
 });

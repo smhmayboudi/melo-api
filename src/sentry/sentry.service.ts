@@ -5,8 +5,9 @@ import { SentryServiceInterface } from "./sentry.service.interface";
 
 @Injectable()
 export class SentryService implements SentryServiceInterface {
+  private readonly logger: typeof Logger;
+
   constructor(
-    private readonly logger: typeof Logger,
     @Inject(SENTRY_INSTANCE_TOKEN)
     private readonly sentry: typeof Sentry
   ) {

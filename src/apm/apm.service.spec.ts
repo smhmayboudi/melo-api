@@ -3,6 +3,7 @@ import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import { ApmService } from "./apm.service";
 
 describe("ApmService", () => {
+  // TODO: interface ?
   const ampMock = {
     start: jest.fn(),
     isStarted: jest.fn(),
