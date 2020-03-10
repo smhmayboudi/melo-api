@@ -1,5 +1,4 @@
 import apm from "elastic-apm-node";
-import { Metadata } from "kaop-ts";
 import { Agent, ApmModuleOptions } from "./apm.module.interface";
 
 let apmInstance: Agent | undefined;
@@ -11,8 +10,8 @@ export function getOrCreateApmInstance(options: ApmModuleOptions): Agent {
   return apmInstance;
 }
 
-export function getTokenName(meta: Metadata<any>): string {
-  return `${meta.target.constructor.name}_${meta.method.name}`;
+export function getTokenName(targetName: string, methodName: string): string {
+  return `${targetName}_${methodName}`;
 }
 
 export function makeDefaultOptions(
