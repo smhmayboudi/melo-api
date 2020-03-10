@@ -38,6 +38,9 @@ export const ApmBeforeMethod = beforeMethod(meta => {
     meta.target.constructor.name
   );
   if (span !== null) {
-    spans.push({ name: getTokenName(meta), span });
+    spans.push({
+      name: getTokenName(meta.target.constructor.name, meta.method.name),
+      span
+    });
   }
 });
