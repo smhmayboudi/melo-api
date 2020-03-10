@@ -69,7 +69,7 @@ describe("DataAlbumService", () => {
     expect(await service.latest(dto)).toEqual(albumPagination);
   });
 
-  describe("Single Album", () => {
+  describe("single: album", () => {
     // TODO: interface ?
     const httpServiceMockSingleAlbum = {
       ...httpServiceMock,

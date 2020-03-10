@@ -42,7 +42,7 @@ describe("LocalStrategy", () => {
     });
   });
 
-  describe("FindOneByUsernam Undefined", () => {
+  describe("findOneByUsernam: undefined", () => {
     const userServiceMockFindOneByUsernamUndefined: UserServiceInterface = {
       ...userServiceMock,
       findOneByUsernam: (): Promise<UserUserResDto | undefined> =>

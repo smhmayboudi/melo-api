@@ -136,7 +136,7 @@ describe("JwtStrategy", () => {
     });
   });
 
-  describe("ValidateBySub Undefined", () => {
+  describe("validateBySub: undefined", () => {
     const rtServiceMockValidateBySubUndefined: RtServiceInterface = {
       ...rtServiceMock,
       validateBySub: (): Promise<RtEntity | undefined> =>
@@ -180,7 +180,7 @@ describe("JwtStrategy", () => {
     });
   });
 
-  describe("JwtAccessTokenExpiresCount Zero", () => {
+  describe("jwtAccessTokenExpiresCount: zero", () => {
     const authConfigServiceMockJwtAccessTokenExpiresCount: AuthConfigServiceInterface = {
       ...authConfigServiceMock,
       jwtAccessTokenExpiresCount: 0
@@ -229,7 +229,7 @@ describe("JwtStrategy", () => {
     });
   });
 
-  describe("ValidateByToken Undefined", () => {
+  describe("validateByToken: undefined", () => {
     const atServiceMockValidateByTokenUndefined: AtServiceInterface = {
       ...atServiceMock,
       validateByToken: (): Promise<AtEntity | undefined> =>

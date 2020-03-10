@@ -99,7 +99,7 @@ describe("AuthService", () => {
     expect(await service.refreshToken(0)).toEqual(res);
   });
 
-  describe("GetOneRandom Undefined", () => {
+  describe("getOneRandom: undefined", () => {
     const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
       ...jwksServiceMock,
       getOneRandom: (): Promise<JwksEntity | undefined> =>

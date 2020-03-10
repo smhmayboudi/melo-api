@@ -57,7 +57,7 @@ describe("TokenStrategy", () => {
     });
   });
 
-  describe("ValidateByToken Undefined", () => {
+  describe("validateByToken: undefined", () => {
     const rtServiceMockValidateByTokenUndefined: RtServiceInterface = {
       ...rtServiceMock,
       validateByToken: (): Promise<RtEntity | undefined> =>

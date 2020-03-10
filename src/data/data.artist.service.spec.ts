@@ -72,7 +72,7 @@ describe("DataArtistService", () => {
     expect(await service.trendingGenre(dto)).toEqual(artistPagination);
   });
 
-  describe("Single Artist", () => {
+  describe("single: artist", () => {
     // TODO: interface ?
     const httpServiceMockSingleArtist = {
       ...httpServiceMock,

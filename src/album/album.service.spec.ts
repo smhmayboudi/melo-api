@@ -110,7 +110,7 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("Artists Undefined", () => {
+  describe("artists: undefined", () => {
     const dataAlbumServiceMockArtistsUndefined: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
       albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
@@ -153,7 +153,7 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("Songs Undefined", () => {
+  describe("songs: undefined", () => {
     const dataAlbumServiceMockSongsUndefined: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
       byId: (): Promise<DataAlbumResDto> =>

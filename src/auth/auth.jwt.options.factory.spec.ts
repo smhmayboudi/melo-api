@@ -65,7 +65,7 @@ describe("AuthJwtOptionsFactory", () => {
     });
   });
 
-  describe("GetOneRandom Undefined", () => {
+  describe("getOneRandom: undefined", () => {
     const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
       ...jwksServiceMock,
       getOneRandom: (): Promise<JwksEntity | undefined> =>

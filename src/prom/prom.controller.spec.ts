@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { PROM_REGISTRY_DEFAULT } from "./prom.constant";
 import { PromController } from "./prom.controller";
 
-describe("Prom Controller", () => {
+describe("PromController", () => {
   let controller: PromController;
 
   // TODO: interface ?
