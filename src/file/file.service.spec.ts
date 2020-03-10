@@ -70,16 +70,19 @@ describe("FileService", () => {
       size: 0
     };
     try {
-      expect(await service.uploadImage(dto, 0)).toEqual(fileEntity);
+      expect(await service.uploadImage(0, dto)).toEqual(fileEntity);
     } catch (error) {
       console.log("error", error);
     }
   });
 
-  // it("uploadImage should throw an exception dto undefined", async () => {
-  //   // TODO: undefined !?
-  //   expect(await service.uploadImage(undefined, 0)).toThrowError();
-  // });
+  it("uploadImage should throw an exception dto undefined", async () => {
+    try {
+      expect(await service.uploadImage(0, undefined)).toThrowError();
+    } catch (error) {
+      console.log("error", error);
+    }
+  });
 
   it("uploadImage should throw an exception mimeType jpg", async () => {
     const dto: FileUploadImageReqDto = {
@@ -94,9 +97,11 @@ describe("FileService", () => {
       size: 0
     };
     try {
-      expect(await service.uploadImage(dto, 0)).toThrowError();
+      expect(await service.uploadImage(0, dto)).toThrowError();
     } catch (error) {
       console.log(error);
     }
   });
+
+  test.todo("fileEntityRepository");
 });

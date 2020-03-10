@@ -44,8 +44,8 @@ export class FileService implements FileServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async uploadImage(
-    dto: FileUploadImageReqDto,
-    sub: number
+    sub: number,
+    dto?: FileUploadImageReqDto
   ): Promise<FileUploadImageResDto> {
     console.log("dto", dto);
     if (dto === undefined) {
