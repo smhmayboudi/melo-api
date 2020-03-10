@@ -11,7 +11,12 @@ describe("FileCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
+    s3AccessKeyId: "minioadmin",
+    s3Bucket: "misc",
+    s3Endpoint: "127.0.0.1:9000",
+    s3SecretAccessKey: "minioadmin",
+    s3SslEnabled: false
   };
 
   let service: FileConfigService;
