@@ -41,7 +41,7 @@ describe("RtCacheOptionsFactory", () => {
       expect(new RtCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should equal to an option", () => {
       expect(
         new RtCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,7 +69,7 @@ describe("RtCacheOptionsFactory", () => {
       service = module.get<RtConfigService>(RtConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
+    it("createCacheOptions should equal to an option with store none", () => {
       expect(
         new RtCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();

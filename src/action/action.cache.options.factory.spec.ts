@@ -41,7 +41,7 @@ describe("ActionCacheOptionsFactory", () => {
       expect(new ActionCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should equal to an option", () => {
       expect(
         new ActionCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,7 +69,7 @@ describe("ActionCacheOptionsFactory", () => {
       service = module.get<ActionConfigService>(ActionConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
+    it("createCacheOptions should equal to an option with store none", () => {
       expect(
         new ActionCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
