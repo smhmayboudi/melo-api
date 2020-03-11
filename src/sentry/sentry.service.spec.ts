@@ -87,23 +87,23 @@ describe("SentryService", () => {
       expect(service).toBeDefined();
     });
 
-    it("log be called", () => {
+    it("log should be undefined", () => {
       expect(service.log("")).toBeUndefined();
     });
 
-    it("error be called", () => {
+    it("error should be undefined", () => {
       expect(service.error("")).toBeUndefined();
     });
 
-    it("warn be called", () => {
+    it("warn should be undefined", () => {
       expect(service.warn("")).toBeUndefined();
     });
 
-    it("debug be called", () => {
+    it("debug should be undefined", () => {
       expect(service.debug("")).toBeUndefined();
     });
 
-    it("verbose be called", () => {
+    it("verbose should be undefined", () => {
       expect(service.verbose("")).toBeUndefined();
     });
   });

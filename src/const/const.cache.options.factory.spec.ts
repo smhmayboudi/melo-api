@@ -42,7 +42,7 @@ describe("ConstCacheOptionsFactory", () => {
       expect(new ConstCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should equal to an option", () => {
       expect(
         new ConstCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -70,10 +70,16 @@ describe("ConstCacheOptionsFactory", () => {
       service = module.get<ConstConfigService>(ConstConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
+    it("createCacheOptions should equal to an option with store none", () => {
       expect(
         new ConstCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      ).toEqual({
+        host: "",
+        max: 0,
+        port: 0,
+        store: "none",
+        ttl: 0
+      });
     });
   });
 });

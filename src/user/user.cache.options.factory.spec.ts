@@ -41,7 +41,7 @@ describe("UserCacheOptionsFactory", () => {
       expect(new UserCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should equal to an option", () => {
       expect(
         new UserCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,10 +69,16 @@ describe("UserCacheOptionsFactory", () => {
       service = module.get<UserConfigService>(UserConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
-      expect(
-        new UserCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+    it("createCacheOptions should equal to an option with store none", () => {
+      expect(new UserCacheOptionsFactory(service).createCacheOptions()).toEqual(
+        {
+          host: "",
+          max: 0,
+          port: 0,
+          store: "none",
+          ttl: 0
+        }
+      );
     });
   });
 });

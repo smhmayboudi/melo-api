@@ -48,39 +48,39 @@ describe("AtService", () => {
     expect(service).toBeDefined();
   });
 
-  it("deleteById should be defined", async () => {
+  it("deleteById should equal to delete result", async () => {
     expect(await service.deleteById(0)).toEqual(deleteResult);
   });
 
-  it("deleteByToken should be defined", async () => {
+  it("deleteByToken should equal to delete result", async () => {
     expect(await service.deleteByToken("")).toEqual(deleteResult);
   });
 
-  it("find shoud be defined", async () => {
+  it("find sholud equal to array of at", async () => {
     expect(await service.find()).toEqual([atEntity]);
   });
 
-  it("findOneById should be defined", async () => {
+  it("findOneById should equal to an at", async () => {
     expect(await service.findOneById(0)).toEqual(atEntity);
   });
 
-  it("findOneByToken should be defined", async () => {
+  it("findOneByToken should equal to an at", async () => {
     expect(await service.findOneByToken("")).toEqual(atEntity);
   });
 
-  it("save should be defined", async () => {
+  it("save should equal to an at", async () => {
     expect(await service.save(atEntity)).toEqual(atEntity);
   });
 
-  it("update should be defined", async () => {
+  it("update should equal to update result", async () => {
     expect(await service.update(atEntity)).toEqual(updateResult);
   });
 
-  it("validateBySub should be defined", async () => {
+  it("validateBySub should equal to an at", async () => {
     expect(await service.validateBySub(0)).toEqual(atEntity);
   });
 
-  it("validateByToken should be defined", async () => {
+  it("validateByToken should equal to an at", async () => {
     expect(await service.validateByToken("")).toEqual(atEntity);
   });
 });

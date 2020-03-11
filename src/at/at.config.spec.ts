@@ -1,7 +1,7 @@
 import config from "./at.config";
 
 describe("AtConfig", () => {
-  it("should be defined", () => {
+  it("should equal to an object", () => {
     expect(config()).toStrictEqual({
       cacheHost: undefined,
       cacheMax: undefined,

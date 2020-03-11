@@ -1,7 +1,7 @@
 import config from "./app.config";
 
 describe("AppConfig", () => {
-  it("should be defined", () => {
+  it("should equal to an object", () => {
     expect(config()).toStrictEqual({
       apmLogLevel: undefined,
       apmSecretToken: undefined,

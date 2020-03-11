@@ -222,11 +222,11 @@ describe("SongController", () => {
     );
   });
 
-  it("sendTelegram should be defined", async () => {
+  it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
       id: "0"
     };
-    expect(await controller.sendTelegram(dto, 0, 0)).toEqual(undefined);
+    expect(await controller.sendTelegram(dto, 0, 0)).toBeUndefined();
   });
 
   it("similar should equal to a list of songs", async () => {

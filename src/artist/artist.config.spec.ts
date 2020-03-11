@@ -1,7 +1,7 @@
 import config from "./artist.config";
 
 describe("ArtistConfig", () => {
-  it("should be defined", () => {
+  it("should equal to an object", () => {
     expect(config()).toStrictEqual({
       cacheHost: undefined,
       cacheMax: undefined,

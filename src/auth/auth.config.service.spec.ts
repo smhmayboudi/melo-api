@@ -33,19 +33,19 @@ describe("AuthService", () => {
       expect(service).toBeDefined();
     });
 
-    it("jwtAccessTokenExpiresCount should be defined", () => {
+    it("jwtAccessTokenExpiresCount should equal to a value", () => {
       expect(service.jwtAccessTokenExpiresCount).toEqual(0);
     });
 
-    it("jwtAccessTokenExpiresIn should be defined", () => {
+    it("jwtAccessTokenExpiresIn should equal to a value", () => {
       expect(service.jwtAccessTokenExpiresIn).toEqual("0ms");
     });
 
-    it("jwtRefreshTokenExpiresIn should be defined", () => {
+    it("jwtRefreshTokenExpiresIn should equal to a value", () => {
       expect(service.jwtRefreshTokenExpiresIn).toEqual("0ms");
     });
 
-    it("telegramQueryExpiration should be defined", () => {
+    it("telegramQueryExpiration should equal to a value", () => {
       expect(service.telegramQueryExpiration).toEqual("0ms");
     });
   });
@@ -79,11 +79,11 @@ describe("AuthService", () => {
       expect(service).toBeDefined();
     });
 
-    it("jwtAuhSchema cacheHostshould be defined", () => {
+    it("jwtAuhSchema jwtAuhSchema should equal to a value", () => {
       expect(service.jwtAuhSchema).toEqual("");
     });
 
-    it("telegramBotToken should be defined", () => {
+    it("telegramBotToken should equal to a value", () => {
       expect(service.telegramBotToken).toEqual("");
     });
   });

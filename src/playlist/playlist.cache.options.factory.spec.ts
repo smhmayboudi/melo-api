@@ -43,7 +43,7 @@ describe("PlaylistCacheOptionsFactory", () => {
       expect(new PlaylistCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should equal to an option", () => {
       expect(
         new PlaylistCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -71,10 +71,16 @@ describe("PlaylistCacheOptionsFactory", () => {
       service = module.get<PlaylistConfigService>(PlaylistConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
+    it("createCacheOptions should equal to an option with store none", () => {
       expect(
         new PlaylistCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      ).toEqual({
+        host: "",
+        max: 0,
+        port: 0,
+        store: "none",
+        ttl: 0
+      });
     });
   });
 });
