@@ -5,7 +5,6 @@ export default registerAs("app", () => ({
   apmSecretToken: process.env.APP_APM_SECRET_TOKEN,
   apmServerUrl: process.env.APP_APM_SERVER_URL,
   apmServiceName: process.env.APP_APM_SERVICE_NAME,
-  cacheEnable: process.env.APP_CACHE_ENABLE,
   cacheHost: process.env.APP_CACHE_HOST,
   cacheMax: process.env.APP_CACHE_MAX,
   cachePort: process.env.APP_CACHE_PORT,
