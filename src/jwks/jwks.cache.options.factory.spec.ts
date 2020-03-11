@@ -70,9 +70,15 @@ describe("JwksCacheOptionsFactory", () => {
     });
 
     it("createCacheOptions should equal to an option with store none", () => {
-      expect(
-        new JwksCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      expect(new JwksCacheOptionsFactory(service).createCacheOptions()).toEqual(
+        {
+          host: "",
+          max: 0,
+          port: 0,
+          store: "none",
+          ttl: 0
+        }
+      );
     });
   });
 });

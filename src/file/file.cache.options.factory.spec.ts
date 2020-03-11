@@ -75,9 +75,15 @@ describe("FileCacheOptionsFactory", () => {
     });
 
     it("createCacheOptions should equal to an option with store none", () => {
-      expect(
-        new FileCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      expect(new FileCacheOptionsFactory(service).createCacheOptions()).toEqual(
+        {
+          host: "",
+          max: 0,
+          port: 0,
+          store: "none",
+          ttl: 0
+        }
+      );
     });
   });
 });

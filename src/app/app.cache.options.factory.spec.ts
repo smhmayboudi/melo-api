@@ -106,9 +106,13 @@ describe("AppCacheOptionsFactory", () => {
     });
 
     it("createCacheOptions should equal to an option with store none", () => {
-      expect(
-        new AppCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      expect(new AppCacheOptionsFactory(service).createCacheOptions()).toEqual({
+        host: "",
+        max: 0,
+        port: 0,
+        store: "none",
+        ttl: 0
+      });
     });
   });
 });

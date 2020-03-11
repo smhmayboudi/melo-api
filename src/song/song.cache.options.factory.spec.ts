@@ -70,9 +70,15 @@ describe("SongCacheOptionsFactory", () => {
     });
 
     it("createCacheOptions should equal to an option with store none", () => {
-      expect(
-        new SongCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      expect(new SongCacheOptionsFactory(service).createCacheOptions()).toEqual(
+        {
+          host: "",
+          max: 0,
+          port: 0,
+          store: "none",
+          ttl: 0
+        }
+      );
     });
   });
 });

@@ -73,7 +73,13 @@ describe("ConstCacheOptionsFactory", () => {
     it("createCacheOptions should equal to an option with store none", () => {
       expect(
         new ConstCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+      ).toEqual({
+        host: "",
+        max: 0,
+        port: 0,
+        store: "none",
+        ttl: 0
+      });
     });
   });
 });
