@@ -27,8 +27,8 @@ describe("RelationService", () => {
       expect(service).toBeDefined();
     });
 
-    it("timeout should be defined", () => {
-      expect(service.timeout).toBeDefined();
+    it("timeout should equal to a value", () => {
+      expect(service.timeout).toEqual("0ms");
     });
   });
 
@@ -51,8 +51,8 @@ describe("RelationService", () => {
       }).compile();
       service = module.get<RelationConfigService>(RelationConfigService);
     });
-    it("url should be defined", () => {
-      expect(service.url).toBeDefined();
+    it("url should equal to a value", () => {
+      expect(service.url).toEqual("");
     });
   });
 });

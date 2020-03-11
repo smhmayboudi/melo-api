@@ -41,9 +41,9 @@ describe("ActionController", () => {
 
   it("bulk should equal to an action", async () => {
     const dto: ActionDto = {
-      datetime: new Date().toString(),
+      datetime,
       type: ActionType.likeSong
     };
-    expect(await controller.bulk(dto)).toBeDefined();
+    expect(await controller.bulk(dto)).toEqual(action);
   });
 });

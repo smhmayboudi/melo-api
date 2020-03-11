@@ -1,16 +1,19 @@
+import * as Sentry from "@sentry/node";
 import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
 
 describe("SentryUtil", () => {
-  it("getOrCreateSentryInstance should be defined", () => {
-    expect(getOrCreateSentryInstance({}, true)).toBeDefined();
+  it("getOrCreateSentryInstance should be instance of a sentry", () => {
+    expect(getOrCreateSentryInstance({}, true)).toBeInstanceOf(typeof Sentry);
   });
 
-  it("getOrCreateSentryInstance should be defined debug: true", () => {
-    expect(getOrCreateSentryInstance({ debug: true }, true)).toBeDefined();
+  it("getOrCreateSentryInstance should be instance of a sentry with debug true", () => {
+    expect(getOrCreateSentryInstance({ debug: true }, true)).toBeInstanceOf(
+      typeof Sentry
+    );
   });
 
-  it("getOrCreateSentryInstance should equal same instance", () => {
-    expect(getOrCreateSentryInstance({}, false)).toBeDefined();
+  it("getOrCreateSentryInstance should be instance of the same sentry", () => {
+    expect(getOrCreateSentryInstance({}, false)).toBeInstanceOf(typeof Sentry);
   });
 
   it("makeDefaultOptions should equal to an option", () => {

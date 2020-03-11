@@ -28,8 +28,8 @@ describe("DataHttpOptionsFactory", () => {
   });
 
   it("createHttpOptions should equal to an option", () => {
-    expect(
-      new DataHttpOptionsFactory(service).createHttpOptions()
-    ).toBeDefined();
+    expect(new DataHttpOptionsFactory(service).createHttpOptions()).toEqual({
+      timeout: 0
+    });
   });
 });

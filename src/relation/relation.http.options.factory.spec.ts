@@ -1,17 +1,14 @@
-import { HttpModuleOptions } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { RelationConfigService } from "./relation.config.service";
 import { RelationConfigServiceInterface } from "./relation.config.service.interface";
 import { RelationHttpOptionsFactory } from "./relation.http.options.factory";
 
 describe("RelationHttpOptionsFactory", () => {
-  const httpModuleOptions: HttpModuleOptions = {
-    timeout: 0
-  };
   const relationConfigServiceMock: RelationConfigServiceInterface = {
     timeout: 0,
     url: ""
   };
+
   let service: RelationConfigService;
 
   beforeEach(async () => {
@@ -29,7 +26,9 @@ describe("RelationHttpOptionsFactory", () => {
 
   it("createHttpOptions should equal to an option", () => {
     expect(new RelationHttpOptionsFactory(service).createHttpOptions()).toEqual(
-      httpModuleOptions
+      {
+        timeout: 0
+      }
     );
   });
 });

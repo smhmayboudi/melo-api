@@ -74,7 +74,7 @@ describe("PlaylistController", () => {
       playlistId: "000000000000",
       songId: "0"
     };
-    expect(await controller.addSong(dto, 0)).toBeDefined();
+    expect(await controller.addSong(dto, 0)).toEqual(playlist);
   });
 
   it("create should equal to a playlist", async () => {
