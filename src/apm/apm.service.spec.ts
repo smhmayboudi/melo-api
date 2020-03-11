@@ -1,23 +1,29 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
 import { Test, TestingModule } from "@nestjs/testing";
 import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import { ApmService } from "./apm.service";
+import { ApmServiceInterface } from "./apm.service.interface";
 
 describe("ApmService", () => {
-  // TODO: interface ?
-  const ampMock = {
+  const ampServiceMock: ApmServiceInterface = {
     start: jest.fn(),
     isStarted: jest.fn(),
     setFramework: jest.fn(),
     addPatch: jest.fn(),
     removePatch: jest.fn(),
     clearPatches: jest.fn(),
+    middleware: { connect: () => (): void => undefined },
     lambda: jest.fn(),
     handleUncaughtExceptions: jest.fn(),
     captureError: jest.fn(),
+    currentTraceparent: null,
     startTransaction: jest.fn(),
     setTransactionName: jest.fn(),
     endTransaction: jest.fn(),
+    currentTransaction: null,
     startSpan: jest.fn(),
+    currentSpan: null,
     setLabel: jest.fn(),
     addLabels: jest.fn(),
     setUserContext: jest.fn(),
@@ -27,7 +33,15 @@ describe("ApmService", () => {
     addSpanFilter: jest.fn(),
     addTransactionFilter: jest.fn(),
     flush: jest.fn(),
-    destroy: jest.fn()
+    destroy: jest.fn(),
+    logger: {
+      fatal: (): void => undefined,
+      error: (): void => undefined,
+      warn: (): void => undefined,
+      info: (): void => undefined,
+      debug: (): void => undefined,
+      trace: (): void => undefined
+    }
   };
 
   let service: ApmService;
@@ -36,7 +50,7 @@ describe("ApmService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApmService,
-        { provide: APM_INSTANCE_TOKEN, useValue: ampMock }
+        { provide: APM_INSTANCE_TOKEN, useValue: ampServiceMock }
       ]
     }).compile();
     service = module.get<ApmService>(ApmService);
@@ -48,116 +62,116 @@ describe("ApmService", () => {
 
   it("start should be called", () => {
     service.start();
-    expect(ampMock.start).toBeCalled();
+    expect(ampServiceMock.start).toBeCalled();
   });
 
   it("isStarted should be called", () => {
     service.isStarted();
-    expect(ampMock.isStarted).toBeCalled();
+    expect(ampServiceMock.isStarted).toBeCalled();
   });
 
   it("setFramework should be called", () => {
     service.setFramework({});
-    expect(ampMock.setFramework).toBeCalled();
+    expect(ampServiceMock.setFramework).toBeCalled();
   });
 
   it("addPatch should be called", () => {
     service.addPatch("", "");
-    expect(ampMock.addPatch).toBeCalled();
+    expect(ampServiceMock.addPatch).toBeCalled();
   });
 
   it("removePatch should be called", () => {
     service.removePatch("", "");
-    expect(ampMock.removePatch).toBeCalled();
+    expect(ampServiceMock.removePatch).toBeCalled();
   });
 
   it("clearPatches should be called", () => {
     service.clearPatches("");
-    expect(ampMock.clearPatches).toBeCalled();
+    expect(ampServiceMock.clearPatches).toBeCalled();
   });
 
   it("lambda should be called", () => {
     service.lambda(() => undefined);
-    expect(ampMock.lambda).toBeCalled();
+    expect(ampServiceMock.lambda).toBeCalled();
   });
 
   it("handleUncaughtExceptions should be called", () => {
     service.handleUncaughtExceptions();
-    expect(ampMock.handleUncaughtExceptions).toBeCalled();
+    expect(ampServiceMock.handleUncaughtExceptions).toBeCalled();
   });
 
   it("captureError should be called", () => {
     service.captureError("");
-    expect(ampMock.captureError).toBeCalled();
+    expect(ampServiceMock.captureError).toBeCalled();
   });
 
   it("startTransaction should be called", () => {
     service.startTransaction();
-    expect(ampMock.startTransaction).toBeCalled();
+    expect(ampServiceMock.startTransaction).toBeCalled();
   });
 
   it("setTransactionName should be called", () => {
     service.setTransactionName("");
-    expect(ampMock.setTransactionName).toBeCalled();
+    expect(ampServiceMock.setTransactionName).toBeCalled();
   });
 
   it("endTransaction should be called", () => {
     service.endTransaction();
-    expect(ampMock.endTransaction).toBeCalled();
+    expect(ampServiceMock.endTransaction).toBeCalled();
   });
 
   it("startSpan should be called", () => {
     service.startSpan();
-    expect(ampMock.startSpan).toBeCalled();
+    expect(ampServiceMock.startSpan).toBeCalled();
   });
 
   it("setLabel should be called", () => {
     service.setLabel("", "");
-    expect(ampMock.setLabel).toBeCalled();
+    expect(ampServiceMock.setLabel).toBeCalled();
   });
 
   it("addLabels should be called", () => {
     service.addLabels({});
-    expect(ampMock.addLabels).toBeCalled();
+    expect(ampServiceMock.addLabels).toBeCalled();
   });
 
   it("setUserContext should be called", () => {
     service.setUserContext({});
-    expect(ampMock.setUserContext).toBeCalled();
+    expect(ampServiceMock.setUserContext).toBeCalled();
   });
 
   it("setCustomContext should be called", () => {
     service.setCustomContext({});
-    expect(ampMock.setCustomContext).toBeCalled();
+    expect(ampServiceMock.setCustomContext).toBeCalled();
   });
 
   it("addFilter should be called", () => {
     service.addFilter(() => true);
-    expect(ampMock.addFilter).toBeCalled();
+    expect(ampServiceMock.addFilter).toBeCalled();
   });
 
   it("addErrorFilter should be called", () => {
     service.addErrorFilter(() => true);
-    expect(ampMock.addErrorFilter).toBeCalled();
+    expect(ampServiceMock.addErrorFilter).toBeCalled();
   });
 
   it("addSpanFilter should be called", () => {
     service.addSpanFilter(() => true);
-    expect(ampMock.addSpanFilter).toBeCalled();
+    expect(ampServiceMock.addSpanFilter).toBeCalled();
   });
 
   it("addTransactionFilter should be called", () => {
     service.addTransactionFilter(() => true);
-    expect(ampMock.addTransactionFilter).toBeCalled();
+    expect(ampServiceMock.addTransactionFilter).toBeCalled();
   });
 
   it("flush should be called", () => {
     service.flush();
-    expect(ampMock.flush).toBeCalled();
+    expect(ampServiceMock.flush).toBeCalled();
   });
 
   it("destroy should be called", () => {
     service.destroy();
-    expect(ampMock.destroy).toBeCalled();
+    expect(ampServiceMock.destroy).toBeCalled();
   });
 });

@@ -9,11 +9,9 @@ import { SentryModuleOptions } from "./sentry.module.interface";
 
 describe("SentryInterceptor", () => {
   // TODO: interface ?
-  const sentryMock = {
+  const sentryServiceMock = {
     withScope: {}
   };
-
-  // TODO: interface ?
   const optionsMock: SentryModuleOptions = {};
 
   let sentry: typeof Sentry;
@@ -24,7 +22,7 @@ describe("SentryInterceptor", () => {
       providers: [
         {
           provide: SENTRY_INSTANCE_TOKEN,
-          useValue: sentryMock
+          useValue: sentryServiceMock
         },
         {
           provide: SENTRY_MODULE_OPTIONS,

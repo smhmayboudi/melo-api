@@ -1,18 +1,35 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
+import {
+  ExecutionContext,
+  HttpArgumentsHost,
+  CallHandler
+} from "@nestjs/common/interfaces";
 import { of, throwError } from "rxjs";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 
 describe("AppErrorInterceptor", () => {
-  // TODO: interface ?
-  const executionContext: any = {
-    switchToHttp: jest.fn().mockReturnThis(),
-    getRequest: jest.fn(() => ({ user: { sub: "0" } }))
+  const httpArgumentsHost: HttpArgumentsHost = {
+    getNext: jest.fn(),
+    getRequest: jest
+      .fn()
+      .mockImplementation(() => ({ path: "", user: { sub: "0" } })),
+    getResponse: jest.fn()
   };
-  // TODO: interface ?
-  const callHandler = {
+  const executionContext: ExecutionContext = {
+    getClass: jest.fn(),
+    getHandler: jest.fn(),
+    getArgs: jest.fn(),
+    getArgByIndex: jest.fn(),
+    switchToRpc: jest.fn(),
+    switchToHttp: () => httpArgumentsHost,
+    switchToWs: jest.fn(),
+    getType: jest.fn()
+  };
+  const callHandler: CallHandler = {
     handle: jest.fn(() => of(""))
   };
-  // TODO: interface ?
-  const callHandlerException = {
+  const callHandlerException: CallHandler = {
     handle: jest.fn(() => throwError(""))
   };
 
@@ -24,19 +41,15 @@ describe("AppErrorInterceptor", () => {
     new AppErrorInterceptor()
       .intercept(executionContext, callHandler)
       .subscribe();
-    expect(executionContext.switchToHttp).toHaveBeenCalled();
-    expect(executionContext.getRequest).toHaveBeenCalled();
-    // executionContext.switchToHttp.mockReset();
-    // executionContext.getRequest.mockReset();
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+    // httpArgumentsHost.getRequest.mockReset();
   });
 
   it("intercept should be called with exception", () => {
     new AppErrorInterceptor()
       .intercept(executionContext, callHandlerException)
       .subscribe();
-    expect(executionContext.switchToHttp).toHaveBeenCalled();
-    expect(executionContext.getRequest).toHaveBeenCalled();
-    // executionContext.switchToHttp.mockReset();
-    // executionContext.getRequest.mockReset();
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+    // httpArgumentsHost.getRequest.mockReset();
   });
 });
