@@ -9,7 +9,7 @@ import { Span, Transaction } from "./apm.module.interface";
 describe("ApmDecorator", () => {
   it("ApmCurrentSpan enhance component with apm current span", () => {
     class Test {
-      test(@ApmCurrentSpan() _span: Span | null) {
+      test(@ApmCurrentSpan() _span: Span | null): void {
         // NOTHING
       }
     }
@@ -20,7 +20,7 @@ describe("ApmDecorator", () => {
 
   it("ApmCurrentTraceparent enhance component with apm current traceparent", () => {
     class Test {
-      test(@ApmCurrentTraceparent() _traceparent: string) {
+      test(@ApmCurrentTraceparent() _traceparent: string): void {
         // NOTHING
       }
     }
@@ -31,7 +31,7 @@ describe("ApmDecorator", () => {
 
   it("ApmCurrentTransaction enhance component with apm current transaction", () => {
     class Test {
-      test(@ApmCurrentTransaction() _transaction: Transaction) {
+      test(@ApmCurrentTransaction() _transaction: Transaction): void {
         // NOTHING
       }
     }

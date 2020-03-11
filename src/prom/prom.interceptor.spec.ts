@@ -16,6 +16,7 @@ describe("PromInterceptor", () => {
     getRequest: jest.fn(() => ({ method: "", route: { path: "" } })),
     getResponse: jest.fn(() => 200)
   };
+  // TODO: interface ?
   const callHandler = {
     handle: jest.fn()
   };

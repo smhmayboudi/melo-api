@@ -7,9 +7,11 @@ describe("AppErrorInterceptor", () => {
     switchToHttp: jest.fn().mockReturnThis(),
     getRequest: jest.fn(() => ({ user: { sub: "0" } }))
   };
+  // TODO: interface ?
   const callHandler = {
     handle: jest.fn(() => of(""))
   };
+  // TODO: interface ?
   const callHandlerException = {
     handle: jest.fn(() => throwError(""))
   };

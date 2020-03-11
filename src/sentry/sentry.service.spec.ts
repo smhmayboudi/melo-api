@@ -4,7 +4,7 @@ import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
 
 describe("SentryService", () => {
   // TODO: interface ?
-  const sentryMock: any = {
+  const sentryMock = {
     captureMessage: jest.fn()
   };
 
@@ -59,11 +59,8 @@ describe("SentryService", () => {
 
   describe("exception", () => {
     // TODO: interface ?
-    const sentryMock: any = {
-      // captureMessage: () => {
-      //   throw new Error("");
-      // }
-      captureMessage: () => {
+    const sentryMock = {
+      captureMessage: (): void => {
         throw new Error("");
       }
     };

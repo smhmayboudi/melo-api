@@ -1,12 +1,14 @@
 import { AppHttpExceptionFilter } from "./app.http-exception.filter";
 
 describe("HttpExceptionFilter", () => {
-  const host: any = {
+  // TODO: interface ?
+  const host = {
     switchToHttp: jest.fn().mockReturnThis(),
     getRequest: jest.fn(() => ({ method: "", route: { path: "" } })),
     getResponse: jest.fn(() => ({ status: () => ({ json: () => ({}) }) }))
   };
-  const exception: any = {
+  // TODO: interface ?
+  const exception = {
     getStatus: jest.fn(() => 200)
   };
 

@@ -109,7 +109,8 @@ export class PlaylistService implements PlaylistServiceInterface {
     dto: PlaylistDeleteReqDto,
     sub: number
   ): Promise<DataPlaylistResDto> {
-    const query: any = {
+    // TODO: interface ?
+    const query = {
       $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
     };
     const playlist = await this.playlistModel.findOne(query);
