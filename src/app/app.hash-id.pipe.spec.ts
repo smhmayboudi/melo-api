@@ -10,6 +10,7 @@ describe("AppHashIdPipe", () => {
   };
 
   let appHashIdPipe: AppHashIdPipe;
+
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
@@ -22,8 +23,10 @@ describe("AppHashIdPipe", () => {
     }).compile();
     appHashIdPipe = module.get<AppHashIdPipe>(AppHashIdPipe);
   });
-  it("should be defined", () => {
-    jest.spyOn(appHashIdPipe, "transform").mockImplementation(() => 0);
-    expect(appHashIdPipe.transform("", { type: "body" })).toBeDefined();
+
+  it("should equal to a value", () => {
+    expect(appHashIdPipe.transform("", { type: "body" })).toEqual(0);
   });
+
+  it.todo("typeof value !== 'string'");
 });
