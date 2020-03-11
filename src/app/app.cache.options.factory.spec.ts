@@ -15,9 +15,10 @@ describe("AppCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    hashIdAlphabet: "",
+    hashIdAlphabet:
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
     hashIdMinLength: 0,
-    hashIdSalt: "",
+    hashIdSalt: "cfhistuCFHISTU",
     hashIdSeps: "",
     imgProxyBaseUrl: "",
     imgProxyEncode: true,
