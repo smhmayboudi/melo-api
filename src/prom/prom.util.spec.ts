@@ -74,7 +74,7 @@ describe("PromUtil", () => {
     expect(getTokenRegistry()).toEqual("PROM_REGISTRY_DEFAULT");
   });
 
-  it("getTokenRegistry should be defined with name", () => {
+  it("getTokenRegistry should equal to a string with name", () => {
     expect(getTokenRegistry("TEST")).toEqual("PROM_REGISTRY_TEST");
   });
 

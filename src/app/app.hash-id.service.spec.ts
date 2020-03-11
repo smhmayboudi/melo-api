@@ -65,11 +65,11 @@ describe("AppHashIdService", () => {
     expect(service).toBeDefined();
   });
 
-  it("decode should be defined", () => {
+  it("decode should return a value", () => {
     expect(service.decode("SHY")).toEqual(0);
   });
 
-  it("encode should be defined", () => {
+  it("encode should return a value", () => {
     expect(service.encode(0)).toEqual("SHY");
   });
 

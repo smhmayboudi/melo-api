@@ -81,22 +81,22 @@ describe("FileService", () => {
 
     it.todo("cacheTTL should equal to a value");
 
-    it("s3AccessKeyId should be defined", () => {
+    it("s3AccessKeyId should return a value", () => {
       expect(service.s3AccessKeyId).toEqual("");
     });
 
-    it("s3Bucket should be defined", () => {
+    it("s3Bucket should return a value", () => {
       expect(service.s3Bucket).toEqual("");
     });
 
-    it("s3Endpoint should be defined", () => {
+    it("s3Endpoint should return a value", () => {
       expect(service.s3Endpoint).toEqual("");
     });
 
-    it("s3SecretAccessKey should be defined", () => {
+    it("s3SecretAccessKey should return a value", () => {
       expect(service.s3SecretAccessKey).toEqual("");
     });
 
-    it.todo("s3SslEnabled should be defined");
+    it.todo("s3SslEnabled should return a value");
   });
 });

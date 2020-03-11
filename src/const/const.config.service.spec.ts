@@ -81,6 +81,6 @@ describe("ConstService", () => {
 
     it.todo("cacheTTL should equal to a value");
 
-    it.todo("staticImagePaths should be defined");
+    it.todo("staticImagePaths should equal to a value");
   });
 });

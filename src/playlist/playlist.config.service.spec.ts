@@ -85,7 +85,7 @@ describe("PlaylistService", () => {
       expect(service.defaultImagePath).toEqual("");
     });
 
-    it("imagePath should be defined", () => {
+    it("imagePath should return a value", () => {
       expect(service.imagePath("0")).toEqual("");
     });
   });
