@@ -23,13 +23,8 @@ export class AppOrderByPipe implements PipeTransform<string, DataOrderByType> {
   }
 
   transform(value: string, _metadata: ArgumentMetadata): DataOrderByType {
-    if (
-      (typeof value === "number" || typeof value !== "string") &&
-      (typeof value !== "number" || typeof value === "string")
-    ) {
-      throw this.exceptionFactory(
-        "Validation failed (number or string is expected)"
-      );
+    if (typeof value !== "string") {
+      throw this.exceptionFactory("Validation failed (string is expected)");
     }
     switch (value) {
       case DataOrderByType.downloads.toString():

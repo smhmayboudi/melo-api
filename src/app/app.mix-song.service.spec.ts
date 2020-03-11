@@ -11,8 +11,31 @@ import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 import { AppMixSongService } from "./app.mix-song.service";
+import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 
 describe("AppMixSongService", () => {
+  const songs: DataSongResDto[] = [
+    {
+      artists: [
+        {
+          followersCount: 0,
+          id: "",
+          type: DataArtistType.prime
+        }
+      ],
+      audio: {
+        high: {
+          fingerprint: "",
+          url: ""
+        }
+      },
+      duration: 0,
+      id: "",
+      localized: false,
+      releaseDate: new Date(),
+      title: ""
+    }
+  ];
   let service: AppMixSongService;
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -53,7 +76,7 @@ describe("AppMixSongService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AppConfigService,
+        { provide: AppConfigService, useValue: {} },
         AppMixSongService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock }
@@ -66,33 +89,13 @@ describe("AppMixSongService", () => {
     expect(service).toBeDefined();
   });
 
-  it("mixSong should be equal to a song", async () => {
-    const reqRes = [
-      {
-        artists: [
-          {
-            followersCount: 0,
-            id: "",
-            type: DataArtistType.prime
-          }
-        ],
-        audio: {
-          high: {
-            fingerprint: "",
-            url: ""
-          }
-        },
-        duration: 0,
-        id: "",
-        localized: false,
-        releaseDate: new Date(),
-        title: ""
-      }
-    ];
-    jest
-      .spyOn(service, "mixSong")
-      .mockImplementation(() => Promise.resolve(reqRes));
+  it("mixSong should be equal to a song sub: 1", async () => {
+    expect(await service.mixSong(1, songs)).toEqual(
+      songs.map(value => ({ ...value, liked: false }))
+    );
+  });
 
-    expect(await service.mixSong(0, reqRes)).toEqual(reqRes);
+  it("mixSong should be equal to a song sub: 0", async () => {
+    expect(await service.mixSong(0, songs)).toEqual(songs);
   });
 });
