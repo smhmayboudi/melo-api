@@ -6,7 +6,7 @@ export default {
   // fatal(msg: string, ...args: any[]): void;
   // fatal(obj: {}, msg?: string | undefined, ...args: any[]): void;
   fatal(obj: any, msg?: any, ...args: any[]): void {
-    Logger.error(`${obj} => ${msg} => ${args}`, undefined, "AppApmLogger");
+    Logger.error(util.format(obj, msg, ...args), undefined, "AppApmLogger");
   },
   // error(msg: string, ...args: any[]): void;
   // error(obj: {}, msg?: string | undefined, ...args: any[]): void;

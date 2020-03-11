@@ -22,7 +22,7 @@ export class AppImgProxyService implements AppImgProxyServiceInterface {
 
   generateUrl(normal: string, slider?: string): DataImageResDto {
     const images: DataImageResDto = {};
-    this.appConfigService.imgProxyImageTypeSize
+    this.appConfigService.imgProxyTypeSize
       .filter(
         (imt: ImgProxyImageTypeSize) =>
           slider === undefined || !imt.name.startsWith("slider")

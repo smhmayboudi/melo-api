@@ -20,7 +20,7 @@ export default registerAs("app", () => ({
   imgProxyKey: process.env.APP_IMG_PROXY_KEY,
   imgProxySalt: process.env.APP_IMG_PROXY_SALT,
   imgProxySignatureSize: process.env.APP_IMG_PROXY_SIGNATURE_SIZE,
-  imgProxyImageTypeSize: process.env.APP_IMG_PROXY_TYPE_SIZE,
+  imgProxyTypeSize: process.env.APP_IMG_PROXY_TYPE_SIZE,
   mangooseRetryAttempts: process.env.APP_MANGOOSE_RETRY_ATTEMPTS,
   mangooseRetryDelay: process.env.APP_MANGOOSE_RETRY_DELAY,
   mangooseUri: process.env.APP_MANGOOSE_URI,
