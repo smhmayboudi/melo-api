@@ -53,7 +53,7 @@ describe("AppMixArtistService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AppConfigService,
+        { provide: AppConfigService, useValue: {} },
         AppMixArtistService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock }
