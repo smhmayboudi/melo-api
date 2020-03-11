@@ -94,7 +94,7 @@ describe("DataAlbumService", () => {
       service = module.get<DataAlbumService>(DataAlbumService);
     });
 
-    it("byId should equal to an album", async () => {
+    it("byId should be equal to an album", async () => {
       const dto: DataAlbumByIdReqDto = {
         id: 0
       };

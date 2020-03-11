@@ -91,7 +91,7 @@ describe("ArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  it("follow should equal to an artist", async () => {
+  it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
       id: ""
     };
@@ -106,7 +106,7 @@ describe("ArtistService", () => {
     expect(await service.following(dto, 0)).toEqual(mixArtistPaginatin);
   });
 
-  it("profile should equal to an artist", async () => {
+  it("profile should be equal to an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: ""
     };
@@ -124,7 +124,7 @@ describe("ArtistService", () => {
     expect(await service.trendingGenre(dto, 0)).toEqual(mixArtistPaginatin);
   });
 
-  it("unfollow should equal to an artist", async () => {
+  it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: ""
     };

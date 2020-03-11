@@ -33,11 +33,11 @@ describe("AlbumService", () => {
       expect(service).toBeDefined();
     });
 
-    it("cacheMax should equal to a value", () => {
+    it("cacheMax should be equal to a value", () => {
       expect(service.cacheMax).toEqual(0);
     });
 
-    it("cachePort should equal to a value", () => {
+    it("cachePort should be equal to a value", () => {
       expect(service.cachePort).toEqual(0);
     });
   });
@@ -71,14 +71,14 @@ describe("AlbumService", () => {
       expect(service).toBeDefined();
     });
 
-    it("cacheHost cacheHost should equal to a value", () => {
+    it("cacheHost cacheHost should be equal to a value", () => {
       expect(service.cacheHost).toEqual("");
     });
 
-    it("cacheStore should equal to a value", () => {
+    it("cacheStore should be equal to a value", () => {
       expect(service.cacheStore).toEqual("");
     });
 
-    it.todo("cacheTTL should equal to a value");
+    it.todo("cacheTTL should be equal to a value");
   });
 });

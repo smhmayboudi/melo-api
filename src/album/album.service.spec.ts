@@ -93,7 +93,7 @@ describe("AlbumService", () => {
       expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
     });
 
-    it("byId should equal to an artist", async () => {
+    it("byId should be equal to an artist", async () => {
       const dto: AlbumByIdReqDto = {
         id: "0"
       };

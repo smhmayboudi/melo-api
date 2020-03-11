@@ -41,7 +41,7 @@ describe("ArtistCacheOptionsFactory", () => {
       expect(new ArtistCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should equal to an option", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new ArtistCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,7 +69,7 @@ describe("ArtistCacheOptionsFactory", () => {
       service = module.get<ArtistConfigService>(ArtistConfigService);
     });
 
-    it("createCacheOptions should equal to an option with store none", () => {
+    it("createCacheOptions should be equal to an option with store none", () => {
       expect(
         new ArtistCacheOptionsFactory(service).createCacheOptions()
       ).toEqual({

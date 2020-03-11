@@ -24,7 +24,7 @@ describe("AppHashIdPipe", () => {
     appHashIdPipe = module.get<AppHashIdPipe>(AppHashIdPipe);
   });
 
-  it("should equal to a value", () => {
+  it("should be equal to a value", () => {
     expect(appHashIdPipe.transform("", { type: "body" })).toEqual(0);
   });
 

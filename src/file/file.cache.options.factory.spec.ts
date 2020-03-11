@@ -46,7 +46,7 @@ describe("FileCacheOptionsFactory", () => {
       expect(new FileCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should equal to an option", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new FileCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -74,7 +74,7 @@ describe("FileCacheOptionsFactory", () => {
       service = module.get<FileConfigService>(FileConfigService);
     });
 
-    it("createCacheOptions should equal to an option with store none", () => {
+    it("createCacheOptions should be equal to an option with store none", () => {
       expect(new FileCacheOptionsFactory(service).createCacheOptions()).toEqual(
         {
           host: "",

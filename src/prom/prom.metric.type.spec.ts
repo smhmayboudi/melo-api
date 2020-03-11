@@ -1,7 +1,7 @@
 import { PromMetricType } from "./prom.metric.type";
 
 describe("PromMetricType", () => {
-  it("should equal to prom metric type", () => {
+  it("should be equal to prom metric type", () => {
     expect(PromMetricType).toStrictEqual({
       counter: "counter",
       gauge: "gauge",

@@ -59,7 +59,7 @@ describe("AlbumController", () => {
     expect(await controller.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
   });
 
-  it("byId should equal to an album", async () => {
+  it("byId should be equal to an album", async () => {
     const dto: AlbumByIdReqDto = {
       id: "0"
     };

@@ -41,7 +41,7 @@ describe("AlbumCacheOptionsFactory", () => {
       expect(new AlbumCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should equal to an option", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new AlbumCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,7 +69,7 @@ describe("AlbumCacheOptionsFactory", () => {
       service = module.get<AlbumConfigService>(AlbumConfigService);
     });
 
-    it("createCacheOptions should equal to an option with store none", () => {
+    it("createCacheOptions should be equal to an option with store none", () => {
       expect(
         new AlbumCacheOptionsFactory(service).createCacheOptions()
       ).toEqual({

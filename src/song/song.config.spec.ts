@@ -1,7 +1,7 @@
 import config from "./song.config";
 
 describe("SongConfig", () => {
-  it("should equal to an object", () => {
+  it("should be equal to an object", () => {
     expect(config()).toStrictEqual({
       cacheHost: undefined,
       cacheMax: undefined,

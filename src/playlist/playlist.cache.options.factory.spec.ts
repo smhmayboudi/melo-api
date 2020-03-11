@@ -43,7 +43,7 @@ describe("PlaylistCacheOptionsFactory", () => {
       expect(new PlaylistCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should equal to an option", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new PlaylistCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -71,7 +71,7 @@ describe("PlaylistCacheOptionsFactory", () => {
       service = module.get<PlaylistConfigService>(PlaylistConfigService);
     });
 
-    it("createCacheOptions should equal to an option with store none", () => {
+    it("createCacheOptions should be equal to an option with store none", () => {
       expect(
         new PlaylistCacheOptionsFactory(service).createCacheOptions()
       ).toEqual({

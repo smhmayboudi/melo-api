@@ -57,7 +57,7 @@ describe("ArtistController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("follow should equal to an artist", async () => {
+  it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
       id: "0"
     };
@@ -72,7 +72,7 @@ describe("ArtistController", () => {
     expect(await controller.following(dto, 0)).toEqual(mixArtistPagination);
   });
 
-  it("profile should equal to an artist", async () => {
+  it("profile should be equal to an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: "0"
     };
@@ -90,7 +90,7 @@ describe("ArtistController", () => {
     expect(await controller.trendingGenre(dto, 0)).toEqual(mixArtistPagination);
   });
 
-  it("unfollow should equal to an artist", async () => {
+  it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: "0"
     };

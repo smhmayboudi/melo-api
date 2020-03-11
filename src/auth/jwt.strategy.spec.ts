@@ -117,7 +117,7 @@ describe("JwtStrategy", () => {
     ).toBeDefined();
   });
 
-  it("validate should equal to an auth strategy", async () => {
+  it("validate should be equal to an auth strategy", async () => {
     const dto: AuthJwtPayloadReqDto = {
       exp: 0,
       iat: 0,

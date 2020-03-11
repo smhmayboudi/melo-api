@@ -19,7 +19,7 @@ describe("ApmUtil", () => {
     );
   });
 
-  it("makeDefaultOptions should equal to an option", () => {
+  it("makeDefaultOptions should be equal to an option", () => {
     expect(makeDefaultOptions({})).toEqual({});
   });
 });

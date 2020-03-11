@@ -5,7 +5,7 @@ describe("FileMulterOptionsFactory", () => {
     expect(new FileMulterOptionsFactory()).toBeDefined();
   });
 
-  it("createMulterOptions should equal to a storage", () => {
+  it("createMulterOptions should be equal to a storage", () => {
     expect(new FileMulterOptionsFactory().createMulterOptions()).toEqual({
       storage: {}
     });

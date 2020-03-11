@@ -97,7 +97,7 @@ describe("DataArtistService", () => {
       service = module.get<DataArtistService>(DataArtistService);
     });
 
-    it("byId should equal to an artist", async () => {
+    it("byId should be equal to an artist", async () => {
       const dto: DataArtistByIdReqDto = {
         id: 0
       };

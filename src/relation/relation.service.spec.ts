@@ -76,7 +76,7 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
   });
 
-  it("get should equal to a list of relation entities", async () => {
+  it("get should be equal to a list of relation entities", async () => {
     const dto: RelationGetReqDto = {
       from: 0,
       fromEntityDto: {
@@ -262,7 +262,7 @@ describe("RelationService", () => {
       service = module.get<RelationService>(RelationService);
     });
 
-    it("multiHas should equal to an array of relation entities ", async () => {
+    it("multiHas should be equal to an array of relation entities ", async () => {
       const dto: RelationMultiHasReqDto = {
         from: { id: "", type: RelationEntityType.album },
         relationType: RelationType.follows,

@@ -41,7 +41,7 @@ describe("AtCacheOptionsFactory", () => {
       expect(new AtCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should equal to an option", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new AtCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,7 +69,7 @@ describe("AtCacheOptionsFactory", () => {
       service = module.get<AtConfigService>(AtConfigService);
     });
 
-    it("createCacheOptions should equal to an option with store none", () => {
+    it("createCacheOptions should be equal to an option with store none", () => {
       expect(new AtCacheOptionsFactory(service).createCacheOptions()).toEqual({
         host: "",
         max: 0,

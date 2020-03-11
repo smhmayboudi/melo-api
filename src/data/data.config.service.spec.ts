@@ -33,7 +33,7 @@ describe("DataService", () => {
       expect(service).toBeDefined();
     });
 
-    it("timeout should equal to a value", () => {
+    it("timeout should be equal to a value", () => {
       expect(service.timeout).toEqual("0ms");
     });
   });
@@ -67,7 +67,7 @@ describe("DataService", () => {
       expect(service).toBeDefined();
     });
 
-    it("jwtAuhSchema url should equal to a value", () => {
+    it("jwtAuhSchema url should be equal to a value", () => {
       expect(service.url).toEqual("");
     });
   });

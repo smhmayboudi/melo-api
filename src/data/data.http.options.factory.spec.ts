@@ -27,7 +27,7 @@ describe("DataHttpOptionsFactory", () => {
     expect(new DataHttpOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should equal to an option", () => {
+  it("createHttpOptions should be equal to an option", () => {
     expect(new DataHttpOptionsFactory(service).createHttpOptions()).toEqual({
       timeout: 0
     });

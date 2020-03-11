@@ -1,7 +1,7 @@
 import config from "./playlist.config";
 
 describe("PlaylistConfig", () => {
-  it("should equal to an object", () => {
+  it("should be equal to an object", () => {
     expect(config()).toStrictEqual({
       cacheHost: undefined,
       cacheMax: undefined,

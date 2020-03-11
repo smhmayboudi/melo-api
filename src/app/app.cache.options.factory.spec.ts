@@ -77,7 +77,7 @@ describe("AppCacheOptionsFactory", () => {
       expect(new AppCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should equal to an option", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new AppCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -105,7 +105,7 @@ describe("AppCacheOptionsFactory", () => {
       service = module.get<AppConfigService>(AppConfigService);
     });
 
-    it("createCacheOptions should equal to an option with store none", () => {
+    it("createCacheOptions should be equal to an option with store none", () => {
       expect(new AppCacheOptionsFactory(service).createCacheOptions()).toEqual({
         host: "",
         max: 0,

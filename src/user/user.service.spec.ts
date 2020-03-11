@@ -34,32 +34,32 @@ describe("UserService", () => {
     expect(service).toBeDefined();
   });
 
-  it("find should equal to an array of users", async () => {
+  it("find should be equal to an array of users", async () => {
     expect(await service.find()).toEqual([userEntity]);
   });
 
-  it("findOneById should equal to a users", async () => {
+  it("findOneById should be equal to a users", async () => {
     expect(await service.findOneById(0)).toEqual(userEntity);
   });
 
-  it("findOneByTelegramId should equal to a users", async () => {
+  it("findOneByTelegramId should be equal to a users", async () => {
     expect(await service.findOneByTelegramId(0)).toEqual(userEntity);
   });
 
-  it("findOneByUsernam should equal to a users", async () => {
+  it("findOneByUsernam should be equal to a users", async () => {
     expect(await service.findOneByUsernam("")).toEqual(userEntity);
   });
 
-  it("get should equal to a users", async () => {
+  it("get should be equal to a users", async () => {
     expect(await service.get(0)).toEqual(userEntity);
   });
 
-  it("put should equal to a users", async () => {
+  it("put should be equal to a users", async () => {
     const dto: UserEditReqDto = {};
     expect(await service.put(dto, {})).toEqual(userEntity);
   });
 
-  it("save should equal to a users", async () => {
+  it("save should be equal to a users", async () => {
     const dto: UserSaveReqDto = {
       id: 0,
       telegramId: 0

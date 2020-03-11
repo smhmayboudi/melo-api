@@ -27,7 +27,7 @@ describe("RelationService", () => {
       expect(service).toBeDefined();
     });
 
-    it("timeout should equal to a value", () => {
+    it("timeout should be equal to a value", () => {
       expect(service.timeout).toEqual("0ms");
     });
   });
@@ -51,7 +51,7 @@ describe("RelationService", () => {
       }).compile();
       service = module.get<RelationConfigService>(RelationConfigService);
     });
-    it("url should equal to a value", () => {
+    it("url should be equal to a value", () => {
       expect(service.url).toEqual("");
     });
   });

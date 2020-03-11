@@ -46,39 +46,39 @@ describe("PromUtil", () => {
     ).toBeInstanceOf(Summary);
   });
 
-  it("getTokenCounter should equal to a string", () => {
+  it("getTokenCounter should be equal to a string", () => {
     expect(getTokenCounter("test")).toEqual("PROM_COUNTER_TEST");
   });
 
-  it("getTokenGauge should equal to a string", () => {
+  it("getTokenGauge should be equal to a string", () => {
     expect(getTokenGauge("test")).toEqual("PROM_GAUGE_TEST");
   });
 
-  it("getTokenHistogram should equal to a string", () => {
+  it("getTokenHistogram should be equal to a string", () => {
     expect(getTokenHistogram("test")).toEqual("PROM_HISTOGRAM_TEST");
   });
 
-  it("getTokenSummary should equal to a string", () => {
+  it("getTokenSummary should be equal to a string", () => {
     expect(getTokenSummary("test")).toEqual("PROM_SUMMARY_TEST");
   });
 
-  it("getTokenConfiguration should equal to a string", () => {
+  it("getTokenConfiguration should be equal to a string", () => {
     expect(getTokenConfiguration()).toEqual("PROM_CONFIGURATION_DEFAULT");
   });
 
-  it("getTokenConfiguration should equal to a string with name", () => {
+  it("getTokenConfiguration should be equal to a string with name", () => {
     expect(getTokenConfiguration("TEST")).toEqual("PROM_CONFIGURATION_TEST");
   });
 
-  it("getTokenRegistry should equal to a string", () => {
+  it("getTokenRegistry should be equal to a string", () => {
     expect(getTokenRegistry()).toEqual("PROM_REGISTRY_DEFAULT");
   });
 
-  it("getTokenRegistry should equal to a string with name", () => {
+  it("getTokenRegistry should be equal to a string with name", () => {
     expect(getTokenRegistry("TEST")).toEqual("PROM_REGISTRY_TEST");
   });
 
-  it("makeDefaultOptions should equal to an option", () => {
+  it("makeDefaultOptions should be equal to an option", () => {
     expect(makeDefaultOptions()).toEqual({
       defaultLabels: {},
       defaultMetrics: {
@@ -92,7 +92,7 @@ describe("PromUtil", () => {
     });
   });
 
-  it("makeDefaultOptions should equal to an option with custom", () => {
+  it("makeDefaultOptions should be equal to an option with custom", () => {
     expect(
       makeDefaultOptions({
         defaultLabels: {

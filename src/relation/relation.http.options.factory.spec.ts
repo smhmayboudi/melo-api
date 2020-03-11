@@ -24,7 +24,7 @@ describe("RelationHttpOptionsFactory", () => {
     expect(new RelationHttpOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should equal to an option", () => {
+  it("createHttpOptions should be equal to an option", () => {
     expect(new RelationHttpOptionsFactory(service).createHttpOptions()).toEqual(
       {
         timeout: 0

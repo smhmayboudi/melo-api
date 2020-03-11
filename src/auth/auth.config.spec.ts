@@ -1,7 +1,7 @@
 import config from "./auth.config";
 
 describe("AuthConfig", () => {
-  it("should equal to an object", () => {
+  it("should be equal to an object", () => {
     expect(config()).toStrictEqual({
       jwtAccessTokenExpiresCount: undefined,
       jwtAccessTokenExpiresIn: undefined,

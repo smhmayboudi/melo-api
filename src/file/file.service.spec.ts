@@ -74,7 +74,7 @@ describe("FileService", () => {
     }));
   });
 
-  it("uploadImage should equal to a file upload image", async () => {
+  it("uploadImage should be equal to a file upload image", async () => {
     const dto: FileUploadImageReqDto = {
       buffer,
       ...fileUploadImage

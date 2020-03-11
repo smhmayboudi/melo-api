@@ -10,7 +10,7 @@ describe("AppHttpCacheInterceptor", () => {
     expect(new AppHttpCacheInterceptor(new Map(), {})).toBeDefined();
   });
 
-  it("trackBy should equal to a value", () => {
+  it("trackBy should be equal to a value", () => {
     expect(
       new AppHttpCacheInterceptor(new Map(), {}).trackBy(executionContext)
     ).toEqual("");

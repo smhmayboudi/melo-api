@@ -1,7 +1,7 @@
 import { RelationEntityType } from "./relation.entity.type";
 
 describe("RelationEntityType", () => {
-  it("should equal to relation entity type", () => {
+  it("should be equal to relation entity type", () => {
     expect(RelationEntityType).toStrictEqual({
       album: "album",
       artist: "artist",

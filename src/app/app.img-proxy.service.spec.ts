@@ -65,7 +65,7 @@ describe("ImgProxyService", () => {
     expect(service).toBeDefined();
   });
 
-  it("all should equal to a data image", () => {
+  it("all should be equal to a data image", () => {
     expect(service.generateUrl("")).toEqual({});
   });
 });

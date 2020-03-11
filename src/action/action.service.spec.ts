@@ -23,7 +23,7 @@ describe("ActionService", () => {
     expect(service).toBeDefined();
   });
 
-  it("bulk should equal to an action", async () => {
+  it("bulk should be equal to an action", async () => {
     const dto: ActionDto = {
       datetime,
       type: ActionType.likeSong

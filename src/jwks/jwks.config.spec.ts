@@ -1,7 +1,7 @@
 import config from "./jwks.config";
 
 describe("JwksConfig", () => {
-  it("should equal to an object", () => {
+  it("should be equal to an object", () => {
     expect(config()).toStrictEqual({
       cacheHost: undefined,
       cacheMax: undefined,
