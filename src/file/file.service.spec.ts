@@ -14,7 +14,7 @@ describe("FileService", () => {
   );
   const date = new Date();
   // TODO: interface ?
-  const file = {
+  const fileUploadImage = {
     createdAt: date,
     fileKey: "",
     mimeType: "jpg",
@@ -74,12 +74,12 @@ describe("FileService", () => {
     }));
   });
 
-  it("uploadImage should defined", async () => {
+  it("uploadImage should equal to a file upload image", async () => {
     const dto: FileUploadImageReqDto = {
       buffer,
-      ...file
+      ...fileUploadImage
     };
-    expect(await service.uploadImage(0, dto)).toEqual(file);
+    expect(await service.uploadImage(0, dto)).toEqual(fileUploadImage);
   });
 
   it("uploadImage should throw an exception dto undefined", async () => {
@@ -93,7 +93,7 @@ describe("FileService", () => {
   it("uploadImage should throw an exception mimeType jpg", async () => {
     const dto: FileUploadImageReqDto = {
       buffer,
-      ...file
+      ...fileUploadImage
     };
     try {
       expect(await service.uploadImage(0, dto)).toThrowError();

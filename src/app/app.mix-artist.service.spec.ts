@@ -66,7 +66,7 @@ describe("AppMixArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  it("mixArtist should be defined", async () => {
+  it("mixArtist should equal to an artist", async () => {
     const reqRes = [
       {
         followersCount: 0,

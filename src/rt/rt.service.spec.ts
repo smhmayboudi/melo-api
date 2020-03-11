@@ -61,8 +61,8 @@ describe("RtService", () => {
     expect(await service.deleteById(0)).toEqual(rtEntity);
   });
 
-  it("deleteByToken should be defined", async () => {
-    expect(await service.deleteByToken("")).toEqual(undefined);
+  it("deleteByToken should be undefined", async () => {
+    expect(await service.deleteByToken("")).toBeUndefined();
   });
 
   it("find should equal to an array of RT entities", async () => {

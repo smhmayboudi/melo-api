@@ -42,7 +42,7 @@ describe("ConstService", () => {
     expect(service).toBeDefined();
   });
 
-  it("images should be defined", async () => {
+  it("images should equal to an image", async () => {
     expect(await service.images()).toEqual({ pop: image });
   });
 });
