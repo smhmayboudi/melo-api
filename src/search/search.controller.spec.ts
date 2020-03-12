@@ -35,7 +35,7 @@ describe("SearchController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("query should return a list of search results", async () => {
+  it("query should be equal to a list of search results", async () => {
     const dto: SearchQueryReqDto = {
       from: 0,
       limit: 0,

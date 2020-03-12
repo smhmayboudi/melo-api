@@ -33,11 +33,11 @@ describe("ConstService", () => {
       expect(service).toBeDefined();
     });
 
-    it("cacheMax should be defined", () => {
+    it("cacheMax should be equal to a value", () => {
       expect(service.cacheMax).toEqual(0);
     });
 
-    it("cachePort should be defined", () => {
+    it("cachePort should be equal to a value", () => {
       expect(service.cachePort).toEqual(0);
     });
   });
@@ -71,16 +71,16 @@ describe("ConstService", () => {
       expect(service).toBeDefined();
     });
 
-    it("cacheHost cacheHostshould be defined", () => {
+    it("cacheHost cacheHost should be equal to a value", () => {
       expect(service.cacheHost).toEqual("");
     });
 
-    it("cacheStore should be defined", () => {
+    it("cacheStore should be equal to a value", () => {
       expect(service.cacheStore).toEqual("");
     });
 
-    it.todo("cacheTTL should be defined");
+    it.todo("cacheTTL should be equal to a value");
 
-    it.todo("staticImagePaths should be defined");
+    it.todo("staticImagePaths should be equal to a value");
   });
 });

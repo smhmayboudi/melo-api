@@ -41,7 +41,7 @@ describe("RtCacheOptionsFactory", () => {
       expect(new RtCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new RtCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,10 +69,14 @@ describe("RtCacheOptionsFactory", () => {
       service = module.get<RtConfigService>(RtConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
-      expect(
-        new RtCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+    it("createCacheOptions should be equal to an option with store none", () => {
+      expect(new RtCacheOptionsFactory(service).createCacheOptions()).toEqual({
+        host: "",
+        max: 0,
+        port: 0,
+        store: "none",
+        ttl: 0
+      });
     });
   });
 });

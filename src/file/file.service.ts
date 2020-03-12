@@ -44,23 +44,20 @@ export class FileService implements FileServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async uploadImage(
-    dto: FileUploadImageReqDto,
-    sub: number
+    sub: number,
+    dto?: FileUploadImageReqDto
   ): Promise<FileUploadImageResDto> {
-    console.log("dto", dto);
     if (dto === undefined) {
       throw new BadRequestException();
     }
     const mimeType: string = await (this.mmmagic as any).detectAsync(
       dto.buffer
     );
-    console.log("mimeType", mimeType);
     if (mimeType !== mime.lookup("jpg")) {
       throw new BadRequestException();
     }
     const extension = mime.extension(mimeType);
-    console.log("extension", extension);
-    if (extension === undefined) {
+    if (extension === false) {
       throw new BadRequestException();
     }
     const managedUpload = await this.s3

@@ -3,7 +3,7 @@ import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 
 export interface FileServiceInterface {
   uploadImage(
-    dto: FileUploadImageReqDto,
-    sub: number
+    sub: number,
+    dto?: FileUploadImageReqDto
   ): Promise<FileUploadImageResDto>;
 }

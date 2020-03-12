@@ -34,9 +34,10 @@ export class FileController {
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
     @UploadedFile("file")
-    dto: FileUploadImageReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @AppUser("sub", ParseIntPipe)
+    sub: number,
+    dto: FileUploadImageReqDto
   ): Promise<FileUploadImageResDto> {
-    return this.fileService.uploadImage(dto, sub);
+    return this.fileService.uploadImage(sub, dto);
   }
 }

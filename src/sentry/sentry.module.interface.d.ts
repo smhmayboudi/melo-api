@@ -1,6 +1,7 @@
 import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
-import { LogLevel } from "@sentry/types";
 import * as Sentry from "@sentry/node";
+import { Breadcrumb, Scope, Severity, User } from "@sentry/node";
+import { LogLevel } from "@sentry/types";
 
 export interface SentryFilterFunction {
   (exception: any): boolean;
@@ -41,7 +42,6 @@ export interface SentryModuleAsyncOptions
     ...args: any[]
   ) => Promise<SentryModuleOptions> | SentryModuleOptions;
 }
-import { Breadcrumb, Severity, Scope, User } from "@sentry/node";
 
 export interface SentryService {
   /**

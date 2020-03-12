@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { Counter, Gauge, Histogram, Summary } from "prom-client";
 import { PromService } from "./prom.service";
 
 describe("PromService", () => {
@@ -11,27 +12,27 @@ describe("PromService", () => {
     service = module.get<PromService>(PromService);
   });
 
-  it("getOrCreateCounter should be defined", () => {
+  it("getOrCreateCounter should be instance of a counter metric", () => {
     expect(
-      service.getOrCreateCounter({ name: "name", help: "help" })
-    ).toBeDefined();
+      service.getOrCreateCounter({ name: "counter", help: "counter" })
+    ).toBeInstanceOf(Counter);
   });
 
-  it("getOrCreateGauge should be defined", () => {
+  it("getOrCreateGauge should be instance of a gauge metric", () => {
     expect(
-      service.getOrCreateGauge({ name: "name", help: "help" })
-    ).toBeDefined();
+      service.getOrCreateGauge({ name: "gauge", help: "gauge" })
+    ).toBeInstanceOf(Gauge);
   });
 
-  it("getOrCreateHistogram should be defined", () => {
+  it("getOrCreateHistogram should be instance of a histogram metric", () => {
     expect(
-      service.getOrCreateHistogram({ name: "name", help: "help" })
-    ).toBeDefined();
+      service.getOrCreateHistogram({ name: "histogram", help: "histogram" })
+    ).toBeInstanceOf(Histogram);
   });
 
-  it("getOrCreateSummary should be defined", () => {
+  it("getOrCreateSummary should be instance of a summary metric", () => {
     expect(
-      service.getOrCreateSummary({ name: "name", help: "help" })
-    ).toBeDefined();
+      service.getOrCreateSummary({ name: "summary", help: "summary" })
+    ).toBeInstanceOf(Summary);
   });
 });

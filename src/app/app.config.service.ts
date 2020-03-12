@@ -73,9 +73,9 @@ export class AppConfigService implements AppConfigServiceInterface {
     return this.configService.get<boolean>("app.imgProxyEncode", true);
   }
 
-  get imgProxyImageTypeSize(): ImgProxyImageTypeSize[] {
+  get imgProxyTypeSize(): ImgProxyImageTypeSize[] {
     return JSON.parse(
-      this.configService.get<string>("app.imgProxyImageTypeSize", "")
+      this.configService.get<string>("app.imgProxyTypeSize", "")
     ) as ImgProxyImageTypeSize[];
   }
 

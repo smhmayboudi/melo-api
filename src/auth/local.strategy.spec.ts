@@ -36,13 +36,13 @@ describe("LocalStrategy", () => {
     expect(new LocalStrategy(service)).toBeDefined();
   });
 
-  it("validate should return an auth strategy", async () => {
+  it("validate should be equal to an auth strategy", async () => {
     expect(await new LocalStrategy(service).validate("", "")).toEqual({
       sub: "0"
     });
   });
 
-  describe("FindOneByUsernam Undefined", () => {
+  describe("findOneByUsernam: undefined", () => {
     const userServiceMockFindOneByUsernamUndefined: UserServiceInterface = {
       ...userServiceMock,
       findOneByUsernam: (): Promise<UserUserResDto | undefined> =>

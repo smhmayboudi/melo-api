@@ -44,8 +44,6 @@ function getOrCreateMetric(
         return new Histogram(configuration);
       case PromMetricType.summary:
         return new Summary(configuration);
-      default:
-        throw new ReferenceError(`The type ${metricType} is not supported.`);
     }
   }
   return existingMetric;
@@ -175,9 +173,12 @@ export function promRegistryProviderImp(
     registry = new Registry();
   }
   register.setDefaultLabels({ ...options.defaultLabels });
-  if (options.defaultMetrics?.enabled !== false) {
+  if (
+    options.defaultMetrics !== undefined &&
+    options.defaultMetrics.enabled !== false
+  ) {
     const defaultMetricsOptions = {
-      ...options.defaultMetrics?.config,
+      ...options.defaultMetrics.config,
       register: registry
     };
     collectDefaultMetrics(defaultMetricsOptions);

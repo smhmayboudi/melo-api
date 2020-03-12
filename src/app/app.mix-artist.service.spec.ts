@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
@@ -13,13 +14,17 @@ import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 import { AppMixArtistService } from "./app.mix-artist.service";
 
 describe("AppMixArtistService", () => {
-  let service: AppMixArtistService;
-
+  const artists: DataArtistResDto[] = [
+    {
+      followersCount: 0,
+      id: "",
+      type: DataArtistType.prime
+    }
+  ];
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
   };
-
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
       Promise.resolve({
@@ -50,10 +55,12 @@ describe("AppMixArtistService", () => {
     set: (): Promise<void> => Promise.resolve(undefined)
   };
 
+  let service: AppMixArtistService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AppConfigService,
+        { provide: AppConfigService, useValue: {} },
         AppMixArtistService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock }
@@ -66,18 +73,13 @@ describe("AppMixArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  it("mixArtist should be defined", async () => {
-    const reqRes = [
-      {
-        followersCount: 0,
-        id: "",
-        type: DataArtistType.prime
-      }
-    ];
-    jest
-      .spyOn(service, "mixArtist")
-      .mockImplementation(() => Promise.resolve(reqRes));
+  it("mixArtist should be equal to an artist sub: 1", async () => {
+    expect(await service.mixArtist(1, artists)).toEqual(
+      artists.map(value => ({ ...value, following: false }))
+    );
+  });
 
-    expect(await service.mixArtist(0, reqRes)).toEqual(reqRes);
+  it("mixArtist should be equal to an artist sub: 0", async () => {
+    expect(await service.mixArtist(0, artists)).toEqual(artists);
   });
 });

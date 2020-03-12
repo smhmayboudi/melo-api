@@ -8,9 +8,7 @@ describe("ConstHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new ConstHealthIndicator().isHealthy()).toEqual({
       const: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

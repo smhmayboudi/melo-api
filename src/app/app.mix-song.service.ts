@@ -30,12 +30,12 @@ export class AppMixSongService {
       })),
       relationType: RelationType.likedSongs
     });
-    return songs.map(song => ({
-      ...song,
+    return songs.map(value => ({
+      ...value,
       liked:
         relationMultiHasResDto.find(
-          value =>
-            value.to.id === this.appHashIdService.decode(song.id).toString()
+          value2 =>
+            value2.to.id === this.appHashIdService.decode(value.id).toString()
         ) !== undefined
     }));
   }

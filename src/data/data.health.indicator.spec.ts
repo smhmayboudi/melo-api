@@ -8,9 +8,7 @@ describe("DataHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new DataHealthIndicator().isHealthy()).toEqual({
       data: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

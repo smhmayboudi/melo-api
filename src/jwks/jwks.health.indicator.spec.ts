@@ -8,9 +8,7 @@ describe("JwksHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new JwksHealthIndicator().isHealthy()).toEqual({
       jwks: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

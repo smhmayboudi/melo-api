@@ -33,11 +33,11 @@ describe("JwksService", () => {
     expect(service).toBeDefined();
   });
 
-  it("findOneById should return an jwksEntity", async () => {
+  it("findOneById should be equal to an jwksEntity", async () => {
     expect(await service.findOneById("")).toEqual(jwksEntity);
   });
 
-  it("getOneRandom should return an jwksEntity", async () => {
+  it("getOneRandom should be equal to an jwksEntity", async () => {
     expect(await service.getOneRandom()).toEqual(jwksEntity);
   });
 });

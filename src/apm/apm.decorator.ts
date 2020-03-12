@@ -21,7 +21,10 @@ export const ApmCurrentTransaction = createParamDecorator((_data, _req) => {
 let spans: { name: string; span: Span }[] = [];
 
 export const ApmAfterMethod = afterMethod(meta => {
-  const tokenName = getTokenName(meta);
+  const tokenName = getTokenName(
+    meta.target.constructor.name,
+    meta.method.name
+  );
   spans
     .filter(value => value.name === tokenName)
     .map(value => value.span.end());
@@ -35,6 +38,9 @@ export const ApmBeforeMethod = beforeMethod(meta => {
     meta.target.constructor.name
   );
   if (span !== null) {
-    spans.push({ name: getTokenName(meta), span });
+    spans.push({
+      name: getTokenName(meta.target.constructor.name, meta.method.name),
+      span
+    });
   }
 });
