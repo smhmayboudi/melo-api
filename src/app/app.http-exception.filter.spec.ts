@@ -1,15 +1,26 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
+import { HttpException } from "@nestjs/common";
+import { ArgumentsHost, HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { AppHttpExceptionFilter } from "./app.http-exception.filter";
 
 describe("HttpExceptionFilter", () => {
-  // TODO: interface ?
-  const host = {
-    switchToHttp: jest.fn().mockReturnThis(),
-    getRequest: jest.fn(() => ({ method: "", route: { path: "" } })),
-    getResponse: jest.fn(() => ({ status: () => ({ json: () => ({}) }) }))
+  const httpArgumentsHost: HttpArgumentsHost = {
+    getNext: jest.fn(),
+    getRequest: jest
+      .fn()
+      .mockImplementation(() => ({ method: "", route: { path: "" } })),
+    getResponse: jest
+      .fn()
+      .mockImplementation(() => ({ status: () => ({ json: () => ({}) }) }))
   };
-  // TODO: interface ?
-  const exception = {
-    getStatus: jest.fn(() => 200)
+  const argumentsHost: ArgumentsHost = {
+    getArgs: jest.fn(),
+    getArgByIndex: jest.fn(),
+    switchToRpc: jest.fn(),
+    switchToHttp: () => httpArgumentsHost,
+    switchToWs: jest.fn(),
+    getType: jest.fn()
   };
 
   it("should be defined", () => {
@@ -17,10 +28,13 @@ describe("HttpExceptionFilter", () => {
   });
 
   it("catch should be undefined", () => {
-    expect(new AppHttpExceptionFilter().catch(exception, host)).toBeUndefined();
-    expect(host.switchToHttp).toHaveBeenCalled();
-    expect(host.getRequest).toHaveBeenCalled();
-    expect(host.getResponse).toHaveBeenCalled();
-    expect(exception.getStatus).toHaveBeenCalled();
+    const httpException = new HttpException("", 500);
+    expect(
+      new AppHttpExceptionFilter().catch(httpException, argumentsHost)
+    ).toBeUndefined();
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+    expect(httpArgumentsHost.getResponse).toHaveBeenCalled();
+    // httpArgumentsHost.getRequest.mockReset();
+    // httpArgumentsHost.getResponse.mockReset();
   });
 });

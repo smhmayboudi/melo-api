@@ -73,5 +73,5 @@ describe("AppHashIdService", () => {
     expect(service.encode(0)).toEqual("SHY");
   });
 
-  it.todo("throw new BadRequestException");
+  it.todo("encoded === ''");
 });

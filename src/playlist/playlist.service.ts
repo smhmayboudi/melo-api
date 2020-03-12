@@ -196,7 +196,7 @@ export class PlaylistService implements PlaylistServiceInterface {
         playlist.songs_ids.length === 0
           ? undefined
           : await this.dataSongService.byIds({
-              ids: playlist.songs_ids.map(id => id.toString())
+              ids: playlist.songs_ids.map(value => value.toString())
             })
     };
   }

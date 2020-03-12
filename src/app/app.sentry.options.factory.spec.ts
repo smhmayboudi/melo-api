@@ -1,22 +1,52 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppConfigService } from "./app.config.service";
+import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 
 describe("AppSentryOptionsFactory", () => {
-  // TODO interface ?
-  const appConfigServiceMock = {
-    sentryDebug: "",
+  const appConfigServiceMock: AppConfigServiceInterface = {
+    apmLogLevel: "trace",
+    apmSecretToken: "",
+    apmServerUrl: "",
+    apmServiceName: "",
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0,
+    hashIdAlphabet:
+      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+    hashIdMinLength: 0,
+    hashIdSalt: "cfhistuCFHISTU",
+    hashIdSeps: "",
+    imgProxyBaseUrl: "",
+    imgProxyEncode: true,
+    imgProxyKey: "",
+    imgProxySalt: "",
+    imgProxySignatureSize: 32,
+    imgProxyTypeSize: [{ name: "cover", height: 1024, width: 1024 }],
+    mangooseRetryAttempts: 0,
+    mangooseRetryDelay: 0,
+    mangooseUri: "",
+    port: 0,
+    promDefaultLabels: { "": "" },
+    promDefaultMetricsEnabled: true,
+    promPath: "",
+    promPrefix: "",
+    rateLimitMax: 0,
+    rateLimitWindowMs: 0,
+    sentryDebug: true,
     sentryDsn: "",
     sentryEnviroment: "",
-    sentryLogLevel: "",
-    sentryRelease: ""
-  };
-  const options = {
-    debug: appConfigServiceMock.sentryDebug,
-    dsn: appConfigServiceMock.sentryDsn,
-    environment: appConfigServiceMock.sentryEnviroment,
-    logLevel: appConfigServiceMock.sentryLogLevel,
-    release: appConfigServiceMock.sentryRelease
+    sentryLogLevel: 0,
+    sentryRelease: "",
+    typeOrmDatabase: "",
+    typeOrmHost: "",
+    typeOrmLogging: true,
+    typeOrmPassword: "",
+    typeOrmPort: 0,
+    typeOrmSynchronize: true,
+    typeOrmUsername: ""
   };
 
   let service: AppConfigService;
@@ -33,8 +63,12 @@ describe("AppSentryOptionsFactory", () => {
   });
 
   it("createSentryOptions should be equal to a value", () => {
-    expect(new AppSentryOptionsFactory(service).createSentryOptions()).toEqual(
-      options
-    );
+    expect(new AppSentryOptionsFactory(service).createSentryOptions()).toEqual({
+      debug: true,
+      dsn: "",
+      environment: "",
+      logLevel: 0,
+      release: ""
+    });
   });
 });

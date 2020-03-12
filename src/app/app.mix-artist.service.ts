@@ -31,12 +31,12 @@ export class AppMixArtistService implements AppMixArtistServiceInterface {
       })),
       relationType: RelationType.follows
     });
-    return artists.map(artist => ({
-      ...artist,
+    return artists.map(value => ({
+      ...value,
       following:
         relationMultiHasResDto.find(
-          value =>
-            value.to.id === this.appHashIdService.decode(artist.id).toString()
+          value2 =>
+            value2.to.id === this.appHashIdService.decode(value.id).toString()
         ) !== undefined
     }));
   }

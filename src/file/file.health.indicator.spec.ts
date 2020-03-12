@@ -8,9 +8,7 @@ describe("FileHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new FileHealthIndicator().isHealthy()).toEqual({
       file: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });
