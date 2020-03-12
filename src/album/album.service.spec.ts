@@ -84,7 +84,7 @@ describe("AlbumService", () => {
       expect(service).toBeDefined();
     });
 
-    it("artistAlbums should return list of artists", async () => {
+    it("artistAlbums should equal list of artists", async () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: "0",
         from: 0,
@@ -93,14 +93,14 @@ describe("AlbumService", () => {
       expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
     });
 
-    it("byId should return an artist", async () => {
+    it("byId should be equal to an artist", async () => {
       const dto: AlbumByIdReqDto = {
         id: "0"
       };
       expect(await service.byId(dto, 0, 0)).toEqual(album);
     });
 
-    it("latest should return list of albums", async () => {
+    it("latest should equal list of albums", async () => {
       const dto: AlbumLatestReqDto = {
         from: 0,
         language: "",
@@ -110,7 +110,7 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("Artists Undefined", () => {
+  describe("artists: undefined", () => {
     const dataAlbumServiceMockArtistsUndefined: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
       albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
@@ -143,7 +143,7 @@ describe("AlbumService", () => {
       service = module.get<AlbumService>(AlbumService);
     });
 
-    it("artistAlbums should return list of artists undefined", async () => {
+    it("artistAlbums should equal list of artists undefined", async () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: "0",
         from: 0,
@@ -153,7 +153,7 @@ describe("AlbumService", () => {
     });
   });
 
-  describe("Songs Undefined", () => {
+  describe("songs: undefined", () => {
     const dataAlbumServiceMockSongsUndefined: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
       byId: (): Promise<DataAlbumResDto> =>

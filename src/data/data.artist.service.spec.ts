@@ -54,25 +54,25 @@ describe("DataArtistService", () => {
     service = module.get<DataArtistService>(DataArtistService);
   });
 
-  it("byIds should return list of artists", async () => {
+  it("byIds should equal list of artists", async () => {
     const dto: DataArtistByIdsReqDto = {
       ids: []
     };
     expect(await service.byIds(dto)).toEqual(artistPagination);
   });
 
-  it("trending should return list of artists", async () => {
+  it("trending should equal list of artists", async () => {
     expect(await service.trending()).toEqual(artistPagination);
   });
 
-  it("trendingGenre should return list of artists", async () => {
+  it("trendingGenre should equal list of artists", async () => {
     const dto: DataTrendingGenreReqDto = {
       genre: ""
     };
     expect(await service.trendingGenre(dto)).toEqual(artistPagination);
   });
 
-  describe("Single Artist", () => {
+  describe("single: artist", () => {
     // TODO: interface ?
     const httpServiceMockSingleArtist = {
       ...httpServiceMock,
@@ -97,7 +97,7 @@ describe("DataArtistService", () => {
       service = module.get<DataArtistService>(DataArtistService);
     });
 
-    it("byId should return an artist", async () => {
+    it("byId should be equal to an artist", async () => {
       const dto: DataArtistByIdReqDto = {
         id: 0
       };

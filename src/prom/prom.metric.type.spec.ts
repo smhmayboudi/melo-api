@@ -1,12 +1,12 @@
 import { PromMetricType } from "./prom.metric.type";
 
 describe("PromMetricType", () => {
-  it("should be defined", () => {
+  it("should be equal to prom metric type", () => {
     expect(PromMetricType).toStrictEqual({
-      Counter: "Counter",
-      Gauge: "Gauge",
-      Histogram: "Histogram",
-      Summary: "Summary"
+      counter: "counter",
+      gauge: "gauge",
+      histogram: "histogram",
+      summary: "summary"
     });
   });
 });

@@ -6,10 +6,7 @@ import { HealthIndicator, HealthIndicatorResult } from "@nestjs/terminus";
 export class AppHealthIndicator extends HealthIndicator {
   async isHealthy(): Promise<HealthIndicatorResult> {
     const isHealthy = true;
-    const result = this.getStatus("app", isHealthy, {
-      message: "OK",
-      statusCode: 200
-    });
+    const result = this.getStatus("app", isHealthy);
     if (isHealthy) {
       return Promise.resolve(result);
     }

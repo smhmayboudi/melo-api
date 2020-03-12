@@ -7,7 +7,7 @@ import { FileServiceInterface } from "./file.service.interface";
 
 describe("FileController", () => {
   const date = new Date();
-  const fileUploadImageResDto: FileUploadImageResDto = {
+  const fileUploadImage: FileUploadImageResDto = {
     createdAt: date,
     fileKey: "",
     mimeType: "jpg",
@@ -17,7 +17,7 @@ describe("FileController", () => {
 
   const fileServiceMock: FileServiceInterface = {
     uploadImage: (): Promise<FileUploadImageResDto> =>
-      Promise.resolve(fileUploadImageResDto)
+      Promise.resolve(fileUploadImage)
   };
 
   let controller: FileController;
@@ -35,19 +35,15 @@ describe("FileController", () => {
     controller = module.get<FileController>(FileController);
   });
 
-  describe("uploadImage", () => {
-    it("should be defined", async () => {
-      const dto: FileUploadImageReqDto = {
-        buffer: Buffer.from(""),
-        createdAt: date,
-        fileKey: "",
-        mimeType: "jpg",
-        originalname: "",
-        size: 0
-      };
-      expect(await controller.uploadedPic(dto, 0)).toEqual(
-        fileUploadImageResDto
-      );
-    });
+  it("uploadedPic should eequal to a file upload image", async () => {
+    const dto: FileUploadImageReqDto = {
+      buffer: Buffer.from(""),
+      createdAt: date,
+      fileKey: "",
+      mimeType: "jpg",
+      originalname: "",
+      size: 0
+    };
+    expect(await controller.uploadedPic(0, dto)).toEqual(fileUploadImage);
   });
 });

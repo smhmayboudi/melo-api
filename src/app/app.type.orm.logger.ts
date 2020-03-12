@@ -2,7 +2,7 @@ import typeorm from "typeorm";
 import { Logger } from "@nestjs/common";
 
 export class AppTypeOrmLogger implements typeorm.Logger {
-  private options?:
+  private readonly options?:
     | boolean
     | "all"
     | ("log" | "info" | "warn" | "query" | "schema" | "error" | "migration")[]

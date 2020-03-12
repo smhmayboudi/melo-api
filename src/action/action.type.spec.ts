@@ -1,7 +1,7 @@
 import { ActionType } from "./action.type";
 
 describe("ActionType", () => {
-  it("should be defined", () => {
+  it("should be equal to action type", () => {
     expect(ActionType).toStrictEqual({
       seekSong: "seekSong",
       likeSong: "likeSong",

@@ -117,7 +117,7 @@ describe("JwtStrategy", () => {
     ).toBeDefined();
   });
 
-  it("validate should return an auth strategy", async () => {
+  it("validate should be equal to an auth strategy", async () => {
     const dto: AuthJwtPayloadReqDto = {
       exp: 0,
       iat: 0,
@@ -136,7 +136,7 @@ describe("JwtStrategy", () => {
     });
   });
 
-  describe("ValidateBySub Undefined", () => {
+  describe("validateBySub: undefined", () => {
     const rtServiceMockValidateBySubUndefined: RtServiceInterface = {
       ...rtServiceMock,
       validateBySub: (): Promise<RtEntity | undefined> =>
@@ -180,7 +180,7 @@ describe("JwtStrategy", () => {
     });
   });
 
-  describe("JwtAccessTokenExpiresCount Zero", () => {
+  describe("jwtAccessTokenExpiresCount: zero", () => {
     const authConfigServiceMockJwtAccessTokenExpiresCount: AuthConfigServiceInterface = {
       ...authConfigServiceMock,
       jwtAccessTokenExpiresCount: 0
@@ -229,7 +229,7 @@ describe("JwtStrategy", () => {
     });
   });
 
-  describe("ValidateByToken Undefined", () => {
+  describe("validateByToken: undefined", () => {
     const atServiceMockValidateByTokenUndefined: AtServiceInterface = {
       ...atServiceMock,
       validateByToken: (): Promise<AtEntity | undefined> =>

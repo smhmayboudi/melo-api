@@ -3,6 +3,7 @@ import { SignatureSize } from "imgproxy/dist/types";
 import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 export interface AppConfigServiceInterface {
+  apmLogLevel: string;
   apmSecretToken: string;
   apmServerUrl: string;
   apmServiceName: string;
@@ -17,10 +18,10 @@ export interface AppConfigServiceInterface {
   hashIdSeps: string;
   imgProxyBaseUrl: string;
   imgProxyEncode: boolean;
-  imgProxyImageTypeSize: ImgProxyImageTypeSize[];
   imgProxyKey: string;
   imgProxySalt: string;
   imgProxySignatureSize: SignatureSize;
+  imgProxyTypeSize: ImgProxyImageTypeSize[];
   mangooseRetryAttempts: number;
   mangooseRetryDelay: number;
   mangooseUri: string;

@@ -5,9 +5,10 @@ import { SentryModuleOptions } from "./sentry.module.interface";
 let sentryInstance: typeof Sentry | undefined;
 
 export function getOrCreateSentryInstance(
-  options: SentryModuleOptions
+  options: SentryModuleOptions,
+  isTest = false
 ): typeof Sentry {
-  if (sentryInstance === undefined) {
+  if (sentryInstance === undefined || isTest) {
     Sentry.init({
       dsn: options.dsn,
       debug: options.debug === true ? false : options.debug,

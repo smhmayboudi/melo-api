@@ -41,7 +41,7 @@ describe("JwksCacheOptionsFactory", () => {
       expect(new JwksCacheOptionsFactory(service)).toBeDefined();
     });
 
-    it("createCacheOptions should be defined", () => {
+    it("createCacheOptions should be equal to an option", () => {
       expect(
         new JwksCacheOptionsFactory(service).createCacheOptions()
       ).toBeDefined();
@@ -69,10 +69,16 @@ describe("JwksCacheOptionsFactory", () => {
       service = module.get<JwksConfigService>(JwksConfigService);
     });
 
-    it("createCacheOptions should be defined with store none", () => {
-      expect(
-        new JwksCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
+    it("createCacheOptions should be equal to an option with store none", () => {
+      expect(new JwksCacheOptionsFactory(service).createCacheOptions()).toEqual(
+        {
+          host: "",
+          max: 0,
+          port: 0,
+          store: "none",
+          ttl: 0
+        }
+      );
     });
   });
 });

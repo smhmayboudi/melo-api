@@ -1,181 +1,219 @@
+import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppConfigService } from "./app.config.service";
 
 describe("AppService", () => {
-  let service: AppConfigService;
+  describe("get: number", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): number => 0
+    };
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AppConfigService]
-    }).compile();
-    service = module.get<AppConfigService>(AppConfigService);
+    let service: AppConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AppConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AppConfigService>(AppConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("cacheMax should be equal to a value", () => {
+      expect(service.cacheMax).toEqual(0);
+    });
+
+    it("cachePort should be equal to a value", () => {
+      expect(service.cachePort).toEqual(0);
+    });
+
+    it("hashIdMinLength should be equal to a value", () => {
+      expect(service.hashIdMinLength).toEqual(0);
+    });
+
+    it("mangooseRetryAttempts should be equal to a value", () => {
+      expect(service.mangooseRetryAttempts).toEqual(0);
+    });
+
+    it("port should be equal to a value", () => {
+      expect(service.port).toEqual(0);
+    });
+
+    it("rateLimitMax should be equal to a value", () => {
+      expect(service.rateLimitMax).toEqual(0);
+    });
   });
 
-  it("should be defined", () => {
-    expect(service).toBeDefined();
+  describe("get: string", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => ""
+    };
+
+    let service: AppConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AppConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AppConfigService>(AppConfigService);
+    });
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
+    });
+
+    it("apmLogLevel should be equal to a value", () => {
+      expect(service.apmLogLevel).toEqual("");
+    });
+
+    it("apmSecretToken should be equal to a value", () => {
+      expect(service.apmSecretToken).toEqual("");
+    });
+
+    it("apmServerUrl should be equal to a value", () => {
+      expect(service.apmServerUrl).toEqual("");
+    });
+
+    it("apmServiceName should be equal to a value", () => {
+      expect(service.apmServiceName).toEqual("");
+    });
+
+    it("cacheHost should be equal to a value", () => {
+      expect(service.cacheHost).toEqual("");
+    });
+
+    it("cacheStore should be equal to a value", () => {
+      expect(service.cacheStore).toEqual("");
+    });
+
+    it.todo("cacheTTL should be equal to a value");
+
+    it("hashIdAlphabet should be equal to a value", () => {
+      expect(service.hashIdAlphabet).toEqual("");
+    });
+
+    it("hashIdSalt should be equal to a value", () => {
+      expect(service.hashIdSalt).toEqual("");
+    });
+
+    it("imgProxyBaseUrl should be equal to a value", () => {
+      expect(service.imgProxyBaseUrl).toEqual("");
+    });
+
+    it.todo("imgProxyEncode should be equal to a value");
+    it.todo("imgProxyTypeSize should be equal to a value");
+
+    it("imgProxyKey should be equal to a value", () => {
+      expect(service.imgProxyKey).toEqual("");
+    });
+
+    it("imgProxySalt should be equal to a value", () => {
+      expect(service.imgProxySalt).toEqual("");
+    });
+
+    it("imgProxySignatureSize should be equal to a value", () => {
+      expect(service.imgProxySignatureSize).toEqual("");
+    });
+
+    it("mangooseUri should be equal to a value", () => {
+      expect(service.mangooseUri).toEqual("");
+    });
+
+    it.todo("promDefaultMetricsEnabled should be equal to a value");
+
+    it("promPath should be equal to a value", () => {
+      expect(service.promPath).toEqual("");
+    });
+
+    it("promPrefix should be equal to a value", () => {
+      expect(service.promPrefix).toEqual("");
+    });
+
+    it.todo("rateLimitWindowMs should be equal to a value");
+    it.todo("sentryDebug should be equal to a value");
+
+    it("sentryDsn should be equal to a value", () => {
+      expect(service.sentryDsn).toEqual("");
+    });
+
+    it("sentryEnviroment should be equal to a value", () => {
+      expect(service.sentryEnviroment).toEqual("");
+    });
+
+    it.todo("sentryLogLevel should be equal to a value");
+
+    it("sentryRelease should be equal to a value", () => {
+      expect(service.sentryRelease).toEqual("");
+    });
+
+    it("typeOrmDatabase should be equal to a value", () => {
+      expect(service.typeOrmDatabase).toEqual("");
+    });
+
+    it("typeOrmHost should be equal to a value", () => {
+      expect(service.typeOrmHost).toEqual("");
+    });
+
+    it.todo("typeOrmLogging should be equal to a value");
+
+    it("typeOrmPassword should be equal to a value", () => {
+      expect(service.typeOrmPassword).toEqual("");
+    });
+
+    it("typeOrmPort should be equal to a value", () => {
+      expect(service.typeOrmPort).toEqual("");
+    });
+
+    it("typeOrmSynchronize should be equal to a value", () => {
+      expect(service.typeOrmSynchronize).toEqual("");
+    });
+
+    it("typeOrmUsername should be equal to a value", () => {
+      expect(service.typeOrmUsername).toEqual("");
+    });
+
+    it.todo("promDefaultLabels");
   });
 
-  it("apmLogLevel should be defined", () => {
-    expect(service.apmLogLevel).toBeDefined();
-  });
+  describe("get: 0 as string", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => "0"
+    };
 
-  it("apmSecretToken should be defined", () => {
-    expect(service.apmSecretToken).toBeDefined();
-  });
+    let service: AppConfigService;
 
-  it("apmServerUrl should be defined", () => {
-    expect(service.apmServerUrl).toBeDefined();
-  });
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AppConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AppConfigService>(AppConfigService);
+    });
 
-  it("apmServiceName should be defined", () => {
-    expect(service.apmServiceName).toBeDefined();
-  });
-
-  it("cacheHost should be defined", () => {
-    expect(service.cacheHost).toBeDefined();
-  });
-
-  it("cacheMax should be defined", () => {
-    expect(service.cacheMax).toBeDefined();
-  });
-
-  it("cachePort should be defined", () => {
-    expect(service.cachePort).toBeDefined();
-  });
-
-  it("cacheStore should be defined", () => {
-    expect(service.cacheStore).toBeDefined();
-  });
-
-  it("cacheTTL should be defined", () => {
-    expect(service.cacheTTL).toBeDefined();
-  });
-
-  it("hashIdAlphabet should be defined", () => {
-    expect(service.hashIdAlphabet).toBeDefined();
-  });
-
-  it("hashIdMinLength should be defined", () => {
-    expect(service.hashIdMinLength).toBeDefined();
-  });
-
-  it("hashIdSalt should be defined", () => {
-    expect(service.hashIdSalt).toBeDefined();
-  });
-
-  it("hashIdSeps should be defined", () => {
-    expect(service.hashIdSeps).toBeDefined();
-  });
-
-  it("imgProxyBaseUrl should be defined", () => {
-    expect(service.imgProxyBaseUrl).toBeDefined();
-  });
-
-  it("imgProxyEncode should be defined", () => {
-    expect(service.imgProxyEncode).toBeDefined();
-  });
-
-  it("imgProxyKey should be defined", () => {
-    expect(service.imgProxyKey).toBeDefined();
-  });
-
-  it("imgProxySalt should be defined", () => {
-    expect(service.imgProxySalt).toBeDefined();
-  });
-
-  it("imgProxySignatureSize should be defined", () => {
-    expect(service.imgProxySignatureSize).toBeDefined();
-  });
-
-  it("imgProxyImageTypeSize should be defined", () => {
-    expect(service.imgProxyImageTypeSize).toBeDefined();
-  });
-
-  it("mangooseRetryAttempts should be defined", () => {
-    expect(service.mangooseRetryAttempts).toBeDefined();
-  });
-
-  it("mangooseRetryDelay should be defined", () => {
-    expect(service.mangooseRetryDelay).toBeDefined();
-  });
-
-  it("mangooseUri should be defined", () => {
-    expect(service.mangooseUri).toBeDefined();
-  });
-
-  it("port should be defined", () => {
-    expect(service.port).toBeDefined();
-  });
-
-  it("promDefaultLabels should be defined", () => {
-    expect(service.promDefaultLabels).toBeDefined();
-  });
-
-  it("promDefaultMetricsEnabled should be defined", () => {
-    expect(service.promDefaultMetricsEnabled).toBeDefined();
-  });
-
-  it("promPath should be defined", () => {
-    expect(service.promPath).toBeDefined();
-  });
-
-  it("promPrefix should be defined", () => {
-    expect(service.promPrefix).toBeDefined();
-  });
-
-  it("rateLimitMax should be defined", () => {
-    expect(service.rateLimitMax).toBeDefined();
-  });
-
-  it("rateLimitWindowMs should be defined", () => {
-    expect(service.rateLimitWindowMs).toBeDefined();
-  });
-
-  it("sentryDebug should be defined", () => {
-    expect(service.sentryDebug).toBeDefined();
-  });
-
-  it("sentryDsn should be defined", () => {
-    expect(service.sentryDsn).toBeDefined();
-  });
-
-  it("sentryEnviroment should be defined", () => {
-    expect(service.sentryEnviroment).toBeDefined();
-  });
-
-  it("sentryLogLevel should be defined", () => {
-    expect(service.sentryLogLevel).toBeDefined();
-  });
-
-  it("sentryRelease should be defined", () => {
-    expect(service.sentryRelease).toBeDefined();
-  });
-
-  it("typeOrmDatabase should be defined", () => {
-    expect(service.typeOrmDatabase).toBeDefined();
-  });
-
-  it("typeOrmHost should be defined", () => {
-    expect(service.typeOrmHost).toBeDefined();
-  });
-
-  it("typeOrmLogging should be defined", () => {
-    expect(service.typeOrmLogging).toBeDefined();
-  });
-
-  it("typeOrmPassword should be defined", () => {
-    expect(service.typeOrmPassword).toBeDefined();
-  });
-
-  it("typeOrmPort should be defined", () => {
-    expect(service.typeOrmPort).toBeDefined();
-  });
-
-  it("typeOrmSynchronize should be defined", () => {
-    expect(service.typeOrmSynchronize).toBeDefined();
-  });
-
-  it("typeOrmUsername should be defined", () => {
-    expect(service.typeOrmUsername).toBeDefined();
+    it("mangooseRetryDelay should be equal to a value", () => {
+      expect(service.mangooseRetryDelay).toEqual(0);
+    });
   });
 });

@@ -69,29 +69,29 @@ describe("PlaylistController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("addSong should return a playlist", async () => {
+  it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
       playlistId: "000000000000",
       songId: "0"
     };
-    expect(await controller.addSong(dto, 0)).toBeDefined();
+    expect(await controller.addSong(dto, 0)).toEqual(playlist);
   });
 
-  it("create should return a playlist", async () => {
+  it("create should be equal to a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
       title: ""
     };
     expect(await controller.create(dto, 0)).toEqual(playlist);
   });
 
-  it("delete should return a playlist", async () => {
+  it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
       id: ""
     };
     expect(await controller.delete(dto, 0)).toEqual(playlist);
   });
 
-  it("deleteSong should return a playlist", async () => {
+  it("deleteSong should be equal to a playlist", async () => {
     const dto: PlaylistSongReqDto = {
       playlistId: "000000000000",
       songId: "0"
@@ -99,21 +99,21 @@ describe("PlaylistController", () => {
     expect(await controller.deleteSong(dto, 0)).toEqual(playlist);
   });
 
-  it("edit should return a playlist", async () => {
+  it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
       id: ""
     };
     expect(await controller.edit(dto)).toEqual(playlist);
   });
 
-  it("get should return a playlist", async () => {
+  it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
       id: ""
     };
     expect(await controller.get(dto)).toEqual(playlist);
   });
 
-  it("my should return a list of  playlists", async () => {
+  it("my should be equal to a list of  playlists", async () => {
     const dto: PlaylistMyReqDto = {
       from: 0,
       limit: 0
@@ -121,7 +121,7 @@ describe("PlaylistController", () => {
     expect(await controller.my(dto, 0)).toEqual(playlistPagination);
   });
 
-  it("top should return a list of  playlists", async () => {
+  it("top should be equal to a list of  playlists", async () => {
     const dto: PlaylistTopReqDto = {
       from: 0,
       limit: 0

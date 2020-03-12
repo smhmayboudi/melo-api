@@ -49,43 +49,43 @@ describe("RtService", () => {
     expect(service).toBeDefined();
   });
 
-  it("blockById should return an RT entity", async () => {
+  it("blockById should be equal to an RT entity", async () => {
     expect(await service.blockById(0, "")).toEqual(rtEntity);
   });
 
-  it("blockByToken should return an RT entity", async () => {
+  it("blockByToken should be equal to an RT entity", async () => {
     expect(await service.blockByToken("", "")).toEqual(rtEntity);
   });
 
-  it("deleteById should return an RT entity", async () => {
+  it("deleteById should be equal to an RT entity", async () => {
     expect(await service.deleteById(0)).toEqual(rtEntity);
   });
 
-  it("deleteByToken should be defined", async () => {
-    expect(await service.deleteByToken("")).toEqual(undefined);
+  it("deleteByToken should be undefined", async () => {
+    expect(await service.deleteByToken("")).toBeUndefined();
   });
 
-  it("find should return an array of RT entities", async () => {
+  it("find should be equal to an array of RT entities", async () => {
     expect(await service.find()).toEqual([rtEntity]);
   });
 
-  it("findOneById should return an RT entity", async () => {
+  it("findOneById should be equal to an RT entity", async () => {
     expect(await service.findOneById(0)).toEqual(rtEntity);
   });
 
-  it("findOneByToken should return an RT entity", async () => {
+  it("findOneByToken should be equal to an RT entity", async () => {
     expect(await service.findOneByToken("")).toEqual(rtEntity);
   });
 
-  it("save should return an array of RT entities", async () => {
+  it("save should be equal to an array of RT entities", async () => {
     expect(await service.save(rtEntity)).toEqual(rtEntity);
   });
 
-  it("validateBySub should return an RT entity", async () => {
+  it("validateBySub should be equal to an RT entity", async () => {
     expect(await service.validateBySub(0)).toEqual(rtEntity);
   });
 
-  it("validateByToken should return an RT entity", async () => {
+  it("validateByToken should be equal to an RT entity", async () => {
     expect(await service.validateByToken("")).toEqual(rtEntity);
   });
 });

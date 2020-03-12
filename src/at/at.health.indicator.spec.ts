@@ -8,9 +8,7 @@ describe("AtHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new AtHealthIndicator().isHealthy()).toEqual({
       at: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

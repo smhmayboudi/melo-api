@@ -32,7 +32,7 @@ describe("ConstController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("images should be defined", async () => {
+  it("images should be equal to an image", async () => {
     expect(await controller.images()).toEqual(image);
   });
 });

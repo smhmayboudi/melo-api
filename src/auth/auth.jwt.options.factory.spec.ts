@@ -46,7 +46,7 @@ describe("AuthJwtOptionsFactory", () => {
     ).toBeDefined();
   });
 
-  it("createJwtOptions should return an option", async () => {
+  it("createJwtOptions should be equal to an option", async () => {
     expect(
       await new AuthJwtOptionsFactory(
         authConfigService,
@@ -65,7 +65,7 @@ describe("AuthJwtOptionsFactory", () => {
     });
   });
 
-  describe("GetOneRandom Undefined", () => {
+  describe("getOneRandom: undefined", () => {
     const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
       ...jwksServiceMock,
       getOneRandom: (): Promise<JwksEntity | undefined> =>
@@ -86,7 +86,7 @@ describe("AuthJwtOptionsFactory", () => {
       jwksService = module.get<JwksService>(JwksService);
     });
 
-    it("createJwtOptions should return an option with jwks undefined", async () => {
+    it("createJwtOptions should be equal to an option with jwks undefined", async () => {
       expect(
         await new AuthJwtOptionsFactory(
           authConfigService,

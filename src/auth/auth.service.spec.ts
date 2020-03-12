@@ -84,14 +84,14 @@ describe("AuthService", () => {
     expect(service).toBeDefined();
   });
 
-  it("accessToken should return a token", async () => {
+  it("accessToken should be equal to a token", async () => {
     const res: AuthAccessTokenResDto = {
       at: "0"
     };
     expect(await service.accessToken(0)).toEqual(res);
   });
 
-  it("refreshToken should return a token", async () => {
+  it("refreshToken should be equal to a token", async () => {
     const res: AuthRefreshTokenResDto = {
       at: "0",
       rt: ""
@@ -99,7 +99,7 @@ describe("AuthService", () => {
     expect(await service.refreshToken(0)).toEqual(res);
   });
 
-  describe("GetOneRandom Undefined", () => {
+  describe("getOneRandom: undefined", () => {
     const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
       ...jwksServiceMock,
       getOneRandom: (): Promise<JwksEntity | undefined> =>

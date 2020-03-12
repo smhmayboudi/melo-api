@@ -1,7 +1,7 @@
 import config from "./action.config";
 
 describe("ActionConfig", () => {
-  it("should be defined", () => {
+  it("should be equal to an object", () => {
     expect(config()).toStrictEqual({
       cacheHost: undefined,
       cacheMax: undefined,

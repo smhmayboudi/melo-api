@@ -4,9 +4,13 @@ import { ActionType } from "./action.type";
 import { ActionDto } from "./dto/action.dto";
 
 describe("ActionService", () => {
-  let service: ActionService;
-
   const datetime = new Date().toString();
+  const action: ActionDto = {
+    datetime,
+    type: ActionType.likeSong
+  };
+
+  let service: ActionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,11 +23,11 @@ describe("ActionService", () => {
     expect(service).toBeDefined();
   });
 
-  it("bulk should be defined", async () => {
+  it("bulk should be equal to an action", async () => {
     const dto: ActionDto = {
       datetime,
       type: ActionType.likeSong
     };
-    expect(await service.bulk(dto)).toBeDefined();
+    expect(await service.bulk(dto)).toEqual(action);
   });
 });

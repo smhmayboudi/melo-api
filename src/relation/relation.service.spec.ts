@@ -76,7 +76,7 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
   });
 
-  it("get should return a list of relation entities", async () => {
+  it("get should be equal to a list of relation entities", async () => {
     const dto: RelationGetReqDto = {
       from: 0,
       fromEntityDto: {
@@ -116,7 +116,7 @@ describe("RelationService", () => {
       service = module.get<RelationService>(RelationService);
     });
 
-    it("has should be defined", async () => {
+    it("has should be undefined", async () => {
       const dto: RelationHasReqDto = {
         from: { id: "0", type: RelationEntityType.album },
         to: { id: "0", type: RelationEntityType.album },
@@ -125,7 +125,7 @@ describe("RelationService", () => {
       expect(await service.has(dto)).toBeUndefined();
     });
 
-    it("remove should be defined", async () => {
+    it("remove should be undefined", async () => {
       const dto: RelationRemoveReqDto = {
         from: { id: "", type: RelationEntityType.album },
         to: { id: "", type: RelationEntityType.album },
@@ -134,7 +134,7 @@ describe("RelationService", () => {
       expect(await service.remove(dto)).toBeUndefined();
     });
 
-    it("set should be defined", async () => {
+    it("set should be undefined", async () => {
       const dto: RelationSetReqDto = {
         createdAt: date,
         from: { id: "", type: RelationEntityType.album },
@@ -262,7 +262,7 @@ describe("RelationService", () => {
       service = module.get<RelationService>(RelationService);
     });
 
-    it("multiHas should return an array of relation entities ", async () => {
+    it("multiHas should be equal to an array of relation entities ", async () => {
       const dto: RelationMultiHasReqDto = {
         from: { id: "", type: RelationEntityType.album },
         relationType: RelationType.follows,

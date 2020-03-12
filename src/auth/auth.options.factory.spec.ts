@@ -5,7 +5,7 @@ describe("AuthAuthOptionsFactory", () => {
     expect(new AuthAuthOptionsFactory()).toBeDefined();
   });
 
-  it("createAuthOptions should return an option", () => {
+  it("createAuthOptions should be equal to an option", () => {
     expect(new AuthAuthOptionsFactory().createAuthOptions()).toEqual({
       defaultStrategy: "jwt",
       property: "user",
