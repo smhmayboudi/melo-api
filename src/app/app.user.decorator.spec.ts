@@ -6,16 +6,42 @@ describe("AppUser", () => {
     expect(AppUser()).toBeDefined();
   });
 
-  it("shoud be equal to a value", () => {
+  it("shoud be equal to a value data undefined", () => {
     class Test {
-      test(@AppUser() _user: { sub: 0 }): void {
+      test(@AppUser() _sub: number): void {
         // NOTHING
       }
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
-    console.log("LOGLOG", metadata[key].factory());
+    expect(metadata[key].factory(undefined, { user: { sub: 0 } })).toEqual({
+      sub: 0
+    });
+  });
 
-    expect(metadata[key].factory()).toEqual(null);
+  it("shoud be equal to a value req user undefined", () => {
+    class Test {
+      test(@AppUser("sub") _sub: number): void {
+        // NOTHING
+      }
+    }
+    const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
+    const key = Object.keys(metadata)[0];
+    try {
+      expect(metadata[key].factory("sub", {})).toThrowError();
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  it("shoud be equal to a value", () => {
+    class Test {
+      test(@AppUser("sub") _sub: number): void {
+        // NOTHING
+      }
+    }
+    const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
+    const key = Object.keys(metadata)[0];
+    expect(metadata[key].factory("sub", { user: { sub: 0 } })).toEqual(0);
   });
 });
