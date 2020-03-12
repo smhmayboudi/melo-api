@@ -8,9 +8,7 @@ describe("AlbumHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new AlbumHealthIndicator().isHealthy()).toEqual({
       album: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

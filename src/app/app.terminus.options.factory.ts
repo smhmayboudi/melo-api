@@ -35,7 +35,7 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
     private readonly authHealthIndicator: AuthHealthIndicator,
     private readonly constHealthIndicator: ConstHealthIndicator,
     private readonly dataHealthIndicator: DataHealthIndicator,
-    private readonly dns: DNSHealthIndicator,
+    private readonly dNSHealthIndicator: DNSHealthIndicator,
     private readonly fileHealthIndicator: FileHealthIndicator,
     private readonly jwksHealthIndicator: JwksHealthIndicator,
     private readonly playlistHealthIndicator: PlaylistHealthIndicator,
@@ -67,7 +67,7 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
         async (): Promise<HealthIndicatorResult> =>
           this.dataHealthIndicator.isHealthy(),
         async (): Promise<HealthIndicatorResult> =>
-          this.dns.pingCheck("google", "https://google.com"),
+          this.dNSHealthIndicator.pingCheck("google", "https://google.com"),
         async (): Promise<HealthIndicatorResult> =>
           this.fileHealthIndicator.isHealthy(),
         async (): Promise<HealthIndicatorResult> =>

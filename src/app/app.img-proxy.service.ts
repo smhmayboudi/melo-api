@@ -3,7 +3,6 @@ import Imgproxy from "imgproxy";
 import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 import { AppConfigService } from "./app.config.service";
 import { AppImgProxyServiceInterface } from "./app.img-proxy.service.interface";
-import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 @Injectable()
 export class AppImgProxyService implements AppImgProxyServiceInterface {
@@ -20,26 +19,17 @@ export class AppImgProxyService implements AppImgProxyServiceInterface {
     });
   }
 
-  generateUrl(normal: string, slider?: string): DataImageResDto {
+  generateUrl(uriNormal: string): DataImageResDto {
     const images: DataImageResDto = {};
-    this.appConfigService.imgProxyTypeSize
-      .filter(
-        (imt: ImgProxyImageTypeSize) =>
-          slider === undefined || !imt.name.startsWith("slider")
-      )
-      .map((imt: ImgProxyImageTypeSize) => {
-        images[imt.name] = {
-          url: this.imgproxy
-            .builder()
-            .resize("fill", imt.width, imt.height, true)
-            .dpr(1)
-            .generateUrl(
-              slider === undefined || !imt.name.startsWith("slider")
-                ? normal
-                : slider
-            )
-        };
-      });
+    this.appConfigService.imgProxyTypeSize.map(value => {
+      images[value.name] = {
+        url: this.imgproxy
+          .builder()
+          .resize("fill", value.width, value.height, true)
+          .dpr(1)
+          .generateUrl(uriNormal)
+      };
+    });
     return images;
   }
 }

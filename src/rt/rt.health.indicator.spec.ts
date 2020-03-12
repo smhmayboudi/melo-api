@@ -8,9 +8,7 @@ describe("RtHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new RtHealthIndicator().isHealthy()).toEqual({
       rt: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

@@ -8,9 +8,7 @@ describe("SongHealthIndicator", () => {
   it("isHealthy is true", async () => {
     expect(await new SongHealthIndicator().isHealthy()).toEqual({
       song: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

@@ -8,9 +8,7 @@ describe("AppConfig", () => {
   it("isHealthy is true", async () => {
     expect(await new AppHealthIndicator().isHealthy()).toEqual({
       app: {
-        message: "OK",
-        status: "up",
-        statusCode: 200
+        status: "up"
       }
     });
   });

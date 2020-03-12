@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { AppConfigService } from "./app.config.service";
-import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { AppImgProxyService } from "./app.img-proxy.service";
 
 describe("ImgProxyService", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -66,6 +66,11 @@ describe("ImgProxyService", () => {
   });
 
   it("all should be equal to a data image", () => {
-    expect(service.generateUrl("")).toEqual({});
+    expect(service.generateUrl("")).toEqual({
+      cover: {
+        url:
+          "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/"
+      }
+    });
   });
 });

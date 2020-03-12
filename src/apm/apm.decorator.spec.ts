@@ -15,7 +15,7 @@ describe("ApmDecorator", () => {
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
-    expect(metadata[key].factory()).toEqual(null);
+    expect(metadata[key].factory()).toBeNull();
   });
 
   it("ApmCurrentTraceparent enhance component with apm current traceparent", () => {
@@ -26,7 +26,7 @@ describe("ApmDecorator", () => {
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
-    expect(metadata[key].factory()).toEqual(null);
+    expect(metadata[key].factory()).toBeNull();
   });
 
   it("ApmCurrentTransaction enhance component with apm current transaction", () => {
@@ -37,7 +37,7 @@ describe("ApmDecorator", () => {
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
-    expect(metadata[key].factory()).toEqual(null);
+    expect(metadata[key].factory()).toBeNull();
   });
 
   it.todo("ApmAfterMethod enhance instance with apm");
