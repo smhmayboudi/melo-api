@@ -17,6 +17,7 @@ import { AtModule } from "../at/at.module";
 import { AuthModule } from "../auth/auth.module";
 import { ConstModule } from "../const/const.module";
 import { DataModule } from "../data/data.module";
+import { DownloadModule } from "../download/download.module";
 import { FileModule } from "../file/file.module";
 import { JwksModule } from "../jwks/jwks.module";
 import { PlaylistModule } from "../playlist/playlist.module";
@@ -74,6 +75,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
     ConfigModule.forFeature(config),
     ConstModule,
     DataModule,
+    DownloadModule,
     EmotionModule,
     FileModule,
     JwksModule,
@@ -108,6 +110,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
         AuthModule,
         ConstModule,
         DataModule,
+        DownloadModule,
         EmotionModule,
         FileModule,
         JwksModule,
