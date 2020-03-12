@@ -8,6 +8,7 @@ import { APP_INTERCEPTOR } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { TerminusModule } from "@nestjs/terminus";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { EmotionModule } from "src/emotion/emotion.module";
 import { ActionModule } from "../action/action.module";
 import { AlbumModule } from "../album/album.module";
 import { ApmModule } from "../apm/apm.module";
@@ -73,6 +74,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
     ConfigModule.forFeature(config),
     ConstModule,
     DataModule,
+    EmotionModule,
     FileModule,
     JwksModule,
     MongooseModule.forRootAsync({
@@ -106,6 +108,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
         AuthModule,
         ConstModule,
         DataModule,
+        EmotionModule,
         FileModule,
         JwksModule,
         PlaylistModule,
