@@ -1,8 +1,20 @@
-import { createParamDecorator, BadRequestException } from "@nestjs/common";
+import {
+  BadRequestException,
+  createParamDecorator,
+  ExecutionContext
+} from "@nestjs/common";
+import express from "express";
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 
-export const AppUser = createParamDecorator((data, req) => {
-  if (req.user === undefined) {
-    throw new BadRequestException();
+export const AppUser = createParamDecorator(
+  (data: string | undefined, ctx: ExecutionContext) => {
+    const http = ctx.switchToHttp();
+    const request = http.getRequest<
+      express.Request & { user: AuthJwtPayloadReqDto }
+    >();
+    if (request.user === undefined) {
+      throw new BadRequestException();
+    }
+    return data === undefined ? request.user : request.user[data];
   }
-  return data === undefined ? req.user : req.user[data];
-});
+);
