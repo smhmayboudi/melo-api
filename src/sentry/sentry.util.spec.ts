@@ -16,6 +16,8 @@ describe("SentryUtil", () => {
     expect(getOrCreateSentryInstance({}, false)).toBeInstanceOf(typeof Sentry);
   });
 
+  it.todo("getOrCreateSentryInstance integrations");
+
   it("makeDefaultOptions should be equal to an option", () => {
     expect(makeDefaultOptions({})).toEqual({});
   });
