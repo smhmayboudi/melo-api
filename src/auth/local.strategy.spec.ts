@@ -61,14 +61,10 @@ describe("LocalStrategy", () => {
       service = module.get<UserService>(UserService);
     });
 
-    it("validate should throw an exception", async () => {
-      try {
-        expect(
-          await new LocalStrategy(service).validate("", "")
-        ).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+    it("validate should throw an exception", () => {
+      return expect(
+        new LocalStrategy(service).validate("", "")
+      ).rejects.toThrowError();
     });
   });
 });

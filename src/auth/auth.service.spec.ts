@@ -122,20 +122,12 @@ describe("AuthService", () => {
       service = module.get<AuthService>(AuthService);
     });
 
-    it("accessToken should throw an exception", async () => {
-      try {
-        expect(await service.accessToken(0)).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+    it("accessToken should throw an exception", () => {
+      return expect(service.accessToken(0)).rejects.toThrowError();
     });
 
-    it("refreshToken should throw an exception", async () => {
-      try {
-        expect(await service.refreshToken(0)).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+    it("refreshToken should throw an exception", () => {
+      return expect(service.refreshToken(0)).rejects.toThrowError();
     });
   });
 });

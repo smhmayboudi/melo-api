@@ -76,12 +76,10 @@ describe("TokenStrategy", () => {
       service = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", async () => {
-      try {
-        expect(await new TokenStrategy(service).validate("")).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+    it("validate should throw an exception", () => {
+      return expect(
+        new TokenStrategy(service).validate("")
+      ).rejects.toThrowError();
     });
   });
 });

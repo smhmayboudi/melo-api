@@ -158,25 +158,21 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", async () => {
+    it("validate should throw an exception", () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,
         jti: "",
         sub: ""
       };
-      try {
-        expect(
-          await new JwtStrategy(
-            atService,
-            authConfigService,
-            jwksService,
-            rtService
-          ).validate(dto)
-        ).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+      return expect(
+        new JwtStrategy(
+          atService,
+          authConfigService,
+          jwksService,
+          rtService
+        ).validate(dto)
+      ).rejects.toThrowError();
     });
   });
 
@@ -207,25 +203,21 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", async () => {
+    it("validate should throw an exception", () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,
         jti: "",
         sub: ""
       };
-      try {
-        expect(
-          await new JwtStrategy(
-            atService,
-            authConfigService,
-            jwksService,
-            rtService
-          ).validate(dto)
-        ).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+      return expect(
+        new JwtStrategy(
+          atService,
+          authConfigService,
+          jwksService,
+          rtService
+        ).validate(dto)
+      ).rejects.toThrowError();
     });
   });
 
@@ -274,4 +266,8 @@ describe("JwtStrategy", () => {
       ).toEqual({ sub: "" });
     });
   });
+
+  it.todo("if (jwksEntity === undefined)");
+  it.todo("else");
+  it.todo("catch (error)");
 });

@@ -194,11 +194,7 @@ describe("RelationService", () => {
         to: { id: "0", type: RelationEntityType.album },
         relationType: RelationType.follows
       };
-      try {
-        expect(await service.has(dto)).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+      return expect(service.has(dto)).rejects.toThrowError();
     });
 
     it("remove should throw an exception", async () => {
@@ -207,11 +203,7 @@ describe("RelationService", () => {
         to: { id: "", type: RelationEntityType.album },
         relationType: RelationType.follows
       };
-      try {
-        expect(await service.remove(dto)).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+      return expect(service.remove(dto)).rejects.toThrowError();
     });
 
     it("set should throw an exception", async () => {
@@ -221,11 +213,7 @@ describe("RelationService", () => {
         to: { id: "", type: RelationEntityType.album },
         relationType: RelationType.follows
       };
-      try {
-        expect(await service.set(dto)).toThrowError();
-      } catch (error) {
-        console.log(error);
-      }
+      return expect(service.set(dto)).rejects.toThrowError();
     });
   });
 

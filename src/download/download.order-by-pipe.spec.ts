@@ -19,12 +19,8 @@ describe("DownloadOrderByPipe", () => {
   });
 
   it("transform should throw bad request error", () => {
-    try {
-      expect(
-        new DownloadOrderByPipe().transform("", { type: "body" })
-      ).toThrowError();
-    } catch (err) {
-      console.log(err);
-    }
+    return expect(
+      new DownloadOrderByPipe().transform("", { type: "body" })
+    ).rejects.toThrowError();
   });
 });

@@ -13,12 +13,8 @@ describe("DownloadSortByPipe", () => {
   });
 
   it("transform should throw bad request error", () => {
-    try {
-      expect(
-        new DownloadSortByPipe().transform("", { type: "body" })
-      ).toThrowError();
-    } catch (err) {
-      console.log(err);
-    }
+    return expect(
+      new DownloadSortByPipe().transform("", { type: "body" })
+    ).rejects.toThrowError();
   });
 });

@@ -27,11 +27,7 @@ describe("AppUser", () => {
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
-    try {
-      expect(metadata[key].factory("sub", {})).toThrowError();
-    } catch (error) {
-      console.log(error);
-    }
+    return expect(metadata[key].factory("sub", {})).rejects.toThrowError();
   });
 
   it("shoud be equal to a value", () => {

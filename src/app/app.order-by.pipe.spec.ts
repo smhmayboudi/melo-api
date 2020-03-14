@@ -19,13 +19,9 @@ describe("AppOrderByPipe", () => {
   });
 
   it("transform should throw an exception to a value unknown", () => {
-    try {
-      expect(
-        new AppOrderByPipe().transform("", { type: "body" })
-      ).toThrowError();
-    } catch (error) {
-      console.log(error);
-    }
+    return expect(
+      new AppOrderByPipe().transform("", { type: "body" })
+    ).rejects.toThrowError();
   });
 
   it.todo("transform should throw an exception on typeof !== string");
