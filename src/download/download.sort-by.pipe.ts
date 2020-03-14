@@ -24,6 +24,9 @@ export class DownloadSortByPipe
   }
 
   transform(value: string, _metadata: ArgumentMetadata): DownloadSortByType {
+    if (typeof value !== "string") {
+      throw this.exceptionFactory("Validation failed (string is expected)");
+    }
     switch (value) {
       case DownloadSortByType.date.toString():
         return DownloadSortByType.date;

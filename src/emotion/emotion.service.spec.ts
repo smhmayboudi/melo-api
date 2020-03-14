@@ -18,6 +18,7 @@ describe("EmotionService", () => {
     results: [emotion],
     total: 1
   } as DataPaginationResDto<EmotionResDto>;
+
   // TODO: interface ?
   const httpServiceMock = {
     get: (): Observable<AxiosResponse<DataPaginationResDto<EmotionResDto>>> =>

@@ -23,4 +23,6 @@ describe("DownloadOrderByPipe", () => {
       new DownloadOrderByPipe().transform("", { type: "body" })
     ).rejects.toThrowError();
   });
+
+  it.todo("transform should throw an exception on typeof !== string");
 });

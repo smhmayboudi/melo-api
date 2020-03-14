@@ -21,6 +21,7 @@ describe("DownloadService", () => {
     results: [downloadSong],
     total: 1
   } as DataPaginationResDto<DownloadSongResDto>;
+
   // TODO: interface ?
   const httpServiceMock = {
     get: (): Observable<

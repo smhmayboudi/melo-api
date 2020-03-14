@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataPaginationResDto } from "src/data/dto/res/data.pagination.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadController } from "./download.controller";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
@@ -19,6 +19,7 @@ describe("DownloadController", () => {
     results: [downloadSong],
     total: 1
   } as DataPaginationResDto<DownloadSongResDto>;
+
   const downloadServiceMock: DownloadServiceInterface = {
     downloadedSongs: (): Promise<DataPaginationResDto<DownloadSongResDto>> =>
       Promise.resolve(downloadSongPagination)

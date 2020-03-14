@@ -24,6 +24,9 @@ export class DownloadOrderByPipe
   }
 
   transform(value: string, _metadata: ArgumentMetadata): DownloadOrderByType {
+    if (typeof value !== "string") {
+      throw this.exceptionFactory("Validation failed (string is expected)");
+    }
     switch (value) {
       case DownloadOrderByType.asc.toString():
         return DownloadOrderByType.asc;

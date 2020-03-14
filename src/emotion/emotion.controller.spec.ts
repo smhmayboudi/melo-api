@@ -16,6 +16,7 @@ describe("EmotionController", () => {
     results: [emotion],
     total: 1
   } as DataPaginationResDto<EmotionResDto>;
+
   const emotionServiceMock: EmotionServiceInterface = {
     emotions: (): Promise<DataPaginationResDto<EmotionResDto>> =>
       Promise.resolve(emotionPagination)

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
 import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";

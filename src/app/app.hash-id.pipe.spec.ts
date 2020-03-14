@@ -28,5 +28,5 @@ describe("AppHashIdPipe", () => {
     expect(appHashIdPipe.transform("", { type: "body" })).toEqual(0);
   });
 
-  it.todo("typeof value !== 'string'");
+  it.todo("transform should throw an exception on typeof !== string");
 });

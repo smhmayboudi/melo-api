@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { DataArtistType } from "../data/data.artist.type";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
 import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
@@ -11,7 +12,6 @@ import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 import { AppMixSongService } from "./app.mix-song.service";
-import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 
 describe("AppMixSongService", () => {
   const songs: DataSongResDto[] = [
