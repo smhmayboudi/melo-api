@@ -3,6 +3,74 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppConfigService } from "./app.config.service";
 
 describe("AppService", () => {
+  describe("get: boolean", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): boolean => true
+    };
+
+    let service: AppConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AppConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AppConfigService>(AppConfigService);
+    });
+
+    it("imgProxyEncode should be equal to a value", () => {
+      expect(service.imgProxyEncode).toEqual(true);
+    });
+
+    it("promDefaultMetricsEnabled should be equal to a value", () => {
+      expect(service.promDefaultMetricsEnabled).toEqual(true);
+    });
+
+    it("sentryDebug should be equal to a value", () => {
+      expect(service.sentryDebug).toEqual(true);
+    });
+
+    it("typeOrmLogging should be equal to a value", () => {
+      expect(service.typeOrmLogging).toEqual(true);
+    });
+  });
+
+  describe("get: JSON", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): string => "{a:0}"
+    };
+
+    let service: AppConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AppConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock
+          }
+        ]
+      }).compile();
+      service = module.get<AppConfigService>(AppConfigService);
+    });
+
+    it("imgProxyTypeSize should be equal to a value", () => {
+      expect(service.imgProxyTypeSize).toEqual({ a: 0 });
+    });
+
+    it("promDefaultLabels should be equal to a value", () => {
+      expect(service.promDefaultLabels).toEqual({ a: 0 });
+    });
+  });
+
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
@@ -112,12 +180,13 @@ describe("AppService", () => {
       expect(service.hashIdSalt).toEqual("");
     });
 
+    it("hashIdSeps should be equal to a value", () => {
+      expect(service.hashIdSeps).toEqual("");
+    });
+
     it("imgProxyBaseUrl should be equal to a value", () => {
       expect(service.imgProxyBaseUrl).toEqual("");
     });
-
-    it.todo("imgProxyEncode should be equal to a value");
-    it.todo("imgProxyTypeSize should be equal to a value");
 
     it("imgProxyKey should be equal to a value", () => {
       expect(service.imgProxyKey).toEqual("");
@@ -135,8 +204,6 @@ describe("AppService", () => {
       expect(service.mangooseUri).toEqual("");
     });
 
-    it.todo("promDefaultMetricsEnabled should be equal to a value");
-
     it("promPath should be equal to a value", () => {
       expect(service.promPath).toEqual("");
     });
@@ -146,7 +213,6 @@ describe("AppService", () => {
     });
 
     it.todo("rateLimitWindowMs should be equal to a value");
-    it.todo("sentryDebug should be equal to a value");
 
     it("sentryDsn should be equal to a value", () => {
       expect(service.sentryDsn).toEqual("");
@@ -170,8 +236,6 @@ describe("AppService", () => {
       expect(service.typeOrmHost).toEqual("");
     });
 
-    it.todo("typeOrmLogging should be equal to a value");
-
     it("typeOrmPassword should be equal to a value", () => {
       expect(service.typeOrmPassword).toEqual("");
     });
@@ -187,11 +251,9 @@ describe("AppService", () => {
     it("typeOrmUsername should be equal to a value", () => {
       expect(service.typeOrmUsername).toEqual("");
     });
-
-    it.todo("promDefaultLabels");
   });
 
-  describe("get: 0 as string", () => {
+  describe("get: string 0", () => {
     // TODO: interface ?
     const configServiceMock = {
       get: (): string => "0"
