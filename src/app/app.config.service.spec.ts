@@ -24,6 +24,10 @@ describe("AppService", () => {
       service = module.get<AppConfigService>(AppConfigService);
     });
 
+    it("apmActive should be equal to a value", () => {
+      expect(service.apmActive).toEqual(true);
+    });
+
     it("imgProxyEncode should be equal to a value", () => {
       expect(service.imgProxyEncode).toEqual(true);
     });

@@ -14,6 +14,7 @@ export class AppApmOptionsFactory implements ApmOptionsFactory {
 
   createApmOptions(): Promise<ApmModuleOptions> | ApmModuleOptions {
     return {
+      active: this.appConfigService.apmActive,
       errorOnAbortedRequests: true,
       ignoreUrls: [PATH_HEALTH, PATH_METRICS],
       logLevel: this.appConfigService.apmLogLevel as LogLevel,

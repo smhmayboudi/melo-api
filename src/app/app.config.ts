@@ -1,6 +1,7 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("app", () => ({
+  apmActive: process.env.APP_APM_ACTIVE,
   apmLogLevel: process.env.APP_APM_LOG_LEVEL,
   apmSecretToken: process.env.APP_APM_SECRET_TOKEN,
   apmServerUrl: process.env.APP_APM_SERVER_URL,

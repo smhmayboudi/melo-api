@@ -10,6 +10,10 @@ import { ImgProxyImageTypeSize } from "./app.module.interface";
 export class AppConfigService implements AppConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
+  get apmActive(): boolean {
+    return this.configService.get<boolean>("app.apmActive", true);
+  }
+
   get apmLogLevel(): string {
     return this.configService.get<string>("app.apmLogLevel", "");
   }
