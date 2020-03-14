@@ -49,7 +49,12 @@ export class AuthService implements AuthServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async refreshToken(sub: number): Promise<AuthRefreshTokenResDto | undefined> {
+  async refreshToken(
+    sub: number,
+    jwtid: string = uuidv4(),
+    now: Date = new Date(),
+    rt: string = cryptoRandomString({ length: 256, type: "base64" })
+  ): Promise<AuthRefreshTokenResDto | undefined> {
     const jwksEntity = await this.jwksService.getOneRandom();
     if (jwksEntity === undefined) {
       throw new InternalServerErrorException();
@@ -58,12 +63,10 @@ export class AuthService implements AuthServiceInterface {
       {},
       {
         keyid: jwksEntity.id,
-        jwtid: uuidv4(),
+        jwtid,
         subject: sub.toString()
       }
     );
-    const rt = cryptoRandomString({ length: 256, type: "base64" });
-    const now = new Date();
     const exp = moment(now)
       .add(this.authConfigService.jwtRefreshTokenExpiresIn, "ms")
       .toDate();

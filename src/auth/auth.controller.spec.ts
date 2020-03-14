@@ -66,11 +66,10 @@ describe("AuthController", () => {
   });
 
   it("login should be equal to a token", async () => {
-    const res: AuthRefreshTokenResDto = {
+    expect(await controller.login(0)).toEqual({
       at: "",
       rt: ""
-    };
-    expect(await controller.login(0)).toEqual(res);
+    });
   });
 
   it("logout should be undefined", async () => {
@@ -78,17 +77,15 @@ describe("AuthController", () => {
   });
 
   it("telegramCallback should be equal to a token", async () => {
-    const res: AuthRefreshTokenResDto = {
+    expect(await controller.telegram(0)).toEqual({
       rt: "",
       at: ""
-    };
-    expect(await controller.telegram(0)).toEqual(res);
+    });
   });
 
   it("token should be equal to a token", async () => {
-    const res: AuthAccessTokenResDto = {
+    expect(await controller.token(0)).toEqual({
       at: ""
-    };
-    expect(await controller.token(0)).toEqual(res);
+    });
   });
 });

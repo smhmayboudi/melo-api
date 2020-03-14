@@ -9,8 +9,6 @@ import { RtServiceInterface } from "../rt/rt.service.interface";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthService } from "./auth.service";
-import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
-import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 describe("AuthService", () => {
   const date = new Date();
@@ -85,18 +83,16 @@ describe("AuthService", () => {
   });
 
   it("accessToken should be equal to a token", async () => {
-    const res: AuthAccessTokenResDto = {
+    expect(await service.accessToken(0)).toEqual({
       at: "0"
-    };
-    expect(await service.accessToken(0)).toEqual(res);
+    });
   });
 
   it("refreshToken should be equal to a token", async () => {
-    const res: AuthRefreshTokenResDto = {
+    expect(await service.refreshToken(0, "", date, "")).toEqual({
       at: "0",
       rt: ""
-    };
-    expect(await service.refreshToken(0)).toEqual(res);
+    });
   });
 
   describe("getOneRandom: undefined", () => {
