@@ -13,9 +13,17 @@ describe("DownloadSortByPipe", () => {
   });
 
   it("transform should throw bad request error", () => {
-    return expect(
+    expect(() =>
       new DownloadSortByPipe().transform("", { type: "body" })
-    ).rejects.toThrowError();
+    ).toThrowError();
+  });
+
+  it("transform should throw bad request error value not string", () => {
+    expect(() =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      new DownloadSortByPipe().transform(0, { type: "body" })
+    ).toThrowError();
   });
 
   it.todo("transform should throw an exception on typeof !== string");

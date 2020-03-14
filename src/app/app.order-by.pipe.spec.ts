@@ -19,9 +19,17 @@ describe("AppOrderByPipe", () => {
   });
 
   it("transform should throw an exception to a value unknown", () => {
-    return expect(
+    return expect(() =>
       new AppOrderByPipe().transform("", { type: "body" })
-    ).rejects.toThrowError();
+    ).toThrowError();
+  });
+
+  it("transform should throw an exception to a value not string", () => {
+    return expect(() =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
+      new AppOrderByPipe().transform(0, { type: "body" })
+    ).toThrowError();
   });
 
   it.todo("transform should throw an exception on typeof !== string");
