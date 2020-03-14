@@ -21,6 +21,9 @@ export const InjectSummary = (name: string): ParameterDecorator =>
   Inject(getTokenSummary(name));
 
 export const PromInstanceCounter = beforeInstance(meta => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   const counterMetric = getOrCreateCounter({
     help: "app object instances total",
     labelNames: ["service"],
@@ -30,6 +33,9 @@ export const PromInstanceCounter = beforeInstance(meta => {
 });
 
 export const PromMethodCounter = beforeMethod(meta => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   const counterMetric = getOrCreateCounter({
     help: "app method calls total",
     labelNames: ["method", "service"],

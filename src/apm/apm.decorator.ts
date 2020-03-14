@@ -21,6 +21,9 @@ export const ApmCurrentTransaction = createParamDecorator((_data, _req) => {
 let spans: { name: string; span: Span }[] = [];
 
 export const ApmAfterMethod = afterMethod(meta => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   const tokenName = getTokenName(
     meta.target.constructor.name,
     meta.method.name
@@ -32,15 +35,19 @@ export const ApmAfterMethod = afterMethod(meta => {
 });
 
 export const ApmBeforeMethod = beforeMethod(meta => {
+  if (process.env.NODE_ENV === "test") {
+    return;
+  }
   const apmInstance = getOrCreateApmInstance({});
   const span = apmInstance.startSpan(
     meta.method.name,
     meta.target.constructor.name
   );
-  if (span !== null) {
-    spans.push({
-      name: getTokenName(meta.target.constructor.name, meta.method.name),
-      span
-    });
+  if (span === null) {
+    return;
   }
+  spans.push({
+    name: getTokenName(meta.target.constructor.name, meta.method.name),
+    span
+  });
 });
