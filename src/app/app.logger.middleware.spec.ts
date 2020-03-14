@@ -2,12 +2,12 @@ import { AppLoggerMiddleware } from "./app.logger.middleware";
 
 describe("AppLoggerMiddleware", () => {
   // TODO interface ?
-  const request = {
+  const request: any = {
     path: "",
     user: {}
   };
   // TODO: interface ?
-  const response = {};
+  const response: any = {};
   it("should be defined", () => {
     expect(new AppLoggerMiddleware()).toBeDefined();
   });
