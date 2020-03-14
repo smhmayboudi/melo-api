@@ -3,7 +3,7 @@ import { SignatureSize } from "imgproxy/dist/types";
 import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 export interface AppConfigServiceInterface {
-  apmActive: string;
+  apmActive: boolean;
   apmLogLevel: string;
   apmSecretToken: string;
   apmServerUrl: string;

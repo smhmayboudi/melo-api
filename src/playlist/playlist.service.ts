@@ -109,16 +109,16 @@ export class PlaylistService implements PlaylistServiceInterface {
     dto: PlaylistDeleteReqDto,
     sub: number
   ): Promise<DataPlaylistResDto> {
-    // TODO: interface ?
-    const query = {
+    const playlist = await this.playlistModel.findOne({
       $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
-    };
-    const playlist = await this.playlistModel.findOne(query);
+    });
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
     // TODO: refactory to its own repository
-    const deleteOne = await this.playlistModel.deleteOne(query);
+    const deleteOne = await this.playlistModel.deleteOne({
+      $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
+    });
     if (deleteOne.deletedCount === undefined || deleteOne.deletedCount === 0) {
       throw new InternalServerErrorException();
     }
