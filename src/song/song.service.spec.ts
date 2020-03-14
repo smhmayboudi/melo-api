@@ -313,8 +313,6 @@ describe("SongService", () => {
     expect(await service.sendTelegram(dto, 0, 0)).toBeUndefined();
   });
 
-  it.todo("sendTelegram should throw exception");
-
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
       from: 0,
@@ -349,5 +347,43 @@ describe("SongService", () => {
       id: ""
     };
     expect(await service.unlike(dto, 0, 0)).toEqual({ ...song, liked: false });
+  });
+
+  describe("SongService", () => {
+    const userServiceMockFindOneByIdUndefined: UserServiceInterface = {
+      ...userServiceMock,
+      findOneById: (): Promise<UserUserResDto | undefined> =>
+        Promise.resolve(undefined)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          SongService,
+          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          { provide: DataSongService, useValue: dataSongServiceMock },
+          { provide: HttpService, useValue: httpServiceMock },
+          { provide: RelationService, useValue: relationServiceMock },
+          {
+            provide: SongConfigService,
+            useValue: songConfigServiceMock
+          },
+          {
+            provide: UserService,
+            useValue: userServiceMockFindOneByIdUndefined
+          }
+        ]
+      }).compile();
+      service = module.get<SongService>(SongService);
+    });
+
+    it("sendTelegram should throw exception", async () => {
+      const dto: SongSendTelegramReqDto = {
+        id: "0"
+      };
+      return expect(
+        await service.sendTelegram(dto, 0, 0)
+      ).rejects.toThrowError();
+    });
   });
 });
