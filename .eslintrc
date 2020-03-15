@@ -1,7 +1,8 @@
 {
   "env": {
-    "node": true,
-    "es6": true
+    "es6": true,
+    "jest": true,
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -19,13 +20,19 @@
   },
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "impliedStrict": true,
+      "jsx": false
+    },
+    "ecmaVersion": 6,
     "project": "./tsconfig.eslint.json",
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint/eslint-plugin"
   ],
+  "root": true,
   "rules": {
     "@typescript-eslint/camelcase": ["error", { "allow": [
       "auth_date",
