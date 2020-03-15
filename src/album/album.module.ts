@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
@@ -15,7 +17,6 @@ import { AlbumService } from "./album.service";
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AlbumModule],
       useClass: AlbumCacheOptionsFactory
     }),

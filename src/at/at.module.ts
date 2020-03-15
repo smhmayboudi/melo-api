@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -14,7 +16,6 @@ import { AtService } from "./at.service";
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AtModule],
       useClass: AtCacheOptionsFactory
     }),

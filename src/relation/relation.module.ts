@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import config from "./relation.config";
@@ -11,7 +13,6 @@ import { RelationService } from "./relation.service";
   imports: [
     ConfigModule.forFeature(config),
     HttpModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [RelationModule],
       useClass: RelationHttpOptionsFactory
     })

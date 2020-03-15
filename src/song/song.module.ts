@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { CacheModule, forwardRef, HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
@@ -18,14 +20,12 @@ import { SongService } from "./song.service";
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [SongModule],
       useClass: SongCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
     DataModule,
     HttpModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [SongModule],
       useClass: SongHttpOptionsFactory
     }),

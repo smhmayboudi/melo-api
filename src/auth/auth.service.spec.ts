@@ -45,7 +45,7 @@ describe("AuthService", () => {
   };
   // TODO: interface ?
   const jwtServiceMock = {
-    sign: () => "0"
+    sign: (): string => "0"
   };
   const rtServiceMock: RtServiceInterface = {
     blockById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),

@@ -34,7 +34,5 @@ describe("HttpExceptionFilter", () => {
     ).toBeUndefined();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
     expect(httpArgumentsHost.getResponse).toHaveBeenCalled();
-    // httpArgumentsHost.getRequest.mockReset();
-    // httpArgumentsHost.getResponse.mockReset();
   });
 });

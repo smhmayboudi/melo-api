@@ -84,7 +84,6 @@ describe("PromInterceptor", () => {
     );
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
     expect(counterMock.inc).not.toHaveBeenCalled();
-    // httpArgumentsHost.getRequest.mockReset();
     counterMock.inc.mockReset();
   });
 
@@ -125,7 +124,6 @@ describe("PromInterceptor", () => {
       );
       expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
       expect(counterMock.inc).toHaveBeenCalled();
-      // httpArgumentsHost.getRequest.mockReset();
       counterMock.inc.mockReset();
     });
   });
@@ -168,7 +166,6 @@ describe("PromInterceptor", () => {
       );
       expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
       expect(counterMock.inc).not.toHaveBeenCalled();
-      // httpArgumentsHost.getRequest.mockReset();
       counterMock.inc.mockReset();
     });
   });

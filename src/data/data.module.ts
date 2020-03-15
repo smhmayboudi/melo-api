@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { DataAlbumService } from "./data.album.service";
@@ -23,7 +25,6 @@ import { DataSongService } from "./data.song.service";
   imports: [
     ConfigModule.forFeature(config),
     HttpModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [DataModule],
       useClass: DataHttpOptionsFactory
     })

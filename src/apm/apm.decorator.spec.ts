@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import {
   ApmCurrentSpan,
@@ -9,9 +11,7 @@ import { Span, Transaction } from "./apm.module.interface";
 describe("ApmDecorator", () => {
   it("ApmCurrentSpan enhance component with apm current span", () => {
     class Test {
-      test(@ApmCurrentSpan() _span: Span | null): void {
-        // NOTHING
-      }
+      test(@ApmCurrentSpan() _span: Span | null): void {}
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
@@ -20,9 +20,7 @@ describe("ApmDecorator", () => {
 
   it("ApmCurrentTraceparent enhance component with apm current traceparent", () => {
     class Test {
-      test(@ApmCurrentTraceparent() _traceparent: string): void {
-        // NOTHING
-      }
+      test(@ApmCurrentTraceparent() _traceparent: string): void {}
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
@@ -31,9 +29,7 @@ describe("ApmDecorator", () => {
 
   it("ApmCurrentTransaction enhance component with apm current transaction", () => {
     class Test {
-      test(@ApmCurrentTransaction() _transaction: Transaction): void {
-        // NOTHING
-      }
+      test(@ApmCurrentTransaction() _transaction: Transaction): void {}
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];

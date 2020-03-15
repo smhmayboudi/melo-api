@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
@@ -29,12 +31,10 @@ import { TokenStrategy } from "./token.strategy";
     ConfigModule.forFeature(config),
     JwksModule,
     JwtModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AuthModule, JwksModule],
       useClass: AuthJwtOptionsFactory
     }),
     PassportModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AuthModule],
       useClass: AuthAuthOptionsFactory
     }),

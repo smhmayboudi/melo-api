@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { forwardRef, HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
@@ -14,7 +16,6 @@ import { EmotionService } from "./emotion.service";
   imports: [
     forwardRef(() => AppModule),
     HttpModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [EmotionModule],
       useClass: EmotionHttpOptionsFactory
     }),

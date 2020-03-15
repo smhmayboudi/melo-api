@@ -42,7 +42,6 @@ describe("AppErrorInterceptor", () => {
       .intercept(executionContext, callHandler)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-    // httpArgumentsHost.getRequest.mockReset();
   });
 
   it("intercept should be called with exception", () => {
@@ -50,6 +49,5 @@ describe("AppErrorInterceptor", () => {
       .intercept(executionContext, callHandlerException)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-    // httpArgumentsHost.getRequest.mockReset();
   });
 });

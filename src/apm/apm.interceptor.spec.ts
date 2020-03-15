@@ -92,8 +92,7 @@ describe("ApmInterceptor", () => {
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
     expect(ampServiceMock.setUserContext).toHaveBeenCalled();
-    // httpArgumentsHost.getRequest.mockReset();
-    // ampServiceMock.setUserContext.mockReset();
+    expect(ampServiceMock.captureError).not.toHaveBeenCalled();
   });
 
   it("intercept should be called with exception", () => {
@@ -103,8 +102,5 @@ describe("ApmInterceptor", () => {
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
     expect(ampServiceMock.setUserContext).toHaveBeenCalled();
     expect(ampServiceMock.captureError).toHaveBeenCalled();
-    // httpArgumentsHost.getRequest.mockReset();
-    // ampServiceMock.setUserContext.mockReset();
-    // ampMock.captureError.mockReset();
   });
 });

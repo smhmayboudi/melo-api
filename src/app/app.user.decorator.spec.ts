@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
 import { AppUser } from "./app.user.decorator";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
@@ -31,9 +33,7 @@ describe("AppUser", () => {
       switchToHttp: () => httpArgumentsHost
     };
     class Test {
-      test(@AppUser() _sub: number): void {
-        // NOTHING
-      }
+      test(@AppUser() _sub: number): void {}
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
@@ -52,9 +52,7 @@ describe("AppUser", () => {
       switchToHttp: () => httpArgumentsHost
     };
     class Test {
-      test(@AppUser("sub") _sub: number): void {
-        // NOTHING
-      }
+      test(@AppUser("sub") _sub: number): void {}
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];
@@ -73,9 +71,7 @@ describe("AppUser", () => {
       switchToHttp: () => httpArgumentsHost
     };
     class Test {
-      test(@AppUser("sub") _sub: number): void {
-        // NOTHING
-      }
+      test(@AppUser("sub") _sub: number): void {}
     }
     const metadata = Reflect.getMetadata(ROUTE_ARGS_METADATA, Test, "test");
     const key = Object.keys(metadata)[0];

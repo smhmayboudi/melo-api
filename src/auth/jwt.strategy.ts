@@ -19,26 +19,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     protected readonly rtService: RtService
   ) {
     super({
-      // audience?: string;
       algorithms: "RS256",
-      // ignoreExpiration?: boolean;
-      // issuer?: string;
       jsonWebTokenOptions: {
         algorithms: "RS256"
-        // audience?: string | string[];
-        // clockTimestamp?: number;
-        // clockTolerance?: number;
-        // ignoreExpiration?: boolean;
-        // ignoreNotBefore?: boolean;
-        // issuer?: string | string[];
-        // jwtid?: string;
-        // subject?: string;
       },
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme(
         authConfigService.jwtAuhSchema
       ),
       passReqToCallback: false,
-      // secretOrKey?: string | Buffer;
       secretOrKeyProvider: async function(
         _request: express.Request,
         rawJwtToken: string,

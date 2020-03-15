@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import config from "./download.config";
@@ -13,7 +15,6 @@ import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
   imports: [
     ConfigModule.forFeature(config),
     HttpModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [DownloadModule],
       useClass: DownloadHttpOptionsFactory
     })

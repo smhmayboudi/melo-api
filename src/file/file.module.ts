@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import { CacheModule, forwardRef, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { MulterModule } from "@nestjs/platform-express";
@@ -18,13 +20,11 @@ import { FileService } from "./file.service";
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [FileModule],
       useClass: FileCacheOptionsFactory
     }),
     ConfigModule.forFeature(config),
     MulterModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [FileModule],
       useClass: FileMulterOptionsFactory
     }),

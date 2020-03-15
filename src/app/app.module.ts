@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+
 import {
   CacheModule,
   ClassSerializerInterceptor,
@@ -57,7 +59,6 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
   ],
   imports: [
     ApmModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppApmOptionsFactory
     }),
@@ -67,7 +68,6 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
     AtModule,
     AuthModule,
     CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppCacheOptionsFactory
     }),
@@ -80,13 +80,11 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
     FileModule,
     JwksModule,
     MongooseModule.forRootAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppMongooseOptionsFactory
     }),
     PlaylistModule,
     PromModule.forRootAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppPromOptionsFactory
     }),
@@ -94,7 +92,6 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
     RtModule,
     SearchModule,
     SentryModule.forRootAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppSentryOptionsFactory
     }),
@@ -103,7 +100,6 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
       imports: [
         ActionModule,
         AlbumModule,
-        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         AppModule,
         ArtistModule,
         AtModule,
@@ -124,7 +120,6 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
       useClass: AppTerminusOptionsFactory
     }),
     TypeOrmModule.forRootAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AppModule],
       useClass: AppTypeOrmOptionsFactory
     }),

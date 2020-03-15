@@ -112,8 +112,6 @@ export interface Agent {
   logger: Logger;
 }
 export interface GenericSpan {
-  // The following properties and methods are currently not documented as their API isn't considered official:
-  // timestamp, ended, id, traceId, parentId, sampled, duration()
   type: string | null;
   subtype: string | null;
   action: string | null;
@@ -127,8 +125,6 @@ export interface GenericSpan {
   addLabels(labels: Labels): boolean;
 }
 export interface Transaction extends GenericSpan {
-  // The following properties and methods are currently not documented as their API isn't considered official:
-  // setUserContext(), setCustomContext(), toJSON(), setDefaultName(), setDefaultNameFromRequest()
   name: string;
   result: string | number;
   startSpan(name?: string | null, options?: SpanOptions): Span | null;
@@ -154,18 +150,16 @@ export interface Transaction extends GenericSpan {
   end(result?: string | number | null, endTime?: number): void;
 }
 export interface Span extends GenericSpan {
-  // The following properties and methods are currently not documented as their API isn't considered official:
-  // customStackTrace(), setDbContext()
   transaction: Transaction;
   name: string;
   end(endTime?: number): void;
 }
 export interface AgentConfigOptions {
-  abortedErrorThreshold?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
+  abortedErrorThreshold?: string;
   active?: boolean;
   addPatch?: KeyValueConfig;
-  apiRequestSize?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
-  apiRequestTime?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
+  apiRequestSize?: string;
+  apiRequestTime?: string;
   asyncHooks?: boolean;
   captureBody?: CaptureBody;
   captureErrorLogStackTraces?: CaptureErrorLogStackTraces;
@@ -176,7 +170,7 @@ export interface AgentConfigOptions {
   containerId?: string;
   disableInstrumentations?: string | string[];
   environment?: string;
-  errorMessageMaxLength?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
+  errorMessageMaxLength?: string;
   errorOnAbortedRequests?: boolean;
   filterHttpHeaders?: boolean;
   frameworkName?: string;
@@ -194,11 +188,11 @@ export interface AgentConfigOptions {
   logLevel?: LogLevel;
   logUncaughtExceptions?: boolean;
   logger?: Logger;
-  metricsInterval?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
+  metricsInterval?: string;
   payloadLogFile?: string;
   secretToken?: string;
   serverCaCertFile?: string;
-  serverTimeout?: string; // Also support `number`, but as we're removing this functionality soon, there's no need to advertise it
+  serverTimeout?: string;
   serverUrl?: string;
   serviceName?: string;
   serviceVersion?: string;

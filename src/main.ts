@@ -68,12 +68,7 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup("api", app, document, {
     explorer: false,
-    // customfavIcon?: string;
-    // customCss?: string;
-    // customJs?: string;
     customSiteTitle: "melo api | Swagger UI"
-    // swaggerOptions?: any;
-    // swaggerUrl?: string;
   });
   await app.listen(appConfigService.port);
 }
