@@ -30,6 +30,10 @@ export const ApmAfterMethod = afterMethod(meta => {
   if (process.env.NODE_ENV === "test") {
     return;
   }
+  const apmInstance = getOrCreateApmInstance({});
+  if (!apmInstance.isStarted()) {
+    return;
+  }
   const tokenName = getTokenName(
     meta.target.constructor.name,
     meta.method.name
@@ -45,6 +49,9 @@ export const ApmBeforeMethod = beforeMethod(meta => {
     return;
   }
   const apmInstance = getOrCreateApmInstance({});
+  if (!apmInstance.isStarted()) {
+    return;
+  }
   const span = apmInstance.startSpan(
     meta.method.name,
     meta.target.constructor.name
