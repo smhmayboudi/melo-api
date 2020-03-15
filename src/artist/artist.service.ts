@@ -67,6 +67,13 @@ export class ArtistService implements ArtistServiceInterface {
       limit: dto.limit,
       relationType: RelationType.follows
     });
+    // TODO: external service should change
+    if (relationEntityResDto.results.length === 0) {
+      return {
+        results: [] as DataArtistResDto[],
+        total: 0
+      } as DataPaginationResDto<DataArtistResDto>;
+    }
     return this.dataArtistService.byIds({
       ids: relationEntityResDto.results.map(value => value.id)
     });

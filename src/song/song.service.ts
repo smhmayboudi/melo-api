@@ -194,6 +194,13 @@ export class SongService implements SongServiceInterface {
       limit: dto.limit,
       relationType: RelationType.likedSongs
     });
+    // TODO: external service should change
+    if (relationEntityResDto.results.length === 0) {
+      return {
+        results: [] as DataSongResDto[],
+        total: 0
+      } as DataPaginationResDto<DataSongResDto>;
+    }
     const dataSongResDto = await this.dataSongService.byIds({
       ids: relationEntityResDto.results.map(value => value.id)
     });

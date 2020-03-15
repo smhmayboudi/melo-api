@@ -7,8 +7,8 @@ import express from "express";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 
 export const AppUser = createParamDecorator(
-  (data: string | undefined, ctx: ExecutionContext) => {
-    const http = ctx.switchToHttp();
+  (data: string | undefined, context: ExecutionContext) => {
+    const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
