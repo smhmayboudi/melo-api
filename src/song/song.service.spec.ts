@@ -349,7 +349,44 @@ describe("SongService", () => {
     expect(await service.unlike(dto, 0, 0)).toEqual({ ...song, liked: false });
   });
 
-  describe("SongService", () => {
+  describe("SongService empty get", () => {
+    const relationServiceMockEmptyGet: RelationServiceInterface = {
+      ...relationServiceMock,
+      get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+        Promise.resolve({
+          results: [] as RelationEntityResDto[],
+          total: 0
+        } as RelationPaginationResDto<RelationEntityResDto>)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          SongService,
+          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          { provide: DataSongService, useValue: dataSongServiceMock },
+          { provide: HttpService, useValue: httpServiceMock },
+          { provide: RelationService, useValue: relationServiceMockEmptyGet },
+          {
+            provide: SongConfigService,
+            useValue: songConfigServiceMock
+          },
+          { provide: UserService, useValue: userServiceMock }
+        ]
+      }).compile();
+      service = module.get<SongService>(SongService);
+    });
+
+    it("liked should be equal to an empty list", async () => {
+      const dto: SongLikedReqDto = {
+        from: 0,
+        limit: 0
+      };
+      expect(await service.liked(dto, 0)).toEqual({ results: [], total: 0 });
+    });
+  });
+
+  describe("SongService sendTelegram badRequest", () => {
     const userServiceMockFindOneByIdUndefined: UserServiceInterface = {
       ...userServiceMock,
       findOneById: (): Promise<UserUserResDto | undefined> =>
@@ -381,9 +418,7 @@ describe("SongService", () => {
       const dto: SongSendTelegramReqDto = {
         id: "0"
       };
-      return expect(
-        await service.sendTelegram(dto, 0, 0)
-      ).rejects.toThrowError();
+      return expect(service.sendTelegram(dto, 0, 0)).rejects.toThrowError();
     });
   });
 });
