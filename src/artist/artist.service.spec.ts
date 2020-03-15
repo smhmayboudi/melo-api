@@ -130,4 +130,38 @@ describe("ArtistService", () => {
     };
     expect(await service.unfollow(dto, 0, 0)).toEqual(mixArtist);
   });
+
+  describe("ArtistService", () => {
+    const relationServiceMockEmptyGet: RelationServiceInterface = {
+      ...relationServiceMock,
+      get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+        Promise.resolve({
+          results: [] as RelationEntityResDto[],
+          total: 0
+        } as RelationPaginationResDto<RelationEntityResDto>)
+    };
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          ArtistService,
+          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          { provide: DataArtistService, useValue: dataArtistServiceMock },
+          { provide: RelationService, useValue: relationServiceMockEmptyGet }
+        ]
+      }).compile();
+      service = module.get<ArtistService>(ArtistService);
+    });
+
+    it("following should equal an empty list", async () => {
+      const dto: ArtistFollowingReqDto = {
+        from: 0,
+        limit: 0
+      };
+      expect(await service.following(dto, 0)).toEqual({
+        results: [],
+        total: 0
+      });
+    });
+  });
 });
