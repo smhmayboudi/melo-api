@@ -5,6 +5,7 @@ import { AppPromOptionsFactory } from "./app.prom.options.factory";
 
 describe("AppPromOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",

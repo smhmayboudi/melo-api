@@ -6,6 +6,7 @@ import { AppConfigServiceInterface } from "./app.config.service.interface";
 
 describe("AppCacheOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",

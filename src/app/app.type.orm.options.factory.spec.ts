@@ -10,6 +10,7 @@ import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 
 describe("AppTypeOrmOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",

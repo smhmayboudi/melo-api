@@ -5,6 +5,7 @@ import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 
 describe("AppSentryOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",
