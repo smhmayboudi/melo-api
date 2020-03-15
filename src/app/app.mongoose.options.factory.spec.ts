@@ -5,6 +5,7 @@ import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 
 describe("AppMongooseOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",

@@ -5,6 +5,7 @@ import { AppImgProxyService } from "./app.img-proxy.service";
 
 describe("ImgProxyService", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",

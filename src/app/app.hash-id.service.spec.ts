@@ -5,6 +5,7 @@ import { AppHashIdService } from "./app.hash-id.service";
 
 describe("AppHashIdService", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",

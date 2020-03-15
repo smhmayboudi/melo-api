@@ -8,6 +8,7 @@ import { LogLevel } from "../apm/apm.module.interface";
 
 describe("AppApmOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
+    apmActive: false,
     apmLogLevel: "trace",
     apmSecretToken: "",
     apmServerUrl: "",
@@ -72,6 +73,7 @@ describe("AppApmOptionsFactory", () => {
 
   it("createApmOptions should equal", () => {
     expect(new AppApmOptionsFactory(service).createApmOptions()).toEqual({
+      active: false,
       errorOnAbortedRequests: true,
       ignoreUrls: [PATH_HEALTH, PATH_METRICS],
       logLevel: "trace" as LogLevel,

@@ -326,4 +326,6 @@ describe("AppTerminusOptionsFactory", () => {
       ]
     });
   });
+
+  it.todo("call isHealthys");
 });

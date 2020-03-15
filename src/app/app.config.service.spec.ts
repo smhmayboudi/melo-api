@@ -48,7 +48,7 @@ describe("AppService", () => {
   describe("get: JSON", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => "{a:0}"
+      get: (): string => '{"a":0}'
     };
 
     let service: AppConfigService;
