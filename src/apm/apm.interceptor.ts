@@ -22,14 +22,14 @@ export class ApmInterceptor implements NestInterceptor {
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
-    if (process.env.NODE_ENV !== "test" && this.apmService.isStarted()) {
+    if (process.env.NODE_ENV !== "stage" && this.apmService.isStarted()) {
       this.apmService.setUserContext({
         id: request.user && request.user.sub
       });
     }
     return next.handle().pipe(
       tap(undefined, error => {
-        if (process.env.NODE_ENV !== "test" && this.apmService.isStarted()) {
+        if (process.env.NODE_ENV !== "stage" && this.apmService.isStarted()) {
           this.apmService.captureError(error);
         }
       })

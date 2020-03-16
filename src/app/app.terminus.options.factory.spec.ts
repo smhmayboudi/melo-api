@@ -263,68 +263,72 @@ describe("AppTerminusOptionsFactory", () => {
 
   it("createTerminusOptions should be equal to a value", () => {
     expect(
-      new AppTerminusOptionsFactory(
-        actionHealthIndicator,
-        albumHealthIndicator,
-        appHealthIndicator,
-        artistHealthIndicator,
-        atHealthIndicator,
-        authHealthIndicator,
-        constHealthIndicator,
-        dataHealthIndicator,
-        dNSHealthIndicator,
-        fileHealthIndicator,
-        jwksHealthIndicator,
-        playlistHealthIndicator,
-        relationHealthIndicator,
-        rtHealthIndicator,
-        searchHealthIndicator,
-        songHealthIndicator,
-        userHealthIndicator
-      ).createTerminusOptions()
-    ).toEqual({
-      endpoints: [
-        {
-          healthIndicators: [
-            (): Promise<HealthIndicatorResult> =>
-              actionHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              albumHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              appHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              artistHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              atHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              authHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              constHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              dataHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              dNSHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              fileHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              jwksHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              playlistHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              relationHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              rtHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              searchHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              songHealthIndicatorMock.isHealthy(),
-            (): Promise<HealthIndicatorResult> =>
-              userHealthIndicatorMock.isHealthy()
-          ],
-          url: "/health"
-        }
-      ]
-    });
+      JSON.stringify(
+        new AppTerminusOptionsFactory(
+          actionHealthIndicator,
+          albumHealthIndicator,
+          appHealthIndicator,
+          artistHealthIndicator,
+          atHealthIndicator,
+          authHealthIndicator,
+          constHealthIndicator,
+          dataHealthIndicator,
+          dNSHealthIndicator,
+          fileHealthIndicator,
+          jwksHealthIndicator,
+          playlistHealthIndicator,
+          relationHealthIndicator,
+          rtHealthIndicator,
+          searchHealthIndicator,
+          songHealthIndicator,
+          userHealthIndicator
+        ).createTerminusOptions()
+      )
+    ).toEqual(
+      JSON.stringify({
+        endpoints: [
+          {
+            url: "/health",
+            healthIndicators: [
+              (): Promise<HealthIndicatorResult> =>
+                actionHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                albumHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                appHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                artistHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                atHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                authHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                constHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                dataHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                dNSHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                fileHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                jwksHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                playlistHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                relationHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                rtHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                searchHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                songHealthIndicatorMock.isHealthy(),
+              (): Promise<HealthIndicatorResult> =>
+                userHealthIndicatorMock.isHealthy()
+            ]
+          }
+        ]
+      })
+    );
   });
 
   it.todo("call isHealthys");

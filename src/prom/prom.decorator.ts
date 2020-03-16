@@ -21,7 +21,7 @@ export const InjectSummary = (name: string): ParameterDecorator =>
   Inject(getTokenSummary(name));
 
 export const PromInstanceCounter = beforeInstance(meta => {
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === "stage") {
     return;
   }
   const counterMetric = getOrCreateCounter({
@@ -33,7 +33,7 @@ export const PromInstanceCounter = beforeInstance(meta => {
 });
 
 export const PromMethodCounter = beforeMethod(meta => {
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === "stage") {
     return;
   }
   const counterMetric = getOrCreateCounter({

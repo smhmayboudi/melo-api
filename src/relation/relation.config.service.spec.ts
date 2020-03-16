@@ -52,7 +52,7 @@ describe("RelationService", () => {
       service = module.get<RelationConfigService>(RelationConfigService);
     });
     it("url should be equal to a value", () => {
-      expect(service.url).toEqual("");
+      expect(service.url).toEqual("0");
     });
   });
 });

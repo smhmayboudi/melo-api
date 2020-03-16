@@ -27,7 +27,7 @@ export const ApmCurrentTransaction = createParamDecorator(
 let spans: { name: string; span: Span }[] = [];
 
 export const ApmAfterMethod = afterMethod(meta => {
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === "stage") {
     return;
   }
   const apmInstance = getOrCreateApmInstance({});
@@ -45,7 +45,7 @@ export const ApmAfterMethod = afterMethod(meta => {
 });
 
 export const ApmBeforeMethod = beforeMethod(meta => {
-  if (process.env.NODE_ENV === "test") {
+  if (process.env.NODE_ENV === "stage") {
     return;
   }
   const apmInstance = getOrCreateApmInstance({});
