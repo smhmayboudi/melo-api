@@ -5,17 +5,18 @@ import {
   ExecutionContext,
   HttpArgumentsHost
 } from "@nestjs/common/interfaces";
-import { APP_INTERCEPTOR } from "@nestjs/core";
-import { Test, TestingModule } from "@nestjs/testing";
-import { Counter } from "prom-client";
-import { of } from "rxjs";
 import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS
 } from "./prom.constant";
+import { Test, TestingModule } from "@nestjs/testing";
+import { getTokenConfiguration, getTokenCounter } from "./prom.util";
+
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { Counter } from "prom-client";
 import { PromInterceptor } from "./prom.interceptor";
 import { PromModuleOptions } from "./prom.module.interface";
-import { getTokenConfiguration, getTokenCounter } from "./prom.util";
+import { of } from "rxjs";
 
 describe("PromInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
@@ -26,14 +27,14 @@ describe("PromInterceptor", () => {
     getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 }))
   };
   const executionContext: ExecutionContext = {
+    getArgByIndex: jest.fn(),
+    getArgs: jest.fn(),
     getClass: jest.fn(),
     getHandler: jest.fn(),
-    getArgs: jest.fn(),
-    getArgByIndex: jest.fn(),
-    switchToRpc: jest.fn(),
+    getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
-    switchToWs: jest.fn(),
-    getType: jest.fn()
+    switchToRpc: jest.fn(),
+    switchToWs: jest.fn()
   };
   const callHandler: CallHandler = {
     handle: jest.fn(() => of(""))

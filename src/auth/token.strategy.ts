@@ -1,20 +1,21 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import { UniqueTokenStrategy as Strategy } from "passport-unique-token";
-import { RtService } from "../rt/rt.service";
+
 import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
+import { PassportStrategy } from "@nestjs/passport";
+import { RtService } from "../rt/rt.service";
+import { UniqueTokenStrategy as Strategy } from "passport-unique-token";
 
 @Injectable()
 export class TokenStrategy extends PassportStrategy(Strategy) {
   constructor(protected readonly rtService: RtService) {
     super({
-      rtField: "token",
-      rtQuery: "token",
-      rtParams: "token",
-      rtHeader: "token",
-      passReqToCallback: false,
       caseSensitive: true,
-      failOnMissing: true
+      failOnMissing: true,
+      passReqToCallback: false,
+      rtField: "token",
+      rtHeader: "token",
+      rtParams: "token",
+      rtQuery: "token"
     });
   }
 

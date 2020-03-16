@@ -1,9 +1,9 @@
-import { Injectable } from "@nestjs/common";
+import { AppHashIdService } from "./app.hash-id.service";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { Injectable } from "@nestjs/common";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
-import { AppHashIdService } from "./app.hash-id.service";
 
 @Injectable()
 export class AppMixSongService {
@@ -24,11 +24,11 @@ export class AppMixSongService {
         id: sub.toString(),
         type: RelationEntityType.user
       },
+      relationType: RelationType.likedSongs,
       tos: songs.map(value => ({
         id: this.appHashIdService.decode(value.id).toString(),
         type: RelationEntityType.song
-      })),
-      relationType: RelationType.likedSongs
+      }))
     });
     return songs.map(value => ({
       ...value,

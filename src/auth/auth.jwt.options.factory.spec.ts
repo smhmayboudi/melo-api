@@ -1,16 +1,17 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { JwksEntity } from "../jwks/jwks.entity";
-import { JwksService } from "../jwks/jwks.service";
-import { JwksServiceInterface } from "../jwks/jwks.service.interface";
+
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
+import { JwksEntity } from "../jwks/jwks.entity";
+import { JwksService } from "../jwks/jwks.service";
+import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 
 describe("AuthJwtOptionsFactory", () => {
   const jwks: JwksEntity = {
     id: "",
-    public_key: "",
-    private_key: ""
+    private_key: "",
+    public_key: ""
   };
 
   const authConfigServiceMock: AuthConfigServiceInterface = {

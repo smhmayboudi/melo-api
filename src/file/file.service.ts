@@ -33,10 +33,10 @@ export class FileService implements FileServiceInterface {
     aws.config.setPromisesDependency(bluebird);
     this.s3 = new aws.S3({
       accessKeyId: this.fileConfigService.s3AccessKeyId,
-      secretAccessKey: this.fileConfigService.s3SecretAccessKey,
       endpoint: this.fileConfigService.s3Endpoint,
-      sslEnabled: this.fileConfigService.s3SslEnabled,
-      s3ForcePathStyle: true
+      s3ForcePathStyle: true,
+      secretAccessKey: this.fileConfigService.s3SecretAccessKey,
+      sslEnabled: this.fileConfigService.s3SslEnabled
     });
   }
 

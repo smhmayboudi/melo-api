@@ -1,12 +1,13 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
+import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
+import { AuthController } from "./auth.controller";
+import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
+import { AuthService } from "./auth.service";
+import { AuthServiceInterface } from "./auth.service.interface";
 import { RtEntity } from "../rt/rt.entity";
 import { RtService } from "../rt/rt.service";
 import { RtServiceInterface } from "../rt/rt.service.interface";
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
-import { AuthServiceInterface } from "./auth.service.interface";
-import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
-import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 describe("AuthController", () => {
   const date = new Date();
@@ -16,8 +17,8 @@ describe("AuthController", () => {
     expire_at: new Date(Date.now() + 1000),
     id: 0,
     is_blocked: false,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
 
   const authServiceMock: AuthServiceInterface = {
@@ -78,8 +79,8 @@ describe("AuthController", () => {
 
   it("telegramCallback should be equal to a token", async () => {
     expect(await controller.telegram(0)).toEqual({
-      rt: "",
-      at: ""
+      at: "",
+      rt: ""
     });
   });
 

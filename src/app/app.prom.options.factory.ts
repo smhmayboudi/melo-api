@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
 import {
   PromModuleOptions,
   PromOptionsFactory
 } from "../prom/prom.module.interface";
+
 import { AppConfigService } from "./app.config.service";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AppPromOptionsFactory implements PromOptionsFactory {
@@ -13,10 +14,10 @@ export class AppPromOptionsFactory implements PromOptionsFactory {
     return {
       defaultLabels: this.appConfigService.promDefaultLabels,
       defaultMetrics: {
-        enabled: this.appConfigService.promDefaultMetricsEnabled,
         config: {
           prefix: this.appConfigService.promPrefix
-        }
+        },
+        enabled: this.appConfigService.promDefaultMetricsEnabled
       },
       path: this.appConfigService.promPath,
       prefix: this.appConfigService.promPrefix,

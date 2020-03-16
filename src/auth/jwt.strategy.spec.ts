@@ -1,18 +1,19 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { DeleteResult, UpdateResult } from "typeorm";
+import { Test, TestingModule } from "@nestjs/testing";
+
 import { AtEntity } from "../at/at.entity";
 import { AtService } from "../at/at.service";
 import { AtServiceInterface } from "../at/at.service.interface";
-import { JwksEntity } from "../jwks/jwks.entity";
-import { JwksService } from "../jwks/jwks.service";
-import { JwksServiceInterface } from "../jwks/jwks.service.interface";
-import { RtEntity } from "../rt/rt.entity";
-import { RtService } from "../rt/rt.service";
-import { RtServiceInterface } from "../rt/rt.service.interface";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthJwtPayloadReqDto } from "./dto/req/auth.jwt-payload.req.dto";
+import { JwksEntity } from "../jwks/jwks.entity";
+import { JwksService } from "../jwks/jwks.service";
+import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 import { JwtStrategy } from "./jwt.strategy";
+import { RtEntity } from "../rt/rt.entity";
+import { RtService } from "../rt/rt.service";
+import { RtServiceInterface } from "../rt/rt.service.interface";
 
 describe("JwtStrategy", () => {
   const date = new Date();
@@ -21,16 +22,16 @@ describe("JwtStrategy", () => {
     created_at: date,
     expire_at: new Date(Date.now() + 1000),
     id: 0,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
   const deleteResult: DeleteResult = {
     raw: {}
   };
   const jwksEntity: JwksEntity = {
     id: "",
-    public_key: "",
-    private_key: ""
+    private_key: "",
+    public_key: ""
   };
   const rtEntity: RtEntity = {
     created_at: date,
@@ -38,8 +39,8 @@ describe("JwtStrategy", () => {
     expire_at: new Date(Date.now() + 1000),
     id: 0,
     is_blocked: false,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
   const updateResult: UpdateResult = {
     generatedMaps: [{}],
@@ -55,9 +56,9 @@ describe("JwtStrategy", () => {
       Promise.resolve(atEntity),
     save: (): Promise<AtEntity> => Promise.resolve(atEntity),
     update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
-    validateByToken: (): Promise<AtEntity | undefined> =>
-      Promise.resolve(atEntity),
     validateBySub: (): Promise<AtEntity | undefined> =>
+      Promise.resolve(atEntity),
+    validateByToken: (): Promise<AtEntity | undefined> =>
       Promise.resolve(atEntity)
   };
   const authConfigServiceMock: AuthConfigServiceInterface = {

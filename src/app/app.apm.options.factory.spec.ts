@@ -1,9 +1,10 @@
+import { PATH_HEALTH, PATH_METRICS } from "./app.constant";
 import { Test, TestingModule } from "@nestjs/testing";
+
+import AppApmLogger from "./app.apm.logger";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
-import { PATH_HEALTH, PATH_METRICS } from "./app.constant";
-import AppApmLogger from "./app.apm.logger";
 import { LogLevel } from "../apm/apm.module.interface";
 
 describe("AppApmOptionsFactory", () => {
@@ -28,7 +29,7 @@ describe("AppApmOptionsFactory", () => {
     imgProxyKey: "",
     imgProxySalt: "",
     imgProxySignatureSize: 32,
-    imgProxyTypeSize: [{ name: "cover", height: 1024, width: 1024 }],
+    imgProxyTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
     mangooseRetryAttempts: 0,
     mangooseRetryDelay: 0,
     mangooseUri: "",
@@ -77,8 +78,8 @@ describe("AppApmOptionsFactory", () => {
       errorOnAbortedRequests: true,
       ignoreUrls: [PATH_HEALTH, PATH_METRICS],
       logLevel: "trace" as LogLevel,
-      logger: AppApmLogger,
       logUncaughtExceptions: true,
+      logger: AppApmLogger,
       secretToken: "",
       serverUrl: "",
       serviceName: ""

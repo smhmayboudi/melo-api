@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
@@ -25,7 +26,7 @@ describe("AppMongooseOptionsFactory", () => {
     imgProxyKey: "",
     imgProxySalt: "",
     imgProxySignatureSize: 32,
-    imgProxyTypeSize: [{ name: "cover", height: 1024, width: 1024 }],
+    imgProxyTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
     mangooseRetryAttempts: 0,
     mangooseRetryDelay: 0,
     mangooseUri: "",

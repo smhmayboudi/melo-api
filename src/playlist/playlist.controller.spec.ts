@@ -1,19 +1,20 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
+import { PlaylistController } from "./playlist.controller";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
 import { PlaylistEditReqDto } from "./dto/req/playlist.edit.req.dto";
 import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
-import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
-import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
-import { PlaylistController } from "./playlist.controller";
 import { PlaylistService } from "./playlist.service";
 import { PlaylistServiceInterface } from "./playlist.service.interface";
+import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
+import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
 describe("PlaylistController", () => {
   const releaseDate = new Date();
@@ -43,8 +44,8 @@ describe("PlaylistController", () => {
     addSong: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
     create: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
     delete: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
-    edit: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
     deleteSong: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
+    edit: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
     get: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
     my: (): Promise<DataPaginationResDto<DataPlaylistResDto>> =>
       Promise.resolve(playlistPagination),

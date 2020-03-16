@@ -1,4 +1,3 @@
-import { Injectable } from "@nestjs/common";
 import {
   DNSHealthIndicator,
   HealthIndicatorResult,
@@ -6,9 +5,9 @@ import {
   TerminusModuleOptions,
   TerminusOptionsFactory
 } from "@nestjs/terminus";
+
 import { ActionHealthIndicator } from "../action/action.health.indicator";
 import { AlbumHealthIndicator } from "../album/album.health.indicator";
-import { PATH_HEALTH } from "./app.constant";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { ArtistHealthIndicator } from "../artist/artist.health.indicator";
 import { AtHealthIndicator } from "../at/at.health.indicator";
@@ -16,7 +15,9 @@ import { AuthHealthIndicator } from "../auth/auth.health.indicator";
 import { ConstHealthIndicator } from "../const/const.health.indicator";
 import { DataHealthIndicator } from "../data/data.health.indicator";
 import { FileHealthIndicator } from "../file/file.health.indicator";
+import { Injectable } from "@nestjs/common";
 import { JwksHealthIndicator } from "../jwks/jwks.health.indicator";
+import { PATH_HEALTH } from "./app.constant";
 import { PlaylistHealthIndicator } from "../playlist/playlist.health.indicator";
 import { RelationHealthIndicator } from "../relation/relation.health.indicator";
 import { RtHealthIndicator } from "../rt/rt.health.indicator";
@@ -48,7 +49,6 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
 
   createTerminusOptions(): TerminusModuleOptions {
     const healthEndpoint: TerminusEndpoint = {
-      url: PATH_HEALTH,
       healthIndicators: [
         async (): Promise<HealthIndicatorResult> =>
           this.actionHealthIndicator.isHealthy(),
@@ -84,7 +84,8 @@ export class AppTerminusOptionsFactory implements TerminusOptionsFactory {
           this.songHealthIndicator.isHealthy(),
         async (): Promise<HealthIndicatorResult> =>
           this.userHealthIndicator.isHealthy()
-      ]
+      ],
+      url: PATH_HEALTH
     };
     return {
       endpoints: [healthEndpoint]

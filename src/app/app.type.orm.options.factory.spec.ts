@@ -1,12 +1,13 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
+import { AppConfigService } from "./app.config.service";
+import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { AtEntity } from "../at/at.entity";
 import { FileEntity } from "../file/file.entity";
 import { JwksEntity } from "../jwks/jwks.entity";
 import { RtEntity } from "../rt/rt.entity";
 import { UserEntity } from "../user/user.entity";
-import { AppConfigService } from "./app.config.service";
-import { AppConfigServiceInterface } from "./app.config.service.interface";
-import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 
 describe("AppTypeOrmOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -30,7 +31,7 @@ describe("AppTypeOrmOptionsFactory", () => {
     imgProxyKey: "",
     imgProxySalt: "",
     imgProxySignatureSize: 32,
-    imgProxyTypeSize: [{ name: "cover", height: 1024, width: 1024 }],
+    imgProxyTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
     mangooseRetryAttempts: 0,
     mangooseRetryDelay: 0,
     mangooseUri: "",

@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { AppHashIdService } from "./app.hash-id.service";
+import { AppMixArtistServiceInterface } from "./app.mix-artist.service.interface";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { Injectable } from "@nestjs/common";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
-import { AppHashIdService } from "./app.hash-id.service";
-import { AppMixArtistServiceInterface } from "./app.mix-artist.service.interface";
 
 @Injectable()
 export class AppMixArtistService implements AppMixArtistServiceInterface {
@@ -25,11 +25,11 @@ export class AppMixArtistService implements AppMixArtistServiceInterface {
         id: sub.toString(),
         type: RelationEntityType.user
       },
+      relationType: RelationType.follows,
       tos: artists.map(value => ({
         id: this.appHashIdService.decode(value.id).toString(),
         type: RelationEntityType.artist
-      })),
-      relationType: RelationType.follows
+      }))
     });
     return artists.map(value => ({
       ...value,

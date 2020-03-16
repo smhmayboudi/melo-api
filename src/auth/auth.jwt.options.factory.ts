@@ -1,7 +1,8 @@
-import { Injectable } from "@nestjs/common";
 import { JwtModuleOptions, JwtOptionsFactory } from "@nestjs/jwt";
-import { JwksService } from "../jwks/jwks.service";
+
 import { AuthConfigService } from "./auth.config.service";
+import { Injectable } from "@nestjs/common";
+import { JwksService } from "../jwks/jwks.service";
 
 @Injectable()
 export class AuthJwtOptionsFactory implements JwtOptionsFactory {
@@ -15,14 +16,14 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
       jwks === undefined
         ? {}
         : {
+            jsonWebTokenOptions: {
+              algorithms: ["RS256"]
+            },
             privateKey: jwks.private_key,
             publicKey: jwks.public_key,
             signOptions: {
               algorithm: "RS256",
               expiresIn: this.authConfigService.jwtAccessTokenExpiresIn / 1000
-            },
-            jsonWebTokenOptions: {
-              algorithms: ["RS256"]
             }
           }
     );

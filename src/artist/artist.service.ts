@@ -1,22 +1,20 @@
-import { Injectable } from "@nestjs/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+
 import { AppMixArtistService } from "../app/app.mix-artist.service";
-import { DataArtistService } from "../data/data.artist.service";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
-import { RelationEntityType } from "../relation/relation.entity.type";
-import { RelationService } from "../relation/relation.service";
-import { RelationType } from "../relation/relation.type";
-import { ArtistServiceInterface } from "./artist.servcie.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistServiceInterface } from "./artist.servcie.interface";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataArtistService } from "../data/data.artist.service";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { Injectable } from "@nestjs/common";
+import { PromMethodCounter } from "../prom/prom.decorator";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationService } from "../relation/relation.service";
+import { RelationType } from "../relation/relation.type";
 
 @Injectable()
 // @PromInstanceCounter
@@ -42,11 +40,11 @@ export class ArtistService implements ArtistServiceInterface {
         id: sub.toString(),
         type: RelationEntityType.user
       },
+      relationType: RelationType.follows,
       to: {
         id: dataArtistResDto.id,
         type: RelationEntityType.artist
-      },
-      relationType: RelationType.follows
+      }
     });
     return dataArtistResDto;
   }
@@ -143,11 +141,11 @@ export class ArtistService implements ArtistServiceInterface {
         id: sub.toString(),
         type: RelationEntityType.user
       },
+      relationType: RelationType.unfollows,
       to: {
         id: id.toString(),
         type: RelationEntityType.artist
-      },
-      relationType: RelationType.unfollows
+      }
     });
     return dataArtistResDto;
   }

@@ -9,14 +9,14 @@ describe("AppHttpCacheInterceptor", () => {
     getResponse: jest.fn()
   };
   const executionContext: ExecutionContext = {
+    getArgByIndex: jest.fn(),
+    getArgs: jest.fn(),
     getClass: jest.fn(),
     getHandler: jest.fn(),
-    getArgs: jest.fn(),
-    getArgByIndex: jest.fn(),
-    switchToRpc: jest.fn(),
+    getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
-    switchToWs: jest.fn(),
-    getType: jest.fn()
+    switchToRpc: jest.fn(),
+    switchToWs: jest.fn()
   };
   it("should be defined", () => {
     expect(new AppHttpCacheInterceptor(new Map(), {})).toBeDefined();

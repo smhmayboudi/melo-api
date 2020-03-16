@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
 import {
   MongooseModuleOptions,
   MongooseOptionsFactory
 } from "@nestjs/mongoose";
+
 import { AppConfigService } from "./app.config.service";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AppMongooseOptionsFactory implements MongooseOptionsFactory {
@@ -15,9 +16,9 @@ export class AppMongooseOptionsFactory implements MongooseOptionsFactory {
     return {
       retryAttempts: this.appConfigService.mangooseRetryAttempts,
       retryDelay: this.appConfigService.mangooseRetryDelay,
+      uri: this.appConfigService.mangooseUri,
       useNewUrlParser: true,
-      useUnifiedTopology: true,
-      uri: this.appConfigService.mangooseUri
+      useUnifiedTopology: true
     };
   }
 }

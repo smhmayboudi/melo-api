@@ -1,29 +1,29 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
+import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongServiceInterface } from "../data/data.song.service.interface";
-import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { HttpService } from "@nestjs/common";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
 import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
-import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
-import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
-import { UserService } from "../user/user.service";
-import { UserServiceInterface } from "../user/user.service.interface";
-import { SongArtistSongsTopReqDto } from "./dto/req/song.artist-songs-top.req.dto";
 import { SongArtistSongsReqDto } from "./dto/req/song.artist-songs.req.dto";
+import { SongArtistSongsTopReqDto } from "./dto/req/song.artist-songs-top.req.dto";
 import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
+import { SongConfigService } from "./song.config.service";
+import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
 import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
 import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
@@ -34,15 +34,16 @@ import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.quer
 import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
 import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
+import { SongService } from "./song.service";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
 import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.dto";
 import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
-import { SongConfigService } from "./song.config.service";
-import { SongConfigServiceInterface } from "./song.config.service.interface";
-import { SongService } from "./song.service";
+import { UserService } from "../user/user.service";
+import { UserServiceInterface } from "../user/user.service.interface";
+import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
 
 describe("SongService", () => {
   const releaseDate = new Date();
@@ -192,8 +193,8 @@ describe("SongService", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      from: 0,
       artistId: "0",
+      from: 0,
       limit: 0
     };
     expect(await service.artistSongs(dto, 0, 0)).toEqual(songPagination);
@@ -201,8 +202,8 @@ describe("SongService", () => {
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsTopReqDto = {
-      from: 0,
       artistId: "0",
+      from: 0,
       limit: 0
     };
     expect(await service.artistSongsTop(dto, 0, 0)).toEqual(songPagination);
@@ -316,8 +317,8 @@ describe("SongService", () => {
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
       from: 0,
-      limit: 0,
-      id: ""
+      id: "",
+      limit: 0
     };
     expect(await service.similar(dto, 0, 0)).toEqual(songPagination);
   });

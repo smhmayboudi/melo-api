@@ -1,5 +1,5 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { Counter, Gauge, Histogram, Summary, register } from "prom-client";
+import { Test, TestingModule } from "@nestjs/testing";
 import {
   getOrCreateCounterProvider,
   getOrCreateGaugeProvider,
@@ -18,7 +18,7 @@ describe("PromProvider", () => {
   it("getOrCreateCounterProvider should be instance of counter", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateCounterProvider({ name: "counter", help: "counter" }),
+        getOrCreateCounterProvider({ help: "counter", name: "counter" }),
         { provide: getTokenRegistry(), useValue: register }
       ]
     }).compile();
@@ -28,7 +28,7 @@ describe("PromProvider", () => {
   it("getOrCreateGaugeProvider should be instance of gauge", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateGaugeProvider({ name: "gauge", help: "gauge" }),
+        getOrCreateGaugeProvider({ help: "gauge", name: "gauge" }),
         { provide: getTokenRegistry(), useValue: register }
       ]
     }).compile();
@@ -38,7 +38,7 @@ describe("PromProvider", () => {
   it("getOrCreateHistogramProvider should be instance of gauge", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateHistogramProvider({ name: "histogram", help: "histogram" }),
+        getOrCreateHistogramProvider({ help: "histogram", name: "histogram" }),
         { provide: getTokenRegistry(), useValue: register }
       ]
     }).compile();
@@ -50,7 +50,7 @@ describe("PromProvider", () => {
   it("getOrCreateSummaryProvider should be instance of gauge", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateSummaryProvider({ name: "summary", help: "summary" }),
+        getOrCreateSummaryProvider({ help: "summary", name: "summary" }),
         { provide: getTokenRegistry(), useValue: register }
       ]
     }).compile();

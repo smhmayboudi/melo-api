@@ -1,47 +1,48 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import { ApmService } from "./apm.service";
 import { ApmServiceInterface } from "./apm.service.interface";
 
 describe("ApmService", () => {
   const ampServiceMock: ApmServiceInterface = {
-    start: jest.fn(),
-    isStarted: jest.fn(),
-    setFramework: jest.fn(),
-    addPatch: jest.fn(),
-    removePatch: jest.fn(),
-    clearPatches: jest.fn(),
-    middleware: { connect: () => (): void => undefined },
-    lambda: jest.fn(),
-    handleUncaughtExceptions: jest.fn(),
-    captureError: jest.fn(),
-    currentTraceparent: null,
-    startTransaction: jest.fn(),
-    setTransactionName: jest.fn(),
-    endTransaction: jest.fn(),
-    currentTransaction: null,
-    startSpan: jest.fn(),
-    currentSpan: null,
-    setLabel: jest.fn(),
-    addLabels: jest.fn(),
-    setUserContext: jest.fn(),
-    setCustomContext: jest.fn(),
-    addFilter: jest.fn(),
     addErrorFilter: jest.fn(),
+    addFilter: jest.fn(),
+    addLabels: jest.fn(),
+    addPatch: jest.fn(),
     addSpanFilter: jest.fn(),
     addTransactionFilter: jest.fn(),
-    flush: jest.fn(),
+    captureError: jest.fn(),
+    clearPatches: jest.fn(),
+    currentSpan: null,
+    currentTraceparent: null,
+    currentTransaction: null,
     destroy: jest.fn(),
+    endTransaction: jest.fn(),
+    flush: jest.fn(),
+    handleUncaughtExceptions: jest.fn(),
+    isStarted: jest.fn(),
+    lambda: jest.fn(),
     logger: {
-      fatal: (): void => undefined,
-      error: (): void => undefined,
-      warn: (): void => undefined,
-      info: (): void => undefined,
       debug: (): void => undefined,
-      trace: (): void => undefined
-    }
+      error: (): void => undefined,
+      fatal: (): void => undefined,
+      info: (): void => undefined,
+      trace: (): void => undefined,
+      warn: (): void => undefined
+    },
+    middleware: { connect: () => (): void => undefined },
+    removePatch: jest.fn(),
+    setCustomContext: jest.fn(),
+    setFramework: jest.fn(),
+    setLabel: jest.fn(),
+    setTransactionName: jest.fn(),
+    setUserContext: jest.fn(),
+    start: jest.fn(),
+    startSpan: jest.fn(),
+    startTransaction: jest.fn()
   };
 
   let service: ApmService;

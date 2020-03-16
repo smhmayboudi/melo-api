@@ -1,12 +1,8 @@
-import { HttpService, Injectable } from "@nestjs/common";
-import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
+import { HttpService, Injectable } from "@nestjs/common";
+
 import { DataConfigService } from "./data.config.service";
-import { DataSongServiceInterface } from "./data.song.service.interface";
+import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
 import { DataSongArtistSongsTopReqDto } from "./dto/req/data.song.artist-songs-top.req.dto";
 import { DataSongArtistsReqDto } from "./dto/req/data.song.artists.req.dto";
 import { DataSongByIdReqDto } from "./dto/req/data.song.by-id.req.dto";
@@ -17,12 +13,14 @@ import { DataSongMoodReqDto } from "./dto/req/data.song.mood.req.dto";
 import { DataSongNewPodcastReqDto } from "./dto/req/data.song.new-podcast.req.dto";
 import { DataSongNewReqDto } from "./dto/req/data.song.new.req.dto";
 import { DataSongPodcastReqDto } from "./dto/req/data.song.podcast.req.dto";
+import { DataSongResDto } from "./dto/res/data.song.res.dto";
 import { DataSongSearchMoodReqDto } from "./dto/req/data.song.search-mood.req.dto";
+import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataSongSimilarReqDto } from "./dto/req/data.song.similar.req.dto";
 import { DataSongTopDayReqDto } from "./dto/req/data.song.top-day.req.dto";
 import { DataSongTopWeekReqDto } from "./dto/req/data.song.top-week.req.dto";
-import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
-import { DataSongResDto } from "./dto/res/data.song.res.dto";
+import { PromMethodCounter } from "../prom/prom.decorator";
+import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
@@ -194,8 +192,8 @@ export class DataSongService implements DataSongServiceInterface {
         `${this.dataConfigService.url}/search/mood/${dto.from}/${dto.limit}`,
         {
           params: {
-            date: dto.date,
             classy: dto.classy,
+            date: dto.date,
             energetic: dto.energetic,
             happiness: dto.happiness,
             romantic: dto.romantic
