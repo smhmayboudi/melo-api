@@ -33,9 +33,9 @@ export class FileController {
   @UseGuards(AuthGuard("jwt"))
   @UseInterceptors(FileInterceptor("file"))
   async uploadedPic(
-    @UploadedFile("file")
     @AppUser("sub", ParseIntPipe)
     sub: number,
+    @UploadedFile("file")
     dto: FileUploadImageReqDto
   ): Promise<FileUploadImageResDto> {
     return this.fileService.uploadImage(sub, dto);
