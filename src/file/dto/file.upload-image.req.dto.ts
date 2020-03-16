@@ -1,18 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class FileUploadImageReqDto {
   constructor(
     buffer: Buffer,
-    createdAt: Date,
-    fileKey: string,
+    encoding: string,
+    fieldname: string,
     mimeType: string,
     originalname: string,
     size: number
   ) {
     this.buffer = buffer;
-    this.createdAt = createdAt;
-    this.fileKey = fileKey;
+    this.encoding = encoding;
+    this.fieldname = fieldname;
     this.mimeType = mimeType;
     this.originalname = originalname;
     this.size = size;
@@ -25,18 +25,18 @@ export class FileUploadImageReqDto {
   buffer: Buffer;
 
   @ApiProperty({
-    description: "The creation date",
-    example: new Date()
+    description: "File encoding",
+    example: "8bit"
   })
-  @IsDate()
-  createdAt: Date;
+  @IsString()
+  encoding: string;
 
   @ApiProperty({
-    description: "The file identification",
+    description: "The file name",
     example: "abcdef"
   })
   @IsString()
-  fileKey: string;
+  fieldname: string;
 
   @ApiProperty({
     description: "The content type",
