@@ -1,8 +1,9 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app/app.config.service";
+
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
+import { AppConfigService } from "../app/app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { ConfigService } from "@nestjs/config";
 
 describe("AppCacheOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -26,7 +27,7 @@ describe("AppCacheOptionsFactory", () => {
     imgProxyKey: "",
     imgProxySalt: "",
     imgProxySignatureSize: 32,
-    imgProxyTypeSize: [{ name: "cover", height: 1024, width: 1024 }],
+    imgProxyTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
     mangooseRetryAttempts: 0,
     mangooseRetryDelay: 0,
     mangooseUri: "",

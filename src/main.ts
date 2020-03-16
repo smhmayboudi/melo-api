@@ -1,13 +1,15 @@
-import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-// import csurf from "csurf";
-import rateLimit from "express-rate-limit";
-import helmet from "helmet";
 import "source-map-support/register";
+
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+
 import { AppConfigService } from "./app/app.config.service";
 import { AppModule } from "./app/app.module";
+import { NestFactory } from "@nestjs/core";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+// import csurf from "csurf";
+import rateLimit from "express-rate-limit";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
@@ -67,8 +69,8 @@ async function bootstrap(): Promise<void> {
     .build();
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup("api", app, document, {
-    explorer: false,
-    customSiteTitle: "melo api | Swagger UI"
+    customSiteTitle: "melo api | Swagger UI",
+    explorer: false
   });
   await app.listen(appConfigService.port);
 }

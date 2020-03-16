@@ -1,5 +1,7 @@
 import * as Sentry from "@sentry/node";
+
 import { Client, Options } from "@sentry/types";
+
 import { SentryModuleOptions } from "./sentry.module.interface";
 
 let sentryInstance: typeof Sentry | undefined;
@@ -10,11 +12,9 @@ export function getOrCreateSentryInstance(
 ): typeof Sentry {
   if (sentryInstance === undefined || isTest) {
     Sentry.init({
-      dsn: options.dsn,
       debug: options.debug === true ? false : options.debug,
+      dsn: options.dsn,
       environment: options.environment,
-      release: options.release,
-      logLevel: options.logLevel,
       integrations: [
         new Sentry.Integrations.OnUncaughtException({
           onFatalError: (error): void => {
@@ -27,7 +27,9 @@ export function getOrCreateSentryInstance(
           }
         }),
         new Sentry.Integrations.OnUnhandledRejection()
-      ]
+      ],
+      logLevel: options.logLevel,
+      release: options.release
     });
     sentryInstance = Sentry;
   }

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.interface";
@@ -7,8 +8,8 @@ import { JwksService } from "./jwks.service";
 describe("JwksService", () => {
   const jwksEntity: JwksEntity = {
     id: "",
-    public_key: "",
-    private_key: ""
+    private_key: "",
+    public_key: ""
   };
 
   const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {

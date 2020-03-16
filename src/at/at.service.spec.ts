@@ -1,5 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { DeleteResult, UpdateResult } from "typeorm";
+import { Test, TestingModule } from "@nestjs/testing";
+
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
 import { AtEntityRepositoryInterface } from "./at.entity.repository.interface";
@@ -12,8 +13,8 @@ describe("AtService", () => {
     created_at: date,
     expire_at: date,
     id: 0,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
   const deleteResult: DeleteResult = {
     raw: ""

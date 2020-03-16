@@ -1,21 +1,22 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { AxiosResponse } from "axios";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadConfigService } from "./download.config.service";
+import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
-import { DownloadSortByType } from "./download.sort-by.type";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
-import { DownloadOrderByType } from "./download.order-by.type";
+import { DownloadSortByType } from "./download.sort-by.type";
+import { HttpService } from "@nestjs/common";
 
 describe("DownloadService", () => {
   const downloadedAt = new Date();
   const downloadSong: DownloadSongResDto = {
-    songId: 0,
-    downloadedAt
+    downloadedAt,
+    songId: 0
   };
   const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
     results: [downloadSong],

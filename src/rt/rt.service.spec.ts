@@ -1,5 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { DeleteResult, UpdateResult } from "typeorm";
+import { Test, TestingModule } from "@nestjs/testing";
+
 import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtEntityRepositoryInterface } from "./rt.entity.repository.interface";
@@ -13,8 +14,8 @@ describe("RtService", () => {
     expire_at: date,
     id: 0,
     is_blocked: false,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
   const deleteResult: DeleteResult = {
     raw: ""

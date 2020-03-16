@@ -1,19 +1,17 @@
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
+
+import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
+import { AuthConfigService } from "./auth.config.service";
+import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
+import { AuthServiceInterface } from "./auth.service.interface";
+import { JwksService } from "../jwks/jwks.service";
 import { JwtService } from "@nestjs/jwt";
+import { PromMethodCounter } from "../prom/prom.decorator";
+import { RtService } from "../rt/rt.service";
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import { JwksService } from "../jwks/jwks.service";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
-import { RtService } from "../rt/rt.service";
-import { AuthConfigService } from "./auth.config.service";
-import { AuthServiceInterface } from "./auth.service.interface";
-import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
-import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 
 @Injectable()
 // @PromInstanceCounter
@@ -36,8 +34,8 @@ export class AuthService implements AuthServiceInterface {
     const at = this.jwtService.sign(
       {},
       {
-        keyid: jwksEntity.id,
         jwtid: uuidv4(),
+        keyid: jwksEntity.id,
         subject: sub.toString()
       }
     );
@@ -62,8 +60,8 @@ export class AuthService implements AuthServiceInterface {
     const at = this.jwtService.sign(
       {},
       {
-        keyid: jwksEntity.id,
         jwtid,
+        keyid: jwksEntity.id,
         subject: sub.toString()
       }
     );
@@ -76,8 +74,8 @@ export class AuthService implements AuthServiceInterface {
       expire_at: exp,
       id: 0,
       is_blocked: false,
-      user_id: sub,
-      token: rt
+      token: rt,
+      user_id: sub
     });
     return {
       at,

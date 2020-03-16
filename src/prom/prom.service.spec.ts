@@ -1,5 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { Counter, Gauge, Histogram, Summary } from "prom-client";
+import { Test, TestingModule } from "@nestjs/testing";
+
 import { PromService } from "./prom.service";
 
 describe("PromService", () => {
@@ -14,25 +15,25 @@ describe("PromService", () => {
 
   it("getOrCreateCounter should be instance of a counter metric", () => {
     expect(
-      service.getOrCreateCounter({ name: "counter", help: "counter" })
+      service.getOrCreateCounter({ help: "counter", name: "counter" })
     ).toBeInstanceOf(Counter);
   });
 
   it("getOrCreateGauge should be instance of a gauge metric", () => {
     expect(
-      service.getOrCreateGauge({ name: "gauge", help: "gauge" })
+      service.getOrCreateGauge({ help: "gauge", name: "gauge" })
     ).toBeInstanceOf(Gauge);
   });
 
   it("getOrCreateHistogram should be instance of a histogram metric", () => {
     expect(
-      service.getOrCreateHistogram({ name: "histogram", help: "histogram" })
+      service.getOrCreateHistogram({ help: "histogram", name: "histogram" })
     ).toBeInstanceOf(Histogram);
   });
 
   it("getOrCreateSummary should be instance of a summary metric", () => {
     expect(
-      service.getOrCreateSummary({ name: "summary", help: "summary" })
+      service.getOrCreateSummary({ help: "summary", name: "summary" })
     ).toBeInstanceOf(Summary);
   });
 });

@@ -1,18 +1,19 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { AxiosResponse } from "axios";
+import { HttpService } from "@nestjs/common";
+import { RelationConfigService } from "./relation.config.service";
+import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
+import { RelationEntityType } from "./relation.entity.type";
 import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
 import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";
 import { RelationMultiHasReqDto } from "./dto/req/relation.multi-has.req.dto";
-import { RelationRemoveReqDto } from "./dto/req/relation.remove.req.dto";
-import { RelationSetReqDto } from "./dto/req/relation.set.req.dto";
-import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
 import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
 import { RelationPaginationResDto } from "./dto/res/relation.pagination.res.dto";
-import { RelationConfigService } from "./relation.config.service";
-import { RelationEntityType } from "./relation.entity.type";
+import { RelationRemoveReqDto } from "./dto/req/relation.remove.req.dto";
 import { RelationService } from "./relation.service";
+import { RelationSetReqDto } from "./dto/req/relation.set.req.dto";
 import { RelationType } from "./relation.type";
 
 describe("RelationService", () => {
@@ -119,8 +120,8 @@ describe("RelationService", () => {
     it("has should be undefined", async () => {
       const dto: RelationHasReqDto = {
         from: { id: "0", type: RelationEntityType.album },
-        to: { id: "0", type: RelationEntityType.album },
-        relationType: RelationType.follows
+        relationType: RelationType.follows,
+        to: { id: "0", type: RelationEntityType.album }
       };
       expect(await service.has(dto)).toBeUndefined();
     });
@@ -128,8 +129,8 @@ describe("RelationService", () => {
     it("remove should be undefined", async () => {
       const dto: RelationRemoveReqDto = {
         from: { id: "", type: RelationEntityType.album },
-        to: { id: "", type: RelationEntityType.album },
-        relationType: RelationType.follows
+        relationType: RelationType.follows,
+        to: { id: "", type: RelationEntityType.album }
       };
       expect(await service.remove(dto)).toBeUndefined();
     });
@@ -138,8 +139,8 @@ describe("RelationService", () => {
       const dto: RelationSetReqDto = {
         createdAt: date,
         from: { id: "", type: RelationEntityType.album },
-        to: { id: "", type: RelationEntityType.album },
-        relationType: RelationType.follows
+        relationType: RelationType.follows,
+        to: { id: "", type: RelationEntityType.album }
       };
       expect(await service.set(dto)).toBeUndefined();
     });
@@ -191,8 +192,8 @@ describe("RelationService", () => {
     it("has should throw an exception", async () => {
       const dto: RelationHasReqDto = {
         from: { id: "0", type: RelationEntityType.album },
-        to: { id: "0", type: RelationEntityType.album },
-        relationType: RelationType.follows
+        relationType: RelationType.follows,
+        to: { id: "0", type: RelationEntityType.album }
       };
       return expect(service.has(dto)).rejects.toThrowError();
     });
@@ -200,8 +201,8 @@ describe("RelationService", () => {
     it("remove should throw an exception", async () => {
       const dto: RelationRemoveReqDto = {
         from: { id: "", type: RelationEntityType.album },
-        to: { id: "", type: RelationEntityType.album },
-        relationType: RelationType.follows
+        relationType: RelationType.follows,
+        to: { id: "", type: RelationEntityType.album }
       };
       return expect(service.remove(dto)).rejects.toThrowError();
     });
@@ -210,8 +211,8 @@ describe("RelationService", () => {
       const dto: RelationSetReqDto = {
         createdAt: date,
         from: { id: "", type: RelationEntityType.album },
-        to: { id: "", type: RelationEntityType.album },
-        relationType: RelationType.follows
+        relationType: RelationType.follows,
+        to: { id: "", type: RelationEntityType.album }
       };
       return expect(service.set(dto)).rejects.toThrowError();
     });

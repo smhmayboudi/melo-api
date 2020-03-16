@@ -1,18 +1,19 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { AxiosResponse } from "axios";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionParamReqDto } from "./dto/req/emotion.param.req.dto";
 import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
-import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionService } from "./emotion.service";
+import { HttpService } from "@nestjs/common";
 
 describe("EmotionService", () => {
   const emotion: EmotionResDto = {
-    songId: 0,
-    emotions: [""]
+    emotions: [""],
+    songId: 0
   };
   const emotionPagination: DataPaginationResDto<EmotionResDto> = {
     results: [emotion],

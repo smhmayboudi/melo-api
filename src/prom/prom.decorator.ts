@@ -1,4 +1,3 @@
-import { Inject } from "@nestjs/common";
 import { beforeInstance, beforeMethod } from "kaop-ts";
 import {
   getOrCreateCounter,
@@ -7,6 +6,8 @@ import {
   getTokenHistogram,
   getTokenSummary
 } from "./prom.util";
+
+import { Inject } from "@nestjs/common";
 
 export const InjectCounter = (name: string): ParameterDecorator =>
   Inject(getTokenCounter(name));
@@ -42,7 +43,7 @@ export const PromMethodCounter = beforeMethod(meta => {
     name: "app_method_calls_total"
   });
   counterMetric.inc({
-    service: meta.target.constructor.name,
-    method: meta.method.name
+    method: meta.method.name,
+    service: meta.target.constructor.name
   });
 });

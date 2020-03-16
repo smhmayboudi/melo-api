@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 
-import { HttpException } from "@nestjs/common";
 import { ArgumentsHost, HttpArgumentsHost } from "@nestjs/common/interfaces";
+
 import { AppHttpExceptionFilter } from "./app.http-exception.filter";
+import { HttpException } from "@nestjs/common";
 
 describe("HttpExceptionFilter", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
@@ -15,12 +16,12 @@ describe("HttpExceptionFilter", () => {
       .mockImplementation(() => ({ status: () => ({ json: () => ({}) }) }))
   };
   const argumentsHost: ArgumentsHost = {
-    getArgs: jest.fn(),
     getArgByIndex: jest.fn(),
-    switchToRpc: jest.fn(),
+    getArgs: jest.fn(),
+    getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
-    switchToWs: jest.fn(),
-    getType: jest.fn()
+    switchToRpc: jest.fn(),
+    switchToWs: jest.fn()
   };
 
   it("should be defined", () => {

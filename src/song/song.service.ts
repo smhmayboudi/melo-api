@@ -1,23 +1,20 @@
-import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
-import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
+
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataOrderByType } from "../data/data.order-by.type";
-import { DataSongService } from "../data/data.song.service";
-import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
+import { DataSongService } from "../data/data.song.service";
+import { PromMethodCounter } from "../prom/prom.decorator";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
-import { UserService } from "../user/user.service";
-import { SongArtistSongsTopReqDto } from "./dto/req/song.artist-songs-top.req.dto";
 import { SongArtistSongsReqDto } from "./dto/req/song.artist-songs.req.dto";
+import { SongArtistSongsTopReqDto } from "./dto/req/song.artist-songs-top.req.dto";
 import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
+import { SongConfigService } from "./song.config.service";
 import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
 import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
 import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
@@ -28,14 +25,15 @@ import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.quer
 import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
 import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
+import { SongServiceInterface } from "./song.service.interface";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
 import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.dto";
 import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
-import { SongConfigService } from "./song.config.service";
-import { SongServiceInterface } from "./song.service.interface";
+import { UserService } from "../user/user.service";
+import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
@@ -169,11 +167,11 @@ export class SongService implements SongServiceInterface {
         id: sub.toString(),
         type: RelationEntityType.user
       },
+      relationType: RelationType.likedSongs,
       to: {
         id: id.toString(),
         type: RelationEntityType.song
-      },
-      relationType: RelationType.likedSongs
+      }
     });
     return { ...song, liked: true };
   }
@@ -323,6 +321,7 @@ export class SongService implements SongServiceInterface {
     await this.httpService
       .post<number>(this.songConfigService.sendTelegramUrl, {
         callback_query: {
+          data: `1:${id},high,0`,
           from: {
             first_name: "",
             id: userUserResDto.telegram_id,
@@ -338,8 +337,7 @@ export class SongService implements SongServiceInterface {
               username: undefined
             },
             date: Math.round(new Date().getTime() / 1000)
-          },
-          data: `1:${id},high,0`
+          }
         },
         update_id: 0
       })
@@ -431,11 +429,11 @@ export class SongService implements SongServiceInterface {
         id: sub.toString(),
         type: RelationEntityType.user
       },
+      relationType: RelationType.likedSongs,
       to: {
         id: id.toString(),
         type: RelationEntityType.song
-      },
-      relationType: RelationType.likedSongs
+      }
     });
     return { ...dataSongResDto, liked: false };
   }

@@ -1,23 +1,24 @@
 import { DynamicModule, Module } from "@nestjs/common";
-import { SentryCoreModule } from "./sentry-core.module";
 import {
   SentryModuleAsyncOptions,
   SentryModuleOptions
 } from "./sentry.module.interface";
 
+import { SentryCoreModule } from "./sentry-core.module";
+
 @Module({})
 export class SentryModule {
   static forRoot(options?: SentryModuleOptions): DynamicModule {
     return {
-      module: SentryModule,
-      imports: [SentryCoreModule.forRoot(options)]
+      imports: [SentryCoreModule.forRoot(options)],
+      module: SentryModule
     };
   }
 
   static forRootAsync(options: SentryModuleAsyncOptions): DynamicModule {
     return {
-      module: SentryModule,
-      imports: [SentryCoreModule.forRootAsync(options)]
+      imports: [SentryCoreModule.forRootAsync(options)],
+      module: SentryModule
     };
   }
 }

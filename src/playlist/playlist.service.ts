@@ -160,9 +160,9 @@ export class PlaylistService implements PlaylistServiceInterface {
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
+      songs: dataSongResDto,
       title: playlist.title,
-      tracksCount: playlist.tracks_count,
-      songs: dataSongResDto
+      tracksCount: playlist.tracks_count
     };
   }
 
@@ -190,14 +190,14 @@ export class PlaylistService implements PlaylistServiceInterface {
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
       songs:
         playlist.songs_ids.length === 0
           ? undefined
           : await this.dataSongService.byIds({
               ids: playlist.songs_ids.map(value => value.toString())
-            })
+            }),
+      title: playlist.title,
+      tracksCount: playlist.tracks_count
     };
   }
 
@@ -223,9 +223,9 @@ export class PlaylistService implements PlaylistServiceInterface {
       ),
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
+      songs: dataSongResDto,
       title: playlist.title,
-      tracksCount: playlist.tracks_count,
-      songs: dataSongResDto
+      tracksCount: playlist.tracks_count
     };
   }
 
@@ -255,9 +255,9 @@ export class PlaylistService implements PlaylistServiceInterface {
           ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
+          songs: dataSongResDto,
           title: value.title,
-          tracksCount: value.tracks_count,
-          songs: dataSongResDto
+          tracksCount: value.tracks_count
         };
       })
     );
@@ -290,14 +290,14 @@ export class PlaylistService implements PlaylistServiceInterface {
           ),
           isPublic: value.isPublic,
           releaseDate: value.release_date,
-          title: value.title,
-          tracksCount: value.tracks_count,
           songs:
             value.songs_ids.length === 0
               ? undefined
               : await this.dataSongService.byIds({
                   ids: value.songs_ids.map(value => value.toString())
-                })
+                }),
+          title: value.title,
+          tracksCount: value.tracks_count
         };
       })
     );

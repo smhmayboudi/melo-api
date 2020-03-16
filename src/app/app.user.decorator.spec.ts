@@ -11,13 +11,13 @@ describe("AppUser", () => {
     getResponse: jest.fn()
   };
   const executionContextPartial = {
+    getArgByIndex: jest.fn(),
+    getArgs: jest.fn(),
     getClass: jest.fn(),
     getHandler: jest.fn(),
-    getArgs: jest.fn(),
-    getArgByIndex: jest.fn(),
+    getType: jest.fn(),
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn(),
-    getType: jest.fn()
+    switchToWs: jest.fn()
   };
   it("should be defined", () => {
     expect(AppUser()).toBeDefined();

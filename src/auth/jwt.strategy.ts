@@ -1,14 +1,15 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import express from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
+
 import { AtService } from "../at/at.service";
-import { JwksService } from "../jwks/jwks.service";
-import { RtService } from "../rt/rt.service";
 import { AuthConfigService } from "./auth.config.service";
-import { authConstant } from "./auth.constant";
 import { AuthJwtPayloadReqDto } from "./dto/req/auth.jwt-payload.req.dto";
 import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
+import { JwksService } from "../jwks/jwks.service";
+import { PassportStrategy } from "@nestjs/passport";
+import { RtService } from "../rt/rt.service";
+import { authConstant } from "./auth.constant";
+import express from "express";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -74,8 +75,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         created_at: new Date(1000 * dto.iat),
         expire_at: new Date(1000 * dto.exp),
         id: 0,
-        user_id: sub,
-        token: dto.jti
+        token: dto.jti,
+        user_id: sub
       });
     }
     return Promise.resolve({ sub: dto.sub });

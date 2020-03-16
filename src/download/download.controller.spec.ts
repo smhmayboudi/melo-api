@@ -1,19 +1,20 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadController } from "./download.controller";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
 import { DownloadServiceInterface } from "./download.service.interface";
-import { DownloadSortByType } from "./download.sort-by.type";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
+import { DownloadSortByType } from "./download.sort-by.type";
 
 describe("DownloadController", () => {
   const downloadedAt = new Date();
   const downloadSong: DownloadSongResDto = {
-    songId: 0,
-    downloadedAt
+    downloadedAt,
+    songId: 0
   };
   const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
     results: [downloadSong],

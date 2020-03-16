@@ -1,13 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
-import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { SongArtistSongsReqDto } from "./dto/req/song.artist-songs.req.dto";
 import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
+import { SongController } from "./song.controller";
 import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
 import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
 import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
@@ -18,15 +20,14 @@ import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.quer
 import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
 import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
+import { SongService } from "./song.service";
+import { SongServiceInterface } from "./song.service.interface";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
 import { SongSongGenresQueryReqDto } from "./dto/req/song.song.genres.query.req.dto";
 import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
-import { SongController } from "./song.controller";
-import { SongService } from "./song.service";
-import { SongServiceInterface } from "./song.service.interface";
 
 describe("SongController", () => {
   const releaseDate = new Date();
@@ -108,8 +109,8 @@ describe("SongController", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      from: 0,
       artistId: "0",
+      from: 0,
       limit: 0
     };
     expect(await controller.artistSongs(dto, 0, 0)).toEqual(songPagination);
@@ -117,8 +118,8 @@ describe("SongController", () => {
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      from: 0,
       artistId: "0",
+      from: 0,
       limit: 0
     };
     expect(await controller.artistSongsTop(dto, 0, 0)).toEqual(songPagination);
@@ -232,8 +233,8 @@ describe("SongController", () => {
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
       from: 0,
-      limit: 0,
-      id: ""
+      id: "",
+      limit: 0
     };
     expect(await controller.similar(dto, 0, 0)).toEqual(songPagination);
   });

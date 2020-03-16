@@ -1,21 +1,22 @@
-import { JwtService } from "@nestjs/jwt";
 import { Test, TestingModule } from "@nestjs/testing";
-import { JwksEntity } from "../jwks/jwks.entity";
-import { JwksService } from "../jwks/jwks.service";
-import { JwksServiceInterface } from "../jwks/jwks.service.interface";
-import { RtEntity } from "../rt/rt.entity";
-import { RtService } from "../rt/rt.service";
-import { RtServiceInterface } from "../rt/rt.service.interface";
+
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthService } from "./auth.service";
+import { JwksEntity } from "../jwks/jwks.entity";
+import { JwksService } from "../jwks/jwks.service";
+import { JwksServiceInterface } from "../jwks/jwks.service.interface";
+import { JwtService } from "@nestjs/jwt";
+import { RtEntity } from "../rt/rt.entity";
+import { RtService } from "../rt/rt.service";
+import { RtServiceInterface } from "../rt/rt.service.interface";
 
 describe("AuthService", () => {
   const date = new Date();
   const jwksEntity: JwksEntity = {
     id: "",
-    public_key: "",
-    private_key: ""
+    private_key: "",
+    public_key: ""
   };
   const rtEntity: RtEntity = {
     created_at: date,
@@ -23,8 +24,8 @@ describe("AuthService", () => {
     expire_at: new Date(Date.now() + 1000),
     id: 0,
     is_blocked: false,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
 
   let service: AuthService;

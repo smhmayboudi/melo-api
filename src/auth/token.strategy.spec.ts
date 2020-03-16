@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { RtEntity } from "../rt/rt.entity";
 import { RtService } from "../rt/rt.service";
 import { RtServiceInterface } from "../rt/rt.service.interface";
@@ -12,8 +13,8 @@ describe("TokenStrategy", () => {
     expire_at: new Date(Date.now() + 1000),
     id: 0,
     is_blocked: false,
-    user_id: 0,
-    token: ""
+    token: "",
+    user_id: 0
   };
 
   const rtServiceMock: RtServiceInterface = {

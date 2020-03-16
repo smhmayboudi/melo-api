@@ -1,14 +1,15 @@
-import { HttpService, Injectable } from "@nestjs/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { HttpService, Injectable } from "@nestjs/common";
+
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { PromMethodCounter } from "../prom/prom.decorator";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadOrderByType } from "./download.order-by.type";
-import { DownloadSortByType } from "./download.sort-by.type";
+import { DownloadServiceInterface } from "./download.service.interface";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
-import { DownloadServiceInterface } from "./download.service.interface";
+import { DownloadSortByType } from "./download.sort-by.type";
+import { PromMethodCounter } from "../prom/prom.decorator";
 import { map } from "rxjs/operators";
 
 @Injectable()
@@ -34,9 +35,9 @@ export class DownloadService implements DownloadServiceInterface {
         `${this.downloadConfigService.url}/download/song/${sub}/${paramDto.from}/${paramDto.limit}`,
         {
           params: {
+            filter: queryDto.filter,
             orderBy,
-            sortBy,
-            filter: queryDto.filter
+            sortBy
           }
         }
       )

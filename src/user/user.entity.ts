@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import {
   IsDate,
   IsEmail,
@@ -8,7 +8,8 @@ import {
   IsPhoneNumber,
   IsString
 } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { UserGenderType } from "./user.gender.type";
 
 @Entity({ name: "users", orderBy: { id: "ASC" } })
@@ -143,7 +144,7 @@ export class UserEntity {
     description: "The registration date",
     example: new Date()
   })
-  @Column({ type: "datetime", nullable: true })
+  @Column({ nullable: true, type: "datetime" })
   @IsDate()
   @IsOptional()
   registered_date?: Date;

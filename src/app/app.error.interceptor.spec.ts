@@ -6,6 +6,7 @@ import {
   HttpArgumentsHost
 } from "@nestjs/common/interfaces";
 import { of, throwError } from "rxjs";
+
 import { AppErrorInterceptor } from "./app.error.interceptor";
 
 describe("AppErrorInterceptor", () => {
@@ -17,14 +18,14 @@ describe("AppErrorInterceptor", () => {
     getResponse: jest.fn()
   };
   const executionContext: ExecutionContext = {
+    getArgByIndex: jest.fn(),
+    getArgs: jest.fn(),
     getClass: jest.fn(),
     getHandler: jest.fn(),
-    getArgs: jest.fn(),
-    getArgByIndex: jest.fn(),
-    switchToRpc: jest.fn(),
+    getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
-    switchToWs: jest.fn(),
-    getType: jest.fn()
+    switchToRpc: jest.fn(),
+    switchToWs: jest.fn()
   };
   const callHandler: CallHandler = {
     handle: jest.fn(() => of(""))
