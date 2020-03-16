@@ -1,11 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepositoryInterface } from "./file.entity.repository.interface";
 import { FileService } from "./file.service";
+import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 
 describe("FileService", () => {
   const buffer = Buffer.from(
@@ -13,11 +13,20 @@ describe("FileService", () => {
     "base64"
   );
   const date = new Date();
+  // TODO interface ?
+  const file = {
+    buffer,
+    encoding: "",
+    fieldname: "",
+    mimeType: "image/jpeg",
+    originalname: "",
+    size: 0
+  };
   // TODO: interface ?
   const fileUploadImage = {
     createdAt: date,
     fileKey: "",
-    mimeType: "jpg",
+    mimeType: "image/jpeg",
     originalname: "",
     size: 0
   };
@@ -27,7 +36,7 @@ describe("FileService", () => {
     e_tag: "",
     file_key: "",
     id: 0,
-    mime_type: "",
+    mime_type: "image/jpeg",
     owner_user_id: 0,
     size: 0
   };
@@ -75,11 +84,7 @@ describe("FileService", () => {
   });
 
   it("uploadImage should be equal to a file upload image", async () => {
-    const dto: FileUploadImageReqDto = {
-      buffer,
-      ...fileUploadImage
-    };
-    expect(await service.uploadImage(0, dto)).toEqual(fileUploadImage);
+    expect(await service.uploadImage(0, file)).toEqual(fileUploadImage);
   });
 
   it("uploadImage should throw an exception dto undefined", () => {
@@ -88,8 +93,10 @@ describe("FileService", () => {
 
   it("uploadImage should throw an exception mimeType jpg", () => {
     const dto: FileUploadImageReqDto = {
-      buffer,
-      ...fileUploadImage
+      ...file,
+      buffer: Buffer.from(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+      )
     };
     return expect(service.uploadImage(0, dto)).rejects.toThrowError();
   });
