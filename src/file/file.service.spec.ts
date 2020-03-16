@@ -6,6 +6,7 @@ import { FileEntity } from "./file.entity";
 import { FileEntityRepositoryInterface } from "./file.entity.repository.interface";
 import { FileService } from "./file.service";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
+import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 
 describe("FileService", () => {
   const buffer = Buffer.from(
@@ -13,8 +14,7 @@ describe("FileService", () => {
     "base64"
   );
   const date = new Date();
-  // TODO interface ?
-  const file = {
+  const file: FileUploadImageReqDto = {
     buffer,
     encoding: "",
     fieldname: "",
@@ -22,8 +22,7 @@ describe("FileService", () => {
     originalname: "",
     size: 0
   };
-  // TODO: interface ?
-  const fileUploadImage = {
+  const fileUploadImage: FileUploadImageResDto = {
     createdAt: date,
     fileKey: "",
     mimeType: "image/jpeg",
