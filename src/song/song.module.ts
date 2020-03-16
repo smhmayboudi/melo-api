@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { CacheModule, forwardRef, HttpModule, Module } from "@nestjs/common";
+import { CacheModule, HttpModule, Module, forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
 import { DataModule } from "../data/data.module";

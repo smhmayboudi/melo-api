@@ -1,5 +1,5 @@
 import { Controller, Get, Header, Inject, Param } from "@nestjs/common";
-import { register, Registry } from "prom-client";
+import { Registry, register } from "prom-client";
 import { PROM_REGISTRY_DEFAULT } from "./prom.constant";
 
 @Controller()

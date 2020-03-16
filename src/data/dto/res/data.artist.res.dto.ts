@@ -1,12 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import {
   IsArray,
+  IsBoolean,
   IsEnum,
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested,
-  IsBoolean
+  ValidateNested
 } from "class-validator";
 import { DataArtistType } from "../../data.artist.type";
 import { DataAlbumResDto } from "./data.album.res.dto";

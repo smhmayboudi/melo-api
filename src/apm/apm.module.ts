@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Provider, Type, Global } from "@nestjs/common";
+import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { APM_INSTANCE_TOKEN, APM_MODULE_OPTIONS } from "./apm.constant";
 import { ApmInterceptor } from "./apm.interceptor";

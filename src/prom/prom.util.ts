@@ -1,6 +1,5 @@
 import { PATH_METADATA } from "@nestjs/common/constants";
 import {
-  collectDefaultMetrics,
   Counter,
   CounterConfiguration,
   Gauge,
@@ -8,10 +7,11 @@ import {
   Histogram,
   HistogramConfiguration,
   Metric,
-  register,
   Registry,
   Summary,
-  SummaryConfiguration
+  SummaryConfiguration,
+  collectDefaultMetrics,
+  register
 } from "prom-client";
 import { PATH_HEALTH, PATH_METRICS } from "../app/app.constant";
 import {

@@ -1,4 +1,4 @@
-import { Registry, Summary, Histogram, Gauge, Counter } from "prom-client";
+import { Counter, Gauge, Histogram, Registry, Summary } from "prom-client";
 import {
   getOrCreateCounter,
   getOrCreateGauge,

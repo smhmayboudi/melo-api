@@ -1,4 +1,4 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import { ExecutionContext, createParamDecorator } from "@nestjs/common";
 import { afterMethod, beforeMethod } from "kaop-ts";
 import { Span } from "./apm.module.interface";
 import { getOrCreateApmInstance, getTokenName } from "./apm.util";

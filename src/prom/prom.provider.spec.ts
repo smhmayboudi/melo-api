@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { Counter, Gauge, Histogram, register, Summary } from "prom-client";
+import { Counter, Gauge, Histogram, Summary, register } from "prom-client";
 import {
   getOrCreateCounterProvider,
   getOrCreateGaugeProvider,

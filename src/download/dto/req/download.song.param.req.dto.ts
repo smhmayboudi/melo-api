@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumberString, IsEnum } from "class-validator";
+import { IsEnum, IsNumberString } from "class-validator";
 import { DownloadOrderByType } from "../../download.order-by.type";
 import { DownloadSortByType } from "../../download.sort-by.type";
 

@@ -2,7 +2,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionServiceInterface } from "./emotion.service.interface";
 import { EmotionController } from "./emotion.controller";
-import { TestingModule, Test } from "@nestjs/testing";
+import { Test, TestingModule } from "@nestjs/testing";
 import { EmotionService } from "./emotion.service";
 import { EmotionParamReqDto } from "./dto/req/emotion.param.req.dto";
 import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";

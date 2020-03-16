@@ -1,4 +1,4 @@
-import { IsDate, IsEnum, IsString, IsOptional } from "class-validator";
+import { IsDate, IsEnum, IsOptional, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 import { UserGenderType } from "../../user.gender.type";
 

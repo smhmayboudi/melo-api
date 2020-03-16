@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 
 import {
+  CallHandler,
   ExecutionContext,
-  HttpArgumentsHost,
-  CallHandler
+  HttpArgumentsHost
 } from "@nestjs/common/interfaces";
 import { of, throwError } from "rxjs";
 import { AppErrorInterceptor } from "./app.error.interceptor";

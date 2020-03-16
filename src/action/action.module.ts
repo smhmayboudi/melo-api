@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { CacheModule, forwardRef, Module } from "@nestjs/common";
+import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
 import { ActionCacheOptionsFactory } from "./action.cache.options.factory";

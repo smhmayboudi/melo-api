@@ -5,8 +5,8 @@ import {
   IsEnum,
   IsNumber,
   IsOptional,
-  IsString,
-  IsPhoneNumber
+  IsPhoneNumber,
+  IsString
 } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { UserGenderType } from "./user.gender.type";

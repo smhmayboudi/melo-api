@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import aws from "aws-sdk";
 import bluebird from "bluebird";
 import mime from "mime-types";
-import { Magic, MAGIC_MIME_TYPE } from "mmmagic";
+import { MAGIC_MIME_TYPE, Magic } from "mmmagic";
 import { v4 as uuidv4 } from "uuid";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
