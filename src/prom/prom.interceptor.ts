@@ -37,7 +37,7 @@ export class PromInterceptor implements NestInterceptor {
       express.Response & { user: AuthJwtPayloadReqDto }
     >();
     if (
-      process.env.NODE_ENV !== "stage" &&
+      process.env.NODE_ENV !== "test" &&
       this.options.ignorePaths !== undefined &&
       !this.options.ignorePaths.includes(request.route.path)
     ) {

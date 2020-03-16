@@ -40,7 +40,7 @@ export class SentryInterceptor implements NestInterceptor {
     }
     return next.handle().pipe(
       tap(undefined, error => {
-        if (process.env.NODE_ENV !== "stage" && this.shouldReport(error)) {
+        if (process.env.NODE_ENV !== "test" && this.shouldReport(error)) {
           this.sentry.withScope(scope => {
             // TODO: When https://github.com/nestjs/nest/issues/1581 gets implemented switch to that
             switch (this.options.context) {
