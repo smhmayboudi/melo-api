@@ -1,10 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
+
+import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from "@nestjs/common";
+import { PromMethodCounter } from "../prom/prom.decorator";
 import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtServiceInterface } from "./rt.service.interface";

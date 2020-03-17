@@ -1,13 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
+
+import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from "@nestjs/common";
 import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksServiceInterface } from "./jwks.service.interface";
+import { PromMethodCounter } from "../prom/prom.decorator";
 
 @Injectable()
 // @PromInstanceCounter

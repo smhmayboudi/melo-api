@@ -1,17 +1,15 @@
-import { HttpService, Injectable } from "@nestjs/common";
-import { map } from "rxjs/operators";
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import {
-  // PromInstanceCounter,
-  PromMethodCounter
-} from "../prom/prom.decorator";
-import { DataArtistServiceInterface } from "./data.artist.service.interface";
-import { DataConfigService } from "./data.config.service";
+import { HttpService, Injectable } from "@nestjs/common";
+
 import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
 import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
-import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
 import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
+import { DataArtistServiceInterface } from "./data.artist.service.interface";
+import { DataConfigService } from "./data.config.service";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
+import { PromMethodCounter } from "../prom/prom.decorator";
+import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
