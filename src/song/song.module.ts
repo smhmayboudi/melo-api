@@ -3,6 +3,7 @@
 import { CacheModule, HttpModule, Module, forwardRef } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { AppModule } from "../app/app.module";
+import { APP_INTERCEPTOR } from "@nestjs/core";
 import { DataModule } from "../data/data.module";
 import { RelationModule } from "../relation/relation.module";
 import { UserModule } from "../user/user.module";
@@ -13,6 +14,7 @@ import { SongController } from "./song.controller";
 // import { SongHealthIndicator } from "./song.health.indicator";
 import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
+import { SongLocalizeInterceptor } from "./song.localize.interceptor";
 
 @Module({
   controllers: [SongController],
@@ -38,7 +40,11 @@ import { SongService } from "./song.service";
   ],
   providers: [
     SongConfigService,
-    //  SongHealthIndicator,
+    // SongHealthIndicator,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: SongLocalizeInterceptor
+    },
     SongService
   ]
 })

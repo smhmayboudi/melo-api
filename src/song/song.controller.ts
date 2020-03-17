@@ -135,7 +135,7 @@ export class SongController {
   }
 
   @Get("liked/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard("jwt"))
   async liked(
     @Param() dto: SongLikedReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
