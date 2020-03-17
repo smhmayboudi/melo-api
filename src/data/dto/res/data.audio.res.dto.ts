@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsOptional } from "class-validator";
 import { DataMp3ResDto } from "./data.mp3.res.dto";
+import { IsOptional } from "class-validator";
 
 export class DataAudioResDto {
   constructor(high?: DataMp3ResDto, medium?: DataMp3ResDto) {

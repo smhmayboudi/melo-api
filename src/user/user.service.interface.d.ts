@@ -1,6 +1,6 @@
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
-import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserEntity } from "./user.entity";
+import { UserUserResDto } from "./dto/res/user.user.res.dto";
 
 export interface UserServiceInterface {
   find(): Promise<UserUserResDto[]>;

@@ -1,8 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
+
+import { LocalStrategy } from "./local.strategy";
 import { UserService } from "../user/user.service";
 import { UserServiceInterface } from "../user/user.service.interface";
-import { LocalStrategy } from "./local.strategy";
+import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
 
 describe("LocalStrategy", () => {
   const user: UserUserResDto = {

@@ -1,7 +1,8 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppConfigService } from "../app/app.config.service";
 import { AtConfigService } from "./at.config.service";
+import { ConfigService } from "@nestjs/config";
 
 describe("AtService", () => {
   describe("get: number", () => {

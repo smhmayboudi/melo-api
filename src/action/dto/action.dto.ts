@@ -1,6 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
+
 import { ActionType } from "../action.type";
+import { ApiProperty } from "@nestjs/swagger";
 import { LikeSongDto } from "./like.song.dto";
 import { NextSongDto } from "./next.song.dto";
 import { PauseSongDto } from "./pause.song.dto";

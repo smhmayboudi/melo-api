@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsDate,
   IsEmail,
@@ -8,6 +7,8 @@ import {
   IsPhoneNumber,
   IsString
 } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { UserGenderType } from "../../user.gender.type";
 
 export class UserUserResDto {

@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsArray, IsNumberString, IsString } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 export class EmotionResDto {
   constructor(songId: number, emotions: string[]) {

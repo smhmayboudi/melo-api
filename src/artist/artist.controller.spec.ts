@@ -1,17 +1,18 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { DataArtistType } from "../data/data.artist.type";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { ArtistController } from "./artist.controller";
-import { ArtistServiceInterface } from "./artist.servcie.interface";
-import { ArtistService } from "./artist.service";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistController } from "./artist.controller";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistService } from "./artist.service";
+import { ArtistServiceInterface } from "./artist.servcie.interface";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataArtistType } from "../data/data.artist.type";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 describe("ArtistController", () => {
   const mixArtist: DataArtistResDto = {

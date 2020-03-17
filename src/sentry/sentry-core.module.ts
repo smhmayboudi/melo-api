@@ -1,18 +1,20 @@
-import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
 import * as Sentry from "@sentry/node";
+
+import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
 import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS
 } from "./sentry.constant";
-import { SentryInterceptor } from "./sentry.interceptor";
 import {
   SentryModuleAsyncOptions,
   SentryModuleOptions,
   SentryOptionsFactory
 } from "./sentry.module.interface";
-import { SentryService } from "./sentry.service";
 import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
+
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { SentryInterceptor } from "./sentry.interceptor";
+import { SentryService } from "./sentry.service";
 
 @Global()
 @Module({

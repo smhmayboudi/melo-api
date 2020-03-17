@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 import { AppUser } from "./app.user.decorator";
-import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
-import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { ExecutionContext } from "@nestjs/common";
+import { HttpArgumentsHost } from "@nestjs/common/interfaces";
+import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 
 describe("AppUser", () => {
   const httpArgumentsHostPartial = {

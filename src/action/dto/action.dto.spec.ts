@@ -1,5 +1,5 @@
-import { ActionType } from "../action.type";
 import { ActionDto } from "./action.dto";
+import { ActionType } from "../action.type";
 
 describe("ActionConfig", () => {
   it("should be defined", () => {

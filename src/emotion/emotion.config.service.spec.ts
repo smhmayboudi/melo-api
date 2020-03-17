@@ -1,6 +1,7 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
 import { EmotionConfigService } from "./emotion.config.service";
 
 describe("EmotionService", () => {

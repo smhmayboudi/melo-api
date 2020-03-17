@@ -1,7 +1,8 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IsDate, IsNumber, IsString } from "class-validator";
+
 import { ApiProperty } from "@nestjs/swagger";
 import { Exclude } from "class-transformer";
-import { IsDate, IsNumber, IsString } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "files", orderBy: { id: "ASC" } })
 export class FileEntity {

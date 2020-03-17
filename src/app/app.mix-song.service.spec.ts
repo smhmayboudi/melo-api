@@ -1,17 +1,18 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { DataArtistType } from "../data/data.artist.type";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
-import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
-import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
-import { RelationEntityType } from "../relation/relation.entity.type";
-import { RelationService } from "../relation/relation.service";
-import { RelationServiceInterface } from "../relation/relation.service.interface";
-import { RelationType } from "../relation/relation.type";
+
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 import { AppMixSongService } from "./app.mix-song.service";
+import { DataArtistType } from "../data/data.artist.type";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationService } from "../relation/relation.service";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationType } from "../relation/relation.type";
 
 describe("AppMixSongService", () => {
   const songs: DataSongResDto[] = [

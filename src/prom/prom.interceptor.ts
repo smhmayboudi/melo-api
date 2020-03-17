@@ -5,16 +5,17 @@ import {
   Injectable,
   NestInterceptor
 } from "@nestjs/common";
-import express from "express";
-import { Counter } from "prom-client";
-import { Observable } from "rxjs";
-import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS
 } from "./prom.constant";
+
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
+import { Counter } from "prom-client";
 import { InjectCounter } from "./prom.decorator";
+import { Observable } from "rxjs";
 import { PromModuleOptions } from "./prom.module.interface";
+import express from "express";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {

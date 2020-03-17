@@ -1,24 +1,25 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
-import { DataArtistService } from "../data/data.artist.service";
-import { DataArtistServiceInterface } from "../data/data.artist.service.interface";
-import { DataArtistType } from "../data/data.artist.type";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
-import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
-import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
-import { RelationEntityType } from "../relation/relation.entity.type";
-import { RelationService } from "../relation/relation.service";
-import { RelationServiceInterface } from "../relation/relation.service.interface";
-import { RelationType } from "../relation/relation.type";
-import { ArtistService } from "./artist.service";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistService } from "./artist.service";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataArtistService } from "../data/data.artist.service";
+import { DataArtistServiceInterface } from "../data/data.artist.service.interface";
+import { DataArtistType } from "../data/data.artist.type";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
+import { RelationEntityType } from "../relation/relation.entity.type";
+import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
+import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
+import { RelationService } from "../relation/relation.service";
+import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { RelationType } from "../relation/relation.type";
 
 describe("ArtistService", () => {
   const mixArtist: DataArtistResDto = {

@@ -1,9 +1,10 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserUserResDto } from "./dto/res/user.user.res.dto";
+
 import { UserController } from "./user.controller";
+import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
 import { UserService } from "./user.service";
 import { UserServiceInterface } from "./user.service.interface";
-import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
+import { UserUserResDto } from "./dto/res/user.user.res.dto";
 
 describe("UserController", () => {
   const user: UserUserResDto = {

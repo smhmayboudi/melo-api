@@ -1,4 +1,3 @@
-import { Injectable } from "@nestjs/common";
 import {
   Counter,
   CounterConfiguration,
@@ -15,6 +14,8 @@ import {
   getOrCreateHistogram,
   getOrCreateSummary
 } from "./prom.util";
+
+import { Injectable } from "@nestjs/common";
 import { PromServiceInterface } from "./prom.service.interface";
 
 @Injectable()

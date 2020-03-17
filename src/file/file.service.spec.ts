@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken } from "@nestjs/typeorm";
+
 import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
 import { FileEntity } from "./file.entity";
@@ -7,6 +7,7 @@ import { FileEntityRepositoryInterface } from "./file.entity.repository.interfac
 import { FileService } from "./file.service";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
+import { getRepositoryToken } from "@nestjs/typeorm";
 
 describe("FileService", () => {
   const buffer = Buffer.from(

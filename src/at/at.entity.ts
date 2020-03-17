@@ -1,6 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsNumber, IsUUID } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IsDate, IsNumber, IsUUID } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({ name: "ats", orderBy: { id: "ASC" } })
 export class AtEntity {

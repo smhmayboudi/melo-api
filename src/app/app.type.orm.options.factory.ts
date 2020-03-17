@@ -1,12 +1,13 @@
-import { Injectable } from "@nestjs/common";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
+
+import { AppConfigService } from "./app.config.service";
+import { AppTypeOrmLogger } from "./app.type.orm.logger";
 import { AtEntity } from "../at/at.entity";
 import { FileEntity } from "../file/file.entity";
+import { Injectable } from "@nestjs/common";
 import { JwksEntity } from "../jwks/jwks.entity";
 import { RtEntity } from "../rt/rt.entity";
 import { UserEntity } from "../user/user.entity";
-import { AppConfigService } from "./app.config.service";
-import { AppTypeOrmLogger } from "./app.type.orm.logger";
 
 @Injectable()
 export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {

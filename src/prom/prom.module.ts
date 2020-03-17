@@ -1,11 +1,10 @@
-import { DynamicModule, Module } from "@nestjs/common";
 import {
   CounterConfiguration,
   GaugeConfiguration,
   HistogramConfiguration,
   SummaryConfiguration
 } from "prom-client";
-import { PromCoreModule } from "./prom-core.module";
+import { DynamicModule, Module } from "@nestjs/common";
 import {
   MetricTypeConfigurationInterface,
   PromModuleAsyncOptions,
@@ -17,6 +16,8 @@ import {
   getOrCreateHistogramProvider,
   getOrCreateSummaryProvider
 } from "./prom.provider";
+
+import { PromCoreModule } from "./prom-core.module";
 import { PromMetricType } from "./prom.metric.type";
 
 @Module({})

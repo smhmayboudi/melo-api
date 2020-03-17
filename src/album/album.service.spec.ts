@@ -1,19 +1,20 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
+import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
+import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
+import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumService } from "./album.service";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
 import { AppMixSongService } from "../app/app.mix-song.service";
 import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
-import { DataArtistType } from "../data/data.artist.type";
-import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import { AlbumService } from "./album.service";
-import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
-import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
-import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();

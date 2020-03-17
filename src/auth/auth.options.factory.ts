@@ -1,5 +1,6 @@
-import { Injectable } from "@nestjs/common";
 import { AuthOptionsFactory, IAuthModuleOptions } from "@nestjs/passport";
+
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AuthAuthOptionsFactory implements AuthOptionsFactory {

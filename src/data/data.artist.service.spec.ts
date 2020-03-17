@@ -1,16 +1,17 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { AxiosResponse } from "axios";
+import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
+import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
+import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
 import { DataArtistService } from "./data.artist.service";
 import { DataArtistType } from "./data.artist.type";
 import { DataConfigService } from "./data.config.service";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
-import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
-import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
-import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
-import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
+import { HttpService } from "@nestjs/common";
 
 describe("DataArtistService", () => {
   const artist: DataArtistResDto = {

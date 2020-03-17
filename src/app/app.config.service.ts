@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { ConfigService } from "@nestjs/config";
+import { ImgProxyImageTypeSize } from "./app.module.interface";
+import { Injectable } from "@nestjs/common";
 import { LogLevel } from "@sentry/types";
 import { SignatureSize } from "imgproxy/dist/types";
 import ms from "ms";
-import { AppConfigServiceInterface } from "./app.config.service.interface";
-import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 @Injectable()
 export class AppConfigService implements AppConfigServiceInterface {

@@ -1,5 +1,5 @@
-import typeorm from "typeorm";
 import { Logger } from "@nestjs/common";
+import typeorm from "typeorm";
 
 export class AppTypeOrmLogger implements typeorm.Logger {
   private readonly options?:

@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
+
 import { AppModule } from "../app/app.module";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
-import config from "./at.config";
 import { AtConfigService } from "./at.config.service";
 import { AtEntityRepository } from "./at.entity.repository";
 // import { AtHealthIndicator } from "./at.health.indicator";
 import { AtService } from "./at.service";
+import { ConfigModule } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import config from "./at.config";
 
 @Module({
   exports: [

@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional, ValidateNested } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { DataAlbumResDto } from "./data.album.res.dto";
 import { DataImageResDto } from "./data.image.res.dto";
 import { DataSongResDto } from "./data.song.res.dto";

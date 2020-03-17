@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Get,
@@ -8,18 +9,18 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+
 import { AppUser } from "../app/app.user.decorator";
+import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadOrderByPipe } from "./download.order-by.pipe";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
-import { DownloadSortByPipe } from "./download.sort-by.pipe";
-import { DownloadSortByType } from "./download.sort-by.type";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
+import { DownloadSortByPipe } from "./download.sort-by.pipe";
+import { DownloadSortByType } from "./download.sort-by.type";
 
 @ApiBearerAuth("jwt")
 @ApiTags("download")

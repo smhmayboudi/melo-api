@@ -1,7 +1,8 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import Hashids from "hashids/cjs";
+
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
+import Hashids from "hashids/cjs";
 
 @Injectable()
 export class AppHashIdService implements AppHashIdServiceInterface {

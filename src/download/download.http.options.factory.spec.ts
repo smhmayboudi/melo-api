@@ -1,7 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { DownloadConfigService } from "./download.config.service";
-import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 import { DownloadConfigServiceInterface } from "./download.config.service.interface";
+import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 
 describe("DownloadHttpOptionsFactory", () => {
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {

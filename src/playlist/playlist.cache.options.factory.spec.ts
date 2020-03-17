@@ -1,6 +1,7 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";

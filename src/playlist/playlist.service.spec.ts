@@ -1,22 +1,23 @@
-import { getModelToken } from "@nestjs/mongoose";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { AppImgProxyServiceInterface } from "../app/app.img-proxy.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
-import { DataSongService } from "../data/data.song.service";
-import { DataSongServiceInterface } from "../data/data.song.service.interface";
 import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { DataSongService } from "../data/data.song.service";
+import { DataSongServiceInterface } from "../data/data.song.service.interface";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
+import { PlaylistConfigService } from "./playlist.config.service";
+import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
 import { PlaylistEditReqDto } from "./dto/req/playlist.edit.req.dto";
 import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
-import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
-import { PlaylistConfigService } from "./playlist.config.service";
-import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 import { PlaylistService } from "./playlist.service";
+import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
+import { getModelToken } from "@nestjs/mongoose";
 
 describe("PlaylistService", () => {
   const releaseDate = new Date();
@@ -72,9 +73,9 @@ describe("PlaylistService", () => {
   };
   //
   const mongooseMethodsMock = {
-    save: () => dbPlaylist,
     findById: () => dbPlaylist,
-    findOne: () => dbPlaylist
+    findOne: () => dbPlaylist,
+    save: () => dbPlaylist
   };
   //
   const playlistModelRes = {
@@ -132,10 +133,10 @@ describe("PlaylistService", () => {
   // TODO: interface ?
   const playlistModelMock = {
     deleteOne: () => ({ deletedCount: 1 }),
-    save: () => playlistModelRes,
     find: () => playlistModelRes,
     findById: () => playlistModelRes,
-    findOne: () => playlistModelRes
+    findOne: () => playlistModelRes,
+    save: () => playlistModelRes
   };
 
   let service: PlaylistService;

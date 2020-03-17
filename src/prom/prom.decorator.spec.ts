@@ -1,4 +1,3 @@
-import { SELF_DECLARED_DEPS_METADATA } from "@nestjs/common/constants";
 import { Counter, Gauge, Histogram, Summary } from "prom-client";
 import {
   InjectCounter,
@@ -12,6 +11,7 @@ import {
   getTokenHistogram,
   getTokenSummary
 } from "./prom.util";
+import { SELF_DECLARED_DEPS_METADATA } from "@nestjs/common/constants";
 
 describe("PromDecorator", () => {
   const tokenCounter = "counter";

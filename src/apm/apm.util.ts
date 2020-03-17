@@ -1,5 +1,6 @@
-import apm from "elastic-apm-node";
 import { Agent, ApmModuleOptions } from "./apm.module.interface";
+
+import apm from "elastic-apm-node";
 
 let apmInstance: Agent | undefined;
 

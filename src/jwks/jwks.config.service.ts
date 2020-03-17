@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import ms from "ms";
 import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
+import { Injectable } from "@nestjs/common";
 import { JwksConfigServiceInterface } from "./jwks.config.service.interface";
+import ms from "ms";
 
 @Injectable()
 export class JwksConfigService implements JwksConfigServiceInterface {

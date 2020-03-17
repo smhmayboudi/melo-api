@@ -1,15 +1,16 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
-import { DataAlbumService } from "./data.album.service";
-import { DataConfigService } from "./data.config.service";
-import { DataConfigServiceInterface } from "./data.config.service.interface";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { AxiosResponse } from "axios";
 import { DataAlbumArtistsReqDto } from "./dto/req/data.album.artists.req.dto";
 import { DataAlbumByIdReqDto } from "./dto/req/data.album.by-id.req.dto";
 import { DataAlbumLatestReqDto } from "./dto/req/data.album.latest.req.dto";
 import { DataAlbumResDto } from "./dto/res/data.album.res.dto";
+import { DataAlbumService } from "./data.album.service";
+import { DataConfigService } from "./data.config.service";
+import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { HttpService } from "@nestjs/common";
 
 describe("DataAlbumService", () => {
   const releaseDate = new Date();

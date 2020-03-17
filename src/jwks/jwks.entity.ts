@@ -1,7 +1,8 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsUUID } from "class-validator";
-import { Exclude } from "class-transformer";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IsString, IsUUID } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
+import { Exclude } from "class-transformer";
 
 @Entity({ name: "jwkss", orderBy: { id: "ASC" } })
 export class JwksEntity {

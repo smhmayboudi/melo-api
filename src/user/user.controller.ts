@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Body,
   Controller,
@@ -8,12 +9,12 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+
 import { AppUser } from "../app/app.user.decorator";
+import { AuthGuard } from "@nestjs/passport";
 import { UserEditReqDto } from "./dto/req/user.edit.req.dto";
-import { UserUserResDto } from "./dto/res/user.user.res.dto";
 import { UserService } from "./user.service";
+import { UserUserResDto } from "./dto/res/user.user.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("user")

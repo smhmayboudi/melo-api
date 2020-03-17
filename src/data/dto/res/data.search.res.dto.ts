@@ -1,9 +1,10 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsNumber, IsOptional, ValidateNested } from "class-validator";
-import { DataSearchType } from "../../data.search.type";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { DataAlbumResDto } from "./data.album.res.dto";
 import { DataArtistResDto } from "./data.artist.res.dto";
 import { DataPlaylistResDto } from "./data.playlist.res.dto";
+import { DataSearchType } from "../../data.search.type";
 import { DataSongResDto } from "./data.song.res.dto";
 
 export class DataSearchResDto {

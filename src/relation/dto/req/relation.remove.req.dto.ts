@@ -1,8 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { Exclude, Type } from "class-transformer";
 import { IsEnum, ValidateNested } from "class-validator";
-import { RelationType } from "../../relation.type";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { RelationEntityResDto } from "../res/relation.entity.res.dto";
+import { RelationType } from "../../relation.type";
 
 export class RelationRemoveReqDto {
   constructor(

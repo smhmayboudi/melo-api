@@ -1,6 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Exclude, Type } from "class-transformer";
 import { Allow, IsArray, IsNumber, ValidateNested } from "class-validator";
+import { Exclude, Type } from "class-transformer";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 export class RelationPaginationResDto<T> {
   constructor(results: T[], total: number, type: Function) {

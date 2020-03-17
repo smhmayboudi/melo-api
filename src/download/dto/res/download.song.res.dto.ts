@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsNumber } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 export class DownloadSongResDto {
   constructor(songId: number, downloadedAt: Date) {

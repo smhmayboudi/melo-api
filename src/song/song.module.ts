@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, HttpModule, Module, forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+
 import { AppModule } from "../app/app.module";
+import { ConfigModule } from "@nestjs/config";
 import { DataModule } from "../data/data.module";
 import { RelationModule } from "../relation/relation.module";
-import { UserModule } from "../user/user.module";
 import { SongCacheOptionsFactory } from "./song.cache.options.factory";
-import config from "./song.config";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 // import { SongHealthIndicator } from "./song.health.indicator";
 import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
+import { UserModule } from "../user/user.module";
+import config from "./song.config";
 
 @Module({
   controllers: [SongController],
