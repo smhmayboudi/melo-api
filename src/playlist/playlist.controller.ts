@@ -90,7 +90,7 @@ export class PlaylistController {
   }
 
   @Get(":id")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async get(@Param() dto: PlaylistGetReqDto): Promise<DataPlaylistResDto> {
     return this.playlistService.get(dto);
   }
@@ -105,7 +105,7 @@ export class PlaylistController {
   }
 
   @Get("top/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async top(
     @Param() dto: PlaylistTopReqDto
   ): Promise<DataPaginationResDto<DataPlaylistResDto>> {

@@ -24,7 +24,7 @@ export class ConstController {
   constructor(private readonly constService: ConstService) {}
 
   @Get("images")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async images(): Promise<{ [key: string]: ConstImageResDto }> {
     return this.constService.images();
   }

@@ -59,7 +59,7 @@ export class ArtistController {
     type: String
   })
   @Get("profile/:id")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async profile(
     @Param() dto: ArtistByIdReqDto,
     @Param("id", AppHashIdPipe) id: number,
@@ -69,7 +69,7 @@ export class ArtistController {
   }
 
   @Get("trending")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async trending(
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
@@ -77,7 +77,7 @@ export class ArtistController {
   }
 
   @Get("trending/genre/:genre")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async trendingGenre(
     @Param() dto: ArtistTrendingGenreReqDto,
     @AppUser("sub", ParseIntPipe) sub: number

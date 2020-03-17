@@ -36,7 +36,7 @@ export class AlbumController {
     type: String
   })
   @Get("artist/albums/:artistId/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistAlbums(
     @Param() dto: AlbumArtistAlbumsReqDto,
     @Param("artistId", AppHashIdPipe) artistId: number,
@@ -50,17 +50,19 @@ export class AlbumController {
     type: String
   })
   @Get(":id")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async byId(
     @Param() dto: AlbumByIdReqDto,
     @Param("id", AppHashIdPipe) id: number,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataAlbumResDto> {
+    console.log(sub);
+
     return this.albumService.byId(dto, id, sub);
   }
 
   @Get("latest/:language/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async latest(
     @Param() dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {

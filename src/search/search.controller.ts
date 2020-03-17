@@ -27,7 +27,7 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @Get("query/:query/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async query(
     @Param() dto: SearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>> {

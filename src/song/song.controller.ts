@@ -58,7 +58,7 @@ export class SongController {
     type: String
   })
   @Get("artist/songs/:artistId/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistSongs(
     @Param() dto: SongArtistSongsReqDto,
     @Param("artistId", AppHashIdPipe) artistId: number,
@@ -72,7 +72,7 @@ export class SongController {
     type: String
   })
   @Get("artist/songs/top/:artistId/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistSongsTop(
     @Param() dto: SongArtistSongsTopReqDto,
     @Param("artistId", AppHashIdPipe) artistId: number,
@@ -86,7 +86,7 @@ export class SongController {
     type: String
   })
   @Get("byId/:id")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async byId(
     @Param() dto: SongByIdReqDto,
     @Param("id", AppHashIdPipe) id: number,
@@ -100,7 +100,7 @@ export class SongController {
     type: String
   })
   @Get("genre/:orderBy/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async genre(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongSongGenresParamReqDto,
@@ -115,7 +115,7 @@ export class SongController {
     type: String
   })
   @Get("language/:language/:orderBy/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async language(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
     @Param() dto: SongLanguageReqDto,
@@ -144,7 +144,7 @@ export class SongController {
   }
 
   @Get("mood/:mood/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async mood(
     @Param() dto: SongMoodReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
@@ -153,7 +153,7 @@ export class SongController {
   }
 
   @Get("new/podcast/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newPodcast(
     @Param() dto: DataSongNewPodcastReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
@@ -162,7 +162,7 @@ export class SongController {
   }
 
   @Get("new/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newSong(
     @Param() dto: SongNewReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
@@ -175,7 +175,7 @@ export class SongController {
     type: String
   })
   @Get("podcast/genres/:orderBy/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async podcast(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongPodcastGenresParamReqDto,
@@ -186,7 +186,7 @@ export class SongController {
   }
 
   @Get("search/mood/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async searchMood(
     @Param() paramDto: SongSearchMoodParamDto,
     @Query() querydto: SongSearchMoodQueryDto
@@ -209,7 +209,7 @@ export class SongController {
     type: String
   })
   @Get("similar/:id/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async similar(
     @Param() dto: SongSimilarReqDto,
     @Param("id", AppHashIdPipe) id: number,
@@ -219,7 +219,7 @@ export class SongController {
   }
 
   @Get("slider")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async slider(
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
@@ -227,7 +227,7 @@ export class SongController {
   }
 
   @Get("top/day/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topDay(
     @Param() dto: SongTopDayReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
@@ -236,7 +236,7 @@ export class SongController {
   }
 
   @Get("top/week/:from/:limit")
-  @UseGuards(AuthGuard(["anonymId", "jwt"]))
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topWeek(
     @Param() dto: SongTopWeekReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
