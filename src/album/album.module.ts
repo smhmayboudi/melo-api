@@ -8,12 +8,16 @@ import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import config from "./album.config";
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumController } from "./album.controller";
-import { AlbumHealthIndicator } from "./album.health.indicator";
+// import { AlbumHealthIndicator } from "./album.health.indicator";
 import { AlbumService } from "./album.service";
 
 @Module({
   controllers: [AlbumController],
-  exports: [AlbumConfigService, AlbumHealthIndicator, AlbumService],
+  exports: [
+    AlbumConfigService,
+    // AlbumHealthIndicator,
+    AlbumService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -23,6 +27,10 @@ import { AlbumService } from "./album.service";
     ConfigModule.forFeature(config),
     DataModule
   ],
-  providers: [AlbumConfigService, AlbumHealthIndicator, AlbumService]
+  providers: [
+    AlbumConfigService,
+    //  AlbumHealthIndicator,
+    AlbumService
+  ]
 })
 export class AlbumModule {}

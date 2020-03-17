@@ -8,11 +8,15 @@ import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import config from "./rt.config";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
-import { RtHealthIndicator } from "./rt.health.indicator";
+// import { RtHealthIndicator } from "./rt.health.indicator";
 import { RtService } from "./rt.service";
 
 @Module({
-  exports: [RtConfigService, RtHealthIndicator, RtService],
+  exports: [
+    RtConfigService,
+    //  RtHealthIndicator,
+    RtService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -22,6 +26,10 @@ import { RtService } from "./rt.service";
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([RtEntityRepository])
   ],
-  providers: [RtConfigService, RtHealthIndicator, RtService]
+  providers: [
+    RtConfigService,
+    //  RtHealthIndicator,
+    RtService
+  ]
 })
 export class RtModule {}

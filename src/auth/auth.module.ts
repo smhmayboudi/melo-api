@@ -13,7 +13,7 @@ import { AnonymUUIDStrategy } from "./anonym-uuid.strategy";
 import config from "./auth.config";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthController } from "./auth.controller";
-import { AuthHealthIndicator } from "./auth.health.indicator";
+// import { AuthHealthIndicator } from "./auth.health.indicator";
 import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
 import { AuthAuthOptionsFactory } from "./auth.options.factory";
 import { AuthService } from "./auth.service";
@@ -24,7 +24,11 @@ import { TokenStrategy } from "./token.strategy";
 
 @Module({
   controllers: [AuthController],
-  exports: [AuthConfigService, AuthHealthIndicator, AuthService],
+  exports: [
+    AuthConfigService,
+    // AuthHealthIndicator,
+    AuthService
+  ],
   imports: [
     forwardRef(() => AppModule),
     AtModule,
@@ -44,7 +48,7 @@ import { TokenStrategy } from "./token.strategy";
   providers: [
     AnonymUUIDStrategy,
     AuthConfigService,
-    AuthHealthIndicator,
+    // AuthHealthIndicator,
     AuthService,
     JwtStrategy,
     LocalStrategy,

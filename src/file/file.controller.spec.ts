@@ -38,9 +38,9 @@ describe("FileController", () => {
   it("uploadedPic should eequal to a file upload image", async () => {
     const dto: FileUploadImageReqDto = {
       buffer: Buffer.from(""),
-      createdAt: date,
-      fileKey: "",
-      mimeType: "jpg",
+      encoding: "",
+      fieldname: "",
+      mimeType: "image/jpeg",
       originalname: "",
       size: 0
     };

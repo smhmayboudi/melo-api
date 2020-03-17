@@ -7,12 +7,16 @@ import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import config from "./action.config";
 import { ActionConfigService } from "./action.config.service";
 import { ActionController } from "./action.controller";
-import { ActionHealthIndicator } from "./action.health.indicator";
+// import { ActionHealthIndicator } from "./action.health.indicator";
 import { ActionService } from "./action.service";
 
 @Module({
   controllers: [ActionController],
-  exports: [ActionConfigService, ActionHealthIndicator, ActionService],
+  exports: [
+    ActionConfigService,
+    // ActionHealthIndicator,
+    ActionService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -21,6 +25,10 @@ import { ActionService } from "./action.service";
     }),
     ConfigModule.forFeature(config)
   ],
-  providers: [ActionConfigService, ActionHealthIndicator, ActionService]
+  providers: [
+    ActionConfigService,
+    //  ActionHealthIndicator,
+    ActionService
+  ]
 })
 export class ActionModule {}

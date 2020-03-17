@@ -6,13 +6,17 @@ import { AppModule } from "../app/app.module";
 import config from "./emotion.config";
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionController } from "./emotion.controller";
-import { EmotionHealthIndicator } from "./emotion.health.indicator";
+// import { EmotionHealthIndicator } from "./emotion.health.indicator";
 import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
 import { EmotionService } from "./emotion.service";
 
 @Module({
   controllers: [EmotionController],
-  exports: [EmotionConfigService, EmotionHealthIndicator, EmotionService],
+  exports: [
+    EmotionConfigService,
+    // EmotionHealthIndicator,
+    EmotionService
+  ],
   imports: [
     forwardRef(() => AppModule),
     HttpModule.registerAsync({
@@ -21,6 +25,10 @@ import { EmotionService } from "./emotion.service";
     }),
     ConfigModule.forFeature(config)
   ],
-  providers: [EmotionConfigService, EmotionHealthIndicator, EmotionService]
+  providers: [
+    EmotionConfigService,
+    // EmotionHealthIndicators,
+    EmotionService
+  ]
 })
 export class EmotionModule {}

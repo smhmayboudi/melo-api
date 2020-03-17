@@ -1,17 +1,17 @@
-import { FileHealthIndicator } from "./file.health.indicator";
+// import { FileHealthIndicator } from "./file.health.indicator";
 
-describe("FileHealthIndicator", () => {
-  it("should be defined", () => {
-    expect(new FileHealthIndicator()).toBeDefined();
-  });
+// describe("FileHealthIndicator", () => {
+//   it("should be defined", () => {
+//     expect(new FileHealthIndicator()).toBeDefined();
+//   });
 
-  it("isHealthy is true", async () => {
-    expect(await new FileHealthIndicator().isHealthy()).toEqual({
-      file: {
-        status: "up"
-      }
-    });
-  });
+//   it("isHealthy is true", async () => {
+//     expect(await new FileHealthIndicator().isHealthy()).toEqual({
+//       file: {
+//         status: "up"
+//       }
+//     });
+//   });
 
-  it.todo("isHealthy is false");
-});
+//   it.todo("isHealthy is false");
+// });

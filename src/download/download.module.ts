@@ -5,13 +5,17 @@ import { ConfigModule } from "@nestjs/config";
 import config from "./download.config";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadController } from "./download.controller";
-import { DownloadHealthIndicator } from "./download.health.indicator";
+// import { DownloadHealthIndicator } from "./download.health.indicator";
 import { DownloadService } from "./download.service";
 import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 
 @Module({
   controllers: [DownloadController],
-  exports: [DownloadConfigService, DownloadHealthIndicator, DownloadService],
+  exports: [
+    DownloadConfigService,
+    //  DownloadHealthIndicator,
+    DownloadService
+  ],
   imports: [
     ConfigModule.forFeature(config),
     HttpModule.registerAsync({
@@ -19,6 +23,10 @@ import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
       useClass: DownloadHttpOptionsFactory
     })
   ],
-  providers: [DownloadConfigService, DownloadHealthIndicator, DownloadService]
+  providers: [
+    DownloadConfigService,
+    // DownloadHealthIndicator,
+    DownloadService
+  ]
 })
 export class DownloadModule {}

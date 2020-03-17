@@ -1,17 +1,17 @@
-import { PlaylistHealthIndicator } from "./playlist.health.indicator";
+// import { PlaylistHealthIndicator } from "./playlist.health.indicator";
 
-describe("PlaylistHealthIndicator", () => {
-  it("should be defined", () => {
-    expect(new PlaylistHealthIndicator()).toBeDefined();
-  });
+// describe("PlaylistHealthIndicator", () => {
+//   it("should be defined", () => {
+//     expect(new PlaylistHealthIndicator()).toBeDefined();
+//   });
 
-  it("isHealthy is true", async () => {
-    expect(await new PlaylistHealthIndicator().isHealthy()).toEqual({
-      playlist: {
-        status: "up"
-      }
-    });
-  });
+//   it("isHealthy is true", async () => {
+//     expect(await new PlaylistHealthIndicator().isHealthy()).toEqual({
+//       playlist: {
+//         status: "up"
+//       }
+//     });
+//   });
 
-  it.todo("isHealthy is false");
-});
+//   it.todo("isHealthy is false");
+// });

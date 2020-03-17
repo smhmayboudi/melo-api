@@ -6,7 +6,7 @@ import { DataAlbumService } from "./data.album.service";
 import { DataArtistService } from "./data.artist.service";
 import config from "./data.config";
 import { DataConfigService } from "./data.config.service";
-import { DataHealthIndicator } from "./data.health.indicator";
+// import { DataHealthIndicator } from "./data.health.indicator";
 import { DataHttpOptionsFactory } from "./data.http.options.factory";
 import { DataSearchService } from "./data.search.service";
 import { DataService } from "./data.service";
@@ -15,7 +15,7 @@ import { DataSongService } from "./data.song.service";
 @Module({
   exports: [
     DataAlbumService,
-    DataHealthIndicator,
+    // DataHealthIndicator,
     DataArtistService,
     DataConfigService,
     DataSearchService,
@@ -31,7 +31,7 @@ import { DataSongService } from "./data.song.service";
   ],
   providers: [
     DataAlbumService,
-    DataHealthIndicator,
+    // DataHealthIndicator,
     DataArtistService,
     DataConfigService,
     DataSearchService,

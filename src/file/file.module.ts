@@ -10,13 +10,17 @@ import config from "./file.config";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
 import { FileEntityRepository } from "./file.entity.repository";
-import { FileHealthIndicator } from "./file.health.indicator";
+// import { FileHealthIndicator } from "./file.health.indicator";
 import { FileMulterOptionsFactory } from "./file.multer.options.factory";
 import { FileService } from "./file.service";
 
 @Module({
   controllers: [FileController],
-  exports: [FileConfigService, FileHealthIndicator, FileService],
+  exports: [
+    FileConfigService,
+    //  FileHealthIndicator,
+    FileService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -30,6 +34,10 @@ import { FileService } from "./file.service";
     }),
     TypeOrmModule.forFeature([FileEntityRepository])
   ],
-  providers: [FileConfigService, FileHealthIndicator, FileService]
+  providers: [
+    FileConfigService,
+    // FileHealthIndicator,
+    FileService
+  ]
 })
 export class FileModule {}

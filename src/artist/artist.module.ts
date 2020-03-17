@@ -9,12 +9,16 @@ import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import config from "./artist.config";
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
-import { ArtistHealthIndicator } from "./artist.health.indicator";
+// import { ArtistHealthIndicator } from "./artist.health.indicator";
 import { ArtistService } from "./artist.service";
 
 @Module({
   controllers: [ArtistController],
-  exports: [ArtistConfigService, ArtistHealthIndicator, ArtistService],
+  exports: [
+    ArtistConfigService,
+    // ArtistHealthIndicator,
+    ArtistService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -25,6 +29,10 @@ import { ArtistService } from "./artist.service";
     DataModule,
     RelationModule
   ],
-  providers: [ArtistConfigService, ArtistHealthIndicator, ArtistService]
+  providers: [
+    ArtistConfigService,
+    //  ArtistHealthIndicator,
+    ArtistService
+  ]
 })
 export class ArtistModule {}

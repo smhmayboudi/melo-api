@@ -9,13 +9,17 @@ import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import config from "./playlist.config";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
-import { PlaylistHealthIndicator } from "./playlist.health.indicator";
+// import { PlaylistHealthIndicator } from "./playlist.health.indicator";
 import { PlaylistSchema } from "./playlist.schema";
 import { PlaylistService } from "./playlist.service";
 
 @Module({
   controllers: [PlaylistController],
-  exports: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService],
+  exports: [
+    PlaylistConfigService,
+    // PlaylistHealthIndicator,
+    PlaylistService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -26,6 +30,10 @@ import { PlaylistService } from "./playlist.service";
     DataModule,
     MongooseModule.forFeature([{ name: "Playlist", schema: PlaylistSchema }])
   ],
-  providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService]
+  providers: [
+    PlaylistConfigService,
+    // PlaylistHealthIndicator,
+    PlaylistService
+  ]
 })
 export class PlaylistModule {}

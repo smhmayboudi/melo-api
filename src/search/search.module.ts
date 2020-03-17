@@ -9,12 +9,16 @@ import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import config from "./search.config";
 import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
-import { SearchHealthIndicator } from "./search.health.indicator";
+// import { SearchHealthIndicator } from "./search.health.indicator";
 import { SearchService } from "./search.service";
 
 @Module({
   controllers: [SearchController],
-  exports: [SearchConfigService, SearchHealthIndicator, SearchService],
+  exports: [
+    SearchConfigService,
+    // SearchHealthIndicator,
+    SearchService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -25,6 +29,10 @@ import { SearchService } from "./search.service";
     DataModule,
     SongModule
   ],
-  providers: [SearchConfigService, SearchHealthIndicator, SearchService]
+  providers: [
+    SearchConfigService,
+    // SearchHealthIndicator,
+    SearchService
+  ]
 })
 export class SearchModule {}

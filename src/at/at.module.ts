@@ -8,11 +8,15 @@ import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import config from "./at.config";
 import { AtConfigService } from "./at.config.service";
 import { AtEntityRepository } from "./at.entity.repository";
-import { AtHealthIndicator } from "./at.health.indicator";
+// import { AtHealthIndicator } from "./at.health.indicator";
 import { AtService } from "./at.service";
 
 @Module({
-  exports: [AtConfigService, AtHealthIndicator, AtService],
+  exports: [
+    AtConfigService,
+    // AtHealthIndicator,
+    AtService
+  ],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
@@ -22,6 +26,10 @@ import { AtService } from "./at.service";
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([AtEntityRepository])
   ],
-  providers: [AtConfigService, AtHealthIndicator, AtService]
+  providers: [
+    AtConfigService,
+    // AtHealthIndicator,
+    AtService
+  ]
 })
 export class AtModule {}
