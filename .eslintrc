@@ -63,6 +63,9 @@
       "update_id",
       "user_id"
     ]}],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "sort-imports":"error",
+    "sort-keys":"error",
+    "sort-vars":"error"
   }
 }
