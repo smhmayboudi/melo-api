@@ -3,8 +3,9 @@ import {
   CacheOptionsFactory,
   Injectable
 } from "@nestjs/common";
-import redisStore from "cache-manager-ioredis";
+
 import { AlbumConfigService } from "./album.config.service";
+import redisStore from "cache-manager-ioredis";
 
 @Injectable()
 export class AlbumCacheOptionsFactory implements CacheOptionsFactory {

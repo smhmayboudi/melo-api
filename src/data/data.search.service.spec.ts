@@ -1,13 +1,14 @@
-import { HttpService } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
-import { AxiosResponse } from "axios";
 import { Observable, of } from "rxjs";
+import { Test, TestingModule } from "@nestjs/testing";
+
+import { AxiosResponse } from "axios";
 import { DataConfigService } from "./data.config.service";
+import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
+import { DataSearchResDto } from "./dto/res/data.search.res.dto";
 import { DataSearchService } from "./data.search.service";
 import { DataSearchType } from "./data.search.type";
-import { DataSearchQueryReqDto } from "./dto/req/data.search.query.req.dto";
-import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
-import { DataSearchResDto } from "./dto/res/data.search.res.dto";
+import { HttpService } from "@nestjs/common";
 
 describe("DataSearchService", () => {
   const dataSearchResDto: DataSearchResDto = {

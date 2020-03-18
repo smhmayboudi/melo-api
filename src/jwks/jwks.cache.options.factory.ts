@@ -3,8 +3,9 @@ import {
   CacheOptionsFactory,
   Injectable
 } from "@nestjs/common";
-import redisStore from "cache-manager-ioredis";
+
 import { JwksConfigService } from "./jwks.config.service";
+import redisStore from "cache-manager-ioredis";
 
 @Injectable()
 export class JwksCacheOptionsFactory implements CacheOptionsFactory {

@@ -1,5 +1,6 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+
+import { ConfigService } from "@nestjs/config";
 import { RelationConfigService } from "./relation.config.service";
 
 describe("RelationService", () => {

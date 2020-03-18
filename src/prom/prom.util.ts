@@ -1,4 +1,3 @@
-import { PATH_METADATA } from "@nestjs/common/constants";
 import {
   Counter,
   CounterConfiguration,
@@ -21,6 +20,8 @@ import {
   PROM_REGISTRY_DEFAULT,
   PROM_REGISTRY_NAME
 } from "./prom.constant";
+
+import { PATH_METADATA } from "@nestjs/common/constants";
 import { PromController } from "./prom.controller";
 import { PromMetricType } from "./prom.metric.type";
 import { PromModuleOptions } from "./prom.module.interface";

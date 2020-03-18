@@ -1,7 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { SongConfigService } from "./song.config.service";
-import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
+import { SongHttpOptionsFactory } from "./song.http.options.factory";
 
 describe("SongHttpOptionsFactory", () => {
   const songConfigServiceMock: SongConfigServiceInterface = {

@@ -1,9 +1,10 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppConfigService } from "../app/app.config.service";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import { AtConfigService } from "./at.config.service";
 import { AtConfigServiceInterface } from "./at.config.service.interface";
+import { ConfigService } from "@nestjs/config";
 
 describe("AtCacheOptionsFactory", () => {
   const atConfigServiceMock: AtConfigServiceInterface = {

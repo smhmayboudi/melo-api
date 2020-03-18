@@ -1,10 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { AppImgProxyServiceInterface } from "../app/app.img-proxy.service.interface";
-import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 import { ConstConfigService } from "./const.config.service";
 import { ConstConfigServiceInterface } from "./const.config.service.interface";
 import { ConstService } from "./const.service";
+import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 
 describe("ConstService", () => {
   const image = {

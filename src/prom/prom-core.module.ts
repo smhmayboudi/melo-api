@@ -1,21 +1,15 @@
 import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
-import { Registry } from "prom-client";
 import {
   PROM_CONFIGURATION_NAME,
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS,
   PROM_REGISTRY_NAME
 } from "./prom.constant";
-import { PromController } from "./prom.controller";
-import { PromInterceptor } from "./prom.interceptor";
 import {
   PromModuleAsyncOptions,
   PromModuleOptions,
   PromOptionsFactory
 } from "./prom.module.interface";
-import { getOrCreateCounterProvider } from "./prom.provider";
-import { PromService } from "./prom.service";
 import {
   getTokenConfiguration,
   getTokenRegistry,
@@ -23,6 +17,13 @@ import {
   promConfigurationProviderImp,
   promRegistryProviderImp
 } from "./prom.util";
+
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { PromController } from "./prom.controller";
+import { PromInterceptor } from "./prom.interceptor";
+import { PromService } from "./prom.service";
+import { Registry } from "prom-client";
+import { getOrCreateCounterProvider } from "./prom.provider";
 
 @Global()
 @Module({

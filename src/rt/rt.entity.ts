@@ -1,6 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { IsBoolean, IsDate, IsNumber, IsString } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity({ name: "rts", orderBy: { id: "ASC" } })
 export class RtEntity {

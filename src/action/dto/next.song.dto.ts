@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsString } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 export class NextSongDto {
   constructor(currentId: string, currentPosition: number, nextId: string) {

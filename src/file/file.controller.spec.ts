@@ -1,9 +1,9 @@
-import { Test } from "@nestjs/testing";
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
-import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { FileController } from "./file.controller";
 import { FileService } from "./file.service";
 import { FileServiceInterface } from "./file.service.interface";
+import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
+import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
+import { Test } from "@nestjs/testing";
 
 describe("FileController", () => {
   const date = new Date();

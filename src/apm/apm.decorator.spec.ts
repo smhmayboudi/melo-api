@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 import {
   ApmCurrentSpan,
   ApmCurrentTraceparent,
   ApmCurrentTransaction
 } from "./apm.decorator";
 import { Span, Transaction } from "./apm.module.interface";
+import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";
 
 describe("ApmDecorator", () => {
   it("ApmCurrentSpan enhance component with apm current span", () => {

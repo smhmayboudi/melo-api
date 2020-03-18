@@ -1,11 +1,12 @@
 {
   "recommendations": [
-    "wesbos.theme-cobalt2",
-    "ms-azuretools.vscode-docker",
+    "amatiasq.sort-imports",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
-    "pkief.material-icon-theme",
     "esbenp.prettier-vscode",
-    "tyriar.sort-lines"
+    "ms-azuretools.vscode-docker",
+    "pkief.material-icon-theme",
+    "tyriar.sort-lines",
+    "wesbos.theme-cobalt2"
   ]
 }

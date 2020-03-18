@@ -1,5 +1,3 @@
-import { Type } from "@nestjs/common";
-import { ModuleMetadata } from "@nestjs/common/interfaces";
 import {
   CounterConfiguration,
   DefaultMetricsCollectorConfiguration,
@@ -7,7 +5,10 @@ import {
   HistogramConfiguration,
   SummaryConfiguration
 } from "prom-client";
+
+import { ModuleMetadata } from "@nestjs/common/interfaces";
 import { PromMetricType } from "./prom.metric.type";
+import { Type } from "@nestjs/common";
 
 export interface MetricTypeConfigurationInterface {
   configuration:

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import ms from "ms";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
+import { Injectable } from "@nestjs/common";
+import ms from "ms";
 
 @Injectable()
 export class DataConfigService implements DataConfigServiceInterface {

@@ -1,7 +1,8 @@
+import { IncomingMessage, ServerResponse } from "http";
 import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
+
 import AwsLambda from "aws-lambda";
 import Connect from "connect";
-import { IncomingMessage, ServerResponse } from "http";
 
 export type ApmModuleOptions = AgentConfigOptions;
 

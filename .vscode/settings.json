@@ -1,3 +1,21 @@
 {
-    "debug.node.autoAttach": "off"
+  "debug.node.autoAttach": "off",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.fixAll.eslint": true,
+    "source.organizeImports": false
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": false,
+  "editor.tabSize": 2,
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "eslint.probe": ["javascript", "typescript"],
+  "eslint.validate": ["javascript", "typescript"],
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "sort-imports.ignore-type-defs": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "window.zoomLevel": 1,
+  "workbench.colorTheme": "Kary Pro Colors － Dark",
+  "workbench.iconTheme": "material-icon-theme"
 }

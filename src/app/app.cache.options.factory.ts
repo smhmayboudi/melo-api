@@ -3,8 +3,9 @@ import {
   CacheOptionsFactory,
   Injectable
 } from "@nestjs/common";
-import redisStore from "cache-manager-ioredis";
+
 import { AppConfigService } from "./app.config.service";
+import redisStore from "cache-manager-ioredis";
 
 @Injectable()
 export class AppCacheOptionsFactory implements CacheOptionsFactory {

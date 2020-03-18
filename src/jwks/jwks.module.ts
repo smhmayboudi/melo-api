@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
+
 import { AppModule } from "../app/app.module";
+import { ConfigModule } from "@nestjs/config";
 import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
-import config from "./jwks.config";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 // import { JwksHealthIndicator } from "./jwks.health.indicator";
 import { JwksService } from "./jwks.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import config from "./jwks.config";
 
 @Module({
   exports: [

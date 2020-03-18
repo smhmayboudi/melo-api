@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   ParseIntPipe,
@@ -8,13 +9,13 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+
+import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { AppUser } from "../app/app.user.decorator";
+import { FileService } from "./file.service";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
-import { FileService } from "./file.service";
 
 @ApiBearerAuth("jwt")
 @ApiTags("file")

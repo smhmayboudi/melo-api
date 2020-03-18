@@ -1,5 +1,6 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
 import * as Sentry from "@sentry/node";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+
 import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
 import { SentryServiceInterface } from "./sentry.service.interface";
 

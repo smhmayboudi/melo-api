@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { AppModule } from "../app/app.module";
+
 import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
-import config from "./action.config";
 import { ActionConfigService } from "./action.config.service";
 import { ActionController } from "./action.controller";
 // import { ActionHealthIndicator } from "./action.health.indicator";
 import { ActionService } from "./action.service";
+import { AppModule } from "../app/app.module";
+import { ConfigModule } from "@nestjs/config";
+import config from "./action.config";
 
 @Module({
   controllers: [ActionController],

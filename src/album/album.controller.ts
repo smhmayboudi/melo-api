@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Get,
@@ -7,16 +8,16 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { AppUser } from "../app/app.user.decorator";
-import { AppHashIdPipe } from "../app/app.hash-id.pipe";
-import { AlbumService } from "./album.service";
+
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumService } from "./album.service";
+import { AppHashIdPipe } from "../app/app.hash-id.pipe";
+import { AppUser } from "../app/app.user.decorator";
+import { AuthGuard } from "@nestjs/passport";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("album")

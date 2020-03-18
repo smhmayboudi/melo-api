@@ -5,34 +5,13 @@ import {
   ClassSerializerInterceptor,
   Module
 } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
+
 import { APP_INTERCEPTOR } from "@nestjs/core";
-import { MongooseModule } from "@nestjs/mongoose";
-// import { TerminusModule } from "@nestjs/terminus";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import { ActionModule } from "../action/action.module";
 import { AlbumModule } from "../album/album.module";
 import { ApmModule } from "../apm/apm.module";
-import { ArtistModule } from "../artist/artist.module";
-import { AtModule } from "../at/at.module";
-import { AuthModule } from "../auth/auth.module";
-import { ConstModule } from "../const/const.module";
-import { DataModule } from "../data/data.module";
-import { DownloadModule } from "../download/download.module";
-import { EmotionModule } from "../emotion/emotion.module";
-import { FileModule } from "../file/file.module";
-import { JwksModule } from "../jwks/jwks.module";
-import { PlaylistModule } from "../playlist/playlist.module";
-import { PromModule } from "../prom/prom.module";
-import { RelationModule } from "../relation/relation.module";
-import { RtModule } from "../rt/rt.module";
-import { SearchModule } from "../search/search.module";
-import { SentryModule } from "../sentry/sentry.module";
-import { SongModule } from "../song/song.module";
-import { UserModule } from "../user/user.module";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
-import config from "./app.config";
 import { AppConfigService } from "./app.config.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
@@ -46,6 +25,28 @@ import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 // import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
+import { ArtistModule } from "../artist/artist.module";
+import { AtModule } from "../at/at.module";
+import { AuthModule } from "../auth/auth.module";
+import { ConfigModule } from "@nestjs/config";
+import { ConstModule } from "../const/const.module";
+import { DataModule } from "../data/data.module";
+import { DownloadModule } from "../download/download.module";
+import { EmotionModule } from "../emotion/emotion.module";
+import { FileModule } from "../file/file.module";
+import { JwksModule } from "../jwks/jwks.module";
+import { MongooseModule } from "@nestjs/mongoose";
+import { PlaylistModule } from "../playlist/playlist.module";
+import { PromModule } from "../prom/prom.module";
+import { RelationModule } from "../relation/relation.module";
+import { RtModule } from "../rt/rt.module";
+import { SearchModule } from "../search/search.module";
+import { SentryModule } from "../sentry/sentry.module";
+import { SongModule } from "../song/song.module";
+// import { TerminusModule } from "@nestjs/terminus";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserModule } from "../user/user.module";
+import config from "./app.config";
 
 @Module({
   exports: [

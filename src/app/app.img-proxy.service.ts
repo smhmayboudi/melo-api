@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import Imgproxy from "imgproxy";
-import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 import { AppConfigService } from "./app.config.service";
 import { AppImgProxyServiceInterface } from "./app.img-proxy.service.interface";
+import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
+import Imgproxy from "imgproxy";
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AppImgProxyService implements AppImgProxyServiceInterface {

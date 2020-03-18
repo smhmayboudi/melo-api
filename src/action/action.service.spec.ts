@@ -1,7 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
+import { ActionDto } from "./dto/action.dto";
 import { ActionService } from "./action.service";
 import { ActionType } from "./action.type";
-import { ActionDto } from "./dto/action.dto";
 
 describe("ActionService", () => {
   const datetime = new Date().toString();

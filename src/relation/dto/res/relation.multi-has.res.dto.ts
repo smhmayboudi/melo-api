@@ -1,8 +1,9 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
 import { IsEnum, ValidateNested } from "class-validator";
-import { RelationType } from "../../relation.type";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { RelationEntityResDto } from "./relation.entity.res.dto";
+import { RelationType } from "../../relation.type";
+import { Type } from "class-transformer";
 
 export class RelationMultiHasResDto {
   constructor(

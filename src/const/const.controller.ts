@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Get,
@@ -5,10 +6,10 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ConstService } from "./const.service";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";
+import { ConstService } from "./const.service";
 
 @ApiBearerAuth("jwt")
 @ApiTags("const")

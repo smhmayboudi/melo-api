@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { SentryService } from "./sentry.service";
+
 import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
+import { SentryService } from "./sentry.service";
 
 describe("SentryService", () => {
   // TODO: interface ?

@@ -1,7 +1,7 @@
-import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import ms from "ms";
+import { Injectable } from "@nestjs/common";
 import { RelationConfigServiceInterface } from "./relation.config.service.interface";
+import ms from "ms";
 
 @Injectable()
 export class RelationConfigService implements RelationConfigServiceInterface {

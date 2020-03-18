@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import {
   CallHandler,
   ExecutionContext,
@@ -5,22 +6,22 @@ import {
   Injectable,
   NestInterceptor
 } from "@nestjs/common";
+import { GqlArgumentsHost, GraphQLArgumentsHost } from "@nestjs/graphql";
 import {
   HttpArgumentsHost,
   RpcArgumentsHost,
   WsArgumentsHost
 } from "@nestjs/common/interfaces";
-import { GqlArgumentsHost, GraphQLArgumentsHost } from "@nestjs/graphql";
-import { Scope } from "@sentry/hub";
-import * as Sentry from "@sentry/node";
-import { Handlers } from "@sentry/node";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
 import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS
 } from "./sentry.constant";
+
+import { Handlers } from "@sentry/node";
+import { Observable } from "rxjs";
+import { Scope } from "@sentry/hub";
 import { SentryModuleOptions } from "./sentry.module.interface";
+import { tap } from "rxjs/operators";
 
 @Injectable()
 export class SentryInterceptor implements NestInterceptor {

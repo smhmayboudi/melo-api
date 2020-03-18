@@ -1,14 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
+import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
+import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
+import { AlbumController } from "./album.controller";
+import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumService } from "./album.service";
+import { AlbumServiceInterface } from "./album.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { AlbumController } from "./album.controller";
-import { AlbumService } from "./album.service";
-import { AlbumServiceInterface } from "./album.service.interface";
-import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
-import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
-import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 
 describe("AlbumController", () => {
   const releaseDate = new Date();

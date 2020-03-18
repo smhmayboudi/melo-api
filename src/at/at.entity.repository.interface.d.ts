@@ -8,8 +8,9 @@ import {
   SaveOptions,
   UpdateResult
 } from "typeorm";
-import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
+
 import { AtEntity } from "./at.entity";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 
 export interface AtEntityRepositoryInterface {
   delete(

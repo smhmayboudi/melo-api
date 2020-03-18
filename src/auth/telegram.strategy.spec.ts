@@ -1,11 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
-import { UserService } from "../user/user.service";
-import { UserServiceInterface } from "../user/user.service.interface";
+
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthTelegramPayloadReqDto } from "./dto/req/auth.telegram-payload.req.dto";
 import { TelegramStrategy } from "./telegram.strategy";
+import { UserService } from "../user/user.service";
+import { UserServiceInterface } from "../user/user.service.interface";
+import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
 
 describe("TelegramStrategy", () => {
   const user: UserUserResDto = {

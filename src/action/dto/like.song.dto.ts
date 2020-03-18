@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsBoolean, IsNumber, IsString } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 
 export class LikeSongDto {
   constructor(id: string, like: boolean, playing: boolean, position: number) {

@@ -1,5 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Type } from "class-transformer";
 import {
   IsArray,
   IsDate,
@@ -8,10 +6,13 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { DataArtistResDto } from "./data.artist.res.dto";
 import { DataImageResDto } from "./data.image.res.dto";
 import { DataPaginationResDto } from "./data.pagination.res.dto";
 import { DataSongResDto } from "./data.song.res.dto";
+import { Type } from "class-transformer";
 
 export class DataAlbumResDto {
   constructor(

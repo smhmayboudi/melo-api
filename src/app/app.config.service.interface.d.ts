@@ -1,6 +1,6 @@
+import { ImgProxyImageTypeSize } from "./app.module.interface";
 import { LogLevel } from "@sentry/types";
 import { SignatureSize } from "imgproxy/dist/types";
-import { ImgProxyImageTypeSize } from "./app.module.interface";
 
 export interface AppConfigServiceInterface {
   apmActive: boolean;

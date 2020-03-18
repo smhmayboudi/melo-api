@@ -1,7 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { DataConfigService } from "./data.config.service";
-import { DataHttpOptionsFactory } from "./data.http.options.factory";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
+import { DataHttpOptionsFactory } from "./data.http.options.factory";
 
 describe("DataHttpOptionsFactory", () => {
   const dataConfigServiceMock: DataConfigServiceInterface = {

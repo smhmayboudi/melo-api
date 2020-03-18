@@ -3,8 +3,9 @@ import {
   ExecutionContext,
   createParamDecorator
 } from "@nestjs/common";
-import express from "express";
+
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
+import express from "express";
 
 export const AppUser = createParamDecorator(
   (data: string | undefined, context: ExecutionContext) => {

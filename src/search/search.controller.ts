@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Get,
@@ -6,11 +7,11 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+
 import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { SearchService } from "./search.service";
 
 @ApiBearerAuth("jwt")

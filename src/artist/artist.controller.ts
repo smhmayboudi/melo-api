@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import {
   Body,
   Controller,
@@ -9,18 +10,18 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { AppUser } from "../app/app.user.decorator";
+
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
-import { ArtistService } from "./artist.service";
+import { AppUser } from "../app/app.user.decorator";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistService } from "./artist.service";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
 import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
+import { AuthGuard } from "@nestjs/passport";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("artist")

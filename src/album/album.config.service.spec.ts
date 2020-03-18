@@ -1,7 +1,8 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app/app.config.service";
+
 import { AlbumConfigService } from "./album.config.service";
+import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
 
 describe("AlbumService", () => {
   describe("get: number", () => {

@@ -4,12 +4,12 @@ import {
   Injectable,
   NestInterceptor
 } from "@nestjs/common";
+import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-import express from "express";
 import { Observable } from "rxjs";
+import express from "express";
 import { map } from "rxjs/operators";
-import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
 
 @Injectable()
 export class SongLocalizeInterceptor implements NestInterceptor {

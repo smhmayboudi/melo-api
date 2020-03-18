@@ -3,8 +3,9 @@ import {
   CacheOptionsFactory,
   Injectable
 } from "@nestjs/common";
-import redisStore from "cache-manager-ioredis";
+
 import { PlaylistConfigService } from "./playlist.config.service";
+import redisStore from "cache-manager-ioredis";
 
 @Injectable()
 export class PlaylistCacheOptionsFactory implements CacheOptionsFactory {

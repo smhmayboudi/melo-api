@@ -1,8 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { ConstController } from "./const.controller";
+import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 import { ConstService } from "./const.service";
 import { ConstServiceInterface } from "./const.service.interface";
-import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 
 describe("ConstController", () => {
   const image = {

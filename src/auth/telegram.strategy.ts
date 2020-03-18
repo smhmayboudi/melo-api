@@ -1,10 +1,10 @@
+import { AuthConfigService } from "./auth.config.service";
+import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
+import { AuthTelegramPayloadReqDto } from "./dto/req/auth.telegram-payload.req.dto";
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { TelegramStrategy as Strategy } from "passport-telegram-official";
 import { UserService } from "../user/user.service";
-import { AuthConfigService } from "./auth.config.service";
-import { AuthTelegramPayloadReqDto } from "./dto/req/auth.telegram-payload.req.dto";
-import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
 
 @Injectable()
 export class TelegramStrategy extends PassportStrategy(Strategy) {

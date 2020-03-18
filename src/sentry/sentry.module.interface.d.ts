@@ -1,6 +1,8 @@
-import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
 import * as Sentry from "@sentry/node";
+
 import { Breadcrumb, Scope, Severity, User } from "@sentry/node";
+import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
+
 import { LogLevel } from "@sentry/types";
 
 export interface SentryFilterFunction {

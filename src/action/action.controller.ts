@@ -1,3 +1,4 @@
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Body,
   Controller,
@@ -6,10 +7,10 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-import { AuthGuard } from "@nestjs/passport";
-import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { ActionService } from "./action.service";
+
 import { ActionDto } from "./dto/action.dto";
+import { ActionService } from "./action.service";
+import { AuthGuard } from "@nestjs/passport";
 
 @ApiBearerAuth("jwt")
 @ApiTags("action")

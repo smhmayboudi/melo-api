@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import ms from "ms";
 import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
 import { ConstConfigServiceInterface } from "./const.config.service.interface";
+import { Injectable } from "@nestjs/common";
+import ms from "ms";
 
 @Injectable()
 export class ConstConfigService implements ConstConfigServiceInterface {

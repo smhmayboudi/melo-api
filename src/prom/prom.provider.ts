@@ -1,4 +1,3 @@
-import { Provider } from "@nestjs/common";
 import {
   Counter,
   CounterConfiguration,
@@ -21,6 +20,8 @@ import {
   getTokenRegistry,
   getTokenSummary
 } from "./prom.util";
+
+import { Provider } from "@nestjs/common";
 
 export function getOrCreateCounterProvider(
   configuration: CounterConfiguration<string>,

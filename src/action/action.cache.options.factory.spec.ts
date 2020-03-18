@@ -1,9 +1,10 @@
-import { ConfigService } from "@nestjs/config";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppConfigService } from "../app/app.config.service";
+
 import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import { ActionConfigService } from "./action.config.service";
 import { ActionConfigServiceInterface } from "./action.config.service.interface";
+import { AppConfigService } from "../app/app.config.service";
+import { ConfigService } from "@nestjs/config";
 
 describe("ActionCacheOptionsFactory", () => {
   const actionConfigServiceMock: ActionConfigServiceInterface = {

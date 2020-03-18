@@ -1,7 +1,7 @@
-import { Test } from "@nestjs/testing";
 import { AppHashIdPipe } from "./app.hash-id.pipe";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AppHashIdPipe", () => {
   const appHashIdServiceMock: AppHashIdServiceInterface = {

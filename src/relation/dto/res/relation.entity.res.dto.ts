@@ -1,5 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
 import { IsEnum, IsOptional, IsString } from "class-validator";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { RelationEntityType } from "../../relation.entity.type";
 
 export class RelationEntityResDto {

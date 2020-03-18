@@ -1,4 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
 import {
   IsArray,
   IsBoolean,
@@ -8,8 +7,10 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { DataArtistType } from "../../data.artist.type";
+
+import { ApiProperty } from "@nestjs/swagger";
 import { DataAlbumResDto } from "./data.album.res.dto";
+import { DataArtistType } from "../../data.artist.type";
 import { DataImageResDto } from "./data.image.res.dto";
 import { DataPaginationResDto } from "./data.pagination.res.dto";
 import { DataSongResDto } from "./data.song.res.dto";

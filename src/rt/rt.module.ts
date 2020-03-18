@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { TypeOrmModule } from "@nestjs/typeorm";
+
 import { AppModule } from "../app/app.module";
+import { ConfigModule } from "@nestjs/config";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
-import config from "./rt.config";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
 // import { RtHealthIndicator } from "./rt.health.indicator";
 import { RtService } from "./rt.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import config from "./rt.config";
 
 @Module({
   exports: [

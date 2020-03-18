@@ -1,7 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { EmotionConfigService } from "./emotion.config.service";
-import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
 import { EmotionConfigServiceInterface } from "./emotion.config.service.interface";
+import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
 
 describe("EmotionHttpOptionsFactory", () => {
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
