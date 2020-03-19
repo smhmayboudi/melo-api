@@ -8,10 +8,10 @@ import {
   ParseIntPipe,
   Post,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
@@ -22,11 +22,13 @@ import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
 import { PlaylistEditReqDto } from "./dto/req/playlist.edit.req.dto";
 import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
+import { PlaylistLocalizeInterceptor } from "./playlist.localize.interceptor";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistService } from "./playlist.service";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
+@UseInterceptors(new PlaylistLocalizeInterceptor())
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")

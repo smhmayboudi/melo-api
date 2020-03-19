@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
-import { APP_INTERCEPTOR } from "@nestjs/core";
 import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumController } from "./album.controller";
-import { AlbumLocalizeInterceptor } from "./album.localize.interceptor";
 // import { AlbumHealthIndicator } from "./album.health.indicator";
 import { AlbumService } from "./album.service";
 import { AppModule } from "../app/app.module";
@@ -32,7 +30,6 @@ import config from "./album.config";
   providers: [
     AlbumConfigService,
     //  AlbumHealthIndicator,
-    { provide: APP_INTERCEPTOR, useClass: AlbumLocalizeInterceptor },
     AlbumService
   ]
 })

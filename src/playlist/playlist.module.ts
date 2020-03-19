@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
-
-import { APP_INTERCEPTOR } from "@nestjs/core";
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { DataModule } from "../data/data.module";
@@ -11,7 +9,6 @@ import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
 // import { PlaylistHealthIndicator } from "./playlist.health.indicator";
-import { PlaylistLocalizeInterceptor } from "./playlist.localize.interceptor";
 import { PlaylistSchema } from "./playlist.schema";
 import { PlaylistService } from "./playlist.service";
 import config from "./playlist.config";
@@ -36,7 +33,6 @@ import config from "./playlist.config";
   providers: [
     PlaylistConfigService,
     // PlaylistHealthIndicator,
-    { provide: APP_INTERCEPTOR, useClass: PlaylistLocalizeInterceptor },
     PlaylistService
   ]
 })

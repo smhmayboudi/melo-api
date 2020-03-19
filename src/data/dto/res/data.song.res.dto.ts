@@ -18,12 +18,12 @@ import { Type } from "class-transformer";
 export class DataSongResDto {
   constructor(
     artists: DataArtistResDto[],
-    audio: DataAudioResDto,
     duration: number,
     id: string,
     localized: boolean,
     releaseDate: Date,
     title: string,
+    audio?: DataAudioResDto,
     album?: DataAlbumResDto,
     copyrighted?: boolean,
     downloadCount?: number,
@@ -35,12 +35,12 @@ export class DataSongResDto {
     tags?: string[]
   ) {
     this.artists = artists;
-    this.audio = audio;
     this.duration = duration;
     this.id = id;
     this.localized = localized;
     this.releaseDate = releaseDate;
     this.title = title;
+    this.audio = audio;
     this.album = album;
     this.copyrighted = copyrighted;
     this.downloadCount = downloadCount;
@@ -67,8 +67,9 @@ export class DataSongResDto {
   @ApiProperty({
     description: "The audio"
   })
+  @IsOptional()
   @ValidateNested()
-  audio: DataAudioResDto;
+  audio?: DataAudioResDto;
 
   @ApiProperty({
     description: "The duration",

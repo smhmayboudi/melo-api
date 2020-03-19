@@ -11,6 +11,15 @@ import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
 
+const transform = (song: DataSongResDto): DataSongResDto =>
+  song.localized === true
+    ? {
+        ...song,
+        audio: undefined,
+        lyrics: undefined
+      }
+    : song;
+
 @Injectable()
 export class SongLocalizeInterceptor implements NestInterceptor {
   intercept(
@@ -25,31 +34,14 @@ export class SongLocalizeInterceptor implements NestInterceptor {
       map(data => {
         if (request.user.sub !== "0") {
           return data;
+        } else if (data.total === undefined) {
+          return transform(data);
+        } else {
+          return {
+            results: data.results.map(value => transform(value)),
+            total: data.total
+          } as DataPaginationResDto<DataSongResDto>;
         }
-        if (data.total === undefined) {
-          if (data.localized === true) {
-            return {
-              ...data,
-              audio: undefined,
-              lyrics: undefined
-            };
-          }
-          return data;
-        }
-        const manipulatedData: DataPaginationResDto<DataSongResDto> = {
-          results: data.results.map(value => {
-            if (value.localized === true) {
-              return {
-                ...data,
-                audio: undefined,
-                lyrics: undefined
-              };
-            }
-            return value;
-          }),
-          total: data.total
-        } as DataPaginationResDto<DataSongResDto>;
-        return manipulatedData;
       })
     );
   }

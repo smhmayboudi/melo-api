@@ -7,9 +7,29 @@ import {
 import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "src/data/dto/res/data.playlist.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
+
+const transform = (playlist: DataPlaylistResDto): DataPlaylistResDto => ({
+  ...playlist,
+  songs:
+    playlist.songs === undefined
+      ? undefined
+      : ({
+          results: playlist.songs.results.map(value =>
+            value.localized === true
+              ? {
+                  ...value,
+                  audio: undefined,
+                  lyrics: undefined
+                }
+              : value
+          ),
+          total: playlist.songs.total
+        } as DataPaginationResDto<DataSongResDto>)
+});
 
 @Injectable()
 export class PlaylistLocalizeInterceptor implements NestInterceptor {
@@ -25,51 +45,14 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
       map(data => {
         if (request.user.sub !== "0") {
           return data;
-        }
-        if (data.total === undefined) {
+        } else if (data.total === undefined) {
+          return transform(data);
+        } else {
           return {
-            ...data,
-            songs:
-              data.songs === undefined
-                ? undefined
-                : {
-                    results: data.songs.results.map(value => {
-                      if (value.localized === true) {
-                        return {
-                          ...value,
-                          audio: undefined,
-                          lyrics: undefined
-                        };
-                      }
-                      return value;
-                    }),
-                    total: data.songs.total
-                  }
-          };
+            results: data.results.map(value => transform(value)),
+            total: data.total
+          } as DataPaginationResDto<DataPlaylistResDto>;
         }
-        const manipulatedData: DataPaginationResDto<DataPlaylistResDto> = {
-          results: data.results.map(value => ({
-            ...value,
-            songs:
-              value.songs === undefined
-                ? undefined
-                : {
-                    results: value.songs.results.map(songValue => {
-                      if (value.localized === true) {
-                        return {
-                          ...songValue,
-                          audio: undefined,
-                          lyrics: undefined
-                        };
-                      }
-                      return songValue;
-                    }),
-                    total: value.songs.total
-                  }
-          })),
-          total: data.total
-        } as DataPaginationResDto<DataPlaylistResDto>;
-        return manipulatedData;
       })
     );
   }

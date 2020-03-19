@@ -5,6 +5,7 @@ import {
   Param,
   ParseIntPipe,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
@@ -12,6 +13,7 @@ import {
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumLocalizeInterceptor } from "./album.localize.interceptor";
 import { AlbumService } from "./album.service";
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppUser } from "../app/app.user.decorator";
@@ -19,6 +21,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
+@UseInterceptors(new AlbumLocalizeInterceptor())
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
@@ -57,8 +60,6 @@ export class AlbumController {
     @Param("id", AppHashIdPipe) id: number,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataAlbumResDto> {
-    console.log(sub);
-
     return this.albumService.byId(dto, id, sub);
   }
 
