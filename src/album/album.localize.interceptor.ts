@@ -54,7 +54,6 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
             total: data.total
           } as DataPaginationResDto<DataAlbumResDto>;
         }
-        return data;
       })
     );
   }

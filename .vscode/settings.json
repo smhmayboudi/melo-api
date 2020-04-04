@@ -16,6 +16,6 @@
   "sort-imports.ignore-type-defs": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "window.zoomLevel": 1,
-  "workbench.colorTheme": "Kary Pro Colors － Dark",
+  "workbench.colorTheme": "Cobalt2",
   "workbench.iconTheme": "material-icon-theme"
 }
