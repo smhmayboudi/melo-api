@@ -1,17 +1,40 @@
 import { Test, TestingModule } from "@nestjs/testing";
-
+import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { EmotionController } from "./emotion.controller";
 import { EmotionParamReqDto } from "./dto/req/emotion.param.req.dto";
 import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionService } from "./emotion.service";
 import { EmotionServiceInterface } from "./emotion.service.interface";
+import { SongService } from "../song/song.service";
+import { SongServiceInterface } from "../song/song.service.interface";
 
 describe("EmotionController", () => {
+  const releaseDate = new Date();
+  const song: DataSongResDto = {
+    artists: [
+      {
+        followersCount: 0,
+        id: "",
+        type: DataArtistType.feat
+      }
+    ],
+    audio: {},
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate,
+    title: ""
+  };
+  const songPagination: DataPaginationResDto<DataSongResDto> = {
+    results: [song],
+    total: 1
+  } as DataPaginationResDto<DataSongResDto>;
   const emotion: EmotionResDto = {
     emotions: [""],
-    songId: 0
+    song
   };
   const emotionPagination: DataPaginationResDto<EmotionResDto> = {
     results: [emotion],
@@ -22,13 +45,50 @@ describe("EmotionController", () => {
     emotions: (): Promise<DataPaginationResDto<EmotionResDto>> =>
       Promise.resolve(emotionPagination)
   };
+  const songServiceMock: SongServiceInterface = {
+    artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    artistSongsTop: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    byId: (): Promise<DataSongResDto> => Promise.resolve(song),
+    genre: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    language: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    like: (): Promise<DataSongResDto> => Promise.resolve(song),
+    liked: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    mood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    newPodcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    newSong: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    podcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    searchMood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    sendTelegram: (): Promise<void> => Promise.resolve(undefined),
+    similar: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    slider: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    topDay: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
+    unlike: (): Promise<DataSongResDto> => Promise.resolve(song)
+  };
 
   let controller: EmotionController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EmotionController],
-      providers: [{ provide: EmotionService, useValue: emotionServiceMock }]
+      providers: [
+        { provide: EmotionService, useValue: emotionServiceMock },
+        { provide: SongService, useValue: songServiceMock }
+      ]
     }).compile();
     controller = module.get<EmotionController>(EmotionController);
   });

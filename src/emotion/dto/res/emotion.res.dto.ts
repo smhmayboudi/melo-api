@@ -1,19 +1,20 @@
-import { IsArray, IsNumberString, IsString } from "class-validator";
+import { IsArray, IsString, ValidateNested } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
+import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 
 export class EmotionResDto {
-  constructor(songId: number, emotions: string[]) {
-    this.songId = songId;
+  constructor(song: DataSongResDto, emotions: string[]) {
+    this.song = song;
     this.emotions = emotions;
   }
 
   @ApiProperty({
-    description: "the song id",
+    description: "the song",
     example: 0
   })
-  @IsNumberString()
-  songId: number;
+  @ValidateNested()
+  song: DataSongResDto;
 
   @ApiProperty({
     description: "The emotions",

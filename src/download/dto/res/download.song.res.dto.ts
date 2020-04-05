@@ -1,19 +1,19 @@
-import { IsDate, IsNumber } from "class-validator";
-
+import { IsDate, ValidateNested } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
 
 export class DownloadSongResDto {
-  constructor(songId: number, downloadedAt: Date) {
-    this.songId = songId;
+  constructor(song: DataSongResDto, downloadedAt: Date) {
+    this.song = song;
     this.downloadedAt = downloadedAt;
   }
 
   @ApiProperty({
-    description: "The song id",
+    description: "The song",
     example: 0
   })
-  @IsNumber()
-  songId: number;
+  @ValidateNested()
+  song: DataSongResDto;
 
   @ApiProperty({
     description: "The date of download",

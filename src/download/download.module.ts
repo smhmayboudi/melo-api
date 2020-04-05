@@ -8,6 +8,7 @@ import { DownloadController } from "./download.controller";
 import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 // import { DownloadHealthIndicator } from "./download.health.indicator";
 import { DownloadService } from "./download.service";
+import { SongModule } from "src/song/song.module";
 import config from "./download.config";
 
 @Module({
@@ -22,7 +23,8 @@ import config from "./download.config";
     HttpModule.registerAsync({
       imports: [DownloadModule],
       useClass: DownloadHttpOptionsFactory
-    })
+    }),
+    SongModule
   ],
   providers: [
     DownloadConfigService,
