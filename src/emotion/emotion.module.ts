@@ -9,6 +9,7 @@ import { EmotionController } from "./emotion.controller";
 // import { EmotionHealthIndicator } from "./emotion.health.indicator";
 import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
 import { EmotionService } from "./emotion.service";
+import { SongModule } from "src/song/song.module";
 import config from "./emotion.config";
 
 @Module({
@@ -24,7 +25,8 @@ import config from "./emotion.config";
       imports: [EmotionModule],
       useClass: EmotionHttpOptionsFactory
     }),
-    ConfigModule.forFeature(config)
+    ConfigModule.forFeature(config),
+    SongModule
   ],
   providers: [
     EmotionConfigService,
