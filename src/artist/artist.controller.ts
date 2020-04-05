@@ -24,7 +24,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
-@UseInterceptors(new ArtistLocalizeInterceptor())
+@UseInterceptors(ArtistLocalizeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
 @Controller("artist")

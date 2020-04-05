@@ -1,7 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
-
-import { AppMixSongService } from "../app/app.mix-song.service";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
@@ -39,7 +37,6 @@ import { map } from "rxjs/operators";
 // @PromInstanceCounter
 export class SongService implements SongServiceInterface {
   constructor(
-    private readonly appMixSongService: AppMixSongService,
     private readonly dataSongService: DataSongService,
     private readonly httpService: HttpService,
     private readonly relationService: RelationService,
@@ -52,21 +49,12 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async artistSongs(
     dto: SongArtistSongsReqDto,
-    artistId: number,
-    sub: number
+    artistId: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.artistSongs({
+    return this.dataSongService.artistSongs({
       ...dto,
       id: artistId.toString()
     });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
   }
 
   @ApmAfterMethod
@@ -74,36 +62,19 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async artistSongsTop(
     dto: SongArtistSongsTopReqDto,
-    artistId: number,
-    sub: number
+    artistId: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.artistSongsTop({
+    return this.dataSongService.artistSongsTop({
       ...dto,
       id: artistId.toString()
     });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async byId(
-    dto: SongByIdReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataSongResDto> {
-    const dataSongResDto = await this.dataSongService.byId({ ...dto, id });
-    const songMixResDto = await this.appMixSongService.mixSong(sub, [
-      dataSongResDto
-    ]);
-    return songMixResDto[0];
+  async byId(dto: SongByIdReqDto, id: number): Promise<DataSongResDto> {
+    return this.dataSongService.byId({ ...dto, id });
   }
 
   @ApmAfterMethod
@@ -112,22 +83,13 @@ export class SongService implements SongServiceInterface {
   async genre(
     orderBy: DataOrderByType,
     paramDto: SongSongGenresParamReqDto,
-    queryDto: SongSongGenresQueryReqDto,
-    sub: number
+    queryDto: SongSongGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.genre({
+    return this.dataSongService.genre({
       ...paramDto,
       orderBy: orderBy,
       ...queryDto
     });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
   }
 
   @ApmAfterMethod
@@ -135,21 +97,12 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async language(
     dto: SongLanguageReqDto,
-    orderBy: DataOrderByType,
-    sub: number
+    orderBy: DataOrderByType
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.language({
+    return this.dataSongService.language({
       ...dto,
       orderBy
     });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
   }
 
   @ApmAfterMethod
@@ -199,71 +152,36 @@ export class SongService implements SongServiceInterface {
         total: 0
       } as DataPaginationResDto<DataSongResDto>;
     }
-    const dataSongResDto = await this.dataSongService.byIds({
+    return this.dataSongService.byIds({
       ids: relationEntityResDto.results.map(value => value.id)
     });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async mood(
-    dto: SongMoodReqDto,
-    sub: number
+    dto: SongMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.mood(dto);
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+    return this.dataSongService.mood(dto);
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async newPodcast(
-    dto: DataSongNewPodcastReqDto,
-    sub: number
+    dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.newPodcast({ ...dto });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+    return this.dataSongService.newPodcast({ ...dto });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async newSong(
-    dto: SongNewReqDto,
-    sub: number
+    dto: SongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.newSong(dto);
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+    return this.dataSongService.newSong(dto);
   }
 
   @ApmAfterMethod
@@ -272,22 +190,13 @@ export class SongService implements SongServiceInterface {
   async podcast(
     orderBy,
     paramDto: SongPodcastGenresParamReqDto,
-    queryDto: SongPodcastGenresQueryReqDto,
-    sub: number
+    queryDto: SongPodcastGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.podcast({
+    return this.dataSongService.podcast({
       ...paramDto,
       ...queryDto,
       orderBy
     });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
   }
 
   @ApmAfterMethod
@@ -350,69 +259,34 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async similar(
     dto: SongSimilarReqDto,
-    id: number,
-    sub: number
+    id: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.similar({ ...dto, id });
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+    return this.dataSongService.similar({ ...dto, id });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.slider();
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+  async slider(): Promise<DataPaginationResDto<DataSongResDto>> {
+    return this.dataSongService.slider();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async topDay(
-    dto: SongTopDayReqDto,
-    sub: number
+    dto: SongTopDayReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.topDay(dto);
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+    return this.dataSongService.topDay(dto);
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async topWeek(
-    dto: SongTopWeekReqDto,
-    sub: number
+    dto: SongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    const dataSongResDto = await this.dataSongService.topWeek(dto);
-    const songMixResDto = await this.appMixSongService.mixSong(
-      sub,
-      dataSongResDto.results
-    );
-    return {
-      results: songMixResDto,
-      total: songMixResDto.length
-    } as DataPaginationResDto<DataSongResDto>;
+    return this.dataSongService.topWeek(dto);
   }
 
   @ApmAfterMethod

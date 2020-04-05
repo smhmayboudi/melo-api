@@ -12,7 +12,6 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
-
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppOrderByPipe } from "../app/app.order-by.pipe";
 import { AppUser } from "../app/app.user.decorator";
@@ -28,6 +27,7 @@ import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
 import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
 import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
 import { SongLocalizeInterceptor } from "./song.localize.interceptor";
+import { SongMixInterceptor } from "./song.mix.interceptor";
 import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
@@ -43,7 +43,8 @@ import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 
-@UseInterceptors(new SongLocalizeInterceptor())
+@UseInterceptors(SongLocalizeInterceptor)
+@UseInterceptors(SongMixInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("song")
 @Controller("song")
@@ -65,10 +66,9 @@ export class SongController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistSongs(
     @Param() dto: SongArtistSongsReqDto,
-    @Param("artistId", AppHashIdPipe) artistId: number,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param("artistId", AppHashIdPipe) artistId: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.artistSongs(dto, artistId, sub);
+    return this.songService.artistSongs(dto, artistId);
   }
 
   @ApiParam({
@@ -79,10 +79,9 @@ export class SongController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistSongsTop(
     @Param() dto: SongArtistSongsTopReqDto,
-    @Param("artistId", AppHashIdPipe) artistId: number,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param("artistId", AppHashIdPipe) artistId: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.artistSongsTop(dto, artistId, sub);
+    return this.songService.artistSongsTop(dto, artistId);
   }
 
   @ApiParam({
@@ -93,10 +92,9 @@ export class SongController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async byId(
     @Param() dto: SongByIdReqDto,
-    @Param("id", AppHashIdPipe) id: number,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param("id", AppHashIdPipe) id: number
   ): Promise<DataSongResDto> {
-    return this.songService.byId(dto, id, sub);
+    return this.songService.byId(dto, id);
   }
 
   @ApiParam({
@@ -108,10 +106,9 @@ export class SongController {
   async genre(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongSongGenresParamReqDto,
-    @Query() queryDto: SongSongGenresQueryReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Query() queryDto: SongSongGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.genre(orderBy, paramDto, queryDto, sub);
+    return this.songService.genre(orderBy, paramDto, queryDto);
   }
 
   @ApiParam({
@@ -122,10 +119,9 @@ export class SongController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async language(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
-    @Param() dto: SongLanguageReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: SongLanguageReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.language(dto, orderBy, sub);
+    return this.songService.language(dto, orderBy);
   }
 
   @Post("like")
@@ -150,28 +146,25 @@ export class SongController {
   @Get("mood/:mood/:from/:limit")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async mood(
-    @Param() dto: SongMoodReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: SongMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.mood(dto, sub);
+    return this.songService.mood(dto);
   }
 
   @Get("new/podcast/:from/:limit")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newPodcast(
-    @Param() dto: DataSongNewPodcastReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.newPodcast(dto, sub);
+    return this.songService.newPodcast(dto);
   }
 
   @Get("new/:from/:limit")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newSong(
-    @Param() dto: SongNewReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: SongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.newSong(dto, sub);
+    return this.songService.newSong(dto);
   }
 
   @ApiParam({
@@ -183,10 +176,9 @@ export class SongController {
   async podcast(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
     @Param() paramDto: SongPodcastGenresParamReqDto,
-    @Query() queryDto: SongPodcastGenresQueryReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Query() queryDto: SongPodcastGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.podcast(orderBy, paramDto, queryDto, sub);
+    return this.songService.podcast(orderBy, paramDto, queryDto);
   }
 
   @Get("search/mood/:from/:limit")
@@ -216,36 +208,31 @@ export class SongController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async similar(
     @Param() dto: SongSimilarReqDto,
-    @Param("id", AppHashIdPipe) id: number,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param("id", AppHashIdPipe) id: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.similar(dto, id, sub);
+    return this.songService.similar(dto, id);
   }
 
   @Get("slider")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async slider(
-    @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.slider(sub);
+  async slider(): Promise<DataPaginationResDto<DataSongResDto>> {
+    return this.songService.slider();
   }
 
   @Get("top/day/:from/:limit")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topDay(
-    @Param() dto: SongTopDayReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: SongTopDayReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.topDay(dto, sub);
+    return this.songService.topDay(dto);
   }
 
   @Get("top/week/:from/:limit")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topWeek(
-    @Param() dto: SongTopWeekReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: SongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.topWeek(dto, sub);
+    return this.songService.topWeek(dto);
   }
 
   @Post("unlike")

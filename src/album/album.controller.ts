@@ -21,7 +21,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
-@UseInterceptors(new AlbumLocalizeInterceptor())
+@UseInterceptors(AlbumLocalizeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
