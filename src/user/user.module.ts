@@ -9,30 +9,22 @@ import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
-// import { UserHealthIndicator } from "./user.health.indicator";
+import { UserHealthIndicator } from "./user.health.indicator";
 import { UserService } from "./user.service";
 import config from "./user.config";
 
 @Module({
   controllers: [UserController],
-  exports: [
-    UserConfigService,
-    //  UserHealthIndicator,
-    UserService
-  ],
+  exports: [UserConfigService, UserHealthIndicator, UserService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
       imports: [UserModule],
-      useClass: UserCacheOptionsFactory
+      useClass: UserCacheOptionsFactory,
     }),
     ConfigModule.forFeature(config),
-    TypeOrmModule.forFeature([UserEntityRepository])
+    TypeOrmModule.forFeature([UserEntityRepository]),
   ],
-  providers: [
-    UserConfigService,
-    // UserHealthIndicator,
-    UserService
-  ]
+  providers: [UserConfigService, UserHealthIndicator, UserService],
 })
 export class UserModule {}
