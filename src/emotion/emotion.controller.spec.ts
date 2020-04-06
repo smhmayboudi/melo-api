@@ -1,4 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -41,6 +43,9 @@ describe("EmotionController", () => {
     total: 1
   } as DataPaginationResDto<EmotionResDto>;
 
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  };
   const emotionServiceMock: EmotionServiceInterface = {
     emotions: (): Promise<DataPaginationResDto<EmotionResDto>> =>
       Promise.resolve(emotionPagination)
@@ -87,7 +92,8 @@ describe("EmotionController", () => {
       controllers: [EmotionController],
       providers: [
         { provide: EmotionService, useValue: emotionServiceMock },
-        { provide: SongService, useValue: songServiceMock }
+        { provide: SongService, useValue: songServiceMock },
+        { provide: AppMixSongService, useValue: appMixSongServiceMock }
       ]
     }).compile();
     controller = module.get<EmotionController>(EmotionController);

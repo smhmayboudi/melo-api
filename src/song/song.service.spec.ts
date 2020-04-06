@@ -197,7 +197,7 @@ describe("SongService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.artistSongs(dto, 0, 0)).toEqual(songPagination);
+    expect(await service.artistSongs(dto, 0)).toEqual(songPagination);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
@@ -206,14 +206,14 @@ describe("SongService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.artistSongsTop(dto, 0, 0)).toEqual(songPagination);
+    expect(await service.artistSongsTop(dto, 0)).toEqual(songPagination);
   });
 
   it("byId should be equal to a songs", async () => {
     const dto: SongByIdReqDto = {
       id: ""
     };
-    expect(await service.byId(dto, 0, 0)).toEqual(song);
+    expect(await service.byId(dto, 0)).toEqual(song);
   });
 
   it("genre should be equal to a list of songs", async () => {
@@ -226,7 +226,7 @@ describe("SongService", () => {
       genres: [""]
     };
     expect(
-      await service.genre(DataOrderByType.downloads, paramDto, queryDto, 0)
+      await service.genre(DataOrderByType.downloads, paramDto, queryDto)
     ).toEqual(songPagination);
   });
 
@@ -237,7 +237,7 @@ describe("SongService", () => {
       limit: 0,
       orderBy: DataOrderByType.downloads
     };
-    expect(await service.language(dto, DataOrderByType.downloads, 0)).toEqual(
+    expect(await service.language(dto, DataOrderByType.downloads)).toEqual(
       songPagination
     );
   });
@@ -263,7 +263,7 @@ describe("SongService", () => {
       limit: 0,
       mood: ""
     };
-    expect(await service.mood(dto, 0)).toEqual(songPagination);
+    expect(await service.mood(dto)).toEqual(songPagination);
   });
 
   it("new should be equal to a list of songs", async () => {
@@ -271,7 +271,7 @@ describe("SongService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.newSong(dto, 0)).toEqual(songPagination);
+    expect(await service.newSong(dto)).toEqual(songPagination);
   });
 
   it("newPodcast should be equal to a list of songs", async () => {
@@ -279,7 +279,7 @@ describe("SongService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.newPodcast(dto, 0)).toEqual(songPagination);
+    expect(await service.newPodcast(dto)).toEqual(songPagination);
   });
 
   it("podcast should be equal to a list of songs", async () => {
@@ -292,7 +292,7 @@ describe("SongService", () => {
       genres: [""]
     };
     expect(
-      await service.podcast(DataOrderByType.downloads, paramDto, queryDto, 0)
+      await service.podcast(DataOrderByType.downloads, paramDto, queryDto)
     ).toEqual(songPagination);
   });
 
@@ -320,11 +320,11 @@ describe("SongService", () => {
       id: "",
       limit: 0
     };
-    expect(await service.similar(dto, 0, 0)).toEqual(songPagination);
+    expect(await service.similar(dto, 0)).toEqual(songPagination);
   });
 
   it("slider should be equal to a list of songs", async () => {
-    expect(await service.slider(0)).toEqual(songPagination);
+    expect(await service.slider()).toEqual(songPagination);
   });
 
   it("topDay should be equal to a list of songs", async () => {
@@ -332,7 +332,7 @@ describe("SongService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.topDay(dto, 0)).toEqual(songPagination);
+    expect(await service.topDay(dto)).toEqual(songPagination);
   });
 
   it("topWeek should be equal to a list of songs", async () => {
@@ -340,7 +340,7 @@ describe("SongService", () => {
       from: 0,
       limit: 0
     };
-    expect(await service.topWeek(dto, 0)).toEqual(songPagination);
+    expect(await service.topWeek(dto)).toEqual(songPagination);
   });
 
   it("unlike should be equal to a songs", async () => {

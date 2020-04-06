@@ -1,5 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -38,6 +40,9 @@ describe("DownloadController", () => {
     total: 1
   } as DataPaginationResDto<DownloadSongResDto>;
 
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  };
   const downloadServiceMock: DownloadServiceInterface = {
     downloadedSongs: (): Promise<DataPaginationResDto<DownloadSongResDto>> =>
       Promise.resolve(downloadSongPagination)
@@ -48,7 +53,10 @@ describe("DownloadController", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [DownloadController],
-      providers: [{ provide: DownloadService, useValue: downloadServiceMock }]
+      providers: [
+        { provide: DownloadService, useValue: downloadServiceMock },
+        { provide: AppMixSongService, useValue: appMixSongServiceMock }
+      ]
     }).compile();
     controller = module.get<DownloadController>(DownloadController);
   });

@@ -8,8 +8,12 @@ import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("AlbumController", () => {
   const releaseDate = new Date();
@@ -21,7 +25,25 @@ describe("AlbumController", () => {
     results: [album],
     total: 1
   } as DataPaginationResDto<DataAlbumResDto>;
+  const song: DataSongResDto = {
+    artists: [
+      {
+        followersCount: 0,
+        id: "",
+        type: DataArtistType.feat
+      }
+    ],
+    audio: {},
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate,
+    title: ""
+  };
 
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  };
   const albumServiceMock: AlbumServiceInterface = {
     artistAlbums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
       Promise.resolve(albumPagination),
@@ -41,7 +63,8 @@ describe("AlbumController", () => {
       controllers: [AlbumController],
       providers: [
         { provide: AlbumService, useValue: albumServiceMock },
-        { provide: AppHashIdService, useValue: appHashIdServiceMock }
+        { provide: AppHashIdService, useValue: appHashIdServiceMock },
+        { provide: AppMixSongService, useValue: appMixSongServiceMock }
       ]
     }).compile();
     controller = module.get<AlbumController>(AlbumController);
@@ -64,7 +87,7 @@ describe("AlbumController", () => {
     const dto: AlbumByIdReqDto = {
       id: "0"
     };
-    expect(await controller.byId(dto, 0, 0)).toEqual(album);
+    expect(await controller.byId(dto, 0)).toEqual(album);
   });
 
   it("latest should equal list of albums", async () => {

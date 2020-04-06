@@ -6,8 +6,6 @@ import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumService } from "./album.service";
 import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
@@ -55,9 +53,6 @@ describe("AlbumService", () => {
   const appMixArtistServiceMock: AppMixArtistServiceInterface = {
     mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist])
   };
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([mixSong])
-  };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
     albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
       Promise.resolve(albumPagination),
@@ -74,7 +69,6 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
-          { provide: AppMixSongService, useValue: appMixSongServiceMock },
           { provide: DataAlbumService, useValue: dataAlbumServiceMock }
         ]
       }).compile();
@@ -98,7 +92,7 @@ describe("AlbumService", () => {
       const dto: AlbumByIdReqDto = {
         id: "0"
       };
-      expect(await service.byId(dto, 0, 0)).toEqual(album);
+      expect(await service.byId(dto, 0)).toEqual(album);
     });
 
     it("latest should equal list of albums", async () => {
@@ -134,7 +128,6 @@ describe("AlbumService", () => {
             provide: AppMixArtistService,
             useValue: appMixArtistServiceMock
           },
-          { provide: AppMixSongService, useValue: appMixSongServiceMock },
           {
             provide: DataAlbumService,
             useValue: dataAlbumServiceMockArtistsUndefined
@@ -155,6 +148,10 @@ describe("AlbumService", () => {
   });
 
   describe("songs: undefined", () => {
+    const albumSongsUndefined: DataAlbumResDto = {
+      ...album,
+      songs: undefined
+    };
     const dataAlbumServiceMockSongsUndefined: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
       byId: (): Promise<DataAlbumResDto> =>
@@ -169,7 +166,6 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
-          { provide: AppMixSongService, useValue: appMixSongServiceMock },
           {
             provide: DataAlbumService,
             useValue: dataAlbumServiceMockSongsUndefined
@@ -183,7 +179,7 @@ describe("AlbumService", () => {
       const dto: AlbumByIdReqDto = {
         id: ""
       };
-      expect(await service.byId(dto, 0, 0)).toEqual(album);
+      expect(await service.byId(dto, 0)).toEqual(albumSongsUndefined);
     });
   });
 });

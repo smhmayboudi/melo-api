@@ -2,6 +2,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistController } from "./artist.controller";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
@@ -13,8 +15,10 @@ import { ArtistUnfollowReqDto } from "./dto/req/artist.unfollow.req.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("ArtistController", () => {
+  const releaseDate = new Date();
   const mixArtist: DataArtistResDto = {
     followersCount: 0,
     id: "",
@@ -24,10 +28,27 @@ describe("ArtistController", () => {
     results: [mixArtist],
     total: 1
   } as DataPaginationResDto<DataArtistResDto>;
-
+  const song: DataSongResDto = {
+    artists: [
+      {
+        followersCount: 0,
+        id: "",
+        type: DataArtistType.feat
+      }
+    ],
+    audio: {},
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate,
+    title: ""
+  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
+  };
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
   };
   const artistServiceMock: ArtistServiceInterface = {
     follow: (): Promise<DataArtistResDto> => Promise.resolve(mixArtist),
@@ -48,7 +69,8 @@ describe("ArtistController", () => {
       controllers: [ArtistController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: ArtistService, useValue: artistServiceMock }
+        { provide: ArtistService, useValue: artistServiceMock },
+        { provide: AppMixSongService, useValue: appMixSongServiceMock }
       ]
     }).compile();
     controller = module.get<ArtistController>(ArtistController);

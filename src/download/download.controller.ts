@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Query,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
@@ -13,6 +14,7 @@ import {
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DownloadLikeInterceptor } from "./download.like.interceptor";
 import { DownloadOrderByPipe } from "./download.order-by.pipe";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
@@ -22,6 +24,7 @@ import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
 import { DownloadSortByPipe } from "./download.sort-by.pipe";
 import { DownloadSortByType } from "./download.sort-by.type";
 
+@UseInterceptors(DownloadLikeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("download")
 @Controller("download")

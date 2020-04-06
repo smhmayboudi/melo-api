@@ -24,10 +24,10 @@ import { SongArtistSongsReqDto } from "./dto/req/song.artist-songs.req.dto";
 import { SongArtistSongsTopReqDto } from "./dto/req/song.artist-songs-top.req.dto";
 import { SongByIdReqDto } from "./dto/req/song.by-id.req.dto";
 import { SongLanguageReqDto } from "./dto/req/song.language.req.dto";
+import { SongLikeInterceptor } from "./song.like.interceptor";
 import { SongLikeReqDto } from "./dto/req/song.like.req.dto";
 import { SongLikedReqDto } from "./dto/req/song.liked.req.dto";
 import { SongLocalizeInterceptor } from "./song.localize.interceptor";
-import { SongMixInterceptor } from "./song.mix.interceptor";
 import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
@@ -44,7 +44,7 @@ import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 
 @UseInterceptors(SongLocalizeInterceptor)
-@UseInterceptors(SongMixInterceptor)
+@UseInterceptors(SongLikeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("song")
 @Controller("song")

@@ -46,8 +46,7 @@ export class EmotionService implements EmotionServiceInterface {
           emotions: value.emotions,
           song: await this.songService.byId(
             { id: value.songId.toString() },
-            value.songId,
-            sub
+            value.songId
           )
         }))
       ),

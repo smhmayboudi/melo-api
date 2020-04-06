@@ -2,8 +2,12 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
@@ -35,10 +39,28 @@ describe("PlaylistController", () => {
     results: [playlist],
     total: 1
   } as DataPaginationResDto<DataPlaylistResDto>;
+  const song: DataSongResDto = {
+    artists: [
+      {
+        followersCount: 0,
+        id: "",
+        type: DataArtistType.feat
+      }
+    ],
+    audio: {},
+    duration: 0,
+    id: "",
+    localized: false,
+    releaseDate,
+    title: ""
+  };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => ""
+  };
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
   };
   const playlistServiceMock: PlaylistServiceInterface = {
     addSong: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
@@ -60,7 +82,8 @@ describe("PlaylistController", () => {
       controllers: [PlaylistController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: PlaylistService, useValue: playlistServiceMock }
+        { provide: PlaylistService, useValue: playlistServiceMock },
+        { provide: AppMixSongService, useValue: appMixSongServiceMock }
       ]
     }).compile();
     controller = module.get<PlaylistController>(PlaylistController);

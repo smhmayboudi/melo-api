@@ -22,6 +22,7 @@ import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
 import { PlaylistEditReqDto } from "./dto/req/playlist.edit.req.dto";
 import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
+import { PlaylistLikeInterceptor } from "./playlist.like.interceptor";
 import { PlaylistLocalizeInterceptor } from "./playlist.localize.interceptor";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistService } from "./playlist.service";
@@ -29,6 +30,7 @@ import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
 @UseInterceptors(PlaylistLocalizeInterceptor)
+@UseInterceptors(PlaylistLikeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")

@@ -25,48 +25,36 @@ import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 export interface SongServiceInterface {
   artistSongs(
     dto: SongArtistSongsReqDto,
-    artistId: number,
-    sub: number
+    artistId: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   artistSongsTop(
     dto: SongArtistSongsTopReqDto,
-    artistId: number,
-    sub: number
+    artistId: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  byId(dto: SongByIdReqDto, id: number, sub: number): Promise<DataSongResDto>;
+  byId(dto: SongByIdReqDto, id: number): Promise<DataSongResDto>;
   genre(
     orderBy: DataOrderByType,
     paramDto: SongSongGenresParamReqDto,
-    queryDto: SongSongGenresQueryReqDto,
-    sub: number
+    queryDto: SongSongGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   language(
     dto: SongLanguageReqDto,
-    orderBy: DataOrderByType,
-    sub: number
+    orderBy: DataOrderByType
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   like(dto: SongLikeReqDto, id: number, sub: number): Promise<DataSongResDto>;
   liked(
     dto: SongLikedReqDto,
     sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  mood(
-    dto: SongMoodReqDto,
-    sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>>;
+  mood(dto: SongMoodReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
   newPodcast(
-    dto: DataSongNewPodcastReqDto,
-    sub: number
+    dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  newSong(
-    dto: SongNewReqDto,
-    sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>>;
+  newSong(dto: SongNewReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
   podcast(
     orderBy,
     paramDto: SongPodcastGenresParamReqDto,
-    queryDto: SongPodcastGenresQueryReqDto,
-    sub: number
+    queryDto: SongPodcastGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   searchMood(
     paramDto: SongSearchMoodParamDto,
@@ -79,17 +67,12 @@ export interface SongServiceInterface {
   ): Promise<void>;
   similar(
     dto: SongSimilarReqDto,
-    id: number,
-    sub: number
+    id: number
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>>;
-  topDay(
-    dto: SongTopDayReqDto,
-    sub: number
-  ): Promise<DataPaginationResDto<DataSongResDto>>;
+  topDay(dto: SongTopDayReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
   topWeek(
-    dto: SongTopWeekReqDto,
-    sub: number
+    dto: SongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   unlike(
     dto: SongUnlikeReqDto,

@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   Query,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
@@ -13,11 +14,13 @@ import {
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { EmotionLikeInterceptor } from "./emotion.like.interceptor";
 import { EmotionParamReqDto } from "./dto/req/emotion.param.req.dto";
 import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionService } from "./emotion.service";
 
+@UseInterceptors(EmotionLikeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("emotion")
 @Controller("emotion")

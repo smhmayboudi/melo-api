@@ -52,8 +52,7 @@ export class DownloadService implements DownloadServiceInterface {
           downloadedAt: value.downloadedAt,
           song: await this.songService.byId(
             { id: value.songId },
-            parseInt(value.songId, 10),
-            sub
+            parseInt(value.songId, 10)
           )
         }))
       ),

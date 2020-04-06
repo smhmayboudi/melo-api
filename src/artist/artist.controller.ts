@@ -11,11 +11,13 @@ import {
   UsePipes,
   ValidationPipe
 } from "@nestjs/common";
+
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppUser } from "../app/app.user.decorator";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistLikeInterceptor } from "./artist.like.interceptor";
 import { ArtistLocalizeInterceptor } from "./artist.localize.interceptor";
 import { ArtistService } from "./artist.service";
 import { ArtistTrendingGenreReqDto } from "./dto/req/artist.trending-genre.req.dto";
@@ -25,6 +27,7 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @UseInterceptors(ArtistLocalizeInterceptor)
+@UseInterceptors(ArtistLikeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
 @Controller("artist")

@@ -2,6 +2,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -55,6 +57,9 @@ describe("SongController", () => {
     decode: (): number => 0,
     encode: (): string => ""
   };
+  const appMixSongServiceMock: AppMixSongServiceInterface = {
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  };
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
@@ -97,7 +102,11 @@ describe("SongController", () => {
       controllers: [SongController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: SongService, useValue: songServiceMock }
+        { provide: SongService, useValue: songServiceMock },
+        {
+          provide: AppMixSongService,
+          useValue: appMixSongServiceMock
+        }
       ]
     }).compile();
     controller = module.get<SongController>(SongController);
@@ -113,7 +122,7 @@ describe("SongController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.artistSongs(dto, 0, 0)).toEqual(songPagination);
+    expect(await controller.artistSongs(dto, 0)).toEqual(songPagination);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
@@ -122,14 +131,14 @@ describe("SongController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.artistSongsTop(dto, 0, 0)).toEqual(songPagination);
+    expect(await controller.artistSongsTop(dto, 0)).toEqual(songPagination);
   });
 
   it("byId should be equal to a song", async () => {
     const dto: SongByIdReqDto = {
       id: ""
     };
-    expect(await controller.byId(dto, 0, 0)).toEqual(song);
+    expect(await controller.byId(dto, 0)).toEqual(song);
   });
 
   it("genre should be equal to a list of songs", async () => {
@@ -142,7 +151,7 @@ describe("SongController", () => {
       genres: [""]
     };
     expect(
-      await controller.genre(DataOrderByType.downloads, paramDto, queryDto, 0)
+      await controller.genre(DataOrderByType.downloads, paramDto, queryDto)
     ).toEqual(songPagination);
   });
 
@@ -153,9 +162,9 @@ describe("SongController", () => {
       limit: 0,
       orderBy: DataOrderByType.downloads
     };
-    expect(
-      await controller.language(DataOrderByType.downloads, dto, 0)
-    ).toEqual(songPagination);
+    expect(await controller.language(DataOrderByType.downloads, dto)).toEqual(
+      songPagination
+    );
   });
 
   it("like should be equal to a songs", async () => {
@@ -179,7 +188,7 @@ describe("SongController", () => {
       limit: 0,
       mood: ""
     };
-    expect(await controller.mood(dto, 0)).toEqual(songPagination);
+    expect(await controller.mood(dto)).toEqual(songPagination);
   });
 
   it("newPodcast should be equal to a list of songs", async () => {
@@ -187,7 +196,7 @@ describe("SongController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.newPodcast(dto, 0)).toEqual(songPagination);
+    expect(await controller.newPodcast(dto)).toEqual(songPagination);
   });
 
   it("newSong should be equal to a list of songs", async () => {
@@ -195,7 +204,7 @@ describe("SongController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.newSong(dto, 0)).toEqual(songPagination);
+    expect(await controller.newSong(dto)).toEqual(songPagination);
   });
 
   it("podcastGenre should be equal to a list of songs", async () => {
@@ -208,7 +217,7 @@ describe("SongController", () => {
       genres: [""]
     };
     expect(
-      await controller.podcast(DataOrderByType.downloads, paramDto, queryDto, 0)
+      await controller.podcast(DataOrderByType.downloads, paramDto, queryDto)
     ).toEqual(songPagination);
   });
 
@@ -236,11 +245,11 @@ describe("SongController", () => {
       id: "",
       limit: 0
     };
-    expect(await controller.similar(dto, 0, 0)).toEqual(songPagination);
+    expect(await controller.similar(dto, 0)).toEqual(songPagination);
   });
 
   it("slider should be equal to a list of songs", async () => {
-    expect(await controller.slider(0)).toEqual(songPagination);
+    expect(await controller.slider()).toEqual(songPagination);
   });
 
   it("topDay should be equal to a list of songs", async () => {
@@ -248,7 +257,7 @@ describe("SongController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.topDay(dto, 0)).toEqual(songPagination);
+    expect(await controller.topDay(dto)).toEqual(songPagination);
   });
 
   it("topWeek should be equal to a list of songs", async () => {
@@ -256,7 +265,7 @@ describe("SongController", () => {
       from: 0,
       limit: 0
     };
-    expect(await controller.topWeek(dto, 0)).toEqual(songPagination);
+    expect(await controller.topWeek(dto)).toEqual(songPagination);
   });
 
   it("unlike should be equal to a songs", async () => {

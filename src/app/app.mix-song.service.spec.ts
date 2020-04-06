@@ -91,12 +91,8 @@ describe("AppMixSongService", () => {
   });
 
   it("mixSong should be equal to a song sub: 1", async () => {
-    expect(await service.mixSong(1, songs)).toEqual(
+    expect(await service.mixSong(songs, 1)).toEqual(
       songs.map(value => ({ ...value, liked: false }))
     );
-  });
-
-  it("mixSong should be equal to a song sub: 0", async () => {
-    expect(await service.mixSong(0, songs)).toEqual(songs);
   });
 });

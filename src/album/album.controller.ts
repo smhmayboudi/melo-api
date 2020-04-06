@@ -13,6 +13,7 @@ import {
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
+import { AlbumLikeInterceptor } from "./album.like.interceptor";
 import { AlbumLocalizeInterceptor } from "./album.localize.interceptor";
 import { AlbumService } from "./album.service";
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
@@ -22,6 +23,7 @@ import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @UseInterceptors(AlbumLocalizeInterceptor)
+@UseInterceptors(AlbumLikeInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
@@ -57,10 +59,9 @@ export class AlbumController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async byId(
     @Param() dto: AlbumByIdReqDto,
-    @Param("id", AppHashIdPipe) id: number,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param("id", AppHashIdPipe) id: number
   ): Promise<DataAlbumResDto> {
-    return this.albumService.byId(dto, id, sub);
+    return this.albumService.byId(dto, id);
   }
 
   @Get("latest/:language/:from/:limit")
