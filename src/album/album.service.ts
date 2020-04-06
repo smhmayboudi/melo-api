@@ -28,25 +28,25 @@ export class AlbumService {
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
     const albumResDto = await this.dataAlbumService.albums({
       ...dto,
-      id: artistId
+      id: artistId,
     });
     const results = await Promise.all(
       albumResDto.results
-        .filter(value => value !== undefined)
-        .map(async value => {
+        .filter((value) => value !== undefined)
+        .map(async (value) => {
           const artists = await this.appMixArtistService.mixArtist(
-            sub,
-            value.artists === undefined ? [] : value.artists
+            value.artists === undefined ? [] : value.artists,
+            sub
           );
           return {
             ...value,
-            artists
+            artists,
           };
         })
     );
     return {
       results,
-      total: results.length
+      total: results.length,
     } as DataPaginationResDto<DataAlbumResDto>;
   }
 

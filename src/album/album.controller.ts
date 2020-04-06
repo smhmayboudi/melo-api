@@ -7,11 +7,12 @@ import {
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
+import { AlbumFollowInterceptor } from "./album.follow.interceptor";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumLikeInterceptor } from "./album.like.interceptor";
 import { AlbumLocalizeInterceptor } from "./album.localize.interceptor";
@@ -24,6 +25,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @UseInterceptors(AlbumLocalizeInterceptor)
 @UseInterceptors(AlbumLikeInterceptor)
+@UseInterceptors(AlbumFollowInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")
@@ -31,7 +33,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class AlbumController {
@@ -39,7 +41,7 @@ export class AlbumController {
 
   @ApiParam({
     name: "artistId",
-    type: String
+    type: String,
   })
   @Get("artist/albums/:artistId/:from/:limit")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
@@ -53,7 +55,7 @@ export class AlbumController {
 
   @ApiParam({
     name: "id",
-    type: String
+    type: String,
   })
   @Get(":id")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))

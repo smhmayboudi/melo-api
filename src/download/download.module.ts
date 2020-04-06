@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { HttpModule, Module } from "@nestjs/common";
+import { HttpModule, Module, forwardRef } from "@nestjs/common";
 
+import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadController } from "./download.controller";
@@ -15,6 +16,7 @@ import config from "./download.config";
   controllers: [DownloadController],
   exports: [DownloadConfigService, DownloadHealthIndicator, DownloadService],
   imports: [
+    forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
     HttpModule.registerAsync({
       imports: [DownloadModule],

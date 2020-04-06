@@ -1,6 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 
-import { AppMixArtistService } from "../app/app.mix-artist.service";
+// import { AppMixArtistService } from "../app/app.mix-artist.service";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -20,7 +20,7 @@ import { RelationType } from "../relation/relation.type";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    private readonly appMixArtistService: AppMixArtistService,
+    // private readonly appMixArtistService: AppMixArtistService,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
@@ -38,13 +38,13 @@ export class ArtistService implements ArtistServiceInterface {
       createdAt: new Date(),
       from: {
         id: sub.toString(),
-        type: RelationEntityType.user
+        type: RelationEntityType.user,
       },
       relationType: RelationType.follows,
       to: {
         id: dataArtistResDto.id,
-        type: RelationEntityType.artist
-      }
+        type: RelationEntityType.artist,
+      },
     });
     return dataArtistResDto;
   }
@@ -60,71 +60,46 @@ export class ArtistService implements ArtistServiceInterface {
       from: dto.from,
       fromEntityDto: {
         id: id.toString(),
-        type: RelationEntityType.following
+        type: RelationEntityType.following,
       },
       limit: dto.limit,
-      relationType: RelationType.follows
+      relationType: RelationType.follows,
     });
     // TODO: external service should change
     if (relationEntityResDto.results.length === 0) {
       return {
         results: [] as DataArtistResDto[],
-        total: 0
+        total: 0,
       } as DataPaginationResDto<DataArtistResDto>;
     }
     return this.dataArtistService.byIds({
-      ids: relationEntityResDto.results.map(value => value.id)
+      ids: relationEntityResDto.results.map((value) => value.id),
     });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async profile(
-    dto: ArtistByIdReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataArtistResDto> {
-    const artistResDto = await this.dataArtistService.byId({ ...dto, id });
-    const dataArtistResDto = await this.appMixArtistService.mixArtist(sub, [
-      artistResDto
-    ]);
-    return dataArtistResDto[0];
+  async profile(dto: ArtistByIdReqDto, id: number): Promise<DataArtistResDto> {
+    return this.dataArtistService.byId({ ...dto, id });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trending(sub: number): Promise<DataPaginationResDto<DataArtistResDto>> {
-    const artistMixResDto = await this.dataArtistService.trending();
-    const results = await this.appMixArtistService.mixArtist(
-      sub,
-      artistMixResDto.results
-    );
-    return {
-      results,
-      total: results.length
-    } as DataPaginationResDto<DataArtistResDto>;
+  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
+    return this.dataArtistService.trending();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async trendingGenre(
-    dto: ArtistTrendingGenreReqDto,
-    sub: number
+    dto: ArtistTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    const artistMixResDto = await this.dataArtistService.trendingGenre({
-      ...dto
+    return this.dataArtistService.trendingGenre({
+      ...dto,
     });
-    const results = await this.appMixArtistService.mixArtist(
-      sub,
-      artistMixResDto.results
-    );
-    return {
-      results,
-      total: results.length
-    } as DataPaginationResDto<DataArtistResDto>;
   }
 
   @ApmAfterMethod
@@ -139,13 +114,13 @@ export class ArtistService implements ArtistServiceInterface {
     await this.relationService.remove({
       from: {
         id: sub.toString(),
-        type: RelationEntityType.user
+        type: RelationEntityType.user,
       },
       relationType: RelationType.unfollows,
       to: {
         id: id.toString(),
-        type: RelationEntityType.artist
-      }
+        type: RelationEntityType.artist,
+      },
     });
     return dataArtistResDto;
   }

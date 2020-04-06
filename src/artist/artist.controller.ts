@@ -9,12 +9,13 @@ import {
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppUser } from "../app/app.user.decorator";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistFollowInterceptor } from "./artist.follow.interceptor";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
 import { ArtistLikeInterceptor } from "./artist.like.interceptor";
@@ -28,6 +29,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 @UseInterceptors(ArtistLocalizeInterceptor)
 @UseInterceptors(ArtistLikeInterceptor)
+@UseInterceptors(ArtistFollowInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
 @Controller("artist")
@@ -35,7 +37,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class ArtistController {
@@ -62,33 +64,29 @@ export class ArtistController {
 
   @ApiParam({
     name: "id",
-    type: String
+    type: String,
   })
   @Get("profile/:id")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async profile(
     @Param() dto: ArtistByIdReqDto,
-    @Param("id", AppHashIdPipe) id: number,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param("id", AppHashIdPipe) id: number
   ): Promise<DataArtistResDto> {
-    return this.artistService.profile(dto, id, sub);
+    return this.artistService.profile(dto, id);
   }
 
   @Get("trending")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async trending(
-    @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.artistService.trending(sub);
+  async trending(): Promise<DataPaginationResDto<DataArtistResDto>> {
+    return this.artistService.trending();
   }
 
   @Get("trending/genre/:genre")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async trendingGenre(
-    @Param() dto: ArtistTrendingGenreReqDto,
-    @AppUser("sub", ParseIntPipe) sub: number
+    @Param() dto: ArtistTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.artistService.trendingGenre(dto, sub);
+    return this.artistService.trendingGenre(dto);
   }
 
   @Post("unfollow")

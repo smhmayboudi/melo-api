@@ -14,30 +14,27 @@ export class AppMixArtistService implements AppMixArtistServiceInterface {
   ) {}
 
   async mixArtist(
-    sub: number,
-    artists: DataArtistResDto[]
+    artists: DataArtistResDto[],
+    sub: number
   ): Promise<DataArtistResDto[]> {
-    if (sub === 0) {
-      return artists;
-    }
     const relationMultiHasResDto = await this.relationService.multiHas({
       from: {
         id: sub.toString(),
-        type: RelationEntityType.user
+        type: RelationEntityType.user,
       },
       relationType: RelationType.follows,
-      tos: artists.map(value => ({
+      tos: artists.map((value) => ({
         id: this.appHashIdService.decode(value.id).toString(),
-        type: RelationEntityType.artist
-      }))
+        type: RelationEntityType.artist,
+      })),
     });
-    return artists.map(value => ({
+    return artists.map((value) => ({
       ...value,
       following:
         relationMultiHasResDto.find(
-          value2 =>
+          (value2) =>
             value2.to.id === this.appHashIdService.decode(value.id).toString()
-        ) !== undefined
+        ) !== undefined,
     }));
   }
 }

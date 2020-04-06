@@ -19,12 +19,12 @@ describe("AppMixArtistService", () => {
     {
       followersCount: 0,
       id: "",
-      type: DataArtistType.prime
-    }
+      type: DataArtistType.prime,
+    },
   ];
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
-    encode: (): string => ""
+    encode: (): string => "",
   };
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
@@ -32,10 +32,10 @@ describe("AppMixArtistService", () => {
         results: [
           {
             id: "",
-            type: RelationEntityType.album
-          }
+            type: RelationEntityType.album,
+          },
         ],
-        total: 1
+        total: 1,
       } as RelationPaginationResDto<RelationEntityResDto>),
     has: (): Promise<void> => Promise.resolve(undefined),
     multiHas: (): Promise<RelationMultiHasResDto[]> =>
@@ -43,17 +43,17 @@ describe("AppMixArtistService", () => {
         {
           from: {
             id: "0",
-            type: RelationEntityType.album
+            type: RelationEntityType.album,
           },
           relation: RelationType.dislikedSongs,
           to: {
             id: "1",
-            type: RelationEntityType.album
-          }
-        }
+            type: RelationEntityType.album,
+          },
+        },
       ]),
     remove: (): Promise<void> => Promise.resolve(undefined),
-    set: (): Promise<void> => Promise.resolve(undefined)
+    set: (): Promise<void> => Promise.resolve(undefined),
   };
 
   let service: AppMixArtistService;
@@ -64,8 +64,8 @@ describe("AppMixArtistService", () => {
         { provide: AppConfigService, useValue: {} },
         AppMixArtistService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: RelationService, useValue: relationServiceMock }
-      ]
+        { provide: RelationService, useValue: relationServiceMock },
+      ],
     }).compile();
     service = module.get<AppMixArtistService>(AppMixArtistService);
   });
@@ -75,12 +75,8 @@ describe("AppMixArtistService", () => {
   });
 
   it("mixArtist should be equal to an artist sub: 1", async () => {
-    expect(await service.mixArtist(1, artists)).toEqual(
-      artists.map(value => ({ ...value, following: false }))
+    expect(await service.mixArtist(artists, 1)).toEqual(
+      artists.map((value) => ({ ...value, following: false }))
     );
-  });
-
-  it("mixArtist should be equal to an artist sub: 0", async () => {
-    expect(await service.mixArtist(0, artists)).toEqual(artists);
   });
 });
