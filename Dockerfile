@@ -1,4 +1,4 @@
-FROM node:latest AS nodebuild
+FROM node:12.16.1 AS nodebuild
 COPY ./package.json /build/
 WORKDIR /build
 RUN apt update \
@@ -8,7 +8,7 @@ RUN npm install \
     && cp -r /build/node_modules /build/node_modules_withdev
 RUN npm prune --production
 
-FROM node:latest AS build
+FROM node:12.16.1 AS build
 RUN apt update \
     && apt install python make -y
 COPY --from=nodebuild /build/node_modules_withdev /build/node_modules

@@ -8,7 +8,7 @@ import { AtModule } from "../at/at.module";
 import { AuthAuthOptionsFactory } from "./auth.options.factory";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthController } from "./auth.controller";
-// import { AuthHealthIndicator } from "./auth.health.indicator";
+import { AuthHealthIndicator } from "./auth.health.indicator";
 import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
 import { AuthService } from "./auth.service";
 import { ConfigModule } from "@nestjs/config";
@@ -25,11 +25,7 @@ import config from "./auth.config";
 
 @Module({
   controllers: [AuthController],
-  exports: [
-    AuthConfigService,
-    // AuthHealthIndicator,
-    AuthService
-  ],
+  exports: [AuthConfigService, AuthHealthIndicator, AuthService],
   imports: [
     forwardRef(() => AppModule),
     AtModule,
@@ -37,24 +33,24 @@ import config from "./auth.config";
     JwksModule,
     JwtModule.registerAsync({
       imports: [AuthModule, JwksModule],
-      useClass: AuthJwtOptionsFactory
+      useClass: AuthJwtOptionsFactory,
     }),
     PassportModule.registerAsync({
       imports: [AuthModule],
-      useClass: AuthAuthOptionsFactory
+      useClass: AuthAuthOptionsFactory,
     }),
     RtModule,
-    UserModule
+    UserModule,
   ],
   providers: [
     AnonymUUIDStrategy,
     AuthConfigService,
-    // AuthHealthIndicator,
+    AuthHealthIndicator,
     AuthService,
     JwtStrategy,
     LocalStrategy,
     TelegramStrategy,
-    TokenStrategy
-  ]
+    TokenStrategy,
+  ],
 })
 export class AuthModule {}

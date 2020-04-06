@@ -7,30 +7,22 @@ import { ConfigModule } from "@nestjs/config";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
-// import { RtHealthIndicator } from "./rt.health.indicator";
+import { RtHealthIndicator } from "./rt.health.indicator";
 import { RtService } from "./rt.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "./rt.config";
 
 @Module({
-  exports: [
-    RtConfigService,
-    //  RtHealthIndicator,
-    RtService
-  ],
+  exports: [RtConfigService, RtHealthIndicator, RtService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
       imports: [RtModule],
-      useClass: RtCacheOptionsFactory
+      useClass: RtCacheOptionsFactory,
     }),
     ConfigModule.forFeature(config),
-    TypeOrmModule.forFeature([RtEntityRepository])
+    TypeOrmModule.forFeature([RtEntityRepository]),
   ],
-  providers: [
-    RtConfigService,
-    //  RtHealthIndicator,
-    RtService
-  ]
+  providers: [RtConfigService, RtHealthIndicator, RtService],
 })
 export class RtModule {}

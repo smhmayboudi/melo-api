@@ -8,7 +8,7 @@ import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
 import { FileEntityRepository } from "./file.entity.repository";
-// import { FileHealthIndicator } from "./file.health.indicator";
+import { FileHealthIndicator } from "./file.health.indicator";
 import { FileMulterOptionsFactory } from "./file.multer.options.factory";
 import { FileService } from "./file.service";
 import { MulterModule } from "@nestjs/platform-express";
@@ -17,28 +17,20 @@ import config from "./file.config";
 
 @Module({
   controllers: [FileController],
-  exports: [
-    FileConfigService,
-    //  FileHealthIndicator,
-    FileService
-  ],
+  exports: [FileConfigService, FileHealthIndicator, FileService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
       imports: [FileModule],
-      useClass: FileCacheOptionsFactory
+      useClass: FileCacheOptionsFactory,
     }),
     ConfigModule.forFeature(config),
     MulterModule.registerAsync({
       imports: [FileModule],
-      useClass: FileMulterOptionsFactory
+      useClass: FileMulterOptionsFactory,
     }),
-    TypeOrmModule.forFeature([FileEntityRepository])
+    TypeOrmModule.forFeature([FileEntityRepository]),
   ],
-  providers: [
-    FileConfigService,
-    // FileHealthIndicator,
-    FileService
-  ]
+  providers: [FileConfigService, FileHealthIndicator, FileService],
 })
 export class FileModule {}

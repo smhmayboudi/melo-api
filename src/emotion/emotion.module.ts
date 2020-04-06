@@ -6,7 +6,7 @@ import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionController } from "./emotion.controller";
-// import { EmotionHealthIndicator } from "./emotion.health.indicator";
+import { EmotionHealthIndicator } from "./emotion.health.indicator";
 import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
 import { EmotionService } from "./emotion.service";
 import { SongModule } from "src/song/song.module";
@@ -14,24 +14,16 @@ import config from "./emotion.config";
 
 @Module({
   controllers: [EmotionController],
-  exports: [
-    EmotionConfigService,
-    // EmotionHealthIndicator,
-    EmotionService
-  ],
+  exports: [EmotionConfigService, EmotionHealthIndicator, EmotionService],
   imports: [
     forwardRef(() => AppModule),
     HttpModule.registerAsync({
       imports: [EmotionModule],
-      useClass: EmotionHttpOptionsFactory
+      useClass: EmotionHttpOptionsFactory,
     }),
     ConfigModule.forFeature(config),
-    SongModule
+    SongModule,
   ],
-  providers: [
-    EmotionConfigService,
-    // EmotionHealthIndicators,
-    EmotionService
-  ]
+  providers: [EmotionConfigService, EmotionHealthIndicator, EmotionService],
 })
 export class EmotionModule {}

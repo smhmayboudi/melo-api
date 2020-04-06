@@ -6,7 +6,7 @@ import { ConfigModule } from "@nestjs/config";
 import { DataAlbumService } from "./data.album.service";
 import { DataArtistService } from "./data.artist.service";
 import { DataConfigService } from "./data.config.service";
-// import { DataHealthIndicator } from "./data.health.indicator";
+import { DataHealthIndicator } from "./data.health.indicator";
 import { DataHttpOptionsFactory } from "./data.http.options.factory";
 import { DataSearchService } from "./data.search.service";
 import { DataService } from "./data.service";
@@ -16,28 +16,28 @@ import config from "./data.config";
 @Module({
   exports: [
     DataAlbumService,
-    // DataHealthIndicator,
+    DataHealthIndicator,
     DataArtistService,
     DataConfigService,
     DataSearchService,
     DataService,
-    DataSongService
+    DataSongService,
   ],
   imports: [
     ConfigModule.forFeature(config),
     HttpModule.registerAsync({
       imports: [DataModule],
-      useClass: DataHttpOptionsFactory
-    })
+      useClass: DataHttpOptionsFactory,
+    }),
   ],
   providers: [
     DataAlbumService,
-    // DataHealthIndicator,
+    DataHealthIndicator,
     DataArtistService,
     DataConfigService,
     DataSearchService,
     DataService,
-    DataSongService
-  ]
+    DataSongService,
+  ],
 })
 export class DataModule {}

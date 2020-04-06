@@ -7,30 +7,22 @@ import { ConfigModule } from "@nestjs/config";
 import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksEntityRepository } from "./jwks.entity.repository";
-// import { JwksHealthIndicator } from "./jwks.health.indicator";
+import { JwksHealthIndicator } from "./jwks.health.indicator";
 import { JwksService } from "./jwks.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "./jwks.config";
 
 @Module({
-  exports: [
-    JwksConfigService,
-    //  JwksHealthIndicator,
-    JwksService
-  ],
+  exports: [JwksConfigService, JwksHealthIndicator, JwksService],
   imports: [
     forwardRef(() => AppModule),
     CacheModule.registerAsync({
       imports: [JwksModule],
-      useClass: JwksCacheOptionsFactory
+      useClass: JwksCacheOptionsFactory,
     }),
     ConfigModule.forFeature(config),
-    TypeOrmModule.forFeature([JwksEntityRepository])
+    TypeOrmModule.forFeature([JwksEntityRepository]),
   ],
-  providers: [
-    JwksConfigService,
-    // JwksHealthIndicator,
-    JwksService
-  ]
+  providers: [JwksConfigService, JwksHealthIndicator, JwksService],
 })
 export class JwksModule {}

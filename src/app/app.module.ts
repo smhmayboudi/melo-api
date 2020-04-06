@@ -3,7 +3,7 @@
 import {
   CacheModule,
   ClassSerializerInterceptor,
-  Module
+  Module,
 } from "@nestjs/common";
 
 import { APP_INTERCEPTOR } from "@nestjs/core";
@@ -15,7 +15,7 @@ import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
-// import { AppHealthIndicator } from "./app.health.indicator";
+import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMixArtistService } from "./app.mix-artist.service";
 import { AppMixSongService } from "./app.mix-song.service";
@@ -23,7 +23,7 @@ import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
-// import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
+import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { ArtistModule } from "../artist/artist.module";
 import { AtModule } from "../at/at.module";
@@ -43,7 +43,7 @@ import { RtModule } from "../rt/rt.module";
 import { SearchModule } from "../search/search.module";
 import { SentryModule } from "../sentry/sentry.module";
 import { SongModule } from "../song/song.module";
-// import { TerminusModule } from "@nestjs/terminus";
+import { TerminusModule } from "@nestjs/terminus";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from "../user/user.module";
 import config from "./app.config";
@@ -52,16 +52,16 @@ import config from "./app.config";
   exports: [
     AppConfigService,
     AppHashIdService,
-    // AppHealthIndicator,
+    AppHealthIndicator,
     AppImgProxyService,
     AppMixArtistService,
     AppMixSongService,
-    AppService
+    AppService,
   ],
   imports: [
     ApmModule.registerAsync({
       imports: [AppModule],
-      useClass: AppApmOptionsFactory
+      useClass: AppApmOptionsFactory,
     }),
     ActionModule,
     AlbumModule,
@@ -70,7 +70,7 @@ import config from "./app.config";
     AuthModule,
     CacheModule.registerAsync({
       imports: [AppModule],
-      useClass: AppCacheOptionsFactory
+      useClass: AppCacheOptionsFactory,
     }),
     ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
@@ -82,66 +82,66 @@ import config from "./app.config";
     JwksModule,
     MongooseModule.forRootAsync({
       imports: [AppModule],
-      useClass: AppMongooseOptionsFactory
+      useClass: AppMongooseOptionsFactory,
     }),
     PlaylistModule,
     PromModule.forRootAsync({
       imports: [AppModule],
-      useClass: AppPromOptionsFactory
+      useClass: AppPromOptionsFactory,
     }),
     RelationModule,
     RtModule,
     SearchModule,
     SentryModule.forRootAsync({
       imports: [AppModule],
-      useClass: AppSentryOptionsFactory
+      useClass: AppSentryOptionsFactory,
     }),
     SongModule,
-    // TerminusModule.forRootAsync({
-    //   imports: [
-    //     ActionModule,
-    //     AlbumModule,
-    //     AppModule,
-    //     ArtistModule,
-    //     AtModule,
-    //     AuthModule,
-    //     ConstModule,
-    //     DataModule,
-    //     DownloadModule,
-    //     EmotionModule,
-    //     FileModule,
-    //     JwksModule,
-    //     PlaylistModule,
-    //     RelationModule,
-    //     RtModule,
-    //     SearchModule,
-    //     SongModule,
-    //     UserModule
-    //   ],
-    //   useClass: AppTerminusOptionsFactory
-    // }),
+    TerminusModule.forRootAsync({
+      imports: [
+        ActionModule,
+        AlbumModule,
+        AppModule,
+        ArtistModule,
+        AtModule,
+        AuthModule,
+        ConstModule,
+        DataModule,
+        DownloadModule,
+        EmotionModule,
+        FileModule,
+        JwksModule,
+        PlaylistModule,
+        RelationModule,
+        RtModule,
+        SearchModule,
+        SongModule,
+        UserModule,
+      ],
+      useClass: AppTerminusOptionsFactory,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [AppModule],
-      useClass: AppTypeOrmOptionsFactory
+      useClass: AppTypeOrmOptionsFactory,
     }),
-    UserModule
+    UserModule,
   ],
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useClass: AppErrorInterceptor
+      useClass: AppErrorInterceptor,
     },
     AppConfigService,
     AppHashIdService,
-    // AppHealthIndicator,
+    AppHealthIndicator,
     AppImgProxyService,
     AppMixArtistService,
     AppMixSongService,
     AppService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: ClassSerializerInterceptor
-    }
-  ]
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}
