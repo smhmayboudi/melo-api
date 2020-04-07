@@ -49,8 +49,6 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
         } else if (data.total === undefined) {
           return transform(data);
         } else {
-          console.log("hEREEE");
-
           return {
             results: data.results.map((value) => transform(value)),
             total: data.total,
