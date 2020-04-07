@@ -2,12 +2,12 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
-import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
@@ -18,17 +18,17 @@ const transform = (album: DataAlbumResDto): DataAlbumResDto => ({
     album.songs === undefined
       ? undefined
       : ({
-          results: album.songs.results.map(valueSong =>
+          results: album.songs.results.map((valueSong) =>
             valueSong.localized === true
               ? {
                   ...valueSong,
                   audio: undefined,
-                  lyrics: undefined
+                  lyrics: undefined,
                 }
               : valueSong
           ),
-          total: album.songs.total
-        } as DataPaginationResDto<DataSongResDto>)
+          total: album.songs.total,
+        } as DataPaginationResDto<DataSongResDto>),
 });
 
 @Injectable()
@@ -43,15 +43,17 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
     >();
     return next.handle().pipe(
       // TODO: data should have type withuot writing
-      map(data => {
+      map((data) => {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
           return transform(data);
         } else {
+          console.log("hEREEE");
+
           return {
-            results: data.results.map(value => transform(value)),
-            total: data.total
+            results: data.results.map((value) => transform(value)),
+            total: data.total,
           } as DataPaginationResDto<DataAlbumResDto>;
         }
       })

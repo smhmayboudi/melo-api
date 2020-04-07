@@ -14,7 +14,7 @@ describe("SongLikeInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "1" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 }))
+    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -24,33 +24,33 @@ describe("SongLikeInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   const callHandler: CallHandler = {
-    handle: jest.fn(() => of(""))
+    handle: jest.fn(() => of("")),
   };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
 
   const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
   let service: AppMixSongService;
@@ -58,8 +58,8 @@ describe("SongLikeInterceptor", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppMixSongService, useValue: appMixSongServiceMock }
-      ]
+        { provide: AppMixSongService, useValue: appMixSongServiceMock },
+      ],
     }).compile();
     service = module.get<AppMixSongService>(AppMixSongService);
   });
@@ -79,11 +79,11 @@ describe("SongLikeInterceptor", () => {
   it("intercept should be called sub: 0", () => {
     const httpArgumentsHostUserSubZero: HttpArgumentsHost = {
       ...httpArgumentsHost,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } }))
+      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
     };
     const executionContextSubZero: ExecutionContext = {
       ...executionContext,
-      switchToHttp: () => httpArgumentsHostUserSubZero
+      switchToHttp: () => httpArgumentsHostUserSubZero,
     };
     new SongLikeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
@@ -94,7 +94,18 @@ describe("SongLikeInterceptor", () => {
 
   it("intercept should be called data: single song", () => {
     const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(song))
+      handle: jest.fn(() => of(song)),
+    };
+    new SongLikeInterceptor(service)
+      .intercept(executionContext, callHandlerAlbum)
+      .subscribe();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+  });
+
+  it("intercept should be called data: undefined", () => {
+    const callHandlerAlbum: CallHandler = {
+      handle: jest.fn(() => of(undefined)),
     };
     new SongLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
@@ -105,7 +116,7 @@ describe("SongLikeInterceptor", () => {
 
   it("intercept should be called data: list of songs", () => {
     const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(songPagination))
+      handle: jest.fn(() => of(songPagination)),
     };
     new SongLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
