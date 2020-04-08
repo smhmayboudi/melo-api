@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
 import { PassportStrategy } from "@nestjs/passport";
-// import { Strategy } from "passport-anonym-uuid";
 import { Strategy } from "./anonym.strategy";
 
 @Injectable()
