@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { ArtistLikeInterceptor } from "./artist.like.interceptor";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -15,7 +15,7 @@ describe("ArtistLikeInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "1" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 }))
+    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -25,49 +25,49 @@ describe("ArtistLikeInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   const callHandler: CallHandler = {
-    handle: jest.fn(() => of(""))
+    handle: jest.fn(() => of("")),
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
     id: "",
-    type: DataArtistType.prime
+    type: DataArtistType.prime,
   };
   const artistPagination: DataPaginationResDto<DataArtistResDto> = {
     results: [artist],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
-  let service: AppMixSongService;
+  let service: AppCheckLikeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppMixSongService, useValue: appMixSongServiceMock }
-      ]
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+      ],
     }).compile();
-    service = module.get<AppMixSongService>(AppMixSongService);
+    service = module.get<AppCheckLikeService>(AppCheckLikeService);
   });
 
   it("should be defined", () => {
@@ -85,11 +85,11 @@ describe("ArtistLikeInterceptor", () => {
   it("intercept should be called sub: 0", () => {
     const httpArgumentsHostUserSubZero: HttpArgumentsHost = {
       ...httpArgumentsHost,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } }))
+      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
     };
     const executionContextSubZero: ExecutionContext = {
       ...executionContext,
-      switchToHttp: () => httpArgumentsHostUserSubZero
+      switchToHttp: () => httpArgumentsHostUserSubZero,
     };
     new ArtistLikeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
@@ -100,7 +100,7 @@ describe("ArtistLikeInterceptor", () => {
 
   it("intercept should be called data: single artist", () => {
     const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(artist))
+      handle: jest.fn(() => of(artist)),
     };
     new ArtistLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
@@ -111,7 +111,7 @@ describe("ArtistLikeInterceptor", () => {
 
   it("intercept should be called data: list of artists", () => {
     const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(artistPagination))
+      handle: jest.fn(() => of(artistPagination)),
     };
     new ArtistLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)

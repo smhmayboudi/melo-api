@@ -2,10 +2,10 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
 
-import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppCheckLikeService } from "../app/app.check-like.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
@@ -15,13 +15,13 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class DownloadLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appMixSongService: AppMixSongService) {}
+  constructor(private readonly appMixSongService: AppCheckLikeService) {}
 
   transform = async (
     download: DownloadSongResDto,
     sub: number
   ): Promise<DownloadSongResDto> => {
-    const song = await this.appMixSongService.mixSong([download.song], sub);
+    const song = await this.appMixSongService.like([download.song], sub);
     return { ...download, song: song[0] };
   };
 
@@ -34,15 +34,15 @@ export class DownloadLikeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      flatMap(async data => {
+      flatMap(async (data) => {
         return {
           results: (await Promise.all(
             data.results.map(
-              async value =>
+              async (value) =>
                 await this.transform(value, parseInt(request.user.sub, 10))
             )
           )) as DownloadSongResDto[],
-          total: data.total
+          total: data.total,
         } as DataPaginationResDto<DownloadSongResDto>;
       })
     );

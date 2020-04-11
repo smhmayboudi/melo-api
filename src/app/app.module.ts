@@ -12,13 +12,13 @@ import { AlbumModule } from "../album/album.module";
 import { ApmModule } from "../apm/apm.module";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
+import { AppCheckFollowService } from "./app.check-follow.service";
+import { AppCheckLikeService } from "./app.check-like.service";
 import { AppConfigService } from "./app.config.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
-import { AppMixArtistService } from "./app.mix-artist.service";
-import { AppMixSongService } from "./app.mix-song.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
@@ -54,8 +54,8 @@ import config from "./app.config";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppMixArtistService,
-    AppMixSongService,
+    AppCheckFollowService,
+    AppCheckLikeService,
     AppService,
   ],
   imports: [
@@ -135,8 +135,8 @@ import config from "./app.config";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppMixArtistService,
-    AppMixSongService,
+    AppCheckFollowService,
+    AppCheckLikeService,
     AppService,
     {
       provide: APP_INTERCEPTOR,

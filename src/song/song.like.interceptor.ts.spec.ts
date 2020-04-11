@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -49,19 +49,19 @@ describe("SongLikeInterceptor", () => {
     total: 1,
   } as DataPaginationResDto<DataSongResDto>;
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
-  let service: AppMixSongService;
+  let service: AppCheckLikeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppMixSongService, useValue: appMixSongServiceMock },
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
       ],
     }).compile();
-    service = module.get<AppMixSongService>(AppMixSongService);
+    service = module.get<AppCheckLikeService>(AppCheckLikeService);
   });
 
   it("should be defined", () => {

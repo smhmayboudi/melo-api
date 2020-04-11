@@ -1,8 +1,8 @@
 import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
@@ -52,27 +52,27 @@ describe("SongService", () => {
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const user: UserUserResDto = {
     id: 0,
-    telegram_id: 0
+    telegram_id: 0,
   };
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const dataSongServiceMock: DataSongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -103,7 +103,7 @@ describe("SongService", () => {
     topDay: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
-      Promise.resolve(songPagination)
+      Promise.resolve(songPagination),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -113,8 +113,8 @@ describe("SongService", () => {
         data: 0,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
@@ -122,10 +122,10 @@ describe("SongService", () => {
         results: [
           {
             id: "",
-            type: RelationEntityType.album
-          }
+            type: RelationEntityType.album,
+          },
         ],
-        total: 1
+        total: 1,
       } as RelationPaginationResDto<RelationEntityResDto>),
     has: (): Promise<void> => Promise.resolve(undefined),
     multiHas: (): Promise<RelationMultiHasResDto[]> =>
@@ -133,17 +133,17 @@ describe("SongService", () => {
         {
           from: {
             id: "0",
-            type: RelationEntityType.album
+            type: RelationEntityType.album,
           },
           relation: RelationType.dislikedSongs,
           to: {
             id: "1",
-            type: RelationEntityType.album
-          }
-        }
+            type: RelationEntityType.album,
+          },
+        },
       ]),
     remove: (): Promise<void> => Promise.resolve(undefined),
-    set: (): Promise<void> => Promise.resolve(undefined)
+    set: (): Promise<void> => Promise.resolve(undefined),
   };
   const songConfigServiceMock: SongConfigServiceInterface = {
     cacheHost: "",
@@ -152,7 +152,7 @@ describe("SongService", () => {
     cacheStore: "",
     cacheTTL: 0,
     sendTelegramUrl: "",
-    timeout: 0
+    timeout: 0,
   };
   const userServiceMock: UserServiceInterface = {
     find: (): Promise<UserUserResDto[]> => Promise.resolve([user]),
@@ -164,7 +164,7 @@ describe("SongService", () => {
       Promise.resolve(user),
     get: (): Promise<UserUserResDto | undefined> => Promise.resolve(user),
     put: (): Promise<UserUserResDto> => Promise.resolve(user),
-    save: (): Promise<UserUserResDto> => Promise.resolve(user)
+    save: (): Promise<UserUserResDto> => Promise.resolve(user),
   };
 
   let service: SongService;
@@ -173,16 +173,16 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppMixSongService, useValue: appMixSongServiceMock },
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
         {
           provide: SongConfigService,
-          useValue: songConfigServiceMock
+          useValue: songConfigServiceMock,
         },
-        { provide: UserService, useValue: userServiceMock }
-      ]
+        { provide: UserService, useValue: userServiceMock },
+      ],
     }).compile();
     service = module.get<SongService>(SongService);
   });
@@ -195,7 +195,7 @@ describe("SongService", () => {
     const dto: SongArtistSongsReqDto = {
       artistId: "0",
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.artistSongs(dto, 0)).toEqual(songPagination);
   });
@@ -204,14 +204,14 @@ describe("SongService", () => {
     const dto: SongArtistSongsTopReqDto = {
       artistId: "0",
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.artistSongsTop(dto, 0)).toEqual(songPagination);
   });
 
   it("byId should be equal to a songs", async () => {
     const dto: SongByIdReqDto = {
-      id: ""
+      id: "",
     };
     expect(await service.byId(dto, 0)).toEqual(song);
   });
@@ -220,10 +220,10 @@ describe("SongService", () => {
     const paramDto: SongSongGenresParamReqDto = {
       from: 0,
       limit: 0,
-      orderBy: DataOrderByType.downloads
+      orderBy: DataOrderByType.downloads,
     };
     const queryDto: SongSongGenresQueryReqDto = {
-      genres: [""]
+      genres: [""],
     };
     expect(
       await service.genre(DataOrderByType.downloads, paramDto, queryDto)
@@ -235,7 +235,7 @@ describe("SongService", () => {
       from: 0,
       language: "",
       limit: 0,
-      orderBy: DataOrderByType.downloads
+      orderBy: DataOrderByType.downloads,
     };
     expect(await service.language(dto, DataOrderByType.downloads)).toEqual(
       songPagination
@@ -244,7 +244,7 @@ describe("SongService", () => {
 
   it("like should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      id: ""
+      id: "",
     };
     expect(await service.like(dto, 0, 0)).toEqual({ ...song, liked: true });
   });
@@ -252,7 +252,7 @@ describe("SongService", () => {
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.liked(dto, 0)).toEqual(songPagination);
   });
@@ -261,7 +261,7 @@ describe("SongService", () => {
     const dto: SongMoodReqDto = {
       from: 0,
       limit: 0,
-      mood: ""
+      mood: "",
     };
     expect(await service.mood(dto)).toEqual(songPagination);
   });
@@ -269,7 +269,7 @@ describe("SongService", () => {
   it("new should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.newSong(dto)).toEqual(songPagination);
   });
@@ -277,7 +277,7 @@ describe("SongService", () => {
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: DataSongNewPodcastReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.newPodcast(dto)).toEqual(songPagination);
   });
@@ -286,10 +286,10 @@ describe("SongService", () => {
     const paramDto: SongPodcastGenresParamReqDto = {
       from: 0,
       limit: 0,
-      orderBy: DataOrderByType.downloads
+      orderBy: DataOrderByType.downloads,
     };
     const queryDto: SongPodcastGenresQueryReqDto = {
-      genres: [""]
+      genres: [""],
     };
     expect(
       await service.podcast(DataOrderByType.downloads, paramDto, queryDto)
@@ -299,7 +299,7 @@ describe("SongService", () => {
   it("searchMood should be equal to a list of songs", async () => {
     const paramDto: SongSearchMoodParamDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     const queryDto: SongSearchMoodQueryDto = {};
     expect(await service.searchMood(paramDto, queryDto)).toEqual(
@@ -309,7 +309,7 @@ describe("SongService", () => {
 
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
-      id: "0"
+      id: "0",
     };
     expect(await service.sendTelegram(dto, 0, 0)).toBeUndefined();
   });
@@ -318,7 +318,7 @@ describe("SongService", () => {
     const dto: SongSimilarReqDto = {
       from: 0,
       id: "",
-      limit: 0
+      limit: 0,
     };
     expect(await service.similar(dto, 0)).toEqual(songPagination);
   });
@@ -330,7 +330,7 @@ describe("SongService", () => {
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.topDay(dto)).toEqual(songPagination);
   });
@@ -338,14 +338,14 @@ describe("SongService", () => {
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.topWeek(dto)).toEqual(songPagination);
   });
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      id: ""
+      id: "",
     };
     expect(await service.unlike(dto, 0, 0)).toEqual({ ...song, liked: false });
   });
@@ -356,24 +356,24 @@ describe("SongService", () => {
       get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
         Promise.resolve({
           results: [] as RelationEntityResDto[],
-          total: 0
-        } as RelationPaginationResDto<RelationEntityResDto>)
+          total: 0,
+        } as RelationPaginationResDto<RelationEntityResDto>),
     };
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
           {
             provide: SongConfigService,
-            useValue: songConfigServiceMock
+            useValue: songConfigServiceMock,
           },
-          { provide: UserService, useValue: userServiceMock }
-        ]
+          { provide: UserService, useValue: userServiceMock },
+        ],
       }).compile();
       service = module.get<SongService>(SongService);
     });
@@ -381,7 +381,7 @@ describe("SongService", () => {
     it("liked should be equal to an empty list", async () => {
       const dto: SongLikedReqDto = {
         from: 0,
-        limit: 0
+        limit: 0,
       };
       expect(await service.liked(dto, 0)).toEqual({ results: [], total: 0 });
     });
@@ -391,33 +391,33 @@ describe("SongService", () => {
     const userServiceMockFindOneByIdUndefined: UserServiceInterface = {
       ...userServiceMock,
       findOneById: (): Promise<UserUserResDto | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppMixSongService, useValue: appMixSongServiceMock },
+          { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMock },
           {
             provide: SongConfigService,
-            useValue: songConfigServiceMock
+            useValue: songConfigServiceMock,
           },
           {
             provide: UserService,
-            useValue: userServiceMockFindOneByIdUndefined
-          }
-        ]
+            useValue: userServiceMockFindOneByIdUndefined,
+          },
+        ],
       }).compile();
       service = module.get<SongService>(SongService);
     });
 
     it("sendTelegram should throw exception", async () => {
       const dto: SongSendTelegramReqDto = {
-        id: "0"
+        id: "0",
       };
       return expect(service.sendTelegram(dto, 0, 0)).rejects.toThrowError();
     });

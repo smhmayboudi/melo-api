@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppMixArtistService } from "../app/app.mix-artist.service";
-import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
+import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -22,24 +22,24 @@ import { RelationServiceInterface } from "../relation/relation.service.interface
 import { RelationType } from "../relation/relation.type";
 
 describe("ArtistService", () => {
-  const mixArtist: DataArtistResDto = {
+  const follow: DataArtistResDto = {
     followersCount: 0,
     id: "",
     type: DataArtistType.prime,
   };
-  const mixArtistPaginatin: DataPaginationResDto<DataArtistResDto> = {
-    results: [mixArtist],
+  const followPaginatin: DataPaginationResDto<DataArtistResDto> = {
+    results: [follow],
     total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
 
   const dataArtistServiceMock: DataArtistServiceInterface = {
-    byId: (): Promise<DataArtistResDto> => Promise.resolve(mixArtist),
+    byId: (): Promise<DataArtistResDto> => Promise.resolve(follow),
     byIds: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(mixArtistPaginatin),
+      Promise.resolve(followPaginatin),
     trending: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(mixArtistPaginatin),
+      Promise.resolve(followPaginatin),
     trendingGenre: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(mixArtistPaginatin),
+      Promise.resolve(followPaginatin),
   };
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
@@ -70,8 +70,8 @@ describe("ArtistService", () => {
     remove: (): Promise<void> => Promise.resolve(undefined),
     set: (): Promise<void> => Promise.resolve(undefined),
   };
-  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
-    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist]),
+  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
 
   let service: ArtistService;
@@ -80,7 +80,7 @@ describe("ArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
         { provide: DataArtistService, useValue: dataArtistServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
@@ -96,7 +96,7 @@ describe("ArtistService", () => {
     const dto: ArtistFollowReqDto = {
       id: "",
     };
-    expect(await service.follow(dto, 0, 0)).toEqual(mixArtist);
+    expect(await service.follow(dto, 0, 0)).toEqual(follow);
   });
 
   it("following should equal list of artists", async () => {
@@ -104,32 +104,32 @@ describe("ArtistService", () => {
       from: 0,
       limit: 0,
     };
-    expect(await service.following(dto, 0)).toEqual(mixArtistPaginatin);
+    expect(await service.following(dto, 0)).toEqual(followPaginatin);
   });
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: "",
     };
-    expect(await service.profile(dto, 0)).toEqual(mixArtist);
+    expect(await service.profile(dto, 0)).toEqual(follow);
   });
 
   it("trending should equal list of artists", async () => {
-    expect(await service.trending()).toEqual(mixArtistPaginatin);
+    expect(await service.trending()).toEqual(followPaginatin);
   });
 
   it("trendingGenre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
       genre: "",
     };
-    expect(await service.trendingGenre(dto)).toEqual(mixArtistPaginatin);
+    expect(await service.trendingGenre(dto)).toEqual(followPaginatin);
   });
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: "",
     };
-    expect(await service.unfollow(dto, 0, 0)).toEqual(mixArtist);
+    expect(await service.unfollow(dto, 0, 0)).toEqual(follow);
   });
 
   describe("ArtistService", () => {
@@ -146,7 +146,7 @@ describe("ArtistService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           ArtistService,
-          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
           { provide: DataArtistService, useValue: dataArtistServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
         ],

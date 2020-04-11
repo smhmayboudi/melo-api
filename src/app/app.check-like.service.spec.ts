@@ -1,11 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppCheckLikeService } from "./app.check-like.service";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
-import { AppMixArtistService } from "./app.mix-artist.service";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
@@ -14,18 +14,36 @@ import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
 
-describe("AppMixArtistService", () => {
-  const artists: DataArtistResDto[] = [
+describe("AppCheckLikeService", () => {
+  const songs: DataSongResDto[] = [
     {
-      followersCount: 0,
+      artists: [
+        {
+          followersCount: 0,
+          id: "",
+          type: DataArtistType.prime,
+        },
+      ],
+      audio: {
+        high: {
+          fingerprint: "",
+          url: "",
+        },
+      },
+      duration: 0,
       id: "",
-      type: DataArtistType.prime,
+      localized: false,
+      releaseDate: new Date(),
+      title: "",
     },
   ];
+  let service: AppCheckLikeService;
+
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
   };
+
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
       Promise.resolve({
@@ -56,27 +74,25 @@ describe("AppMixArtistService", () => {
     set: (): Promise<void> => Promise.resolve(undefined),
   };
 
-  let service: AppMixArtistService;
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: {} },
-        AppMixArtistService,
+        AppCheckLikeService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
     }).compile();
-    service = module.get<AppMixArtistService>(AppMixArtistService);
+    service = module.get<AppCheckLikeService>(AppCheckLikeService);
   });
 
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
 
-  it("mixArtist should be equal to an artist sub: 1", async () => {
-    expect(await service.mixArtist(artists, 1)).toEqual(
-      artists.map((value) => ({ ...value, following: false }))
+  it("like should be equal to a song sub: 1", async () => {
+    expect(await service.like(songs, 1)).toEqual(
+      songs.map((value) => ({ ...value, liked: false }))
     );
   });
 });

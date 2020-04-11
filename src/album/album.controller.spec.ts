@@ -6,12 +6,12 @@ import { AlbumController } from "./album.controller";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
+import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { AppMixArtistService } from "../app/app.mix-artist.service";
-import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -49,11 +49,11 @@ describe("AlbumController", () => {
     title: "",
   };
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
-    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
+  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const albumServiceMock: AlbumServiceInterface = {
     artistAlbums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
@@ -75,8 +75,8 @@ describe("AlbumController", () => {
       providers: [
         { provide: AlbumService, useValue: albumServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppMixSongService, useValue: appMixSongServiceMock },
-        { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
       ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);

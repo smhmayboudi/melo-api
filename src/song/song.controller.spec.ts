@@ -1,9 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -38,27 +38,27 @@ describe("SongController", () => {
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
-    encode: (): string => ""
+    encode: (): string => "",
   };
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -92,7 +92,7 @@ describe("SongController", () => {
       Promise.resolve(songPagination),
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
-    unlike: (): Promise<DataSongResDto> => Promise.resolve(song)
+    unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
 
   let controller: SongController;
@@ -104,10 +104,10 @@ describe("SongController", () => {
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: SongService, useValue: songServiceMock },
         {
-          provide: AppMixSongService,
-          useValue: appMixSongServiceMock
-        }
-      ]
+          provide: AppCheckLikeService,
+          useValue: appMixSongServiceMock,
+        },
+      ],
     }).compile();
     controller = module.get<SongController>(SongController);
   });
@@ -120,7 +120,7 @@ describe("SongController", () => {
     const dto: SongArtistSongsReqDto = {
       artistId: "0",
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.artistSongs(dto, 0)).toEqual(songPagination);
   });
@@ -129,14 +129,14 @@ describe("SongController", () => {
     const dto: SongArtistSongsReqDto = {
       artistId: "0",
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.artistSongsTop(dto, 0)).toEqual(songPagination);
   });
 
   it("byId should be equal to a song", async () => {
     const dto: SongByIdReqDto = {
-      id: ""
+      id: "",
     };
     expect(await controller.byId(dto, 0)).toEqual(song);
   });
@@ -145,10 +145,10 @@ describe("SongController", () => {
     const paramDto: SongSongGenresParamReqDto = {
       from: 0,
       limit: 0,
-      orderBy: DataOrderByType.downloads
+      orderBy: DataOrderByType.downloads,
     };
     const queryDto: SongSongGenresQueryReqDto = {
-      genres: [""]
+      genres: [""],
     };
     expect(
       await controller.genre(DataOrderByType.downloads, paramDto, queryDto)
@@ -160,7 +160,7 @@ describe("SongController", () => {
       from: 0,
       language: "",
       limit: 0,
-      orderBy: DataOrderByType.downloads
+      orderBy: DataOrderByType.downloads,
     };
     expect(await controller.language(DataOrderByType.downloads, dto)).toEqual(
       songPagination
@@ -169,7 +169,7 @@ describe("SongController", () => {
 
   it("like should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      id: ""
+      id: "",
     };
     expect(await controller.like(dto, 0, 0)).toEqual(song);
   });
@@ -177,7 +177,7 @@ describe("SongController", () => {
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.liked(dto, 0)).toEqual(songPagination);
   });
@@ -186,7 +186,7 @@ describe("SongController", () => {
     const dto: SongMoodReqDto = {
       from: 0,
       limit: 0,
-      mood: ""
+      mood: "",
     };
     expect(await controller.mood(dto)).toEqual(songPagination);
   });
@@ -194,7 +194,7 @@ describe("SongController", () => {
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: DataSongNewPodcastReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.newPodcast(dto)).toEqual(songPagination);
   });
@@ -202,7 +202,7 @@ describe("SongController", () => {
   it("newSong should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.newSong(dto)).toEqual(songPagination);
   });
@@ -211,10 +211,10 @@ describe("SongController", () => {
     const paramDto: SongPodcastGenresParamReqDto = {
       from: 0,
       limit: 0,
-      orderBy: DataOrderByType.downloads
+      orderBy: DataOrderByType.downloads,
     };
     const queryDto: SongPodcastGenresQueryReqDto = {
-      genres: [""]
+      genres: [""],
     };
     expect(
       await controller.podcast(DataOrderByType.downloads, paramDto, queryDto)
@@ -224,7 +224,7 @@ describe("SongController", () => {
   it("searchMood should be equal to a list of songs", async () => {
     const paramDto: SongSearchMoodParamDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     const queryDto: SongSearchMoodQueryDto = {};
     expect(await controller.searchMood(paramDto, queryDto)).toEqual(
@@ -234,7 +234,7 @@ describe("SongController", () => {
 
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
-      id: "0"
+      id: "0",
     };
     expect(await controller.sendTelegram(dto, 0, 0)).toBeUndefined();
   });
@@ -243,7 +243,7 @@ describe("SongController", () => {
     const dto: SongSimilarReqDto = {
       from: 0,
       id: "",
-      limit: 0
+      limit: 0,
     };
     expect(await controller.similar(dto, 0)).toEqual(songPagination);
   });
@@ -255,7 +255,7 @@ describe("SongController", () => {
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.topDay(dto)).toEqual(songPagination);
   });
@@ -263,14 +263,14 @@ describe("SongController", () => {
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.topWeek(dto)).toEqual(songPagination);
   });
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      id: ""
+      id: "",
     };
     expect(await controller.unlike(dto, 0, 0)).toEqual(song);
   });

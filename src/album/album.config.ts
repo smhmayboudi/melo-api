@@ -5,5 +5,5 @@ export default registerAs("album", () => ({
   cacheMax: process.env.ALBUM_CACHE_MAX,
   cachePort: process.env.ALBUM_CACHE_PORT,
   cacheStore: process.env.ALBUM_CACHE_STORE,
-  cacheTTL: process.env.ALBUM_CACHE_TTL
+  cacheTTL: process.env.ALBUM_CACHE_TTL,
 }));

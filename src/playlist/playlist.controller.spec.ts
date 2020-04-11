@@ -1,9 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
@@ -27,40 +27,40 @@ describe("PlaylistController", () => {
     id: "",
     image: {
       "": {
-        url: ""
-      }
+        url: "",
+      },
     },
     isPublic: false,
     releaseDate,
     title: "",
-    tracksCount: 0
+    tracksCount: 0,
   };
   const playlistPagination: DataPaginationResDto<DataPlaylistResDto> = {
     results: [playlist],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataPlaylistResDto>;
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
-    encode: (): string => ""
+    encode: (): string => "",
   };
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const playlistServiceMock: PlaylistServiceInterface = {
     addSong: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
@@ -72,7 +72,7 @@ describe("PlaylistController", () => {
     my: (): Promise<DataPaginationResDto<DataPlaylistResDto>> =>
       Promise.resolve(playlistPagination),
     top: (): Promise<DataPaginationResDto<DataPlaylistResDto>> =>
-      Promise.resolve(playlistPagination)
+      Promise.resolve(playlistPagination),
   };
 
   let controller: PlaylistController;
@@ -83,8 +83,8 @@ describe("PlaylistController", () => {
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
-        { provide: AppMixSongService, useValue: appMixSongServiceMock }
-      ]
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+      ],
     }).compile();
     controller = module.get<PlaylistController>(PlaylistController);
   });
@@ -96,21 +96,21 @@ describe("PlaylistController", () => {
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
       playlistId: "000000000000",
-      songId: "0"
+      songId: "0",
     };
     expect(await controller.addSong(dto, 0)).toEqual(playlist);
   });
 
   it("create should be equal to a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
-      title: ""
+      title: "",
     };
     expect(await controller.create(dto, 0)).toEqual(playlist);
   });
 
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
-      id: ""
+      id: "",
     };
     expect(await controller.delete(dto, 0)).toEqual(playlist);
   });
@@ -118,21 +118,21 @@ describe("PlaylistController", () => {
   it("deleteSong should be equal to a playlist", async () => {
     const dto: PlaylistSongReqDto = {
       playlistId: "000000000000",
-      songId: "0"
+      songId: "0",
     };
     expect(await controller.deleteSong(dto, 0)).toEqual(playlist);
   });
 
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
-      id: ""
+      id: "",
     };
     expect(await controller.edit(dto)).toEqual(playlist);
   });
 
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
-      id: ""
+      id: "",
     };
     expect(await controller.get(dto)).toEqual(playlist);
   });
@@ -140,7 +140,7 @@ describe("PlaylistController", () => {
   it("my should be equal to a list of  playlists", async () => {
     const dto: PlaylistMyReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.my(dto, 0)).toEqual(playlistPagination);
   });
@@ -148,7 +148,7 @@ describe("PlaylistController", () => {
   it("top should be equal to a list of  playlists", async () => {
     const dto: PlaylistTopReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await controller.top(dto)).toEqual(playlistPagination);
   });

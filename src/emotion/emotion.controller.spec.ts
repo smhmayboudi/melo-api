@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -20,35 +20,35 @@ describe("EmotionController", () => {
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const emotion: EmotionResDto = {
     emotions: [""],
-    song
+    song,
   };
   const emotionPagination: DataPaginationResDto<EmotionResDto> = {
     results: [emotion],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<EmotionResDto>;
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const emotionServiceMock: EmotionServiceInterface = {
     emotions: (): Promise<DataPaginationResDto<EmotionResDto>> =>
-      Promise.resolve(emotionPagination)
+      Promise.resolve(emotionPagination),
   };
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -82,7 +82,7 @@ describe("EmotionController", () => {
       Promise.resolve(songPagination),
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
-    unlike: (): Promise<DataSongResDto> => Promise.resolve(song)
+    unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
 
   let controller: EmotionController;
@@ -93,8 +93,8 @@ describe("EmotionController", () => {
       providers: [
         { provide: EmotionService, useValue: emotionServiceMock },
         { provide: SongService, useValue: songServiceMock },
-        { provide: AppMixSongService, useValue: appMixSongServiceMock }
-      ]
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+      ],
     }).compile();
     controller = module.get<EmotionController>(EmotionController);
   });
@@ -102,10 +102,10 @@ describe("EmotionController", () => {
   it("emotions should return a list of emotions", async () => {
     const paramDto: EmotionParamReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     const queryDto: EmotionQueryReqDto = {
-      emotions: [""]
+      emotions: [""],
     };
     expect(await controller.emotions(paramDto, queryDto, 0)).toEqual(
       emotionPagination

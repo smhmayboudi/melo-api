@@ -4,8 +4,8 @@ import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumService } from "./album.service";
-import { AppMixArtistService } from "../app/app.mix-artist.service";
-import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
+import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
@@ -16,49 +16,49 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
-  const mixArtist: DataArtistResDto = {
+  const follow: DataArtistResDto = {
     followersCount: 0,
     id: "",
-    type: DataArtistType.prime
+    type: DataArtistType.prime,
   };
-  const mixSong: DataSongResDto = {
-    artists: [mixArtist],
+  const like: DataSongResDto = {
+    artists: [follow],
     audio: {
       high: {
         fingerprint: "",
-        url: ""
-      }
+        url: "",
+      },
     },
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
-  const mixSongPagination: DataPaginationResDto<DataSongResDto> = {
-    results: [mixSong],
-    total: 1
+  const likePagination: DataPaginationResDto<DataSongResDto> = {
+    results: [like],
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const album: DataAlbumResDto = {
-    artists: [mixArtist],
+    artists: [follow],
     name: "",
     releaseDate,
-    songs: mixSongPagination
+    songs: likePagination,
   };
   const albumPagination: DataPaginationResDto<DataAlbumResDto> = {
     results: [album],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
 
-  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
-    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist])
+  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
     albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
       Promise.resolve(albumPagination),
     byId: (): Promise<DataAlbumResDto> => Promise.resolve(album),
     latest: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
-      Promise.resolve(albumPagination)
+      Promise.resolve(albumPagination),
   };
 
   let service: AlbumService;
@@ -68,9 +68,9 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
-          { provide: DataAlbumService, useValue: dataAlbumServiceMock }
-        ]
+          { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+          { provide: DataAlbumService, useValue: dataAlbumServiceMock },
+        ],
       }).compile();
       service = module.get<AlbumService>(AlbumService);
     });
@@ -83,14 +83,14 @@ describe("AlbumService", () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: "0",
         from: 0,
-        limit: 0
+        limit: 0,
       };
       expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
     });
 
     it("byId should be equal to an artist", async () => {
       const dto: AlbumByIdReqDto = {
-        id: "0"
+        id: "0",
       };
       expect(await service.byId(dto, 0)).toEqual(album);
     });
@@ -99,7 +99,7 @@ describe("AlbumService", () => {
       const dto: AlbumLatestReqDto = {
         from: 0,
         language: "",
-        limit: 0
+        limit: 0,
       };
       expect(await service.latest(dto)).toEqual(albumPagination);
     });
@@ -113,11 +113,11 @@ describe("AlbumService", () => {
           results: [
             {
               ...album,
-              artists: undefined
-            }
+              artists: undefined,
+            },
           ],
-          total: 1
-        } as DataPaginationResDto<DataAlbumResDto>)
+          total: 1,
+        } as DataPaginationResDto<DataAlbumResDto>),
     };
 
     beforeEach(async () => {
@@ -125,14 +125,14 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           {
-            provide: AppMixArtistService,
-            useValue: appMixArtistServiceMock
+            provide: AppCheckFollowService,
+            useValue: appMixArtistServiceMock,
           },
           {
             provide: DataAlbumService,
-            useValue: dataAlbumServiceMockArtistsUndefined
-          }
-        ]
+            useValue: dataAlbumServiceMockArtistsUndefined,
+          },
+        ],
       }).compile();
       service = module.get<AlbumService>(AlbumService);
     });
@@ -141,7 +141,7 @@ describe("AlbumService", () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: "0",
         from: 0,
-        limit: 0
+        limit: 0,
       };
       expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
     });
@@ -150,34 +150,34 @@ describe("AlbumService", () => {
   describe("songs: undefined", () => {
     const albumSongsUndefined: DataAlbumResDto = {
       ...album,
-      songs: undefined
+      songs: undefined,
     };
     const dataAlbumServiceMockSongsUndefined: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
       byId: (): Promise<DataAlbumResDto> =>
         Promise.resolve({
           ...album,
-          songs: undefined
-        })
+          songs: undefined,
+        }),
     };
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+          { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
           {
             provide: DataAlbumService,
-            useValue: dataAlbumServiceMockSongsUndefined
-          }
-        ]
+            useValue: dataAlbumServiceMockSongsUndefined,
+          },
+        ],
       }).compile();
       service = module.get<AlbumService>(AlbumService);
     });
 
     it("byId should handle songs undefnied", async () => {
       const dto: AlbumByIdReqDto = {
-        id: ""
+        id: "",
       };
       expect(await service.byId(dto, 0)).toEqual(albumSongsUndefined);
     });

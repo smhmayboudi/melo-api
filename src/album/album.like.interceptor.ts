@@ -2,9 +2,9 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
-import { AppMixSongService } from "../app/app.mix-song.service";
+import { AppCheckLikeService } from "../app/app.check-like.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -15,7 +15,7 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class AlbumLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appMixSongService: AppMixSongService) {}
+  constructor(private readonly appMixSongService: AppCheckLikeService) {}
 
   transform = async (
     album: DataAlbumResDto,
@@ -26,12 +26,12 @@ export class AlbumLikeInterceptor implements NestInterceptor {
       album.songs === undefined
         ? undefined
         : (({
-            results: await this.appMixSongService.mixSong(
+            results: await this.appMixSongService.like(
               album.songs.results,
               sub
             ),
-            total: album.songs.total
-          } as unknown) as DataPaginationResDto<DataSongResDto>)
+            total: album.songs.total,
+          } as unknown) as DataPaginationResDto<DataSongResDto>),
   });
 
   intercept(
@@ -43,7 +43,7 @@ export class AlbumLikeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      flatMap(async data => {
+      flatMap(async (data) => {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
@@ -52,11 +52,11 @@ export class AlbumLikeInterceptor implements NestInterceptor {
           return {
             results: (await Promise.all(
               data.results.map(
-                async value =>
+                async (value) =>
                   await this.transform(value, parseInt(request.user.sub, 10))
               )
             )) as DataAlbumResDto[],
-            total: data.total
+            total: data.total,
           } as DataPaginationResDto<DataAlbumResDto>;
         }
       })

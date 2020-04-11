@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -15,7 +15,7 @@ describe("EmotionLikeInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "1" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 }))
+    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -25,48 +25,48 @@ describe("EmotionLikeInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const emotion: EmotionResDto = {
     emotions: [""],
-    song
+    song,
   };
   const emotionPagination: DataPaginationResDto<EmotionResDto> = {
     results: [emotion],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<EmotionResDto>;
   const callHandler: CallHandler = {
-    handle: jest.fn(() => of(emotionPagination))
+    handle: jest.fn(() => of(emotionPagination)),
   };
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
-  let service: AppMixSongService;
+  let service: AppCheckLikeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppMixSongService, useValue: appMixSongServiceMock }
-      ]
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+      ],
     }).compile();
-    service = module.get<AppMixSongService>(AppMixSongService);
+    service = module.get<AppCheckLikeService>(AppCheckLikeService);
   });
 
   it("should be defined", () => {

@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppMixArtistService } from "../app/app.mix-artist.service";
+import { AppCheckFollowService } from "../app/app.check-follow.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -15,7 +15,7 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class AlbumFollowInterceptor implements NestInterceptor {
-  constructor(private readonly appMixArtistService: AppMixArtistService) {}
+  constructor(private readonly appMixArtistService: AppCheckFollowService) {}
 
   transform = async (
     album: DataAlbumResDto,
@@ -25,8 +25,9 @@ export class AlbumFollowInterceptor implements NestInterceptor {
     artists:
       album.artists === undefined
         ? undefined
-        : await this.appMixArtistService.mixArtist(album.artists, sub),
+        : await this.appMixArtistService.follow(album.artists, sub),
   });
+
   intercept(
     context: ExecutionContext,
     next: CallHandler

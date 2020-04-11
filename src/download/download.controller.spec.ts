@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -21,31 +21,31 @@ describe("DownloadController", () => {
       {
         followersCount: 0,
         id: "",
-        type: DataArtistType.feat
-      }
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
     id: "",
     localized: false,
     releaseDate: downloadedAt,
-    title: ""
+    title: "",
   };
   const downloadSong: DownloadSongResDto = {
     downloadedAt,
-    song
+    song,
   };
   const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
     results: [downloadSong],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DownloadSongResDto>;
 
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song])
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const downloadServiceMock: DownloadServiceInterface = {
     downloadedSongs: (): Promise<DataPaginationResDto<DownloadSongResDto>> =>
-      Promise.resolve(downloadSongPagination)
+      Promise.resolve(downloadSongPagination),
   };
 
   let controller: DownloadController;
@@ -55,8 +55,8 @@ describe("DownloadController", () => {
       controllers: [DownloadController],
       providers: [
         { provide: DownloadService, useValue: downloadServiceMock },
-        { provide: AppMixSongService, useValue: appMixSongServiceMock }
-      ]
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+      ],
     }).compile();
     controller = module.get<DownloadController>(DownloadController);
   });
@@ -66,10 +66,10 @@ describe("DownloadController", () => {
       from: 0,
       limit: 0,
       orderBy: DownloadOrderByType.asc,
-      sortBy: DownloadSortByType.date
+      sortBy: DownloadSortByType.date,
     };
     const queryDto: DownloadSongQueryReqDto = {
-      filter: ""
+      filter: "",
     };
     expect(
       await controller.downloadedSongs(

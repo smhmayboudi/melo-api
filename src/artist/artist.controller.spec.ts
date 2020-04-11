@@ -1,11 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
+import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { AppMixArtistService } from "../app/app.mix-artist.service";
-import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
-import { AppMixSongService } from "../app/app.mix-song.service";
-import { AppMixSongServiceInterface } from "../app/app.mix-song.service.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistController } from "./artist.controller";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
@@ -21,13 +21,13 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("ArtistController", () => {
   const releaseDate = new Date();
-  const mixArtist: DataArtistResDto = {
+  const follow: DataArtistResDto = {
     followersCount: 0,
     id: "",
     type: DataArtistType.prime,
   };
-  const mixArtistPagination: DataPaginationResDto<DataArtistResDto> = {
-    results: [mixArtist],
+  const followPagination: DataPaginationResDto<DataArtistResDto> = {
+    results: [follow],
     total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
   const song: DataSongResDto = {
@@ -49,22 +49,22 @@ describe("ArtistController", () => {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appMixSongServiceMock: AppMixSongServiceInterface = {
-    mixSong: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
-    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([mixArtist]),
+  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const artistServiceMock: ArtistServiceInterface = {
-    follow: (): Promise<DataArtistResDto> => Promise.resolve(mixArtist),
+    follow: (): Promise<DataArtistResDto> => Promise.resolve(follow),
     following: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(mixArtistPagination),
-    profile: (): Promise<DataArtistResDto> => Promise.resolve(mixArtist),
+      Promise.resolve(followPagination),
+    profile: (): Promise<DataArtistResDto> => Promise.resolve(follow),
     trending: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(mixArtistPagination),
+      Promise.resolve(followPagination),
     trendingGenre: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(mixArtistPagination),
-    unfollow: (): Promise<DataArtistResDto> => Promise.resolve(mixArtist),
+      Promise.resolve(followPagination),
+    unfollow: (): Promise<DataArtistResDto> => Promise.resolve(follow),
   };
 
   let controller: ArtistController;
@@ -75,8 +75,8 @@ describe("ArtistController", () => {
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: ArtistService, useValue: artistServiceMock },
-        { provide: AppMixSongService, useValue: appMixSongServiceMock },
-        { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
       ],
     }).compile();
     controller = module.get<ArtistController>(ArtistController);
@@ -90,7 +90,7 @@ describe("ArtistController", () => {
     const dto: ArtistFollowReqDto = {
       id: "0",
     };
-    expect(await controller.follow(dto, 0, 0)).toEqual(mixArtist);
+    expect(await controller.follow(dto, 0, 0)).toEqual(follow);
   });
 
   it("following should equal list of artists", async () => {
@@ -98,31 +98,31 @@ describe("ArtistController", () => {
       from: 0,
       limit: 0,
     };
-    expect(await controller.following(dto, 0)).toEqual(mixArtistPagination);
+    expect(await controller.following(dto, 0)).toEqual(followPagination);
   });
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: "0",
     };
-    expect(await controller.profile(dto, 0)).toEqual(mixArtist);
+    expect(await controller.profile(dto, 0)).toEqual(follow);
   });
 
   it("trending should equal list of artists", async () => {
-    expect(await controller.trending()).toEqual(mixArtistPagination);
+    expect(await controller.trending()).toEqual(followPagination);
   });
 
   it("trending/genre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
       genre: "pop",
     };
-    expect(await controller.trendingGenre(dto)).toEqual(mixArtistPagination);
+    expect(await controller.trendingGenre(dto)).toEqual(followPagination);
   });
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: "0",
     };
-    expect(await controller.unfollow(dto, 0, 0)).toEqual(mixArtist);
+    expect(await controller.unfollow(dto, 0, 0)).toEqual(follow);
   });
 });

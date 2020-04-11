@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppMixArtistService } from "../app/app.mix-artist.service";
-import { AppMixArtistServiceInterface } from "../app/app.mix-artist.service.interface";
+import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
 import { ArtistFollowInterceptor } from "./artist.follow.interceptor";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -38,19 +38,19 @@ describe("ArtistFollowInterceptor", () => {
     total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
 
-  const appMixArtistServiceMock: AppMixArtistServiceInterface = {
-    mixArtist: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
+  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
-  let service: AppMixArtistService;
+  let service: AppCheckFollowService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppMixArtistService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
       ],
     }).compile();
-    service = module.get<AppMixArtistService>(AppMixArtistService);
+    service = module.get<AppCheckFollowService>(AppCheckFollowService);
   });
 
   it("should be defined", () => {
