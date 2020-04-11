@@ -15,24 +15,27 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class AlbumLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appMixSongService: AppCheckLikeService) {}
+  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
 
   transform = async (
-    album: DataAlbumResDto,
-    sub: number
-  ): Promise<DataAlbumResDto> => ({
-    ...album,
-    songs:
-      album.songs === undefined
-        ? undefined
-        : (({
-            results: await this.appMixSongService.like(
-              album.songs.results,
-              sub
-            ),
-            total: album.songs.total,
-          } as unknown) as DataPaginationResDto<DataSongResDto>),
-  });
+    albums: DataAlbumResDto[],
+    sub: string
+  ): Promise<DataAlbumResDto[]> =>
+    Promise.all(
+      albums.map(async (value) => ({
+        ...value,
+        songs:
+          value.songs === undefined
+            ? undefined
+            : ({
+                results: await this.appCheckLikeService.like(
+                  value.songs.results,
+                  parseInt(sub, 10)
+                ),
+                total: value.songs.total,
+              } as DataPaginationResDto<DataSongResDto>),
+      }))
+    );
 
   intercept(
     context: ExecutionContext,
@@ -47,17 +50,13 @@ export class AlbumLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          return this.transform(data, parseInt(request.user.sub, 10));
+          const result = await this.transform([data], request.user.sub);
+          return result[0];
         } else {
-          return {
-            results: (await Promise.all(
-              data.results.map(
-                async (value) =>
-                  await this.transform(value, parseInt(request.user.sub, 10))
-              )
-            )) as DataAlbumResDto[],
+          return ({
+            result: await this.transform(data.results, request.user.sub),
             total: data.total,
-          } as DataPaginationResDto<DataAlbumResDto>;
+          } as unknown) as DataPaginationResDto<DataAlbumResDto>;
         }
       })
     );

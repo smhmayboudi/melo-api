@@ -70,7 +70,7 @@ describe("ArtistService", () => {
     remove: (): Promise<void> => Promise.resolve(undefined),
     set: (): Promise<void> => Promise.resolve(undefined),
   };
-  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
 
@@ -80,7 +80,7 @@ describe("ArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
         { provide: DataArtistService, useValue: dataArtistServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
@@ -146,7 +146,10 @@ describe("ArtistService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           ArtistService,
-          { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+          {
+            provide: AppCheckFollowService,
+            useValue: appCheckFollowServiceMock,
+          },
           { provide: DataArtistService, useValue: dataArtistServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
         ],

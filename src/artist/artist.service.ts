@@ -20,7 +20,7 @@ import { RelationType } from "../relation/relation.type";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    // private readonly appMixArtistService: AppCheckFollowService,
+    // private readonly appCheckFollowService: AppCheckFollowService,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}

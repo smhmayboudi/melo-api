@@ -65,7 +65,7 @@ describe("AlbumFollowInterceptor", () => {
     results: [album],
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
-  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
@@ -74,7 +74,7 @@ describe("AlbumFollowInterceptor", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
       ],
     }).compile();
     service = module.get<AppCheckFollowService>(AppCheckFollowService);

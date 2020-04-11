@@ -57,7 +57,7 @@ describe("SongController", () => {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const songServiceMock: SongServiceInterface = {
@@ -105,7 +105,7 @@ describe("SongController", () => {
         { provide: SongService, useValue: songServiceMock },
         {
           provide: AppCheckLikeService,
-          useValue: appMixSongServiceMock,
+          useValue: appCheckLikeServiceMock,
         },
       ],
     }).compile();

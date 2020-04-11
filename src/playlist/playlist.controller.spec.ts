@@ -59,7 +59,7 @@ describe("PlaylistController", () => {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const playlistServiceMock: PlaylistServiceInterface = {
@@ -83,7 +83,7 @@ describe("PlaylistController", () => {
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
-        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
       ],
     }).compile();
     controller = module.get<PlaylistController>(PlaylistController);

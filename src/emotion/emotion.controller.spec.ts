@@ -43,7 +43,7 @@ describe("EmotionController", () => {
     total: 1,
   } as DataPaginationResDto<EmotionResDto>;
 
-  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const emotionServiceMock: EmotionServiceInterface = {
@@ -93,7 +93,7 @@ describe("EmotionController", () => {
       providers: [
         { provide: EmotionService, useValue: emotionServiceMock },
         { provide: SongService, useValue: songServiceMock },
-        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
       ],
     }).compile();
     controller = module.get<EmotionController>(EmotionController);

@@ -50,7 +50,7 @@ describe("AlbumService", () => {
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
 
-  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
@@ -68,7 +68,10 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+          {
+            provide: AppCheckFollowService,
+            useValue: appCheckFollowServiceMock,
+          },
           { provide: DataAlbumService, useValue: dataAlbumServiceMock },
         ],
       }).compile();
@@ -126,7 +129,7 @@ describe("AlbumService", () => {
           AlbumService,
           {
             provide: AppCheckFollowService,
-            useValue: appMixArtistServiceMock,
+            useValue: appCheckFollowServiceMock,
           },
           {
             provide: DataAlbumService,
@@ -165,7 +168,10 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+          {
+            provide: AppCheckFollowService,
+            useValue: appCheckFollowServiceMock,
+          },
           {
             provide: DataAlbumService,
             useValue: dataAlbumServiceMockSongsUndefined,

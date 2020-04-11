@@ -15,7 +15,7 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class SongLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appMixSongService: AppCheckLikeService) {}
+  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -32,14 +32,14 @@ export class SongLikeInterceptor implements NestInterceptor {
           // because of sendTelegram service which is void
           return data;
         } else if (data.total === undefined) {
-          const result = await this.appMixSongService.like(
+          const result = await this.appCheckLikeService.like(
             [data],
             parseInt(request.user.sub, 10)
           );
           return result[0];
         } else {
           return {
-            results: await this.appMixSongService.like(
+            results: await this.appCheckLikeService.like(
               data.results,
               parseInt(request.user.sub, 10)
             ),

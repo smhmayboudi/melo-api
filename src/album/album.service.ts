@@ -14,7 +14,7 @@ import { PromMethodCounter } from "../prom/prom.decorator";
 // @PromInstanceCounter
 export class AlbumService {
   constructor(
-    private readonly appMixArtistService: AppCheckFollowService,
+    private readonly appCheckFollowService: AppCheckFollowService,
     private readonly dataAlbumService: DataAlbumService
   ) {}
 
@@ -34,7 +34,7 @@ export class AlbumService {
       albumResDto.results
         .filter((value) => value !== undefined)
         .map(async (value) => {
-          const artists = await this.appMixArtistService.follow(
+          const artists = await this.appCheckFollowService.follow(
             value.artists === undefined ? [] : value.artists,
             sub
           );

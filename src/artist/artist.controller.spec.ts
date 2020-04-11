@@ -49,10 +49,10 @@ describe("ArtistController", () => {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const artistServiceMock: ArtistServiceInterface = {
@@ -75,8 +75,8 @@ describe("ArtistController", () => {
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: ArtistService, useValue: artistServiceMock },
-        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
-        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
       ],
     }).compile();
     controller = module.get<ArtistController>(ArtistController);

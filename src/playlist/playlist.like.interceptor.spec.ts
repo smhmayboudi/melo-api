@@ -64,7 +64,7 @@ describe("PlaylistLikeInterceptor", () => {
     total: 1,
   } as DataPaginationResDto<DataPlaylistResDto>;
 
-  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
@@ -73,7 +73,7 @@ describe("PlaylistLikeInterceptor", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
+        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
       ],
     }).compile();
     service = module.get<AppCheckLikeService>(AppCheckLikeService);

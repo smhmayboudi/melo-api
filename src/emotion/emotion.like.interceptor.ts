@@ -15,15 +15,24 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class EmotionLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appMixSongService: AppCheckLikeService) {}
+  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
 
   transform = async (
-    emotion: EmotionResDto,
-    sub: number
-  ): Promise<EmotionResDto> => {
-    const song = await this.appMixSongService.like([emotion.song], sub);
-    return { ...emotion, song: song[0] };
-  };
+    emotions: EmotionResDto[],
+    sub: string
+  ): Promise<EmotionResDto[]> =>
+    Promise.all(
+      emotions.map(async (value) => {
+        const song = await this.appCheckLikeService.like(
+          [value.song],
+          parseInt(sub, 10)
+        );
+        return {
+          ...value,
+          song: song[0],
+        };
+      })
+    );
 
   intercept(
     context: ExecutionContext,
@@ -36,12 +45,7 @@ export class EmotionLikeInterceptor implements NestInterceptor {
     return next.handle().pipe(
       flatMap(async (data) => {
         return {
-          results: (await Promise.all(
-            data.results.map(
-              async (value) =>
-                await this.transform(value, parseInt(request.user.sub, 10))
-            )
-          )) as EmotionResDto[],
+          results: await this.transform(data.results, request.user.sub),
           total: data.total,
         } as DataPaginationResDto<EmotionResDto>;
       })

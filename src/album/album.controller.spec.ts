@@ -49,10 +49,10 @@ describe("AlbumController", () => {
     title: "",
   };
 
-  const appMixSongServiceMock: AppCheckLikeServiceInterface = {
+  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appMixArtistServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const albumServiceMock: AlbumServiceInterface = {
@@ -75,8 +75,8 @@ describe("AlbumController", () => {
       providers: [
         { provide: AlbumService, useValue: albumServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppCheckLikeService, useValue: appMixSongServiceMock },
-        { provide: AppCheckFollowService, useValue: appMixArtistServiceMock },
+        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
       ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);

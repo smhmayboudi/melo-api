@@ -15,18 +15,24 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class AlbumFollowInterceptor implements NestInterceptor {
-  constructor(private readonly appMixArtistService: AppCheckFollowService) {}
+  constructor(private readonly appCheckFollowService: AppCheckFollowService) {}
 
   transform = async (
-    album: DataAlbumResDto,
-    sub: number
-  ): Promise<DataAlbumResDto> => ({
-    ...album,
-    artists:
-      album.artists === undefined
-        ? undefined
-        : await this.appMixArtistService.follow(album.artists, sub),
-  });
+    albums: DataAlbumResDto[],
+    sub: string
+  ): Promise<DataAlbumResDto[]> =>
+    Promise.all(
+      albums.map(async (value) => ({
+        ...value,
+        artists:
+          value.artists === undefined
+            ? undefined
+            : await this.appCheckFollowService.follow(
+                value.artists,
+                parseInt(sub, 10)
+              ),
+      }))
+    );
 
   intercept(
     context: ExecutionContext,
@@ -41,14 +47,11 @@ export class AlbumFollowInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          return this.transform(data, parseInt(request.user.sub, 10));
+          const result = await this.transform([data], request.user.sub);
+          return result[0];
         } else {
           return {
-            results: (await Promise.all(
-              data.results.map(async (value) => {
-                await this.transform(value, parseInt(request.user.sub, 10));
-              })
-            )) as DataAlbumResDto[],
+            results: await this.transform(data.results, request.user.sub),
             total: data.total,
           } as DataPaginationResDto<DataAlbumResDto>;
         }

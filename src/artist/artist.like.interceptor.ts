@@ -16,24 +16,27 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class ArtistLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appMixSongService: AppCheckLikeService) {}
+  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
 
   transform = async (
-    artist: DataArtistResDto,
-    sub: number
-  ): Promise<DataArtistResDto> => ({
-    ...artist,
-    songs:
-      artist.songs === undefined
-        ? undefined
-        : (({
-            results: await this.appMixSongService.like(
-              artist.songs.results,
-              sub
-            ),
-            total: artist.songs.total,
-          } as unknown) as DataPaginationResDto<DataSongResDto>),
-  });
+    artists: DataArtistResDto[],
+    sub: string
+  ): Promise<DataArtistResDto[]> =>
+    Promise.all(
+      artists.map(async (value) => ({
+        ...value,
+        songs:
+          value.songs === undefined
+            ? undefined
+            : ({
+                results: await this.appCheckLikeService.like(
+                  value.songs.results,
+                  parseInt(sub, 10)
+                ),
+                total: value.songs.total,
+              } as DataPaginationResDto<DataSongResDto>),
+      }))
+    );
 
   intercept(
     context: ExecutionContext,
@@ -48,15 +51,11 @@ export class ArtistLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          return this.transform(data, parseInt(request.user.sub, 10));
+          const result = await this.transform([data], request.user.sub);
+          return result[0];
         } else {
           return {
-            results: (await Promise.all(
-              data.results.map(
-                async (value) =>
-                  await this.transform(value, parseInt(request.user.sub, 10))
-              )
-            )) as DataArtistResDto[],
+            results: await this.transform(data.result, request.user.sub),
             total: data.total,
           } as DataPaginationResDto<DataArtistResDto>;
         }
