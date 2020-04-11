@@ -2,7 +2,7 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
@@ -20,38 +20,38 @@ const transform = (artist: DataArtistResDto): DataArtistResDto => ({
     artist.albums === undefined
       ? undefined
       : ({
-          results: artist.albums.results.map(value => ({
+          results: artist.albums.results.map((value) => ({
             ...value,
             songs:
               value.songs === undefined
                 ? undefined
-                : value.songs.results.map(songValue => {
+                : value.songs.results.map((songValue) => {
                     songValue.localized === true
                       ? {
                           ...songValue,
                           audio: undefined,
-                          lyrics: undefined
+                          lyrics: undefined,
                         }
                       : songValue;
-                  })
+                  }),
           })),
-          total: artist.albums.total
+          total: artist.albums.total,
         } as DataPaginationResDto<DataAlbumResDto>),
   songs:
     artist.songs === undefined
       ? undefined
-      : (({
-          results: artist.songs.results.map(value => {
-            value.localized === true
+      : ({
+          results: artist.songs.results.map((value) => {
+            return value.localized === true
               ? {
                   ...value,
                   audio: undefined,
-                  lyrics: undefined
+                  lyrics: undefined,
                 }
               : value;
           }),
-          total: artist.songs.total
-        } as unknown) as DataPaginationResDto<DataSongResDto>)
+          total: artist.songs.total,
+        } as DataPaginationResDto<DataSongResDto>),
 });
 
 @Injectable()
@@ -65,15 +65,15 @@ export class ArtistLocalizeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      map(data => {
+      map((data) => {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
           return transform(data);
         } else {
           return {
-            results: data.results.map(value => transform(value)),
-            total: data.total
+            results: data.results.map((value) => transform(value)),
+            total: data.total,
           } as DataPaginationResDto<DataArtistResDto>;
         }
       })

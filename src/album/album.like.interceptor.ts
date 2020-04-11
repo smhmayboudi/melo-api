@@ -4,6 +4,7 @@ import {
   Injectable,
   NestInterceptor,
 } from "@nestjs/common";
+
 import { AppCheckLikeService } from "../app/app.check-like.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
@@ -53,10 +54,10 @@ export class AlbumLikeInterceptor implements NestInterceptor {
           const result = await this.transform([data], request.user.sub);
           return result[0];
         } else {
-          return ({
-            result: await this.transform(data.results, request.user.sub),
+          return {
+            results: await this.transform(data.results, request.user.sub),
             total: data.total,
-          } as unknown) as DataPaginationResDto<DataAlbumResDto>;
+          } as DataPaginationResDto<DataAlbumResDto>;
         }
       })
     );
