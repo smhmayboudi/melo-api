@@ -4,7 +4,7 @@ import { Request } from "express";
 export class Strategy extends PassportStrategy {
   name: string;
   verify: (
-    authorization: any,
+    authorization: string | undefined,
     verified: (
       err: Error | null,
       user?: Record<string, any>,
@@ -16,7 +16,7 @@ export class Strategy extends PassportStrategy {
 
   constructor(
     verify: (
-      authorization: any,
+      authorization: string | undefined,
       verified: (
         err: Error | null,
         user?: Record<string, any>,

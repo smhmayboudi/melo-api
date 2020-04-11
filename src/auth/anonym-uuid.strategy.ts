@@ -5,8 +5,8 @@ import { Strategy } from "./anonym.strategy";
 
 @Injectable()
 export class AnonymUUIDStrategy extends PassportStrategy(Strategy) {
-  async validate(au: any): Promise<AuthStrategyResDto> {
-    if (au === undefined) {
+  async validate(authorization: string): Promise<AuthStrategyResDto> {
+    if (authorization === undefined) {
       return Promise.resolve({
         sub: "0",
       });
