@@ -55,7 +55,7 @@ export class ArtistLikeInterceptor implements NestInterceptor {
           return result[0];
         } else {
           return {
-            results: await this.transform(data.result, request.user.sub),
+            results: await this.transform(data.results, request.user.sub),
             total: data.total,
           } as DataPaginationResDto<DataArtistResDto>;
         }

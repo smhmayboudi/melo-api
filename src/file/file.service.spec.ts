@@ -21,14 +21,14 @@ describe("FileService", () => {
     fieldname: "",
     mimeType: "image/jpeg",
     originalname: "",
-    size: 0
+    size: 0,
   };
   const fileUploadImage: FileUploadImageResDto = {
     createdAt: date,
     fileKey: "",
     mimeType: "image/jpeg",
     originalname: "",
-    size: 0
+    size: 0,
   };
   const fileEntity: FileEntity = {
     bucket: "misc",
@@ -38,13 +38,13 @@ describe("FileService", () => {
     id: 0,
     mime_type: "image/jpeg",
     owner_user_id: 0,
-    size: 0
+    size: 0,
   };
   // TODO: interface ?
   const managedUpload = {
     Bucket: "",
     ETag: "",
-    Key: ""
+    Key: "",
   };
 
   const fileConfigServiceMock: FileConfigServiceInterface = {
@@ -57,11 +57,11 @@ describe("FileService", () => {
     s3Bucket: "misc",
     s3Endpoint: "127.0.0.1:9000",
     s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false
+    s3SslEnabled: false,
   };
   const fileEntityRepositoryMock: FileEntityRepositoryInterface = {
     save: <FileEntity>(): Promise<FileEntity> =>
-      (Promise.resolve(fileEntity) as unknown) as Promise<FileEntity>
+      (Promise.resolve(fileEntity) as unknown) as Promise<FileEntity>,
   };
 
   let service: FileService;
@@ -72,16 +72,16 @@ describe("FileService", () => {
         { provide: FileConfigService, useValue: fileConfigServiceMock },
         {
           provide: getRepositoryToken(FileEntity),
-          useValue: fileEntityRepositoryMock
+          useValue: fileEntityRepositoryMock,
         },
-        FileService
-      ]
+        FileService,
+      ],
     }).compile();
     service = module.get<FileService>(FileService);
     jest.mock("aws-sdk").fn(() => ({
-      save: () => managedUpload
+      save: () => managedUpload,
     }));
-  });
+  }, 20000);
 
   it("uploadImage should be equal to a file upload image", async () => {
     expect(await service.uploadImage(0, file)).toEqual(fileUploadImage);
@@ -96,7 +96,7 @@ describe("FileService", () => {
       ...file,
       buffer: Buffer.from(
         "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
-      )
+      ),
     };
     return expect(service.uploadImage(0, dto)).rejects.toThrowError();
   });
