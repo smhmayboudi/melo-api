@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppCheckLikeService } from "../app/app.check-like.service";
+import { AppCheckLikeService } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";

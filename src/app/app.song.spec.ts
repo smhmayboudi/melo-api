@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "./app.check-like.service";
+import { AppCheckLikeService } from "./app.song";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";

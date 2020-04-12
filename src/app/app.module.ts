@@ -11,9 +11,9 @@ import { ActionModule } from "../action/action.module";
 import { AlbumModule } from "../album/album.module";
 import { ApmModule } from "../apm/apm.module";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
+import { AppArtist } from "./app.artist";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
-import { AppCheckFollowService } from "./app.check-follow.service";
-import { AppCheckLikeService } from "./app.check-like.service";
+import { AppCheckLikeService } from "./app.song";
 import { AppConfigService } from "./app.config.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
@@ -54,7 +54,7 @@ import config from "./app.config";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppCheckFollowService,
+    AppArtist,
     AppCheckLikeService,
     AppService,
   ],
@@ -135,7 +135,7 @@ import config from "./app.config";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppCheckFollowService,
+    AppArtist,
     AppCheckLikeService,
     AppService,
     {

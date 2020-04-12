@@ -1,4 +1,4 @@
-import { AppCheckLikeServiceInterface } from "./app.check-like.service.interface";
+import { AppCheckLikeServiceInterface } from "./app.song.interface";
 import { AppHashIdService } from "./app.hash-id.service";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Injectable } from "@nestjs/common";

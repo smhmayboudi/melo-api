@@ -1,9 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckFollowService } from "../app/app.check-follow.service";
-import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
-import { AppCheckLikeService } from "../app/app.check-like.service";
-import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
+import { AppArtist } from "../app/app.artist";
+import { AppArtistInterface } from "../app/app.artist.interface";
+import { AppCheckLikeService } from "../app/app.song";
+import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
@@ -52,7 +52,7 @@ describe("ArtistController", () => {
   const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const artistServiceMock: ArtistServiceInterface = {
@@ -76,7 +76,7 @@ describe("ArtistController", () => {
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: ArtistService, useValue: artistServiceMock },
         { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
-        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
+        { provide: AppArtist, useValue: appCheckFollowServiceMock },
       ],
     }).compile();
     controller = module.get<ArtistController>(ArtistController);

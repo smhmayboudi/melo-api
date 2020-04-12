@@ -1,4 +1,5 @@
 import { IsArray, IsNumberString, IsString } from "class-validator";
+
 import { ApiProperty } from "@nestjs/swagger";
 
 export class EmotionDataResDto {
@@ -9,7 +10,7 @@ export class EmotionDataResDto {
 
   @ApiProperty({
     description: "the song id",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   songId: number;
@@ -18,7 +19,7 @@ export class EmotionDataResDto {
     description: "The emotions",
     example: ["happy"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsArray()
   @IsString({ each: true })

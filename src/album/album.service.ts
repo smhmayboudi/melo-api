@@ -3,7 +3,7 @@ import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
-import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppArtist } from "../app/app.artist";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -14,7 +14,7 @@ import { PromMethodCounter } from "../prom/prom.decorator";
 // @PromInstanceCounter
 export class AlbumService {
   constructor(
-    private readonly appCheckFollowService: AppCheckFollowService,
+    private readonly appCheckFollowService: AppArtist,
     private readonly dataAlbumService: DataAlbumService
   ) {}
 

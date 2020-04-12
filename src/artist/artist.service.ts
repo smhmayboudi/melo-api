@@ -1,6 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 
-// import { AppCheckFollowService } from "../app/app.mix-artist.service";
+// import { AppArtist } from "../app/app.mix-artist.service";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -20,7 +20,7 @@ import { RelationType } from "../relation/relation.type";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    // private readonly appCheckFollowService: AppCheckFollowService,
+    // private readonly appCheckFollowService: AppArtist,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}

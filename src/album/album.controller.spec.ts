@@ -6,10 +6,10 @@ import { AlbumController } from "./album.controller";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
-import { AppCheckFollowService } from "../app/app.check-follow.service";
-import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
-import { AppCheckLikeService } from "../app/app.check-like.service";
-import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
+import { AppArtist } from "../app/app.artist";
+import { AppArtistInterface } from "../app/app.artist.interface";
+import { AppCheckLikeService } from "../app/app.song";
+import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
@@ -52,7 +52,7 @@ describe("AlbumController", () => {
   const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const albumServiceMock: AlbumServiceInterface = {
@@ -76,7 +76,7 @@ describe("AlbumController", () => {
         { provide: AlbumService, useValue: albumServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
-        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
+        { provide: AppArtist, useValue: appCheckFollowServiceMock },
       ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);

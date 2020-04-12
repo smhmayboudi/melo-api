@@ -1,8 +1,9 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AlbumFollowInterceptor } from "./album.follow.interceptor";
-import { AppCheckFollowService } from "../app/app.check-follow.service";
-import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
+import { AppArtist } from "../app/app.artist";
+import { AppArtistInterface } from "../app/app.artist.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -65,19 +66,17 @@ describe("AlbumFollowInterceptor", () => {
     results: [album],
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
-  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
-  let service: AppCheckFollowService;
+  let service: AppArtist;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
-      ],
+      providers: [{ provide: AppArtist, useValue: appCheckFollowServiceMock }],
     }).compile();
-    service = module.get<AppCheckFollowService>(AppCheckFollowService);
+    service = module.get<AppArtist>(AppArtist);
   });
 
   it("should be defined", () => {

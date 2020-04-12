@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.check-like.service";
-import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
+import { AppCheckLikeService } from "../app/app.song";
+import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";

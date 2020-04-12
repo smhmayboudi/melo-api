@@ -1,6 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckFollowService } from "./app.check-follow.service";
+import { AppArtist } from "./app.artist";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
@@ -14,7 +14,7 @@ import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
 
-describe("AppCheckFollowService", () => {
+describe("AppArtist", () => {
   const artists: DataArtistResDto[] = [
     {
       followersCount: 0,
@@ -56,18 +56,18 @@ describe("AppCheckFollowService", () => {
     set: (): Promise<void> => Promise.resolve(undefined),
   };
 
-  let service: AppCheckFollowService;
+  let service: AppArtist;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: {} },
-        AppCheckFollowService,
+        AppArtist,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
     }).compile();
-    service = module.get<AppCheckFollowService>(AppCheckFollowService);
+    service = module.get<AppArtist>(AppArtist);
   });
 
   it("should be defined", () => {

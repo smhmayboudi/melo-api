@@ -4,8 +4,8 @@ import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumService } from "./album.service";
-import { AppCheckFollowService } from "../app/app.check-follow.service";
-import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
+import { AppArtist } from "../app/app.artist";
+import { AppArtistInterface } from "../app/app.artist.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
@@ -50,7 +50,7 @@ describe("AlbumService", () => {
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
 
-  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
@@ -69,7 +69,7 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           {
-            provide: AppCheckFollowService,
+            provide: AppArtist,
             useValue: appCheckFollowServiceMock,
           },
           { provide: DataAlbumService, useValue: dataAlbumServiceMock },
@@ -128,7 +128,7 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           {
-            provide: AppCheckFollowService,
+            provide: AppArtist,
             useValue: appCheckFollowServiceMock,
           },
           {
@@ -169,7 +169,7 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           {
-            provide: AppCheckFollowService,
+            provide: AppArtist,
             useValue: appCheckFollowServiceMock,
           },
           {

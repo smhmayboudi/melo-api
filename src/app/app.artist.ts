@@ -1,4 +1,4 @@
-import { AppCheckFollowServiceInterface } from "./app.check-follow.service.interface";
+import { AppArtistInterface } from "./app.artist.interface";
 import { AppHashIdService } from "./app.hash-id.service";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { Injectable } from "@nestjs/common";
@@ -7,7 +7,7 @@ import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
 
 @Injectable()
-export class AppCheckFollowService implements AppCheckFollowServiceInterface {
+export class AppArtist implements AppArtistInterface {
   constructor(
     private readonly appHashIdService: AppHashIdService,
     private readonly relationService: RelationService

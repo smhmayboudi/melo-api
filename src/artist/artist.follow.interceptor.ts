@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppCheckFollowService } from "../app/app.check-follow.service";
+import { AppArtist } from "../app/app.artist";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -15,7 +15,7 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class ArtistFollowInterceptor implements NestInterceptor {
-  constructor(private readonly appCheckFollowService: AppCheckFollowService) {}
+  constructor(private readonly appCheckFollowService: AppArtist) {}
 
   intercept(
     context: ExecutionContext,

@@ -1,8 +1,8 @@
 import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.check-like.service";
-import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
+import { AppCheckLikeService } from "../app/app.song";
+import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
 import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";

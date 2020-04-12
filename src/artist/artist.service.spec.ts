@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckFollowService } from "../app/app.check-follow.service";
-import { AppCheckFollowServiceInterface } from "../app/app.check-follow.service.interface";
+import { AppArtist } from "../app/app.artist";
+import { AppArtistInterface } from "../app/app.artist.interface";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -70,7 +70,7 @@ describe("ArtistService", () => {
     remove: (): Promise<void> => Promise.resolve(undefined),
     set: (): Promise<void> => Promise.resolve(undefined),
   };
-  const appCheckFollowServiceMock: AppCheckFollowServiceInterface = {
+  const appCheckFollowServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
 
@@ -80,7 +80,7 @@ describe("ArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: AppCheckFollowService, useValue: appCheckFollowServiceMock },
+        { provide: AppArtist, useValue: appCheckFollowServiceMock },
         { provide: DataArtistService, useValue: dataArtistServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
@@ -147,7 +147,7 @@ describe("ArtistService", () => {
         providers: [
           ArtistService,
           {
-            provide: AppCheckFollowService,
+            provide: AppArtist,
             useValue: appCheckFollowServiceMock,
           },
           { provide: DataArtistService, useValue: dataArtistServiceMock },

@@ -1,7 +1,8 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
-import { AppCheckLikeService } from "../app/app.check-like.service";
-import { AppCheckLikeServiceInterface } from "../app/app.check-like.service.interface";
+
+import { AppCheckLikeService } from "../app/app.song";
+import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
 import { ArtistLikeInterceptor } from "./artist.like.interceptor";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
