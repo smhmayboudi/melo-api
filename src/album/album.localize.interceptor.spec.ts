@@ -28,20 +28,20 @@ describe("AlbumLocalizeInterceptor", () => {
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",

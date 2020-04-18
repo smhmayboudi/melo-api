@@ -2,11 +2,12 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
-import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
+
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DataPlaylistResDto } from "src/data/dto/res/data.playlist.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
@@ -18,17 +19,17 @@ const transform = (playlist: DataPlaylistResDto): DataPlaylistResDto => ({
     playlist.songs === undefined
       ? undefined
       : ({
-          results: playlist.songs.results.map(value =>
+          results: playlist.songs.results.map((value) =>
             value.localized === true
               ? {
                   ...value,
                   audio: undefined,
-                  lyrics: undefined
+                  lyrics: undefined,
                 }
               : value
           ),
-          total: playlist.songs.total
-        } as DataPaginationResDto<DataSongResDto>)
+          total: playlist.songs.total,
+        } as DataPaginationResDto<DataSongResDto>),
 });
 
 @Injectable()
@@ -42,15 +43,15 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      map(data => {
+      map((data) => {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
           return transform(data);
         } else {
           return {
-            results: data.results.map(value => transform(value)),
-            total: data.total
+            results: data.results.map((value) => transform(value)),
+            total: data.total,
           } as DataPaginationResDto<DataPlaylistResDto>;
         }
       })

@@ -1,4 +1,5 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
+
 import { ArtistLocalizeInterceptor } from "./artist.localize.interceptor";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
@@ -29,13 +30,13 @@ describe("ArtistLocalizeInterceptor", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -76,7 +77,7 @@ describe("ArtistLocalizeInterceptor", () => {
   const artist: DataArtistResDto = {
     albums: albumPagination,
     followersCount: 0,
-    id: "",
+    id: 0,
     songs: songPagination,
     type: DataArtistType.prime,
   };

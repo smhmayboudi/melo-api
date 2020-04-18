@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppCheckLikeService } from "../app/app.song";
+import { AppSong } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
@@ -15,24 +15,15 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class EmotionLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
+  constructor(private readonly appSong: AppSong) {}
 
   transform = async (
-    emotions: EmotionResDto[],
-    sub: string
-  ): Promise<EmotionResDto[]> =>
-    Promise.all(
-      emotions.map(async (value) => {
-        const song = await this.appCheckLikeService.like(
-          [value.song],
-          parseInt(sub, 10)
-        );
-        return {
-          ...value,
-          song: song[0],
-        };
-      })
-    );
+    emotion: EmotionResDto,
+    sub: number
+  ): Promise<EmotionResDto> => {
+    const song = await this.appSong.like([emotion.song], sub);
+    return { ...emotion, song: song[0] };
+  };
 
   intercept(
     context: ExecutionContext,
@@ -45,7 +36,12 @@ export class EmotionLikeInterceptor implements NestInterceptor {
     return next.handle().pipe(
       flatMap(async (data) => {
         return {
-          results: await this.transform(data.results, request.user.sub),
+          results: (await Promise.all(
+            data.results.map(
+              async (value) =>
+                await this.transform(value, parseInt(request.user.sub, 10))
+            )
+          )) as EmotionResDto[],
           total: data.total,
         } as DataPaginationResDto<EmotionResDto>;
       })

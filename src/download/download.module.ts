@@ -9,7 +9,7 @@ import { DownloadController } from "./download.controller";
 import { DownloadHealthIndicator } from "./download.health.indicator";
 import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 import { DownloadService } from "./download.service";
-import { SongModule } from "src/song/song.module";
+import { SongModule } from "../song/song.module";
 import config from "./download.config";
 
 @Module({

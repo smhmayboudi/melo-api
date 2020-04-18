@@ -1,8 +1,8 @@
 import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
 import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
@@ -51,13 +51,13 @@ describe("SongService", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -71,7 +71,7 @@ describe("SongService", () => {
     telegram_id: 0,
   };
 
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const dataSongServiceMock: DataSongServiceInterface = {
@@ -121,7 +121,7 @@ describe("SongService", () => {
       Promise.resolve({
         results: [
           {
-            id: "",
+            id: 0,
             type: RelationEntityType.album,
           },
         ],
@@ -132,12 +132,12 @@ describe("SongService", () => {
       Promise.resolve([
         {
           from: {
-            id: "0",
+            id: 0,
             type: RelationEntityType.album,
           },
           relation: RelationType.dislikedSongs,
           to: {
-            id: "1",
+            id: 1,
             type: RelationEntityType.album,
           },
         },
@@ -173,7 +173,7 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+        { provide: AppSong, useValue: appMixSongServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
@@ -193,27 +193,27 @@ describe("SongService", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      artistId: "0",
+      artistId: 0,
       from: 0,
       limit: 0,
     };
-    expect(await service.artistSongs(dto, 0)).toEqual(songPagination);
+    expect(await service.artistSongs(dto)).toEqual(songPagination);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsTopReqDto = {
-      artistId: "0",
+      artistId: 0,
       from: 0,
       limit: 0,
     };
-    expect(await service.artistSongsTop(dto, 0)).toEqual(songPagination);
+    expect(await service.artistSongsTop(dto)).toEqual(songPagination);
   });
 
   it("byId should be equal to a songs", async () => {
     const dto: SongByIdReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await service.byId(dto, 0)).toEqual(song);
+    expect(await service.byId(dto)).toEqual(song);
   });
 
   it("genre should be equal to a list of songs", async () => {
@@ -244,9 +244,9 @@ describe("SongService", () => {
 
   it("like should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await service.like(dto, 0, 0)).toEqual({ ...song, liked: true });
+    expect(await service.like(dto, 0)).toEqual({ ...song, liked: true });
   });
 
   it("liked should be equal to a list of songs", async () => {
@@ -309,18 +309,18 @@ describe("SongService", () => {
 
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
-      id: "0",
+      id: 0,
     };
-    expect(await service.sendTelegram(dto, 0, 0)).toBeUndefined();
+    expect(await service.sendTelegram(dto, 0)).toBeUndefined();
   });
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
       from: 0,
-      id: "",
+      id: 0,
       limit: 0,
     };
-    expect(await service.similar(dto, 0)).toEqual(songPagination);
+    expect(await service.similar(dto)).toEqual(songPagination);
   });
 
   it("slider should be equal to a list of songs", async () => {
@@ -345,9 +345,9 @@ describe("SongService", () => {
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await service.unlike(dto, 0, 0)).toEqual({ ...song, liked: false });
+    expect(await service.unlike(dto, 0)).toEqual({ ...song, liked: false });
   });
 
   describe("SongService empty get", () => {
@@ -364,7 +364,7 @@ describe("SongService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+          { provide: AppSong, useValue: appMixSongServiceMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
@@ -398,7 +398,7 @@ describe("SongService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+          { provide: AppSong, useValue: appMixSongServiceMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMock },
@@ -417,9 +417,9 @@ describe("SongService", () => {
 
     it("sendTelegram should throw exception", async () => {
       const dto: SongSendTelegramReqDto = {
-        id: "0",
+        id: 0,
       };
-      return expect(service.sendTelegram(dto, 0, 0)).rejects.toThrowError();
+      return expect(service.sendTelegram(dto, 0)).rejects.toThrowError();
     });
   });
 });

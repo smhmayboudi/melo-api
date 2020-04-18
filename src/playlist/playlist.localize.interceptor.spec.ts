@@ -1,4 +1,5 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
+
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
@@ -28,13 +29,13 @@ describe("PlaylistLocalizeInterceptor", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",

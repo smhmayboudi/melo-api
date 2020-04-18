@@ -24,7 +24,7 @@ import { RelationType } from "../relation/relation.type";
 describe("ArtistService", () => {
   const follow: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const followPaginatin: DataPaginationResDto<DataArtistResDto> = {
@@ -46,7 +46,7 @@ describe("ArtistService", () => {
       Promise.resolve({
         results: [
           {
-            id: "",
+            id: 0,
             type: RelationEntityType.album,
           },
         ],
@@ -57,12 +57,12 @@ describe("ArtistService", () => {
       Promise.resolve([
         {
           from: {
-            id: "0",
+            id: 0,
             type: RelationEntityType.album,
           },
           relation: RelationType.dislikedSongs,
           to: {
-            id: "1",
+            id: 1,
             type: RelationEntityType.album,
           },
         },
@@ -70,7 +70,7 @@ describe("ArtistService", () => {
     remove: (): Promise<void> => Promise.resolve(undefined),
     set: (): Promise<void> => Promise.resolve(undefined),
   };
-  const appCheckFollowServiceMock: AppArtistInterface = {
+  const appMixArtistServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
 
@@ -80,7 +80,7 @@ describe("ArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: AppArtist, useValue: appCheckFollowServiceMock },
+        { provide: AppArtist, useValue: appMixArtistServiceMock },
         { provide: DataArtistService, useValue: dataArtistServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
@@ -94,9 +94,9 @@ describe("ArtistService", () => {
 
   it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await service.follow(dto, 0, 0)).toEqual(follow);
+    expect(await service.follow(dto, 0)).toEqual(follow);
   });
 
   it("following should equal list of artists", async () => {
@@ -109,9 +109,9 @@ describe("ArtistService", () => {
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistByIdReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await service.profile(dto, 0)).toEqual(follow);
+    expect(await service.profile(dto)).toEqual(follow);
   });
 
   it("trending should equal list of artists", async () => {
@@ -127,9 +127,9 @@ describe("ArtistService", () => {
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await service.unfollow(dto, 0, 0)).toEqual(follow);
+    expect(await service.unfollow(dto, 0)).toEqual(follow);
   });
 
   describe("ArtistService", () => {
@@ -146,10 +146,7 @@ describe("ArtistService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           ArtistService,
-          {
-            provide: AppArtist,
-            useValue: appCheckFollowServiceMock,
-          },
+          { provide: AppArtist, useValue: appMixArtistServiceMock },
           { provide: DataArtistService, useValue: dataArtistServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
         ],

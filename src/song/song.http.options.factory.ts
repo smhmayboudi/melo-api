@@ -1,8 +1,9 @@
 import {
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
+
 import { SongConfigService } from "./song.config.service";
 
 @Injectable()
@@ -11,7 +12,7 @@ export class SongHttpOptionsFactory implements HttpModuleOptionsFactory {
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
-      timeout: this.songConfigService.timeout
+      timeout: this.songConfigService.timeout,
     };
   }
 }

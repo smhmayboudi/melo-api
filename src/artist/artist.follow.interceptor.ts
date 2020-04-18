@@ -15,7 +15,7 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class ArtistFollowInterceptor implements NestInterceptor {
-  constructor(private readonly appCheckFollowService: AppArtist) {}
+  constructor(private readonly appArtist: AppArtist) {}
 
   intercept(
     context: ExecutionContext,
@@ -30,13 +30,14 @@ export class ArtistFollowInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          return this.appCheckFollowService.follow(
+          const result = await this.appArtist.follow(
             [data],
             parseInt(request.user.sub, 10)
           );
+          return result[0];
         } else {
           return {
-            results: await this.appCheckFollowService.follow(
+            results: await this.appArtist.follow(
               data.results,
               parseInt(request.user.sub, 10)
             ),

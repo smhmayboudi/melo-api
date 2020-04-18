@@ -5,9 +5,9 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppCheckLikeService } from "../app/app.song";
+import { AppSong } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
-import { DataArtistResDto } from "src/data/dto/res/data.artist.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
@@ -16,26 +16,28 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class ArtistLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
+  constructor(private readonly appSong: AppSong) {}
 
   transform = async (
     artists: DataArtistResDto[],
     sub: string
   ): Promise<DataArtistResDto[]> =>
     Promise.all(
-      artists.map(async (value) => ({
-        ...value,
-        songs:
-          value.songs === undefined
-            ? undefined
-            : ({
-                results: await this.appCheckLikeService.like(
-                  value.songs.results,
-                  parseInt(sub, 10)
-                ),
-                total: value.songs.total,
-              } as DataPaginationResDto<DataSongResDto>),
-      }))
+      artists.map(async (value) => {
+        return {
+          ...value,
+          songs:
+            value.songs === undefined
+              ? undefined
+              : ({
+                  results: await this.appSong.like(
+                    value.songs.results,
+                    parseInt(sub, 10)
+                  ),
+                  total: value.songs.total,
+                } as DataPaginationResDto<DataSongResDto>),
+        };
+      })
     );
 
   intercept(
@@ -51,8 +53,7 @@ export class ArtistLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = await this.transform([data], request.user.sub);
-          return result[0];
+          return this.transform([data], request.user.sub);
         } else {
           return {
             results: await this.transform(data.results, request.user.sub),

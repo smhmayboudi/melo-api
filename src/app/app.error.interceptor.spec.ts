@@ -3,7 +3,7 @@
 import {
   CallHandler,
   ExecutionContext,
-  HttpArgumentsHost
+  HttpArgumentsHost,
 } from "@nestjs/common/interfaces";
 import { of, throwError } from "rxjs";
 
@@ -15,7 +15,7 @@ describe("AppErrorInterceptor", () => {
     getRequest: jest
       .fn()
       .mockImplementation(() => ({ path: "", user: { sub: "0" } })),
-    getResponse: jest.fn()
+    getResponse: jest.fn(),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -25,13 +25,13 @@ describe("AppErrorInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   const callHandler: CallHandler = {
-    handle: jest.fn(() => of(""))
+    handle: jest.fn(() => of("")),
   };
   const callHandlerException: CallHandler = {
-    handle: jest.fn(() => throwError(""))
+    handle: jest.fn(() => throwError("")),
   };
 
   it("should be defined", () => {

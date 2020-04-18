@@ -14,7 +14,7 @@ describe("PlaylistCacheOptionsFactory", () => {
     cacheStore: "",
     cacheTTL: 0,
     defaultImagePath: "",
-    imagePath: () => ""
+    imagePath: () => "",
   };
 
   let service: PlaylistConfigService;
@@ -25,17 +25,17 @@ describe("PlaylistCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: PlaylistConfigService,
-            useValue: playlistConfigServiceMock
+            useValue: playlistConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<PlaylistConfigService>(PlaylistConfigService);
     });
@@ -57,17 +57,17 @@ describe("PlaylistCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: PlaylistConfigService,
-            useValue: { ...playlistConfigServiceMock, cacheStore: "none" }
+            useValue: { ...playlistConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<PlaylistConfigService>(PlaylistConfigService);
     });
@@ -80,7 +80,7 @@ describe("PlaylistCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

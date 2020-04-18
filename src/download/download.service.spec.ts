@@ -23,36 +23,36 @@ describe("DownloadService", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
-        type: DataArtistType.feat
-      }
+        id: 0,
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate: downloadedAt,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const downloadSong: DownloadSongResDto = {
     downloadedAt,
-    song
+    song,
   };
   const downloadDataSong: DownloadDataSongResDto = {
     downloadedAt,
-    songId: "0"
+    songId: 0,
   };
   const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
     results: [downloadSong],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DownloadSongResDto>;
   const downloadDataSongPagination: DataPaginationResDto<DownloadDataSongResDto> = {
     results: [downloadDataSong],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DownloadDataSongResDto>;
 
   const songServiceMock: SongServiceInterface = {
@@ -87,7 +87,7 @@ describe("DownloadService", () => {
       Promise.resolve(songPagination),
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
-    unlike: (): Promise<DataSongResDto> => Promise.resolve(song)
+    unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -99,8 +99,8 @@ describe("DownloadService", () => {
         data: downloadDataSongPagination,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
 
   let service: DownloadService;
@@ -111,8 +111,8 @@ describe("DownloadService", () => {
         DownloadService,
         { provide: DownloadConfigService, useValue: {} },
         { provide: HttpService, useValue: httpServiceMock },
-        { provide: SongService, useValue: songServiceMock }
-      ]
+        { provide: SongService, useValue: songServiceMock },
+      ],
     }).compile();
     service = module.get<DownloadService>(DownloadService);
   });
@@ -122,10 +122,10 @@ describe("DownloadService", () => {
       from: 0,
       limit: 0,
       orderBy: DownloadOrderByType.asc,
-      sortBy: DownloadSortByType.date
+      sortBy: DownloadSortByType.date,
     };
     const queryDto: DownloadSongQueryReqDto = {
-      filter: ""
+      filter: "",
     };
     expect(
       await service.downloadedSongs(

@@ -8,14 +8,19 @@ import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
 import { AppArtist } from "../app/app.artist";
 import { AppArtistInterface } from "../app/app.artist.interface";
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppEncodingService } from "../app/app.encoding.service";
+import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
+import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { DataSearchType } from "../data/data.search.type";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("AlbumController", () => {
@@ -26,7 +31,7 @@ describe("AlbumController", () => {
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const albumPagination: DataPaginationResDto<DataAlbumResDto> = {
@@ -37,22 +42,35 @@ describe("AlbumController", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
   };
+  const playlist: DataPlaylistResDto = {
+    followersCount: 0,
+    id: "",
+    image: {
+      "": {
+        url: "",
+      },
+    },
+    isPublic: false,
+    releaseDate,
+    title: "",
+    tracksCount: 0,
+  };
 
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
-  const appCheckFollowServiceMock: AppArtistInterface = {
+  const appMixArtistServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const albumServiceMock: AlbumServiceInterface = {
@@ -61,6 +79,16 @@ describe("AlbumController", () => {
     byId: (): Promise<DataAlbumResDto> => Promise.resolve(album),
     latest: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
       Promise.resolve(albumPagination),
+  };
+  const search: DataSearchResDto = {
+    type: DataSearchType.album,
+  };
+  const appEncodingServiceMock: AppEncodingServiceInterface = {
+    encodeAlbums: (): DataAlbumResDto[] => [album],
+    encodeArtists: (): DataArtistResDto[] => [artist],
+    encodePlaylists: (): DataPlaylistResDto[] => [playlist],
+    encodeSearches: (): DataSearchResDto[] => [search],
+    encodeSongs: (): DataSongResDto[] => [song],
   };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -74,9 +102,10 @@ describe("AlbumController", () => {
       controllers: [AlbumController],
       providers: [
         { provide: AlbumService, useValue: albumServiceMock },
+        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
-        { provide: AppArtist, useValue: appCheckFollowServiceMock },
+        { provide: AppSong, useValue: appMixSongServiceMock },
+        { provide: AppArtist, useValue: appMixArtistServiceMock },
       ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);
@@ -88,18 +117,18 @@ describe("AlbumController", () => {
 
   it("artistAlbums should equal list of albums", async () => {
     const dto: AlbumArtistAlbumsReqDto = {
-      artistId: "0",
+      artistId: 0,
       from: 0,
       limit: 0,
     };
-    expect(await controller.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
+    expect(await controller.artistAlbums(dto)).toEqual(albumPagination);
   });
 
   it("byId should be equal to an album", async () => {
     const dto: AlbumByIdReqDto = {
-      id: "0",
+      id: 0,
     };
-    expect(await controller.byId(dto, 0)).toEqual(album);
+    expect(await controller.byId(dto)).toEqual(album);
   });
 
   it("latest should equal list of albums", async () => {

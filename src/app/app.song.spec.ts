@@ -1,9 +1,9 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "./app.song";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
+import { AppSong } from "./app.song";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
@@ -14,13 +14,13 @@ import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
 
-describe("AppCheckLikeService", () => {
+describe("AppSong", () => {
   const songs: DataSongResDto[] = [
     {
       artists: [
         {
           followersCount: 0,
-          id: "",
+          id: 0,
           type: DataArtistType.prime,
         },
       ],
@@ -31,13 +31,13 @@ describe("AppCheckLikeService", () => {
         },
       },
       duration: 0,
-      id: "",
+      id: 0,
       localized: false,
       releaseDate: new Date(),
       title: "",
     },
   ];
-  let service: AppCheckLikeService;
+  let service: AppSong;
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -49,7 +49,7 @@ describe("AppCheckLikeService", () => {
       Promise.resolve({
         results: [
           {
-            id: "",
+            id: 0,
             type: RelationEntityType.album,
           },
         ],
@@ -60,12 +60,12 @@ describe("AppCheckLikeService", () => {
       Promise.resolve([
         {
           from: {
-            id: "0",
+            id: 0,
             type: RelationEntityType.album,
           },
           relation: RelationType.dislikedSongs,
           to: {
-            id: "1",
+            id: 1,
             type: RelationEntityType.album,
           },
         },
@@ -78,12 +78,12 @@ describe("AppCheckLikeService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: {} },
-        AppCheckLikeService,
+        AppSong,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
     }).compile();
-    service = module.get<AppCheckLikeService>(AppCheckLikeService);
+    service = module.get<AppSong>(AppSong);
   });
 
   it("should be defined", () => {

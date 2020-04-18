@@ -31,7 +31,7 @@ describe("ArtistFollowInterceptor", () => {
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const artistPagination: DataPaginationResDto<DataArtistResDto> = {
@@ -39,7 +39,7 @@ describe("ArtistFollowInterceptor", () => {
     total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
 
-  const appCheckFollowServiceMock: AppArtistInterface = {
+  const appMixArtistServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
@@ -47,7 +47,7 @@ describe("ArtistFollowInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppArtist, useValue: appCheckFollowServiceMock }],
+      providers: [{ provide: AppArtist, useValue: appMixArtistServiceMock }],
     }).compile();
     service = module.get<AppArtist>(AppArtist);
   });

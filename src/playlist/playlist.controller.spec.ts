@@ -1,12 +1,18 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppEncodingService } from "../app/app.encoding.service";
+import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
+import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { DataSearchType } from "../data/data.search.type";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { PlaylistAddSongReqDto } from "./dto/req/playlist.add-song.req.dto";
 import { PlaylistController } from "./playlist.controller";
@@ -22,6 +28,15 @@ import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
 describe("PlaylistController", () => {
   const releaseDate = new Date();
+  const album: DataAlbumResDto = {
+    name: "",
+    releaseDate,
+  };
+  const artist: DataArtistResDto = {
+    followersCount: 0,
+    id: 0,
+    type: DataArtistType.prime,
+  };
   const playlist: DataPlaylistResDto = {
     followersCount: 0,
     id: "",
@@ -43,23 +58,33 @@ describe("PlaylistController", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
   };
+  const search: DataSearchResDto = {
+    type: DataSearchType.album,
+  };
 
+  const appEncodingServiceMock: AppEncodingServiceInterface = {
+    encodeAlbums: (): DataAlbumResDto[] => [album],
+    encodeArtists: (): DataArtistResDto[] => [artist],
+    encodePlaylists: (): DataPlaylistResDto[] => [playlist],
+    encodeSearches: (): DataSearchResDto[] => [search],
+    encodeSongs: (): DataSongResDto[] => [song],
+  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const playlistServiceMock: PlaylistServiceInterface = {
@@ -81,9 +106,10 @@ describe("PlaylistController", () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PlaylistController],
       providers: [
+        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+        { provide: AppSong, useValue: appMixSongServiceMock },
       ],
     }).compile();
     controller = module.get<PlaylistController>(PlaylistController);
@@ -96,9 +122,9 @@ describe("PlaylistController", () => {
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
       playlistId: "000000000000",
-      songId: "0",
+      songId: 0,
     };
-    expect(await controller.addSong(dto, 0)).toEqual(playlist);
+    expect(await controller.addSong(dto)).toEqual(playlist);
   });
 
   it("create should be equal to a playlist", async () => {
@@ -118,9 +144,9 @@ describe("PlaylistController", () => {
   it("deleteSong should be equal to a playlist", async () => {
     const dto: PlaylistSongReqDto = {
       playlistId: "000000000000",
-      songId: "0",
+      songId: 0,
     };
-    expect(await controller.deleteSong(dto, 0)).toEqual(playlist);
+    expect(await controller.deleteSong(dto)).toEqual(playlist);
   });
 
   it("edit should be equal to a playlist", async () => {

@@ -10,17 +10,11 @@ import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
 export interface PlaylistServiceInterface {
-  addSong(
-    dto: PlaylistAddSongReqDto,
-    songId: number
-  ): Promise<DataPlaylistResDto>;
+  addSong(dto: PlaylistAddSongReqDto): Promise<DataPlaylistResDto>;
   create(dto: PlaylistCreateReqDto, sub: number): Promise<DataPlaylistResDto>;
   delete(dto: PlaylistDeleteReqDto, sub: number): Promise<DataPlaylistResDto>;
   edit(dto: PlaylistEditReqDto): Promise<DataPlaylistResDto>;
-  deleteSong(
-    dto: PlaylistSongReqDto,
-    songId: number
-  ): Promise<DataPlaylistResDto>;
+  deleteSong(dto: PlaylistSongReqDto): Promise<DataPlaylistResDto>;
   get(dto: PlaylistGetReqDto): Promise<DataPlaylistResDto>;
   my(
     dto: PlaylistMyReqDto,

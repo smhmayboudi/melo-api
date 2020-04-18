@@ -2,8 +2,8 @@ import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumLikeInterceptor } from "./album.like.interceptor";
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -34,20 +34,20 @@ describe("AlbumLikeInterceptor", () => {
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -66,19 +66,17 @@ describe("AlbumLikeInterceptor", () => {
     results: [album],
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
-  let service: AppCheckLikeService;
+  let service: AppSong;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
-      ],
+      providers: [{ provide: AppSong, useValue: appMixSongServiceMock }],
     }).compile();
-    service = module.get<AppCheckLikeService>(AppCheckLikeService);
+    service = module.get<AppSong>(AppSong);
   });
 
   it("should be defined", () => {

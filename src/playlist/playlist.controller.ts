@@ -10,9 +10,8 @@ import {
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
-import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -22,6 +21,7 @@ import { PlaylistCreateReqDto } from "./dto/req/playlist.create.req.dto";
 import { PlaylistDeleteReqDto } from "./dto/req/playlist.delete.req.dto";
 import { PlaylistEditReqDto } from "./dto/req/playlist.edit.req.dto";
 import { PlaylistGetReqDto } from "./dto/req/playlist.get.req.dto";
+import { PlaylistHashIdInterceptor } from "./playlist.hash-id.interceptor";
 import { PlaylistLikeInterceptor } from "./playlist.like.interceptor";
 import { PlaylistLocalizeInterceptor } from "./playlist.localize.interceptor";
 import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
@@ -29,8 +29,9 @@ import { PlaylistService } from "./playlist.service";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
-@UseInterceptors(PlaylistLocalizeInterceptor)
 @UseInterceptors(PlaylistLikeInterceptor)
+@UseInterceptors(PlaylistLocalizeInterceptor)
+@UseInterceptors(PlaylistHashIdInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")
@@ -38,7 +39,7 @@ import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class PlaylistController {
@@ -46,15 +47,14 @@ export class PlaylistController {
 
   @ApiParam({
     name: "songId",
-    type: String
+    type: String,
   })
   @Post("addSong")
   @UseGuards(AuthGuard("jwt"))
   async addSong(
-    @Body() dto: PlaylistAddSongReqDto,
-    @Body("songId", AppHashIdPipe) songId: number
+    @Body() dto: PlaylistAddSongReqDto
   ): Promise<DataPlaylistResDto> {
-    return this.playlistService.addSong(dto, songId);
+    return this.playlistService.addSong(dto);
   }
 
   @Post("create")
@@ -77,15 +77,14 @@ export class PlaylistController {
 
   @ApiParam({
     name: "songId",
-    type: String
+    type: String,
   })
   @Delete("song/:playlistId/:songId")
   @UseGuards(AuthGuard("jwt"))
   async deleteSong(
-    @Param() dto: PlaylistSongReqDto,
-    @Param("songId", AppHashIdPipe) songId: number
+    @Param() dto: PlaylistSongReqDto
   ): Promise<DataPlaylistResDto> {
-    return this.playlistService.deleteSong(dto, songId);
+    return this.playlistService.deleteSong(dto);
   }
 
   @Post("edit")

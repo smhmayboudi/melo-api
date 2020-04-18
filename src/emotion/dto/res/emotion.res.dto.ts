@@ -1,7 +1,7 @@
 import { IsArray, IsString, ValidateNested } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
+import { DataSongResDto } from "../../../data/dto/res/data.song.res.dto";
 
 export class EmotionResDto {
   constructor(song: DataSongResDto, emotions: string[]) {
@@ -11,7 +11,7 @@ export class EmotionResDto {
 
   @ApiProperty({
     description: "the song",
-    example: 0
+    example: 0,
   })
   @ValidateNested()
   song: DataSongResDto;
@@ -20,7 +20,7 @@ export class EmotionResDto {
     description: "The emotions",
     example: ["happy"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsArray()
   @IsString({ each: true })

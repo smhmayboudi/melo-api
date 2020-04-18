@@ -13,8 +13,8 @@ import { ApmModule } from "../apm/apm.module";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppArtist } from "./app.artist";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
-import { AppCheckLikeService } from "./app.song";
 import { AppConfigService } from "./app.config.service";
+import { AppEncodingService } from "./app.encoding.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthIndicator } from "./app.health.indicator";
@@ -23,6 +23,7 @@ import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
+import { AppSong } from "./app.song";
 import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { ArtistModule } from "../artist/artist.module";
@@ -54,8 +55,9 @@ import config from "./app.config";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
+    AppEncodingService,
     AppArtist,
-    AppCheckLikeService,
+    AppSong,
     AppService,
   ],
   imports: [
@@ -135,8 +137,9 @@ import config from "./app.config";
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
+    AppEncodingService,
     AppArtist,
-    AppCheckLikeService,
+    AppSong,
     AppService,
     {
       provide: APP_INTERCEPTOR,

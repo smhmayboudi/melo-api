@@ -7,5 +7,5 @@ export default registerAs("song", () => ({
   cacheStore: process.env.SONG_CACHE_STORE,
   cacheTTL: process.env.SONG_CACHE_TTL,
   sendTelegramTimeout: process.env.SONG_SEND_TELEGRAM_TIMEOUT,
-  sendTelegramUrl: process.env.SONG_SEND_TELEGRAM_URL
+  sendTelegramUrl: process.env.SONG_SEND_TELEGRAM_URL,
 }));

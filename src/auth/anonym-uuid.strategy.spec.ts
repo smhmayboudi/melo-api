@@ -5,13 +5,13 @@ describe("AnonymUUIDStrategy", () => {
     expect(new AnonymUUIDStrategy()).toBeDefined();
   });
 
-  it("validate should be equal to a sub authorization undefined", async () => {
+  it("validate should be equal to a sub", async () => {
     expect(await new AnonymUUIDStrategy().validate(undefined)).toEqual({
       sub: "0",
     });
   });
 
-  it("validate should throw an unauthorized exception to non undefined authorization", async () => {
+  it("validate should throw error", () => {
     return expect(new AnonymUUIDStrategy().validate("")).rejects.toThrowError();
   });
 });

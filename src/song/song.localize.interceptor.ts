@@ -2,9 +2,10 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
-import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
+
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
@@ -16,7 +17,7 @@ const transform = (song: DataSongResDto): DataSongResDto =>
     ? {
         ...song,
         audio: undefined,
-        lyrics: undefined
+        lyrics: undefined,
       }
     : song;
 
@@ -31,15 +32,15 @@ export class SongLocalizeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      map(data => {
+      map((data) => {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
           return transform(data);
         } else {
           return {
-            results: data.results.map(value => transform(value)),
-            total: data.total
+            results: data.results.map((value) => transform(value)),
+            total: data.total,
           } as DataPaginationResDto<DataSongResDto>;
         }
       })

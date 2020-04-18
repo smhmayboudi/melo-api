@@ -6,7 +6,7 @@ import { RelationConfigService } from "./relation.config.service";
 describe("RelationService", () => {
   describe("get: number", () => {
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: RelationConfigService;
@@ -17,9 +17,9 @@ describe("RelationService", () => {
           RelationConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<RelationConfigService>(RelationConfigService);
     });
@@ -35,7 +35,7 @@ describe("RelationService", () => {
 
   describe("get: string", () => {
     const configServiceMock = {
-      get: (): string => "0"
+      get: (): string => "0",
     };
 
     let service: RelationConfigService;
@@ -46,9 +46,9 @@ describe("RelationService", () => {
           RelationConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<RelationConfigService>(RelationConfigService);
     });

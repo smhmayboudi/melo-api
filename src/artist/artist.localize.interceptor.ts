@@ -5,8 +5,8 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AuthJwtPayloadReqDto } from "src/auth/dto/req/auth.jwt-payload.req.dto";
-import { DataAlbumResDto } from "src/data/dto/res/data.album.res.dto";
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";

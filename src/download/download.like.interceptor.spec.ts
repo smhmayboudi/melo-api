@@ -1,8 +1,8 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -32,13 +32,13 @@ describe("DownloadLikeInterceptor", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -55,19 +55,17 @@ describe("DownloadLikeInterceptor", () => {
     handle: jest.fn(() => of(downloadPagination)),
   };
 
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
-  let service: AppCheckLikeService;
+  let service: AppSong;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
-      ],
+      providers: [{ provide: AppSong, useValue: appMixSongServiceMock }],
     }).compile();
-    service = module.get<AppCheckLikeService>(AppCheckLikeService);
+    service = module.get<AppSong>(AppSong);
   });
 
   it("should be defined", () => {

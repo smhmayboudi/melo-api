@@ -12,7 +12,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       passReqToCallback: false,
       passwordField: "password",
       session: false,
-      usernameField: "username"
+      usernameField: "username",
     });
   }
 
@@ -25,7 +25,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
     return {
-      sub: user.id.toString()
+      sub: user.id.toString(),
     };
   }
 }

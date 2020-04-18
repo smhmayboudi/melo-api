@@ -29,7 +29,7 @@ export class DataAlbumService implements DataAlbumServiceInterface {
       .get<DataPaginationResDto<DataAlbumResDto>>(
         `${this.dataConfigService.url}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -39,7 +39,7 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
     return this.httpService
       .get<DataAlbumResDto>(`${this.dataConfigService.url}/album/${dto.id}`)
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -53,7 +53,7 @@ export class DataAlbumService implements DataAlbumServiceInterface {
       .get<DataPaginationResDto<DataAlbumResDto>>(
         `${this.dataConfigService.url}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 }

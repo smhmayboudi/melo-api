@@ -14,7 +14,7 @@ describe("SongCacheOptionsFactory", () => {
     cacheStore: "",
     cacheTTL: 0,
     sendTelegramUrl: "",
-    timeout: 0
+    timeout: 0,
   };
 
   let service: SongConfigService;
@@ -25,17 +25,17 @@ describe("SongCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: SongConfigService,
-            useValue: songConfigServiceMock
+            useValue: songConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<SongConfigService>(SongConfigService);
     });
@@ -57,17 +57,17 @@ describe("SongCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: SongConfigService,
-            useValue: { ...songConfigServiceMock, cacheStore: "none" }
+            useValue: { ...songConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<SongConfigService>(SongConfigService);
     });
@@ -79,7 +79,7 @@ describe("SongCacheOptionsFactory", () => {
           max: 0,
           port: 0,
           store: "none",
-          ttl: 0
+          ttl: 0,
         }
       );
     });

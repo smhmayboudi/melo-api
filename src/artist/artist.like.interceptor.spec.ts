@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/unbound-method */
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
 import { ArtistLikeInterceptor } from "./artist.like.interceptor";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -34,7 +33,7 @@ describe("ArtistLikeInterceptor", () => {
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const artistPagination: DataPaginationResDto<DataArtistResDto> = {
@@ -45,31 +44,29 @@ describe("ArtistLikeInterceptor", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
   };
 
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
 
-  let service: AppCheckLikeService;
+  let service: AppSong;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
-      ],
+      providers: [{ provide: AppSong, useValue: appMixSongServiceMock }],
     }).compile();
-    service = module.get<AppCheckLikeService>(AppCheckLikeService);
+    service = module.get<AppSong>(AppSong);
   });
 
   it("should be defined", () => {
@@ -80,6 +77,7 @@ describe("ArtistLikeInterceptor", () => {
     new ArtistLikeInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -95,6 +93,7 @@ describe("ArtistLikeInterceptor", () => {
     new ArtistLikeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
       .subscribe();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHostUserSubZero.getRequest).toHaveBeenCalled();
   });
 
@@ -105,6 +104,7 @@ describe("ArtistLikeInterceptor", () => {
     new ArtistLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -115,6 +115,7 @@ describe("ArtistLikeInterceptor", () => {
     new ArtistLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 });

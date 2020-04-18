@@ -1,12 +1,19 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppEncodingService } from "../app/app.encoding.service";
+import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
+import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { DataSearchType } from "../data/data.search.type";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { SongArtistSongsReqDto } from "./dto/req/song.artist-songs.req.dto";
@@ -33,17 +40,26 @@ import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 
 describe("SongController", () => {
   const releaseDate = new Date();
+  const album: DataAlbumResDto = {
+    name: "",
+    releaseDate,
+  };
+  const artist: DataArtistResDto = {
+    followersCount: 0,
+    id: 0,
+    type: DataArtistType.prime,
+  };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -52,12 +68,35 @@ describe("SongController", () => {
     results: [song],
     total: 1,
   } as DataPaginationResDto<DataSongResDto>;
+  const playlist: DataPlaylistResDto = {
+    followersCount: 0,
+    id: "",
+    image: {
+      "": {
+        url: "",
+      },
+    },
+    isPublic: false,
+    releaseDate,
+    title: "",
+    tracksCount: 0,
+  };
+  const search: DataSearchResDto = {
+    type: DataSearchType.album,
+  };
 
+  const appEncodingServiceMock: AppEncodingServiceInterface = {
+    encodeAlbums: (): DataAlbumResDto[] => [album],
+    encodeArtists: (): DataArtistResDto[] => [artist],
+    encodePlaylists: (): DataPlaylistResDto[] => [playlist],
+    encodeSearches: (): DataSearchResDto[] => [search],
+    encodeSongs: (): DataSongResDto[] => [song],
+  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const songServiceMock: SongServiceInterface = {
@@ -101,11 +140,12 @@ describe("SongController", () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SongController],
       providers: [
+        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: SongService, useValue: songServiceMock },
         {
-          provide: AppCheckLikeService,
-          useValue: appCheckLikeServiceMock,
+          provide: AppSong,
+          useValue: appMixSongServiceMock,
         },
       ],
     }).compile();
@@ -118,27 +158,27 @@ describe("SongController", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      artistId: "0",
+      artistId: 0,
       from: 0,
       limit: 0,
     };
-    expect(await controller.artistSongs(dto, 0)).toEqual(songPagination);
+    expect(await controller.artistSongs(dto)).toEqual(songPagination);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      artistId: "0",
+      artistId: 0,
       from: 0,
       limit: 0,
     };
-    expect(await controller.artistSongsTop(dto, 0)).toEqual(songPagination);
+    expect(await controller.artistSongsTop(dto)).toEqual(songPagination);
   });
 
   it("byId should be equal to a song", async () => {
     const dto: SongByIdReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await controller.byId(dto, 0)).toEqual(song);
+    expect(await controller.byId(dto)).toEqual(song);
   });
 
   it("genre should be equal to a list of songs", async () => {
@@ -169,9 +209,9 @@ describe("SongController", () => {
 
   it("like should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await controller.like(dto, 0, 0)).toEqual(song);
+    expect(await controller.like(dto, 0)).toEqual(song);
   });
 
   it("liked should be equal to a list of songs", async () => {
@@ -234,18 +274,18 @@ describe("SongController", () => {
 
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
-      id: "0",
+      id: 0,
     };
-    expect(await controller.sendTelegram(dto, 0, 0)).toBeUndefined();
+    expect(await controller.sendTelegram(dto, 0)).toBeUndefined();
   });
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
       from: 0,
-      id: "",
+      id: 0,
       limit: 0,
     };
-    expect(await controller.similar(dto, 0)).toEqual(songPagination);
+    expect(await controller.similar(dto)).toEqual(songPagination);
   });
 
   it("slider should be equal to a list of songs", async () => {
@@ -270,8 +310,8 @@ describe("SongController", () => {
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      id: "",
+      id: 0,
     };
-    expect(await controller.unlike(dto, 0, 0)).toEqual(song);
+    expect(await controller.unlike(dto, 0)).toEqual(song);
   });
 });

@@ -1,9 +1,9 @@
-import { IsArray, IsString } from "class-validator";
+import { IsArray, IsNumber } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
 export class DataSongByIdsReqDto {
-  constructor(ids: string[]) {
+  constructor(ids: number[]) {
     this.ids = ids;
   }
 
@@ -11,9 +11,9 @@ export class DataSongByIdsReqDto {
     description: "The songs identification",
     example: ["abcdef"],
     isArray: true,
-    type: String
+    type: Number,
   })
   @IsArray()
-  @IsString({ each: true })
-  ids: string[];
+  @IsNumber({}, { each: true })
+  ids: number[];
 }

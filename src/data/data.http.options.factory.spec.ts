@@ -7,7 +7,7 @@ import { DataHttpOptionsFactory } from "./data.http.options.factory";
 describe("DataHttpOptionsFactory", () => {
   const dataConfigServiceMock: DataConfigServiceInterface = {
     timeout: 0,
-    url: ""
+    url: "",
   };
 
   let service: DataConfigService;
@@ -17,9 +17,9 @@ describe("DataHttpOptionsFactory", () => {
       providers: [
         {
           provide: DataConfigService,
-          useValue: dataConfigServiceMock
-        }
-      ]
+          useValue: dataConfigServiceMock,
+        },
+      ],
     }).compile();
     service = module.get<DataConfigService>(DataConfigService);
   });
@@ -30,7 +30,7 @@ describe("DataHttpOptionsFactory", () => {
 
   it("createHttpOptions should be equal to an option", () => {
     expect(new DataHttpOptionsFactory(service).createHttpOptions()).toEqual({
-      timeout: 0
+      timeout: 0,
     });
   });
 });

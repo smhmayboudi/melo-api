@@ -8,7 +8,7 @@ export class DataArtistByIdReqDto {
 
   @ApiProperty({
     description: "The artist identification",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   id: number;

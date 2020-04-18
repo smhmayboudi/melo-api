@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested
+  ValidateNested,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -19,7 +19,7 @@ export class DataSongResDto {
   constructor(
     artists: DataArtistResDto[],
     duration: number,
-    id: string,
+    id: number,
     localized: boolean,
     releaseDate: Date,
     title: string,
@@ -55,17 +55,17 @@ export class DataSongResDto {
   @ApiProperty({
     description: "The artists",
     isArray: true,
-    type: DataArtistResDto
+    type: DataArtistResDto,
   })
   @IsArray()
   @Type(() => DataArtistResDto)
   @ValidateNested({
-    each: true
+    each: true,
   })
   artists: DataArtistResDto[];
 
   @ApiProperty({
-    description: "The audio"
+    description: "The audio",
   })
   @IsOptional()
   @ValidateNested()
@@ -73,41 +73,41 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The duration",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   duration: number;
 
   @ApiProperty({
     description: "The identification",
-    example: "abcdef"
+    example: "abcdef",
   })
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @ApiProperty({
     description: "The localized",
-    example: false
+    example: false,
   })
   @IsBoolean()
   localized: boolean;
 
   @ApiProperty({
     description: "The date of release",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   releaseDate: Date;
 
   @ApiProperty({
     description: "The title",
-    example: "black cover"
+    example: "black cover",
   })
   @IsString()
   title: string;
 
   @ApiProperty({
-    description: "The album"
+    description: "The album",
   })
   @IsOptional()
   @ValidateNested()
@@ -115,7 +115,7 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The copyright",
-    example: false
+    example: false,
   })
   @IsBoolean()
   @IsOptional()
@@ -123,7 +123,7 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The couont of download",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
@@ -131,14 +131,14 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The has video",
-    example: false
+    example: false,
   })
   @IsBoolean()
   @IsOptional()
   hasVideo?: boolean;
 
   @ApiProperty({
-    description: "The image"
+    description: "The image",
   })
   @IsOptional()
   @ValidateNested()
@@ -146,7 +146,7 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The count of like",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
@@ -154,7 +154,7 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "If user liked the song",
-    example: false
+    example: false,
   })
   @IsBoolean()
   @IsOptional()
@@ -162,7 +162,7 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The lyrics",
-    example: "The black cover"
+    example: "The black cover",
   })
   @IsOptional()
   @IsString()
@@ -172,7 +172,7 @@ export class DataSongResDto {
     description: "The tags",
     example: ["pop"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsOptional()
   @IsString()

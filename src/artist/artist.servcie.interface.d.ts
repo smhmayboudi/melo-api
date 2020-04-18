@@ -7,23 +7,15 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
 export interface ArtistServiceInterface {
-  follow(
-    dto: ArtistFollowReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataArtistResDto>;
+  follow(dto: ArtistFollowReqDto, sub: number): Promise<DataArtistResDto>;
   following(
     dto: ArtistFollowingReqDto,
-    id: number
+    sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>>;
   profile(dto: ArtistByIdReqDto, id: number): Promise<DataArtistResDto>;
   trending(): Promise<DataPaginationResDto<DataArtistResDto>>;
   trendingGenre(
     dto: ArtistTrendingGenreReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>>;
-  unfollow(
-    dto: ArtistUnfollowReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataArtistResDto>;
+  unfollow(dto: ArtistUnfollowReqDto, sub: number): Promise<DataArtistResDto>;
 }

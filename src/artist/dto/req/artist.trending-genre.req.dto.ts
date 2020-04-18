@@ -8,7 +8,7 @@ export class ArtistTrendingGenreReqDto {
 
   @ApiProperty({
     description: "The genre",
-    example: "pop"
+    example: "pop",
   })
   @IsString()
   genre: string;

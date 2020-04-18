@@ -2,7 +2,7 @@ import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   BadRequestException,
   Injectable,
-  InternalServerErrorException
+  InternalServerErrorException,
 } from "@nestjs/common";
 import { Model, Types } from "mongoose";
 
@@ -38,20 +38,17 @@ export class PlaylistService implements PlaylistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async addSong(
-    dto: PlaylistAddSongReqDto,
-    songId: number
-  ): Promise<DataPlaylistResDto> {
+  async addSong(dto: PlaylistAddSongReqDto): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(
       new Types.ObjectId(dto.playlistId)
     );
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    playlist.songs_ids.push(songId);
+    playlist.songs_ids.push(dto.songId);
     await playlist.save();
     const dataSongResDto = await this.dataSongService.byIds({
-      ids: playlist.songs_ids.map(value => value.toString())
+      ids: playlist.songs_ids.map((value) => value),
     });
     return {
       followersCount: playlist.followers_count,
@@ -65,7 +62,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       releaseDate: playlist.release_date,
       songs: dataSongResDto,
       title: playlist.title,
-      tracksCount: dataSongResDto.total
+      tracksCount: dataSongResDto.total,
     };
   }
 
@@ -82,7 +79,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       owner_user_id: sub,
       photo_id: dto.photoId,
       release_date: new Date(),
-      title: dto.title
+      title: dto.title,
     }).save();
     return {
       followersCount: playlist.followers_count,
@@ -96,7 +93,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
-      tracksCount: playlist.tracks_count
+      tracksCount: playlist.tracks_count,
     };
   }
 
@@ -108,14 +105,14 @@ export class PlaylistService implements PlaylistServiceInterface {
     sub: number
   ): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findOne({
-      $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
+      $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }],
     });
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
     // TODO: refactory to its own repository
     const deleteOne = await this.playlistModel.deleteOne({
-      $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }]
+      $and: [{ owner_user_id: sub }, { _id: new Types.ObjectId(dto.id) }],
     });
     if (deleteOne.deletedCount === undefined || deleteOne.deletedCount === 0) {
       throw new InternalServerErrorException();
@@ -131,7 +128,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       isPublic: playlist.isPublic,
       releaseDate: playlist.release_date,
       title: playlist.title,
-      tracksCount: playlist.tracks_count
+      tracksCount: playlist.tracks_count,
     };
   }
 
@@ -145,7 +142,7 @@ export class PlaylistService implements PlaylistServiceInterface {
     }
     await playlist.save();
     const dataSongResDto = await this.dataSongService.byIds({
-      ids: playlist.songs_ids.map(value => value.toString())
+      ids: playlist.songs_ids.map((value) => value),
     });
     return {
       followersCount: playlist.followers_count,
@@ -160,22 +157,19 @@ export class PlaylistService implements PlaylistServiceInterface {
       releaseDate: playlist.release_date,
       songs: dataSongResDto,
       title: playlist.title,
-      tracksCount: playlist.tracks_count
+      tracksCount: playlist.tracks_count,
     };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async deleteSong(
-    dto: PlaylistSongReqDto,
-    songId: number
-  ): Promise<DataPlaylistResDto> {
+  async deleteSong(dto: PlaylistSongReqDto): Promise<DataPlaylistResDto> {
     const playlist = await this.playlistModel.findById(dto.playlistId);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    playlist.songs_ids.splice(playlist.songs_ids.indexOf(songId), 1);
+    playlist.songs_ids.splice(playlist.songs_ids.indexOf(dto.songId), 1);
     await playlist.save();
     return {
       followersCount: playlist.followers_count,
@@ -192,10 +186,10 @@ export class PlaylistService implements PlaylistServiceInterface {
         playlist.songs_ids.length === 0
           ? undefined
           : await this.dataSongService.byIds({
-              ids: playlist.songs_ids.map(value => value.toString())
+              ids: playlist.songs_ids.map((value) => value),
             }),
       title: playlist.title,
-      tracksCount: playlist.tracks_count
+      tracksCount: playlist.tracks_count,
     };
   }
 
@@ -208,7 +202,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       throw new BadRequestException();
     }
     const dataSongResDto = await this.dataSongService.byIds({
-      ids: playlist.songs_ids.map(value => value.toString())
+      ids: playlist.songs_ids.map((value) => value),
     });
     return {
       followersCount: playlist.followers_count,
@@ -223,7 +217,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       releaseDate: playlist.release_date,
       songs: dataSongResDto,
       title: playlist.title,
-      tracksCount: playlist.tracks_count
+      tracksCount: playlist.tracks_count,
     };
   }
 
@@ -239,9 +233,9 @@ export class PlaylistService implements PlaylistServiceInterface {
       .skip(parseInt(dto.from.toString(), 10))
       .limit(parseInt(dto.limit.toString(), 10));
     const results = await Promise.all(
-      playlists.map(async value => {
+      playlists.map(async (value) => {
         const dataSongResDto = await this.dataSongService.byIds({
-          ids: value.songs_ids.map(value => value.toString())
+          ids: value.songs_ids.map((value) => value),
         });
         return {
           followersCount: value.followers_count,
@@ -255,13 +249,13 @@ export class PlaylistService implements PlaylistServiceInterface {
           releaseDate: value.release_date,
           songs: dataSongResDto,
           title: value.title,
-          tracksCount: value.tracks_count
+          tracksCount: value.tracks_count,
         };
       })
     );
     return {
       results: results,
-      total: results.length
+      total: results.length,
     } as DataPaginationResDto<DataPlaylistResDto>;
   }
 
@@ -277,7 +271,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       .limit(parseInt(dto.limit.toString(), 10));
 
     const results = await Promise.all(
-      playlists.map(async value => {
+      playlists.map(async (value) => {
         return {
           followersCount: value.followers_count,
           id: value._id,
@@ -292,16 +286,16 @@ export class PlaylistService implements PlaylistServiceInterface {
             value.songs_ids.length === 0
               ? undefined
               : await this.dataSongService.byIds({
-                  ids: value.songs_ids.map(value => value.toString())
+                  ids: value.songs_ids.map((value) => value),
                 }),
           title: value.title,
-          tracksCount: value.tracks_count
+          tracksCount: value.tracks_count,
         };
       })
     );
     return {
       results: results,
-      total: results.length
+      total: results.length,
     } as DataPaginationResDto<DataPlaylistResDto>;
   }
 }

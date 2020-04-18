@@ -16,17 +16,17 @@ import { HttpService } from "@nestjs/common";
 describe("DataArtistService", () => {
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
-    type: DataArtistType.prime
+    id: 0,
+    type: DataArtistType.prime,
   };
   const artistPagination: DataPaginationResDto<DataArtistResDto> = {
     results: [artist],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
 
   const dataConfigServiceMock: DataConfigServiceInterface = {
     timeout: 0,
-    url: ""
+    url: "",
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -38,8 +38,8 @@ describe("DataArtistService", () => {
         data: artistPagination,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
 
   let service: DataArtistService;
@@ -49,15 +49,15 @@ describe("DataArtistService", () => {
       providers: [
         DataArtistService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
-        { provide: HttpService, useValue: httpServiceMock }
-      ]
+        { provide: HttpService, useValue: httpServiceMock },
+      ],
     }).compile();
     service = module.get<DataArtistService>(DataArtistService);
   });
 
   it("byIds should equal list of artists", async () => {
     const dto: DataArtistByIdsReqDto = {
-      ids: []
+      ids: [],
     };
     expect(await service.byIds(dto)).toEqual(artistPagination);
   });
@@ -68,7 +68,7 @@ describe("DataArtistService", () => {
 
   it("trendingGenre should equal list of artists", async () => {
     const dto: DataTrendingGenreReqDto = {
-      genre: ""
+      genre: "",
     };
     expect(await service.trendingGenre(dto)).toEqual(artistPagination);
   });
@@ -83,8 +83,8 @@ describe("DataArtistService", () => {
           data: artist,
           headers: {},
           status: 200,
-          statusText: ""
-        })
+          statusText: "",
+        }),
     };
 
     beforeEach(async () => {
@@ -92,15 +92,15 @@ describe("DataArtistService", () => {
         providers: [
           DataArtistService,
           { provide: DataConfigService, useValue: dataConfigServiceMock },
-          { provide: HttpService, useValue: httpServiceMockSingleArtist }
-        ]
+          { provide: HttpService, useValue: httpServiceMockSingleArtist },
+        ],
       }).compile();
       service = module.get<DataArtistService>(DataArtistService);
     });
 
     it("byId should be equal to an artist", async () => {
       const dto: DataArtistByIdReqDto = {
-        id: 0
+        id: 0,
       };
       expect(await service.byId(dto)).toEqual(artist);
     });

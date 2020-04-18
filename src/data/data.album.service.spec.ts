@@ -16,16 +16,16 @@ describe("DataAlbumService", () => {
   const releaseDate = new Date();
   const album: DataAlbumResDto = {
     name: "",
-    releaseDate
+    releaseDate,
   };
   const albumPagination: DataPaginationResDto<DataAlbumResDto> = {
     results: [album],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
 
   const dataConfigServiceMock: DataConfigServiceInterface = {
     timeout: 0,
-    url: ""
+    url: "",
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -35,8 +35,8 @@ describe("DataAlbumService", () => {
         data: albumPagination,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
 
   let service: DataAlbumService;
@@ -46,8 +46,8 @@ describe("DataAlbumService", () => {
       providers: [
         DataAlbumService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },
-        { provide: HttpService, useValue: httpServiceMock }
-      ]
+        { provide: HttpService, useValue: httpServiceMock },
+      ],
     }).compile();
     service = module.get<DataAlbumService>(DataAlbumService);
   });
@@ -56,7 +56,7 @@ describe("DataAlbumService", () => {
     const dto: DataAlbumArtistsReqDto = {
       from: 0,
       id: 0,
-      limit: 0
+      limit: 0,
     };
     expect(await service.albums(dto)).toEqual(albumPagination);
   });
@@ -65,7 +65,7 @@ describe("DataAlbumService", () => {
     const dto: DataAlbumLatestReqDto = {
       from: 0,
       language: "",
-      limit: 0
+      limit: 0,
     };
     expect(await service.latest(dto)).toEqual(albumPagination);
   });
@@ -80,8 +80,8 @@ describe("DataAlbumService", () => {
           data: album,
           headers: {},
           status: 200,
-          statusText: ""
-        })
+          statusText: "",
+        }),
     };
 
     beforeEach(async () => {
@@ -89,15 +89,15 @@ describe("DataAlbumService", () => {
         providers: [
           DataAlbumService,
           { provide: DataConfigService, useValue: dataConfigServiceMock },
-          { provide: HttpService, useValue: httpServiceMockSingleAlbum }
-        ]
+          { provide: HttpService, useValue: httpServiceMockSingleAlbum },
+        ],
       }).compile();
       service = module.get<DataAlbumService>(DataAlbumService);
     });
 
     it("byId should be equal to an album", async () => {
       const dto: DataAlbumByIdReqDto = {
-        id: 0
+        id: 0,
       };
       expect(await service.byId(dto)).toEqual(album);
     });

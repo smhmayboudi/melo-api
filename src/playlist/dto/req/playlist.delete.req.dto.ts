@@ -8,7 +8,7 @@ export class PlaylistDeleteReqDto {
 
   @ApiProperty({
     description: "The identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   id: string;

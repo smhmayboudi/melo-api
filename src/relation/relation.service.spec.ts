@@ -19,12 +19,12 @@ import { RelationType } from "./relation.type";
 describe("RelationService", () => {
   const date = new Date();
   const relationResult: RelationEntityResDto = {
-    id: "",
-    type: RelationEntityType.album
+    id: 0,
+    type: RelationEntityType.album,
   };
   const relationPagination: RelationPaginationResDto<RelationEntityResDto> = {
     results: [relationResult],
-    total: 1
+    total: 1,
   } as RelationPaginationResDto<RelationEntityResDto>;
 
   // TODO: interface ?
@@ -37,7 +37,7 @@ describe("RelationService", () => {
         data: relationPagination,
         headers: {},
         status: 200,
-        statusText: ""
+        statusText: "",
       }),
     get: (): Observable<
       AxiosResponse<RelationPaginationResDto<RelationEntityResDto>>
@@ -47,7 +47,7 @@ describe("RelationService", () => {
         data: relationPagination,
         headers: {},
         status: 200,
-        statusText: ""
+        statusText: "",
       }),
     post: (): Observable<
       AxiosResponse<RelationPaginationResDto<RelationEntityResDto>>
@@ -57,8 +57,8 @@ describe("RelationService", () => {
         data: relationPagination,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
 
   let service: RelationService;
@@ -68,11 +68,11 @@ describe("RelationService", () => {
       providers: [
         {
           provide: RelationConfigService,
-          useValue: {}
+          useValue: {},
         },
         RelationService,
-        { provide: HttpService, useValue: httpServiceMock }
-      ]
+        { provide: HttpService, useValue: httpServiceMock },
+      ],
     }).compile();
     service = module.get<RelationService>(RelationService);
   });
@@ -81,11 +81,11 @@ describe("RelationService", () => {
     const dto: RelationGetReqDto = {
       from: 0,
       fromEntityDto: {
-        id: "",
-        type: RelationEntityType.album
+        id: 0,
+        type: RelationEntityType.album,
       },
       limit: 0,
-      relationType: RelationType.follows
+      relationType: RelationType.follows,
     };
     expect(await service.get(dto)).toEqual(relationPagination);
   });
@@ -99,8 +99,8 @@ describe("RelationService", () => {
           data: true,
           headers: {},
           status: 200,
-          statusText: ""
-        })
+          statusText: "",
+        }),
     };
 
     beforeEach(async () => {
@@ -108,29 +108,29 @@ describe("RelationService", () => {
         providers: [
           {
             provide: RelationConfigService,
-            useValue: {}
+            useValue: {},
           },
           RelationService,
-          { provide: HttpService, useValue: httpServiceMockBoolean }
-        ]
+          { provide: HttpService, useValue: httpServiceMockBoolean },
+        ],
       }).compile();
       service = module.get<RelationService>(RelationService);
     });
 
     it("has should be undefined", async () => {
       const dto: RelationHasReqDto = {
-        from: { id: "0", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        to: { id: "0", type: RelationEntityType.album }
+        to: { id: 0, type: RelationEntityType.album },
       };
       expect(await service.has(dto)).toBeUndefined();
     });
 
     it("remove should be undefined", async () => {
       const dto: RelationRemoveReqDto = {
-        from: { id: "", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        to: { id: "", type: RelationEntityType.album }
+        to: { id: 0, type: RelationEntityType.album },
       };
       expect(await service.remove(dto)).toBeUndefined();
     });
@@ -138,9 +138,9 @@ describe("RelationService", () => {
     it("set should be undefined", async () => {
       const dto: RelationSetReqDto = {
         createdAt: date,
-        from: { id: "", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        to: { id: "", type: RelationEntityType.album }
+        to: { id: 0, type: RelationEntityType.album },
       };
       expect(await service.set(dto)).toBeUndefined();
     });
@@ -155,7 +155,7 @@ describe("RelationService", () => {
           data: false,
           headers: {},
           status: 200,
-          statusText: ""
+          statusText: "",
         }),
       get: (): Observable<AxiosResponse<boolean>> =>
         of({
@@ -163,7 +163,7 @@ describe("RelationService", () => {
           data: false,
           headers: {},
           status: 200,
-          statusText: ""
+          statusText: "",
         }),
       post: (): Observable<AxiosResponse<boolean>> =>
         of({
@@ -171,8 +171,8 @@ describe("RelationService", () => {
           data: false,
           headers: {},
           status: 200,
-          statusText: ""
-        })
+          statusText: "",
+        }),
     };
 
     beforeEach(async () => {
@@ -180,29 +180,29 @@ describe("RelationService", () => {
         providers: [
           {
             provide: RelationConfigService,
-            useValue: {}
+            useValue: {},
           },
           RelationService,
-          { provide: HttpService, useValue: httpServiceMockBoolean }
-        ]
+          { provide: HttpService, useValue: httpServiceMockBoolean },
+        ],
       }).compile();
       service = module.get<RelationService>(RelationService);
     });
 
     it("has should throw an exception", async () => {
       const dto: RelationHasReqDto = {
-        from: { id: "0", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        to: { id: "0", type: RelationEntityType.album }
+        to: { id: 0, type: RelationEntityType.album },
       };
       return expect(service.has(dto)).rejects.toThrowError();
     });
 
     it("remove should throw an exception", async () => {
       const dto: RelationRemoveReqDto = {
-        from: { id: "", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        to: { id: "", type: RelationEntityType.album }
+        to: { id: 0, type: RelationEntityType.album },
       };
       return expect(service.remove(dto)).rejects.toThrowError();
     });
@@ -210,9 +210,9 @@ describe("RelationService", () => {
     it("set should throw an exception", async () => {
       const dto: RelationSetReqDto = {
         createdAt: date,
-        from: { id: "", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        to: { id: "", type: RelationEntityType.album }
+        to: { id: 0, type: RelationEntityType.album },
       };
       return expect(service.set(dto)).rejects.toThrowError();
     });
@@ -220,9 +220,9 @@ describe("RelationService", () => {
 
   describe("multiHas: RelationMultiHasResDto[]", () => {
     const relationMultiHas: RelationMultiHasResDto = {
-      from: { id: "", type: RelationEntityType.album },
+      from: { id: 0, type: RelationEntityType.album },
       relation: RelationType.follows,
-      to: { id: "", type: RelationEntityType.album }
+      to: { id: 0, type: RelationEntityType.album },
     };
 
     const httpServiceMockMultiHas = {
@@ -233,8 +233,8 @@ describe("RelationService", () => {
           data: [relationMultiHas],
           headers: {},
           status: 200,
-          statusText: ""
-        })
+          statusText: "",
+        }),
     };
 
     beforeEach(async () => {
@@ -242,20 +242,20 @@ describe("RelationService", () => {
         providers: [
           {
             provide: RelationConfigService,
-            useValue: {}
+            useValue: {},
           },
           RelationService,
-          { provide: HttpService, useValue: httpServiceMockMultiHas }
-        ]
+          { provide: HttpService, useValue: httpServiceMockMultiHas },
+        ],
       }).compile();
       service = module.get<RelationService>(RelationService);
     });
 
     it("multiHas should be equal to an array of relation entities ", async () => {
       const dto: RelationMultiHasReqDto = {
-        from: { id: "", type: RelationEntityType.album },
+        from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
-        tos: [{ id: "", type: RelationEntityType.album }]
+        tos: [{ id: 0, type: RelationEntityType.album }],
       };
       expect(await service.multiHas(dto)).toEqual([relationMultiHas]);
     });

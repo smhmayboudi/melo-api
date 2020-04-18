@@ -12,12 +12,12 @@ describe("FileController", () => {
     fileKey: "",
     mimeType: "jpg",
     originalname: "",
-    size: 0
+    size: 0,
   };
 
   const fileServiceMock: FileServiceInterface = {
     uploadImage: (): Promise<FileUploadImageResDto> =>
-      Promise.resolve(fileUploadImage)
+      Promise.resolve(fileUploadImage),
   };
 
   let controller: FileController;
@@ -28,9 +28,9 @@ describe("FileController", () => {
       providers: [
         {
           provide: FileService,
-          useValue: fileServiceMock
-        }
-      ]
+          useValue: fileServiceMock,
+        },
+      ],
     }).compile();
     controller = module.get<FileController>(FileController);
   });
@@ -42,7 +42,7 @@ describe("FileController", () => {
       fieldname: "",
       mimeType: "image/jpeg",
       originalname: "",
-      size: 0
+      size: 0,
     };
     expect(await controller.uploadedPic(0, dto)).toEqual(fileUploadImage);
   });

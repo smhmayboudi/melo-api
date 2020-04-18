@@ -4,5 +4,5 @@ export enum RelationEntityType {
   following = "following",
   playlist = "playlist",
   song = "song",
-  user = "user"
+  user = "user",
 }

@@ -1,23 +1,24 @@
+import { IsNumberString, IsString } from "class-validator";
+
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
 
 export class PlaylistAddSongReqDto {
-  constructor(playlistId: string, songId: string) {
+  constructor(playlistId: string, songId: number) {
     this.playlistId = playlistId;
     this.songId = songId;
   }
 
   @ApiProperty({
     description: "The playlist identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   playlistId: string;
 
   @ApiProperty({
     description: "The song identification",
-    example: "abcdef"
+    example: 0,
   })
-  @IsString()
-  songId: string;
+  @IsNumberString()
+  songId: number;
 }

@@ -11,23 +11,23 @@ export class DataPaginationResDto<T> {
   }
 
   @ApiProperty({
-    description: "The results"
+    description: "The results",
   })
   @Allow()
   @IsArray()
-  @Type(options =>
+  @Type((options) =>
     options === undefined
       ? Function
       : (options.newObject as DataPaginationResDto<T>).type
   )
   @ValidateNested({
-    each: true
+    each: true,
   })
   results: T[];
 
   @ApiProperty({
     description: "The total number of results",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   total: number;

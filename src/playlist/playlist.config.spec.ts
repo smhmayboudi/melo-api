@@ -9,7 +9,7 @@ describe("PlaylistConfig", () => {
       cacheStore: undefined,
       cacheTTL: undefined,
       defaultImagePath: undefined,
-      imagePath: undefined
+      imagePath: undefined,
     });
   });
 });

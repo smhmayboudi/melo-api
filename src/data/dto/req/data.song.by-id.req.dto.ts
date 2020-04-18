@@ -8,7 +8,7 @@ export class DataSongByIdReqDto {
 
   @ApiProperty({
     description: "The song identification",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   id: number;

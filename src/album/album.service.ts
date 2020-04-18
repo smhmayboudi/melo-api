@@ -3,7 +3,6 @@ import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
-import { AppArtist } from "../app/app.artist";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -13,48 +12,25 @@ import { PromMethodCounter } from "../prom/prom.decorator";
 @Injectable()
 // @PromInstanceCounter
 export class AlbumService {
-  constructor(
-    private readonly appCheckFollowService: AppArtist,
-    private readonly dataAlbumService: DataAlbumService
-  ) {}
+  constructor(private readonly dataAlbumService: DataAlbumService) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async artistAlbums(
-    dto: AlbumArtistAlbumsReqDto,
-    artistId: number,
-    sub: number
+    dto: AlbumArtistAlbumsReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    const albumResDto = await this.dataAlbumService.albums({
+    return this.dataAlbumService.albums({
       ...dto,
-      id: artistId,
+      id: dto.artistId,
     });
-    const results = await Promise.all(
-      albumResDto.results
-        .filter((value) => value !== undefined)
-        .map(async (value) => {
-          const artists = await this.appCheckFollowService.follow(
-            value.artists === undefined ? [] : value.artists,
-            sub
-          );
-          return {
-            ...value,
-            artists,
-          };
-        })
-    );
-    return {
-      results,
-      total: results.length,
-    } as DataPaginationResDto<DataAlbumResDto>;
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async byId(dto: AlbumByIdReqDto, id: number): Promise<DataAlbumResDto> {
-    return this.dataAlbumService.byId({ ...dto, id });
+  async byId(dto: AlbumByIdReqDto): Promise<DataAlbumResDto> {
+    return this.dataAlbumService.byId(dto);
   }
 
   @ApmAfterMethod
@@ -63,6 +39,6 @@ export class AlbumService {
   async latest(
     dto: AlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    return this.dataAlbumService.latest({ ...dto });
+    return this.dataAlbumService.latest(dto);
   }
 }

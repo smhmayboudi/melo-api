@@ -26,27 +26,27 @@ export class DataSearchResDto {
 
   @ApiProperty({
     description: "The type of search",
-    example: DataSearchType.album
+    example: DataSearchType.album,
   })
   @IsEnum(DataSearchType)
   type: DataSearchType;
 
   @ApiProperty({
-    description: "The album"
+    description: "The album",
   })
   @IsOptional()
   @ValidateNested()
   album?: DataAlbumResDto;
 
   @ApiProperty({
-    description: "The artist"
+    description: "The artist",
   })
   @IsOptional()
   @ValidateNested()
   artist?: DataArtistResDto;
 
   @ApiProperty({
-    description: "The playlist"
+    description: "The playlist",
   })
   @IsOptional()
   @ValidateNested()
@@ -54,14 +54,14 @@ export class DataSearchResDto {
 
   @ApiProperty({
     description: "The position",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
   position?: number;
 
   @ApiProperty({
-    description: "The song"
+    description: "The song",
   })
   @IsOptional()
   @ValidateNested()

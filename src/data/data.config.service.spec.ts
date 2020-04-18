@@ -8,7 +8,7 @@ describe("DataService", () => {
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: DataConfigService;
@@ -19,13 +19,13 @@ describe("DataService", () => {
           DataConfigService,
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<DataConfigService>(DataConfigService);
     });
@@ -42,7 +42,7 @@ describe("DataService", () => {
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => ""
+      get: (): string => "",
     };
 
     let service: DataConfigService;
@@ -53,13 +53,13 @@ describe("DataService", () => {
           DataConfigService,
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<DataConfigService>(DataConfigService);
     });

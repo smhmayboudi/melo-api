@@ -48,7 +48,7 @@ describe("ImgProxyService", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppImgProxyService;
@@ -57,8 +57,8 @@ describe("ImgProxyService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: appConfigServiceMock },
-        AppImgProxyService
-      ]
+        AppImgProxyService,
+      ],
     }).compile();
     service = module.get<AppImgProxyService>(AppImgProxyService);
   });
@@ -71,8 +71,8 @@ describe("ImgProxyService", () => {
     expect(service.generateUrl("")).toEqual({
       cover: {
         url:
-          "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/"
-      }
+          "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+      },
     });
   });
 });

@@ -6,7 +6,7 @@ describe("DataSearchType", () => {
       album: "album",
       artist: "artist",
       playlist: "playlist",
-      song: "song"
+      song: "song",
     });
   });
 });

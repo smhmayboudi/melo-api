@@ -17,21 +17,21 @@ export class DataSliderResDto {
   }
 
   @ApiProperty({
-    description: "The album dto"
+    description: "The album dto",
   })
   @IsOptional()
   @ValidateNested()
   album?: DataAlbumResDto;
 
   @ApiProperty({
-    description: "The image dto"
+    description: "The image dto",
   })
   @IsOptional()
   @ValidateNested()
   image?: DataImageResDto;
 
   @ApiProperty({
-    description: "The song dto"
+    description: "The song dto",
   })
   @IsOptional()
   @ValidateNested()

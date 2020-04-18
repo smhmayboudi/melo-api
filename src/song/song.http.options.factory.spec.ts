@@ -12,7 +12,7 @@ describe("SongHttpOptionsFactory", () => {
     cacheStore: "",
     cacheTTL: 0,
     sendTelegramUrl: "",
-    timeout: 0
+    timeout: 0,
   };
 
   let service: SongConfigService;
@@ -22,9 +22,9 @@ describe("SongHttpOptionsFactory", () => {
       providers: [
         {
           provide: SongConfigService,
-          useValue: songConfigServiceMock
-        }
-      ]
+          useValue: songConfigServiceMock,
+        },
+      ],
     }).compile();
     service = module.get<SongConfigService>(SongConfigService);
   });
@@ -35,7 +35,7 @@ describe("SongHttpOptionsFactory", () => {
 
   it("createHttpOptions should be equal to an option", () => {
     expect(new SongHttpOptionsFactory(service).createHttpOptions()).toEqual({
-      timeout: 0
+      timeout: 0,
     });
   });
 });

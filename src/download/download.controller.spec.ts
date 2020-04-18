@@ -1,9 +1,16 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppCheckLikeService } from "../app/app.song";
-import { AppCheckLikeServiceInterface } from "../app/app.song.interface";
+import { AppEncodingService } from "../app/app.encoding.service";
+import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
+import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
+import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { DataSearchType } from "../data/data.search.type";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DownloadController } from "./download.controller";
 import { DownloadOrderByType } from "./download.order-by.type";
@@ -16,17 +23,26 @@ import { DownloadSortByType } from "./download.sort-by.type";
 
 describe("DownloadController", () => {
   const downloadedAt = new Date();
+  const album: DataAlbumResDto = {
+    name: "",
+    releaseDate: downloadedAt,
+  };
+  const artist: DataArtistResDto = {
+    followersCount: 0,
+    id: 0,
+    type: DataArtistType.prime,
+  };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate: downloadedAt,
     title: "",
@@ -39,8 +55,31 @@ describe("DownloadController", () => {
     results: [downloadSong],
     total: 1,
   } as DataPaginationResDto<DownloadSongResDto>;
+  const playlist: DataPlaylistResDto = {
+    followersCount: 0,
+    id: "",
+    image: {
+      "": {
+        url: "",
+      },
+    },
+    isPublic: false,
+    releaseDate: downloadedAt,
+    title: "",
+    tracksCount: 0,
+  };
+  const search: DataSearchResDto = {
+    type: DataSearchType.album,
+  };
 
-  const appCheckLikeServiceMock: AppCheckLikeServiceInterface = {
+  const appEncodingServiceMock: AppEncodingServiceInterface = {
+    encodeAlbums: (): DataAlbumResDto[] => [album],
+    encodeArtists: (): DataArtistResDto[] => [artist],
+    encodePlaylists: (): DataPlaylistResDto[] => [playlist],
+    encodeSearches: (): DataSearchResDto[] => [search],
+    encodeSongs: (): DataSongResDto[] => [song],
+  };
+  const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
   };
   const downloadServiceMock: DownloadServiceInterface = {
@@ -55,7 +94,8 @@ describe("DownloadController", () => {
       controllers: [DownloadController],
       providers: [
         { provide: DownloadService, useValue: downloadServiceMock },
-        { provide: AppCheckLikeService, useValue: appCheckLikeServiceMock },
+        { provide: AppEncodingService, useValue: appEncodingServiceMock },
+        { provide: AppSong, useValue: appSongMock },
       ],
     }).compile();
     controller = module.get<DownloadController>(DownloadController);

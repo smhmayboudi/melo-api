@@ -4,7 +4,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested
+  ValidateNested,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -20,7 +20,7 @@ export class DataAlbumResDto {
     releaseDate: Date,
     artists?: DataArtistResDto[],
     downloadCount?: number,
-    id?: string,
+    id?: number,
     image?: DataImageResDto,
     songs?: DataPaginationResDto<DataSongResDto>,
     tags?: string[],
@@ -39,14 +39,14 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The name",
-    example: "smith"
+    example: "smith",
   })
   @IsString()
   name: string;
 
   @ApiProperty({
     description: "The downlaod count",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   releaseDate: Date;
@@ -54,19 +54,19 @@ export class DataAlbumResDto {
   @ApiProperty({
     description: "The artists",
     isArray: true,
-    type: DataArtistResDto
+    type: DataArtistResDto,
   })
   @IsArray()
   @IsOptional()
   @Type(() => DataArtistResDto)
   @ValidateNested({
-    each: true
+    each: true,
   })
   artists?: DataArtistResDto[];
 
   @ApiProperty({
     description: "The downlaod count",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
@@ -74,21 +74,21 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: "abcdef"
+    example: 0,
   })
+  @IsNumber()
   @IsOptional()
-  @IsString()
-  id?: string;
+  id?: number;
 
   @ApiProperty({
-    description: "The image"
+    description: "The image",
   })
   @IsOptional()
   @ValidateNested()
   image?: DataImageResDto;
 
   @ApiProperty({
-    description: "The image"
+    description: "The image",
   })
   @IsOptional()
   @ValidateNested()
@@ -98,7 +98,7 @@ export class DataAlbumResDto {
     description: "The tags",
     example: ["pop"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsArray()
   @IsOptional()
@@ -107,7 +107,7 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The track count",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()

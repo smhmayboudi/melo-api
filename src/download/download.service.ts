@@ -1,5 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { HttpService, Injectable } from "@nestjs/common";
+
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadDataSongResDto } from "./dto/res/download.data.song.res.dto";
@@ -39,24 +40,21 @@ export class DownloadService implements DownloadServiceInterface {
           params: {
             filter: queryDto.filter,
             orderBy,
-            sortBy
-          }
+            sortBy,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
 
     return {
       results: await Promise.all(
-        downloadDataSong.results.map(async value => ({
+        downloadDataSong.results.map(async (value) => ({
           downloadedAt: value.downloadedAt,
-          song: await this.songService.byId(
-            { id: value.songId },
-            parseInt(value.songId, 10)
-          )
+          song: await this.songService.byId({ id: value.songId }),
         }))
       ),
-      total: downloadDataSong.total
+      total: downloadDataSong.total,
     } as DataPaginationResDto<DownloadSongResDto>;
   }
 }

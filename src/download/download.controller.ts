@@ -8,12 +8,13 @@ import {
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { DownloadHashIdInterceptor } from "./download.hash-id.interceptor";
 import { DownloadLikeInterceptor } from "./download.like.interceptor";
 import { DownloadOrderByPipe } from "./download.order-by.pipe";
 import { DownloadOrderByType } from "./download.order-by.type";
@@ -25,6 +26,7 @@ import { DownloadSortByPipe } from "./download.sort-by.pipe";
 import { DownloadSortByType } from "./download.sort-by.type";
 
 @UseInterceptors(DownloadLikeInterceptor)
+@UseInterceptors(DownloadHashIdInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("download")
 @Controller("download")
@@ -32,7 +34,7 @@ import { DownloadSortByType } from "./download.sort-by.type";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class DownloadController {
@@ -40,11 +42,11 @@ export class DownloadController {
 
   @ApiParam({
     name: "orderBy",
-    type: String
+    type: String,
   })
   @ApiParam({
     name: "sortBy",
-    type: String
+    type: String,
   })
   @Get("song/:orderBy/:sortBy/:from/:limit")
   @UseGuards(AuthGuard("jwt"))

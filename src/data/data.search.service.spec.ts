@@ -12,11 +12,11 @@ import { HttpService } from "@nestjs/common";
 
 describe("DataSearchService", () => {
   const dataSearchResDto: DataSearchResDto = {
-    type: DataSearchType.album
+    type: DataSearchType.album,
   };
   const searchPagination: DataPaginationResDto<DataSearchResDto> = {
     results: [dataSearchResDto],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSearchResDto>;
 
   // TODO: interface ?
@@ -29,8 +29,8 @@ describe("DataSearchService", () => {
         data: searchPagination,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
 
   let service: DataSearchService;
@@ -40,8 +40,8 @@ describe("DataSearchService", () => {
       providers: [
         DataSearchService,
         { provide: DataConfigService, useValue: {} },
-        { provide: HttpService, useValue: httpServiceMock }
-      ]
+        { provide: HttpService, useValue: httpServiceMock },
+      ],
     }).compile();
     service = module.get<DataSearchService>(DataSearchService);
   });
@@ -54,7 +54,7 @@ describe("DataSearchService", () => {
     const dto: DataSearchQueryReqDto = {
       from: 0,
       limit: 0,
-      query: ""
+      query: "",
     };
     expect(await service.query(dto)).toEqual(searchPagination);
   });

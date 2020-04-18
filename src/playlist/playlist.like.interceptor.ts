@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppCheckLikeService } from "../app/app.song";
+import { AppSong } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
@@ -16,27 +16,21 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class PlaylistLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appCheckLikeService: AppCheckLikeService) {}
+  constructor(private readonly appSong: AppSong) {}
 
   transform = async (
-    playlists: DataPlaylistResDto[],
-    sub: string
-  ): Promise<DataPlaylistResDto[]> =>
-    Promise.all(
-      playlists.map(async (value) => ({
-        ...value,
-        songs:
-          value.songs === undefined
-            ? undefined
-            : ({
-                results: await this.appCheckLikeService.like(
-                  value.songs.results,
-                  parseInt(sub, 10)
-                ),
-                total: value.songs.total,
-              } as DataPaginationResDto<DataSongResDto>),
-      }))
-    );
+    playlist: DataPlaylistResDto,
+    sub: number
+  ): Promise<DataPlaylistResDto> => ({
+    ...playlist,
+    songs:
+      playlist.songs === undefined
+        ? undefined
+        : ({
+            results: await this.appSong.like(playlist.songs.results, sub),
+            total: playlist.songs.total,
+          } as DataPaginationResDto<DataSongResDto>),
+  });
 
   intercept(
     context: ExecutionContext,
@@ -51,11 +45,15 @@ export class PlaylistLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = await this.transform([data], request.user.sub);
-          return result[0];
+          return this.transform(data, parseInt(request.user.sub, 10));
         } else {
           return {
-            results: await this.transform(data.results, request.user.sub),
+            results: (await Promise.all(
+              data.results.map(
+                async (value) =>
+                  await this.transform(value, parseInt(request.user.sub, 10))
+              )
+            )) as DataPlaylistResDto[],
             total: data.total,
           } as DataPaginationResDto<DataPlaylistResDto>;
         }

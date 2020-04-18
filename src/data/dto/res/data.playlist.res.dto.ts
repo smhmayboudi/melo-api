@@ -4,7 +4,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested
+  ValidateNested,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -35,55 +35,55 @@ export class DataPlaylistResDto {
 
   @ApiProperty({
     description: "The count of follwers",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   followersCount: number;
 
   @ApiProperty({
     description: "The identification",
-    example: "abcdef"
+    example: 0,
   })
   @IsString()
   id: string;
 
   @ApiProperty({
     description: "The cover",
-    example: "http://www.google.com"
+    example: "http://www.google.com",
   })
   @ValidateNested()
   image: DataImageResDto;
 
   @ApiProperty({
     description: "Is it public?",
-    example: false
+    example: false,
   })
   @IsBoolean()
   isPublic: boolean;
 
   @ApiProperty({
     description: "The release date",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   releaseDate: Date;
 
   @ApiProperty({
     description: "The title",
-    example: "black count down"
+    example: "black count down",
   })
   @IsString()
   title: string;
 
   @ApiProperty({
     description: "The count of tracks",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   tracksCount: number;
 
   @ApiProperty({
-    description: "The songs"
+    description: "The songs",
   })
   @IsOptional()
   @ValidateNested()

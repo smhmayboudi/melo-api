@@ -1,5 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
+
 import { DataOrderByType } from "../data/data.order-by.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
@@ -48,33 +49,28 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async artistSongs(
-    dto: SongArtistSongsReqDto,
-    artistId: number
+    dto: SongArtistSongsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.dataSongService.artistSongs({
-      ...dto,
-      id: artistId.toString()
-    });
+    return this.dataSongService.artistSongs({ ...dto, id: dto.artistId });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async artistSongsTop(
-    dto: SongArtistSongsTopReqDto,
-    artistId: number
+    dto: SongArtistSongsTopReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.dataSongService.artistSongsTop({
       ...dto,
-      id: artistId.toString()
+      id: dto.artistId,
     });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async byId(dto: SongByIdReqDto, id: number): Promise<DataSongResDto> {
-    return this.dataSongService.byId({ ...dto, id });
+  async byId(dto: SongByIdReqDto): Promise<DataSongResDto> {
+    return this.dataSongService.byId(dto);
   }
 
   @ApmAfterMethod
@@ -88,7 +84,7 @@ export class SongService implements SongServiceInterface {
     return this.dataSongService.genre({
       ...paramDto,
       orderBy: orderBy,
-      ...queryDto
+      ...queryDto,
     });
   }
 
@@ -101,30 +97,26 @@ export class SongService implements SongServiceInterface {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.dataSongService.language({
       ...dto,
-      orderBy
+      orderBy,
     });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async like(
-    _dto: SongLikeReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataSongResDto> {
-    const song = await this.dataSongService.byId({ id });
+  async like(dto: SongLikeReqDto, sub: number): Promise<DataSongResDto> {
+    const song = await this.dataSongService.byId({ id: dto.id });
     await this.relationService.set({
       createdAt: new Date(),
       from: {
-        id: sub.toString(),
-        type: RelationEntityType.user
+        id: sub,
+        type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,
       to: {
-        id: id.toString(),
-        type: RelationEntityType.song
-      }
+        id: dto.id,
+        type: RelationEntityType.song,
+      },
     });
     return { ...song, liked: true };
   }
@@ -139,21 +131,21 @@ export class SongService implements SongServiceInterface {
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        id: sub.toString(),
-        type: RelationEntityType.user
+        id: sub,
+        type: RelationEntityType.user,
       },
       limit: dto.limit,
-      relationType: RelationType.likedSongs
+      relationType: RelationType.likedSongs,
     });
     // TODO: external service should change
     if (relationEntityResDto.results.length === 0) {
       return {
         results: [] as DataSongResDto[],
-        total: 0
+        total: 0,
       } as DataPaginationResDto<DataSongResDto>;
     }
     return this.dataSongService.byIds({
-      ids: relationEntityResDto.results.map(value => value.id)
+      ids: relationEntityResDto.results.map((value) => value.id),
     });
   }
 
@@ -195,7 +187,7 @@ export class SongService implements SongServiceInterface {
     return this.dataSongService.podcast({
       ...paramDto,
       ...queryDto,
-      orderBy
+      orderBy,
     });
   }
 
@@ -208,18 +200,14 @@ export class SongService implements SongServiceInterface {
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.dataSongService.searchMood({
       ...paramDto,
-      ...querydto
+      ...querydto,
     });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async sendTelegram(
-    _dto: SongSendTelegramReqDto,
-    id: number,
-    sub: number
-  ): Promise<void> {
+  async sendTelegram(dto: SongSendTelegramReqDto, sub: number): Promise<void> {
     const userUserResDto = await this.userService.findOneById(sub);
     if (
       userUserResDto === undefined ||
@@ -230,27 +218,27 @@ export class SongService implements SongServiceInterface {
     await this.httpService
       .post<number>(this.songConfigService.sendTelegramUrl, {
         callback_query: {
-          data: `1:${id},high,0`,
+          data: `1:${dto.id},high,0`,
           from: {
             first_name: "",
             id: userUserResDto.telegram_id,
             is_bot: false,
             language_code: "fa",
-            username: undefined
+            username: undefined,
           },
           message: {
             chat: {
               first_name: "",
               id: userUserResDto.telegram_id,
               type: "private",
-              username: undefined
+              username: undefined,
             },
-            date: Math.round(new Date().getTime() / 1000)
-          }
+            date: Math.round(new Date().getTime() / 1000),
+          },
         },
-        update_id: 0
+        update_id: 0,
       })
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -258,10 +246,9 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async similar(
-    dto: SongSimilarReqDto,
-    id: number
+    dto: SongSimilarReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.dataSongService.similar({ ...dto, id });
+    return this.dataSongService.similar(dto);
   }
 
   @ApmAfterMethod
@@ -292,22 +279,18 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async unlike(
-    _dto: SongUnlikeReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataSongResDto> {
-    const dataSongResDto = await this.dataSongService.byId({ id });
+  async unlike(dto: SongUnlikeReqDto, sub: number): Promise<DataSongResDto> {
+    const dataSongResDto = await this.dataSongService.byId({ id: dto.id });
     await this.relationService.remove({
       from: {
-        id: sub.toString(),
-        type: RelationEntityType.user
+        id: sub,
+        type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,
       to: {
-        id: id.toString(),
-        type: RelationEntityType.song
-      }
+        id: dto.id,
+        type: RelationEntityType.song,
+      },
     });
     return { ...dataSongResDto, liked: false };
   }

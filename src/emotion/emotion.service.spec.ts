@@ -1,5 +1,6 @@
 import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -20,36 +21,36 @@ describe("EmotionService", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
-        type: DataArtistType.feat
-      }
+        id: 0,
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const emotion: EmotionResDto = {
     emotions: [""],
-    song
+    song,
   };
   const emotionData: EmotionDataResDto = {
     emotions: [""],
-    songId: 0
+    songId: 0,
   };
   const emotionPagination: DataPaginationResDto<EmotionResDto> = {
     results: [emotion],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<EmotionResDto>;
   const emotionDataPagination: DataPaginationResDto<EmotionDataResDto> = {
     results: [emotionData],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<EmotionDataResDto>;
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -83,7 +84,7 @@ describe("EmotionService", () => {
       Promise.resolve(songPagination),
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
-    unlike: (): Promise<DataSongResDto> => Promise.resolve(song)
+    unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -95,8 +96,8 @@ describe("EmotionService", () => {
         data: emotionDataPagination,
         headers: {},
         status: 200,
-        statusText: ""
-      })
+        statusText: "",
+      }),
   };
 
   let service: EmotionService;
@@ -107,8 +108,8 @@ describe("EmotionService", () => {
         EmotionService,
         { provide: EmotionConfigService, useValue: {} },
         { provide: HttpService, useValue: httpServiceMock },
-        { provide: SongService, useValue: songServiceMock }
-      ]
+        { provide: SongService, useValue: songServiceMock },
+      ],
     }).compile();
     service = module.get<EmotionService>(EmotionService);
   });
@@ -116,10 +117,10 @@ describe("EmotionService", () => {
   it("emotions should return a list of emotions", async () => {
     const paramDto: EmotionParamReqDto = {
       from: 0,
-      limit: 0
+      limit: 0,
     };
     const queryDto: EmotionQueryReqDto = {
-      emotions: [""]
+      emotions: [""],
     };
     expect(await service.emotions(paramDto, queryDto, 0)).toEqual(
       emotionPagination

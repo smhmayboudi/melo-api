@@ -34,20 +34,20 @@ describe("AlbumFollowInterceptor", () => {
   };
   const artist: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const song: DataSongResDto = {
     artists: [
       {
         followersCount: 0,
-        id: "",
+        id: 0,
         type: DataArtistType.feat,
       },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -66,7 +66,7 @@ describe("AlbumFollowInterceptor", () => {
     results: [album],
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
-  const appCheckFollowServiceMock: AppArtistInterface = {
+  const appMixArtistServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
@@ -74,7 +74,7 @@ describe("AlbumFollowInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppArtist, useValue: appCheckFollowServiceMock }],
+      providers: [{ provide: AppArtist, useValue: appMixArtistServiceMock }],
     }).compile();
     service = module.get<AppArtist>(AppArtist);
   });

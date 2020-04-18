@@ -2,7 +2,7 @@ import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import {
   HttpService,
   Injectable,
-  InternalServerErrorException
+  InternalServerErrorException,
 } from "@nestjs/common";
 
 import { PromMethodCounter } from "../prom/prom.decorator";
@@ -26,7 +26,7 @@ export class RelationService implements RelationServiceInterface {
   }
 
   private keys(dto: RelationEntityResDto[]): string {
-    return dto.map(value => this.key(value)).join(",");
+    return dto.map((value) => this.key(value)).join(",");
   }
 
   constructor(
@@ -46,7 +46,7 @@ export class RelationService implements RelationServiceInterface {
           dto.relationType
         }/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -61,7 +61,7 @@ export class RelationService implements RelationServiceInterface {
         )}/${dto.relationType}`
       )
       .pipe(
-        map(value => {
+        map((value) => {
           if (value.data === false) {
             throw new InternalServerErrorException();
           }
@@ -82,7 +82,7 @@ export class RelationService implements RelationServiceInterface {
           dto.from
         )}/${this.keys(dto.tos)}/${dto.relationType}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -95,11 +95,11 @@ export class RelationService implements RelationServiceInterface {
         data: {
           entityId1: this.key(dto.from),
           entityId2: this.key(dto.to),
-          relType: dto.relationType
-        }
+          relType: dto.relationType,
+        },
       })
       .pipe(
-        map(value => {
+        map((value) => {
           if (value.data === false) {
             throw new InternalServerErrorException();
           }
@@ -117,10 +117,10 @@ export class RelationService implements RelationServiceInterface {
         createdAt: dto.createdAt,
         entityId1: this.key(dto.from),
         entityId2: this.key(dto.to),
-        relType: dto.relationType
+        relType: dto.relationType,
       })
       .pipe(
-        map(value => {
+        map((value) => {
           if (value.data === false) {
             throw new InternalServerErrorException();
           }

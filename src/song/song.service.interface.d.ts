@@ -24,14 +24,12 @@ import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 
 export interface SongServiceInterface {
   artistSongs(
-    dto: SongArtistSongsReqDto,
-    artistId: number
+    dto: SongArtistSongsReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   artistSongsTop(
-    dto: SongArtistSongsTopReqDto,
-    artistId: number
+    dto: SongArtistSongsTopReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  byId(dto: SongByIdReqDto, id: number): Promise<DataSongResDto>;
+  byId(dto: SongByIdReqDto): Promise<DataSongResDto>;
   genre(
     orderBy: DataOrderByType,
     paramDto: SongSongGenresParamReqDto,
@@ -41,7 +39,7 @@ export interface SongServiceInterface {
     dto: SongLanguageReqDto,
     orderBy: DataOrderByType
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  like(dto: SongLikeReqDto, id: number, sub: number): Promise<DataSongResDto>;
+  like(dto: SongLikeReqDto, sub: number): Promise<DataSongResDto>;
   liked(
     dto: SongLikedReqDto,
     sub: number
@@ -60,23 +58,14 @@ export interface SongServiceInterface {
     paramDto: SongSearchMoodParamDto,
     querydto: SongSearchMoodQueryDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  sendTelegram(
-    dto: SongSendTelegramReqDto,
-    id: number,
-    sub: number
-  ): Promise<void>;
+  sendTelegram(dto: SongSendTelegramReqDto, sub: number): Promise<void>;
   similar(
-    dto: SongSimilarReqDto,
-    id: number
+    dto: SongSimilarReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   slider(sub: number): Promise<DataPaginationResDto<DataSongResDto>>;
   topDay(dto: SongTopDayReqDto): Promise<DataPaginationResDto<DataSongResDto>>;
   topWeek(
     dto: SongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
-  unlike(
-    dto: SongUnlikeReqDto,
-    id: number,
-    sub: number
-  ): Promise<DataSongResDto>;
+  unlike(dto: SongUnlikeReqDto, sub: number): Promise<DataSongResDto>;
 }

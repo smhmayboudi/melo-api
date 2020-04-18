@@ -4,7 +4,7 @@ import {
   Get,
   UseGuards,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AuthGuard } from "@nestjs/passport";
@@ -18,7 +18,7 @@ import { ConstService } from "./const.service";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class ConstController {

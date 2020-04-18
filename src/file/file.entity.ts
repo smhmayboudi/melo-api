@@ -28,7 +28,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The file identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @Column({ length: 200, type: "varchar" })
   @Exclude()
@@ -37,7 +37,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The create date",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "date" })
   @IsDate()
@@ -45,7 +45,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The file name",
-    example: "abcdef"
+    example: "abcdef",
   })
   @Column({ length: 200, type: "varchar" })
   @IsString()
@@ -53,7 +53,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The etag",
-    example: "abcdef"
+    example: "abcdef",
   })
   @Column({ length: 200, type: "varchar" })
   @IsString()
@@ -61,7 +61,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0
+    example: 0,
   })
   @PrimaryGeneratedColumn("increment", { type: "int" })
   @IsNumber()
@@ -69,7 +69,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The mimetype",
-    example: "abcdef"
+    example: "abcdef",
   })
   @Column({ length: 50, type: "varchar" })
   @IsString()
@@ -77,7 +77,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The size",
-    example: "1024"
+    example: "1024",
   })
   @Column({ type: "int" })
   @IsNumber()
@@ -85,7 +85,7 @@ export class FileEntity {
 
   @ApiProperty({
     description: "The size",
-    example: "1024"
+    example: "1024",
   })
   @Column({ type: "int" })
   @IsNumber()

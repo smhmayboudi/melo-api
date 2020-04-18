@@ -26,33 +26,33 @@ describe("PlaylistService", () => {
     artists: [
       {
         followersCount: 0,
-        id: "",
-        type: DataArtistType.feat
-      }
+        id: 0,
+        type: DataArtistType.feat,
+      },
     ],
     audio: {},
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
-    title: ""
+    title: "",
   };
   const songPagination: DataPaginationResDto<DataSongResDto> = {
     results: [song],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const playlist: DataPlaylistResDto = {
     followersCount: 0,
     id,
     image: {
       "": {
-        url: ""
-      }
+        url: "",
+      },
     },
     isPublic: false,
     releaseDate,
     title: "",
-    tracksCount: 1
+    tracksCount: 1,
   };
   // const playlistPagination: DataPaginationResDto<DataPlaylistResDto> = {
   //   results: [playlist],
@@ -69,26 +69,26 @@ describe("PlaylistService", () => {
     release_date: releaseDate,
     songs_ids: [0],
     title: "",
-    tracks_count: 1
+    tracks_count: 1,
   };
   //
   const mongooseMethodsMock = {
     findById: () => dbPlaylist,
     findOne: () => dbPlaylist,
-    save: () => dbPlaylist
+    save: () => dbPlaylist,
   };
   //
   const playlistModelRes = {
     ...dbPlaylist,
-    ...mongooseMethodsMock
+    ...mongooseMethodsMock,
   };
 
   const appImgProxyServiceMock: AppImgProxyServiceInterface = {
     generateUrl: (): DataImageResDto => ({
       "": {
-        url: ""
-      }
-    })
+        url: "",
+      },
+    }),
   };
   const dataSongServiceMock: DataSongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -119,7 +119,7 @@ describe("PlaylistService", () => {
     topDay: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
-      Promise.resolve(songPagination)
+      Promise.resolve(songPagination),
   };
   const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
     cacheHost: "",
@@ -128,7 +128,7 @@ describe("PlaylistService", () => {
     cacheStore: "",
     cacheTTL: 0,
     defaultImagePath: "",
-    imagePath: () => ""
+    imagePath: () => "",
   };
   // TODO: interface ?
   const playlistModelMock = {
@@ -136,7 +136,7 @@ describe("PlaylistService", () => {
     find: () => playlistModelRes,
     findById: () => playlistModelRes,
     findOne: () => playlistModelRes,
-    save: () => playlistModelRes
+    save: () => playlistModelRes,
   };
 
   let service: PlaylistService;
@@ -148,8 +148,8 @@ describe("PlaylistService", () => {
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         PlaylistService,
-        { provide: getModelToken("Playlist"), useValue: playlistModelMock }
-      ]
+        { provide: getModelToken("Playlist"), useValue: playlistModelMock },
+      ],
     }).compile();
     service = module.get<PlaylistService>(PlaylistService);
   });
@@ -161,49 +161,49 @@ describe("PlaylistService", () => {
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
       playlistId: id,
-      songId: "0"
+      songId: 0,
     };
-    expect(await service.addSong(dto, 0)).toEqual({
+    expect(await service.addSong(dto)).toEqual({
       ...playlist,
-      songs: songPagination
+      songs: songPagination,
     });
   });
 
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
-      id
+      id,
     };
     expect(await service.delete(dto, 0)).toEqual(playlist);
   });
 
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
-      id
+      id,
     };
     expect(await service.edit(dto)).toEqual({
       ...playlist,
-      songs: songPagination
+      songs: songPagination,
     });
   });
 
   it("deleteSong should be equal to a playlist", async () => {
     const dto: PlaylistSongReqDto = {
       playlistId: id,
-      songId: "0"
+      songId: 0,
     };
-    expect(await service.deleteSong(dto, 0)).toEqual({
+    expect(await service.deleteSong(dto)).toEqual({
       ...playlist,
-      songs: songPagination
+      songs: songPagination,
     });
   });
 
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
-      id
+      id,
     };
     expect(await service.get(dto)).toEqual({
       ...playlist,
-      songs: songPagination
+      songs: songPagination,
     });
   });
 

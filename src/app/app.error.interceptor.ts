@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   Injectable,
   Logger,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
@@ -19,11 +19,11 @@ export class AppErrorInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      tap(undefined, error => {
+      tap(undefined, (error) => {
         Logger.error(
           `${JSON.stringify({
             path: request.path,
-            user: request.user
+            user: request.user,
           })} => ${error}`,
           undefined,
           "AppErrorInterceptor"

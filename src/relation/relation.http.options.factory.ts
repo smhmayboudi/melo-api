@@ -1,8 +1,9 @@
 import {
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
+
 import { RelationConfigService } from "./relation.config.service";
 
 @Injectable()
@@ -11,7 +12,7 @@ export class RelationHttpOptionsFactory implements HttpModuleOptionsFactory {
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
-      timeout: this.relationConfigService.timeout
+      timeout: this.relationConfigService.timeout,
     };
   }
 }

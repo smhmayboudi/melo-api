@@ -9,14 +9,14 @@ export class DataMp3ResDto {
 
   @ApiProperty({
     description: "The fingerprint",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   fingerprint: string;
 
   @ApiProperty({
     description: "The url",
-    example: "http://..."
+    example: "http://...",
   })
   @IsString()
   url: string;

@@ -27,7 +27,7 @@ export class DataArtistService implements DataArtistServiceInterface {
       .get<DataArtistResDto>(
         `${this.dataConfigService.url}/artist/byId/${dto.id}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -42,11 +42,11 @@ export class DataArtistService implements DataArtistServiceInterface {
         `${this.dataConfigService.url}/artist/byIds`,
         {
           params: {
-            artistsIds: dto.ids
-          }
+            artistsIds: dto.ids,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -58,7 +58,7 @@ export class DataArtistService implements DataArtistServiceInterface {
       .get<DataPaginationResDto<DataArtistResDto>>(
         `${this.dataConfigService.url}/artist/trending`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -72,7 +72,7 @@ export class DataArtistService implements DataArtistServiceInterface {
       .get<DataPaginationResDto<DataArtistResDto>>(
         `${this.dataConfigService.url}/artist/trending/genre/${dto.genre}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 }

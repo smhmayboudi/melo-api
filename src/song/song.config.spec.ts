@@ -9,7 +9,7 @@ describe("SongConfig", () => {
       cacheStore: undefined,
       cacheTTL: undefined,
       sendTelegramTimeout: undefined,
-      sendTelegramUrl: undefined
+      sendTelegramUrl: undefined,
     });
   });
 });

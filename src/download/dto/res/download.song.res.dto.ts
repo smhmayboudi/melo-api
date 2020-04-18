@@ -1,6 +1,7 @@
 import { IsDate, ValidateNested } from "class-validator";
+
 import { ApiProperty } from "@nestjs/swagger";
-import { DataSongResDto } from "src/data/dto/res/data.song.res.dto";
+import { DataSongResDto } from "../../../data/dto/res/data.song.res.dto";
 
 export class DownloadSongResDto {
   constructor(song: DataSongResDto, downloadedAt: Date) {
@@ -10,14 +11,14 @@ export class DownloadSongResDto {
 
   @ApiProperty({
     description: "The song",
-    example: 0
+    example: 0,
   })
   @ValidateNested()
   song: DataSongResDto;
 
   @ApiProperty({
     description: "The date of download",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   downloadedAt: Date;

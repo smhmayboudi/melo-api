@@ -12,12 +12,12 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 
-import { AppHashIdPipe } from "../app/app.hash-id.pipe";
 import { AppUser } from "../app/app.user.decorator";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowInterceptor } from "./artist.follow.interceptor";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
+import { ArtistHashIdInterceptor } from "./artist.hash-id.interceptor";
 import { ArtistLikeInterceptor } from "./artist.like.interceptor";
 import { ArtistLocalizeInterceptor } from "./artist.localize.interceptor";
 import { ArtistService } from "./artist.service";
@@ -27,9 +27,10 @@ import { AuthGuard } from "@nestjs/passport";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
-@UseInterceptors(ArtistLocalizeInterceptor)
-@UseInterceptors(ArtistLikeInterceptor)
 @UseInterceptors(ArtistFollowInterceptor)
+@UseInterceptors(ArtistLikeInterceptor)
+@UseInterceptors(ArtistLocalizeInterceptor)
+@UseInterceptors(ArtistHashIdInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("artist")
 @Controller("artist")
@@ -47,10 +48,9 @@ export class ArtistController {
   @UseGuards(AuthGuard("jwt"))
   async follow(
     @Body() dto: ArtistFollowReqDto,
-    @Body("id", AppHashIdPipe) id: number,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataArtistResDto> {
-    return this.artistService.follow(dto, id, sub);
+    return this.artistService.follow(dto, sub);
   }
 
   @Get("following/:from/:limit")
@@ -68,11 +68,8 @@ export class ArtistController {
   })
   @Get("profile/:id")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async profile(
-    @Param() dto: ArtistByIdReqDto,
-    @Param("id", AppHashIdPipe) id: number
-  ): Promise<DataArtistResDto> {
-    return this.artistService.profile(dto, id);
+  async profile(@Param() dto: ArtistByIdReqDto): Promise<DataArtistResDto> {
+    return this.artistService.profile(dto);
   }
 
   @Get("trending")
@@ -93,9 +90,8 @@ export class ArtistController {
   @UseGuards(AuthGuard("jwt"))
   async unfollow(
     @Body() dto: ArtistUnfollowReqDto,
-    @Body("id", AppHashIdPipe) id: number,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataArtistResDto> {
-    return this.artistService.unfollow(dto, id, sub);
+    return this.artistService.unfollow(dto, sub);
   }
 }

@@ -18,7 +18,7 @@ describe("AppArtist", () => {
   const artists: DataArtistResDto[] = [
     {
       followersCount: 0,
-      id: "",
+      id: 0,
       type: DataArtistType.prime,
     },
   ];
@@ -31,7 +31,7 @@ describe("AppArtist", () => {
       Promise.resolve({
         results: [
           {
-            id: "",
+            id: 0,
             type: RelationEntityType.album,
           },
         ],
@@ -42,12 +42,12 @@ describe("AppArtist", () => {
       Promise.resolve([
         {
           from: {
-            id: "0",
+            id: 0,
             type: RelationEntityType.album,
           },
           relation: RelationType.dislikedSongs,
           to: {
-            id: "1",
+            id: 1,
             type: RelationEntityType.album,
           },
         },

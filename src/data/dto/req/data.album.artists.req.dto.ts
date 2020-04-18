@@ -11,21 +11,21 @@ export class DataAlbumArtistsReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "The artist identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsNumber()
   id: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;

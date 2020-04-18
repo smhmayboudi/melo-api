@@ -18,7 +18,7 @@ describe("AlbumService", () => {
   const releaseDate = new Date();
   const follow: DataArtistResDto = {
     followersCount: 0,
-    id: "",
+    id: 0,
     type: DataArtistType.prime,
   };
   const like: DataSongResDto = {
@@ -30,7 +30,7 @@ describe("AlbumService", () => {
       },
     },
     duration: 0,
-    id: "",
+    id: 0,
     localized: false,
     releaseDate,
     title: "",
@@ -49,8 +49,12 @@ describe("AlbumService", () => {
     results: [album],
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
+  const albumPaginationArtistsUndefined: DataPaginationResDto<DataAlbumResDto> = {
+    results: [{ ...album, artists: undefined }],
+    total: 1,
+  } as DataPaginationResDto<DataAlbumResDto>;
 
-  const appCheckFollowServiceMock: AppArtistInterface = {
+  const appMixArtistServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
@@ -68,10 +72,7 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          {
-            provide: AppArtist,
-            useValue: appCheckFollowServiceMock,
-          },
+          { provide: AppArtist, useValue: appMixArtistServiceMock },
           { provide: DataAlbumService, useValue: dataAlbumServiceMock },
         ],
       }).compile();
@@ -84,18 +85,18 @@ describe("AlbumService", () => {
 
     it("artistAlbums should equal list of artists", async () => {
       const dto: AlbumArtistAlbumsReqDto = {
-        artistId: "0",
+        artistId: 0,
         from: 0,
         limit: 0,
       };
-      expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
+      expect(await service.artistAlbums(dto)).toEqual(albumPagination);
     });
 
     it("byId should be equal to an artist", async () => {
       const dto: AlbumByIdReqDto = {
-        id: "0",
+        id: 0,
       };
-      expect(await service.byId(dto, 0)).toEqual(album);
+      expect(await service.byId(dto)).toEqual(album);
     });
 
     it("latest should equal list of albums", async () => {
@@ -129,7 +130,7 @@ describe("AlbumService", () => {
           AlbumService,
           {
             provide: AppArtist,
-            useValue: appCheckFollowServiceMock,
+            useValue: appMixArtistServiceMock,
           },
           {
             provide: DataAlbumService,
@@ -140,13 +141,15 @@ describe("AlbumService", () => {
       service = module.get<AlbumService>(AlbumService);
     });
 
-    it("artistAlbums should equal list of artists undefined", async () => {
+    it("artistAlbums should equal list of albums artists undefined", async () => {
       const dto: AlbumArtistAlbumsReqDto = {
-        artistId: "0",
+        artistId: 0,
         from: 0,
         limit: 0,
       };
-      expect(await service.artistAlbums(dto, 0, 0)).toEqual(albumPagination);
+      expect(await service.artistAlbums(dto)).toEqual(
+        albumPaginationArtistsUndefined
+      );
     });
   });
 
@@ -168,10 +171,7 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          {
-            provide: AppArtist,
-            useValue: appCheckFollowServiceMock,
-          },
+          { provide: AppArtist, useValue: appMixArtistServiceMock },
           {
             provide: DataAlbumService,
             useValue: dataAlbumServiceMockSongsUndefined,
@@ -183,9 +183,9 @@ describe("AlbumService", () => {
 
     it("byId should handle songs undefnied", async () => {
       const dto: AlbumByIdReqDto = {
-        id: "",
+        id: 0,
       };
-      expect(await service.byId(dto, 0)).toEqual(albumSongsUndefined);
+      expect(await service.byId(dto)).toEqual(albumSongsUndefined);
     });
   });
 });

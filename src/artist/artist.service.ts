@@ -1,6 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 
-// import { AppArtist } from "../app/app.mix-artist.service";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
@@ -20,7 +19,6 @@ import { RelationType } from "../relation/relation.type";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    // private readonly appCheckFollowService: AppArtist,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
@@ -30,14 +28,13 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async follow(
     dto: ArtistFollowReqDto,
-    id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
+    const dataArtistResDto = await this.dataArtistService.byId(dto);
     await this.relationService.set({
       createdAt: new Date(),
       from: {
-        id: sub.toString(),
+        id: sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.follows,
@@ -54,12 +51,12 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async following(
     dto: ArtistFollowingReqDto,
-    id: number
+    sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        id: id.toString(),
+        id: sub,
         type: RelationEntityType.following,
       },
       limit: dto.limit,
@@ -80,8 +77,8 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async profile(dto: ArtistByIdReqDto, id: number): Promise<DataArtistResDto> {
-    return this.dataArtistService.byId({ ...dto, id });
+  async profile(dto: ArtistByIdReqDto): Promise<DataArtistResDto> {
+    return this.dataArtistService.byId(dto);
   }
 
   @ApmAfterMethod
@@ -107,18 +104,17 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async unfollow(
     dto: ArtistUnfollowReqDto,
-    id: number,
     sub: number
   ): Promise<DataArtistResDto> {
-    const dataArtistResDto = await this.dataArtistService.byId({ ...dto, id });
+    const dataArtistResDto = await this.dataArtistService.byId(dto);
     await this.relationService.remove({
       from: {
-        id: sub.toString(),
+        id: sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.unfollows,
       to: {
-        id: id.toString(),
+        id: dto.id,
         type: RelationEntityType.artist,
       },
     });

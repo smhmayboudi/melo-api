@@ -81,7 +81,7 @@ describe("FileService", () => {
     jest.mock("aws-sdk").fn(() => ({
       save: () => managedUpload,
     }));
-  }, 20000);
+  }, 40000);
 
   it("uploadImage should be equal to a file upload image", async () => {
     expect(await service.uploadImage(0, file)).toEqual(fileUploadImage);

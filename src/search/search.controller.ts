@@ -4,16 +4,19 @@ import {
   Get,
   Param,
   UseGuards,
+  UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { SearchHashIdInterceptor } from "./search.hash-id.interceptor";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { SearchService } from "./search.service";
 
+@UseInterceptors(SearchHashIdInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("search")
 @Controller("search")
@@ -21,7 +24,7 @@ import { SearchService } from "./search.service";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class SearchController {

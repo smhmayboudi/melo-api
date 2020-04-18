@@ -1,5 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { HttpService, Injectable } from "@nestjs/common";
+
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionDataResDto } from "./dto/res/emotion.data.res.dto";
@@ -33,24 +34,21 @@ export class EmotionService implements EmotionServiceInterface {
         `${this.emotionConfigService.url}/emotion/${sub}/${paramDto.from}/${paramDto.limit}`,
         {
           params: {
-            emotions: queryDto.emotions
-          }
+            emotions: queryDto.emotions,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
 
     return {
       results: await Promise.all(
-        emotionData.results.map(async value => ({
+        emotionData.results.map(async (value) => ({
           emotions: value.emotions,
-          song: await this.songService.byId(
-            { id: value.songId.toString() },
-            value.songId
-          )
+          song: await this.songService.byId({ id: value.songId }),
         }))
       ),
-      total: emotionData.total
+      total: emotionData.total,
     } as DataPaginationResDto<EmotionResDto>;
   }
 }

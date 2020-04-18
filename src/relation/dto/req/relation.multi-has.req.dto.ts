@@ -18,7 +18,7 @@ export class RelationMultiHasReqDto {
 
   @ApiProperty({
     description: "The from entity",
-    example: 0
+    example: 0,
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
@@ -26,7 +26,7 @@ export class RelationMultiHasReqDto {
 
   @ApiProperty({
     description: "The relation type",
-    example: RelationType.follows
+    example: RelationType.follows,
   })
   @IsEnum(RelationType)
   relationType: RelationType;
@@ -34,11 +34,11 @@ export class RelationMultiHasReqDto {
   @ApiProperty({
     description: "The to entity",
     isArray: true,
-    type: RelationEntityResDto
+    type: RelationEntityResDto,
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested({
-    each: true
+    each: true,
   })
   tos: RelationEntityResDto[];
 }

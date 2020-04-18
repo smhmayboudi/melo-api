@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested
+  ValidateNested,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -18,7 +18,7 @@ import { DataSongResDto } from "./data.song.res.dto";
 export class DataArtistResDto {
   constructor(
     followersCount: number,
-    id: string,
+    id: number,
     type: DataArtistType,
     albums?: DataPaginationResDto<DataAlbumResDto>,
     following?: boolean,
@@ -42,27 +42,27 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The follwer count",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   followersCount: number;
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: 0,
   })
-  @IsString()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @ApiProperty({
     description: "The artist type",
-    example: DataArtistType.prime
+    example: DataArtistType.prime,
   })
   @IsEnum(DataArtistType)
   type: DataArtistType;
 
   @ApiProperty({
-    description: "The albums"
+    description: "The albums",
   })
   @IsOptional()
   @ValidateNested()
@@ -70,7 +70,7 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The following",
-    example: false
+    example: false,
   })
   @IsOptional()
   @IsBoolean()
@@ -78,21 +78,21 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The fullname",
-    example: "john smith"
+    example: "john smith",
   })
   @IsOptional()
   @IsString()
   fullName?: string;
 
   @ApiProperty({
-    description: "The name"
+    description: "The name",
   })
   @IsOptional()
   @ValidateNested()
   image?: DataImageResDto;
 
   @ApiProperty({
-    description: "The songs"
+    description: "The songs",
   })
   @IsOptional()
   @ValidateNested()
@@ -100,7 +100,7 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The sum downloads of songs count",
-    example: 0
+    example: 0,
   })
   @IsOptional()
   @IsNumber()
@@ -110,7 +110,7 @@ export class DataArtistResDto {
     description: "The tags",
     example: ["smith"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsArray()
   @IsOptional()

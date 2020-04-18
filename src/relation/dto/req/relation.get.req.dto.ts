@@ -20,13 +20,13 @@ export class RelationGetReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
@@ -34,14 +34,14 @@ export class RelationGetReqDto {
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;
 
   @ApiProperty({
     description: "The type",
-    example: RelationType.follows
+    example: RelationType.follows,
   })
   @IsEnum(RelationType)
   relationType: RelationType;

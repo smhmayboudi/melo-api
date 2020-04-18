@@ -34,7 +34,7 @@ export class FileService implements FileServiceInterface {
       endpoint: this.fileConfigService.s3Endpoint,
       s3ForcePathStyle: true,
       secretAccessKey: this.fileConfigService.s3SecretAccessKey,
-      sslEnabled: this.fileConfigService.s3SslEnabled
+      sslEnabled: this.fileConfigService.s3SslEnabled,
     });
   }
 
@@ -63,7 +63,7 @@ export class FileService implements FileServiceInterface {
         Body: dto.buffer,
         Bucket: this.fileConfigService.s3Bucket,
         ContentType: mimeType,
-        Key: `${uuidv4()}.${extension}`
+        Key: `${uuidv4()}.${extension}`,
       })
       .promise();
     const fileEntity = await this.fileEntityRepository.save({
@@ -74,14 +74,14 @@ export class FileService implements FileServiceInterface {
       id: 0,
       mime_type: mimeType,
       owner_user_id: sub,
-      size: dto.size
+      size: dto.size,
     });
     return {
       createdAt: fileEntity.created_at,
       fileKey: fileEntity.file_key,
       mimeType: fileEntity.mime_type,
       originalname: dto.originalname,
-      size: fileEntity.size
+      size: fileEntity.size,
     };
   }
 }

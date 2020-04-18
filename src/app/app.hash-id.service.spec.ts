@@ -48,7 +48,7 @@ describe("AppHashIdService", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppHashIdService;
@@ -57,8 +57,8 @@ describe("AppHashIdService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: appConfigServiceMock },
-        AppHashIdService
-      ]
+        AppHashIdService,
+      ],
     }).compile();
     service = module.get<AppHashIdService>(AppHashIdService);
   });

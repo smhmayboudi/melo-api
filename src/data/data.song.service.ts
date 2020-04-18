@@ -40,7 +40,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/artist/songs/${dto.id}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -54,7 +54,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/artist/songs/top/${dto.id}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -64,7 +64,7 @@ export class DataSongService implements DataSongServiceInterface {
   async byId(dto: DataSongByIdReqDto): Promise<DataSongResDto> {
     return this.httpService
       .get<DataSongResDto>(`${this.dataConfigService.url}/song/byId/${dto.id}`)
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -79,11 +79,11 @@ export class DataSongService implements DataSongServiceInterface {
         `${this.dataConfigService.url}/song/byIds`,
         {
           params: {
-            ids: dto.ids
-          }
+            ids: dto.ids,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -98,11 +98,11 @@ export class DataSongService implements DataSongServiceInterface {
         `${this.dataConfigService.url}/song/genre/${dto.orderBy}/${dto.from}/${dto.limit}`,
         {
           params: {
-            genres: dto.genres
-          }
+            genres: dto.genres,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -116,7 +116,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/language/${dto.language}/${dto.orderBy}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -130,7 +130,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/mood/${dto.mood}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -144,7 +144,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/new/podcast/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -158,7 +158,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/new/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -173,11 +173,11 @@ export class DataSongService implements DataSongServiceInterface {
         `${this.dataConfigService.url}/song/podcast/${dto.orderBy}/${dto.from}/${dto.limit}`,
         {
           params: {
-            genres: dto.genres
-          }
+            genres: dto.genres,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -196,11 +196,11 @@ export class DataSongService implements DataSongServiceInterface {
             date: dto.date,
             energetic: dto.energetic,
             happiness: dto.happiness,
-            romantic: dto.romantic
-          }
+            romantic: dto.romantic,
+          },
         }
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -214,7 +214,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/similar/${dto.id}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -226,7 +226,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/slider/latest`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -240,7 +240,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/top/day/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 
@@ -254,7 +254,7 @@ export class DataSongService implements DataSongServiceInterface {
       .get<DataPaginationResDto<DataSongResDto>>(
         `${this.dataConfigService.url}/song/top/week/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 }

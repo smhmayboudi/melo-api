@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { SongConfigService } from "./song.config.service";
@@ -17,7 +17,7 @@ export class SongCacheOptionsFactory implements CacheOptionsFactory {
       max: this.songConfigService.cacheMax,
       port: this.songConfigService.cachePort,
       store: this.songConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.songConfigService.cacheTTL / 1000
+      ttl: this.songConfigService.cacheTTL / 1000,
     };
   }
 }

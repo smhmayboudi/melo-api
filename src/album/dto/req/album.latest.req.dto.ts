@@ -11,21 +11,21 @@ export class AlbumLatestReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "The language",
-    example: "fa"
+    example: "persian",
   })
   @IsString()
   language: string;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;
