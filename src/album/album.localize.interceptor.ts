@@ -4,6 +4,8 @@ import {
   Injectable,
   NestInterceptor,
 } from "@nestjs/common";
+
+import { AppSong } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -12,27 +14,21 @@ import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
 
-const transform = (album: DataAlbumResDto): DataAlbumResDto => ({
-  ...album,
-  songs:
-    album.songs === undefined
-      ? undefined
-      : ({
-          results: album.songs.results.map((valueSong) =>
-            valueSong.localized === true
-              ? {
-                  ...valueSong,
-                  audio: undefined,
-                  lyrics: undefined,
-                }
-              : valueSong
-          ),
-          total: album.songs.total,
-        } as DataPaginationResDto<DataSongResDto>),
-});
-
 @Injectable()
 export class AlbumLocalizeInterceptor implements NestInterceptor {
+  constructor(private readonly appSong: AppSong) {}
+
+  transform = (album: DataAlbumResDto): DataAlbumResDto => ({
+    ...album,
+    songs:
+      album.songs === undefined
+        ? undefined
+        : ({
+            results: this.appSong.localize(album.songs.results),
+            total: album.songs.total,
+          } as DataPaginationResDto<DataSongResDto>),
+  });
+
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -47,10 +43,10 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
-          return transform(data);
+          return this.transform(data);
         } else {
           return {
-            results: data.results.map((value) => transform(value)),
+            results: data.results.map((value) => this.transform(value)),
             total: data.total,
           } as DataPaginationResDto<DataAlbumResDto>;
         }

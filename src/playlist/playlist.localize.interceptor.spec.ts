@@ -1,5 +1,8 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
+import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppSong } from "../app/app.song";
+import { AppSongInterface } from "../app/app.song.interface";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
@@ -70,12 +73,26 @@ describe("PlaylistLocalizeInterceptor", () => {
     handle: jest.fn(() => of(playlist)),
   };
 
+  const appMixSongServiceMock: AppSongInterface = {
+    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto[] => [song],
+  };
+
+  let service: AppSong;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [{ provide: AppSong, useValue: appMixSongServiceMock }],
+    }).compile();
+    service = module.get<AppSong>(AppSong);
+  });
+
   it("should be defined", () => {
-    expect(new PlaylistLocalizeInterceptor()).toBeDefined();
+    expect(new PlaylistLocalizeInterceptor(service)).toBeDefined();
   });
 
   it("intercept should be called", () => {
-    new PlaylistLocalizeInterceptor()
+    new PlaylistLocalizeInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -91,7 +108,7 @@ describe("PlaylistLocalizeInterceptor", () => {
       ...executionContext,
       switchToHttp: () => httpArgumentsHostUserSubZero,
     };
-    new PlaylistLocalizeInterceptor()
+    new PlaylistLocalizeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -102,7 +119,7 @@ describe("PlaylistLocalizeInterceptor", () => {
     const callHandlerAlbum: CallHandler = {
       handle: jest.fn(() => of(playlist)),
     };
-    new PlaylistLocalizeInterceptor()
+    new PlaylistLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -115,7 +132,7 @@ describe("PlaylistLocalizeInterceptor", () => {
         of({ ...playlist, songs: songPaginationLocalized })
       ),
     };
-    new PlaylistLocalizeInterceptor()
+    new PlaylistLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -126,7 +143,7 @@ describe("PlaylistLocalizeInterceptor", () => {
     const callHandlerAlbum: CallHandler = {
       handle: jest.fn(() => of({ ...playlist, songs: undefined })),
     };
-    new PlaylistLocalizeInterceptor()
+    new PlaylistLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -137,7 +154,7 @@ describe("PlaylistLocalizeInterceptor", () => {
     const callHandlerAlbum: CallHandler = {
       handle: jest.fn(() => of(playlistPagination)),
     };
-    new PlaylistLocalizeInterceptor()
+    new PlaylistLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method

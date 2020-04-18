@@ -69,6 +69,7 @@ describe("AlbumController", () => {
 
   const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto[] => [song],
   };
   const appMixArtistServiceMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),

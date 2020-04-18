@@ -5,6 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
+import { AppSong } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
@@ -13,27 +14,22 @@ import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
 
-const transform = (playlist: DataPlaylistResDto): DataPlaylistResDto => ({
-  ...playlist,
-  songs:
-    playlist.songs === undefined
-      ? undefined
-      : ({
-          results: playlist.songs.results.map((value) =>
-            value.localized === true
-              ? {
-                  ...value,
-                  audio: undefined,
-                  lyrics: undefined,
-                }
-              : value
-          ),
-          total: playlist.songs.total,
-        } as DataPaginationResDto<DataSongResDto>),
-});
-
 @Injectable()
 export class PlaylistLocalizeInterceptor implements NestInterceptor {
+  constructor(private readonly appSong: AppSong) {}
+
+  transform = (playlists: DataPlaylistResDto[]): DataPlaylistResDto[] =>
+    playlists.map((value) => ({
+      ...value,
+      songs:
+        value.songs === undefined
+          ? undefined
+          : ({
+              results: this.appSong.localize(value.songs.results),
+              total: value.songs.total,
+            } as DataPaginationResDto<DataSongResDto>),
+    }));
+
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -47,10 +43,10 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
-          return transform(data);
+          return this.transform([data])[0];
         } else {
           return {
-            results: data.results.map((value) => transform(value)),
+            results: this.transform(data.results),
             total: data.total,
           } as DataPaginationResDto<DataPlaylistResDto>;
         }

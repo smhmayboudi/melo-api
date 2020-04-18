@@ -53,7 +53,8 @@ export class ArtistLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          return this.transform([data], request.user.sub);
+          const result = await this.transform([data], request.user.sub);
+          return result[0];
         } else {
           return {
             results: await this.transform(data.results, request.user.sub),

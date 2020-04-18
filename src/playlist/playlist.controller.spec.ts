@@ -86,6 +86,7 @@ describe("PlaylistController", () => {
   };
   const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto[] => [song],
   };
   const playlistServiceMock: PlaylistServiceInterface = {
     addSong: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),

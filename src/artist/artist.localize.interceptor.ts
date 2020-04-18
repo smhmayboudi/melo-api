@@ -5,6 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
+import { AppSong } from "../app/app.song";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
@@ -14,48 +15,38 @@ import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
 
-const transform = (artist: DataArtistResDto): DataArtistResDto => ({
-  ...artist,
-  albums:
-    artist.albums === undefined
-      ? undefined
-      : ({
-          results: artist.albums.results.map((value) => ({
-            ...value,
-            songs:
-              value.songs === undefined
-                ? undefined
-                : value.songs.results.map((songValue) => {
-                    songValue.localized === true
-                      ? {
-                          ...songValue,
-                          audio: undefined,
-                          lyrics: undefined,
-                        }
-                      : songValue;
-                  }),
-          })),
-          total: artist.albums.total,
-        } as DataPaginationResDto<DataAlbumResDto>),
-  songs:
-    artist.songs === undefined
-      ? undefined
-      : ({
-          results: artist.songs.results.map((value) => {
-            return value.localized === true
-              ? {
-                  ...value,
-                  audio: undefined,
-                  lyrics: undefined,
-                }
-              : value;
-          }),
-          total: artist.songs.total,
-        } as DataPaginationResDto<DataSongResDto>),
-});
-
 @Injectable()
 export class ArtistLocalizeInterceptor implements NestInterceptor {
+  constructor(private readonly appSong: AppSong) {}
+
+  transform = (artists: DataArtistResDto[]): DataArtistResDto[] =>
+    artists.map((value) => ({
+      ...value,
+      albums:
+        value.albums === undefined
+          ? undefined
+          : ({
+              results: value.albums.results.map((value) => ({
+                ...value,
+                songs:
+                  value.songs === undefined
+                    ? undefined
+                    : {
+                        results: this.appSong.localize(value.songs.results),
+                        total: value.songs.total,
+                      },
+              })),
+              total: value.albums.total,
+            } as DataPaginationResDto<DataAlbumResDto>),
+      songs:
+        value.songs === undefined
+          ? undefined
+          : ({
+              results: this.appSong.localize(value.songs.results),
+              total: value.songs.total,
+            } as DataPaginationResDto<DataSongResDto>),
+    }));
+
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -69,10 +60,10 @@ export class ArtistLocalizeInterceptor implements NestInterceptor {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
-          return transform(data);
+          return this.transform([data])[0];
         } else {
           return {
-            results: data.results.map((value) => transform(value)),
+            results: this.transform(data.results),
             total: data.total,
           } as DataPaginationResDto<DataArtistResDto>;
         }

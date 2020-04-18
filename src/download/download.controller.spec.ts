@@ -81,6 +81,7 @@ describe("DownloadController", () => {
   };
   const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto[] => [song],
   };
   const downloadServiceMock: DownloadServiceInterface = {
     downloadedSongs: (): Promise<DataPaginationResDto<DownloadSongResDto>> =>

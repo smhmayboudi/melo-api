@@ -18,15 +18,18 @@ export class AlbumFollowInterceptor implements NestInterceptor {
   constructor(private readonly appArtist: AppArtist) {}
 
   transform = async (
-    album: DataAlbumResDto,
-    sub: number
-  ): Promise<DataAlbumResDto> => ({
-    ...album,
-    artists:
-      album.artists === undefined
-        ? undefined
-        : await this.appArtist.follow(album.artists, sub),
-  });
+    albums: DataAlbumResDto[],
+    sub: string
+  ): Promise<DataAlbumResDto[]> =>
+    Promise.all(
+      albums.map(async (value) => ({
+        ...value,
+        artists:
+          value.artists === undefined
+            ? undefined
+            : await this.appArtist.follow(value.artists, parseInt(sub, 10)),
+      }))
+    );
 
   intercept(
     context: ExecutionContext,

@@ -57,6 +57,7 @@ describe("DownloadLikeInterceptor", () => {
 
   const appMixSongServiceMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto[] => [song],
   };
 
   let service: AppSong;

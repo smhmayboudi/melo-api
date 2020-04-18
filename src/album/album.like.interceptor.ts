@@ -19,18 +19,24 @@ export class AlbumLikeInterceptor implements NestInterceptor {
   constructor(private readonly appSong: AppSong) {}
 
   transform = async (
-    album: DataAlbumResDto,
-    sub: number
-  ): Promise<DataAlbumResDto> => ({
-    ...album,
-    songs:
-      album.songs === undefined
-        ? undefined
-        : ({
-            results: await this.appSong.like(album.songs.results, sub),
-            total: album.songs.total,
-          } as DataPaginationResDto<DataSongResDto>),
-  });
+    albums: DataAlbumResDto[],
+    sub: string
+  ): Promise<DataAlbumResDto[]> =>
+    Promise.all(
+      albums.map(async (value) => ({
+        ...value,
+        songs:
+          value.songs === undefined
+            ? undefined
+            : ({
+                results: await this.appSong.like(
+                  value.songs.results,
+                  parseInt(sub, 10)
+                ),
+                total: value.songs.total,
+              } as DataPaginationResDto<DataSongResDto>),
+      }))
+    );
 
   intercept(
     context: ExecutionContext,

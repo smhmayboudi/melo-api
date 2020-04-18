@@ -79,6 +79,7 @@ describe("EmotionController", () => {
   };
   const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto[] => [song],
   };
   const emotionServiceMock: EmotionServiceInterface = {
     emotions: (): Promise<DataPaginationResDto<EmotionResDto>> =>

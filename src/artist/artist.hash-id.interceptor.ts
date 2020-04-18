@@ -20,9 +20,6 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     private readonly appHashIdService: AppHashIdService
   ) {}
 
-  transform = (artists: DataArtistResDto[]): DataArtistResDto[] =>
-    this.appEncodingService.encodeArtists(artists);
-
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -43,10 +40,10 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         if (data.total === undefined) {
-          return this.transform([data])[0];
+          return this.appEncodingService.encodeArtists([data])[0];
         } else {
           return {
-            results: this.transform(data.results),
+            results: this.appEncodingService.encodeArtists(data.results),
             total: data.total,
           } as DataPaginationResDto<DataArtistResDto>;
         }

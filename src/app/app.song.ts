@@ -34,4 +34,16 @@ export class AppCheckLikeService implements AppCheckLikeServiceInterface {
         ) !== undefined,
     }));
   }
+
+  localize(songs: DataSongResDto[]): DataSongResDto[] {
+    return songs.map((value) =>
+      value.localized === true
+        ? {
+            ...value,
+            audio: undefined,
+            lyrics: undefined,
+          }
+        : value
+    );
+  }
 }

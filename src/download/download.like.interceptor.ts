@@ -18,12 +18,15 @@ export class DownloadLikeInterceptor implements NestInterceptor {
   constructor(private readonly appSong: AppSong) {}
 
   transform = async (
-    download: DownloadSongResDto,
-    sub: number
-  ): Promise<DownloadSongResDto> => {
-    const song = await this.appSong.like([download.song], sub);
-    return { ...download, song: song[0] };
-  };
+    downloads: DownloadSongResDto[],
+    sub: string
+  ): Promise<DownloadSongResDto[]> =>
+    Promise.all(
+      downloads.map(async (value) => {
+        const song = await this.appSong.like([value.song], parseInt(sub, 10));
+        return { ...value, song: song[0] };
+      })
+    );
 
   intercept(
     context: ExecutionContext,
@@ -36,12 +39,7 @@ export class DownloadLikeInterceptor implements NestInterceptor {
     return next.handle().pipe(
       flatMap(async (data) => {
         return {
-          results: (await Promise.all(
-            data.results.map(
-              async (value) =>
-                await this.transform(value, parseInt(request.user.sub, 10))
-            )
-          )) as DownloadSongResDto[],
+          results: await this.transform(data.results, request.user.sub),
           total: data.total,
         } as DataPaginationResDto<DownloadSongResDto>;
       })
