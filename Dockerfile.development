@@ -1,4 +1,4 @@
-FROM node:12.16.1 AS development
+FROM node:12.16.2s AS development
 WORKDIR /app
 COPY ./type /app/type
 COPY ./jest.config.json /app/jest.config.json

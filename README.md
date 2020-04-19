@@ -34,12 +34,13 @@ $ brew cask install rocket-chat
 $ brew cask install shadowsocksx-ng
 $ brew cask install skype
 $ brew cask install visual-studio-code
+$ brew install tig
 ```
 
 # Enviroment
 
-* For personal use fillout [.env.sample](.env.sample) and rename it to `.env`.
-* For docker use fillout [.env.sample](.env.sample) and rename it to `.env.docker`.
+* For using personal, duplicate [.env.sample](.env.sample), rename it to `.env` and fillout it.
+* For using docker, duplicate [.env.sample](.env.sample) and rename it to `.env.docker` and fillout it.
 
 # Installation
 
@@ -48,6 +49,34 @@ $ npm install
 ```
 
 # Docker
+
+## Pull
+
+```bash
+# need
+$ docker pull darthsim/imgproxy
+$ docker pull minio/minio
+$ docker pull mongo
+$ docker pull mysql@5.6
+# latest lts node version which support microservice well
+$ docker pull node@12.16.2
+# latest lts slim node version which support microservice well
+$ docker pull node@12.16.2-slim
+$ docker pull redis
+
+# test
+$ docker pull docker.elastic.co/apm/apm-server@7.6.0
+$ docker pull docker.elastic.co/app-search/app-search@7.6.0
+$ docker pull docker.elastic.co/beats/auditbeat@7.6.0
+$ docker pull docker.elastic.co/beats/filebeat@7.6.0
+$ docker pull docker.elastic.co/beats/heartbeat@7.6.0
+$ docker pull docker.elastic.co/beats/journalbeat@7.6.0
+$ docker pull docker.elastic.co/beats/metricbeat@7.6.0
+$ docker pull docker.elastic.co/beats/packetbeat@7.6.0
+$ docker pull docker.elastic.co/elasticsearch/elasticsearch7.6.0
+$ docker pull docker.elastic.co/kibana/kibana7.6.0
+$ docker pull docker.elastic.co/logstash/logstash7.6.0
+```
 
 ## Develpoment
 
