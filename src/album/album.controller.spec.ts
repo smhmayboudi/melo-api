@@ -67,11 +67,11 @@ describe("AlbumController", () => {
     tracksCount: 0,
   };
 
-  const appMixSongServiceMock: AppSongInterface = {
+  const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
-  const appMixArtistServiceMock: AppArtistInterface = {
+  const appArtistMock: AppArtistInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const albumServiceMock: AlbumServiceInterface = {
@@ -105,8 +105,8 @@ describe("AlbumController", () => {
         { provide: AlbumService, useValue: albumServiceMock },
         { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppSong, useValue: appMixSongServiceMock },
-        { provide: AppArtist, useValue: appMixArtistServiceMock },
+        { provide: AppSong, useValue: appSongMock },
+        { provide: AppArtist, useValue: appArtistMock },
       ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);

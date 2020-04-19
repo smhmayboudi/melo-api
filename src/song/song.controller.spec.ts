@@ -96,7 +96,7 @@ describe("SongController", () => {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appMixSongServiceMock: AppSongInterface = {
+  const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
@@ -146,7 +146,7 @@ describe("SongController", () => {
         { provide: SongService, useValue: songServiceMock },
         {
           provide: AppSong,
-          useValue: appMixSongServiceMock,
+          useValue: appSongMock,
         },
       ],
     }).compile();

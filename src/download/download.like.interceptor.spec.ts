@@ -55,7 +55,7 @@ describe("DownloadLikeInterceptor", () => {
     handle: jest.fn(() => of(downloadPagination)),
   };
 
-  const appMixSongServiceMock: AppSongInterface = {
+  const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
@@ -64,7 +64,7 @@ describe("DownloadLikeInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppSong, useValue: appMixSongServiceMock }],
+      providers: [{ provide: AppSong, useValue: appSongMock }],
     }).compile();
     service = module.get<AppSong>(AppSong);
   });

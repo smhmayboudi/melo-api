@@ -71,7 +71,7 @@ describe("SongService", () => {
     telegram_id: 0,
   };
 
-  const appMixSongServiceMock: AppSongInterface = {
+  const appSongMock: AppSongInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
@@ -174,7 +174,7 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppSong, useValue: appMixSongServiceMock },
+        { provide: AppSong, useValue: appSongMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
@@ -365,7 +365,7 @@ describe("SongService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppSong, useValue: appMixSongServiceMock },
+          { provide: AppSong, useValue: appSongMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
@@ -399,7 +399,7 @@ describe("SongService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppSong, useValue: appMixSongServiceMock },
+          { provide: AppSong, useValue: appSongMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMock },
