@@ -8,6 +8,7 @@ import { FileService } from "./file.service";
 import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
 import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import nock from "nock";
 
 describe("FileService", () => {
   const buffer = Buffer.from(
@@ -79,11 +80,15 @@ describe("FileService", () => {
     }).compile();
     service = module.get<FileService>(FileService);
     jest.mock("aws-sdk").fn(() => ({
-      save: () => managedUpload,
+      upload: (): Promise<any> => Promise.resolve(managedUpload),
     }));
   }, 40000);
 
   it("uploadImage should be equal to a file upload image", async () => {
+    nock("http://127.0.0.1:9000")
+      .put(/\/misc\/.*/)
+      .reply(200);
+
     expect(await service.uploadImage(0, file)).toEqual(fileUploadImage);
   });
 
