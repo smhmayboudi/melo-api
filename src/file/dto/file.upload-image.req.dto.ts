@@ -21,41 +21,41 @@ export class FileUploadImageReqDto {
 
   @ApiProperty({
     description: "File Buffer",
-    example: "<>"
+    example: "<>",
   })
   buffer: Buffer;
 
   @ApiProperty({
     description: "File encoding",
-    example: "8bit"
+    example: "8bit",
   })
   @IsString()
   encoding: string;
 
   @ApiProperty({
     description: "The file name",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   fieldname: string;
 
   @ApiProperty({
     description: "The content type",
-    example: "image/jpeg"
+    example: "image/jpeg",
   })
   @IsString()
   mimeType: string;
 
   @ApiProperty({
     description: "The orginal filename",
-    example: "pic.jpg"
+    example: "pic.jpg",
   })
   @IsString()
   originalname: string;
 
   @ApiProperty({
     description: "The size",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   size: number;

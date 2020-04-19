@@ -7,7 +7,7 @@ import {
   HistogramConfiguration,
   Registry,
   Summary,
-  SummaryConfiguration
+  SummaryConfiguration,
 } from "prom-client";
 import {
   getOrCreateCounter,
@@ -18,7 +18,7 @@ import {
   getTokenGauge,
   getTokenHistogram,
   getTokenRegistry,
-  getTokenSummary
+  getTokenSummary,
 } from "./prom.util";
 
 import { Provider } from "@nestjs/common";
@@ -33,9 +33,9 @@ export function getOrCreateCounterProvider(
     useFactory(registry: Registry): Counter<string> {
       return getOrCreateCounter({
         ...configuration,
-        registers: [registry]
+        registers: [registry],
       });
-    }
+    },
   };
 }
 
@@ -49,9 +49,9 @@ export function getOrCreateGaugeProvider(
     useFactory(registry: Registry): Gauge<string> {
       return getOrCreateGauge({
         ...configuration,
-        registers: [registry]
+        registers: [registry],
       });
-    }
+    },
   };
 }
 
@@ -65,9 +65,9 @@ export function getOrCreateHistogramProvider(
     useFactory(registry: Registry): Histogram<string> {
       return getOrCreateHistogram({
         ...configuration,
-        registers: [registry]
+        registers: [registry],
       });
-    }
+    },
   };
 }
 
@@ -81,8 +81,8 @@ export function getOrCreateSummaryProvider(
     useFactory(registry: Registry): Summary<string> {
       return getOrCreateSummary({
         ...configuration,
-        registers: [registry]
+        registers: [registry],
       });
-    }
+    },
   };
 }

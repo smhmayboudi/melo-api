@@ -3,7 +3,7 @@ import {
   Agent,
   ApmModuleAsyncOptions,
   ApmModuleOptions,
-  ApmOptionsFactory
+  ApmOptionsFactory,
 } from "./apm.module.interface";
 import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
 import { getOrCreateApmInstance, makeDefaultOptions } from "./apm.util";
@@ -19,9 +19,9 @@ import { ApmService } from "./apm.service";
     ApmService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: ApmInterceptor
-    }
-  ]
+      useClass: ApmInterceptor,
+    },
+  ],
 })
 export class ApmModule {
   private static createAsyncOptionsProvider(
@@ -34,11 +34,11 @@ export class ApmModule {
         useFactory: async (...args): Promise<ApmModuleOptions> =>
           makeDefaultOptions(
             options.useFactory && (await options.useFactory(args))
-          )
+          ),
       };
     }
     const inject = [
-      (options.useClass || options.useExisting) as Type<ApmOptionsFactory>
+      (options.useClass || options.useExisting) as Type<ApmOptionsFactory>,
     ];
     return {
       inject,
@@ -46,7 +46,7 @@ export class ApmModule {
       useFactory: async (
         optionsFactory: ApmOptionsFactory
       ): Promise<ApmModuleOptions> =>
-        makeDefaultOptions(await optionsFactory.createApmOptions())
+        makeDefaultOptions(await optionsFactory.createApmOptions()),
     };
   }
 
@@ -61,8 +61,8 @@ export class ApmModule {
       this.createAsyncOptionsProvider(options),
       {
         provide: useClass,
-        useClass
-      }
+        useClass,
+      },
     ];
   }
 
@@ -70,11 +70,11 @@ export class ApmModule {
     const opts = makeDefaultOptions(options);
     const apmInstanceProvider: Provider<Agent> = {
       provide: APM_INSTANCE_TOKEN,
-      useValue: getOrCreateApmInstance(opts)
+      useValue: getOrCreateApmInstance(opts),
     };
     return {
       module: ApmModule,
-      providers: [apmInstanceProvider]
+      providers: [apmInstanceProvider],
     };
   }
 
@@ -83,12 +83,13 @@ export class ApmModule {
     const apmInstanceProvider: Provider<Agent> = {
       inject: [APM_MODULE_OPTIONS],
       provide: APM_INSTANCE_TOKEN,
-      useFactory: (options: ApmModuleOptions) => getOrCreateApmInstance(options)
+      useFactory: (options: ApmModuleOptions) =>
+        getOrCreateApmInstance(options),
     };
     return {
       imports: options.imports,
       module: ApmModule,
-      providers: [...asyncProviders, apmInstanceProvider]
+      providers: [...asyncProviders, apmInstanceProvider],
     };
   }
 }

@@ -8,7 +8,7 @@ describe("ConstConfig", () => {
       cachePort: undefined,
       cacheStore: undefined,
       cacheTTL: undefined,
-      staticImagePaths: undefined
+      staticImagePaths: undefined,
     });
   });
 });

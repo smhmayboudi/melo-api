@@ -27,7 +27,7 @@ export class DataSearchService implements DataSearchServiceInterface {
       .get<DataPaginationResDto<DataSearchResDto>>(
         `${this.dataConfigService.url}/search/query/${dto.query}/${dto.from}/${dto.limit}`
       )
-      .pipe(map(value => value.data))
+      .pipe(map((value) => value.data))
       .toPromise();
   }
 }

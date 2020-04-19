@@ -22,13 +22,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       algorithms: "RS256",
       jsonWebTokenOptions: {
-        algorithms: "RS256"
+        algorithms: "RS256",
       },
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme(
         authConfigService.jwtAuhSchema
       ),
       passReqToCallback: false,
-      secretOrKeyProvider: async function(
+      secretOrKeyProvider: async function (
         _request: express.Request,
         rawJwtToken: string,
         done: (error: Error | null, publicKey: string | null) => void
@@ -50,7 +50,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         } catch (error) {
           done(error, null);
         }
-      }
+      },
     });
   }
 
@@ -76,7 +76,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         expire_at: new Date(1000 * dto.exp),
         id: 0,
         token: dto.jti,
-        user_id: sub
+        user_id: sub,
       });
     }
     return Promise.resolve({ sub: dto.sub });

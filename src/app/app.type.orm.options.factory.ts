@@ -24,7 +24,7 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       port: this.appConfigService.typeOrmPort,
       synchronize: this.appConfigService.typeOrmSynchronize,
       type: "mysql",
-      username: this.appConfigService.typeOrmUsername
+      username: this.appConfigService.typeOrmUsername,
     };
   }
 }

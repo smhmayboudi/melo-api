@@ -23,21 +23,21 @@ export class DataSearchMoodReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;
 
   @ApiProperty({
     description: "The classy",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
@@ -45,7 +45,7 @@ export class DataSearchMoodReqDto {
 
   @ApiProperty({
     description: "The date",
-    example: new Date()
+    example: new Date(),
   })
   @IsNumber()
   @IsOptional()
@@ -53,7 +53,7 @@ export class DataSearchMoodReqDto {
 
   @ApiProperty({
     description: "The energetic",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
@@ -61,7 +61,7 @@ export class DataSearchMoodReqDto {
 
   @ApiProperty({
     description: "The happiness",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()
@@ -69,7 +69,7 @@ export class DataSearchMoodReqDto {
 
   @ApiProperty({
     description: "The romantic",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()

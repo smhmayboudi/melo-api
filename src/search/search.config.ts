@@ -5,5 +5,5 @@ export default registerAs("search", () => ({
   cacheMax: process.env.SEARCH_CACHE_MAX,
   cachePort: process.env.SEARCH_CACHE_PORT,
   cacheStore: process.env.SEARCH_CACHE_STORE,
-  cacheTTL: process.env.SEARCH_CACHE_TTL
+  cacheTTL: process.env.SEARCH_CACHE_TTL,
 }));

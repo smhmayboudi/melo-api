@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { AtConfigService } from "./at.config.service";
@@ -17,7 +17,7 @@ export class AtCacheOptionsFactory implements CacheOptionsFactory {
       max: this.atConfigService.cacheMax,
       port: this.atConfigService.cachePort,
       store: this.atConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.atConfigService.cacheTTL / 1000
+      ttl: this.atConfigService.cacheTTL / 1000,
     };
   }
 }

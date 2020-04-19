@@ -1,7 +1,7 @@
 import {
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 import { DataConfigService } from "./data.config.service";
 
@@ -11,7 +11,7 @@ export class DataHttpOptionsFactory implements HttpModuleOptionsFactory {
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
-      timeout: this.dataConfigService.timeout
+      timeout: this.dataConfigService.timeout,
     };
   }
 }

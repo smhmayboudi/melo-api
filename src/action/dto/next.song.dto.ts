@@ -11,21 +11,21 @@ export class NextSongDto {
 
   @ApiProperty({
     description: "The current song identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   currentId: string;
 
   @ApiProperty({
     description: "The current position",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   currentPosition: number;
 
   @ApiProperty({
     description: "The next song identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   nextId: string;

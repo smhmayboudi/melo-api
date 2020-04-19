@@ -8,7 +8,7 @@ describe("ArtistService", () => {
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: ArtistConfigService;
@@ -18,14 +18,14 @@ describe("ArtistService", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           ArtistConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<ArtistConfigService>(ArtistConfigService);
     });
@@ -46,7 +46,7 @@ describe("ArtistService", () => {
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => ""
+      get: (): string => "",
     };
 
     let service: ArtistConfigService;
@@ -56,14 +56,14 @@ describe("ArtistService", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           ArtistConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<ArtistConfigService>(ArtistConfigService);
     });

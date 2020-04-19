@@ -1,6 +1,6 @@
 import {
   MulterModuleOptions,
-  MulterOptionsFactory
+  MulterOptionsFactory,
 } from "@nestjs/platform-express";
 
 import { Injectable } from "@nestjs/common";
@@ -10,7 +10,7 @@ import { memoryStorage } from "multer";
 export class FileMulterOptionsFactory implements MulterOptionsFactory {
   createMulterOptions(): MulterModuleOptions {
     return {
-      storage: memoryStorage()
+      storage: memoryStorage(),
     };
   }
 }

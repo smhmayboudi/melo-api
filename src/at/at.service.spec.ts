@@ -14,14 +14,14 @@ describe("AtService", () => {
     expire_at: date,
     id: 0,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
   const deleteResult: DeleteResult = {
-    raw: ""
+    raw: "",
   };
   const updateResult: UpdateResult = {
     generatedMaps: [{}],
-    raw: ""
+    raw: "",
   };
 
   const atEntityRepositoryMock: AtEntityRepositoryInterface = {
@@ -30,7 +30,7 @@ describe("AtService", () => {
     findOne: (): Promise<AtEntity | undefined> => Promise.resolve(atEntity),
     save: <AtEntity>(): Promise<AtEntity> =>
       (Promise.resolve(atEntity) as unknown) as Promise<AtEntity>,
-    update: (): Promise<UpdateResult> => Promise.resolve(updateResult)
+    update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
   };
 
   let service: AtService;
@@ -39,8 +39,8 @@ describe("AtService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AtEntityRepository, useValue: atEntityRepositoryMock },
-        AtService
-      ]
+        AtService,
+      ],
     }).compile();
     service = module.get<AtService>(AtService);
   });

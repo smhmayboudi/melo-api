@@ -49,7 +49,7 @@ describe("AppCacheOptionsFactory", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppConfigService;
@@ -60,17 +60,17 @@ describe("AppCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: AppConfigService,
-            useValue: appConfigServiceMock
+            useValue: appConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });
@@ -92,17 +92,17 @@ describe("AppCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: AppConfigService,
-            useValue: { ...appConfigServiceMock, cacheStore: "none" }
+            useValue: { ...appConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });
@@ -113,7 +113,7 @@ describe("AppCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

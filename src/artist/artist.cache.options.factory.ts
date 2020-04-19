@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { ArtistConfigService } from "./artist.config.service";
@@ -18,7 +18,7 @@ export class ArtistCacheOptionsFactory implements CacheOptionsFactory {
       port: this.artistConfigService.cachePort,
       store:
         this.artistConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.artistConfigService.cacheTTL / 1000
+      ttl: this.artistConfigService.cacheTTL / 1000,
     };
   }
 }

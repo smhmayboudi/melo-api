@@ -12,7 +12,7 @@ describe("AlbumCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: AlbumConfigService;
@@ -23,17 +23,17 @@ describe("AlbumCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: AlbumConfigService,
-            useValue: albumConfigServiceMock
+            useValue: albumConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<AlbumConfigService>(AlbumConfigService);
     });
@@ -55,17 +55,17 @@ describe("AlbumCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: AlbumConfigService,
-            useValue: { ...albumConfigServiceMock, cacheStore: "none" }
+            useValue: { ...albumConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<AlbumConfigService>(AlbumConfigService);
     });
@@ -78,7 +78,7 @@ describe("AlbumCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

@@ -1,3 +1,3 @@
 export enum DownloadSortByType {
-  date = "date"
+  date = "date",
 }

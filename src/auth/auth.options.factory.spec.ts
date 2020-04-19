@@ -9,7 +9,7 @@ describe("AuthAuthOptionsFactory", () => {
     expect(new AuthAuthOptionsFactory().createAuthOptions()).toEqual({
       defaultStrategy: "jwt",
       property: "user",
-      session: false
+      session: false,
     });
   });
 });

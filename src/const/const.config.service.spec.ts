@@ -8,7 +8,7 @@ describe("ConstService", () => {
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: ConstConfigService;
@@ -18,14 +18,14 @@ describe("ConstService", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           ConstConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<ConstConfigService>(ConstConfigService);
     });
@@ -46,7 +46,7 @@ describe("ConstService", () => {
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => ""
+      get: (): string => "",
     };
 
     let service: ConstConfigService;
@@ -56,14 +56,14 @@ describe("ConstService", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           ConstConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<ConstConfigService>(ConstConfigService);
     });

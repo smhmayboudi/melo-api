@@ -1,6 +1,6 @@
 import {
   PromModuleOptions,
-  PromOptionsFactory
+  PromOptionsFactory,
 } from "../prom/prom.module.interface";
 
 import { AppConfigService } from "./app.config.service";
@@ -15,13 +15,13 @@ export class AppPromOptionsFactory implements PromOptionsFactory {
       defaultLabels: this.appConfigService.promDefaultLabels,
       defaultMetrics: {
         config: {
-          prefix: this.appConfigService.promPrefix
+          prefix: this.appConfigService.promPrefix,
         },
-        enabled: this.appConfigService.promDefaultMetricsEnabled
+        enabled: this.appConfigService.promDefaultMetricsEnabled,
       },
       path: this.appConfigService.promPath,
       prefix: this.appConfigService.promPrefix,
-      registryName: undefined
+      registryName: undefined,
     };
   }
 }

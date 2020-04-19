@@ -13,7 +13,7 @@ describe("ConstCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    staticImagePaths: {}
+    staticImagePaths: {},
   };
 
   let service: ConstConfigService;
@@ -24,17 +24,17 @@ describe("ConstCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConstConfigService,
-            useValue: constConfigServiceMock
+            useValue: constConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<ConstConfigService>(ConstConfigService);
     });
@@ -56,17 +56,17 @@ describe("ConstCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConstConfigService,
-            useValue: { ...constConfigServiceMock, cacheStore: "none" }
+            useValue: { ...constConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<ConstConfigService>(ConstConfigService);
     });
@@ -79,7 +79,7 @@ describe("ConstCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

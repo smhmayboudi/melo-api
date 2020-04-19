@@ -32,55 +32,55 @@ export class ActionDto {
 
   @ApiProperty({
     description: "The datetime",
-    example: ""
+    example: "",
   })
   @IsString()
   datetime: string;
 
   @ApiProperty({
     description: "The identification",
-    example: ActionType.likeSong
+    example: ActionType.likeSong,
   })
   @IsEnum(ActionType)
   type: ActionType;
 
   @ApiProperty({
-    description: "The like song"
+    description: "The like song",
   })
   @IsOptional()
   @ValidateNested()
   likeSong?: LikeSongDto;
 
   @ApiProperty({
-    description: "The next song"
+    description: "The next song",
   })
   @IsOptional()
   @ValidateNested()
   nextSong?: NextSongDto;
 
   @ApiProperty({
-    description: "The next song"
+    description: "The next song",
   })
   @IsOptional()
   @ValidateNested()
   pauseSong?: PauseSongDto;
 
   @ApiProperty({
-    description: "The play song"
+    description: "The play song",
   })
   @IsOptional()
   @ValidateNested()
   playSong?: PlaySongDto;
 
   @ApiProperty({
-    description: "The previous song"
+    description: "The previous song",
   })
   @IsOptional()
   @ValidateNested()
   previousSong?: PreviousSongDto;
 
   @ApiProperty({
-    description: "The previous song"
+    description: "The previous song",
   })
   @IsOptional()
   @ValidateNested()

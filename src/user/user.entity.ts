@@ -6,7 +6,7 @@ import {
   IsNumber,
   IsOptional,
   IsPhoneNumber,
-  IsString
+  IsString,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -46,7 +46,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0
+    example: 0,
   })
   @PrimaryGeneratedColumn("increment", { type: "int" })
   @IsNumber()
@@ -54,7 +54,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The avatar link",
-    example: "http://www.google.com/avatar.jpg"
+    example: "http://www.google.com/avatar.jpg",
   })
   @Column({ length: 100, nullable: true, type: "varchar" })
   @IsOptional()
@@ -63,7 +63,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "Small description of user",
-    example: "He tries to bridge the system."
+    example: "He tries to bridge the system.",
   })
   @Column({ nullable: true, type: "text" })
   @IsOptional()
@@ -72,7 +72,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The birthdate",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ nullable: true, type: "date" })
   @IsDate()
@@ -81,7 +81,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The cellphone number",
-    example: 9121234567
+    example: 9121234567,
   })
   @Column({ length: 100, nullable: true, type: "char" })
   @IsPhoneNumber("IR")
@@ -91,7 +91,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: "abc@def.ghi"
+    example: "abc@def.ghi",
   })
   @Column({ length: 200, nullable: true, type: "varchar" })
   @IsEmail()
@@ -100,7 +100,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The firstname",
-    example: "john"
+    example: "john",
   })
   @Column({ length: 100, nullable: true, type: "varchar" })
   @IsOptional()
@@ -110,13 +110,13 @@ export class UserEntity {
   @ApiProperty({
     description: "The gender",
     enum: ["female", "male"],
-    example: UserGenderType.male
+    example: UserGenderType.male,
   })
   @Column({
     enum: ["female", "male"],
     enumName: "UserGenderType",
     nullable: true,
-    type: "enum"
+    type: "enum",
   })
   @IsEnum(UserGenderType)
   @IsOptional()
@@ -124,7 +124,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The language",
-    example: "en"
+    example: "en",
   })
   @Column({ length: 20, nullable: true, type: "varchar" })
   @IsOptional()
@@ -133,7 +133,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The lastname",
-    example: "smith"
+    example: "smith",
   })
   @Column({ length: 100, nullable: true, type: "varchar" })
   @IsOptional()
@@ -142,7 +142,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The registration date",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ nullable: true, type: "datetime" })
   @IsDate()
@@ -151,7 +151,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The telegram identification",
-    example: "@johnsmith"
+    example: "@johnsmith",
   })
   @Column({ nullable: true, type: "bigint" })
   @IsNumber()
@@ -160,7 +160,7 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The username",
-    example: "johnsmith"
+    example: "johnsmith",
   })
   @Column({ length: 30, nullable: true, type: "varchar" })
   @IsOptional()

@@ -10,14 +10,14 @@ export class PlaylistCreateReqDto {
 
   @ApiProperty({
     description: "The title",
-    example: "black"
+    example: "black",
   })
   @IsString()
   title: string;
 
   @ApiProperty({
     description: "The photo identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsOptional()
   @IsString()

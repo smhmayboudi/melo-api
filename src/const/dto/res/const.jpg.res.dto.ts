@@ -8,7 +8,7 @@ export class ConstJpgResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: "http://www.google.coom"
+    example: "http://www.google.coom",
   })
   @IsString()
   url: string;

@@ -53,14 +53,16 @@ describe("AppTypeOrmOptionsFactory", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppConfigService, useValue: appConfigServiceMock }]
+      providers: [
+        { provide: AppConfigService, useValue: appConfigServiceMock },
+      ],
     }).compile();
     service = module.get<AppConfigService>(AppConfigService);
   });
@@ -77,14 +79,14 @@ describe("AppTypeOrmOptionsFactory", () => {
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
       host: "",
       logger: {
-        options: true
+        options: true,
       },
       logging: true,
       password: "",
       port: 0,
       synchronize: true,
       type: "mysql",
-      username: ""
+      username: "",
     });
   });
 });

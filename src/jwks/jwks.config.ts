@@ -5,5 +5,5 @@ export default registerAs("jwks", () => ({
   cacheMax: process.env.JWKS_CACHE_MAX,
   cachePort: process.env.JWKS_CACHE_PORT,
   cacheStore: process.env.JWKS_CACHE_STORE,
-  cacheTTL: process.env.JWKS_CACHE_TTL
+  cacheTTL: process.env.JWKS_CACHE_TTL,
 }));

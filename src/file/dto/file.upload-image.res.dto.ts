@@ -19,35 +19,35 @@ export class FileUploadImageResDto {
 
   @ApiProperty({
     description: "The creation date",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   createdAt: Date;
 
   @ApiProperty({
     description: "The file identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   fileKey: string;
 
   @ApiProperty({
     description: "The content type",
-    example: "image/jpeg"
+    example: "image/jpeg",
   })
   @IsString()
   mimeType: string;
 
   @ApiProperty({
     description: "The orginal filename",
-    example: "pic.jpg"
+    example: "pic.jpg",
   })
   @IsString()
   originalname: string;
 
   @ApiProperty({
     description: "The size",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   size: number;

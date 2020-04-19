@@ -15,7 +15,7 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
       rtField: "token",
       rtHeader: "token",
       rtParams: "token",
-      rtQuery: "token"
+      rtQuery: "token",
     });
   }
 
@@ -25,7 +25,7 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
     return {
-      sub: rtEntity.user_id.toString()
+      sub: rtEntity.user_id.toString(),
     };
   }
 }

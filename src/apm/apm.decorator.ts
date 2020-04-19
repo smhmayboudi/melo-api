@@ -5,21 +5,21 @@ import { getOrCreateApmInstance, getTokenName } from "./apm.util";
 import { Span } from "./apm.module.interface";
 
 export const ApmCurrentSpan = createParamDecorator(
-  (_data: any, _context: ExecutionContext) => {
+  (_data: unknown, _context: ExecutionContext) => {
     const apmInstance = getOrCreateApmInstance({});
     return apmInstance.currentSpan;
   }
 );
 
 export const ApmCurrentTraceparent = createParamDecorator(
-  (_data: any, _context: ExecutionContext) => {
+  (_data: unknown, _context: ExecutionContext) => {
     const apmInstance = getOrCreateApmInstance({});
     return apmInstance.currentTraceparent;
   }
 );
 
 export const ApmCurrentTransaction = createParamDecorator(
-  (_data: any, _context: ExecutionContext) => {
+  (_data: unknown, _context: ExecutionContext) => {
     const apmInstance = getOrCreateApmInstance({});
     return apmInstance.currentTransaction;
   }
@@ -27,7 +27,7 @@ export const ApmCurrentTransaction = createParamDecorator(
 
 let spans: { name: string; span: Span }[] = [];
 
-export const ApmAfterMethod = afterMethod(meta => {
+export const ApmAfterMethod = afterMethod((meta) => {
   if (process.env.NODE_ENV === "test") {
     return;
   }
@@ -40,12 +40,12 @@ export const ApmAfterMethod = afterMethod(meta => {
     meta.method.name
   );
   spans
-    .filter(value => value.name === tokenName)
-    .map(value => value.span.end());
-  spans = spans.filter(value => value.name !== tokenName);
+    .filter((value) => value.name === tokenName)
+    .map((value) => value.span.end());
+  spans = spans.filter((value) => value.name !== tokenName);
 });
 
-export const ApmBeforeMethod = beforeMethod(meta => {
+export const ApmBeforeMethod = beforeMethod((meta) => {
   if (process.env.NODE_ENV === "test") {
     return;
   }
@@ -62,6 +62,6 @@ export const ApmBeforeMethod = beforeMethod(meta => {
   }
   spans.push({
     name: getTokenName(meta.target.constructor.name, meta.method.name),
-    span
+    span,
   });
 });

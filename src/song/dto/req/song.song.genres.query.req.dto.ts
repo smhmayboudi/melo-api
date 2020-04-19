@@ -11,7 +11,7 @@ export class SongSongGenresQueryReqDto {
     description: "The genres",
     example: ["pop"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsArray()
   @IsString({ each: true })

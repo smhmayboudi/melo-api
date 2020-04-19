@@ -12,7 +12,7 @@ describe("SearchCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: SearchConfigService;
@@ -23,17 +23,17 @@ describe("SearchCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: SearchConfigService,
-            useValue: searchConfigServiceMock
+            useValue: searchConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<SearchConfigService>(SearchConfigService);
     });
@@ -55,17 +55,17 @@ describe("SearchCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: SearchConfigService,
-            useValue: { ...searchConfigServiceMock, cacheStore: "none" }
+            useValue: { ...searchConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<SearchConfigService>(SearchConfigService);
     });
@@ -78,7 +78,7 @@ describe("SearchCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

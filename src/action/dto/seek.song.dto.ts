@@ -11,21 +11,21 @@ export class SeekSongDto {
 
   @ApiProperty({
     description: "The from second",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   fromSec: number;
 
   @ApiProperty({
     description: "The song identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   id: string;
 
   @ApiProperty({
     description: "The to second",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   toSec: number;

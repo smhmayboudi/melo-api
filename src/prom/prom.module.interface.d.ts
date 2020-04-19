@@ -3,7 +3,7 @@ import {
   DefaultMetricsCollectorConfiguration,
   GaugeConfiguration,
   HistogramConfiguration,
-  SummaryConfiguration
+  SummaryConfiguration,
 } from "prom-client";
 
 import { ModuleMetadata } from "@nestjs/common/interfaces";

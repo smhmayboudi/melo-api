@@ -8,7 +8,7 @@ describe("AtService", () => {
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: AtConfigService;
@@ -19,13 +19,13 @@ describe("AtService", () => {
           AtConfigService,
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AtConfigService>(AtConfigService);
     });
@@ -46,7 +46,7 @@ describe("AtService", () => {
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => ""
+      get: (): string => "",
     };
 
     let service: AtConfigService;
@@ -57,13 +57,13 @@ describe("AtService", () => {
           AtConfigService,
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AtConfigService>(AtConfigService);
     });

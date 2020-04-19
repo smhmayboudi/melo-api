@@ -17,7 +17,7 @@ describe("FileCacheOptionsFactory", () => {
     s3Bucket: "misc",
     s3Endpoint: "127.0.0.1:9000",
     s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false
+    s3SslEnabled: false,
   };
 
   let service: FileConfigService;
@@ -28,17 +28,17 @@ describe("FileCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: FileConfigService,
-            useValue: fileConfigServiceMock
-          }
-        ]
+            useValue: fileConfigServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<FileConfigService>(FileConfigService);
     });
@@ -60,17 +60,17 @@ describe("FileCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: FileConfigService,
-            useValue: { ...fileConfigServiceMock, cacheStore: "none" }
-          }
-        ]
+            useValue: { ...fileConfigServiceMock, cacheStore: "none" },
+          },
+        ],
       }).compile();
       service = module.get<FileConfigService>(FileConfigService);
     });
@@ -82,7 +82,7 @@ describe("FileCacheOptionsFactory", () => {
           max: 0,
           port: 0,
           store: "none",
-          ttl: 0
+          ttl: 0,
         }
       );
     });

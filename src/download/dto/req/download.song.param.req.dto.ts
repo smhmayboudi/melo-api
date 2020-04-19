@@ -19,28 +19,28 @@ export class DownloadSongParamReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;
 
   @ApiProperty({
     description: "The order",
-    example: DownloadOrderByType.asc
+    example: DownloadOrderByType.asc,
   })
   @IsEnum(DownloadOrderByType)
   orderBy: DownloadOrderByType;
 
   @ApiProperty({
     description: "The sort",
-    example: DownloadSortByType.date
+    example: DownloadSortByType.date,
   })
   @IsEnum(DownloadSortByType)
   sortBy: DownloadSortByType;

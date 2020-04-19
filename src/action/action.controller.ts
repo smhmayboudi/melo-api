@@ -5,7 +5,7 @@ import {
   Post,
   UseGuards,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { ActionDto } from "./dto/action.dto";
@@ -20,7 +20,7 @@ import { AuthGuard } from "@nestjs/passport";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class ActionController {

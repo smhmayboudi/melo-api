@@ -51,7 +51,7 @@ describe("AppApmOptionsFactory", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppConfigService;
@@ -61,9 +61,9 @@ describe("AppApmOptionsFactory", () => {
       providers: [
         {
           provide: AppConfigService,
-          useValue: appConfigServiceMock
-        }
-      ]
+          useValue: appConfigServiceMock,
+        },
+      ],
     }).compile();
     service = module.get<AppConfigService>(AppConfigService);
   });
@@ -82,7 +82,7 @@ describe("AppApmOptionsFactory", () => {
       logger: AppApmLogger,
       secretToken: "",
       serverUrl: "",
-      serviceName: ""
+      serviceName: "",
     });
   });
 });

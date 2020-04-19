@@ -7,7 +7,7 @@ import {
   Put,
   UseGuards,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AppUser } from "../app/app.user.decorator";
@@ -24,7 +24,7 @@ import { UserUserResDto } from "./dto/res/user.user.res.dto";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class UserController {

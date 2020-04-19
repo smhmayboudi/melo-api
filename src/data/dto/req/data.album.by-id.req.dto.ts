@@ -8,7 +8,7 @@ export class DataAlbumByIdReqDto {
 
   @ApiProperty({
     description: "The album identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsNumber()
   id: number;

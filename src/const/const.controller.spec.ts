@@ -6,17 +6,18 @@ import { ConstService } from "./const.service";
 import { ConstServiceInterface } from "./const.service.interface";
 
 describe("ConstController", () => {
+  // TODO: interface ?
   const image = {
     pop: {
       cover: {
-        url: "/asset/pop.jpg"
-      }
-    }
+        url: "/asset/pop.jpg",
+      },
+    },
   };
 
   const constServiceMock: ConstServiceInterface = {
     images: (): Promise<{ [key: string]: ConstImageResDto }> =>
-      Promise.resolve(image)
+      Promise.resolve(image),
   };
 
   let controller: ConstController;
@@ -24,7 +25,7 @@ describe("ConstController", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ConstController],
-      providers: [{ provide: ConstService, useValue: constServiceMock }]
+      providers: [{ provide: ConstService, useValue: constServiceMock }],
     }).compile();
     controller = module.get<ConstController>(ConstController);
   });

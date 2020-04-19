@@ -15,7 +15,7 @@ async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
     cors: true,
-    logger: ["log", "error", "warn", "debug", "verbose"]
+    logger: ["log", "error", "warn", "debug", "verbose"],
   });
   const appConfigService = app.get(AppConfigService);
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +25,7 @@ async function bootstrap(): Promise<void> {
   app.use(
     rateLimit({
       max: appConfigService.rateLimitMax,
-      windowMs: appConfigService.rateLimitWindowMs
+      windowMs: appConfigService.rateLimitWindowMs,
     })
   );
   const documentBuilder = new DocumentBuilder()
@@ -33,7 +33,7 @@ async function bootstrap(): Promise<void> {
       {
         description: "It is used for login procedure.",
         scheme: "basic",
-        type: "http"
+        type: "http",
       },
       "local"
     )
@@ -42,7 +42,7 @@ async function bootstrap(): Promise<void> {
         description: "It is used for the rest.",
         in: "header",
         name: "Authorization",
-        type: "apiKey"
+        type: "apiKey",
       },
       "jwt"
     )
@@ -51,7 +51,7 @@ async function bootstrap(): Promise<void> {
         description: "It is used for getting access token procedure.",
         in: "header",
         name: "token",
-        type: "apiKey"
+        type: "apiKey",
       },
       "token"
     )
@@ -70,7 +70,7 @@ async function bootstrap(): Promise<void> {
   const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup("api", app, document, {
     customSiteTitle: "melo api | Swagger UI",
-    explorer: false
+    explorer: false,
   });
   await app.listen(appConfigService.port);
 }

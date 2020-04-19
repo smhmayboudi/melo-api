@@ -36,11 +36,11 @@ export class AuthService implements AuthServiceInterface {
       {
         jwtid: uuidv4(),
         keyid: jwksEntity.id,
-        subject: sub.toString()
+        subject: sub.toString(),
       }
     );
     return {
-      at
+      at,
     };
   }
 
@@ -62,7 +62,7 @@ export class AuthService implements AuthServiceInterface {
       {
         jwtid,
         keyid: jwksEntity.id,
-        subject: sub.toString()
+        subject: sub.toString(),
       }
     );
     const exp = moment(now)
@@ -75,11 +75,11 @@ export class AuthService implements AuthServiceInterface {
       id: 0,
       is_blocked: false,
       token: rt,
-      user_id: sub
+      user_id: sub,
     });
     return {
       at,
-      rt
+      rt,
     };
   }
 }

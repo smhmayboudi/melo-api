@@ -24,12 +24,12 @@ export function getOrCreateSentryInstance(
               >).captureException(error);
               process.exit(1);
             }
-          }
+          },
         }),
-        new Sentry.Integrations.OnUnhandledRejection()
+        new Sentry.Integrations.OnUnhandledRejection(),
       ],
       logLevel: options.logLevel,
-      release: options.release
+      release: options.release,
     });
     sentryInstance = Sentry;
   }
@@ -40,6 +40,6 @@ export function makeDefaultOptions(
   options?: SentryModuleOptions
 ): SentryModuleOptions {
   return {
-    ...options
+    ...options,
   };
 }

@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { PlaylistConfigService } from "./playlist.config.service";
@@ -18,7 +18,7 @@ export class PlaylistCacheOptionsFactory implements CacheOptionsFactory {
       port: this.playlistConfigService.cachePort,
       store:
         this.playlistConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.playlistConfigService.cacheTTL / 1000
+      ttl: this.playlistConfigService.cacheTTL / 1000,
     };
   }
 }

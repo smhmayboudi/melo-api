@@ -8,7 +8,7 @@ export class AuthAuthOptionsFactory implements AuthOptionsFactory {
     return {
       defaultStrategy: "jwt",
       property: "user",
-      session: false
+      session: false,
     };
   }
 }

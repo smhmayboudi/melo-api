@@ -18,28 +18,28 @@ export class DataSongLanguageReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "The language",
-    example: "fa"
+    example: "fa",
   })
   @IsString()
   language: string;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;
 
   @ApiProperty({
     description: "The order",
-    example: DataOrderByType.release
+    example: DataOrderByType.release,
   })
   @IsEnum(DataOrderByType)
   orderBy: DataOrderByType;

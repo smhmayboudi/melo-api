@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -76,7 +78,6 @@ describe("SongLocalizeInterceptor", () => {
     new SongLocalizeInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -92,7 +93,6 @@ describe("SongLocalizeInterceptor", () => {
     new SongLocalizeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHostUserSubZero.getRequest).toHaveBeenCalled();
   });
 
@@ -103,7 +103,6 @@ describe("SongLocalizeInterceptor", () => {
     new SongLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -114,7 +113,6 @@ describe("SongLocalizeInterceptor", () => {
     new SongLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -125,7 +123,6 @@ describe("SongLocalizeInterceptor", () => {
     new SongLocalizeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 });

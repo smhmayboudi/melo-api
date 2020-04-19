@@ -44,7 +44,7 @@ describe("AppConfig", () => {
       typeOrmPassword: undefined,
       typeOrmPort: undefined,
       typeOrmSynchronize: undefined,
-      typeOrmUsername: undefined
+      typeOrmUsername: undefined,
     });
   });
 });

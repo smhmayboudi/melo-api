@@ -48,14 +48,16 @@ describe("AppSentryOptionsFactory", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppConfigService, useValue: appConfigServiceMock }]
+      providers: [
+        { provide: AppConfigService, useValue: appConfigServiceMock },
+      ],
     }).compile();
     service = module.get<AppConfigService>(AppConfigService);
   });
@@ -70,7 +72,7 @@ describe("AppSentryOptionsFactory", () => {
       dsn: "",
       environment: "",
       logLevel: 0,
-      release: ""
+      release: "",
     });
   });
 });

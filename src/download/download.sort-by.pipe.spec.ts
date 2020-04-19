@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+
 import { DownloadSortByPipe } from "./download.sort-by.pipe";
 import { DownloadSortByType } from "./download.sort-by.type";
 
@@ -12,15 +14,14 @@ describe("DownloadSortByPipe", () => {
     ).toEqual(DownloadSortByType.date);
   });
 
-  it("transform should throw bad request error", () => {
+  it("transform should throw an error", () => {
     expect(() =>
       new DownloadSortByPipe().transform("", { type: "body" })
     ).toThrowError();
   });
 
-  it("transform should throw bad request error value not string", () => {
+  it("transform should throw an error value not string", () => {
     expect(() =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       new DownloadSortByPipe().transform(0, { type: "body" })
     ).toThrowError();

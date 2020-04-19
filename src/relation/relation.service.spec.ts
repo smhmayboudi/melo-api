@@ -91,6 +91,7 @@ describe("RelationService", () => {
   });
 
   describe("get: true", () => {
+    // TODO: interface ?
     const httpServiceMockBoolean = {
       ...httpServiceMock,
       get: (): Observable<AxiosResponse<boolean>> =>
@@ -147,6 +148,7 @@ describe("RelationService", () => {
   });
 
   describe("get: false", () => {
+    // TODO: interface ?
     const httpServiceMockBoolean = {
       ...httpServiceMock,
       delete: (): Observable<AxiosResponse<boolean>> =>
@@ -224,7 +226,7 @@ describe("RelationService", () => {
       relation: RelationType.follows,
       to: { id: 0, type: RelationEntityType.album },
     };
-
+    // TODO: interface ?
     const httpServiceMockMultiHas = {
       ...httpServiceMock,
       get: (): Observable<AxiosResponse<RelationMultiHasResDto[]>> =>

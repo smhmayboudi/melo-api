@@ -3,13 +3,13 @@ import {
   InjectCounter,
   InjectGauge,
   InjectHistogram,
-  InjectSummary
+  InjectSummary,
 } from "./prom.decorator";
 import {
   getTokenCounter,
   getTokenGauge,
   getTokenHistogram,
-  getTokenSummary
+  getTokenSummary,
 } from "./prom.util";
 import { SELF_DECLARED_DEPS_METADATA } from "@nestjs/common/constants";
 
@@ -42,7 +42,7 @@ describe("PromDecorator", () => {
     const key = Object.keys(metadata)[3];
     expect(metadata[key]).toEqual({
       index: 0,
-      param: getTokenCounter(tokenCounter)
+      param: getTokenCounter(tokenCounter),
     });
   });
 
@@ -51,7 +51,7 @@ describe("PromDecorator", () => {
     const key = Object.keys(metadata)[2];
     expect(metadata[key]).toEqual({
       index: 1,
-      param: getTokenGauge(tokenGauge)
+      param: getTokenGauge(tokenGauge),
     });
   });
 
@@ -60,7 +60,7 @@ describe("PromDecorator", () => {
     const key = Object.keys(metadata)[1];
     expect(metadata[key]).toEqual({
       index: 2,
-      param: getTokenHistogram(tokenHistogram)
+      param: getTokenHistogram(tokenHistogram),
     });
   });
 
@@ -69,7 +69,7 @@ describe("PromDecorator", () => {
     const key = Object.keys(metadata)[0];
     expect(metadata[key]).toEqual({
       index: 3,
-      param: getTokenSummary(tokenSummary)
+      param: getTokenSummary(tokenSummary),
     });
   });
 

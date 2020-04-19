@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -77,7 +79,6 @@ describe("EmotionLikeInterceptor", () => {
     new EmotionLikeInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 });

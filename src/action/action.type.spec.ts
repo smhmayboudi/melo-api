@@ -8,7 +8,7 @@ describe("ActionType", () => {
       pauseSong: "pauseSong",
       playSong: "playSong",
       previousSong: "previousSong",
-      seekSong: "seekSong"
+      seekSong: "seekSong",
     });
   });
 });

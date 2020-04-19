@@ -19,7 +19,7 @@ export class UserEditReqDto {
 
   @ApiProperty({
     description: "The birthdate",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   @IsOptional()
@@ -27,7 +27,7 @@ export class UserEditReqDto {
 
   @ApiProperty({
     description: "The firstname",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsOptional()
   @IsString()
@@ -35,7 +35,7 @@ export class UserEditReqDto {
 
   @ApiProperty({
     description: "The gender",
-    example: UserGenderType.male
+    example: UserGenderType.male,
   })
   @IsEnum(UserGenderType)
   @IsOptional()
@@ -43,7 +43,7 @@ export class UserEditReqDto {
 
   @ApiProperty({
     description: "The lastname",
-    example: "smith"
+    example: "smith",
   })
   @IsOptional()
   @IsString()
@@ -51,7 +51,7 @@ export class UserEditReqDto {
 
   @ApiProperty({
     description: "The photoId",
-    example: "http://www.google.com/avatar.jpg"
+    example: "http://www.google.com/avatar.jpg",
   })
   @IsOptional()
   @IsString()

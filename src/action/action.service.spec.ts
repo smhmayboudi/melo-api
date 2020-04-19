@@ -8,14 +8,14 @@ describe("ActionService", () => {
   const datetime = new Date().toString();
   const action: ActionDto = {
     datetime,
-    type: ActionType.likeSong
+    type: ActionType.likeSong,
   };
 
   let service: ActionService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ActionService]
+      providers: [ActionService],
     }).compile();
     service = module.get<ActionService>(ActionService);
   });
@@ -27,7 +27,7 @@ describe("ActionService", () => {
   it("bulk should be equal to an action", async () => {
     const dto: ActionDto = {
       datetime,
-      type: ActionType.likeSong
+      type: ActionType.likeSong,
     };
     expect(await service.bulk(dto)).toEqual(action);
   });

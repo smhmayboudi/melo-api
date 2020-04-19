@@ -3,7 +3,7 @@ import {
   BadRequestException,
   Injectable,
   Optional,
-  PipeTransform
+  PipeTransform,
 } from "@nestjs/common";
 import { DownloadOrderByType } from "./download.order-by.type";
 

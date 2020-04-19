@@ -10,7 +10,7 @@ export class DownloadSongQueryReqDto {
   @ApiProperty({
     description: "The filter",
     example: "another break in the wall",
-    type: String
+    type: String,
   })
   @IsString()
   @IsOptional()

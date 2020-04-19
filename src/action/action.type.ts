@@ -4,5 +4,5 @@ export enum ActionType {
   playSong = "playSong",
   pauseSong = "pauseSong",
   nextSong = "nextSong",
-  previousSong = "previousSong"
+  previousSong = "previousSong",
 }

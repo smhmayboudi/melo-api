@@ -9,13 +9,13 @@ describe("JwksService", () => {
   const jwksEntity: JwksEntity = {
     id: "",
     private_key: "",
-    public_key: ""
+    public_key: "",
   };
 
   const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {
     findOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity),
     getOneRandom: (): Promise<JwksEntity | undefined> =>
-      Promise.resolve(jwksEntity)
+      Promise.resolve(jwksEntity),
   };
 
   let service: JwksService;
@@ -24,8 +24,8 @@ describe("JwksService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         JwksService,
-        { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock }
-      ]
+        { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock },
+      ],
     }).compile();
     service = module.get<JwksService>(JwksService);
   });

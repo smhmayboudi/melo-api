@@ -7,7 +7,7 @@ describe("FileMulterOptionsFactory", () => {
 
   it("createMulterOptions should be equal to a storage", () => {
     expect(new FileMulterOptionsFactory().createMulterOptions()).toEqual({
-      storage: {}
+      storage: {},
     });
   });
 });

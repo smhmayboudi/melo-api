@@ -34,7 +34,11 @@ export class Strategy extends PassportStrategy {
 
   authenticate(req: Request, _options?: Record<string, any>): void {
     const authorization = req.headers.authorization;
-    const verified = (
+    const verified: (
+      err: Error | null,
+      user?: Record<string, any> | undefined,
+      info?: Record<string, any> | undefined
+    ) => void = (
       err: Error | null,
       user?: Record<string, any>,
       info?: Record<string, any>

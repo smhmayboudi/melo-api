@@ -3,11 +3,11 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
 import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
-  PROM_MODULE_OPTIONS
+  PROM_MODULE_OPTIONS,
 } from "./prom.constant";
 
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
@@ -45,7 +45,7 @@ export class PromInterceptor implements NestInterceptor {
       this.counter.inc({
         method: request.method,
         path: request.route.path,
-        status: response.statusCode
+        status: response.statusCode,
       });
     }
     return next.handle();

@@ -18,19 +18,19 @@ describe("AuthController", () => {
     id: 0,
     is_blocked: false,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
 
   const authServiceMock: AuthServiceInterface = {
     accessToken: (): Promise<AuthAccessTokenResDto | undefined> =>
       Promise.resolve({
-        at: ""
+        at: "",
       }),
     refreshToken: (): Promise<AuthRefreshTokenResDto | undefined> =>
       Promise.resolve({
         at: "",
-        rt: ""
-      })
+        rt: "",
+      }),
   };
   const rtServiceMock: RtServiceInterface = {
     blockById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
@@ -46,7 +46,7 @@ describe("AuthController", () => {
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
-      Promise.resolve(rtEntity)
+      Promise.resolve(rtEntity),
   };
 
   let controller: AuthController;
@@ -56,8 +56,8 @@ describe("AuthController", () => {
       controllers: [AuthController],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
-        { provide: RtService, useValue: rtServiceMock }
-      ]
+        { provide: RtService, useValue: rtServiceMock },
+      ],
     }).compile();
     controller = module.get<AuthController>(AuthController);
   });
@@ -69,7 +69,7 @@ describe("AuthController", () => {
   it("login should be equal to a token", async () => {
     expect(await controller.login(0)).toEqual({
       at: "",
-      rt: ""
+      rt: "",
     });
   });
 
@@ -80,13 +80,13 @@ describe("AuthController", () => {
   it("telegramCallback should be equal to a token", async () => {
     expect(await controller.telegram(0)).toEqual({
       at: "",
-      rt: ""
+      rt: "",
     });
   });
 
   it("token should be equal to a token", async () => {
     expect(await controller.token(0)).toEqual({
-      at: ""
+      at: "",
     });
   });
 });

@@ -11,7 +11,7 @@ export class EmotionQueryReqDto {
     description: "the emotions",
     example: ["happy"],
     isArray: true,
-    type: String
+    type: String,
   })
   @IsArray()
   @IsString({ each: true })

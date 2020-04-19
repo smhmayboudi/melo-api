@@ -1,7 +1,7 @@
 import {
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 import { EmotionConfigService } from "./emotion.config.service";
 
@@ -11,7 +11,7 @@ export class EmotionHttpOptionsFactory implements HttpModuleOptionsFactory {
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
-      timeout: this.emotionConfigService.timeout
+      timeout: this.emotionConfigService.timeout,
     };
   }
 }

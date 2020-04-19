@@ -15,14 +15,14 @@ describe("RtService", () => {
     id: 0,
     is_blocked: false,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
   const deleteResult: DeleteResult = {
-    raw: ""
+    raw: "",
   };
   const updateResult: UpdateResult = {
     generatedMaps: [{}],
-    raw: ""
+    raw: "",
   };
 
   const rtEntityRepositoryMock: RtEntityRepositoryInterface = {
@@ -31,7 +31,7 @@ describe("RtService", () => {
     findOne: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
     save: <RtEntity>(): Promise<RtEntity> =>
       (Promise.resolve(rtEntity) as unknown) as Promise<RtEntity>,
-    update: (): Promise<UpdateResult> => Promise.resolve(updateResult)
+    update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
   };
 
   let service: RtService;
@@ -40,8 +40,8 @@ describe("RtService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: RtEntityRepository, useValue: rtEntityRepositoryMock },
-        RtService
-      ]
+        RtService,
+      ],
     }).compile();
     service = module.get<RtService>(RtService);
   });

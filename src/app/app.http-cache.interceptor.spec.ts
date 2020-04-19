@@ -6,7 +6,7 @@ describe("AppHttpCacheInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({ path: "" })),
-    getResponse: jest.fn()
+    getResponse: jest.fn(),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -16,7 +16,7 @@ describe("AppHttpCacheInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   it("should be defined", () => {
     expect(new AppHttpCacheInterceptor(new Map(), {})).toBeDefined();

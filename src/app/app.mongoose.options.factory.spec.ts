@@ -48,14 +48,16 @@ describe("AppMongooseOptionsFactory", () => {
     typeOrmPassword: "",
     typeOrmPort: 0,
     typeOrmSynchronize: true,
-    typeOrmUsername: ""
+    typeOrmUsername: "",
   };
 
   let service: AppConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppConfigService, useValue: appConfigServiceMock }]
+      providers: [
+        { provide: AppConfigService, useValue: appConfigServiceMock },
+      ],
     }).compile();
     service = module.get<AppConfigService>(AppConfigService);
   });
@@ -72,7 +74,7 @@ describe("AppMongooseOptionsFactory", () => {
       retryDelay: 0,
       uri: "",
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
   });
 });

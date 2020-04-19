@@ -17,14 +17,14 @@ export class RelationHasReqDto {
   }
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
   from: RelationEntityResDto;
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
@@ -32,7 +32,7 @@ export class RelationHasReqDto {
 
   @ApiProperty({
     description: "The type",
-    example: RelationType.follows
+    example: RelationType.follows,
   })
   @IsEnum(RelationType)
   relationType: RelationType;

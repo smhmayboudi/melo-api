@@ -12,7 +12,7 @@ describe("RtCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: RtConfigService;
@@ -23,17 +23,17 @@ describe("RtCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: RtConfigService,
-            useValue: rtConfigServiceMock
+            useValue: rtConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<RtConfigService>(RtConfigService);
     });
@@ -55,17 +55,17 @@ describe("RtCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: RtConfigService,
-            useValue: { ...rtConfigServiceMock, cacheStore: "none" }
+            useValue: { ...rtConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<RtConfigService>(RtConfigService);
     });
@@ -76,7 +76,7 @@ describe("RtCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

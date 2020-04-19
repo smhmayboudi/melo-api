@@ -7,7 +7,7 @@ describe("AppService", () => {
   describe("get: boolean", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): boolean => true
+      get: (): boolean => true,
     };
 
     let service: AppConfigService;
@@ -18,9 +18,9 @@ describe("AppService", () => {
           AppConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });
@@ -49,7 +49,7 @@ describe("AppService", () => {
   describe("get: JSON", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => '{"a":0}'
+      get: (): string => '{"a":0}',
     };
 
     let service: AppConfigService;
@@ -60,9 +60,9 @@ describe("AppService", () => {
           AppConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });
@@ -79,7 +79,7 @@ describe("AppService", () => {
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: AppConfigService;
@@ -90,9 +90,9 @@ describe("AppService", () => {
           AppConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });
@@ -129,7 +129,7 @@ describe("AppService", () => {
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => ""
+      get: (): string => "",
     };
 
     let service: AppConfigService;
@@ -140,9 +140,9 @@ describe("AppService", () => {
           AppConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });
@@ -261,7 +261,7 @@ describe("AppService", () => {
   describe("get: string 0", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => "0"
+      get: (): string => "0",
     };
 
     let service: AppConfigService;
@@ -272,9 +272,9 @@ describe("AppService", () => {
           AppConfigService,
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AppConfigService>(AppConfigService);
     });

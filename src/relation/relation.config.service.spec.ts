@@ -5,6 +5,7 @@ import { RelationConfigService } from "./relation.config.service";
 
 describe("RelationService", () => {
   describe("get: number", () => {
+    // TODO: interface ?
     const configServiceMock = {
       get: (): number => 0,
     };
@@ -34,6 +35,7 @@ describe("RelationService", () => {
   });
 
   describe("get: string", () => {
+    // TODO: interface ?
     const configServiceMock = {
       get: (): string => "0",
     };

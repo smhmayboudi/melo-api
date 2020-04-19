@@ -1,4 +1,4 @@
 export enum DownloadOrderByType {
   asc = "asc",
-  desc = "desc"
+  desc = "desc",
 }

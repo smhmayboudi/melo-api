@@ -11,21 +11,21 @@ export class DataSongSimilarReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "The song identification",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   id: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0
+    example: 0,
   })
   @IsNumberString()
   limit: number;

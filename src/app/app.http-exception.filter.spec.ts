@@ -11,9 +11,9 @@ describe("HttpExceptionFilter", () => {
     getRequest: jest
       .fn()
       .mockImplementation(() => ({ method: "", route: { path: "" } })),
-    getResponse: jest
-      .fn()
-      .mockImplementation(() => ({ status: () => ({ json: () => ({}) }) }))
+    getResponse: jest.fn().mockImplementation(() => ({
+      status: (): any => ({ json: (): any => ({}) }),
+    })),
   };
   const argumentsHost: ArgumentsHost = {
     getArgByIndex: jest.fn(),
@@ -21,7 +21,7 @@ describe("HttpExceptionFilter", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
 
   it("should be defined", () => {

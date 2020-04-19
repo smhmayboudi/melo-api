@@ -15,7 +15,7 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
     super({
       botToken: authConfigService.telegramBotToken,
       passReqToCallback: false,
-      queryExpiration: authConfigService.telegramQueryExpiration / 1000
+      queryExpiration: authConfigService.telegramQueryExpiration / 1000,
     });
   }
 
@@ -25,14 +25,14 @@ export class TelegramStrategy extends PassportStrategy(Strategy) {
       // throw new UnauthorizedException();
       const newUser = await this.userService.save({
         id: 0,
-        telegramId: dto.id
+        telegramId: dto.id,
       });
       return {
-        sub: newUser.id.toString()
+        sub: newUser.id.toString(),
       };
     }
     return {
-      sub: user.id.toString()
+      sub: user.id.toString(),
     };
   }
 }

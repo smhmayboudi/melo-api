@@ -6,9 +6,6 @@ import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.interfac
 export class JwksEntityRepository extends Repository<JwksEntity>
   implements JwksEntityRepositoryInterface {
   getOneRandom(): Promise<JwksEntity | undefined> {
-    return this.createQueryBuilder()
-      .orderBy("RAND()")
-      .limit(1)
-      .getOne();
+    return this.createQueryBuilder().orderBy("RAND()").limit(1).getOne();
   }
 }

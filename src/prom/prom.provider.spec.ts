@@ -4,14 +4,14 @@ import {
   getOrCreateCounterProvider,
   getOrCreateGaugeProvider,
   getOrCreateHistogramProvider,
-  getOrCreateSummaryProvider
+  getOrCreateSummaryProvider,
 } from "./prom.provider";
 import {
   getTokenCounter,
   getTokenGauge,
   getTokenHistogram,
   getTokenRegistry,
-  getTokenSummary
+  getTokenSummary,
 } from "./prom.util";
 
 describe("PromProvider", () => {
@@ -19,8 +19,8 @@ describe("PromProvider", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         getOrCreateCounterProvider({ help: "counter", name: "counter" }),
-        { provide: getTokenRegistry(), useValue: register }
-      ]
+        { provide: getTokenRegistry(), useValue: register },
+      ],
     }).compile();
     expect(module.get(getTokenCounter("counter"))).toBeInstanceOf(Counter);
   });
@@ -29,8 +29,8 @@ describe("PromProvider", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         getOrCreateGaugeProvider({ help: "gauge", name: "gauge" }),
-        { provide: getTokenRegistry(), useValue: register }
-      ]
+        { provide: getTokenRegistry(), useValue: register },
+      ],
     }).compile();
     expect(module.get(getTokenGauge("gauge"))).toBeInstanceOf(Gauge);
   });
@@ -39,8 +39,8 @@ describe("PromProvider", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         getOrCreateHistogramProvider({ help: "histogram", name: "histogram" }),
-        { provide: getTokenRegistry(), useValue: register }
-      ]
+        { provide: getTokenRegistry(), useValue: register },
+      ],
     }).compile();
     expect(module.get(getTokenHistogram("histogram"))).toBeInstanceOf(
       Histogram
@@ -51,8 +51,8 @@ describe("PromProvider", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         getOrCreateSummaryProvider({ help: "summary", name: "summary" }),
-        { provide: getTokenRegistry(), useValue: register }
-      ]
+        { provide: getTokenRegistry(), useValue: register },
+      ],
     }).compile();
     expect(module.get(getTokenSummary("summary"))).toBeInstanceOf(Summary);
   });

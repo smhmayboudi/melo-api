@@ -8,14 +8,15 @@ import { ConstService } from "./const.service";
 import { DataImageResDto } from "../data/dto/res/data.image.res.dto";
 
 describe("ConstService", () => {
+  // TODO: interface ?
   const image = {
     pop: {
-      url: "/asset/pop.jpg"
-    }
+      url: "/asset/pop.jpg",
+    },
   };
 
   const appImgProxyServiceMock: AppImgProxyServiceInterface = {
-    generateUrl: (): DataImageResDto => image
+    generateUrl: (): DataImageResDto => image,
   };
   const constConfigServiceMock: ConstConfigServiceInterface = {
     cacheHost: "",
@@ -23,7 +24,7 @@ describe("ConstService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    staticImagePaths: { pop: "/asset/pop.jpg" }
+    staticImagePaths: { pop: "/asset/pop.jpg" },
   };
 
   let service: ConstService;
@@ -33,8 +34,8 @@ describe("ConstService", () => {
       providers: [
         ConstService,
         { provide: AppImgProxyService, useValue: appImgProxyServiceMock },
-        { provide: ConstConfigService, useValue: constConfigServiceMock }
-      ]
+        { provide: ConstConfigService, useValue: constConfigServiceMock },
+      ],
     }).compile();
     service = module.get<ConstService>(ConstService);
   });

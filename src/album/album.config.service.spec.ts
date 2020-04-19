@@ -8,7 +8,7 @@ describe("AlbumService", () => {
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): number => 0
+      get: (): number => 0,
     };
 
     let service: AlbumConfigService;
@@ -19,13 +19,13 @@ describe("AlbumService", () => {
           AlbumConfigService,
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AlbumConfigService>(AlbumConfigService);
     });
@@ -46,7 +46,7 @@ describe("AlbumService", () => {
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => ""
+      get: (): string => "",
     };
 
     let service: AlbumConfigService;
@@ -57,13 +57,13 @@ describe("AlbumService", () => {
           AlbumConfigService,
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ConfigService,
-            useValue: configServiceMock
-          }
-        ]
+            useValue: configServiceMock,
+          },
+        ],
       }).compile();
       service = module.get<AlbumConfigService>(AlbumConfigService);
     });

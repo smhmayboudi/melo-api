@@ -19,6 +19,6 @@ export function makeDefaultOptions(
   options?: ApmModuleOptions
 ): ApmModuleOptions {
   return {
-    ...options
+    ...options,
   };
 }

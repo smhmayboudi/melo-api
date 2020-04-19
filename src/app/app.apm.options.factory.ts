@@ -1,7 +1,7 @@
 import {
   ApmModuleOptions,
   ApmOptionsFactory,
-  LogLevel
+  LogLevel,
 } from "../apm/apm.module.interface";
 import { PATH_HEALTH, PATH_METRICS } from "./app.constant";
 
@@ -23,7 +23,7 @@ export class AppApmOptionsFactory implements ApmOptionsFactory {
       logger: AppApmLogger,
       secretToken: this.appConfigService.apmSecretToken,
       serverUrl: this.appConfigService.apmServerUrl,
-      serviceName: this.appConfigService.apmServiceName
+      serviceName: this.appConfigService.apmServiceName,
     };
   }
 }

@@ -7,13 +7,13 @@ describe("PromController", () => {
 
   // TODO: interface ?
   const registryMock = {
-    metrics: jest.fn()
+    metrics: jest.fn(),
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PromController],
-      providers: [{ provide: PROM_REGISTRY_DEFAULT, useValue: registryMock }]
+      providers: [{ provide: PROM_REGISTRY_DEFAULT, useValue: registryMock }],
     }).compile();
     controller = module.get<PromController>(PromController);
   });

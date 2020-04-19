@@ -9,7 +9,7 @@ import { UserUserResDto } from "./dto/res/user.user.res.dto";
 describe("UserController", () => {
   const user: UserUserResDto = {
     id: 0,
-    telegram_id: 0
+    telegram_id: 0,
   };
 
   const userServiceMock: UserServiceInterface = {
@@ -22,7 +22,7 @@ describe("UserController", () => {
       Promise.resolve(user),
     get: (): Promise<UserUserResDto | undefined> => Promise.resolve(user),
     put: (): Promise<UserUserResDto> => Promise.resolve(user),
-    save: (): Promise<UserUserResDto> => Promise.resolve(user)
+    save: (): Promise<UserUserResDto> => Promise.resolve(user),
   };
 
   let controller: UserController;
@@ -30,7 +30,7 @@ describe("UserController", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
-      providers: [{ provide: UserService, useValue: userServiceMock }]
+      providers: [{ provide: UserService, useValue: userServiceMock }],
     }).compile();
     controller = module.get<UserController>(UserController);
   });

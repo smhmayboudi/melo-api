@@ -11,7 +11,7 @@ describe("AnonymUUIDStrategy", () => {
     });
   });
 
-  it("validate should throw error", () => {
+  it("validate should throw an error", () => {
     return expect(new AnonymUUIDStrategy().validate("")).rejects.toThrowError();
   });
 });

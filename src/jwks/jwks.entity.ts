@@ -14,7 +14,7 @@ export class JwksEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: "4f38f054-38e9-11ea-9e09-0242ac110004"
+    example: "4f38f054-38e9-11ea-9e09-0242ac110004",
   })
   @PrimaryGeneratedColumn("uuid")
   @IsUUID()
@@ -26,7 +26,7 @@ export class JwksEntity {
 -----BEGIN RSA PRIVATE KEY-----
 ...
 -----END RSA PRIVATE KEY-----
-`
+`,
   })
   @Column({ type: "text" })
   @Exclude()
@@ -39,7 +39,7 @@ export class JwksEntity {
 -----BEGIN PUBLIC KEY-----
 ...
 -----END PUBLIC KEY-----
-`
+`,
   })
   @Column({ type: "text" })
   @IsString()

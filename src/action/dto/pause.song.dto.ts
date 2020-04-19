@@ -10,14 +10,14 @@ export class PauseSongDto {
 
   @ApiProperty({
     description: "The current position",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   currentPosition: number;
 
   @ApiProperty({
     description: "The song identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   id: string;

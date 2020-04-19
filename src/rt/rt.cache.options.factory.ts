@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { RtConfigService } from "./rt.config.service";
@@ -17,7 +17,7 @@ export class RtCacheOptionsFactory implements CacheOptionsFactory {
       max: this.rtConfigService.cacheMax,
       port: this.rtConfigService.cachePort,
       store: this.rtConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.rtConfigService.cacheTTL / 1000
+      ttl: this.rtConfigService.cacheTTL / 1000,
     };
   }
 }

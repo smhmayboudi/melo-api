@@ -15,19 +15,19 @@ export class AppImgProxyService implements AppImgProxyServiceInterface {
       insecure: false,
       key: this.appConfigService.imgProxyKey,
       salt: this.appConfigService.imgProxySalt,
-      signatureSize: this.appConfigService.imgProxySignatureSize
+      signatureSize: this.appConfigService.imgProxySignatureSize,
     });
   }
 
   generateUrl(uriNormal: string): DataImageResDto {
     const images: DataImageResDto = {};
-    this.appConfigService.imgProxyTypeSize.map(value => {
+    this.appConfigService.imgProxyTypeSize.map((value) => {
       images[value.name] = {
         url: this.imgproxy
           .builder()
           .resize("fill", value.width, value.height, true)
           .dpr(1)
-          .generateUrl(uriNormal)
+          .generateUrl(uriNormal),
       };
     });
     return images;

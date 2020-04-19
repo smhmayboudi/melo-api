@@ -2,19 +2,19 @@ import {
   CounterConfiguration,
   GaugeConfiguration,
   HistogramConfiguration,
-  SummaryConfiguration
+  SummaryConfiguration,
 } from "prom-client";
 import { DynamicModule, Module } from "@nestjs/common";
 import {
   MetricTypeConfigurationInterface,
   PromModuleAsyncOptions,
-  PromModuleOptions
+  PromModuleOptions,
 } from "./prom.module.interface";
 import {
   getOrCreateCounterProvider,
   getOrCreateGaugeProvider,
   getOrCreateHistogramProvider,
-  getOrCreateSummaryProvider
+  getOrCreateSummaryProvider,
 } from "./prom.provider";
 
 import { PromCoreModule } from "./prom-core.module";
@@ -25,7 +25,7 @@ export class PromModule {
   private static forMetrics(
     metrics: MetricTypeConfigurationInterface[]
   ): DynamicModule {
-    const providers = metrics.map(value => {
+    const providers = metrics.map((value) => {
       switch (value.metricType) {
         case PromMetricType.counter:
           return getOrCreateCounterProvider(
@@ -56,7 +56,7 @@ export class PromModule {
     return {
       exports: providers,
       module: PromModule,
-      providers: providers
+      providers: providers,
     };
   }
 
@@ -68,8 +68,8 @@ export class PromModule {
       {
         configuration,
         metricType: PromMetricType.counter,
-        registryName
-      }
+        registryName,
+      },
     ]);
   }
 
@@ -81,8 +81,8 @@ export class PromModule {
       {
         configuration,
         metricType: PromMetricType.gauge,
-        registryName
-      }
+        registryName,
+      },
     ]);
   }
 
@@ -94,8 +94,8 @@ export class PromModule {
       {
         configuration,
         metricType: PromMetricType.histogram,
-        registryName
-      }
+        registryName,
+      },
     ]);
   }
 
@@ -107,22 +107,22 @@ export class PromModule {
       {
         configuration,
         metricType: PromMetricType.summary,
-        registryName
-      }
+        registryName,
+      },
     ]);
   }
 
   static forRoot(options: PromModuleOptions = {}): DynamicModule {
     return {
       imports: [PromCoreModule.forRoot(options)],
-      module: PromModule
+      module: PromModule,
     };
   }
 
   static forRootAsync(options: PromModuleAsyncOptions = {}): DynamicModule {
     return {
       imports: [PromCoreModule.forRootAsync(options)],
-      module: PromModule
+      module: PromModule,
     };
   }
 }

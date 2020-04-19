@@ -12,15 +12,15 @@ describe("ActionController", () => {
   const datetime = new Date().toString();
   const action: ActionDto = {
     datetime,
-    type: ActionType.likeSong
+    type: ActionType.likeSong,
   };
 
   const actionServiceMock: ActionServiceInterface = {
-    bulk: (): Promise<ActionDto> => Promise.resolve(action)
+    bulk: (): Promise<ActionDto> => Promise.resolve(action),
   };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
-    encode: (): string => ""
+    encode: (): string => "",
   };
 
   let controller: ActionController;
@@ -30,8 +30,8 @@ describe("ActionController", () => {
       controllers: [ActionController],
       providers: [
         { provide: ActionService, useValue: actionServiceMock },
-        { provide: AppHashIdService, useValue: appHashIdServiceMock }
-      ]
+        { provide: AppHashIdService, useValue: appHashIdServiceMock },
+      ],
     }).compile();
     controller = module.get<ActionController>(ActionController);
   });
@@ -43,7 +43,7 @@ describe("ActionController", () => {
   it("bulk should be equal to an action", async () => {
     const dto: ActionDto = {
       datetime,
-      type: ActionType.likeSong
+      type: ActionType.likeSong,
     };
     expect(await controller.bulk(dto)).toEqual(action);
   });

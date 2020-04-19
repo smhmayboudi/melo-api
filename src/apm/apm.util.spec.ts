@@ -1,7 +1,7 @@
 import {
   getOrCreateApmInstance,
   getTokenName,
-  makeDefaultOptions
+  makeDefaultOptions,
 } from "./apm.util";
 
 describe("ApmUtil", () => {

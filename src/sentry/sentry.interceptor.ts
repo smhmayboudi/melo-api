@@ -4,17 +4,17 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
 import { GqlArgumentsHost, GraphQLArgumentsHost } from "@nestjs/graphql";
 import {
   HttpArgumentsHost,
   RpcArgumentsHost,
-  WsArgumentsHost
+  WsArgumentsHost,
 } from "@nestjs/common/interfaces";
 import {
   SENTRY_INSTANCE_TOKEN,
-  SENTRY_MODULE_OPTIONS
+  SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
 
 import { Handlers } from "@sentry/node";
@@ -40,9 +40,9 @@ export class SentryInterceptor implements NestInterceptor {
       this.options.context = "Http";
     }
     return next.handle().pipe(
-      tap(undefined, error => {
+      tap(undefined, (error) => {
         if (process.env.NODE_ENV !== "test" && this.shouldReport(error)) {
-          this.sentry.withScope(scope => {
+          this.sentry.withScope((scope) => {
             // TODO: When https://github.com/nestjs/nest/issues/1581 gets implemented switch to that
             switch (this.options.context) {
               case "GraphQL":

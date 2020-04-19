@@ -7,7 +7,7 @@ import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 describe("DownloadHttpOptionsFactory", () => {
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {
     timeout: 0,
-    url: ""
+    url: "",
   };
 
   let service: DownloadConfigService;
@@ -17,9 +17,9 @@ describe("DownloadHttpOptionsFactory", () => {
       providers: [
         {
           provide: DownloadConfigService,
-          useValue: downloadConfigServiceMock
-        }
-      ]
+          useValue: downloadConfigServiceMock,
+        },
+      ],
     }).compile();
     service = module.get<DownloadConfigService>(DownloadConfigService);
   });

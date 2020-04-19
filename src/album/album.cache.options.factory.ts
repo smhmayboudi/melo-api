@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { AlbumConfigService } from "./album.config.service";
@@ -18,7 +18,7 @@ export class AlbumCacheOptionsFactory implements CacheOptionsFactory {
       port: this.albumConfigService.cachePort,
       store:
         this.albumConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.albumConfigService.cacheTTL / 1000
+      ttl: this.albumConfigService.cacheTTL / 1000,
     };
   }
 }

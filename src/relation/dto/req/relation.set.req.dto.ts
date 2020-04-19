@@ -20,21 +20,21 @@ export class RelationSetReqDto {
 
   @ApiProperty({
     description: "The creation date",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   @Type(() => Date)
   createdAt: Date;
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
   from: RelationEntityResDto;
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
@@ -42,7 +42,7 @@ export class RelationSetReqDto {
 
   @ApiProperty({
     description: "The type",
-    example: RelationType.follows
+    example: RelationType.follows,
   })
   @IsEnum(RelationType)
   relationType: RelationType;

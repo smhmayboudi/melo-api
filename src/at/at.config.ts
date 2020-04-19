@@ -5,5 +5,5 @@ export default registerAs("at", () => ({
   cacheMax: process.env.AT_CACHE_MAX,
   cachePort: process.env.AT_CACHE_PORT,
   cacheStore: process.env.AT_CACHE_STORE,
-  cacheTTL: process.env.AT_CACHE_TTL
+  cacheTTL: process.env.AT_CACHE_TTL,
 }));

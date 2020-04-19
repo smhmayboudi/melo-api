@@ -2,7 +2,7 @@ import {
   CallHandler,
   ExecutionContext,
   Injectable,
-  NestInterceptor
+  NestInterceptor,
 } from "@nestjs/common";
 
 import { ApmService } from "./apm.service";
@@ -25,11 +25,11 @@ export class ApmInterceptor implements NestInterceptor {
     >();
     if (process.env.NODE_ENV !== "test" && this.apmService.isStarted()) {
       this.apmService.setUserContext({
-        id: request.user && request.user.sub
+        id: request.user && request.user.sub,
       });
     }
     return next.handle().pipe(
-      tap(undefined, error => {
+      tap(undefined, (error) => {
         if (process.env.NODE_ENV !== "test" && this.apmService.isStarted()) {
           this.apmService.captureError(error);
         }

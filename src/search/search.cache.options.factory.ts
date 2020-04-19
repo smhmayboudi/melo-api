@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { SearchConfigService } from "./search.config.service";
@@ -18,7 +18,7 @@ export class SearchCacheOptionsFactory implements CacheOptionsFactory {
       port: this.searchConfigService.cachePort,
       store:
         this.searchConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.searchConfigService.cacheTTL / 1000
+      ttl: this.searchConfigService.cacheTTL / 1000,
     };
   }
 }

@@ -8,7 +8,7 @@ describe("AuthConfig", () => {
       jwtAuhSchema: undefined,
       jwtRefreshTokenExpiresIn: undefined,
       telegramBotToken: undefined,
-      telegramQueryExpiration: undefined
+      telegramQueryExpiration: undefined,
     });
   });
 });

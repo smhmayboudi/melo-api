@@ -12,19 +12,19 @@ export class AuthJwtOptionsFactory implements JwtOptionsFactory {
   ) {}
 
   createJwtOptions(): Promise<JwtModuleOptions> | JwtModuleOptions {
-    return this.jwksService.getOneRandom().then(jwks =>
+    return this.jwksService.getOneRandom().then((jwks) =>
       jwks === undefined
         ? {}
         : {
             jsonWebTokenOptions: {
-              algorithms: ["RS256"]
+              algorithms: ["RS256"],
             },
             privateKey: jwks.private_key,
             publicKey: jwks.public_key,
             signOptions: {
               algorithm: "RS256",
-              expiresIn: this.authConfigService.jwtAccessTokenExpiresIn / 1000
-            }
+              expiresIn: this.authConfigService.jwtAccessTokenExpiresIn / 1000,
+            },
           }
     );
   }

@@ -3,7 +3,7 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  Logger
+  Logger,
 } from "@nestjs/common";
 import express from "express";
 
@@ -18,7 +18,7 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
     Logger.error(
       `${JSON.stringify({
         path: request.path,
-        user: request.user
+        user: request.user,
       })} => ${exception}`,
       undefined,
       "AppHttpExceptionFilter"
@@ -27,7 +27,7 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
     response.status(status).json({
       path: request.url,
       statusCode: status,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 }

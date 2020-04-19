@@ -1,6 +1,6 @@
 import {
   MongooseModuleOptions,
-  MongooseOptionsFactory
+  MongooseOptionsFactory,
 } from "@nestjs/mongoose";
 
 import { AppConfigService } from "./app.config.service";
@@ -18,7 +18,7 @@ export class AppMongooseOptionsFactory implements MongooseOptionsFactory {
       retryDelay: this.appConfigService.mangooseRetryDelay,
       uri: this.appConfigService.mangooseUri,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     };
   }
 }

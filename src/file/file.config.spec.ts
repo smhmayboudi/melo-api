@@ -12,7 +12,7 @@ describe("FileConfig", () => {
       s3Bucket: undefined,
       s3Endpoint: undefined,
       s3SecretAccessKey: undefined,
-      s3SslEnabled: undefined
+      s3SslEnabled: undefined,
     });
   });
 });

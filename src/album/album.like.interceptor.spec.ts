@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/unbound-method */
+
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -88,7 +90,6 @@ describe("AlbumLikeInterceptor", () => {
     new AlbumLikeInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -104,7 +105,6 @@ describe("AlbumLikeInterceptor", () => {
     new AlbumLikeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHostUserSubZero.getRequest).toHaveBeenCalled();
   });
 
@@ -115,7 +115,6 @@ describe("AlbumLikeInterceptor", () => {
     new AlbumLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
@@ -126,7 +125,6 @@ describe("AlbumLikeInterceptor", () => {
     new AlbumLikeInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 });

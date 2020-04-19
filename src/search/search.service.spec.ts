@@ -10,16 +10,16 @@ import { SearchService } from "./search.service";
 
 describe("SearchService", () => {
   const search: DataSearchResDto = {
-    type: DataSearchType.album
+    type: DataSearchType.album,
   };
   const searchPagination: DataPaginationResDto<DataSearchResDto> = {
     results: [search],
-    total: 1
+    total: 1,
   } as DataPaginationResDto<DataSearchResDto>;
 
   const dataSearchServiceMock: DataSearchServiceInterface = {
     query: (): Promise<DataPaginationResDto<DataSearchResDto>> =>
-      Promise.resolve(searchPagination)
+      Promise.resolve(searchPagination),
   };
 
   let service: SearchService;
@@ -28,8 +28,8 @@ describe("SearchService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SearchService,
-        { provide: DataSearchService, useValue: dataSearchServiceMock }
-      ]
+        { provide: DataSearchService, useValue: dataSearchServiceMock },
+      ],
     }).compile();
     service = module.get<SearchService>(SearchService);
   });
@@ -42,7 +42,7 @@ describe("SearchService", () => {
     const dto: SearchQueryReqDto = {
       from: 0,
       limit: 0,
-      query: ""
+      query: "",
     };
     expect(await service.query(dto)).toEqual(searchPagination);
   });

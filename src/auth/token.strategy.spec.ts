@@ -14,7 +14,7 @@ describe("TokenStrategy", () => {
     id: 0,
     is_blocked: false,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
 
   const rtServiceMock: RtServiceInterface = {
@@ -31,7 +31,7 @@ describe("TokenStrategy", () => {
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
-      Promise.resolve(rtEntity)
+      Promise.resolve(rtEntity),
   };
 
   let service: RtService;
@@ -41,9 +41,9 @@ describe("TokenStrategy", () => {
       providers: [
         {
           provide: RtService,
-          useValue: rtServiceMock
-        }
-      ]
+          useValue: rtServiceMock,
+        },
+      ],
     }).compile();
     service = module.get<RtService>(RtService);
   });
@@ -54,7 +54,7 @@ describe("TokenStrategy", () => {
 
   it("validate should be equal to an auth strategy", async () => {
     expect(await new TokenStrategy(service).validate("")).toEqual({
-      sub: "0"
+      sub: "0",
     });
   });
 
@@ -62,7 +62,7 @@ describe("TokenStrategy", () => {
     const rtServiceMockValidateByTokenUndefined: RtServiceInterface = {
       ...rtServiceMock,
       validateByToken: (): Promise<RtEntity | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
@@ -70,9 +70,9 @@ describe("TokenStrategy", () => {
         providers: [
           {
             provide: RtService,
-            useValue: rtServiceMockValidateByTokenUndefined
-          }
-        ]
+            useValue: rtServiceMockValidateByTokenUndefined,
+          },
+        ],
       }).compile();
       service = module.get<RtService>(RtService);
     });

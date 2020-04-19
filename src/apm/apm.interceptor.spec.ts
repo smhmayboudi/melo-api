@@ -14,7 +14,7 @@ describe("ApmInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
-    getResponse: jest.fn()
+    getResponse: jest.fn(),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -24,13 +24,13 @@ describe("ApmInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   const callHandler: CallHandler = {
-    handle: jest.fn(() => of(""))
+    handle: jest.fn(() => of("")),
   };
   const callHandlerException: CallHandler = {
-    handle: jest.fn(() => throwError(""))
+    handle: jest.fn(() => throwError("")),
   };
 
   const ampServiceMock: ApmServiceInterface = {
@@ -57,7 +57,7 @@ describe("ApmInterceptor", () => {
       fatal: (): void => undefined,
       info: (): void => undefined,
       trace: (): void => undefined,
-      warn: (): void => undefined
+      warn: (): void => undefined,
     },
     middleware: { connect: () => (): void => undefined },
     removePatch: jest.fn(),
@@ -68,7 +68,7 @@ describe("ApmInterceptor", () => {
     setUserContext: jest.fn(),
     start: jest.fn(),
     startSpan: jest.fn(),
-    startTransaction: jest.fn()
+    startTransaction: jest.fn(),
   };
 
   let service: ApmService;
@@ -77,8 +77,8 @@ describe("ApmInterceptor", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApmService,
-        { provide: APM_INSTANCE_TOKEN, useValue: ampServiceMock }
-      ]
+        { provide: APM_INSTANCE_TOKEN, useValue: ampServiceMock },
+      ],
     }).compile();
     service = module.get<ApmService>(ApmService);
   });

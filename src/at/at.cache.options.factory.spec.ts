@@ -12,7 +12,7 @@ describe("AtCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: AtConfigService;
@@ -23,17 +23,17 @@ describe("AtCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: AtConfigService,
-            useValue: atConfigServiceMock
+            useValue: atConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<AtConfigService>(AtConfigService);
     });
@@ -55,17 +55,17 @@ describe("AtCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: AtConfigService,
-            useValue: { ...atConfigServiceMock, cacheStore: "none" }
+            useValue: { ...atConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<AtConfigService>(AtConfigService);
     });
@@ -76,7 +76,7 @@ describe("AtCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

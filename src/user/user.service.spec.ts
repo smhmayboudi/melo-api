@@ -9,14 +9,14 @@ import { UserService } from "./user.service";
 
 describe("UserService", () => {
   const userEntity: UserEntity = {
-    id: 0
+    id: 0,
   };
 
   const userEntityRepositoryMock: UserEntityRepositoryInterface = {
     find: (): Promise<UserEntity[]> => Promise.resolve([userEntity]),
     findOne: (): Promise<UserEntity | undefined> => Promise.resolve(userEntity),
     save: <UserEntity>(): Promise<UserEntity> =>
-      (Promise.resolve(userEntity) as unknown) as Promise<UserEntity>
+      (Promise.resolve(userEntity) as unknown) as Promise<UserEntity>,
   };
 
   let service: UserService;
@@ -25,8 +25,8 @@ describe("UserService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: UserEntityRepository, useValue: userEntityRepositoryMock },
-        UserService
-      ]
+        UserService,
+      ],
     }).compile();
     service = module.get<UserService>(UserService);
   });
@@ -63,7 +63,7 @@ describe("UserService", () => {
   it("save should be equal to a users", async () => {
     const dto: UserSaveReqDto = {
       id: 0,
-      telegramId: 0
+      telegramId: 0,
     };
     expect(await service.save(dto)).toEqual(userEntity);
   });

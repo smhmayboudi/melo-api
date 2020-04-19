@@ -5,7 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsPhoneNumber,
-  IsString
+  IsString,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -44,14 +44,14 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   id: number;
 
   @ApiProperty({
     description: "The avatar link",
-    example: "http://www.google.com/avatar.jpg"
+    example: "http://www.google.com/avatar.jpg",
   })
   @IsOptional()
   @IsString()
@@ -59,7 +59,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "Small description of user",
-    example: "He tries to bridge the system."
+    example: "He tries to bridge the system.",
   })
   @IsOptional()
   @IsString()
@@ -67,7 +67,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The birthdate",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   @IsOptional()
@@ -75,7 +75,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The cellphone number",
-    example: 9121234567
+    example: 9121234567,
   })
   @IsPhoneNumber("IR")
   @IsOptional()
@@ -84,7 +84,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The primary key",
-    example: "info@melobit.com"
+    example: "info@melobit.com",
   })
   @IsEmail()
   @IsOptional()
@@ -92,7 +92,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The firstname",
-    example: "john"
+    example: "john",
   })
   @IsOptional()
   @IsString()
@@ -101,7 +101,7 @@ export class UserUserResDto {
   @ApiProperty({
     description: "The gender",
     enum: ["female", "male"],
-    example: UserGenderType.male
+    example: UserGenderType.male,
   })
   @IsEnum(UserGenderType)
   @IsOptional()
@@ -109,7 +109,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The language",
-    example: "en"
+    example: "en",
   })
   @IsOptional()
   @IsString()
@@ -117,7 +117,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The lastname",
-    example: "smith"
+    example: "smith",
   })
   @IsOptional()
   @IsString()
@@ -125,7 +125,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The registration date",
-    example: new Date()
+    example: new Date(),
   })
   @IsDate()
   @IsOptional()
@@ -133,7 +133,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The telegram identification",
-    example: "@johnsmith"
+    example: "@johnsmith",
   })
   @IsNumber()
   @IsOptional()
@@ -141,7 +141,7 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The username",
-    example: "johnsmith"
+    example: "johnsmith",
   })
   @IsOptional()
   @IsString()

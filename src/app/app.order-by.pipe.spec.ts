@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+
 import { AppOrderByPipe } from "./app.order-by.pipe";
 import { DataOrderByType } from "../data/data.order-by.type";
 
@@ -26,7 +28,6 @@ describe("AppOrderByPipe", () => {
 
   it("transform should throw an exception to a value not string", () => {
     return expect(() =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       new AppOrderByPipe().transform(0, { type: "body" })
     ).toThrowError();

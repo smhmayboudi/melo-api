@@ -19,5 +19,5 @@ export default {
   },
   warn(obj: any, msg?: any, ...args: any[]): void {
     Logger.warn(util.format(obj, msg, ...args), "AppApmLogger");
-  }
+  },
 };

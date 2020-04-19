@@ -1,7 +1,7 @@
 import {
   HttpModuleOptions,
   HttpModuleOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 import { DownloadConfigService } from "./download.config.service";
 
@@ -11,7 +11,7 @@ export class DownloadHttpOptionsFactory implements HttpModuleOptionsFactory {
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
-      timeout: this.downloadConfigService.timeout
+      timeout: this.downloadConfigService.timeout,
     };
   }
 }

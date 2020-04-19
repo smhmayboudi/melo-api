@@ -6,7 +6,7 @@ import {
   Histogram,
   HistogramConfiguration,
   Summary,
-  SummaryConfiguration
+  SummaryConfiguration,
 } from "prom-client";
 
 export interface PromServiceInterface {

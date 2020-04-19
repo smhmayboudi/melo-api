@@ -6,5 +6,5 @@ export default registerAs("auth", () => ({
   jwtAuhSchema: process.env.AUTH_JWT_AUTH_SCHEMA,
   jwtRefreshTokenExpiresIn: process.env.AUTH_JWT_REFRESH_TOKEN_EXPIREES_IN,
   telegramBotToken: process.env.AUTH_TELEGRAM_BOT_TOKEN,
-  telegramQueryExpiration: process.env.AUTH_TELEGRAM_QUERY_EXPIRATION
+  telegramQueryExpiration: process.env.AUTH_TELEGRAM_QUERY_EXPIRATION,
 }));

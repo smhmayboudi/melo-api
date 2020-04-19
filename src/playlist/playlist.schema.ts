@@ -9,5 +9,5 @@ export const PlaylistSchema = new mongoose.Schema({
   release_date: Date,
   songs_ids: [Number],
   title: String,
-  tracks_count: Number
+  tracks_count: Number,
 });

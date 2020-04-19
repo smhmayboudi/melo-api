@@ -12,7 +12,7 @@ describe("ArtistCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: ArtistConfigService;
@@ -23,17 +23,17 @@ describe("ArtistCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ArtistConfigService,
-            useValue: artistConfigServiceMock
+            useValue: artistConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<ArtistConfigService>(ArtistConfigService);
     });
@@ -55,17 +55,17 @@ describe("ArtistCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ArtistConfigService,
-            useValue: { ...artistConfigServiceMock, cacheStore: "none" }
+            useValue: { ...artistConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<ArtistConfigService>(ArtistConfigService);
     });
@@ -78,7 +78,7 @@ describe("ArtistCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

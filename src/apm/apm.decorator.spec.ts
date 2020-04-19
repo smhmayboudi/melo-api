@@ -3,7 +3,7 @@
 import {
   ApmCurrentSpan,
   ApmCurrentTraceparent,
-  ApmCurrentTransaction
+  ApmCurrentTransaction,
 } from "./apm.decorator";
 import { Span, Transaction } from "./apm.module.interface";
 import { ROUTE_ARGS_METADATA } from "@nestjs/common/constants";

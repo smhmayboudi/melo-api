@@ -7,7 +7,7 @@ import {
   UseGuards,
   UseInterceptors,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AppUser } from "../app/app.user.decorator";
@@ -24,7 +24,7 @@ import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class FileController {

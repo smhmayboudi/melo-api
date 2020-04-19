@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { ActionConfigService } from "./action.config.service";
@@ -18,7 +18,7 @@ export class ActionCacheOptionsFactory implements CacheOptionsFactory {
       port: this.actionConfigService.cachePort,
       store:
         this.actionConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.actionConfigService.cacheTTL / 1000
+      ttl: this.actionConfigService.cacheTTL / 1000,
     };
   }
 }

@@ -1,6 +1,7 @@
 import {
   Counter,
   CounterConfiguration,
+  DefaultMetricsCollectorConfiguration,
   Gauge,
   GaugeConfiguration,
   Histogram,
@@ -10,7 +11,7 @@ import {
   Summary,
   SummaryConfiguration,
   collectDefaultMetrics,
-  register
+  register,
 } from "prom-client";
 import { PATH_HEALTH, PATH_METRICS } from "../app/app.constant";
 import {
@@ -18,7 +19,7 @@ import {
   PROM_CONFIGURATION_NAME,
   PROM_METRIC,
   PROM_REGISTRY_DEFAULT,
-  PROM_REGISTRY_NAME
+  PROM_REGISTRY_NAME,
 } from "./prom.constant";
 
 import { PATH_METADATA } from "@nestjs/common/constants";
@@ -133,7 +134,7 @@ export function makeDefaultOptions(
       enabled:
         options === undefined || options.defaultMetrics === undefined
           ? true
-          : options.defaultMetrics.enabled
+          : options.defaultMetrics.enabled,
     },
     ignorePaths:
       options === undefined || options.ignorePaths === undefined
@@ -150,7 +151,7 @@ export function makeDefaultOptions(
     registryName:
       options === undefined || options.registryName === undefined
         ? undefined
-        : options.registryName
+        : options.registryName,
   };
 }
 
@@ -178,9 +179,9 @@ export function promRegistryProviderImp(
     options.defaultMetrics !== undefined &&
     options.defaultMetrics.enabled !== false
   ) {
-    const defaultMetricsOptions = {
+    const defaultMetricsOptions: DefaultMetricsCollectorConfiguration = {
       ...options.defaultMetrics.config,
-      register: registry
+      register: registry,
     };
     collectDefaultMetrics(defaultMetricsOptions);
   }

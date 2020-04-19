@@ -3,11 +3,11 @@
 import {
   CallHandler,
   ExecutionContext,
-  HttpArgumentsHost
+  HttpArgumentsHost,
 } from "@nestjs/common/interfaces";
 import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
-  PROM_MODULE_OPTIONS
+  PROM_MODULE_OPTIONS,
 } from "./prom.constant";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getTokenConfiguration, getTokenCounter } from "./prom.util";
@@ -24,7 +24,7 @@ describe("PromInterceptor", () => {
     getRequest: jest
       .fn()
       .mockImplementation(() => ({ method: "", route: { path: "/test" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 }))
+    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -34,15 +34,15 @@ describe("PromInterceptor", () => {
     getType: jest.fn(),
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
-    switchToWs: jest.fn()
+    switchToWs: jest.fn(),
   };
   const callHandler: CallHandler = {
-    handle: jest.fn(() => of(""))
+    handle: jest.fn(() => of("")),
   };
 
   // TODO: interface ?
   const counterMock = {
-    inc: jest.fn(() => undefined)
+    inc: jest.fn(() => undefined),
   };
   const optionsMock: PromModuleOptions = {};
 
@@ -54,17 +54,17 @@ describe("PromInterceptor", () => {
       providers: [
         {
           provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
-          useValue: counterMock
+          useValue: counterMock,
         },
         {
           provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-          useValue: optionsMock
+          useValue: optionsMock,
         },
         {
           provide: APP_INTERCEPTOR,
-          useValue: PromInterceptor
-        }
-      ]
+          useValue: PromInterceptor,
+        },
+      ],
     }).compile();
     counter = module.get<Counter<string>>(
       getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
@@ -92,23 +92,23 @@ describe("PromInterceptor", () => {
     beforeEach(async () => {
       const optionsMockIncludesFalse: PromModuleOptions = {
         ...optionsMock,
-        ignorePaths: [""]
+        ignorePaths: [""],
       };
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           {
             provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
-            useValue: counterMock
+            useValue: counterMock,
           },
           {
             provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-            useValue: optionsMockIncludesFalse
+            useValue: optionsMockIncludesFalse,
           },
           {
             provide: APP_INTERCEPTOR,
-            useValue: PromInterceptor
-          }
-        ]
+            useValue: PromInterceptor,
+          },
+        ],
       }).compile();
       counter = module.get<Counter<string>>(
         getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
@@ -134,23 +134,23 @@ describe("PromInterceptor", () => {
       // TODO: interface ?
       const optionsMockIncludesTrue = {
         ...optionsMock,
-        ignorePaths: ["/test"]
+        ignorePaths: ["/test"],
       };
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           {
             provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
-            useValue: counterMock
+            useValue: counterMock,
           },
           {
             provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-            useValue: optionsMockIncludesTrue
+            useValue: optionsMockIncludesTrue,
           },
           {
             provide: APP_INTERCEPTOR,
-            useValue: PromInterceptor
-          }
-        ]
+            useValue: PromInterceptor,
+          },
+        ],
       }).compile();
       counter = module.get<Counter<string>>(
         getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)

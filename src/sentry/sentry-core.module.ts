@@ -3,12 +3,12 @@ import * as Sentry from "@sentry/node";
 import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
 import {
   SENTRY_INSTANCE_TOKEN,
-  SENTRY_MODULE_OPTIONS
+  SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
 import {
   SentryModuleAsyncOptions,
   SentryModuleOptions,
-  SentryOptionsFactory
+  SentryOptionsFactory,
 } from "./sentry.module.interface";
 import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
 
@@ -23,9 +23,9 @@ import { SentryService } from "./sentry.service";
     SentryService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: SentryInterceptor
-    }
-  ]
+      useClass: SentryInterceptor,
+    },
+  ],
 })
 export class SentryCoreModule {
   private static createAsyncOptionsProvider(
@@ -38,11 +38,11 @@ export class SentryCoreModule {
         useFactory: async (...args): Promise<SentryModuleOptions> =>
           makeDefaultOptions(
             options.useFactory && (await options.useFactory(args))
-          )
+          ),
       };
     }
     const inject = [
-      (options.useClass || options.useExisting) as Type<SentryOptionsFactory>
+      (options.useClass || options.useExisting) as Type<SentryOptionsFactory>,
     ];
     return {
       inject,
@@ -50,7 +50,7 @@ export class SentryCoreModule {
       useFactory: async (
         optionsFactory: SentryOptionsFactory
       ): Promise<SentryModuleOptions> =>
-        makeDefaultOptions(await optionsFactory.createSentryOptions())
+        makeDefaultOptions(await optionsFactory.createSentryOptions()),
     };
   }
 
@@ -65,8 +65,8 @@ export class SentryCoreModule {
       this.createAsyncOptionsProvider(options),
       {
         provide: useClass,
-        useClass
-      }
+        useClass,
+      },
     ];
   }
 
@@ -74,12 +74,12 @@ export class SentryCoreModule {
     const opts = makeDefaultOptions(optoins);
     const sentryInstanceProvider: Provider<typeof Sentry> = {
       provide: SENTRY_INSTANCE_TOKEN,
-      useValue: getOrCreateSentryInstance(opts)
+      useValue: getOrCreateSentryInstance(opts),
     };
     return {
       exports: [sentryInstanceProvider],
       module: SentryCoreModule,
-      providers: [sentryInstanceProvider]
+      providers: [sentryInstanceProvider],
     };
   }
 
@@ -88,13 +88,16 @@ export class SentryCoreModule {
       inject: [SENTRY_MODULE_OPTIONS],
       provide: SENTRY_INSTANCE_TOKEN,
       useFactory: (options: SentryModuleOptions) =>
-        getOrCreateSentryInstance(options)
+        getOrCreateSentryInstance(options),
     };
     return {
       exports: [sentryInstanceProvider],
       imports: options.imports,
       module: SentryCoreModule,
-      providers: [...this.createAsyncProviders(options), sentryInstanceProvider]
+      providers: [
+        ...this.createAsyncProviders(options),
+        sentryInstanceProvider,
+      ],
     };
   }
 }

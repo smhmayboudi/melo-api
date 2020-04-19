@@ -42,5 +42,5 @@ export default registerAs("app", () => ({
   typeOrmPassword: process.env.APP_TYPEORM_PASSWORD,
   typeOrmPort: process.env.APP_TYPEORM_PORT,
   typeOrmSynchronize: process.env.APP_TYPEORM_SYNCHRONIZE,
-  typeOrmUsername: process.env.APP_TYPEORM_APPNAME
+  typeOrmUsername: process.env.APP_TYPEORM_APPNAME,
 }));

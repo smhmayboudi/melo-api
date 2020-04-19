@@ -55,7 +55,7 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
 
   imagePath(id: string): string {
     return template(this.configService.get<string>("app.imagePath", ""))({
-      id
+      id,
     });
   }
 }

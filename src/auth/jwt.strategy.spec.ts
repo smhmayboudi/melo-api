@@ -23,15 +23,15 @@ describe("JwtStrategy", () => {
     expire_at: new Date(Date.now() + 1000),
     id: 0,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
   const deleteResult: DeleteResult = {
-    raw: {}
+    raw: {},
   };
   const jwksEntity: JwksEntity = {
     id: "",
     private_key: "",
-    public_key: ""
+    public_key: "",
   };
   const rtEntity: RtEntity = {
     created_at: date,
@@ -40,11 +40,11 @@ describe("JwtStrategy", () => {
     id: 0,
     is_blocked: false,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
   const updateResult: UpdateResult = {
     generatedMaps: [{}],
-    raw: {}
+    raw: {},
   };
 
   const atServiceMock: AtServiceInterface = {
@@ -59,7 +59,7 @@ describe("JwtStrategy", () => {
     validateBySub: (): Promise<AtEntity | undefined> =>
       Promise.resolve(atEntity),
     validateByToken: (): Promise<AtEntity | undefined> =>
-      Promise.resolve(atEntity)
+      Promise.resolve(atEntity),
   };
   const authConfigServiceMock: AuthConfigServiceInterface = {
     jwtAccessTokenExpiresCount: 1,
@@ -67,13 +67,13 @@ describe("JwtStrategy", () => {
     jwtAuhSchema: "",
     jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
-    telegramQueryExpiration: 0
+    telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
     findOneById: (): Promise<JwksEntity | undefined> =>
       Promise.resolve(jwksEntity),
     getOneRandom: (): Promise<JwksEntity | undefined> =>
-      Promise.resolve(jwksEntity)
+      Promise.resolve(jwksEntity),
   };
   const rtServiceMock: RtServiceInterface = {
     blockById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
@@ -89,7 +89,7 @@ describe("JwtStrategy", () => {
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
-      Promise.resolve(rtEntity)
+      Promise.resolve(rtEntity),
   };
 
   let atService: AtService;
@@ -103,8 +103,8 @@ describe("JwtStrategy", () => {
         { provide: AtService, useValue: atServiceMock },
         { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JwksService, useValue: jwksServiceMock },
-        { provide: RtService, useValue: rtServiceMock }
-      ]
+        { provide: RtService, useValue: rtServiceMock },
+      ],
     }).compile();
     atService = module.get<AtService>(AtService);
     authConfigService = module.get<AuthConfigService>(AuthConfigService);
@@ -123,7 +123,7 @@ describe("JwtStrategy", () => {
       exp: 0,
       iat: 0,
       jti: "",
-      sub: ""
+      sub: "",
     };
     expect(
       await new JwtStrategy(
@@ -133,7 +133,7 @@ describe("JwtStrategy", () => {
         rtService
       ).validate(dto)
     ).toEqual({
-      sub: ""
+      sub: "",
     });
   });
 
@@ -141,7 +141,7 @@ describe("JwtStrategy", () => {
     const rtServiceMockValidateBySubUndefined: RtServiceInterface = {
       ...rtServiceMock,
       validateBySub: (): Promise<RtEntity | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
@@ -150,8 +150,8 @@ describe("JwtStrategy", () => {
           { provide: AtService, useValue: atServiceMock },
           { provide: AuthConfigService, useValue: authConfigServiceMock },
           { provide: JwksService, useValue: jwksServiceMock },
-          { provide: RtService, useValue: rtServiceMockValidateBySubUndefined }
-        ]
+          { provide: RtService, useValue: rtServiceMockValidateBySubUndefined },
+        ],
       }).compile();
       atService = module.get<AtService>(AtService);
       authConfigService = module.get<AuthConfigService>(AuthConfigService);
@@ -164,7 +164,7 @@ describe("JwtStrategy", () => {
         exp: 0,
         iat: 0,
         jti: "",
-        sub: ""
+        sub: "",
       };
       return expect(
         new JwtStrategy(
@@ -180,7 +180,7 @@ describe("JwtStrategy", () => {
   describe("jwtAccessTokenExpiresCount: zero", () => {
     const authConfigServiceMockJwtAccessTokenExpiresCount: AuthConfigServiceInterface = {
       ...authConfigServiceMock,
-      jwtAccessTokenExpiresCount: 0
+      jwtAccessTokenExpiresCount: 0,
     };
 
     beforeEach(async () => {
@@ -188,15 +188,15 @@ describe("JwtStrategy", () => {
         providers: [
           {
             provide: AtService,
-            useValue: atServiceMock
+            useValue: atServiceMock,
           },
           {
             provide: AuthConfigService,
-            useValue: authConfigServiceMockJwtAccessTokenExpiresCount
+            useValue: authConfigServiceMockJwtAccessTokenExpiresCount,
           },
           { provide: JwksService, useValue: jwksServiceMock },
-          { provide: RtService, useValue: rtServiceMock }
-        ]
+          { provide: RtService, useValue: rtServiceMock },
+        ],
       }).compile();
       atService = module.get<AtService>(AtService);
       authConfigService = module.get<AuthConfigService>(AuthConfigService);
@@ -209,7 +209,7 @@ describe("JwtStrategy", () => {
         exp: 0,
         iat: 0,
         jti: "",
-        sub: ""
+        sub: "",
       };
       return expect(
         new JwtStrategy(
@@ -226,7 +226,7 @@ describe("JwtStrategy", () => {
     const atServiceMockValidateByTokenUndefined: AtServiceInterface = {
       ...atServiceMock,
       validateByToken: (): Promise<AtEntity | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
@@ -234,15 +234,15 @@ describe("JwtStrategy", () => {
         providers: [
           {
             provide: AtService,
-            useValue: atServiceMockValidateByTokenUndefined
+            useValue: atServiceMockValidateByTokenUndefined,
           },
           {
             provide: AuthConfigService,
-            useValue: authConfigServiceMock
+            useValue: authConfigServiceMock,
           },
           { provide: JwksService, useValue: jwksServiceMock },
-          { provide: RtService, useValue: rtServiceMock }
-        ]
+          { provide: RtService, useValue: rtServiceMock },
+        ],
       }).compile();
       atService = module.get<AtService>(AtService);
       authConfigService = module.get<AuthConfigService>(AuthConfigService);
@@ -255,7 +255,7 @@ describe("JwtStrategy", () => {
         exp: 0,
         iat: 0,
         jti: "",
-        sub: ""
+        sub: "",
       };
       expect(
         await new JwtStrategy(

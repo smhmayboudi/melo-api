@@ -7,7 +7,7 @@ import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
 describe("EmotionHttpOptionsFactory", () => {
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
     timeout: 0,
-    url: ""
+    url: "",
   };
 
   let service: EmotionConfigService;
@@ -17,9 +17,9 @@ describe("EmotionHttpOptionsFactory", () => {
       providers: [
         {
           provide: EmotionConfigService,
-          useValue: emotionConfigServiceMock
-        }
-      ]
+          useValue: emotionConfigServiceMock,
+        },
+      ],
     }).compile();
     service = module.get<EmotionConfigService>(EmotionConfigService);
   });

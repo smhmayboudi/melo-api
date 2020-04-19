@@ -7,7 +7,7 @@ describe("JwksConfig", () => {
       cacheMax: undefined,
       cachePort: undefined,
       cacheStore: undefined,
-      cacheTTL: undefined
+      cacheTTL: undefined,
     });
   });
 });

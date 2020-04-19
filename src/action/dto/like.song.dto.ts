@@ -12,28 +12,28 @@ export class LikeSongDto {
 
   @ApiProperty({
     description: "The song identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   id: string;
 
   @ApiProperty({
     description: "The like",
-    example: false
+    example: false,
   })
   @IsBoolean()
   like: boolean;
 
   @ApiProperty({
     description: "The playing",
-    example: false
+    example: false,
   })
   @IsBoolean()
   playing: boolean;
 
   @ApiProperty({
     description: "The position",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   position: number;

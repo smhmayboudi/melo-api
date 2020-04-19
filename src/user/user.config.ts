@@ -5,5 +5,5 @@ export default registerAs("user", () => ({
   cacheMax: process.env.USER_CACHE_MAX,
   cachePort: process.env.USER_CACHE_PORT,
   cacheStore: process.env.USER_CACHE_STORE,
-  cacheTTL: process.env.USER_CACHE_TTL
+  cacheTTL: process.env.USER_CACHE_TTL,
 }));

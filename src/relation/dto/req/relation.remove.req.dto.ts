@@ -17,7 +17,7 @@ export class RelationRemoveReqDto {
   }
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Exclude({ toPlainOnly: true })
   @Type(() => RelationEntityResDto)
@@ -25,7 +25,7 @@ export class RelationRemoveReqDto {
   from: RelationEntityResDto;
 
   @ApiProperty({
-    description: "The entity"
+    description: "The entity",
   })
   @Exclude({ toPlainOnly: true })
   @Type(() => RelationEntityResDto)
@@ -34,7 +34,7 @@ export class RelationRemoveReqDto {
 
   @ApiProperty({
     description: "The type",
-    example: RelationType.follows
+    example: RelationType.follows,
   })
   @IsEnum(RelationType)
   relationType: RelationType;

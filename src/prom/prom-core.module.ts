@@ -3,19 +3,19 @@ import {
   PROM_CONFIGURATION_NAME,
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS,
-  PROM_REGISTRY_NAME
+  PROM_REGISTRY_NAME,
 } from "./prom.constant";
 import {
   PromModuleAsyncOptions,
   PromModuleOptions,
-  PromOptionsFactory
+  PromOptionsFactory,
 } from "./prom.module.interface";
 import {
   getTokenConfiguration,
   getTokenRegistry,
   makeDefaultOptions,
   promConfigurationProviderImp,
-  promRegistryProviderImp
+  promRegistryProviderImp,
 } from "./prom.util";
 
 import { APP_INTERCEPTOR } from "@nestjs/core";
@@ -33,14 +33,14 @@ import { getOrCreateCounterProvider } from "./prom.provider";
     PromService,
     {
       provide: APP_INTERCEPTOR,
-      useClass: PromInterceptor
+      useClass: PromInterceptor,
     },
     getOrCreateCounterProvider({
       help: "counter",
       labelNames: ["method", "path", "status"],
-      name: PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL
-    })
-  ]
+      name: PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
+    }),
+  ],
 })
 export class PromCoreModule {
   private static createAsyncOptionsProvider(
@@ -53,11 +53,11 @@ export class PromCoreModule {
         useFactory: async (...args): Promise<PromModuleOptions> =>
           makeDefaultOptions(
             options.useFactory && (await options.useFactory(args))
-          )
+          ),
       };
     }
     const inject = [
-      (options.useClass || options.useExisting) as Type<PromOptionsFactory>
+      (options.useClass || options.useExisting) as Type<PromOptionsFactory>,
     ];
     return {
       inject,
@@ -65,7 +65,7 @@ export class PromCoreModule {
       useFactory: async (
         optionsFactory: PromOptionsFactory
       ): Promise<PromModuleOptions> =>
-        makeDefaultOptions(await optionsFactory.createPromOptions())
+        makeDefaultOptions(await optionsFactory.createPromOptions()),
     };
   }
 
@@ -80,8 +80,8 @@ export class PromCoreModule {
       this.createAsyncOptionsProvider(options),
       {
         provide: useClass,
-        useClass
-      }
+        useClass,
+      },
     ];
   }
 
@@ -90,36 +90,36 @@ export class PromCoreModule {
     const promConfigurationName = getTokenConfiguration(opts.registryName);
     const promConfigurationNameProvider: Provider<string> = {
       provide: PROM_CONFIGURATION_NAME,
-      useValue: promConfigurationName
+      useValue: promConfigurationName,
     };
     const promConfigurationProvider: Provider<void> = {
       provide: promConfigurationName,
       useFactory: () =>
-        promConfigurationProviderImp(opts, promConfigurationName)
+        promConfigurationProviderImp(opts, promConfigurationName),
     };
     const promRegistryName = getTokenRegistry(opts.registryName);
     const promRegistryNameProvider: Provider<string> = {
       provide: PROM_REGISTRY_NAME,
-      useValue: promRegistryName
+      useValue: promRegistryName,
     };
     const promRegistryProvider: Provider<Registry> = {
       provide: promRegistryName,
-      useFactory: () => promRegistryProviderImp(opts, promRegistryName)
+      useFactory: () => promRegistryProviderImp(opts, promRegistryName),
     };
     return {
       exports: [
         promConfigurationNameProvider,
         promConfigurationProvider,
         promRegistryNameProvider,
-        promRegistryProvider
+        promRegistryProvider,
       ],
       module: PromCoreModule,
       providers: [
         promConfigurationNameProvider,
         promConfigurationProvider,
         promRegistryNameProvider,
-        promRegistryProvider
-      ]
+        promRegistryProvider,
+      ],
     };
   }
 
@@ -127,7 +127,7 @@ export class PromCoreModule {
     const promConfigurationName = getTokenConfiguration(options.registryName);
     const promConfigurationNameProvider: Provider<string> = {
       provide: PROM_CONFIGURATION_NAME,
-      useValue: promConfigurationName
+      useValue: promConfigurationName,
     };
     const promConfigurationProvider: Provider<void> = {
       inject: [PROM_MODULE_OPTIONS],
@@ -136,15 +136,15 @@ export class PromCoreModule {
         promConfigurationProviderImp(
           {
             ...opts,
-            registryName: options.registryName
+            registryName: options.registryName,
           },
           promConfigurationName
-        )
+        ),
     };
     const promRegistryName = getTokenRegistry(options.registryName);
     const promRegistryNameProvider: Provider<string> = {
       provide: PROM_REGISTRY_NAME,
-      useValue: promRegistryName
+      useValue: promRegistryName,
     };
     const promRegistryProvider: Provider<Registry> = {
       inject: [PROM_MODULE_OPTIONS],
@@ -153,10 +153,10 @@ export class PromCoreModule {
         promRegistryProviderImp(
           {
             ...opts,
-            registryName: options.registryName
+            registryName: options.registryName,
           },
           promRegistryName
-        )
+        ),
     };
     const asyncProviders = this.createAsyncProviders(options);
     return {
@@ -164,7 +164,7 @@ export class PromCoreModule {
         promConfigurationNameProvider,
         promConfigurationProvider,
         promRegistryNameProvider,
-        promRegistryProvider
+        promRegistryProvider,
       ],
       imports: options.imports,
       module: PromCoreModule,
@@ -173,8 +173,8 @@ export class PromCoreModule {
         promConfigurationNameProvider,
         promConfigurationProvider,
         promRegistryNameProvider,
-        promRegistryProvider
-      ]
+        promRegistryProvider,
+      ],
     };
   }
 }

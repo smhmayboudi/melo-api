@@ -6,7 +6,7 @@ describe("PromMetricType", () => {
       counter: "counter",
       gauge: "gauge",
       histogram: "histogram",
-      summary: "summary"
+      summary: "summary",
     });
   });
 });

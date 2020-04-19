@@ -11,7 +11,7 @@ import { UserUserResDto } from "../user/dto/res/user.user.res.dto";
 describe("TelegramStrategy", () => {
   const user: UserUserResDto = {
     id: 0,
-    telegram_id: 0
+    telegram_id: 0,
   };
 
   const authConfigServiceMock: AuthConfigServiceInterface = {
@@ -20,7 +20,7 @@ describe("TelegramStrategy", () => {
     jwtAuhSchema: "",
     jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
-    telegramQueryExpiration: 0
+    telegramQueryExpiration: 0,
   };
   const userServiceMock: UserServiceInterface = {
     find: (): Promise<UserUserResDto[]> => Promise.resolve([user]),
@@ -32,7 +32,7 @@ describe("TelegramStrategy", () => {
       Promise.resolve(user),
     get: (): Promise<UserUserResDto | undefined> => Promise.resolve(user),
     put: (): Promise<UserUserResDto> => Promise.resolve(user),
-    save: (): Promise<UserUserResDto> => Promise.resolve(user)
+    save: (): Promise<UserUserResDto> => Promise.resolve(user),
   };
 
   let authConfigService: AuthConfigService;
@@ -42,8 +42,8 @@ describe("TelegramStrategy", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: UserService, useValue: userServiceMock }
-      ]
+        { provide: UserService, useValue: userServiceMock },
+      ],
     }).compile();
     authConfigService = module.get<AuthConfigService>(AuthConfigService);
     userService = module.get<UserService>(UserService);
@@ -61,12 +61,12 @@ describe("TelegramStrategy", () => {
       id: 0,
       last_name: "",
       photo_url: "",
-      username: ""
+      username: "",
     };
     expect(
       await new TelegramStrategy(authConfigService, userService).validate(dto)
     ).toEqual({
-      sub: "0"
+      sub: "0",
     });
   });
 
@@ -74,7 +74,7 @@ describe("TelegramStrategy", () => {
     const userServiceMockFindOneByUsernamUndefined: UserServiceInterface = {
       ...userServiceMock,
       findOneByTelegramId: (): Promise<UserUserResDto | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
@@ -83,9 +83,9 @@ describe("TelegramStrategy", () => {
           { provide: AuthConfigService, useValue: authConfigServiceMock },
           {
             provide: UserService,
-            useValue: userServiceMockFindOneByUsernamUndefined
-          }
-        ]
+            useValue: userServiceMockFindOneByUsernamUndefined,
+          },
+        ],
       }).compile();
       authConfigService = module.get<AuthConfigService>(AuthConfigService);
       userService = module.get<UserService>(UserService);
@@ -99,12 +99,12 @@ describe("TelegramStrategy", () => {
         id: 0,
         last_name: "",
         photo_url: "",
-        username: ""
+        username: "",
       };
       expect(
         await new TelegramStrategy(authConfigService, userService).validate(dto)
       ).toEqual({
-        sub: "0"
+        sub: "0",
       });
     });
   });

@@ -7,7 +7,7 @@ import {
   Post,
   UseGuards,
   UsePipes,
-  ValidationPipe
+  ValidationPipe,
 } from "@nestjs/common";
 
 import { AppUser } from "../app/app.user.decorator";
@@ -23,7 +23,7 @@ import { RtService } from "../rt/rt.service";
   new ValidationPipe({
     forbidNonWhitelisted: true,
     forbidUnknownValues: true,
-    transform: true
+    transform: true,
   })
 )
 export class AuthController {

@@ -23,7 +23,7 @@ export class AtEntity {
 
   @ApiProperty({
     description: "create datetime",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "tinyint" })
   @IsDate()
@@ -31,7 +31,7 @@ export class AtEntity {
 
   @ApiProperty({
     description: "create datetime",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "datetime" })
   @IsDate()
@@ -39,7 +39,7 @@ export class AtEntity {
 
   @ApiProperty({
     description: "expire datetime",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "datetime" })
   @IsDate()
@@ -47,7 +47,7 @@ export class AtEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0
+    example: 0,
   })
   @PrimaryGeneratedColumn("increment", { type: "int" })
   @IsNumber()
@@ -55,7 +55,7 @@ export class AtEntity {
 
   @ApiProperty({
     description: "user identification",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "int" })
   @IsNumber()
@@ -63,7 +63,7 @@ export class AtEntity {
 
   @ApiProperty({
     description: "access token block",
-    example: "a3e45676-9428-46a6-8be0-df754121dcf2"
+    example: "a3e45676-9428-46a6-8be0-df754121dcf2",
   })
   @Column({ length: 512, type: "varchar" })
   @IsUUID()

@@ -31,7 +31,7 @@ describe("ApmService", () => {
       fatal: (): void => undefined,
       info: (): void => undefined,
       trace: (): void => undefined,
-      warn: (): void => undefined
+      warn: (): void => undefined,
     },
     middleware: { connect: () => (): void => undefined },
     removePatch: jest.fn(),
@@ -42,7 +42,7 @@ describe("ApmService", () => {
     setUserContext: jest.fn(),
     start: jest.fn(),
     startSpan: jest.fn(),
-    startTransaction: jest.fn()
+    startTransaction: jest.fn(),
   };
 
   let service: ApmService;
@@ -51,8 +51,8 @@ describe("ApmService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ApmService,
-        { provide: APM_INSTANCE_TOKEN, useValue: ampServiceMock }
-      ]
+        { provide: APM_INSTANCE_TOKEN, useValue: ampServiceMock },
+      ],
     }).compile();
     service = module.get<ApmService>(ApmService);
   });

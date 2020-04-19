@@ -12,7 +12,7 @@ import {
   getTokenSummary,
   makeDefaultOptions,
   promConfigurationProviderImp,
-  promRegistryProviderImp
+  promRegistryProviderImp,
 } from "./prom.util";
 
 describe("PromUtil", () => {
@@ -83,12 +83,12 @@ describe("PromUtil", () => {
       defaultLabels: {},
       defaultMetrics: {
         config: {},
-        enabled: true
+        enabled: true,
       },
       ignorePaths: ["/health", "/metrics"],
       path: "/metrics",
       prefix: "",
-      registryName: undefined
+      registryName: undefined,
     });
   });
 
@@ -96,33 +96,33 @@ describe("PromUtil", () => {
     expect(
       makeDefaultOptions({
         defaultLabels: {
-          test: "test"
+          test: "test",
         },
         defaultMetrics: {
           config: {
-            eventLoopMonitoringPrecision: 1
+            eventLoopMonitoringPrecision: 1,
           },
-          enabled: false
+          enabled: false,
         },
         ignorePaths: [],
         path: "",
         prefix: "test",
-        registryName: "test"
+        registryName: "test",
       })
     ).toEqual({
       defaultLabels: {
-        test: "test"
+        test: "test",
       },
       defaultMetrics: {
         config: {
-          eventLoopMonitoringPrecision: 1
+          eventLoopMonitoringPrecision: 1,
         },
-        enabled: false
+        enabled: false,
       },
       ignorePaths: [],
       path: "",
       prefix: "test",
-      registryName: "test"
+      registryName: "test",
     });
   });
 
@@ -152,8 +152,8 @@ describe("PromUtil", () => {
         {
           defaultMetrics: {
             config: {},
-            enabled: true
-          }
+            enabled: true,
+          },
         },
         ""
       )

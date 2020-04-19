@@ -6,13 +6,13 @@ import {
   Histogram,
   HistogramConfiguration,
   Summary,
-  SummaryConfiguration
+  SummaryConfiguration,
 } from "prom-client";
 import {
   getOrCreateCounter,
   getOrCreateGauge,
   getOrCreateHistogram,
-  getOrCreateSummary
+  getOrCreateSummary,
 } from "./prom.util";
 
 import { Injectable } from "@nestjs/common";

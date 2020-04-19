@@ -3,7 +3,7 @@ import {
   FindManyOptions,
   FindOneOptions,
   ObjectID,
-  SaveOptions
+  SaveOptions,
 } from "typeorm";
 import { UserEntity } from "./user.entity";
 

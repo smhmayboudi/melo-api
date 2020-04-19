@@ -6,7 +6,7 @@ import {
   FindOneOptions,
   ObjectID,
   SaveOptions,
-  UpdateResult
+  UpdateResult,
 } from "typeorm";
 
 import { AtEntity } from "./at.entity";

@@ -1,6 +1,6 @@
 import {
   SentryModuleOptions,
-  SentryOptionsFactory
+  SentryOptionsFactory,
 } from "../sentry/sentry.module.interface";
 
 import { AppConfigService } from "./app.config.service";
@@ -16,7 +16,7 @@ export class AppSentryOptionsFactory implements SentryOptionsFactory {
       dsn: this.appConfigService.sentryDsn,
       environment: this.appConfigService.sentryEnviroment,
       logLevel: this.appConfigService.sentryLogLevel,
-      release: this.appConfigService.sentryRelease
+      release: this.appConfigService.sentryRelease,
     };
   }
 }

@@ -25,7 +25,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "create datetime",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "datetime" })
   @IsDate()
@@ -33,7 +33,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "description of blocked",
-    example: "This token is bridged."
+    example: "This token is bridged.",
   })
   @Column({ type: "text" })
   @IsString()
@@ -41,7 +41,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "expire datetime",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "datetime" })
   @IsDate()
@@ -49,7 +49,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0
+    example: 0,
   })
   @PrimaryGeneratedColumn("increment", { type: "int" })
   @IsNumber()
@@ -57,7 +57,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "is blockeed",
-    example: false
+    example: false,
   })
   @Column({ type: "boolean" })
   @IsBoolean()
@@ -65,7 +65,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "user identification",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ type: "int" })
   @IsNumber()
@@ -73,7 +73,7 @@ export class RtEntity {
 
   @ApiProperty({
     description: "refresh token",
-    example: new Date()
+    example: new Date(),
   })
   @Column({ length: 256, type: "varchar" })
   @IsString()

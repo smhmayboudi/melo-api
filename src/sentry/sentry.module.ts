@@ -1,7 +1,7 @@
 import { DynamicModule, Module } from "@nestjs/common";
 import {
   SentryModuleAsyncOptions,
-  SentryModuleOptions
+  SentryModuleOptions,
 } from "./sentry.module.interface";
 
 import { SentryCoreModule } from "./sentry-core.module";
@@ -11,14 +11,14 @@ export class SentryModule {
   static forRoot(options?: SentryModuleOptions): DynamicModule {
     return {
       imports: [SentryCoreModule.forRoot(options)],
-      module: SentryModule
+      module: SentryModule,
     };
   }
 
   static forRootAsync(options: SentryModuleAsyncOptions): DynamicModule {
     return {
       imports: [SentryCoreModule.forRootAsync(options)],
-      module: SentryModule
+      module: SentryModule,
     };
   }
 }

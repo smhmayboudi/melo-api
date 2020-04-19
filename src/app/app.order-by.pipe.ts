@@ -3,7 +3,7 @@ import {
   BadRequestException,
   Injectable,
   Optional,
-  PipeTransform
+  PipeTransform,
 } from "@nestjs/common";
 import { DataOrderByType } from "../data/data.order-by.type";
 

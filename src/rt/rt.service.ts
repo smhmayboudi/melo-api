@@ -95,7 +95,7 @@ export class RtService implements RtServiceInterface {
   async validateBySub(sub: number): Promise<RtEntity | undefined> {
     return this.rtEntityRepository.findOne({
       is_blocked: false,
-      user_id: sub
+      user_id: sub,
     });
   }
 

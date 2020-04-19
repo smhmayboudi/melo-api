@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/node";
 
 import {
   SENTRY_INSTANCE_TOKEN,
-  SENTRY_MODULE_OPTIONS
+  SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -12,7 +12,7 @@ import { SentryModuleOptions } from "./sentry.module.interface";
 describe("SentryInterceptor", () => {
   // TODO: interface ?
   const sentryServiceMock = {
-    withScope: {}
+    withScope: {},
   };
   const optionsMock: SentryModuleOptions = {};
 
@@ -24,13 +24,13 @@ describe("SentryInterceptor", () => {
       providers: [
         {
           provide: SENTRY_INSTANCE_TOKEN,
-          useValue: sentryServiceMock
+          useValue: sentryServiceMock,
         },
         {
           provide: SENTRY_MODULE_OPTIONS,
-          useValue: optionsMock
-        }
-      ]
+          useValue: optionsMock,
+        },
+      ],
     }).compile();
     sentry = module.get<typeof Sentry>(SENTRY_MODULE_OPTIONS);
     options = module.get<SentryModuleOptions>(SENTRY_MODULE_OPTIONS);

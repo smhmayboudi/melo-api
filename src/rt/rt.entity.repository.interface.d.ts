@@ -6,7 +6,7 @@ import {
   FindOneOptions,
   ObjectID,
   SaveOptions,
-  UpdateResult
+  UpdateResult,
 } from "typeorm";
 import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity";
 import { RtEntity } from "./rt.entity";

@@ -1,7 +1,7 @@
 import {
   CacheModuleOptions,
   CacheOptionsFactory,
-  Injectable
+  Injectable,
 } from "@nestjs/common";
 
 import { JwksConfigService } from "./jwks.config.service";
@@ -17,7 +17,7 @@ export class JwksCacheOptionsFactory implements CacheOptionsFactory {
       max: this.jwksConfigService.cacheMax,
       port: this.jwksConfigService.cachePort,
       store: this.jwksConfigService.cacheStore === "none" ? "none" : redisStore,
-      ttl: this.jwksConfigService.cacheTTL / 1000
+      ttl: this.jwksConfigService.cacheTTL / 1000,
     };
   }
 }

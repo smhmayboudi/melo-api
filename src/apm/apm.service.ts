@@ -13,7 +13,7 @@ import {
   SpanOptions,
   Transaction,
   TransactionOptions,
-  UserObject
+  UserObject,
 } from "./apm.module.interface";
 import { Inject, Injectable } from "@nestjs/common";
 

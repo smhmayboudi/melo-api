@@ -10,14 +10,14 @@ export class UserSaveReqDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   id: number;
 
   @ApiProperty({
     description: "The telegram identification",
-    example: 0
+    example: 0,
   })
   @IsNumber()
   @IsOptional()

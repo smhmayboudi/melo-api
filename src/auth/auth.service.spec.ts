@@ -16,7 +16,7 @@ describe("AuthService", () => {
   const jwksEntity: JwksEntity = {
     id: "",
     private_key: "",
-    public_key: ""
+    public_key: "",
   };
   const rtEntity: RtEntity = {
     created_at: date,
@@ -25,7 +25,7 @@ describe("AuthService", () => {
     id: 0,
     is_blocked: false,
     token: "",
-    user_id: 0
+    user_id: 0,
   };
 
   let service: AuthService;
@@ -36,17 +36,17 @@ describe("AuthService", () => {
     jwtAuhSchema: "",
     jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
-    telegramQueryExpiration: 0
+    telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
     findOneById: (): Promise<JwksEntity | undefined> =>
       Promise.resolve(jwksEntity),
     getOneRandom: (): Promise<JwksEntity | undefined> =>
-      Promise.resolve(jwksEntity)
+      Promise.resolve(jwksEntity),
   };
   // TODO: interface ?
   const jwtServiceMock = {
-    sign: (): string => "0"
+    sign: (): string => "0",
   };
   const rtServiceMock: RtServiceInterface = {
     blockById: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
@@ -62,7 +62,7 @@ describe("AuthService", () => {
     validateBySub: (): Promise<RtEntity | undefined> =>
       Promise.resolve(rtEntity),
     validateByToken: (): Promise<RtEntity | undefined> =>
-      Promise.resolve(rtEntity)
+      Promise.resolve(rtEntity),
   };
 
   beforeEach(async () => {
@@ -72,8 +72,8 @@ describe("AuthService", () => {
         { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JwksService, useValue: jwksServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: RtService, useValue: rtServiceMock }
-      ]
+        { provide: RtService, useValue: rtServiceMock },
+      ],
     }).compile();
     service = module.get<AuthService>(AuthService);
     jest.mock("crypto-random-string").fn(() => "");
@@ -85,14 +85,14 @@ describe("AuthService", () => {
 
   it("accessToken should be equal to a token", async () => {
     expect(await service.accessToken(0)).toEqual({
-      at: "0"
+      at: "0",
     });
   });
 
   it("refreshToken should be equal to a token", async () => {
     expect(await service.refreshToken(0, "", date, "")).toEqual({
       at: "0",
-      rt: ""
+      rt: "",
     });
   });
 
@@ -100,7 +100,7 @@ describe("AuthService", () => {
     const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
       ...jwksServiceMock,
       getOneRandom: (): Promise<JwksEntity | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
@@ -110,11 +110,11 @@ describe("AuthService", () => {
           { provide: AuthConfigService, useValue: authConfigServiceMock },
           {
             provide: JwksService,
-            useValue: jwksServiceMockGetOneRandomUndefined
+            useValue: jwksServiceMockGetOneRandomUndefined,
           },
           { provide: JwtService, useValue: jwtServiceMock },
-          { provide: RtService, useValue: rtServiceMock }
-        ]
+          { provide: RtService, useValue: rtServiceMock },
+        ],
       }).compile();
       service = module.get<AuthService>(AuthService);
     });

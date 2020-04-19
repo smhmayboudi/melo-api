@@ -7,5 +7,5 @@ export default registerAs("playlist", () => ({
   cacheStore: process.env.PLAYLIST_CACHE_STORE,
   cacheTTL: process.env.PLAYLIST_CACHE_TTL,
   defaultImagePath: process.env.PLAYLIST_DEFAULT_IMAGE_PATH,
-  imagePath: process.env.PLAYLIST_IMAGE_PATH
+  imagePath: process.env.PLAYLIST_IMAGE_PATH,
 }));

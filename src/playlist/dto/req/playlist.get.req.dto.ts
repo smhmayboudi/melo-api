@@ -8,7 +8,7 @@ export class PlaylistGetReqDto {
 
   @ApiProperty({
     description: "The identification",
-    example: "abcdef"
+    example: "abcdef",
   })
   @IsString()
   id: string;

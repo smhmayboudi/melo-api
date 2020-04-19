@@ -12,7 +12,7 @@ describe("ActionCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: ActionConfigService;
@@ -23,17 +23,17 @@ describe("ActionCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ActionConfigService,
-            useValue: actionConfigServiceMock
+            useValue: actionConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<ActionConfigService>(ActionConfigService);
     });
@@ -55,17 +55,17 @@ describe("ActionCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: ActionConfigService,
-            useValue: { ...actionConfigServiceMock, cacheStore: "none" }
+            useValue: { ...actionConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<ActionConfigService>(ActionConfigService);
     });
@@ -78,7 +78,7 @@ describe("ActionCacheOptionsFactory", () => {
         max: 0,
         port: 0,
         store: "none",
-        ttl: 0
+        ttl: 0,
       });
     });
   });

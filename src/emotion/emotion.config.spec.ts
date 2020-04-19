@@ -4,7 +4,7 @@ describe("EmotionConfig", () => {
   it("should be defined", () => {
     expect(config()).toStrictEqual({
       timeout: undefined,
-      url: undefined
+      url: undefined,
     });
   });
 });

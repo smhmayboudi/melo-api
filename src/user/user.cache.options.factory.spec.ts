@@ -12,7 +12,7 @@ describe("UserCacheOptionsFactory", () => {
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
-    cacheTTL: 0
+    cacheTTL: 0,
   };
 
   let service: UserConfigService;
@@ -23,17 +23,17 @@ describe("UserCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: UserConfigService,
-            useValue: userConfigServiceMock
+            useValue: userConfigServiceMock,
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<UserConfigService>(UserConfigService);
     });
@@ -55,17 +55,17 @@ describe("UserCacheOptionsFactory", () => {
         providers: [
           {
             provide: AppConfigService,
-            useValue: {}
+            useValue: {},
           },
           {
             provide: UserConfigService,
-            useValue: { ...userConfigServiceMock, cacheStore: "none" }
+            useValue: { ...userConfigServiceMock, cacheStore: "none" },
           },
           {
             provide: ConfigService,
-            useValue: {}
-          }
-        ]
+            useValue: {},
+          },
+        ],
       }).compile();
       service = module.get<UserConfigService>(UserConfigService);
     });
@@ -77,7 +77,7 @@ describe("UserCacheOptionsFactory", () => {
           max: 0,
           port: 0,
           store: "none",
-          ttl: 0
+          ttl: 0,
         }
       );
     });

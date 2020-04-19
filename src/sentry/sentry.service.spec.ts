@@ -6,7 +6,7 @@ import { SentryService } from "./sentry.service";
 describe("SentryService", () => {
   // TODO: interface ?
   const sentryMock = {
-    captureMessage: jest.fn()
+    captureMessage: jest.fn(),
   };
 
   let service: SentryService;
@@ -17,9 +17,9 @@ describe("SentryService", () => {
         SentryService,
         {
           provide: SENTRY_INSTANCE_TOKEN,
-          useValue: sentryMock
-        }
-      ]
+          useValue: sentryMock,
+        },
+      ],
     }).compile();
     service = module.get<SentryService>(SentryService);
   });
@@ -63,7 +63,7 @@ describe("SentryService", () => {
     const sentryMock = {
       captureMessage: (): void => {
         throw new Error("");
-      }
+      },
     };
 
     let service: SentryService;
@@ -74,9 +74,9 @@ describe("SentryService", () => {
           SentryService,
           {
             provide: SENTRY_INSTANCE_TOKEN,
-            useValue: sentryMock
-          }
-        ]
+            useValue: sentryMock,
+          },
+        ],
       }).compile();
       service = module.get<SentryService>(SentryService);
     });

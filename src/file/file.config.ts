@@ -10,5 +10,5 @@ export default registerAs("file", () => ({
   s3Bucket: process.env.FILE_S3_BUCKET,
   s3Endpoint: process.env.FILE_S3_ENDPOINT,
   s3SecretAccessKey: process.env.FILE_S3_SECRET_ACCESS_KEY,
-  s3SslEnabled: process.env.FILE_S3_SSL_ENABLED
+  s3SslEnabled: process.env.FILE_S3_SSL_ENABLED,
 }));

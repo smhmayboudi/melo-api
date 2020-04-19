@@ -54,11 +54,7 @@ describe("PlaylistService", () => {
     title: "",
     tracksCount: 1,
   };
-  // const playlistPagination: DataPaginationResDto<DataPlaylistResDto> = {
-  //   results: [playlist],
-  //   total: 1
-  // } as DataPaginationResDto<DataPlaylistResDto>;
-  // TODO interface ? PlaylistInterface
+  // TODO interface ?
   const dbPlaylist = {
     _id: id,
     downloads_count: 0,
@@ -71,13 +67,13 @@ describe("PlaylistService", () => {
     title: "",
     tracks_count: 1,
   };
-  //
+  // TODO interface ?
   const mongooseMethodsMock = {
     findById: () => dbPlaylist,
     findOne: () => dbPlaylist,
     save: () => dbPlaylist,
   };
-  //
+  // TODO interface ?
   const playlistModelRes = {
     ...dbPlaylist,
     ...mongooseMethodsMock,

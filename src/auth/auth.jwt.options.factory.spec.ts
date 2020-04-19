@@ -11,7 +11,7 @@ describe("AuthJwtOptionsFactory", () => {
   const jwks: JwksEntity = {
     id: "",
     private_key: "",
-    public_key: ""
+    public_key: "",
   };
 
   const authConfigServiceMock: AuthConfigServiceInterface = {
@@ -20,11 +20,11 @@ describe("AuthJwtOptionsFactory", () => {
     jwtAuhSchema: "",
     jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
-    telegramQueryExpiration: 0
+    telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
     findOneById: (): Promise<JwksEntity | undefined> => Promise.resolve(jwks),
-    getOneRandom: (): Promise<JwksEntity | undefined> => Promise.resolve(jwks)
+    getOneRandom: (): Promise<JwksEntity | undefined> => Promise.resolve(jwks),
   };
 
   let authConfigService: AuthConfigService;
@@ -34,8 +34,8 @@ describe("AuthJwtOptionsFactory", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: JwksService, useValue: jwksServiceMock }
-      ]
+        { provide: JwksService, useValue: jwksServiceMock },
+      ],
     }).compile();
     authConfigService = module.get<AuthConfigService>(AuthConfigService);
     jwksService = module.get<JwksService>(JwksService);
@@ -55,14 +55,14 @@ describe("AuthJwtOptionsFactory", () => {
       ).createJwtOptions()
     ).toEqual({
       jsonWebTokenOptions: {
-        algorithms: ["RS256"]
+        algorithms: ["RS256"],
       },
       privateKey: "",
       publicKey: "",
       signOptions: {
         algorithm: "RS256",
-        expiresIn: 0
-      }
+        expiresIn: 0,
+      },
     });
   });
 
@@ -70,7 +70,7 @@ describe("AuthJwtOptionsFactory", () => {
     const jwksServiceMockGetOneRandomUndefined: JwksServiceInterface = {
       ...jwksServiceMock,
       getOneRandom: (): Promise<JwksEntity | undefined> =>
-        Promise.resolve(undefined)
+        Promise.resolve(undefined),
     };
 
     beforeEach(async () => {
@@ -79,9 +79,9 @@ describe("AuthJwtOptionsFactory", () => {
           { provide: AuthConfigService, useValue: authConfigServiceMock },
           {
             provide: JwksService,
-            useValue: jwksServiceMockGetOneRandomUndefined
-          }
-        ]
+            useValue: jwksServiceMockGetOneRandomUndefined,
+          },
+        ],
       }).compile();
       authConfigService = module.get<AuthConfigService>(AuthConfigService);
       jwksService = module.get<JwksService>(JwksService);
