@@ -27,5 +27,5 @@ describe("DownloadSortByPipe", () => {
     ).toThrowError();
   });
 
-  it.todo("transform should throw an exception on typeof !== string");
+  it.todo("transform should throw an error on typeof !== string");
 });

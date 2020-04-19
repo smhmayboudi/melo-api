@@ -62,7 +62,7 @@ describe("LocalStrategy", () => {
       service = module.get<UserService>(UserService);
     });
 
-    it("validate should throw an exception", () => {
+    it("validate should throw an error", () => {
       return expect(
         new LocalStrategy(service).validate("", "")
       ).rejects.toThrowError();

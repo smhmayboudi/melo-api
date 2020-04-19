@@ -191,7 +191,7 @@ describe("RelationService", () => {
       service = module.get<RelationService>(RelationService);
     });
 
-    it("has should throw an exception", async () => {
+    it("has should throw an error", async () => {
       const dto: RelationHasReqDto = {
         from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
@@ -200,7 +200,7 @@ describe("RelationService", () => {
       return expect(service.has(dto)).rejects.toThrowError();
     });
 
-    it("remove should throw an exception", async () => {
+    it("remove should throw an error", async () => {
       const dto: RelationRemoveReqDto = {
         from: { id: 0, type: RelationEntityType.album },
         relationType: RelationType.follows,
@@ -209,7 +209,7 @@ describe("RelationService", () => {
       return expect(service.remove(dto)).rejects.toThrowError();
     });
 
-    it("set should throw an exception", async () => {
+    it("set should throw an error", async () => {
       const dto: RelationSetReqDto = {
         createdAt: date,
         from: { id: 0, type: RelationEntityType.album },

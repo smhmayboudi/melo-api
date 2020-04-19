@@ -77,7 +77,7 @@ describe("TokenStrategy", () => {
       service = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", () => {
+    it("validate should throw an error", () => {
       return expect(
         new TokenStrategy(service).validate("")
       ).rejects.toThrowError();

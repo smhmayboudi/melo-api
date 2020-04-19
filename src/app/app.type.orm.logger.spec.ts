@@ -83,5 +83,5 @@ describe("AppTypeOrmLogger", () => {
     expect(new AppTypeOrmLogger().stringifyParams([0])).toEqual("[0]");
   });
 
-  it.todo("stringifyParams should throw an exception");
+  it.todo("stringifyParams should throw an error");
 });

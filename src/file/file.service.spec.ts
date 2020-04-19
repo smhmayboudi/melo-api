@@ -92,11 +92,11 @@ describe("FileService", () => {
     expect(await service.uploadImage(0, file)).toEqual(fileUploadImage);
   });
 
-  it("uploadImage should throw an exception dto undefined", () => {
+  it("uploadImage should throw an error dto undefined", () => {
     return expect(service.uploadImage(0, undefined)).rejects.toThrowError();
   });
 
-  it("uploadImage should throw an exception mimeType jpg", () => {
+  it("uploadImage should throw an error mimeType jpg", () => {
     const dto: FileUploadImageReqDto = {
       ...file,
       buffer: Buffer.from(
@@ -106,5 +106,5 @@ describe("FileService", () => {
     return expect(service.uploadImage(0, dto)).rejects.toThrowError();
   });
 
-  it.todo("uploadImage should throw an exception extension undefined");
+  it.todo("uploadImage should throw an error extension undefined");
 });

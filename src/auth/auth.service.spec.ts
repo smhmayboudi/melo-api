@@ -119,11 +119,11 @@ describe("AuthService", () => {
       service = module.get<AuthService>(AuthService);
     });
 
-    it("accessToken should throw an exception", () => {
+    it("accessToken should throw an error", () => {
       return expect(service.accessToken(0)).rejects.toThrowError();
     });
 
-    it("refreshToken should throw an exception", () => {
+    it("refreshToken should throw an error", () => {
       return expect(service.refreshToken(0)).rejects.toThrowError();
     });
   });

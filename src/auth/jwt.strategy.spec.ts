@@ -159,7 +159,7 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", () => {
+    it("validate should throw an error", () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,
@@ -204,7 +204,7 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", () => {
+    it("validate should throw an error", () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,
@@ -250,7 +250,7 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an exception", async () => {
+    it("validate should throw an error", async () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,
