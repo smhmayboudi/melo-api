@@ -7,6 +7,7 @@ import {
 
 import { AppEncodingService } from "../app/app.encoding.service";
 import { AppHashIdService } from "../app/app.hash-id.service";
+import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { Observable } from "rxjs";
@@ -28,7 +29,9 @@ export class PlaylistHashIdInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<DataPaginationResDto<DataPlaylistResDto> | DataPlaylistResDto> {
     const http = context.switchToHttp();
-    const request = http.getRequest<express.Request>();
+    const request = http.getRequest<
+      express.Request & { user: AuthJwtPayloadReqDto }
+    >();
     const fields = ["songId"];
     const reqFields = ["body", "params"];
     reqFields.map((reqField) => {

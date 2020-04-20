@@ -1,5 +1,5 @@
 import { Strategy as PassportStrategy } from "passport-strategy";
-import { Request } from "express";
+import express from "express";
 
 export class Strategy extends PassportStrategy {
   name: string;
@@ -10,7 +10,7 @@ export class Strategy extends PassportStrategy {
       user?: Record<string, any>,
       info?: Record<string, any>
     ) => void,
-    req?: Request
+    req?: express.Request
   ) => void;
   passReqToCallback: boolean;
 
@@ -22,7 +22,7 @@ export class Strategy extends PassportStrategy {
         user?: Record<string, any>,
         info?: Record<string, any>
       ) => void,
-      req?: Request
+      req?: express.Request
     ) => void,
     passReqToCallback: boolean
   ) {
@@ -32,7 +32,7 @@ export class Strategy extends PassportStrategy {
     this.passReqToCallback = passReqToCallback || false;
   }
 
-  authenticate(req: Request, _options?: Record<string, any>): void {
+  authenticate(req: express.Request, _options?: Record<string, any>): void {
     const authorization = req.headers.authorization;
     const verified: (
       err: Error | null,
