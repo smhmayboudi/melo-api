@@ -95,16 +95,18 @@ describe("ArtistService", () => {
   it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
       id: 0,
+      sub: 0,
     };
-    expect(await service.follow(dto, 0)).toEqual(follow);
+    expect(await service.follow(dto)).toEqual(follow);
   });
 
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
       from: 0,
       limit: 0,
+      sub: 0,
     };
-    expect(await service.following(dto, 0)).toEqual(followPaginatin);
+    expect(await service.following(dto)).toEqual(followPaginatin);
   });
 
   it("profile should be equal to an artist", async () => {
@@ -128,8 +130,9 @@ describe("ArtistService", () => {
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: 0,
+      sub: 0,
     };
-    expect(await service.unfollow(dto, 0)).toEqual(follow);
+    expect(await service.unfollow(dto)).toEqual(follow);
   });
 
   describe("ArtistService", () => {
@@ -158,8 +161,9 @@ describe("ArtistService", () => {
       const dto: ArtistFollowingReqDto = {
         from: 0,
         limit: 0,
+        sub: 0,
       };
-      expect(await service.following(dto, 0)).toEqual({
+      expect(await service.following(dto)).toEqual({
         results: [],
         total: 0,
       });

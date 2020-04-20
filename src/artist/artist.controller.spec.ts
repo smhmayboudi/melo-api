@@ -130,6 +130,7 @@ describe("ArtistController", () => {
   it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
       id: 0,
+      sub: 0,
     };
     expect(await controller.follow(dto, 0)).toEqual(follow);
   });
@@ -138,6 +139,7 @@ describe("ArtistController", () => {
     const dto: ArtistFollowingReqDto = {
       from: 0,
       limit: 0,
+      sub: 0,
     };
     expect(await controller.following(dto, 0)).toEqual(followPagination);
   });
@@ -163,6 +165,7 @@ describe("ArtistController", () => {
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
       id: 0,
+      sub: 0,
     };
     expect(await controller.unfollow(dto, 0)).toEqual(follow);
   });

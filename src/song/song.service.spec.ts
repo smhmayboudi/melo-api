@@ -246,16 +246,18 @@ describe("SongService", () => {
   it("like should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
       id: 0,
+      sub: 0,
     };
-    expect(await service.like(dto, 0)).toEqual({ ...song, liked: true });
+    expect(await service.like(dto)).toEqual({ ...song, liked: true });
   });
 
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
       from: 0,
       limit: 0,
+      sub: 0,
     };
-    expect(await service.liked(dto, 0)).toEqual(songPagination);
+    expect(await service.liked(dto)).toEqual(songPagination);
   });
 
   it("mood should be equal to a list of songs", async () => {
@@ -311,8 +313,9 @@ describe("SongService", () => {
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
       id: 0,
+      sub: 0,
     };
-    expect(await service.sendTelegram(dto, 0)).toBeUndefined();
+    expect(await service.sendTelegram(dto)).toBeUndefined();
   });
 
   it("similar should be equal to a list of songs", async () => {
@@ -347,8 +350,9 @@ describe("SongService", () => {
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
       id: 0,
+      sub: 0,
     };
-    expect(await service.unlike(dto, 0)).toEqual({ ...song, liked: false });
+    expect(await service.unlike(dto)).toEqual({ ...song, liked: false });
   });
 
   describe("SongService empty get", () => {
@@ -383,8 +387,9 @@ describe("SongService", () => {
       const dto: SongLikedReqDto = {
         from: 0,
         limit: 0,
+        sub: 0,
       };
-      expect(await service.liked(dto, 0)).toEqual({ results: [], total: 0 });
+      expect(await service.liked(dto)).toEqual({ results: [], total: 0 });
     });
   });
 
@@ -419,8 +424,9 @@ describe("SongService", () => {
     it("sendTelegram should throw exception", async () => {
       const dto: SongSendTelegramReqDto = {
         id: 0,
+        sub: 0,
       };
-      return expect(service.sendTelegram(dto, 0)).rejects.toThrowError();
+      return expect(service.sendTelegram(dto)).rejects.toThrowError();
     });
   });
 });

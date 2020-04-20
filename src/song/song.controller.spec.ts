@@ -211,6 +211,7 @@ describe("SongController", () => {
   it("like should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
       id: 0,
+      sub: 0,
     };
     expect(await controller.like(dto, 0)).toEqual(song);
   });
@@ -219,6 +220,7 @@ describe("SongController", () => {
     const dto: SongLikedReqDto = {
       from: 0,
       limit: 0,
+      sub: 0,
     };
     expect(await controller.liked(dto, 0)).toEqual(songPagination);
   });
@@ -276,6 +278,7 @@ describe("SongController", () => {
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
       id: 0,
+      sub: 0,
     };
     expect(await controller.sendTelegram(dto, 0)).toBeUndefined();
   });
@@ -312,6 +315,7 @@ describe("SongController", () => {
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
       id: 0,
+      sub: 0,
     };
     expect(await controller.unlike(dto, 0)).toEqual(song);
   });
