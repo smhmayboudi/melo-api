@@ -127,7 +127,7 @@ export class SongController {
     @Body() dto: SongLikeReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataSongResDto> {
-    return this.songService.like(dto, sub);
+    return this.songService.like({ ...dto, sub });
   }
 
   @Get("liked/:from/:limit")
@@ -136,7 +136,7 @@ export class SongController {
     @Param() dto: SongLikedReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.liked(dto, sub);
+    return this.songService.liked({ ...dto, sub });
   }
 
   @Get("mood/:mood/:from/:limit")
@@ -192,7 +192,7 @@ export class SongController {
     @Body() dto: SongSendTelegramReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<void> {
-    return this.songService.sendTelegram(dto, sub);
+    return this.songService.sendTelegram({ ...dto, sub });
   }
 
   @ApiParam({
@@ -235,6 +235,6 @@ export class SongController {
     @Body() dto: SongUnlikeReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataSongResDto> {
-    return this.songService.unlike(dto, sub);
+    return this.songService.unlike({ ...dto, sub });
   }
 }

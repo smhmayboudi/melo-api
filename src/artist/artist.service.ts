@@ -26,15 +26,12 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async follow(
-    dto: ArtistFollowReqDto,
-    sub: number
-  ): Promise<DataArtistResDto> {
+  async follow(dto: ArtistFollowReqDto): Promise<DataArtistResDto> {
     const dataArtistResDto = await this.dataArtistService.byId(dto);
     await this.relationService.set({
       createdAt: new Date(),
       from: {
-        id: sub,
+        id: dto.sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.follows,
@@ -50,13 +47,12 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async following(
-    dto: ArtistFollowingReqDto,
-    sub: number
+    dto: ArtistFollowingReqDto
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        id: sub,
+        id: dto.sub,
         type: RelationEntityType.following,
       },
       limit: dto.limit,
@@ -102,14 +98,11 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async unfollow(
-    dto: ArtistUnfollowReqDto,
-    sub: number
-  ): Promise<DataArtistResDto> {
+  async unfollow(dto: ArtistUnfollowReqDto): Promise<DataArtistResDto> {
     const dataArtistResDto = await this.dataArtistService.byId(dto);
     await this.relationService.remove({
       from: {
-        id: sub,
+        id: dto.sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.unfollows,

@@ -1,4 +1,4 @@
-import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import {
   Controller,
   Get,
@@ -40,14 +40,6 @@ import { DownloadSortByType } from "./download.sort-by.type";
 export class DownloadController {
   constructor(private readonly downloadService: DownloadService) {}
 
-  @ApiParam({
-    name: "orderBy",
-    type: String,
-  })
-  @ApiParam({
-    name: "sortBy",
-    type: String,
-  })
   @Get("song/:orderBy/:sortBy/:from/:limit")
   @UseGuards(AuthGuard("jwt"))
   async downloadedSongs(

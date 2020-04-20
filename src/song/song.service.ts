@@ -104,12 +104,12 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async like(dto: SongLikeReqDto, sub: number): Promise<DataSongResDto> {
+  async like(dto: SongLikeReqDto): Promise<DataSongResDto> {
     const song = await this.dataSongService.byId({ id: dto.id });
     await this.relationService.set({
       createdAt: new Date(),
       from: {
-        id: sub,
+        id: dto.sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,
@@ -125,13 +125,12 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async liked(
-    dto: SongLikedReqDto,
-    sub: number
+    dto: SongLikedReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     const relationEntityResDto = await this.relationService.get({
       from: dto.from,
       fromEntityDto: {
-        id: sub,
+        id: dto.sub,
         type: RelationEntityType.user,
       },
       limit: dto.limit,
@@ -207,8 +206,8 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async sendTelegram(dto: SongSendTelegramReqDto, sub: number): Promise<void> {
-    const userUserResDto = await this.userService.findOneById(sub);
+  async sendTelegram(dto: SongSendTelegramReqDto): Promise<void> {
+    const userUserResDto = await this.userService.findOneById(dto.sub);
     if (
       userUserResDto === undefined ||
       userUserResDto.telegram_id === undefined
@@ -279,11 +278,11 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async unlike(dto: SongUnlikeReqDto, sub: number): Promise<DataSongResDto> {
+  async unlike(dto: SongUnlikeReqDto): Promise<DataSongResDto> {
     const dataSongResDto = await this.dataSongService.byId({ id: dto.id });
     await this.relationService.remove({
       from: {
-        id: sub,
+        id: dto.sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,

@@ -17,7 +17,7 @@ export class PlaylistSongReqDto {
 
   @ApiProperty({
     description: "The song identification",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   songId: number;

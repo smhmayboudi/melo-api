@@ -24,7 +24,7 @@ export class SongSimilarReqDto {
 
   @ApiProperty({
     description: "The song identification",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   id: number;

@@ -1,10 +1,12 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
+
 import { IsNumberString } from "class-validator";
 
 export class ArtistFollowingReqDto {
-  constructor(from: number, limit: number) {
+  constructor(from: number, limit: number, sub: number) {
     this.from = from;
     this.limit = limit;
+    this.sub = sub;
   }
 
   @ApiProperty({
@@ -20,4 +22,7 @@ export class ArtistFollowingReqDto {
   })
   @IsNumberString()
   limit: number;
+
+  @ApiHideProperty()
+  sub: number;
 }

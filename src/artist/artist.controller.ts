@@ -50,7 +50,7 @@ export class ArtistController {
     @Body() dto: ArtistFollowReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataArtistResDto> {
-    return this.artistService.follow(dto, sub);
+    return this.artistService.follow({ ...dto, sub });
   }
 
   @Get("following/:from/:limit")
@@ -59,7 +59,7 @@ export class ArtistController {
     @Param() dto: ArtistFollowingReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DataArtistResDto>> {
-    return this.artistService.following(dto, sub);
+    return this.artistService.following({ ...dto, sub });
   }
 
   @ApiParam({
@@ -92,6 +92,6 @@ export class ArtistController {
     @Body() dto: ArtistUnfollowReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataArtistResDto> {
-    return this.artistService.unfollow(dto, sub);
+    return this.artistService.unfollow({ ...dto, sub });
   }
 }
