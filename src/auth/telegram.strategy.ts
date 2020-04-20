@@ -1,5 +1,5 @@
 import { AuthConfigService } from "./auth.config.service";
-import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
+import { AuthStrategyResDto } from "./dto/res/auth.strategy.res";
 import { AuthTelegramPayloadReqDto } from "./dto/req/auth.telegram-payload.req.dto";
 import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";

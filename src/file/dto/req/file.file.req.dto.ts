@@ -2,7 +2,7 @@ import { IsNumber, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class FileUploadImageReqDto {
+export class FileFileReqDto {
   constructor(
     buffer: Buffer,
     encoding: string,

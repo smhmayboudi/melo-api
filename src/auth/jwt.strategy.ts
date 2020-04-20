@@ -4,7 +4,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { AtService } from "../at/at.service";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthJwtPayloadReqDto } from "./dto/req/auth.jwt-payload.req.dto";
-import { AuthStrategyResDto } from "./dto/res/auth.strategy.res.to";
+import { AuthStrategyResDto } from "./dto/res/auth.strategy.res";
 import { JwksService } from "../jwks/jwks.service";
 import { PassportStrategy } from "@nestjs/passport";
 import { RtService } from "../rt/rt.service";

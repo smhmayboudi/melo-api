@@ -5,9 +5,9 @@ import { MAGIC_MIME_TYPE, Magic } from "mmmagic";
 import { FileConfigService } from "./file.config.service";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
+import { FileFileReqDto } from "./dto/req/file.file.req.dto";
+import { FileFileResDto } from "./dto/res/file.file.res.dto";
 import { FileServiceInterface } from "./file.service.interface";
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
-import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { PromMethodCounter } from "../prom/prom.decorator";
 import aws from "aws-sdk";
@@ -43,8 +43,8 @@ export class FileService implements FileServiceInterface {
   @PromMethodCounter
   async uploadImage(
     sub: number,
-    dto?: FileUploadImageReqDto
-  ): Promise<FileUploadImageResDto> {
+    dto?: FileFileReqDto
+  ): Promise<FileFileResDto> {
     if (dto === undefined) {
       throw new BadRequestException();
     }

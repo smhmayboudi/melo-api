@@ -1,9 +1,6 @@
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
-import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
+import { FileFileReqDto } from "./dto/req/file.file.req.dto";
+import { FileFileResDto } from "./dto/res/file.file.res.dto";
 
 export interface FileServiceInterface {
-  uploadImage(
-    sub: number,
-    dto?: FileUploadImageReqDto
-  ): Promise<FileUploadImageResDto>;
+  uploadImage(sub: number, dto?: FileFileReqDto): Promise<FileFileResDto>;
 }

@@ -1,13 +1,13 @@
 import { FileController } from "./file.controller";
+import { FileFileReqDto } from "./dto/req/file.file.req.dto";
+import { FileFileResDto } from "./dto/res/file.file.res.dto";
 import { FileService } from "./file.service";
 import { FileServiceInterface } from "./file.service.interface";
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
-import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { Test } from "@nestjs/testing";
 
 describe("FileController", () => {
   const date = new Date();
-  const fileUploadImage: FileUploadImageResDto = {
+  const fileUploadImage: FileFileResDto = {
     createdAt: date,
     fileKey: "",
     mimeType: "jpg",
@@ -16,7 +16,7 @@ describe("FileController", () => {
   };
 
   const fileServiceMock: FileServiceInterface = {
-    uploadImage: (): Promise<FileUploadImageResDto> =>
+    uploadImage: (): Promise<FileFileResDto> =>
       Promise.resolve(fileUploadImage),
   };
 
@@ -36,7 +36,7 @@ describe("FileController", () => {
   });
 
   it("uploadedPic should eequal to a file upload image", async () => {
-    const dto: FileUploadImageReqDto = {
+    const dto: FileFileReqDto = {
       buffer: Buffer.from(""),
       encoding: "",
       fieldname: "",

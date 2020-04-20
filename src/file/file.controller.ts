@@ -14,8 +14,8 @@ import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { FileService } from "./file.service";
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
-import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
+import { FileFileReqDto } from "./dto/req/file.file.req.dto";
+import { FileFileResDto } from "./dto/res/file.file.res.dto";
 
 @ApiBearerAuth("jwt")
 @ApiTags("file")
@@ -37,8 +37,8 @@ export class FileController {
     @AppUser("sub", ParseIntPipe)
     sub: number,
     @UploadedFile("file")
-    dto: FileUploadImageReqDto
-  ): Promise<FileUploadImageResDto> {
+    dto: FileFileReqDto
+  ): Promise<FileFileResDto> {
     return this.fileService.uploadImage(sub, dto);
   }
 }

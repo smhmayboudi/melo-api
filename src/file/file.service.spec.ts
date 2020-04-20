@@ -4,9 +4,9 @@ import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepositoryInterface } from "./file.entity.repository.interface";
+import { FileFileReqDto } from "./dto/req/file.file.req.dto";
+import { FileFileResDto } from "./dto/res/file.file.res.dto";
 import { FileService } from "./file.service";
-import { FileUploadImageReqDto } from "./dto/file.upload-image.req.dto";
-import { FileUploadImageResDto } from "./dto/file.upload-image.res.dto";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import nock from "nock";
 
@@ -16,7 +16,7 @@ describe("FileService", () => {
     "base64"
   );
   const date = new Date();
-  const file: FileUploadImageReqDto = {
+  const file: FileFileReqDto = {
     buffer,
     encoding: "",
     fieldname: "",
@@ -24,7 +24,7 @@ describe("FileService", () => {
     originalname: "",
     size: 0,
   };
-  const fileUploadImage: FileUploadImageResDto = {
+  const fileUploadImage: FileFileResDto = {
     createdAt: date,
     fileKey: "",
     mimeType: "image/jpeg",
@@ -97,7 +97,7 @@ describe("FileService", () => {
   });
 
   it("uploadImage should throw an error mimeType jpg", () => {
-    const dto: FileUploadImageReqDto = {
+    const dto: FileFileReqDto = {
       ...file,
       buffer: Buffer.from(
         "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="

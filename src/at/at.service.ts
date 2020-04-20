@@ -3,6 +3,7 @@ import { DeleteResult, UpdateResult } from "typeorm";
 
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
+import { AtAtResDto } from "./dto/res/at.at.res.dto";
 import { AtServiceInterface } from "./at.service.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
@@ -33,28 +34,28 @@ export class AtService implements AtServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async find(): Promise<AtEntity[]> {
+  async find(): Promise<AtAtResDto[]> {
     return this.atEntityRepository.find();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async findOneById(id: number): Promise<AtEntity | undefined> {
+  async findOneById(id: number): Promise<AtAtResDto | undefined> {
     return this.atEntityRepository.findOne(id);
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async findOneByToken(token: string): Promise<AtEntity | undefined> {
+  async findOneByToken(token: string): Promise<AtAtResDto | undefined> {
     return this.atEntityRepository.findOne({ token });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async save(entity: AtEntity): Promise<AtEntity> {
+  async save(entity: AtEntity): Promise<AtAtResDto> {
     return this.atEntityRepository.save(entity);
   }
 
@@ -68,14 +69,14 @@ export class AtService implements AtServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async validateByToken(token: string): Promise<AtEntity | undefined> {
+  async validateByToken(token: string): Promise<AtAtResDto | undefined> {
     return this.atEntityRepository.findOne({ token });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async validateBySub(sub: number): Promise<AtEntity | undefined> {
+  async validateBySub(sub: number): Promise<AtAtResDto | undefined> {
     return this.atEntityRepository.findOne({ user_id: sub });
   }
 }
