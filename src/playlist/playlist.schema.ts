@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 
 export const PlaylistSchema = new mongoose.Schema({
   downloads_count: Number,
