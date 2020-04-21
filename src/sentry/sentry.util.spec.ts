@@ -1,5 +1,6 @@
-import * as Sentry from "@sentry/node";
 import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
+
+import Sentry from "@sentry/node";
 
 describe("SentryUtil", () => {
   it("getOrCreateSentryInstance should be instance of a sentry", () => {
