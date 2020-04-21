@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsUUID } from "class-validator";
+import { IsDate, IsNumberString, IsUUID } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -42,16 +42,16 @@ export class AtAtResDto {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
     description: "user identification",
     example: new Date(),
   })
-  @IsNumber()
+  @IsNumberString()
   user_id: number;
 
   @ApiProperty({

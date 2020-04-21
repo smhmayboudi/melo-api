@@ -19,7 +19,7 @@ export class SongSearchMoodQueryDto {
 
   @ApiProperty({
     description: "The classy",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   @IsOptional()
@@ -27,7 +27,7 @@ export class SongSearchMoodQueryDto {
 
   @ApiProperty({
     description: "The date",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   @IsOptional()
@@ -35,7 +35,7 @@ export class SongSearchMoodQueryDto {
 
   @ApiProperty({
     description: "The energetic",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   @IsOptional()
@@ -43,7 +43,7 @@ export class SongSearchMoodQueryDto {
 
   @ApiProperty({
     description: "The happiness",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   @IsOptional()
@@ -51,7 +51,7 @@ export class SongSearchMoodQueryDto {
 
   @ApiProperty({
     description: "The romantic",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   @IsOptional()

@@ -2,7 +2,7 @@ import {
   IsArray,
   IsBoolean,
   IsDate,
-  IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   ValidateNested,
@@ -73,16 +73,16 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The duration",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   duration: number;
 
   @ApiProperty({
     description: "The identification",
     example: "abcdef",
   })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
@@ -123,9 +123,9 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The couont of download",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   downloadCount?: number;
 
@@ -146,9 +146,9 @@ export class DataSongResDto {
 
   @ApiProperty({
     description: "The count of like",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   likeCount?: number;
 

@@ -1,4 +1,9 @@
-import { Allow, IsArray, IsNumber, ValidateNested } from "class-validator";
+import {
+  Allow,
+  IsArray,
+  IsNumberString,
+  ValidateNested,
+} from "class-validator";
 import { Exclude, Type } from "class-transformer";
 
 import { ApiProperty } from "@nestjs/swagger";
@@ -27,9 +32,9 @@ export class DataPaginationResDto<T> {
 
   @ApiProperty({
     description: "The total number of results",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   total: number;
 
   @Exclude()

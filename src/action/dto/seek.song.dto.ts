@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -11,9 +11,9 @@ export class SeekSongDto {
 
   @ApiProperty({
     description: "The from second",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   fromSec: number;
 
   @ApiProperty({
@@ -25,8 +25,8 @@ export class SeekSongDto {
 
   @ApiProperty({
     description: "The to second",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   toSec: number;
 }

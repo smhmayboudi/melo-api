@@ -10,7 +10,7 @@ export class DownloadDataSongResDto {
 
   @ApiProperty({
     description: "The song id",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   songId: number;

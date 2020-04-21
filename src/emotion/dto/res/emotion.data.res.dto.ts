@@ -10,7 +10,7 @@ export class EmotionDataResDto {
 
   @ApiProperty({
     description: "the song id",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   songId: number;

@@ -11,7 +11,7 @@ export class EmotionResDto {
 
   @ApiProperty({
     description: "the song",
-    example: 0,
+    example: "0",
   })
   @ValidateNested()
   song: DataSongResDto;

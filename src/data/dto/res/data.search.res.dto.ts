@@ -1,4 +1,9 @@
-import { IsEnum, IsNumber, IsOptional, ValidateNested } from "class-validator";
+import {
+  IsEnum,
+  IsNumberString,
+  IsOptional,
+  ValidateNested,
+} from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 import { DataAlbumResDto } from "./data.album.res.dto";
@@ -54,9 +59,9 @@ export class DataSearchResDto {
 
   @ApiProperty({
     description: "The position",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   position?: number;
 

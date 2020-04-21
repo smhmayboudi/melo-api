@@ -1,4 +1,4 @@
-import { IsBoolean, IsNumber, IsString } from "class-validator";
+import { IsBoolean, IsNumberString, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -33,8 +33,8 @@ export class LikeSongDto {
 
   @ApiProperty({
     description: "The position",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   position: number;
 }

@@ -1,4 +1,4 @@
-import { IsNumber, IsNumberString, IsOptional } from "class-validator";
+import { IsNumberString, IsNumberString, IsOptional } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -23,23 +23,23 @@ export class DataSearchMoodReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   limit: number;
 
   @ApiProperty({
     description: "The classy",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   classy?: number;
 
@@ -47,31 +47,31 @@ export class DataSearchMoodReqDto {
     description: "The date",
     example: new Date(),
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   date?: number;
 
   @ApiProperty({
     description: "The energetic",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   energetic?: number;
 
   @ApiProperty({
     description: "The happiness",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   happiness?: number;
 
   @ApiProperty({
     description: "The romantic",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   romantic?: number;
 }

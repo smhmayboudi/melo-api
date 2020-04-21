@@ -11,7 +11,7 @@ export class DownloadSongResDto {
 
   @ApiProperty({
     description: "The song",
-    example: 0,
+    example: "0",
   })
   @ValidateNested()
   song: DataSongResDto;

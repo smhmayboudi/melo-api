@@ -3,7 +3,7 @@ import {
   IsDate,
   IsEmail,
   IsEnum,
-  IsNumber,
+  IsNumberString,
   IsOptional,
   IsPhoneNumber,
   IsString,
@@ -46,10 +46,10 @@ export class UserEntity {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0,
+    example: "0",
   })
   @PrimaryGeneratedColumn("increment", { type: "int" })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
@@ -154,7 +154,7 @@ export class UserEntity {
     example: "@johnsmith",
   })
   @Column({ nullable: true, type: "bigint" })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   telegram_id?: number;
 

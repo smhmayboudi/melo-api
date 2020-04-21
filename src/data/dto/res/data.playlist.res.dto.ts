@@ -1,7 +1,7 @@
 import {
   IsBoolean,
   IsDate,
-  IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   ValidateNested,
@@ -35,14 +35,14 @@ export class DataPlaylistResDto {
 
   @ApiProperty({
     description: "The count of follwers",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   followersCount: number;
 
   @ApiProperty({
     description: "The identification",
-    example: 0,
+    example: "0",
   })
   @IsString()
   id: string;
@@ -77,9 +77,9 @@ export class DataPlaylistResDto {
 
   @ApiProperty({
     description: "The count of tracks",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   tracksCount: number;
 
   @ApiProperty({

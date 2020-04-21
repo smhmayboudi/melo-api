@@ -18,7 +18,7 @@ export class RelationMultiHasReqDto {
 
   @ApiProperty({
     description: "The from entity",
-    example: 0,
+    example: "0",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()

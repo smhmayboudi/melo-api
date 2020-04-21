@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -18,9 +18,9 @@ export class NextSongDto {
 
   @ApiProperty({
     description: "The current position",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   currentPosition: number;
 
   @ApiProperty({

@@ -2,7 +2,7 @@ import {
   IsArray,
   IsBoolean,
   IsEnum,
-  IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   ValidateNested,
@@ -42,16 +42,16 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The follwer count",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   followersCount: number;
 
   @ApiProperty({
     description: "The identification",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
@@ -100,10 +100,10 @@ export class DataArtistResDto {
 
   @ApiProperty({
     description: "The sum downloads of songs count",
-    example: 0,
+    example: "0",
   })
   @IsOptional()
-  @IsNumber()
+  @IsNumberString()
   sumSongsDownloadsCount?: number;
 
   @ApiProperty({

@@ -1,4 +1,4 @@
-import { IsNumber, IsNumberString } from "class-validator";
+import { IsNumberString, IsNumberString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -11,21 +11,21 @@ export class DataSongSimilarReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "The song identification",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   limit: number;

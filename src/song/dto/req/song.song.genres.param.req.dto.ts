@@ -12,14 +12,14 @@ export class SongSongGenresParamReqDto {
 
   @ApiProperty({
     description: "Starting point index",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   from: number;
 
   @ApiProperty({
     description: "Count of results",
-    example: 0,
+    example: "0",
   })
   @IsNumberString()
   limit: number;

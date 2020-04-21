@@ -1,7 +1,7 @@
 import {
   IsArray,
   IsDate,
-  IsNumber,
+  IsNumberString,
   IsOptional,
   IsString,
   ValidateNested,
@@ -66,17 +66,17 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The downlaod count",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   downloadCount?: number;
 
   @ApiProperty({
     description: "The identification",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   id?: number;
 
@@ -107,9 +107,9 @@ export class DataAlbumResDto {
 
   @ApiProperty({
     description: "The track count",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   tracksCount?: number;
 }

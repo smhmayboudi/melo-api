@@ -2,7 +2,7 @@ import {
   IsDate,
   IsEmail,
   IsEnum,
-  IsNumber,
+  IsNumberString,
   IsOptional,
   IsPhoneNumber,
   IsString,
@@ -44,9 +44,9 @@ export class UserUserResDto {
 
   @ApiProperty({
     description: "The primary key",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
@@ -135,7 +135,7 @@ export class UserUserResDto {
     description: "The telegram identification",
     example: "@johnsmith",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   telegram_id?: number;
 

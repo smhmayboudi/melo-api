@@ -1,4 +1,4 @@
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNumberString, IsOptional } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -10,16 +10,16 @@ export class UserSaveReqDto {
 
   @ApiProperty({
     description: "The identification",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @ApiProperty({
     description: "The telegram identification",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   @IsOptional()
   telegramId?: number;
 }

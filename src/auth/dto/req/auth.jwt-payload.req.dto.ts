@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
 export class AuthJwtPayloadReqDto {
   constructor(exp: number, iat: number, jti: string, sub: string) {
@@ -8,10 +8,10 @@ export class AuthJwtPayloadReqDto {
     this.sub = sub;
   }
 
-  @IsNumber()
+  @IsNumberString()
   exp: number;
 
-  @IsNumber()
+  @IsNumberString()
   iat: number;
 
   @IsString()

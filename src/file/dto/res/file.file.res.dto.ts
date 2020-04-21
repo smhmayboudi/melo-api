@@ -1,4 +1,4 @@
-import { IsDate, IsNumber, IsString } from "class-validator";
+import { IsDate, IsNumberString, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
@@ -47,8 +47,8 @@ export class FileFileResDto {
 
   @ApiProperty({
     description: "The size",
-    example: 0,
+    example: "0",
   })
-  @IsNumber()
+  @IsNumberString()
   size: number;
 }

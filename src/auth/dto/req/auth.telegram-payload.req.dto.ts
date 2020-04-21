@@ -1,4 +1,4 @@
-import { IsNumber, IsString } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
 export class AuthTelegramPayloadReqDto {
   constructor(
@@ -19,7 +19,7 @@ export class AuthTelegramPayloadReqDto {
     this.username = username;
   }
 
-  @IsNumber()
+  @IsNumberString()
   auth_date: number;
 
   @IsString()
@@ -28,7 +28,7 @@ export class AuthTelegramPayloadReqDto {
   @IsString()
   hash: string;
 
-  @IsNumber()
+  @IsNumberString()
   id: number;
 
   @IsString()
