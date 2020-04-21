@@ -23,21 +23,19 @@ export class ArtistLikeInterceptor implements NestInterceptor {
     sub: string
   ): Promise<DataArtistResDto[]> =>
     Promise.all(
-      artists.map(async (value) => {
-        return {
-          ...value,
-          songs:
-            value.songs === undefined
-              ? undefined
-              : ({
-                  results: await this.appSong.like(
-                    value.songs.results,
-                    parseInt(sub, 10)
-                  ),
-                  total: value.songs.total,
-                } as DataPaginationResDto<DataSongResDto>),
-        };
-      })
+      artists.map(async (value) => ({
+        ...value,
+        songs:
+          value.songs === undefined
+            ? undefined
+            : ({
+                results: await this.appSong.like(
+                  value.songs.results,
+                  parseInt(sub, 10)
+                ),
+                total: value.songs.total,
+              } as DataPaginationResDto<DataSongResDto>),
+      }))
     );
 
   intercept(

@@ -23,12 +23,13 @@ export class SearchHashIdInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<DataPaginationResDto<DataSearchResDto> | DataSearchResDto> {
     return next.handle().pipe(
-      map((data) => {
-        return {
-          results: this.transform(data.results),
-          total: data.total,
-        } as DataPaginationResDto<DataSearchResDto>;
-      })
+      map(
+        (data) =>
+          ({
+            results: this.transform(data.results),
+            total: data.total,
+          } as DataPaginationResDto<DataSearchResDto>)
+      )
     );
   }
 }

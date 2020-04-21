@@ -12,12 +12,10 @@ export class AppEncodingService implements AppEncodingServiceInterface {
   constructor(private readonly appHashIdService: AppHashIdService) {}
 
   encodeArtists(artists: DataArtistResDto[]): any[] {
-    return artists.map((value) => {
-      return {
-        ...value,
-        id: this.appHashIdService.encode(value.id),
-      };
-    });
+    return artists.map((value) => ({
+      ...value,
+      id: this.appHashIdService.encode(value.id),
+    }));
   }
 
   encodeAlbums(albums: DataAlbumResDto[]): any {

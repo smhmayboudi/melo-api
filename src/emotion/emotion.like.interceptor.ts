@@ -37,12 +37,13 @@ export class EmotionLikeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      flatMap(async (data) => {
-        return {
-          results: await this.transform(data.results, request.user.sub),
-          total: data.total,
-        } as DataPaginationResDto<EmotionResDto>;
-      })
+      flatMap(
+        async (data) =>
+          ({
+            results: await this.transform(data.results, request.user.sub),
+            total: data.total,
+          } as DataPaginationResDto<EmotionResDto>)
+      )
     );
   }
 }

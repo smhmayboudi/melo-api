@@ -16,24 +16,23 @@ export class DownloadHashIdInterceptor implements NestInterceptor {
   constructor(private readonly appEncodingService: AppEncodingService) {}
 
   transform = (downloads: DownloadSongResDto[]): DownloadSongResDto[] =>
-    downloads.map((value) => {
-      return {
-        ...value,
-        song: this.appEncodingService.encodeSongs([value.song])[0],
-      };
-    });
+    downloads.map((value) => ({
+      ...value,
+      song: this.appEncodingService.encodeSongs([value.song])[0],
+    }));
 
   intercept(
     _context: ExecutionContext,
     next: CallHandler
   ): Observable<DataPaginationResDto<DownloadSongResDto>> {
     return next.handle().pipe(
-      map((data) => {
-        return {
-          results: this.transform(data.results),
-          total: data.total,
-        } as DataPaginationResDto<DownloadSongResDto>;
-      })
+      map(
+        (data) =>
+          ({
+            results: this.transform(data.results),
+            total: data.total,
+          } as DataPaginationResDto<DownloadSongResDto>)
+      )
     );
   }
 }
