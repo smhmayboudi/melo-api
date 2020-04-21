@@ -1,4 +1,4 @@
-import { IsNumberString, IsNumberString } from "class-validator";
+import { IsNumberString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
