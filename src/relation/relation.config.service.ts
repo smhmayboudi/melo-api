@@ -8,7 +8,7 @@ export class RelationConfigService implements RelationConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return ms(this.configService.get<string>("relation.timeout", "0"));
+    return ms(this.configService.get<string>("relation.timeout", "0s"));
   }
 
   get url(): string {

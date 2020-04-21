@@ -8,7 +8,7 @@ export class EmotionConfigService implements EmotionConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return ms(this.configService.get<string>("emotion.timeout", "0"));
+    return ms(this.configService.get<string>("emotion.timeout", "0s"));
   }
 
   get url(): string {

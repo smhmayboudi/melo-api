@@ -8,7 +8,7 @@ export class DownloadConfigService implements DownloadConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return ms(this.configService.get<string>("download.timeout", "0"));
+    return ms(this.configService.get<string>("download.timeout", "0s"));
   }
 
   get url(): string {

@@ -8,7 +8,7 @@ export class DataConfigService implements DataConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
   get timeout(): number {
-    return ms(this.configService.get<string>("data.timeout", "0"));
+    return ms(this.configService.get<string>("data.timeout", "0s"));
   }
 
   get url(): string {
