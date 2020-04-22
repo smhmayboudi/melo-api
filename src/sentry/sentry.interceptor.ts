@@ -1,4 +1,3 @@
-import Sentry from "@sentry/node";
 import {
   CallHandler,
   ExecutionContext,
@@ -20,6 +19,7 @@ import {
 import { Handlers } from "@sentry/node";
 import { Observable } from "rxjs";
 import { Scope } from "@sentry/hub";
+import Sentry from "@sentry/node";
 import { SentryModuleOptions } from "./sentry.module.interface";
 import { tap } from "rxjs/operators";
 
@@ -154,7 +154,10 @@ export class SentryInterceptor implements NestInterceptor {
       this.options.filters === undefined ||
       this.options.filters.every(
         ({ type, filter }) =>
-          !(exception instanceof type && (!filter || filter(exception)))
+          !(
+            exception instanceof type &&
+            (filter === undefined || filter(exception))
+          )
       )
     );
   }

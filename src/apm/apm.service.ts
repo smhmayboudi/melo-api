@@ -43,19 +43,16 @@ export class ApmService implements ApmServiceInterface {
   }): void {
     this.apm.setFramework(options);
   }
-  addPatch(
-    modules: string | Array<string>,
-    handler: string | PatchHandler
-  ): void {
+  addPatch(modules: string | string[], handler: string | PatchHandler): void {
     this.apm.addPatch(modules, handler);
   }
   removePatch(
-    modules: string | Array<string>,
+    modules: string | string[],
     handler: string | PatchHandler
   ): void {
     this.apm.removePatch(modules, handler);
   }
-  clearPatches(modules: string | Array<string>): void {
+  clearPatches(modules: string | string[]): void {
     this.apm.clearPatches(modules);
   }
 

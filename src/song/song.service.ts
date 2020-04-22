@@ -105,7 +105,6 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async like(dto: SongLikeReqDto): Promise<DataSongResDto> {
-    const song = await this.dataSongService.byId({ id: dto.id });
     await this.relationService.set({
       createdAt: new Date(),
       from: {
@@ -118,6 +117,7 @@ export class SongService implements SongServiceInterface {
         type: RelationEntityType.song,
       },
     });
+    const song = await this.dataSongService.byId(dto);
     return { ...song, liked: true };
   }
 
@@ -279,7 +279,6 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async unlike(dto: SongUnlikeReqDto): Promise<DataSongResDto> {
-    const dataSongResDto = await this.dataSongService.byId({ id: dto.id });
     await this.relationService.remove({
       from: {
         id: dto.sub,
@@ -291,6 +290,7 @@ export class SongService implements SongServiceInterface {
         type: RelationEntityType.song,
       },
     });
+    const dataSongResDto = await this.dataSongService.byId(dto);
     return { ...dataSongResDto, liked: false };
   }
 }

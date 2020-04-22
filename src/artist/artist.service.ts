@@ -27,7 +27,6 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async follow(dto: ArtistFollowReqDto): Promise<DataArtistResDto> {
-    const dataArtistResDto = await this.dataArtistService.byId(dto);
     await this.relationService.set({
       createdAt: new Date(),
       from: {
@@ -36,11 +35,16 @@ export class ArtistService implements ArtistServiceInterface {
       },
       relationType: RelationType.follows,
       to: {
-        id: dataArtistResDto.id,
+        id: dto.id,
         type: RelationEntityType.artist,
       },
     });
-    return dataArtistResDto;
+    const dataArtistResDto = await this.dataArtistService.byId(dto);
+    return {
+      ...dataArtistResDto,
+      followersCount: dataArtistResDto.followersCount + 1,
+      following: true,
+    };
   }
 
   @ApmAfterMethod
@@ -99,7 +103,6 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async unfollow(dto: ArtistUnfollowReqDto): Promise<DataArtistResDto> {
-    const dataArtistResDto = await this.dataArtistService.byId(dto);
     await this.relationService.remove({
       from: {
         id: dto.sub,
@@ -111,6 +114,7 @@ export class ArtistService implements ArtistServiceInterface {
         type: RelationEntityType.artist,
       },
     });
+    const dataArtistResDto = await this.dataArtistService.byId(dto);
     return dataArtistResDto;
   }
 }

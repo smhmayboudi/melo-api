@@ -24,15 +24,9 @@ export interface Agent {
     version?: string;
     overwrite?: boolean;
   }): void;
-  addPatch(
-    modules: string | Array<string>,
-    handler: string | PatchHandler
-  ): void;
-  removePatch(
-    modules: string | Array<string>,
-    handler: string | PatchHandler
-  ): void;
-  clearPatches(modules: string | Array<string>): void;
+  addPatch(modules: string | string[], handler: string | PatchHandler): void;
+  removePatch(modules: string | string[], handler: string | PatchHandler): void;
+  clearPatches(modules: string | string[]): void;
   // Data collection hooks
   middleware: { connect(): Connect.ErrorHandleFunction };
   lambda(handler: AwsLambda.Handler): AwsLambda.Handler;
@@ -178,8 +172,8 @@ export interface AgentConfigOptions {
   frameworkVersion?: string;
   globalLabels?: KeyValueConfig;
   hostname?: string;
-  ignoreUrls?: Array<string | RegExp>;
-  ignoreUserAgents?: Array<string | RegExp>;
+  ignoreUrls?: (string | RegExp)[];
+  ignoreUserAgents?: (string | RegExp)[];
   instrument?: boolean;
   instrumentIncomingHTTPRequests?: boolean;
   kubernetesNamespace?: string;
@@ -228,7 +222,7 @@ export interface UserObject {
 }
 export interface ParameterizedMessageObject {
   message: string;
-  params: Array<any>;
+  params: any[];
 }
 export interface Logger {
   fatal(msg: string, ...args: any[]): void;
@@ -258,7 +252,7 @@ type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
 type CaptureErrorCallback = (err: Error | null, id: string) => void;
 type FilterFn = (payload: Payload) => Payload | boolean | void;
 type LabelValue = string | number | boolean | null | undefined;
-type KeyValueConfig = string | Labels | Array<Array<LabelValue>>;
+type KeyValueConfig = string | Labels | LabelValue[][];
 type Payload = { [propName: string]: any };
 type PatchHandler = (exports: any, agent: Agent, options: PatchOptions) => any;
 
