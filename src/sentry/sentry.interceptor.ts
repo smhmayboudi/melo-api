@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/node";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -19,7 +21,6 @@ import {
 import { Handlers } from "@sentry/node";
 import { Observable } from "rxjs";
 import { Scope } from "@sentry/hub";
-import Sentry from "@sentry/node";
 import { SentryModuleOptions } from "./sentry.module.interface";
 import { tap } from "rxjs/operators";
 

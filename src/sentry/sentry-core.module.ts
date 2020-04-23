@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/node";
+
 import { DynamicModule, Global, Module, Provider, Type } from "@nestjs/common";
 import {
   SENTRY_INSTANCE_TOKEN,
@@ -11,7 +13,6 @@ import {
 import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
 
 import { APP_INTERCEPTOR } from "@nestjs/core";
-import Sentry from "@sentry/node";
 import { SentryInterceptor } from "./sentry.interceptor";
 import { SentryService } from "./sentry.service";
 

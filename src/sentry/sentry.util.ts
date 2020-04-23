@@ -1,6 +1,7 @@
+import * as Sentry from "@sentry/node";
+
 import { Client, Options } from "@sentry/types";
 
-import Sentry from "@sentry/node";
 import { SentryModuleOptions } from "./sentry.module.interface";
 
 let sentryInstance: typeof Sentry | undefined;
@@ -11,7 +12,7 @@ export function getOrCreateSentryInstance(
 ): typeof Sentry {
   if (sentryInstance === undefined || isTest) {
     Sentry.init({
-      debug: options.debug === true ? false : options.debug,
+      debug: options.debug,
       dsn: options.dsn,
       environment: options.environment,
       integrations: [
