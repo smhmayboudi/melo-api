@@ -1,3 +1,5 @@
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+
 import { AppEncodingServiceInterface } from "./app.encoding.service.interface";
 import { AppHashIdService } from "./app.hash-id.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
@@ -6,11 +8,16 @@ import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Injectable } from "@nestjs/common";
+import { PromMethodCounter } from "../prom/prom.decorator";
 
 @Injectable()
+// @PromInstanceCounter
 export class AppEncodingService implements AppEncodingServiceInterface {
   constructor(private readonly appHashIdService: AppHashIdService) {}
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   encodeArtists(artists: DataArtistResDto[]): any[] {
     return artists.map((value) => ({
       ...value,
@@ -18,6 +25,9 @@ export class AppEncodingService implements AppEncodingServiceInterface {
     }));
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   encodeAlbums(albums: DataAlbumResDto[]): any {
     return albums.map((value) => ({
       ...value,
@@ -39,6 +49,9 @@ export class AppEncodingService implements AppEncodingServiceInterface {
     }));
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   encodePlaylists(playlists: DataPlaylistResDto[]): any {
     return playlists.map((value) => ({
       ...value,
@@ -52,6 +65,9 @@ export class AppEncodingService implements AppEncodingServiceInterface {
     }));
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   encodeSearches(searches: DataSearchResDto[]): any[] {
     return searches.map((value) => ({
       ...value,
@@ -74,6 +90,9 @@ export class AppEncodingService implements AppEncodingServiceInterface {
     }));
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   encodeSongs(songs: DataSongResDto[]): any[] {
     return songs.map((value) => ({
       ...value,

@@ -1,4 +1,4 @@
-import { ExecutionContext, createParamDecorator } from "@nestjs/common";
+import { ExecutionContext, Logger, createParamDecorator } from "@nestjs/common";
 import { afterMethod, beforeMethod } from "kaop-ts";
 import { getOrCreateApmInstance, getTokenName } from "./apm.util";
 
@@ -46,6 +46,15 @@ export const ApmAfterMethod = afterMethod((meta) => {
 });
 
 export const ApmBeforeMethod = beforeMethod((meta) => {
+  if (process.env.NODE_ENV === "debug") {
+    Logger.debug(
+      JSON.stringify({
+        args: meta.args,
+        method: meta.method.name,
+        target: meta.target.constructor.name,
+      })
+    );
+  }
   if (process.env.NODE_ENV === "test") {
     return;
   }

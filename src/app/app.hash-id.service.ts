@@ -1,10 +1,13 @@
+import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { BadRequestException, Injectable } from "@nestjs/common";
 
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 import Hashids from "hashids/cjs";
+import { PromMethodCounter } from "../prom/prom.decorator";
 
 @Injectable()
+// @PromInstanceCounter
 export class AppHashIdService implements AppHashIdServiceInterface {
   private readonly hashIds: Hashids;
 
@@ -17,6 +20,9 @@ export class AppHashIdService implements AppHashIdServiceInterface {
     );
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   decode(hash: string): number {
     // return this.hashIds.decode(hash)[0] as number;
     // TODO: performance issue
@@ -25,6 +31,9 @@ export class AppHashIdService implements AppHashIdServiceInterface {
     )[0] as number;
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
   encode(id: number): string {
     // const encoded = this.hashIds.encode(id);
     // TODO: performance issue
