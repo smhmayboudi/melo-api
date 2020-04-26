@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Query,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -12,7 +13,10 @@ import {
 import { AuthGuard } from "@nestjs/passport";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { SearchHashIdInterceptor } from "./search.hash-id.interceptor";
+import { SearchMoodParamDto } from "./dto/req/search.mood.param.req.dto";
+import { SearchMoodQueryDto } from "./dto/req/search.mood.query.req.dto";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { SearchService } from "./search.service";
 
@@ -36,5 +40,14 @@ export class SearchController {
     @Param() dto: SearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>> {
     return this.searchService.query(dto);
+  }
+
+  @Get("mood/:from/:limit")
+  @UseGuards(AuthGuard(["jwt", "anonymId"]))
+  async searchMood(
+    @Param() paramDto: SearchMoodParamDto,
+    @Query() querydto: SearchMoodQueryDto
+  ): Promise<DataPaginationResDto<DataSongResDto>> {
+    return this.searchService.mood(paramDto, querydto);
   }
 }

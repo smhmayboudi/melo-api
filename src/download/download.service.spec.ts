@@ -76,8 +76,6 @@ describe("DownloadService", () => {
       Promise.resolve(songPagination),
     podcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
-    searchMood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
-      Promise.resolve(songPagination),
     sendTelegram: (): Promise<void> => Promise.resolve(undefined),
     similar: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),

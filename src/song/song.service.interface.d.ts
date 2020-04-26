@@ -12,8 +12,6 @@ import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
-import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
-import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
 import { SongSongGenresParamReqDto } from "./dto/req/song.song.genres.param.req.dto";
@@ -53,10 +51,6 @@ export interface SongServiceInterface {
     orderBy,
     paramDto: SongPodcastGenresParamReqDto,
     queryDto: SongPodcastGenresQueryReqDto
-  ): Promise<DataPaginationResDto<DataSongResDto>>;
-  searchMood(
-    paramDto: SongSearchMoodParamDto,
-    querydto: SongSearchMoodQueryDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   sendTelegram(dto: SongSendTelegramReqDto, sub: number): Promise<void>;
   similar(

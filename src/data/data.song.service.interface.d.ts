@@ -10,7 +10,6 @@ import { DataSongNewPodcastReqDto } from "./dto/req/data.song.new-podcast.req.dt
 import { DataSongNewReqDto } from "./dto/req/data.song.new.req.dto";
 import { DataSongPodcastReqDto } from "./dto/req/data.song.podcast.req.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
-import { DataSongSearchMoodReqDto } from "./dto/req/data.song.search-mood.req.dto";
 import { DataSongSimilarReqDto } from "./dto/req/data.song.similar.req.dto";
 import { DataSongTopDayReqDto } from "./dto/req/data.song.top-day.req.dto";
 import { DataSongTopWeekReqDto } from "./dto/req/data.song.top-week.req.dto";
@@ -41,9 +40,6 @@ export interface DataSongServiceInterface {
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   podcast(
     dto: DataSongPodcastReqDto
-  ): Promise<DataPaginationResDto<DataSongResDto>>;
-  searchMood(
-    dto: DataSongSearchMoodReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>>;
   similar(
     dto: DataSongSimilarReqDto

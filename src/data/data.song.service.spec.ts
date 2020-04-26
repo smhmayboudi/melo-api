@@ -17,7 +17,6 @@ import { DataSongNewPodcastReqDto } from "./dto/req/data.song.new-podcast.req.dt
 import { DataSongNewReqDto } from "./dto/req/data.song.new.req.dto";
 import { DataSongPodcastReqDto } from "./dto/req/data.song.podcast.req.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
-import { DataSongSearchMoodReqDto } from "./dto/req/data.song.search-mood.req.dto";
 import { DataSongService } from "./data.song.service";
 import { DataSongSimilarReqDto } from "./dto/req/data.song.similar.req.dto";
 import { DataSongTopDayReqDto } from "./dto/req/data.song.top-day.req.dto";
@@ -156,14 +155,6 @@ describe("DataSongService", () => {
       orderBy: DataOrderByType.downloads,
     };
     expect(await service.podcast(dto)).toEqual(songPagination);
-  });
-
-  it("searchMood should be equal to a list of songs", async () => {
-    const dto: DataSongSearchMoodReqDto = {
-      from: 0,
-      limit: 0,
-    };
-    expect(await service.searchMood(dto)).toEqual(songPagination);
   });
 
   it("similar should be equal to a list of songs", async () => {

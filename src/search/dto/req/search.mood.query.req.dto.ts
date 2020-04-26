@@ -2,7 +2,7 @@ import { IsNumberString, IsOptional } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class SongSearchMoodQueryDto {
+export class SearchMoodQueryDto {
   constructor(
     classy?: number,
     date?: number,

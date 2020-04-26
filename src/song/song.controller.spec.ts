@@ -26,8 +26,6 @@ import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
-import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
-import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
 import { SongService } from "./song.service";
 import { SongServiceInterface } from "./song.service.interface";
@@ -120,8 +118,6 @@ describe("SongController", () => {
     newSong: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     podcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
-      Promise.resolve(songPagination),
-    searchMood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     sendTelegram: (): Promise<void> => Promise.resolve(undefined),
     similar: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -262,17 +258,6 @@ describe("SongController", () => {
     expect(
       await controller.podcast(DataOrderByType.downloads, paramDto, queryDto)
     ).toEqual(songPagination);
-  });
-
-  it("searchMood should be equal to a list of songs", async () => {
-    const paramDto: SongSearchMoodParamDto = {
-      from: 0,
-      limit: 0,
-    };
-    const queryDto: SongSearchMoodQueryDto = {};
-    expect(await controller.searchMood(paramDto, queryDto)).toEqual(
-      songPagination
-    );
   });
 
   it("sendTelegram should be undefined", async () => {

@@ -13,6 +13,8 @@ import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import { DataSearchType } from "../data/data.search.type";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { SearchController } from "./search.controller";
+import { SearchMoodParamDto } from "./dto/req/search.mood.param.req.dto";
+import { SearchMoodQueryDto } from "./dto/req/search.mood.query.req.dto";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 import { SearchService } from "./search.service";
 import { SearchServiceInterface } from "./search.service.interface";
@@ -50,6 +52,10 @@ describe("SearchController", () => {
     releaseDate,
     title: "",
   };
+  const songPagination: DataPaginationResDto<DataSongResDto> = {
+    results: [song],
+    total: 1,
+  } as DataPaginationResDto<DataSongResDto>;
   const playlist: DataPlaylistResDto = {
     followersCount: 0,
     id: "",
@@ -76,6 +82,8 @@ describe("SearchController", () => {
     encode: (): string => "",
   };
   const searchServiceMock: SearchServiceInterface = {
+    mood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
     query: (): Promise<DataPaginationResDto<DataSearchResDto>> =>
       Promise.resolve(searchPagination),
   };
@@ -105,5 +113,16 @@ describe("SearchController", () => {
       query: "0",
     };
     expect(await controller.query(dto)).toEqual(searchPagination);
+  });
+
+  it("searchMood should be equal to a list of songs", async () => {
+    const paramDto: SearchMoodParamDto = {
+      from: 0,
+      limit: 0,
+    };
+    const queryDto: SearchMoodQueryDto = {};
+    expect(await controller.searchMood(paramDto, queryDto)).toEqual(
+      songPagination
+    );
   });
 });

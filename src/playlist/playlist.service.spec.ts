@@ -106,8 +106,6 @@ describe("PlaylistService", () => {
       Promise.resolve(songPagination),
     podcast: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
-    searchMood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
-      Promise.resolve(songPagination),
     similar: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     slider: (): Promise<DataPaginationResDto<DataSongResDto>> =>

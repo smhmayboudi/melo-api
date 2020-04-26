@@ -14,7 +14,6 @@ import { DataSongNewPodcastReqDto } from "./dto/req/data.song.new-podcast.req.dt
 import { DataSongNewReqDto } from "./dto/req/data.song.new.req.dto";
 import { DataSongPodcastReqDto } from "./dto/req/data.song.podcast.req.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
-import { DataSongSearchMoodReqDto } from "./dto/req/data.song.search-mood.req.dto";
 import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataSongSimilarReqDto } from "./dto/req/data.song.similar.req.dto";
 import { DataSongTopDayReqDto } from "./dto/req/data.song.top-day.req.dto";
@@ -174,29 +173,6 @@ export class DataSongService implements DataSongServiceInterface {
         {
           params: {
             genres: dto.genres,
-          },
-        }
-      )
-      .pipe(map((value) => value.data))
-      .toPromise();
-  }
-
-  @ApmAfterMethod
-  @ApmBeforeMethod
-  @PromMethodCounter
-  async searchMood(
-    dto: DataSongSearchMoodReqDto
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.httpService
-      .get<DataPaginationResDto<DataSongResDto>>(
-        `${this.dataConfigService.url}/search/mood/${dto.from}/${dto.limit}`,
-        {
-          params: {
-            classy: dto.classy,
-            date: dto.date,
-            energetic: dto.energetic,
-            happiness: dto.happiness,
-            romantic: dto.romantic,
           },
         }
       )

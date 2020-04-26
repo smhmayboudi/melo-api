@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNumberString } from "class-validator";
 
-export class SongSearchMoodParamDto {
+export class SearchMoodParamDto {
   constructor(from: number, limit: number) {
     this.from = from;
     this.limit = limit;

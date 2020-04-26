@@ -21,8 +21,6 @@ import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
-import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
-import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
 import { SongServiceInterface } from "./song.service.interface";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
@@ -187,19 +185,6 @@ export class SongService implements SongServiceInterface {
       ...paramDto,
       ...queryDto,
       orderBy,
-    });
-  }
-
-  @ApmAfterMethod
-  @ApmBeforeMethod
-  @PromMethodCounter
-  async searchMood(
-    paramDto: SongSearchMoodParamDto,
-    querydto: SongSearchMoodQueryDto
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.dataSongService.searchMood({
-      ...paramDto,
-      ...querydto,
     });
   }
 

@@ -33,8 +33,6 @@ import { SongMoodReqDto } from "./dto/req/song.mood.req.dto";
 import { SongNewReqDto } from "./dto/req/song.new.req.dto";
 import { SongPodcastGenresParamReqDto } from "./dto/req/song.podcast.genres.param.req.dto";
 import { SongPodcastGenresQueryReqDto } from "./dto/req/song.podcast.genres.query.req.dto";
-import { SongSearchMoodParamDto } from "./dto/req/song.search-mood.param.req.dto";
-import { SongSearchMoodQueryDto } from "./dto/req/song.search-mood.query.req.dto";
 import { SongSendTelegramReqDto } from "./dto/req/song.send-telegram.req.dto";
 import { SongService } from "./song.service";
 import { SongSimilarReqDto } from "./dto/req/song.similar.req.dto";
@@ -175,15 +173,6 @@ export class SongController {
     @Query() queryDto: SongPodcastGenresQueryReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     return this.songService.podcast(orderBy, paramDto, queryDto);
-  }
-
-  @Get("search/mood/:from/:limit")
-  @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async searchMood(
-    @Param() paramDto: SongSearchMoodParamDto,
-    @Query() querydto: SongSearchMoodQueryDto
-  ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.songService.searchMood(paramDto, querydto);
   }
 
   @Post("send/telegram")
