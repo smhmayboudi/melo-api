@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Inject, Param } from "@nestjs/common";
+import { Controller, Get, Header, Inject } from "@nestjs/common";
 import { Registry, register } from "prom-client";
 import { PROM_REGISTRY_DEFAULT } from "./prom.constant";
 
@@ -9,9 +9,9 @@ export class PromController {
     private readonly registry: Registry
   ) {}
 
-  @Get(["", ":registryName"])
+  @Get()
   @Header("Content-Type", register.contentType)
-  index(@Param("registryName") _registryName: string): string {
+  index(): string {
     return this.registry.metrics();
   }
 }

@@ -17,6 +17,7 @@ import { AppConfigService } from "./app.config.service";
 import { AppEncodingService } from "./app.encoding.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
+import { AppHealthController } from "./app.health.controller";
 import { AppHealthIndicator } from "./app.health.indicator";
 import { AppImgProxyService } from "./app.img-proxy.service";
 import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
@@ -24,7 +25,6 @@ import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
 import { AppSong } from "./app.song";
-import { AppTerminusOptionsFactory } from "./app.terminus.options.factory";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { ArtistModule } from "../artist/artist.module";
 import { AtModule } from "../at/at.module";
@@ -50,6 +50,7 @@ import { UserModule } from "../user/user.module";
 import config from "./app.config";
 
 @Module({
+  controllers: [AppHealthController],
   exports: [
     AppConfigService,
     AppHashIdService,
@@ -99,29 +100,7 @@ import config from "./app.config";
       useClass: AppSentryOptionsFactory,
     }),
     SongModule,
-    TerminusModule.forRootAsync({
-      imports: [
-        ActionModule,
-        AlbumModule,
-        AppModule,
-        ArtistModule,
-        AtModule,
-        AuthModule,
-        ConstModule,
-        DataModule,
-        DownloadModule,
-        EmotionModule,
-        FileModule,
-        JwksModule,
-        PlaylistModule,
-        RelationModule,
-        RtModule,
-        SearchModule,
-        SongModule,
-        UserModule,
-      ],
-      useClass: AppTerminusOptionsFactory,
-    }),
+    TerminusModule,
     TypeOrmModule.forRootAsync({
       imports: [AppModule],
       useClass: AppTypeOrmOptionsFactory,

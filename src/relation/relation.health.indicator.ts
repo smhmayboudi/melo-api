@@ -1,10 +1,15 @@
-import { HealthIndicator, HealthIndicatorResult } from "@nestjs/terminus";
+import {
+  HealthCheckError,
+  HealthIndicator,
+  HealthIndicatorResult,
+} from "@nestjs/terminus";
 
-import { HealthCheckError } from "@godaddy/terminus";
+import { AppHealthIndicatorInterface } from "../app/app.health.indicator.interfce";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()
-export class RelationHealthIndicator extends HealthIndicator {
+export class RelationHealthIndicator extends HealthIndicator
+  implements AppHealthIndicatorInterface {
   async isHealthy(): Promise<HealthIndicatorResult> {
     const isHealthy = true;
     const result = this.getStatus("relation", isHealthy);
