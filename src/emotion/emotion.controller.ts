@@ -21,8 +21,7 @@ import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionService } from "./emotion.service";
 
-@UseInterceptors(EmotionLikeInterceptor)
-@UseInterceptors(EmotionHashIdInterceptor)
+@UseInterceptors(EmotionLikeInterceptor, EmotionHashIdInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("emotion")
 @Controller("emotion")

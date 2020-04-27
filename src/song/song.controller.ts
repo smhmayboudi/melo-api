@@ -42,9 +42,11 @@ import { SongTopDayReqDto } from "./dto/req/song.top-day.req.dto";
 import { SongTopWeekReqDto } from "./dto/req/song.top-week.req.dto";
 import { SongUnlikeReqDto } from "./dto/req/song.unlike.req.dto";
 
-@UseInterceptors(SongLikeInterceptor)
-@UseInterceptors(SongLocalizeInterceptor)
-@UseInterceptors(SongHashIdInterceptor)
+@UseInterceptors(
+  SongLikeInterceptor,
+  SongLocalizeInterceptor,
+  SongHashIdInterceptor
+)
 @ApiBearerAuth("jwt")
 @ApiTags("song")
 @Controller("song")

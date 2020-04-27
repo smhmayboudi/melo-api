@@ -29,9 +29,11 @@ import { PlaylistService } from "./playlist.service";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
 
-@UseInterceptors(PlaylistLikeInterceptor)
-@UseInterceptors(PlaylistLocalizeInterceptor)
-@UseInterceptors(PlaylistHashIdInterceptor)
+@UseInterceptors(
+  PlaylistLikeInterceptor,
+  PlaylistLocalizeInterceptor,
+  PlaylistHashIdInterceptor
+)
 @ApiBearerAuth("jwt")
 @ApiTags("playlist")
 @Controller("playlist")

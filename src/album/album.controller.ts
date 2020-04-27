@@ -21,10 +21,12 @@ import { AuthGuard } from "@nestjs/passport";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 
-@UseInterceptors(AlbumFollowInterceptor)
-@UseInterceptors(AlbumLikeInterceptor)
-@UseInterceptors(AlbumLocalizeInterceptor)
-@UseInterceptors(AlbumHashIdInterceptor)
+@UseInterceptors(
+  AlbumFollowInterceptor,
+  AlbumLikeInterceptor,
+  AlbumLocalizeInterceptor,
+  AlbumHashIdInterceptor
+)
 @ApiBearerAuth("jwt")
 @ApiTags("album")
 @Controller("album")

@@ -25,8 +25,7 @@ import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
 import { DownloadSortByPipe } from "./download.sort-by.pipe";
 import { DownloadSortByType } from "./download.sort-by.type";
 
-@UseInterceptors(DownloadLikeInterceptor)
-@UseInterceptors(DownloadHashIdInterceptor)
+@UseInterceptors(DownloadLikeInterceptor, DownloadHashIdInterceptor)
 @ApiBearerAuth("jwt")
 @ApiTags("download")
 @Controller("download")
