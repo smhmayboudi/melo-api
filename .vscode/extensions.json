@@ -1,11 +1,16 @@
 {
   "recommendations": [
     "amatiasq.sort-imports",
+    "coenraads.bracket-pair-colorizer-2",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "esbenp.prettier-vscode",
+    "mhutchie.git-graph",
     "ms-azuretools.vscode-docker",
+    "ms-vsliveshare.vsliveshare",
+    "piotrpalarz.vscode-gitignore-generator",
     "pkief.material-icon-theme",
+    "quicktype.quicktype",
     "tyriar.sort-lines",
     "wesbos.theme-cobalt2"
   ]

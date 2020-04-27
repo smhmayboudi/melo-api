@@ -1,27 +1,11 @@
-# 1st Time Run
-
-* Run MySqlWorkbench
-* Connect to 127.0.0.1
-* Create a new schema with 'meloapp' name
-* Run the api
-* Inser a key into jwkss table
-
-```bash
-# generate UUID
-$ uuidgen
-
-# generate publiic & private keys
-$ ssh-keygen -t rsa -b 1024 -m PEM -f jwtKey.key
-$ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
-```
-
 # Description
 
 Api based on [Nest](https://github.com/nestjs/nest).
 
 # Tooling
 
-```bash
+## cmd
+```Shell
 $ brew cask install beyond-compare
 $ brew cask install docker
 $ brew cask install google-chrome
@@ -37,22 +21,50 @@ $ brew cask install visual-studio-code
 $ brew install tig
 ```
 
+## vscode
+```Shell
+$ code --install-extension amatiasq.sort-imports
+$ code --install-extension coenraads.bracket-pair-colorizer-2
+$ code --install-extension dbaeumer.vscode-eslint
+$ code --install-extension eamodio.gitlens
+$ code --install-extension esbenp.prettier-vscode
+$ code --install-extension mhutchie.git-graph
+$ code --install-extension ms-azuretools.vscode-docker
+$ code --install-extension ms-vsliveshare.vsliveshare
+$ code --install-extension piotrpalarz.vscode-gitignore-generator
+$ code --install-extension pkief.material-icon-theme
+$ code --install-extension quicktype.quicktype
+$ code --install-extension tyriar.sort-lines
+$ code --install-extension wesbos.theme-cobalt2
+```
+
 # Enviroment
 
 * For using personal, duplicate [.env.sample](.env.sample), rename it to `.env` and fillout it.
 * For using docker, duplicate [.env.sample](.env.sample) and rename it to `.env.docker` and fillout it.
 
-# Installation
+# 1st Time Run
 
-```bash
-$ npm install
+* Run MySqlWorkbench
+* Connect to 127.0.0.1
+* Create a new schema with 'meloapp' name
+* Run the api
+* Inser a key into jwkss table
+
+```Shell
+# generate UUID
+$ uuidgen
+
+# generate publiic & private keys
+$ ssh-keygen -t rsa -b 1024 -m PEM -f jwtKey.key
+$ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
 ```
 
 # Docker
 
 ## Pull
 
-```bash
+```Shell
 # need
 $ docker pull darthsim/imgproxy
 $ docker pull minio/minio
@@ -80,7 +92,7 @@ $ docker pull docker.elastic.co/logstash/logstash7.6.0
 
 ## Develpoment
 
-```bash
+```Shell
 # run daemon dependencies
 $ docker-compose -f docker-compose.development.yml up -d minio mongo mysql redis
 
@@ -103,7 +115,7 @@ $ docker-compose -f docker-compose.development.yml logs node
 
 ## Deployment
 
-```bash
+```Shell
 # run all background
 $ docker-compose -f docker-compose.yml up
 
@@ -113,8 +125,14 @@ $ docker-compose -f docker-compose.yml stop
 
 # NPM
 
-### Docker
-```bash
+## Installation
+
+```Shell
+$ npm install
+```
+
+## Docker
+```Shell
 # docker run all in deployment mode
 $ npm run docker-compose
 
@@ -128,30 +146,30 @@ $ npm run docker-compose:development
 $ npm run docker-compose:development:build
 ```
 
-### Format
-```bash
+## Format
+```Shell
 $ npm run format
 ```
 
-### Lint
-```bash
+## Lint
+```Shell
 $ npm run lint
 
 # Fix errors
 $ npm run lint -- --fix
 ```
 
-### Migration
+## Migration
 It needs to generate migration files (`migration:create`, `migration:generate`).
-```bash
+```Shell
 $ ./node_modules/.bin/typeorm --help
 
 $ npm run migration:revert
 $ npm run migration:run
 ```
 
-### Start
-```bash
+## Start
+```Shell
 # development mode
 $ npm run start
 
@@ -165,10 +183,8 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-
-
-### Test
-```bash
+## Test
+```Shell
 # unit tests
 $ npm run test
 
@@ -185,8 +201,8 @@ $ npm run test:e2e
 $ npm run test:watch
 ```
 
-### Version
-```bash
+## Version
+```Shell
 # changelog
 $ npm run version
 ```
