@@ -19,7 +19,7 @@ describe("AppEncodingService", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const artistEncoded: any = {
+  const artistEncoded: unknown = {
     ...artist,
     id: "",
   };
@@ -44,7 +44,7 @@ describe("AppEncodingService", () => {
     releaseDate,
     title: "",
   };
-  const songEncoded: any = {
+  const songEncoded: unknown = {
     ...song,
     album: {
       artists: [artistEncoded],
@@ -65,7 +65,7 @@ describe("AppEncodingService", () => {
     results: [song],
     total: 1,
   } as DataPaginationResDto<DataSongResDto>;
-  const songPaginationEncoded: any = {
+  const songPaginationEncoded: unknown = {
     results: [songEncoded],
     total: 1,
   };
@@ -76,7 +76,7 @@ describe("AppEncodingService", () => {
     releaseDate,
     songs: songPagination,
   };
-  const albumEncoded: any = {
+  const albumEncoded: unknown = {
     ...album,
     artists: [artistEncoded],
     id: "",
@@ -96,7 +96,7 @@ describe("AppEncodingService", () => {
     title: "",
     tracksCount: 0,
   };
-  const playlistEncoded: DataPlaylistResDto = {
+  const playlistEncoded: unknown = {
     ...playlist,
     songs: songPaginationEncoded,
   };
@@ -110,7 +110,7 @@ describe("AppEncodingService", () => {
     song: song,
     type: DataSearchType.album,
   };
-  const searchEncoded: DataSearchResDto = {
+  const searchEncoded: unknown = {
     album: albumEncoded,
     artist: artistEncoded,
     playlist: playlistEncoded,
@@ -139,47 +139,62 @@ describe("AppEncodingService", () => {
     expect(service).toBeDefined();
   });
 
-  it("encodeAlbums should be equal to an array of albums", () => {
-    expect(service.encodeAlbums([album])).toEqual([albumEncoded]);
+  it("album should be equal to an array of albums", () => {
+    expect(service.album(album)).toEqual(albumEncoded);
   });
 
-  it("encodeAlbums should be equal to an array of albums arist, id undefined", () => {
+  it("album should be equal to an array of albums arist, id undefined", () => {
     expect(
-      service.encodeAlbums([{ ...album, artists: undefined, id: undefined }])
-    ).toEqual([{ ...albumEncoded, artists: undefined, id: undefined }]);
+      service.album({ ...album, artists: undefined, id: undefined })
+    ).toEqual({
+      ...album,
+      artists: undefined,
+      id: undefined,
+      songs: songPaginationEncoded,
+    });
   });
 
-  it("encodeArtists should be equal to an array of artists", () => {
-    expect(service.encodeArtists([artist])).toEqual([artistEncoded]);
+  it("artists should be equal to an array of artists", () => {
+    expect(service.artist(artist)).toEqual(artistEncoded);
   });
 
-  it("encodeSongs should be equal to a list of songs", () => {
-    expect(service.encodeSongs([song])).toEqual([songEncoded]);
+  it("songs should be equal to a list of songs", () => {
+    expect(service.song(song)).toEqual(songEncoded);
   });
 
-  it("encodeSongs should be equal to a list of songs album undefined", () => {
-    expect(service.encodeSongs([{ ...song, album: undefined }])).toEqual([
-      { ...songEncoded, album: undefined },
-    ]);
+  it("songs should be equal to a list of songs album undefined", () => {
+    expect(service.song({ ...song, album: undefined })).toEqual({
+      ...song,
+      album: undefined,
+      artists: [
+        {
+          followersCount: 0,
+          id: "",
+          type: DataArtistType.feat,
+        },
+      ],
+      id: "",
+    });
   });
 
-  it("encodePlaylists should be equal to a list of playlists", () => {
-    expect(service.encodePlaylists([playlist])).toEqual([playlistEncoded]);
+  it("playlists should be equal to a list of playlists", () => {
+    expect(service.playlist(playlist)).toEqual(playlistEncoded);
   });
 
-  it("encodePlaylists should be equal to a list of playlists songs undefined", () => {
-    expect(
-      service.encodePlaylists([{ ...playlist, songs: undefined }])
-    ).toEqual([{ ...playlist, songs: undefined }]);
+  it("playlists should be equal to a list of playlists songs undefined", () => {
+    expect(service.playlist({ ...playlist, songs: undefined })).toEqual({
+      ...playlist,
+      songs: undefined,
+    });
   });
 
-  it("encodeSearches should be equal to a list of searches", () => {
-    expect(service.encodeSearches([search])).toEqual([searchEncoded]);
+  it("searches should be equal to a list of searches", () => {
+    expect(service.search(search)).toEqual(searchEncoded);
   });
 
-  it("encodeSearches should be equal to a list of searches fields undefined", () => {
-    expect(service.encodeSearches([searchFieldsUndefined])).toEqual([
-      searchFieldsUndefined,
-    ]);
+  it("searches should be equal to a list of searches fields undefined", () => {
+    expect(service.search(searchFieldsUndefined)).toEqual(
+      searchFieldsUndefined
+    );
   });
 });

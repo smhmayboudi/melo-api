@@ -6,7 +6,7 @@ import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
 import { LogLevel } from "@sentry/types";
 
 export interface SentryFilterFunction {
-  (exception: any): boolean;
+  (exception: unknown): boolean;
 }
 export interface SentryInterceptorOptionsFilter {
   filter?: SentryFilterFunction;
@@ -19,7 +19,7 @@ export interface SentryModuleOptions {
   logLevel?: LogLevel;
   release?: string;
   context?: "Http" | "Ws" | "Rpc" | "GraphQL";
-  extra?: { [key: string]: any };
+  extra?: { [key: string]: unknown };
   filters?: SentryInterceptorOptionsFilter[];
   fingerprint?: string[];
   level?: Sentry.Severity;
@@ -41,7 +41,7 @@ export interface SentryModuleAsyncOptions
   useClass?: Type<SentryOptionsFactory>;
   useExisting?: Type<SentryOptionsFactory>;
   useFactory?: (
-    ...args: any[]
+    ...args: unknown[]
   ) => Promise<SentryModuleOptions> | SentryModuleOptions;
 }
 
@@ -61,7 +61,7 @@ export interface SentryService {
    * @param exception An exception-like object.
    * @returns The generated eventId.
    */
-  captureException(exception: any): string;
+  captureException(exception: unknown): string;
   /**
    * Captures a manually created event and sends it to Sentry.
    *
@@ -90,14 +90,14 @@ export interface SentryService {
   setContext(
     name: string,
     context: {
-      [key: string]: any;
+      [key: string]: unknown;
     } | null
   ): void;
   /**
    * Set an object that will be merged sent as extra data with the event.
    * @param extras Extras object to merge into current context.
    */
-  setExtras(extras: { [key: string]: any }): void;
+  setExtras(extras: { [key: string]: unknown }): void;
   /**
    * Set an object that will be merged sent as tags data with the event.
    * @param tags Tags context object to merge into current context.
@@ -108,7 +108,7 @@ export interface SentryService {
    * @param key String of extra
    * @param extra Any kind of data. This data will be normailzed.
    */
-  setExtra(key: string, extra: any): void;
+  setExtra(key: string, extra: unknown): void;
   /**
    * Set key:value that will be sent as tags data with the event.
    * @param key String key of tag
@@ -144,5 +144,5 @@ export interface SentryService {
    * @param method The method to call on the client/client.
    * @param args Arguments to pass to the client/fontend.
    */
-  _callOnClient(method: string, ...args: any[]): void;
+  _callOnClient(method: string, ...args: unknown[]): void;
 }

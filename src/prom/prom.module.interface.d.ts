@@ -40,6 +40,6 @@ export interface PromModuleAsyncOptions
   useClass?: Type<PromOptionsFactory>;
   useExisting?: Type<PromOptionsFactory>;
   useFactory?: (
-    ...args: any[]
+    ...args: unknown[]
   ) => Promise<PromModuleOptions> | PromModuleOptions;
 }

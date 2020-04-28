@@ -12,7 +12,7 @@ describe("HttpExceptionFilter", () => {
       .fn()
       .mockImplementation(() => ({ method: "", route: { path: "" } })),
     getResponse: jest.fn().mockImplementation(() => ({
-      status: (): any => ({ json: (): any => ({}) }),
+      status: (): unknown => ({ json: (): unknown => ({}) }),
     })),
   };
   const argumentsHost: ArgumentsHost = {

@@ -5,9 +5,9 @@ import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 export interface AppEncodingServiceInterface {
-  encodeArtists(artists: DataArtistResDto[]): DataArtistResDto[];
-  encodeAlbums(album: DataAlbumResDto[]): DataAlbumResDto[];
-  encodeSongs(songs: DataSongResDto[]): DataSongResDto[];
-  encodePlaylists(playlists: DataPlaylistResDto[]): DataPlaylistResDto[];
-  encodeSearches(searches: DataSearchResDto[]): DataSearchResDto[];
+  artist(artists: DataArtistResDto): unknown;
+  album(album: DataAlbumResDto): unknown;
+  song(songs: DataSongResDto): unknown;
+  playlist(playlists: DataPlaylistResDto): unknown;
+  search(searches: DataSearchResDto): unknown;
 }

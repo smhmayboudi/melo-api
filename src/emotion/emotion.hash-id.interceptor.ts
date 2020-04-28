@@ -6,8 +6,6 @@ import {
 } from "@nestjs/common";
 
 import { AppEncodingService } from "../app/app.encoding.service";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
@@ -15,27 +13,18 @@ import { map } from "rxjs/operators";
 export class EmotionHashIdInterceptor implements NestInterceptor {
   constructor(private readonly appEncodingService: AppEncodingService) {}
 
-  transform = (downloads: EmotionResDto[]): EmotionResDto[] =>
-    downloads.map(
-      (value) =>
-        ({
-          ...value,
-          song: this.appEncodingService.encodeSongs([value.song])[0],
-        } as EmotionResDto)
-    );
-
   intercept(
     _context: ExecutionContext,
     next: CallHandler
-  ): Observable<DataPaginationResDto<EmotionResDto>> {
+  ): Observable<unknown> {
     return next.handle().pipe(
-      map(
-        (data) =>
-          ({
-            results: this.transform(data.results),
-            total: data.total,
-          } as DataPaginationResDto<EmotionResDto>)
-      )
+      map((data) => ({
+        results: data.results.map((value) => ({
+          ...value,
+          song: this.appEncodingService.song(value.song),
+        })),
+        total: data.total,
+      }))
     );
   }
 }

@@ -8,19 +8,19 @@ import {
 import { DownloadOrderByType } from "./download.order-by.type";
 
 export interface DownloadOrderByPipeOptions {
-  exceptionFactory?: (errors: string) => any;
+  exceptionFactory?: (errors: string) => unknown;
 }
 
 @Injectable()
 export class DownloadOrderByPipe
   implements PipeTransform<string, DownloadOrderByType> {
-  protected exceptionFactory: (errors: string) => any;
+  protected exceptionFactory: (errors: string) => unknown;
 
   constructor(@Optional() options?: DownloadOrderByPipeOptions) {
     options = options || {};
     this.exceptionFactory =
       options.exceptionFactory ||
-      ((error: string): any => new BadRequestException(error));
+      ((error: string): unknown => new BadRequestException(error));
   }
 
   transform(value: string, _metadata: ArgumentMetadata): DownloadOrderByType {

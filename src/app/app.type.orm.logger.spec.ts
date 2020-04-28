@@ -1,5 +1,3 @@
-// import { TestingModule, Test } from "@nestjs/testing";
-
 import { AppTypeOrmLogger } from "./app.type.orm.logger";
 
 describe("AppTypeOrmLogger", () => {

@@ -20,7 +20,7 @@ export class AppTypeOrmLogger implements typeorm.Logger {
 
   logQuery(
     query: string,
-    parameters?: any[] | undefined,
+    parameters?: unknown[] | undefined,
     _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
     if (
@@ -40,7 +40,7 @@ export class AppTypeOrmLogger implements typeorm.Logger {
   logQueryError(
     error: string,
     query: string,
-    parameters?: any[] | undefined,
+    parameters?: unknown[] | undefined,
     _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
     if (
@@ -64,7 +64,7 @@ export class AppTypeOrmLogger implements typeorm.Logger {
   logQuerySlow(
     time: number,
     query: string,
-    parameters?: any[] | undefined,
+    parameters?: unknown[] | undefined,
     _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
     const sql =
@@ -99,7 +99,7 @@ export class AppTypeOrmLogger implements typeorm.Logger {
 
   log(
     level: "log" | "info" | "warn",
-    message: any,
+    message: unknown,
     _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
     switch (level) {
@@ -127,7 +127,7 @@ export class AppTypeOrmLogger implements typeorm.Logger {
     }
   }
 
-  stringifyParams(parameters: any[]): any {
+  stringifyParams(parameters: unknown[]): unknown {
     try {
       return JSON.stringify(parameters);
     } catch (error) {

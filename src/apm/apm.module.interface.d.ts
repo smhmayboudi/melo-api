@@ -13,7 +13,9 @@ export interface ApmModuleAsyncOptions extends Pick<ModuleMetadata, "imports"> {
   inject?: any[];
   useClass?: Type<ApmOptionsFactory>;
   useExisting?: Type<ApmOptionsFactory>;
-  useFactory?: (...args: any[]) => Promise<ApmModuleOptions> | ApmModuleOptions;
+  useFactory?: (
+    ...args: unknown[]
+  ) => Promise<ApmModuleOptions> | ApmModuleOptions;
 }
 export interface Agent {
   // Configuration
@@ -222,22 +224,22 @@ export interface UserObject {
 }
 export interface ParameterizedMessageObject {
   message: string;
-  params: any[];
+  params: unknown[];
 }
 export interface Logger {
-  fatal(msg: string, ...args: any[]): void;
-  fatal(obj: {}, msg?: string, ...args: any[]): void;
-  error(msg: string, ...args: any[]): void;
-  error(obj: {}, msg?: string, ...args: any[]): void;
-  warn(msg: string, ...args: any[]): void;
-  warn(obj: {}, msg?: string, ...args: any[]): void;
-  info(msg: string, ...args: any[]): void;
-  info(obj: {}, msg?: string, ...args: any[]): void;
-  debug(msg: string, ...args: any[]): void;
-  debug(obj: {}, msg?: string, ...args: any[]): void;
-  trace(msg: string, ...args: any[]): void;
-  trace(obj: {}, msg?: string, ...args: any[]): void;
-  [propName: string]: any;
+  fatal(msg: string, ...args: unknown[]): void;
+  fatal(obj: {}, msg?: string, ...args: unknown[]): void;
+  error(msg: string, ...args: unknown[]): void;
+  error(obj: {}, msg?: string, ...args: unknown[]): void;
+  warn(msg: string, ...args: unknown[]): void;
+  warn(obj: {}, msg?: string, ...args: unknown[]): void;
+  info(msg: string, ...args: unknown[]): void;
+  info(obj: {}, msg?: string, ...args: unknown[]): void;
+  debug(msg: string, ...args: unknown[]): void;
+  debug(obj: {}, msg?: string, ...args: unknown[]): void;
+  trace(msg: string, ...args: unknown[]): void;
+  trace(obj: {}, msg?: string, ...args: unknown[]): void;
+  [propName: string]: unknown;
 }
 export interface TransactionOptions {
   startTime?: number;
@@ -253,8 +255,12 @@ type CaptureErrorCallback = (err: Error | null, id: string) => void;
 type FilterFn = (payload: Payload) => Payload | boolean | void;
 type LabelValue = string | number | boolean | null | undefined;
 type KeyValueConfig = string | Labels | LabelValue[][];
-type Payload = { [propName: string]: any };
-type PatchHandler = (exports: any, agent: Agent, options: PatchOptions) => any;
+type Payload = { [propName: string]: unknown };
+type PatchHandler = (
+  exports: unknown,
+  agent: Agent,
+  options: PatchOptions
+) => any;
 
 export interface PatchOptions {
   version: string | undefined;

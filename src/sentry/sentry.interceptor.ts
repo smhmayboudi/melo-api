@@ -33,7 +33,7 @@ export class SentryInterceptor implements NestInterceptor {
     private readonly sentry: typeof Sentry
   ) {}
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
     const ws = context.switchToWs();
     const rpc = context.switchToRpc();
@@ -48,19 +48,19 @@ export class SentryInterceptor implements NestInterceptor {
             switch (this.options.context) {
               case "GraphQL":
                 this.captureGraphQLException(
-                  scope as any,
+                  scope,
                   GqlArgumentsHost.create(context),
                   error
                 );
                 break;
               case "Http":
-                this.captureHttpException(scope as any, http, error);
+                this.captureHttpException(scope, http, error);
                 break;
               case "Rpc":
-                this.captureRpcException(scope as any, rpc, error);
+                this.captureRpcException(scope, rpc, error);
                 break;
               case "Ws":
-                this.captureWsException(scope as any, ws, error);
+                this.captureWsException(scope, ws, error);
                 break;
             }
           });
@@ -75,11 +75,7 @@ export class SentryInterceptor implements NestInterceptor {
     exception
   ): void {
     // Same as HttpException
-    const data = Handlers.parseRequest(
-      {} as any,
-      gqlHost.getContext(),
-      this.options
-    );
+    const data = Handlers.parseRequest({}, gqlHost.getContext(), this.options);
     scope.setExtra("req", data.request);
     if (data.extra !== undefined) {
       scope.setExtras(data.extra);
@@ -100,11 +96,7 @@ export class SentryInterceptor implements NestInterceptor {
     http: HttpArgumentsHost,
     exception
   ): void {
-    const data = Handlers.parseRequest(
-      {} as any,
-      http.getRequest(),
-      this.options
-    );
+    const data = Handlers.parseRequest({}, http.getRequest(), this.options);
     scope.setExtra("req", data.request);
     if (data.extra !== undefined) {
       scope.setExtras(data.extra);

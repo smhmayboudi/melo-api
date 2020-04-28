@@ -71,11 +71,11 @@ describe("SearchController", () => {
   };
 
   const appEncodingServiceMock: AppEncodingServiceInterface = {
-    encodeAlbums: (): DataAlbumResDto[] => [album],
-    encodeArtists: (): DataArtistResDto[] => [artist],
-    encodePlaylists: (): DataPlaylistResDto[] => [playlist],
-    encodeSearches: (): DataSearchResDto[] => [search],
-    encodeSongs: (): DataSongResDto[] => [song],
+    album: (): DataAlbumResDto[] => [album],
+    artist: (): DataArtistResDto[] => [artist],
+    playlist: (): DataPlaylistResDto[] => [playlist],
+    search: (): DataSearchResDto[] => [search],
+    song: (): DataSongResDto[] => [song],
   };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,

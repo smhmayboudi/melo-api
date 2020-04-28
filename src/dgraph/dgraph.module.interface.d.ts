@@ -4,11 +4,11 @@ import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
 import { ChannelCredentials } from "grpc";
 
 export interface DgraphFilterFunction {
-  (exception: any): boolean;
+  (exception: unknown): boolean;
 }
 export interface DgraphInterceptorOptionsFilter {
   filter?: DgraphFilterFunction;
-  type: any;
+  type: unknown;
 }
 export interface DgraphModuleOptions {
   debug?: boolean;
@@ -27,7 +27,7 @@ export interface DgraphModuleAsyncOptions
   useClass?: Type<DgraphOptionsFactory>;
   useExisting?: Type<DgraphOptionsFactory>;
   useFactory?: (
-    ...args: any[]
+    ...args: unknown[]
   ) => Promise<DgraphModuleOptions> | DgraphModuleOptions;
 }
 export interface DgraphInstance {

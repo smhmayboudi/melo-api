@@ -7,8 +7,8 @@ export class Strategy extends PassportStrategy {
     authorization: string | undefined,
     verified: (
       err: Error | null,
-      user?: Record<string, any>,
-      info?: Record<string, any>
+      user?: Record<string, unknown>,
+      info?: Record<string, unknown>
     ) => void,
     req?: express.Request
   ) => void;
@@ -19,8 +19,8 @@ export class Strategy extends PassportStrategy {
       authorization: string | undefined,
       verified: (
         err: Error | null,
-        user?: Record<string, any>,
-        info?: Record<string, any>
+        user?: Record<string, unknown>,
+        info?: Record<string, unknown>
       ) => void,
       req?: express.Request
     ) => void,
@@ -32,16 +32,16 @@ export class Strategy extends PassportStrategy {
     this.passReqToCallback = passReqToCallback || false;
   }
 
-  authenticate(req: express.Request, _options?: Record<string, any>): void {
+  authenticate(req: express.Request, _options?: Record<string, unknown>): void {
     const authorization = req.headers.authorization;
     const verified: (
       err: Error | null,
-      user?: Record<string, any> | undefined,
-      info?: Record<string, any> | undefined
+      user?: Record<string, unknown> | undefined,
+      info?: Record<string, unknown> | undefined
     ) => void = (
       err: Error | null,
-      user?: Record<string, any>,
-      info?: Record<string, any>
+      user?: Record<string, unknown>,
+      info?: Record<string, unknown>
     ) => {
       if (err) {
         return this.error(err);

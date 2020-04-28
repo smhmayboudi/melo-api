@@ -18,90 +18,74 @@ export class AppEncodingService implements AppEncodingServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodeArtists(artists: DataArtistResDto[]): any[] {
-    return artists.map((value) => ({
-      ...value,
-      id: this.appHashIdService.encode(value.id),
-    }));
+  artist(dto: DataArtistResDto): unknown {
+    return {
+      ...dto,
+      id: this.appHashIdService.encode(dto.id),
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodeAlbums(albums: DataAlbumResDto[]): any[] {
-    return albums.map((value) => ({
-      ...value,
+  album(dto: DataAlbumResDto): unknown {
+    return {
+      ...dto,
       artists:
-        value.artists === undefined
+        dto.artists === undefined
           ? undefined
-          : this.encodeArtists(value.artists),
+          : dto.artists.map((value) => this.artist(value)),
       id:
-        value.id === undefined
-          ? undefined
-          : this.appHashIdService.encode(value.id),
+        dto.id === undefined ? undefined : this.appHashIdService.encode(dto.id),
       songs:
-        value.songs === undefined
+        dto.songs === undefined
           ? undefined
           : {
-              results: this.encodeSongs(value.songs.results),
-              total: value.songs.total,
+              results: dto.songs.results.map((value) => this.song(value)),
+              total: dto.songs.total,
             },
-    }));
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodePlaylists(playlists: DataPlaylistResDto[]): any[] {
-    return playlists.map((value) => ({
-      ...value,
+  playlist(dto: DataPlaylistResDto): unknown {
+    return {
+      ...dto,
       songs:
-        value.songs === undefined
+        dto.songs === undefined
           ? undefined
           : {
-              results: this.encodeSongs(value.songs.results),
-              total: value.songs.total,
+              results: dto.songs.results.map((value) => this.song(value)),
+              total: dto.songs.total,
             },
-    }));
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodeSearches(searches: DataSearchResDto[]): any[] {
-    return searches.map((value) => ({
-      ...value,
-      album:
-        value.album === undefined
-          ? undefined
-          : this.encodeAlbums([value.album])[0],
-      artist:
-        value.artist === undefined
-          ? undefined
-          : this.encodeArtists([value.artist])[0],
+  search(dto: DataSearchResDto): unknown {
+    return {
+      ...dto,
+      album: dto.album === undefined ? undefined : this.album(dto.album),
+      artist: dto.artist === undefined ? undefined : this.artist(dto.artist),
       playlist:
-        value.playlist === undefined
-          ? undefined
-          : this.encodePlaylists([value.playlist])[0],
-      song:
-        value.song === undefined
-          ? undefined
-          : this.encodeSongs([value.song])[0],
-    }));
+        dto.playlist === undefined ? undefined : this.playlist(dto.playlist),
+      song: dto.song === undefined ? undefined : this.song(dto.song),
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodeSongs(songs: DataSongResDto[]): any[] {
-    return songs.map((value) => ({
-      ...value,
-      album:
-        value.album === undefined
-          ? undefined
-          : this.encodeAlbums([value.album])[0],
-      artists: this.encodeArtists(value.artists),
-      id: this.appHashIdService.encode(value.id),
-    }));
+  song(dto: DataSongResDto): unknown {
+    return {
+      ...dto,
+      album: dto.album === undefined ? undefined : this.album(dto.album),
+      artists: dto.artists.map((value) => this.artist(value)),
+      id: this.appHashIdService.encode(dto.id),
+    };
   }
 }

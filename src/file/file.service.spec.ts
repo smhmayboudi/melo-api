@@ -80,7 +80,7 @@ describe("FileService", () => {
     }).compile();
     service = module.get<FileService>(FileService);
     jest.mock("aws-sdk").fn(() => ({
-      upload: (): Promise<any> => Promise.resolve(managedUpload),
+      upload: (): Promise<unknown> => Promise.resolve(managedUpload),
     }));
   }, 40000);
 

@@ -8,8 +8,6 @@ import {
 import { AppEncodingService } from "../app/app.encoding.service";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
@@ -21,13 +19,7 @@ export class PlaylistHashIdInterceptor implements NestInterceptor {
     private readonly appHashIdService: AppHashIdService
   ) {}
 
-  transform = (playlists: DataPlaylistResDto[]): DataPlaylistResDto[] =>
-    this.appEncodingService.encodePlaylists(playlists);
-
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler
-  ): Observable<DataPaginationResDto<DataPlaylistResDto> | DataPlaylistResDto> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
@@ -46,12 +38,14 @@ export class PlaylistHashIdInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         if (data.total === undefined) {
-          return this.transform([data])[0];
+          return this.appEncodingService.playlist(data);
         } else {
           return {
-            results: this.transform(data.results),
+            results: data.results.map((value) =>
+              this.appEncodingService.playlist(value)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataPlaylistResDto>;
+          };
         }
       })
     );

@@ -8,8 +8,6 @@ import {
 import { AppEncodingService } from "../app/app.encoding.service";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
-import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
-import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
@@ -21,10 +19,7 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     private readonly appHashIdService: AppHashIdService
   ) {}
 
-  intercept(
-    context: ExecutionContext,
-    next: CallHandler
-  ): Observable<DataPaginationResDto<DataArtistResDto> | DataArtistResDto> {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
@@ -43,13 +38,14 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         if (data.total === undefined) {
-          const result = this.appEncodingService.encodeArtists([data]);
-          return result[0];
+          return this.appEncodingService.artist(data);
         } else {
           return {
-            results: this.appEncodingService.encodeArtists(data.results),
+            results: data.results.map((value) =>
+              this.appEncodingService.artist(value)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataArtistResDto>;
+          };
         }
       })
     );
