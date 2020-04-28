@@ -4,8 +4,8 @@ import { AppEncodingService } from "../app/app.encoding.service";
 import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { AppSong } from "../app/app.song";
-import { AppSongInterface } from "../app/app.song.interface";
+import { AppSongService } from "../app/app.song.service";
+import { AppSongServiceInterface } from "../app/app.song.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -84,7 +84,7 @@ describe("PlaylistController", () => {
     decode: (): number => 0,
     encode: (): string => "",
   };
-  const appSongMock: AppSongInterface = {
+  const appSongMock: AppSongServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
@@ -110,7 +110,7 @@ describe("PlaylistController", () => {
         { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
-        { provide: AppSong, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongMock },
       ],
     }).compile();
     controller = module.get<PlaylistController>(PlaylistController);

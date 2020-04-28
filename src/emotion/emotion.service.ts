@@ -43,10 +43,13 @@ export class EmotionService implements EmotionServiceInterface {
 
     return {
       results: await Promise.all(
-        emotionData.results.map(async (value) => ({
-          emotions: value.emotions,
-          song: await this.songService.byId({ id: value.songId }),
-        }))
+        emotionData.results.map(
+          async (value) =>
+            ({
+              emotions: value.emotions,
+              song: await this.songService.byId({ id: value.songId }),
+            } as EmotionResDto)
+        )
       ),
       total: emotionData.total,
     } as DataPaginationResDto<EmotionResDto>;

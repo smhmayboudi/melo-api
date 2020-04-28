@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppSong } from "../app/app.song";
+import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -16,7 +16,7 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class AlbumLocalizeInterceptor implements NestInterceptor {
-  constructor(private readonly appSong: AppSong) {}
+  constructor(private readonly appSongService: AppSongService) {}
 
   transform = (album: DataAlbumResDto): DataAlbumResDto => ({
     ...album,
@@ -24,7 +24,7 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
       album.songs === undefined
         ? undefined
         : ({
-            results: this.appSong.localize(album.songs.results),
+            results: this.appSongService.localize(album.songs.results),
             total: album.songs.total,
           } as DataPaginationResDto<DataSongResDto>),
   });

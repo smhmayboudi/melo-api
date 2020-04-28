@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppSong } from "../app/app.song";
+import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
@@ -16,19 +16,22 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class PlaylistLocalizeInterceptor implements NestInterceptor {
-  constructor(private readonly appSong: AppSong) {}
+  constructor(private readonly appSongService: AppSongService) {}
 
   transform = (playlists: DataPlaylistResDto[]): DataPlaylistResDto[] =>
-    playlists.map((value) => ({
-      ...value,
-      songs:
-        value.songs === undefined
-          ? undefined
-          : ({
-              results: this.appSong.localize(value.songs.results),
-              total: value.songs.total,
-            } as DataPaginationResDto<DataSongResDto>),
-    }));
+    playlists.map(
+      (value) =>
+        ({
+          ...value,
+          songs:
+            value.songs === undefined
+              ? undefined
+              : ({
+                  results: this.appSongService.localize(value.songs.results),
+                  total: value.songs.total,
+                } as DataPaginationResDto<DataSongResDto>),
+        } as DataPlaylistResDto)
+    );
 
   intercept(
     context: ExecutionContext,

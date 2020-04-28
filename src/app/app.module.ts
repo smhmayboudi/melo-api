@@ -11,7 +11,7 @@ import { ActionModule } from "../action/action.module";
 import { AlbumModule } from "../album/album.module";
 import { ApmModule } from "../apm/apm.module";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
-import { AppArtist } from "./app.artist";
+import { AppArtistService } from "./app.artist.service";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppEncodingService } from "./app.encoding.service";
@@ -24,7 +24,7 @@ import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
-import { AppSong } from "./app.song";
+import { AppSongService } from "./app.song.service";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { ArtistModule } from "../artist/artist.module";
 import { AtModule } from "../at/at.module";
@@ -57,8 +57,8 @@ import config from "./app.config";
     AppHealthIndicator,
     AppImgProxyService,
     AppEncodingService,
-    AppArtist,
-    AppSong,
+    AppArtistService,
+    AppSongService,
     AppService,
   ],
   imports: [
@@ -117,8 +117,8 @@ import config from "./app.config";
     AppHealthIndicator,
     AppImgProxyService,
     AppEncodingService,
-    AppArtist,
-    AppSong,
+    AppArtistService,
+    AppSongService,
     AppService,
     {
       provide: APP_INTERCEPTOR,

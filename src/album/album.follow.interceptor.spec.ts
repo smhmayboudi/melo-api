@@ -4,8 +4,8 @@ import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumFollowInterceptor } from "./album.follow.interceptor";
-import { AppArtist } from "../app/app.artist";
-import { AppArtistInterface } from "../app/app.artist.interface";
+import { AppArtistServceInterface } from "../app/app.artist.service.interface";
+import { AppArtistService } from "../app/app.artist.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -68,17 +68,17 @@ describe("AlbumFollowInterceptor", () => {
     results: [album],
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
-  const appArtistMock: AppArtistInterface = {
+  const appArtistMock: AppArtistServceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
-  let service: AppArtist;
+  let service: AppArtistService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppArtist, useValue: appArtistMock }],
+      providers: [{ provide: AppArtistService, useValue: appArtistMock }],
     }).compile();
-    service = module.get<AppArtist>(AppArtist);
+    service = module.get<AppArtistService>(AppArtistService);
   });
 
   it("should be defined", () => {

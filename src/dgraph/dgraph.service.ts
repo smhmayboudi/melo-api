@@ -18,8 +18,8 @@ export class DgraphService implements DgraphServiceInterface {
 
   close(): void {
     if (this.dgraphInstance.stubs) {
-      this.dgraphInstance.stubs.map((stub) => {
-        stub.close();
+      this.dgraphInstance.stubs.map((value) => {
+        value.close();
       });
     }
   }

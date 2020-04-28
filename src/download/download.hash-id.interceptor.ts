@@ -16,10 +16,13 @@ export class DownloadHashIdInterceptor implements NestInterceptor {
   constructor(private readonly appEncodingService: AppEncodingService) {}
 
   transform = (downloads: DownloadSongResDto[]): DownloadSongResDto[] =>
-    downloads.map((value) => ({
-      ...value,
-      song: this.appEncodingService.encodeSongs([value.song])[0],
-    }));
+    downloads.map(
+      (value) =>
+        ({
+          ...value,
+          song: this.appEncodingService.encodeSongs([value.song])[0],
+        } as DownloadSongResDto)
+    );
 
   intercept(
     _context: ExecutionContext,

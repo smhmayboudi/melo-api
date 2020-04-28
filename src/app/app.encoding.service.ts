@@ -28,7 +28,7 @@ export class AppEncodingService implements AppEncodingServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodeAlbums(albums: DataAlbumResDto[]): any {
+  encodeAlbums(albums: DataAlbumResDto[]): any[] {
     return albums.map((value) => ({
       ...value,
       artists:
@@ -52,7 +52,7 @@ export class AppEncodingService implements AppEncodingServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  encodePlaylists(playlists: DataPlaylistResDto[]): any {
+  encodePlaylists(playlists: DataPlaylistResDto[]): any[] {
     return playlists.map((value) => ({
       ...value,
       songs:

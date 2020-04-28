@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppArtist } from "../app/app.artist";
+import { AppArtistService } from "../app/app.artist.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -15,20 +15,26 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class AlbumFollowInterceptor implements NestInterceptor {
-  constructor(private readonly appArtist: AppArtist) {}
+  constructor(private readonly appArtistService: AppArtistService) {}
 
-  transform = async (
+  transform = (
     albums: DataAlbumResDto[],
     sub: string
   ): Promise<DataAlbumResDto[]> =>
     Promise.all(
-      albums.map(async (value) => ({
-        ...value,
-        artists:
-          value.artists === undefined
-            ? undefined
-            : await this.appArtist.follow(value.artists, parseInt(sub, 10)),
-      }))
+      albums.map(
+        async (value) =>
+          ({
+            ...value,
+            artists:
+              value.artists === undefined
+                ? undefined
+                : await this.appArtistService.follow(
+                    value.artists,
+                    parseInt(sub, 10)
+                  ),
+          } as DataAlbumResDto)
+      )
     );
 
   intercept(

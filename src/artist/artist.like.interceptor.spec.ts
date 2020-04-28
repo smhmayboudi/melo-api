@@ -3,8 +3,8 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppSong } from "../app/app.song";
-import { AppSongInterface } from "../app/app.song.interface";
+import { AppSongService } from "../app/app.song.service";
+import { AppSongServiceInterface } from "../app/app.song.service.interface";
 import { ArtistLikeInterceptor } from "./artist.like.interceptor";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -58,18 +58,18 @@ describe("ArtistLikeInterceptor", () => {
     title: "",
   };
 
-  const appSongMock: AppSongInterface = {
+  const appSongMock: AppSongServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
 
-  let service: AppSong;
+  let service: AppSongService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppSong, useValue: appSongMock }],
+      providers: [{ provide: AppSongService, useValue: appSongMock }],
     }).compile();
-    service = module.get<AppSong>(AppSong);
+    service = module.get<AppSongService>(AppSongService);
   });
 
   it("should be defined", () => {

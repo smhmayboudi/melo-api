@@ -31,11 +31,11 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     >();
     const fields = ["id"];
     const reqFields = ["body", "params"];
-    reqFields.map((reqField) => {
-      fields.map((value) => {
-        if (request[reqField][value] !== undefined) {
-          request[reqField][value] = this.appHashIdService
-            .decode(request[reqField][value])
+    reqFields.map((value) => {
+      fields.map((value2) => {
+        if (request[value][value2] !== undefined) {
+          request[value][value2] = this.appHashIdService
+            .decode(request[value][value2])
             .toString();
         }
       });
@@ -43,7 +43,8 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         if (data.total === undefined) {
-          return this.appEncodingService.encodeArtists([data])[0];
+          const result = this.appEncodingService.encodeArtists([data]);
+          return result[0];
         } else {
           return {
             results: this.appEncodingService.encodeArtists(data.results),

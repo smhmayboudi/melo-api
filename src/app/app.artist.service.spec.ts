@@ -1,11 +1,11 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppArtistService } from "./app.artist.service";
 import { AppConfigService } from "./app.config.service";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
-import { AppSong } from "./app.song";
+import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
@@ -14,36 +14,18 @@ import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
 
-describe("AppSong", () => {
-  const songs: DataSongResDto[] = [
+describe("AppArtistService", () => {
+  const artists: DataArtistResDto[] = [
     {
-      artists: [
-        {
-          followersCount: 0,
-          id: 0,
-          type: DataArtistType.prime,
-        },
-      ],
-      audio: {
-        high: {
-          fingerprint: "",
-          url: "",
-        },
-      },
-      duration: 0,
+      followersCount: 0,
       id: 0,
-      localized: false,
-      releaseDate: new Date(),
-      title: "",
+      type: DataArtistType.prime,
     },
   ];
-  let service: AppSong;
-
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
   };
-
   const relationServiceMock: RelationServiceInterface = {
     get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
       Promise.resolve({
@@ -74,25 +56,29 @@ describe("AppSong", () => {
     set: (): Promise<void> => Promise.resolve(undefined),
   };
 
+  let service: AppArtistService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: {} },
-        AppSong,
+        AppArtistService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
     }).compile();
-    service = module.get<AppSong>(AppSong);
+    service = module.get<AppArtistService>(AppArtistService);
   });
 
   it("should be defined", () => {
     expect(service).toBeDefined();
   });
 
-  it("like should be equal to a song sub: 1", async () => {
-    expect(await service.like(songs, 1)).toEqual(
-      songs.map((value) => ({ ...value, liked: false }))
+  it("follow should be equal to an artist sub: 1", async () => {
+    expect(await service.follow(artists, 1)).toEqual(
+      artists.map(
+        (value) => ({ ...value, following: false } as DataArtistResDto)
+      )
     );
   });
 });

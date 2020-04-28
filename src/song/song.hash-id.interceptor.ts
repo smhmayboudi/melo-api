@@ -34,11 +34,11 @@ export class SongHashIdInterceptor implements NestInterceptor {
     >();
     const fields = ["id", "artistId"];
     const reqFields = ["body", "params"];
-    reqFields.map((reqField) => {
-      fields.map((value) => {
-        if (request[reqField][value] !== undefined) {
-          request[reqField][value] = this.appHashIdService
-            .decode(request[reqField][value])
+    reqFields.map((value) => {
+      fields.map((value2) => {
+        if (request[value][value2] !== undefined) {
+          request[value][value2] = this.appHashIdService
+            .decode(request[value][value2])
             .toString();
         }
       });

@@ -1,8 +1,8 @@
 import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppSong } from "../app/app.song";
-import { AppSongInterface } from "../app/app.song.interface";
+import { AppSongService } from "../app/app.song.service";
+import { AppSongServiceInterface } from "../app/app.song.service.interface";
 import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataOrderByType } from "../data/data.order-by.type";
@@ -69,7 +69,7 @@ describe("SongService", () => {
     telegram_id: 0,
   };
 
-  const appSongMock: AppSongInterface = {
+  const appSongMock: AppSongServiceInterface = {
     like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
     localize: (): DataSongResDto[] => [song],
   };
@@ -170,7 +170,7 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppSong, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
@@ -354,7 +354,7 @@ describe("SongService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppSong, useValue: appSongMock },
+          { provide: AppSongService, useValue: appSongMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
@@ -389,7 +389,7 @@ describe("SongService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           SongService,
-          { provide: AppSong, useValue: appSongMock },
+          { provide: AppSongService, useValue: appSongMock },
           { provide: DataSongService, useValue: dataSongServiceMock },
           { provide: HttpService, useValue: httpServiceMock },
           { provide: RelationService, useValue: relationServiceMock },

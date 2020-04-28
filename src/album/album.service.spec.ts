@@ -4,8 +4,8 @@ import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
 import { AlbumLatestReqDto } from "./dto/req/album.latest.req.dto";
 import { AlbumService } from "./album.service";
-import { AppArtist } from "../app/app.artist";
-import { AppArtistInterface } from "../app/app.artist.interface";
+import { AppArtistServceInterface } from "../app/app.artist.service.interface";
+import { AppArtistService } from "../app/app.artist.service";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
@@ -54,7 +54,7 @@ describe("AlbumService", () => {
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
 
-  const appArtistMock: AppArtistInterface = {
+  const appArtistMock: AppArtistServceInterface = {
     follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
@@ -72,7 +72,7 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppArtist, useValue: appArtistMock },
+          { provide: AppArtistService, useValue: appArtistMock },
           { provide: DataAlbumService, useValue: dataAlbumServiceMock },
         ],
       }).compile();
@@ -129,7 +129,7 @@ describe("AlbumService", () => {
         providers: [
           AlbumService,
           {
-            provide: AppArtist,
+            provide: AppArtistService,
             useValue: appArtistMock,
           },
           {
@@ -171,7 +171,7 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppArtist, useValue: appArtistMock },
+          { provide: AppArtistService, useValue: appArtistMock },
           {
             provide: DataAlbumService,
             useValue: dataAlbumServiceMockSongsUndefined,

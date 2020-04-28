@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppSong } from "../app/app.song";
+import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
@@ -15,7 +15,14 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class SongLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appSong: AppSong) {}
+  constructor(private readonly appSongService: AppSongService) {}
+
+  transform = (
+    songs: DataSongResDto[],
+    sub: string
+  ): Promise<DataSongResDto[]> =>
+    this.appSongService.like(songs, parseInt(sub, 10));
+
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -32,17 +39,11 @@ export class SongLikeInterceptor implements NestInterceptor {
           // because of sendTelegram service which is void
           return data;
         } else if (data.total === undefined) {
-          const result = await this.appSong.like(
-            [data],
-            parseInt(request.user.sub, 10)
-          );
+          const result = await this.transform(data.results, request.user.sub);
           return result[0];
         } else {
           return {
-            results: await this.appSong.like(
-              data.results,
-              parseInt(request.user.sub, 10)
-            ),
+            results: await this.transform(data.results, request.user.sub),
             total: data.total,
           };
         }

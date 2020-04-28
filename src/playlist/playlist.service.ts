@@ -250,7 +250,7 @@ export class PlaylistService implements PlaylistServiceInterface {
           songs: dataSongResDto,
           title: value.title,
           tracksCount: value.tracks_count,
-        };
+        } as DataPlaylistResDto;
       })
     );
     return {
@@ -271,25 +271,28 @@ export class PlaylistService implements PlaylistServiceInterface {
       .limit(parseInt(dto.limit.toString(), 10));
 
     const results = await Promise.all(
-      playlists.map(async (value) => ({
-        followersCount: value.followers_count,
-        id: value._id,
-        image: this.appImgProxyService.generateUrl(
-          value.photo_id
-            ? this.playlistConfigService.imagePath(value.photo_id)
-            : this.playlistConfigService.defaultImagePath
-        ),
-        isPublic: value.isPublic,
-        releaseDate: value.release_date,
-        songs:
-          value.songs_ids.length === 0
-            ? undefined
-            : await this.dataSongService.byIds({
-                ids: value.songs_ids.map((value) => value),
-              }),
-        title: value.title,
-        tracksCount: value.tracks_count,
-      }))
+      playlists.map(
+        async (value) =>
+          ({
+            followersCount: value.followers_count,
+            id: value._id,
+            image: this.appImgProxyService.generateUrl(
+              value.photo_id
+                ? this.playlistConfigService.imagePath(value.photo_id)
+                : this.playlistConfigService.defaultImagePath
+            ),
+            isPublic: value.isPublic,
+            releaseDate: value.release_date,
+            songs:
+              value.songs_ids.length === 0
+                ? undefined
+                : await this.dataSongService.byIds({
+                    ids: value.songs_ids.map((value) => value),
+                  }),
+            title: value.title,
+            tracksCount: value.tracks_count,
+          } as DataPlaylistResDto)
+      )
     );
     return {
       results: results,

@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppSong } from "../app/app.song";
+import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
@@ -16,26 +16,29 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class ArtistLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appSong: AppSong) {}
+  constructor(private readonly appSongService: AppSongService) {}
 
-  transform = async (
+  transform = (
     artists: DataArtistResDto[],
     sub: string
   ): Promise<DataArtistResDto[]> =>
     Promise.all(
-      artists.map(async (value) => ({
-        ...value,
-        songs:
-          value.songs === undefined
-            ? undefined
-            : ({
-                results: await this.appSong.like(
-                  value.songs.results,
-                  parseInt(sub, 10)
-                ),
-                total: value.songs.total,
-              } as DataPaginationResDto<DataSongResDto>),
-      }))
+      artists.map(
+        async (value) =>
+          ({
+            ...value,
+            songs:
+              value.songs === undefined
+                ? undefined
+                : ({
+                    results: await this.appSongService.like(
+                      value.songs.results,
+                      parseInt(sub, 10)
+                    ),
+                    total: value.songs.total,
+                  } as DataPaginationResDto<DataSongResDto>),
+          } as DataArtistResDto)
+      )
     );
 
   intercept(

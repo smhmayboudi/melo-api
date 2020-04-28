@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppSong } from "../app/app.song";
+import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
@@ -17,35 +17,43 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class ArtistLocalizeInterceptor implements NestInterceptor {
-  constructor(private readonly appSong: AppSong) {}
+  constructor(private readonly appSongService: AppSongService) {}
 
   transform = (artists: DataArtistResDto[]): DataArtistResDto[] =>
-    artists.map((value) => ({
-      ...value,
-      albums:
-        value.albums === undefined
-          ? undefined
-          : ({
-              results: value.albums.results.map((value) => ({
-                ...value,
-                songs:
-                  value.songs === undefined
-                    ? undefined
-                    : {
-                        results: this.appSong.localize(value.songs.results),
-                        total: value.songs.total,
-                      },
-              })),
-              total: value.albums.total,
-            } as DataPaginationResDto<DataAlbumResDto>),
-      songs:
-        value.songs === undefined
-          ? undefined
-          : ({
-              results: this.appSong.localize(value.songs.results),
-              total: value.songs.total,
-            } as DataPaginationResDto<DataSongResDto>),
-    }));
+    artists.map(
+      (value) =>
+        ({
+          ...value,
+          albums:
+            value.albums === undefined
+              ? undefined
+              : ({
+                  results: value.albums.results.map(
+                    (value) =>
+                      ({
+                        ...value,
+                        songs:
+                          value.songs === undefined
+                            ? undefined
+                            : {
+                                results: this.appSongService.localize(
+                                  value.songs.results
+                                ),
+                                total: value.songs.total,
+                              },
+                      } as DataAlbumResDto)
+                  ),
+                  total: value.albums.total,
+                } as DataPaginationResDto<DataAlbumResDto>),
+          songs:
+            value.songs === undefined
+              ? undefined
+              : ({
+                  results: this.appSongService.localize(value.songs.results),
+                  total: value.songs.total,
+                } as DataPaginationResDto<DataSongResDto>),
+        } as DataArtistResDto)
+    );
 
   intercept(
     context: ExecutionContext,

@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppSong } from "../app/app.song";
+import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
@@ -15,16 +15,19 @@ import { flatMap } from "rxjs/operators";
 
 @Injectable()
 export class EmotionLikeInterceptor implements NestInterceptor {
-  constructor(private readonly appSong: AppSong) {}
+  constructor(private readonly appSongService: AppSongService) {}
 
-  transform = async (
+  transform = (
     emotions: EmotionResDto[],
     sub: string
   ): Promise<EmotionResDto[]> =>
     Promise.all(
       emotions.map(async (value) => {
-        const song = await this.appSong.like([value.song], parseInt(sub, 10));
-        return { ...value, song: song[0] };
+        const song = await this.appSongService.like(
+          [value.song],
+          parseInt(sub, 10)
+        );
+        return { ...value, song: song[0] } as EmotionResDto;
       })
     );
 
