@@ -17,12 +17,6 @@ import { flatMap } from "rxjs/operators";
 export class ArtistFollowInterceptor implements NestInterceptor {
   constructor(private readonly appArtistService: AppArtistService) {}
 
-  transform = (
-    artists: DataArtistResDto[],
-    sub: string
-  ): Promise<DataArtistResDto[]> =>
-    this.appArtistService.follow(artists, parseInt(sub, 10));
-
   intercept(
     context: ExecutionContext,
     next: CallHandler
@@ -36,13 +30,18 @@ export class ArtistFollowInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = await this.transform([data], request.user.sub);
-          return result[0];
+          return this.appArtistService.follow(
+            data,
+            parseInt(request.user.sub, 10)
+          );
         } else {
           return {
-            results: await this.transform(data.results, request.user.sub),
+            results: await this.appArtistService.follows(
+              data.results,
+              parseInt(request.user.sub, 10)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataArtistResDto>;
+          };
         }
       })
     );

@@ -46,16 +46,12 @@ export class DownloadService implements DownloadServiceInterface {
       )
       .pipe(map((value) => value.data))
       .toPromise();
-
     return {
       results: await Promise.all(
-        downloadDataSong.results.map(
-          async (value) =>
-            ({
-              downloadedAt: value.downloadedAt,
-              song: await this.songService.byId({ id: value.songId }),
-            } as DownloadSongResDto)
-        )
+        downloadDataSong.results.map(async (value) => ({
+          downloadedAt: value.downloadedAt,
+          song: await this.songService.byId({ id: value.songId }),
+        }))
       ),
       total: downloadDataSong.total,
     } as DataPaginationResDto<DownloadSongResDto>;

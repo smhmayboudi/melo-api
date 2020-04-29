@@ -2,8 +2,6 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppArtistServceInterface } from "../app/app.artist.service.interface";
 import { AppArtistService } from "../app/app.artist.service";
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
@@ -27,23 +25,18 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("ArtistController", () => {
   const releaseDate = new Date();
-  const follow: DataArtistResDto = {
+  const artist: DataArtistResDto = {
     followersCount: 0,
     id: 0,
     type: DataArtistType.prime,
   };
-  const followPagination: DataPaginationResDto<DataArtistResDto> = {
-    results: [follow],
+  const artistPagination: DataPaginationResDto<DataArtistResDto> = {
+    results: [artist],
     total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
   const album: DataAlbumResDto = {
     name: "",
     releaseDate,
-  };
-  const artist: DataArtistResDto = {
-    followersCount: 0,
-    id: 0,
-    type: DataArtistType.prime,
   };
   const song: DataSongResDto = {
     artists: [
@@ -77,34 +70,34 @@ describe("ArtistController", () => {
     type: DataSearchType.album,
   };
 
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
-  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
   const appSongMock: AppSongServiceInterface = {
-    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
-    localize: (): DataSongResDto[] => [song],
+    like: (): Promise<DataSongResDto> => Promise.resolve(song),
+    likes: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto => song,
   };
   const appArtistMock: AppArtistServceInterface = {
-    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
+    follow: (): Promise<DataArtistResDto> => Promise.resolve(artist),
+    follows: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const artistServiceMock: ArtistServiceInterface = {
-    follow: (): Promise<DataArtistResDto> => Promise.resolve(follow),
+    follow: (): Promise<DataArtistResDto> => Promise.resolve(artist),
     following: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(followPagination),
-    profile: (): Promise<DataArtistResDto> => Promise.resolve(follow),
+      Promise.resolve(artistPagination),
+    profile: (): Promise<DataArtistResDto> => Promise.resolve(artist),
     trending: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(followPagination),
+      Promise.resolve(artistPagination),
     trendingGenre: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
-      Promise.resolve(followPagination),
-    unfollow: (): Promise<DataArtistResDto> => Promise.resolve(follow),
+      Promise.resolve(artistPagination),
+    unfollow: (): Promise<DataArtistResDto> => Promise.resolve(artist),
   };
 
   let controller: ArtistController;
@@ -114,7 +107,7 @@ describe("ArtistController", () => {
       controllers: [ArtistController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
+        { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: ArtistService, useValue: artistServiceMock },
         { provide: AppSongService, useValue: appSongMock },
         { provide: AppArtistService, useValue: appArtistMock },
@@ -127,12 +120,12 @@ describe("ArtistController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("follow should be equal to an artist", async () => {
+  it("follows should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
       id: 0,
       sub: 0,
     };
-    expect(await controller.follow(dto, 0)).toEqual(follow);
+    expect(await controller.follow(dto, 0)).toEqual(artist);
   });
 
   it("following should equal list of artists", async () => {
@@ -141,25 +134,25 @@ describe("ArtistController", () => {
       limit: 0,
       sub: 0,
     };
-    expect(await controller.following(dto, 0)).toEqual(followPagination);
+    expect(await controller.following(dto, 0)).toEqual(artistPagination);
   });
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistByIdReqDto = {
       id: 0,
     };
-    expect(await controller.profile(dto)).toEqual(follow);
+    expect(await controller.profile(dto)).toEqual(artist);
   });
 
   it("trending should equal list of artists", async () => {
-    expect(await controller.trending()).toEqual(followPagination);
+    expect(await controller.trending()).toEqual(artistPagination);
   });
 
   it("trending/genre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
       genre: "pop",
     };
-    expect(await controller.trendingGenre(dto)).toEqual(followPagination);
+    expect(await controller.trendingGenre(dto)).toEqual(artistPagination);
   });
 
   it("unfollow should be equal to an artist", async () => {
@@ -167,6 +160,6 @@ describe("ArtistController", () => {
       id: 0,
       sub: 0,
     };
-    expect(await controller.unfollow(dto, 0)).toEqual(follow);
+    expect(await controller.unfollow(dto, 0)).toEqual(artist);
   });
 });

@@ -17,36 +17,37 @@ import { flatMap } from "rxjs/operators";
 export class DownloadLikeInterceptor implements NestInterceptor {
   constructor(private readonly appSongService: AppSongService) {}
 
-  transform = (
-    downloads: DownloadSongResDto[],
+  transform = async (
+    download: DownloadSongResDto,
     sub: string
-  ): Promise<DownloadSongResDto[]> =>
-    Promise.all(
-      downloads.map(async (value) => {
-        const song = await this.appSongService.like(
-          [value.song],
-          parseInt(sub, 10)
-        );
-        return { ...value, song: song[0] } as DownloadSongResDto;
-      })
-    );
+  ): Promise<DownloadSongResDto> => ({
+    ...download,
+    song: await this.appSongService.like(download.song, parseInt(sub, 10)),
+  });
 
   intercept(
     context: ExecutionContext,
     next: CallHandler
-  ): Observable<DataPaginationResDto<DownloadSongResDto>> {
+  ): Observable<DataPaginationResDto<DownloadSongResDto> | DownloadSongResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      flatMap(
-        async (data) =>
-          ({
-            results: await this.transform(data.results, request.user.sub),
+      flatMap(async (data) => {
+        if (request.user.sub === "0") {
+          return data;
+        } else if (data.total === undefined) {
+          return this.transform(data, request.user.sub);
+        } else {
+          return {
+            results: data.results.map((value) =>
+              this.transform(value, request.user.sub)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DownloadSongResDto>)
-      )
+          };
+        }
+      })
     );
   }
 }

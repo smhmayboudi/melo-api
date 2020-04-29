@@ -1,7 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
@@ -70,16 +68,14 @@ describe("SearchController", () => {
     tracksCount: 0,
   };
 
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
-  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
   const searchServiceMock: SearchServiceInterface = {
     mood: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -94,7 +90,6 @@ describe("SearchController", () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SearchController],
       providers: [
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
       ],

@@ -17,25 +17,16 @@ import { flatMap } from "rxjs/operators";
 export class AlbumFollowInterceptor implements NestInterceptor {
   constructor(private readonly appArtistService: AppArtistService) {}
 
-  transform = (
-    albums: DataAlbumResDto[],
+  transform = async (
+    album: DataAlbumResDto,
     sub: string
-  ): Promise<DataAlbumResDto[]> =>
-    Promise.all(
-      albums.map(
-        async (value) =>
-          ({
-            ...value,
-            artists:
-              value.artists === undefined
-                ? undefined
-                : await this.appArtistService.follow(
-                    value.artists,
-                    parseInt(sub, 10)
-                  ),
-          } as DataAlbumResDto)
-      )
-    );
+  ): Promise<DataAlbumResDto> => ({
+    ...album,
+    artists:
+      album.artists === undefined
+        ? undefined
+        : await this.appArtistService.follows(album.artists, parseInt(sub, 10)),
+  });
 
   intercept(
     context: ExecutionContext,
@@ -50,13 +41,14 @@ export class AlbumFollowInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = await this.transform([data], request.user.sub);
-          return result[0];
+          return this.transform(data, request.user.sub);
         } else {
           return {
-            results: await this.transform(data.results, request.user.sub),
+            results: data.results.map((value) =>
+              this.transform(value, request.user.sub)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataAlbumResDto>;
+          };
         }
       })
     );

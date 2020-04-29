@@ -24,7 +24,9 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
       album.songs === undefined
         ? undefined
         : ({
-            results: this.appSongService.localize(album.songs.results),
+            results: album.songs.results.map((value) =>
+              this.appSongService.localize(value)
+            ),
             total: album.songs.total,
           } as DataPaginationResDto<DataSongResDto>),
   });
@@ -48,7 +50,7 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
           return {
             results: data.results.map((value) => this.transform(value)),
             total: data.total,
-          } as DataPaginationResDto<DataAlbumResDto>;
+          };
         }
       })
     );

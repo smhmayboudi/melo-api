@@ -5,13 +5,13 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppEncodingService } from "../app/app.encoding.service";
+import { AppHashIdService } from "../app/app.hash-id.service";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 
 @Injectable()
 export class SearchHashIdInterceptor implements NestInterceptor {
-  constructor(private readonly appEncodingService: AppEncodingService) {}
+  constructor(private readonly appHashIdService: AppHashIdService) {}
 
   intercept(
     _context: ExecutionContext,
@@ -20,7 +20,7 @@ export class SearchHashIdInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => ({
         results: data.results.map((value) =>
-          this.appEncodingService.search(value)
+          this.appHashIdService.encodeSearch(value)
         ),
         total: data.total,
       }))

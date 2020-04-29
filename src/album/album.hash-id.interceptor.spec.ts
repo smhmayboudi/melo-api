@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/unbound-method */
+
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumHashIdInterceptor } from "./album.hash-id.interceptor";
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
@@ -96,40 +95,33 @@ describe("AlbumHashIdInterceptor", () => {
     type: DataSearchType.album,
   };
 
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
-  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
 
-  let hashIdService: AppHashIdService;
-  let encodingService: AppEncodingService;
+  let service: AppHashIdService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
       ],
     }).compile();
-    hashIdService = module.get<AppHashIdService>(AppHashIdService);
-    encodingService = module.get<AppEncodingService>(AppEncodingService);
+    service = module.get<AppHashIdService>(AppHashIdService);
   });
 
   it("should be defined", () => {
-    expect(
-      new AlbumHashIdInterceptor(encodingService, hashIdService)
-    ).toBeDefined();
+    expect(new AlbumHashIdInterceptor(service)).toBeDefined();
   });
 
   it("intercept should be called", () => {
-    new AlbumHashIdInterceptor(encodingService, hashIdService)
+    new AlbumHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
@@ -139,7 +131,7 @@ describe("AlbumHashIdInterceptor", () => {
     const callHandlerAlbum: CallHandler = {
       handle: jest.fn(() => of(album)),
     };
-    new AlbumHashIdInterceptor(encodingService, hashIdService)
+    new AlbumHashIdInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
@@ -149,7 +141,7 @@ describe("AlbumHashIdInterceptor", () => {
     const callHandlerAlbum: CallHandler = {
       handle: jest.fn(() => of(albumPagination)),
     };
-    new AlbumHashIdInterceptor(encodingService, hashIdService)
+    new AlbumHashIdInterceptor(service)
       .intercept(executionContext, callHandlerAlbum)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

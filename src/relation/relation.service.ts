@@ -53,16 +53,13 @@ export class RelationService implements RelationServiceInterface {
             total: 0,
           } as RelationPaginationResDto<RelationEntityResDto>;
         }
-        console.log("result.relates[0]", result.relates[0]);
         return {
-          results: (result.relates[0][dto.relationType] as {
-            id: string;
-          }[]).map((value2) => {
+          results: result.relates[0][dto.relationType].map((value2) => {
             const [type, id] = value2.id.split("_");
             return {
               id: parseInt(id, 10),
               type,
-            } as RelationEntityResDto;
+            };
           }),
           total: result.relates[0].count,
         } as RelationPaginationResDto<RelationEntityResDto>;

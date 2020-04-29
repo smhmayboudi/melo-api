@@ -16,13 +16,13 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 
 describe("AlbumService", () => {
   const releaseDate = new Date();
-  const follow: DataArtistResDto = {
+  const artist: DataArtistResDto = {
     followersCount: 0,
     id: 0,
     type: DataArtistType.prime,
   };
   const like: DataSongResDto = {
-    artists: [follow],
+    artists: [artist],
     audio: {
       high: {
         fingerprint: "",
@@ -40,7 +40,7 @@ describe("AlbumService", () => {
     total: 1,
   } as DataPaginationResDto<DataSongResDto>;
   const album: DataAlbumResDto = {
-    artists: [follow],
+    artists: [artist],
     name: "",
     releaseDate,
     songs: likePagination,
@@ -55,7 +55,8 @@ describe("AlbumService", () => {
   } as DataPaginationResDto<DataAlbumResDto>;
 
   const appArtistMock: AppArtistServceInterface = {
-    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([follow]),
+    follow: (): Promise<DataArtistResDto> => Promise.resolve(artist),
+    follows: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
     albums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>

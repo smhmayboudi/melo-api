@@ -57,8 +57,9 @@ describe("SongLocalizeInterceptor", () => {
   };
 
   const appSongMock: AppSongServiceInterface = {
-    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
-    localize: (): DataSongResDto[] => [song],
+    like: (): Promise<DataSongResDto> => Promise.resolve(song),
+    likes: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto => song,
   };
 
   let service: AppSongService;

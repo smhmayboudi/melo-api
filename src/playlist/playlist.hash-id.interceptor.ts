@@ -5,7 +5,6 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AppEncodingService } from "../app/app.encoding.service";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { Observable } from "rxjs";
@@ -14,10 +13,7 @@ import { map } from "rxjs/operators";
 
 @Injectable()
 export class PlaylistHashIdInterceptor implements NestInterceptor {
-  constructor(
-    private readonly appEncodingService: AppEncodingService,
-    private readonly appHashIdService: AppHashIdService
-  ) {}
+  constructor(private readonly appHashIdService: AppHashIdService) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
@@ -38,11 +34,11 @@ export class PlaylistHashIdInterceptor implements NestInterceptor {
     return next.handle().pipe(
       map((data) => {
         if (data.total === undefined) {
-          return this.appEncodingService.playlist(data);
+          return this.appHashIdService.encodePlaylist(data);
         } else {
           return {
             results: data.results.map((value) =>
-              this.appEncodingService.playlist(value)
+              this.appHashIdService.encodePlaylist(value)
             ),
             total: data.total,
           };

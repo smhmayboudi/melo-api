@@ -4,7 +4,6 @@ import { AppArtistServceInterface } from "./app.artist.service.interface";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "../prom/prom.decorator";
-import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
@@ -17,6 +16,30 @@ export class AppArtistService implements AppArtistServceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async follow(
+    artist: DataArtistResDto,
+    sub: number
+  ): Promise<DataArtistResDto> {
+    const relationMultiResDto = await this.relationService.has({
+      from: {
+        id: sub,
+        type: RelationEntityType.user,
+      },
+      relationType: RelationType.follows,
+      to: {
+        id: artist.id,
+        type: RelationEntityType.artist,
+      },
+    });
+    return {
+      ...artist,
+      following: relationMultiResDto,
+    };
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  async follows(
     artists: DataArtistResDto[],
     sub: number
   ): Promise<DataArtistResDto[]> {
@@ -29,23 +52,16 @@ export class AppArtistService implements AppArtistServceInterface {
         type: RelationEntityType.user,
       },
       relationType: RelationType.follows,
-      tos: artists.map(
-        (value) =>
-          ({
-            id: value.id,
-            type: RelationEntityType.artist,
-          } as RelationEntityResDto)
-      ),
+      tos: artists.map((value) => ({
+        id: value.id,
+        type: RelationEntityType.artist,
+      })),
     });
-    return artists.map(
-      (value) =>
-        ({
-          ...value,
-          following:
-            relationMultiHasResDto.find(
-              (value2) => value2.to.id === value.id
-            ) !== undefined,
-        } as DataArtistResDto)
-    );
+    return artists.map((value) => ({
+      ...value,
+      following:
+        relationMultiHasResDto.find((value2) => value2.to.id === value.id) !==
+        undefined,
+    }));
   }
 }

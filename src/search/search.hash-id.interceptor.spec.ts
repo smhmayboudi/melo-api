@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/unbound-method */
+
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
+import { AppHashIdService } from "../app/app.hash-id.service";
+import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistType } from "../data/data.artist.type";
@@ -94,38 +95,40 @@ describe("SearchHashIdInterceptor", () => {
     handle: jest.fn(() => of(searchPagination)),
   };
 
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
+  const appHashIdServiceMock: AppHashIdServiceInterface = {
+    decode: (): number => 0,
+    encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
 
-  let encodingService: AppEncodingService;
+  let service: AppHashIdService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
+        { provide: AppHashIdService, useValue: appHashIdServiceMock },
       ],
     }).compile();
-    encodingService = module.get<AppEncodingService>(AppEncodingService);
+    service = module.get<AppHashIdService>(AppHashIdService);
   });
 
   it("should be defined", () => {
-    expect(new SearchHashIdInterceptor(encodingService)).toBeDefined();
+    expect(new SearchHashIdInterceptor(service)).toBeDefined();
   });
 
   it("intercept should be called", () => {
-    new SearchHashIdInterceptor(encodingService)
+    new SearchHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
     expect(callHandler.handle).toHaveBeenCalled();
   });
 
   it("intercept should be called data: list of searches", () => {
-    new SearchHashIdInterceptor(encodingService)
+    new SearchHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
     expect(callHandler.handle).toHaveBeenCalled();

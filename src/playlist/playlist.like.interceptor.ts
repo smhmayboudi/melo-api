@@ -18,28 +18,22 @@ import { flatMap } from "rxjs/operators";
 export class PlaylistLikeInterceptor implements NestInterceptor {
   constructor(private readonly appSongService: AppSongService) {}
 
-  transform = (
-    playlists: DataPlaylistResDto[],
+  transform = async (
+    playlist: DataPlaylistResDto,
     sub: string
-  ): Promise<DataPlaylistResDto[]> =>
-    Promise.all(
-      playlists.map(
-        async (value) =>
-          ({
-            ...value,
-            songs:
-              value.songs === undefined
-                ? undefined
-                : ({
-                    results: await this.appSongService.like(
-                      value.songs.results,
-                      parseInt(sub, 10)
-                    ),
-                    total: value.songs.total,
-                  } as DataPaginationResDto<DataSongResDto>),
-          } as DataPlaylistResDto)
-      )
-    );
+  ): Promise<DataPlaylistResDto> => ({
+    ...playlist,
+    songs:
+      playlist.songs === undefined
+        ? undefined
+        : ({
+            results: await this.appSongService.likes(
+              playlist.songs.results,
+              parseInt(sub, 10)
+            ),
+            total: playlist.songs.total,
+          } as DataPaginationResDto<DataSongResDto>),
+  });
 
   intercept(
     context: ExecutionContext,
@@ -54,13 +48,14 @@ export class PlaylistLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = await this.transform([data], request.user.sub);
-          return result[0];
+          return this.transform(data, request.user.sub);
         } else {
           return {
-            results: await this.transform(data.results, request.user.sub),
+            results: data.results.map((value) =>
+              this.transform(value, request.user.sub)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataPlaylistResDto>;
+          };
         }
       })
     );

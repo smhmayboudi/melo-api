@@ -69,7 +69,8 @@ describe("AlbumFollowInterceptor", () => {
     total: 1,
   } as DataPaginationResDto<DataAlbumResDto>;
   const appArtistMock: AppArtistServceInterface = {
-    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
+    follow: (): Promise<DataArtistResDto> => Promise.resolve(artist),
+    follows: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
 
   let service: AppArtistService;

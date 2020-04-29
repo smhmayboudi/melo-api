@@ -1,7 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
@@ -73,20 +71,19 @@ describe("PlaylistController", () => {
     type: DataSearchType.album,
   };
 
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
-  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
   const appSongMock: AppSongServiceInterface = {
-    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
-    localize: (): DataSongResDto[] => [song],
+    like: (): Promise<DataSongResDto> => Promise.resolve(song),
+    likes: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto => song,
   };
   const playlistServiceMock: PlaylistServiceInterface = {
     addSong: (): Promise<DataPlaylistResDto> => Promise.resolve(playlist),
@@ -107,7 +104,6 @@ describe("PlaylistController", () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [PlaylistController],
       providers: [
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
         { provide: AppSongService, useValue: appSongMock },

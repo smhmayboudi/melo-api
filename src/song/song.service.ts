@@ -134,7 +134,6 @@ export class SongService implements SongServiceInterface {
       limit: dto.limit,
       relationType: RelationType.likedSongs,
     });
-    // TODO: external service should change
     if (relationEntityResDto.results.length === 0) {
       return {
         results: [] as DataSongResDto[],

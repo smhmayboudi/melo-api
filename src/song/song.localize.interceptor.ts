@@ -30,13 +30,14 @@ export class SongLocalizeInterceptor implements NestInterceptor {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = this.appSongService.localize([data]);
-          return result[0];
+          return this.appSongService.localize(data);
         } else {
           return {
-            results: this.appSongService.localize(data.results),
+            results: data.results.map((value) =>
+              this.appSongService.localize(value)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataSongResDto>;
+          };
         }
       })
     );

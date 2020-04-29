@@ -9,7 +9,6 @@ import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
-import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
@@ -26,10 +25,12 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
           songs:
             value.songs === undefined
               ? undefined
-              : ({
-                  results: this.appSongService.localize(value.songs.results),
+              : {
+                  results: value.songs.results.map((value) =>
+                    this.appSongService.localize(value)
+                  ),
                   total: value.songs.total,
-                } as DataPaginationResDto<DataSongResDto>),
+                },
         } as DataPlaylistResDto)
     );
 
@@ -51,7 +52,7 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
           return {
             results: this.transform(data.results),
             total: data.total,
-          } as DataPaginationResDto<DataPlaylistResDto>;
+          };
         }
       })
     );

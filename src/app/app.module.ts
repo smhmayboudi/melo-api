@@ -15,7 +15,6 @@ import { AppArtistService } from "./app.artist.service";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppDgraphOptionsFactory } from "./app.dgraph.options.factory";
-import { AppEncodingService } from "./app.encoding.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHealthController } from "./app.health.controller";
@@ -54,14 +53,13 @@ import config from "./app.config";
 @Module({
   controllers: [AppHealthController],
   exports: [
+    AppArtistService,
     AppConfigService,
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppEncodingService,
-    AppArtistService,
-    AppSongService,
     AppService,
+    AppSongService,
   ],
   imports: [
     ApmModule.registerAsync({
@@ -114,18 +112,17 @@ import config from "./app.config";
     UserModule,
   ],
   providers: [
+    AppArtistService,
+    AppConfigService,
     {
       provide: APP_INTERCEPTOR,
       useClass: AppErrorInterceptor,
     },
-    AppConfigService,
     AppHashIdService,
     AppHealthIndicator,
     AppImgProxyService,
-    AppEncodingService,
-    AppArtistService,
-    AppSongService,
     AppService,
+    AppSongService,
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,

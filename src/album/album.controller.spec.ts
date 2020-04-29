@@ -8,8 +8,6 @@ import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
 import { AppArtistServceInterface } from "../app/app.artist.service.interface";
 import { AppArtistService } from "../app/app.artist.service";
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
@@ -66,13 +64,18 @@ describe("AlbumController", () => {
     title: "",
     tracksCount: 0,
   };
+  const search: DataSearchResDto = {
+    type: DataSearchType.album,
+  };
 
   const appSongMock: AppSongServiceInterface = {
-    like: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
-    localize: (): DataSongResDto[] => [song],
+    like: (): Promise<DataSongResDto> => Promise.resolve(song),
+    likes: (): Promise<DataSongResDto[]> => Promise.resolve([song]),
+    localize: (): DataSongResDto => song,
   };
   const appArtistMock: AppArtistServceInterface = {
-    follow: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
+    follow: (): Promise<DataArtistResDto> => Promise.resolve(artist),
+    follows: (): Promise<DataArtistResDto[]> => Promise.resolve([artist]),
   };
   const albumServiceMock: AlbumServiceInterface = {
     artistAlbums: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
@@ -81,19 +84,14 @@ describe("AlbumController", () => {
     latest: (): Promise<DataPaginationResDto<DataAlbumResDto>> =>
       Promise.resolve(albumPagination),
   };
-  const search: DataSearchResDto = {
-    type: DataSearchType.album,
-  };
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
-  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
 
   let controller: AlbumController;
@@ -103,7 +101,6 @@ describe("AlbumController", () => {
       controllers: [AlbumController],
       providers: [
         { provide: AlbumService, useValue: albumServiceMock },
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: AppSongService, useValue: appSongMock },
         { provide: AppArtistService, useValue: appArtistMock },

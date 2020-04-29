@@ -18,28 +18,22 @@ import { flatMap } from "rxjs/operators";
 export class AlbumLikeInterceptor implements NestInterceptor {
   constructor(private readonly appSongService: AppSongService) {}
 
-  transform = (
-    albums: DataAlbumResDto[],
+  transform = async (
+    album: DataAlbumResDto,
     sub: string
-  ): Promise<DataAlbumResDto[]> =>
-    Promise.all(
-      albums.map(
-        async (value) =>
-          ({
-            ...value,
-            songs:
-              value.songs === undefined
-                ? undefined
-                : ({
-                    results: await this.appSongService.like(
-                      value.songs.results,
-                      parseInt(sub, 10)
-                    ),
-                    total: value.songs.total,
-                  } as DataPaginationResDto<DataSongResDto>),
-          } as DataAlbumResDto)
-      )
-    );
+  ): Promise<DataAlbumResDto> => ({
+    ...album,
+    songs:
+      album.songs === undefined
+        ? undefined
+        : ({
+            results: await this.appSongService.likes(
+              album.songs.results,
+              parseInt(sub, 10)
+            ),
+            total: album.songs.total,
+          } as DataPaginationResDto<DataSongResDto>),
+  });
 
   intercept(
     context: ExecutionContext,
@@ -54,13 +48,14 @@ export class AlbumLikeInterceptor implements NestInterceptor {
         if (request.user.sub === "0") {
           return data;
         } else if (data.total === undefined) {
-          const result = await this.transform([data], request.user.sub);
-          return result[0];
+          return this.transform(data, request.user.sub);
         } else {
           return {
-            results: await this.transform(data.results, request.user.sub),
+            results: data.results.map((value) =>
+              this.transform(value, request.user.sub)
+            ),
             total: data.total,
-          } as DataPaginationResDto<DataAlbumResDto>;
+          };
         }
       })
     );

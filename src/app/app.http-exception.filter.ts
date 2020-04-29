@@ -18,7 +18,6 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
     >();
     const response = ctx.getResponse<express.Response>();
     const status = exception.getStatus();
-
     Logger.error(
       `${JSON.stringify({
         path: request.path,
@@ -27,7 +26,6 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
       undefined,
       "AppHttpExceptionFilter"
     );
-
     response.status(status).json({
       path: request.url,
       statusCode: status,

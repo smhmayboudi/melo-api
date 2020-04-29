@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/unbound-method */
+
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AppEncodingService } from "../app/app.encoding.service";
-import { AppEncodingServiceInterface } from "../app/app.encoding.service.interface";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
@@ -95,47 +94,40 @@ describe("SongHashIdInterceptor", () => {
     handle: jest.fn(() => of(song)),
   };
 
-  const appEncodingServiceMock: AppEncodingServiceInterface = {
-    album: (): DataAlbumResDto[] => [album],
-    artist: (): DataArtistResDto[] => [artist],
-    playlist: (): DataPlaylistResDto[] => [playlist],
-    search: (): DataSearchResDto[] => [search],
-    song: (): DataSongResDto[] => [song],
-  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
+    encodeAlbum: (): unknown => album,
+    encodeArtist: (): unknown => artist,
+    encodePlaylist: (): unknown => playlist,
+    encodeSearch: (): unknown => search,
+    encodeSong: (): unknown => song,
   };
 
-  let hashIdService: AppHashIdService;
-  let encodingService: AppEncodingService;
+  let service: AppHashIdService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AppEncodingService, useValue: appEncodingServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
       ],
     }).compile();
-    hashIdService = module.get<AppHashIdService>(AppHashIdService);
-    encodingService = module.get<AppEncodingService>(AppEncodingService);
+    service = module.get<AppHashIdService>(AppHashIdService);
   });
 
   it("should be defined", () => {
-    expect(
-      new SongHashIdInterceptor(encodingService, hashIdService)
-    ).toBeDefined();
+    expect(new SongHashIdInterceptor(service)).toBeDefined();
   });
 
   it("intercept should be called", () => {
-    new SongHashIdInterceptor(encodingService, hashIdService)
+    new SongHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
   it("intercept should be called data: single song", () => {
-    new SongHashIdInterceptor(encodingService, hashIdService)
+    new SongHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
@@ -145,7 +137,7 @@ describe("SongHashIdInterceptor", () => {
     const callHandlerSong: CallHandler = {
       handle: jest.fn(() => of(songPagination)),
     };
-    new SongHashIdInterceptor(encodingService, hashIdService)
+    new SongHashIdInterceptor(service)
       .intercept(executionContext, callHandlerSong)
       .subscribe();
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

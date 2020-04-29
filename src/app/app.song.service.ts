@@ -4,7 +4,6 @@ import { AppSongServiceInterface } from "./app.song.service.interface";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "../prom/prom.decorator";
-import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";
@@ -16,45 +15,63 @@ export class AppSongService implements AppSongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async like(songs: DataSongResDto[], sub: number): Promise<DataSongResDto[]> {
+  async like(song: DataSongResDto, sub: number): Promise<DataSongResDto> {
+    // TODO: multiHas => has
+    // TODO: RelationMultiHasResDto => RelationHasResDto
     const relationMultiHasResDto = await this.relationService.multiHas({
       from: {
         id: sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,
-      tos: songs.map(
-        (value) =>
-          ({
-            id: value.id,
-            type: RelationEntityType.song,
-          } as RelationEntityResDto)
-      ),
+      tos: [
+        {
+          id: song.id,
+          type: RelationEntityType.song,
+        },
+      ],
     });
-    return songs.map(
-      (value) =>
-        ({
-          ...value,
-          liked:
-            relationMultiHasResDto.find(
-              (value2) => value2.to.id === value.id
-            ) !== undefined,
-        } as DataSongResDto)
-    );
+    return {
+      ...song,
+      liked:
+        relationMultiHasResDto.find((value) => value.to.id === song.id) !==
+        undefined,
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  localize(songs: DataSongResDto[]): DataSongResDto[] {
-    return songs.map((value) =>
-      value.localized === true
-        ? {
-            ...value,
-            audio: undefined,
-            lyrics: undefined,
-          }
-        : value
-    );
+  async likes(songs: DataSongResDto[], sub: number): Promise<DataSongResDto[]> {
+    const relationMultiHasResDto = await this.relationService.multiHas({
+      from: {
+        id: sub,
+        type: RelationEntityType.user,
+      },
+      relationType: RelationType.likedSongs,
+      tos: songs.map((value) => ({
+        id: value.id,
+        type: RelationEntityType.song,
+      })),
+    });
+    return songs.map((value) => ({
+      ...value,
+      liked:
+        relationMultiHasResDto.find((value2) => value2.to.id === value.id) !==
+        undefined,
+    }));
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  localize(value: DataSongResDto): DataSongResDto {
+    return value.localized === true
+      ? {
+          ...value,
+          audio: undefined,
+          lyrics: undefined,
+        }
+      : value;
   }
 }
