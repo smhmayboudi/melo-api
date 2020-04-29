@@ -13,6 +13,8 @@ export interface AppConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
+  dgraphAddress: string;
+  dgraphDebug: boolean;
   hashIdAlphabet: string;
   hashIdMinLength: number;
   hashIdSalt: string;

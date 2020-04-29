@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { RelationConfigService } from "./relation.config.service";
 
@@ -15,6 +16,10 @@ describe("RelationService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
+          {
+            provide: AppConfigService,
+            useValue: {},
+          },
           RelationConfigService,
           {
             provide: ConfigService,
@@ -29,15 +34,19 @@ describe("RelationService", () => {
       expect(service).toBeDefined();
     });
 
-    it("timeout should be equal to a value", () => {
-      expect(service.timeout).toEqual("0ms");
+    it("cacheMax should be equal to a value", () => {
+      expect(service.cacheMax).toEqual(0);
+    });
+
+    it("cachePort should be equal to a value", () => {
+      expect(service.cachePort).toEqual(0);
     });
   });
 
   describe("get: string", () => {
     // TODO: interface ?
     const configServiceMock = {
-      get: (): string => "0",
+      get: (): string => "",
     };
 
     let service: RelationConfigService;
@@ -45,6 +54,10 @@ describe("RelationService", () => {
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
+          {
+            provide: AppConfigService,
+            useValue: {},
+          },
           RelationConfigService,
           {
             provide: ConfigService,
@@ -54,8 +67,19 @@ describe("RelationService", () => {
       }).compile();
       service = module.get<RelationConfigService>(RelationConfigService);
     });
-    it("url should be equal to a value", () => {
-      expect(service.url).toEqual("0");
+
+    it("should be defined", () => {
+      expect(service).toBeDefined();
     });
+
+    it("cacheHost cacheHost should be equal to a value", () => {
+      expect(service.cacheHost).toEqual("");
+    });
+
+    it("cacheStore should be equal to a value", () => {
+      expect(service.cacheStore).toEqual("");
+    });
+
+    it.todo("cacheTTL should be equal to a value");
   });
 });

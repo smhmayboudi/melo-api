@@ -16,6 +16,8 @@ describe("AppPromOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
+    dgraphAddress: "",
+    dgraphDebug: true,
     hashIdAlphabet:
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
     hashIdMinLength: 0,

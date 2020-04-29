@@ -14,6 +14,7 @@ import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppArtistService } from "./app.artist.service";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
+import { AppDgraphOptionsFactory } from "./app.dgraph.options.factory";
 import { AppEncodingService } from "./app.encoding.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
@@ -32,6 +33,7 @@ import { AuthModule } from "../auth/auth.module";
 import { ConfigModule } from "@nestjs/config";
 import { ConstModule } from "../const/const.module";
 import { DataModule } from "../data/data.module";
+import { DgraphModule } from "../dgraph/dgraph.module";
 import { DownloadModule } from "../download/download.module";
 import { EmotionModule } from "../emotion/emotion.module";
 import { FileModule } from "../file/file.module";
@@ -79,6 +81,10 @@ import config from "./app.config";
     ConfigModule.forFeature(config),
     ConstModule,
     DataModule,
+    DgraphModule.forRootAsync({
+      imports: [AppModule],
+      useClass: AppDgraphOptionsFactory,
+    }),
     DownloadModule,
     EmotionModule,
     FileModule,

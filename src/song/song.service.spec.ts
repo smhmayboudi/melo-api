@@ -124,7 +124,7 @@ describe("SongService", () => {
         ],
         total: 1,
       } as RelationPaginationResDto<RelationEntityResDto>),
-    has: (): Promise<void> => Promise.resolve(undefined),
+    has: (): Promise<boolean> => Promise.resolve(true),
     multiHas: (): Promise<RelationMultiHasResDto[]> =>
       Promise.resolve([
         {
@@ -139,8 +139,8 @@ describe("SongService", () => {
           },
         },
       ]),
-    remove: (): Promise<void> => Promise.resolve(undefined),
-    set: (): Promise<void> => Promise.resolve(undefined),
+    remove: (): Promise<boolean> => Promise.resolve(true),
+    set: (): Promise<boolean> => Promise.resolve(true),
   };
   const songConfigServiceMock: SongConfigServiceInterface = {
     cacheHost: "",

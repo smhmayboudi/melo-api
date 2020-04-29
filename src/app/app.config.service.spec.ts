@@ -29,6 +29,10 @@ describe("AppService", () => {
       expect(service.apmActive).toEqual(true);
     });
 
+    it("dgraphDebug should be equal to a value", () => {
+      expect(service.dgraphDebug).toEqual(true);
+    });
+
     it("imgProxyEncode should be equal to a value", () => {
       expect(service.imgProxyEncode).toEqual(true);
     });
@@ -149,6 +153,10 @@ describe("AppService", () => {
 
     it("should be defined", () => {
       expect(service).toBeDefined();
+    });
+
+    it("dgraphAddress should be equal to a value", () => {
+      expect(service.dgraphAddress).toEqual("");
     });
 
     it("apmLogLevel should be equal to a value", () => {

@@ -13,6 +13,8 @@ describe("AppConfig", () => {
       cachePort: undefined,
       cacheStore: undefined,
       cacheTTL: undefined,
+      dgraphAddress: undefined,
+      dgraphDebug: undefined,
       hashIdAlphabet: undefined,
       hashIdMinLength: undefined,
       hashIdSalt: undefined,

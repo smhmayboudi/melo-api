@@ -2,9 +2,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
-import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
+import { AppDgraphOptionsFactory } from "./app.dgraph.options.factory";
 
-describe("AppMongooseOptionsFactory", () => {
+describe("AppDgraphOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
     apmActive: false,
     apmLogLevel: "trace",
@@ -65,18 +65,17 @@ describe("AppMongooseOptionsFactory", () => {
   });
 
   it("should be defined", () => {
-    expect(new AppMongooseOptionsFactory(service)).toBeDefined();
+    expect(new AppDgraphOptionsFactory(service)).toBeDefined();
   });
 
-  it("createMongooseOptions should be equal to a value", () => {
-    expect(
-      new AppMongooseOptionsFactory(service).createMongooseOptions()
-    ).toEqual({
-      retryAttempts: 0,
-      retryDelay: 0,
-      uri: "",
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+  it("createDgraphOptions should be equal to a value", () => {
+    expect(new AppDgraphOptionsFactory(service).createDgraphOptions()).toEqual({
+      debug: true,
+      stubs: [
+        {
+          address: "",
+        },
+      ],
     });
   });
 });

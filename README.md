@@ -41,15 +41,7 @@ $ code --install-extension wesbos.theme-cobalt2
 # Enviroment
 
 * For using personal, duplicate [.env.sample](.env.sample), rename it to `.env` and fillout it.
-* For using docker, duplicate [.env.sample](.env.sample) and rename it to `.env.docker` and fillout it.
-
-# 1st Time Run
-
-* Run MySqlWorkbench
-* Connect to 127.0.0.1
-* Create a new schema with 'meloapp' name
-* Run the api
-* Inser a key into jwkss table
+* For using docker, duplicate [.env.sample](.env.sample), rename it to `.env.docker` and fillout it.
 
 ```Shell
 # generate UUID
@@ -67,6 +59,7 @@ $ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
 ```Shell
 # need
 $ docker pull darthsim/imgproxy
+$ docker pull dgraph/dgraph
 $ docker pull minio/minio
 $ docker pull mongo
 $ docker pull mysql@5.6

@@ -50,6 +50,13 @@ export class AppConfigService implements AppConfigServiceInterface {
     return ms(this.configService.get<string>("app.cacheTTL", "0"));
   }
 
+  get dgraphAddress(): string {
+    return this.configService.get<string>("app.dgraphAddress", "");
+  }
+
+  get dgraphDebug(): boolean {
+    return this.configService.get<boolean>("app.dgraphDebug", true);
+  }
   get hashIdAlphabet(): string {
     return this.configService.get<string>("app.hashIdAlphabet", "");
   }

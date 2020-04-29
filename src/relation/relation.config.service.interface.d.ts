@@ -1,4 +1,7 @@
 export interface RelationConfigServiceInterface {
-  timeout: number;
-  url: string;
+  cacheHost: string;
+  cacheMax: number;
+  cachePort: number;
+  cacheStore: string;
+  cacheTTL: number;
 }

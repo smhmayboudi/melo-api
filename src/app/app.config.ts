@@ -11,6 +11,8 @@ export default registerAs("app", () => ({
   cachePort: process.env.APP_CACHE_PORT,
   cacheStore: process.env.APP_CACHE_STORE,
   cacheTTL: process.env.APP_CACHE_TTL,
+  dgraphAddress: process.env.APP_DGRAPH_ADDRESS,
+  dgraphDebug: process.env.APP_DGRAPH_DEBUG,
   hashIdAlphabet: process.env.APP_HASH_ID_ALPHABET,
   hashIdMinLength: process.env.APP_HASH_ID_MIN_LENGTH,
   hashIdSalt: process.env.APP_HASH_ID_SALT,
