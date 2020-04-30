@@ -135,7 +135,7 @@ describe("AppSongService", () => {
   });
 
   it("like should be equal to a song sub: 1", async () => {
-    expect(await service.like(song, 1)).toEqual({ ...song, liked: false });
+    expect(await service.like(song, 1)).toEqual({ ...song, liked: true });
   });
 
   it("likes should be equal to a song sub: 1", async () => {

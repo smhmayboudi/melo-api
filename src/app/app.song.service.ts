@@ -16,26 +16,20 @@ export class AppSongService implements AppSongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async like(song: DataSongResDto, sub: number): Promise<DataSongResDto> {
-    // TODO: multiHas => has
-    // TODO: RelationMultiHasResDto => RelationHasResDto
-    const relationMultiHasResDto = await this.relationService.multiHas({
+    const relationHasResDto = await this.relationService.has({
       from: {
         id: sub,
         type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,
-      tos: [
-        {
-          id: song.id,
-          type: RelationEntityType.song,
-        },
-      ],
+      to: {
+        id: song.id,
+        type: RelationEntityType.song,
+      },
     });
     return {
       ...song,
-      liked:
-        relationMultiHasResDto.find((value) => value.to.id === song.id) !==
-        undefined,
+      liked: relationHasResDto,
     };
   }
 
