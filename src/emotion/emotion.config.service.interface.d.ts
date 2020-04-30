@@ -1,4 +1,5 @@
 export interface EmotionConfigServiceInterface {
-  timeout: number;
-  url: string;
+  elasticNode: string;
+  index: string;
+  requestLimit: number;
 }

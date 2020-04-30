@@ -2,12 +2,13 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionConfigServiceInterface } from "./emotion.config.service.interface";
-import { EmotionHttpOptionsFactory } from "./emotion.http.options.factory";
+import { EmotionElasticsearchOptionsFactory } from "./emotion.elasticsearch.options.factory";
 
-describe("EmotionHttpOptionsFactory", () => {
+describe("EmotionElasticsearchOptionsFactory", () => {
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
-    timeout: 0,
-    url: "",
+    elasticNode: "",
+    index: "",
+    requestLimit: 0,
   };
 
   let service: EmotionConfigService;
@@ -25,12 +26,14 @@ describe("EmotionHttpOptionsFactory", () => {
   });
 
   it("should be defined", () => {
-    expect(new EmotionHttpOptionsFactory(service)).toBeDefined();
+    expect(new EmotionElasticsearchOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should return an option", () => {
+  it("createElasticsearchOptions should return an option", () => {
     expect(
-      new EmotionHttpOptionsFactory(service).createHttpOptions()
+      new EmotionElasticsearchOptionsFactory(
+        service
+      ).createElasticsearchOptions()
     ).toBeDefined();
   });
 });

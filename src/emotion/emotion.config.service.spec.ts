@@ -34,8 +34,8 @@ describe("EmotionService", () => {
       expect(service).toBeDefined();
     });
 
-    it("timeout should return time", () => {
-      expect(service.timeout).toEqual("0ms");
+    it("requestLimit should return a value", () => {
+      expect(service.requestLimit).toEqual(0);
     });
   });
 
@@ -64,8 +64,12 @@ describe("EmotionService", () => {
       service = module.get<EmotionConfigService>(EmotionConfigService);
     });
 
-    it("url should return value", () => {
-      expect(service.url).toEqual("");
+    it("elasticNode should return value", () => {
+      expect(service.elasticNode).toEqual("");
+    });
+
+    it("index should return value", () => {
+      expect(service.index).toEqual("");
     });
   });
 });

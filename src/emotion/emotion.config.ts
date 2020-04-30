@@ -1,6 +1,7 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("emotion", () => ({
-  timeout: process.env.EMOTION_TIMEOUT,
-  url: process.env.EMOTION_URL,
+  elasticNode: process.env.EMOTION_ELASTIC_NODE,
+  index: process.env.EMOTION_INDEX_NAME,
+  requestLimit: process.env.EMOTION_REQUEST_LIMIT,
 }));

@@ -1,24 +1,23 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import { HttpService, Injectable } from "@nestjs/common";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { EmotionConfigService } from "./emotion.config.service";
-import { EmotionDataResDto } from "./dto/res/emotion.data.res.dto";
 import { EmotionParamReqDto } from "./dto/req/emotion.param.req.dto";
 import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionServiceInterface } from "./emotion.service.interface";
+import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "../prom/prom.decorator";
 import { SongService } from "../song/song.service";
-import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
 export class EmotionService implements EmotionServiceInterface {
   constructor(
     private readonly emotionConfigService: EmotionConfigService,
-    private readonly songService: SongService,
-    private readonly httpService: HttpService
+    private readonly elasticsearchService: ElasticsearchService,
+    private readonly songService: SongService
   ) {}
 
   @ApmAfterMethod
@@ -29,25 +28,36 @@ export class EmotionService implements EmotionServiceInterface {
     queryDto: EmotionQueryReqDto,
     sub: number
   ): Promise<DataPaginationResDto<EmotionResDto>> {
-    const emotionData = await this.httpService
-      .get<DataPaginationResDto<EmotionDataResDto>>(
-        `${this.emotionConfigService.url}/emotion/${sub}/${paramDto.from}/${paramDto.limit}`,
-        {
-          params: {
-            emotions: queryDto.emotions,
+    const elasticSearchRes = await this.elasticsearchService.search({
+      body: {
+        _source: ["song_id", "emotions"],
+        from: paramDto.from,
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  user_id: sub,
+                },
+              },
+              ...queryDto.emotions.map((value) => ({
+                term: { emotions: value },
+              })),
+            ],
           },
-        }
-      )
-      .pipe(map((value) => value.data))
-      .toPromise();
+        },
+        size: Math.min(paramDto.limit, this.emotionConfigService.requestLimit),
+      },
+      index: this.emotionConfigService.index,
+    });
     return {
-      results: await Promise.all(
-        emotionData.results.map(async (value) => ({
-          emotions: value.emotions,
-          song: await this.songService.byId({ id: value.songId }),
+      results: (await Promise.all(
+        elasticSearchRes.body.hits.hits.map(async (value) => ({
+          emotions: value._source.emotions,
+          song: await this.songService.byId({ id: value._source.song_Id }),
         }))
-      ),
-      total: emotionData.total,
+      )) as EmotionResDto[],
+      total: elasticSearchRes.body.hits.hits.length,
     } as DataPaginationResDto<EmotionResDto>;
   }
 }

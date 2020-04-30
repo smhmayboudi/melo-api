@@ -1,17 +1,15 @@
-import { Observable, of } from "rxjs";
+/* eslint-disable @typescript-eslint/camelcase */
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { EmotionConfigService } from "./emotion.config.service";
-import { EmotionDataResDto } from "./dto/res/emotion.data.res.dto";
 import { EmotionParamReqDto } from "./dto/req/emotion.param.req.dto";
 import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionService } from "./emotion.service";
-import { HttpService } from "@nestjs/common";
 import { SongService } from "../song/song.service";
 import { SongServiceInterface } from "../song/song.service.interface";
 
@@ -40,18 +38,19 @@ describe("EmotionService", () => {
     emotions: [""],
     song,
   };
-  const emotionData: EmotionDataResDto = {
-    emotions: [""],
-    songId: 0,
-  };
   const emotionPagination: DataPaginationResDto<EmotionResDto> = {
     results: [emotion],
     total: 1,
   } as DataPaginationResDto<EmotionResDto>;
-  const emotionDataPagination: DataPaginationResDto<EmotionDataResDto> = {
-    results: [emotionData],
-    total: 1,
-  } as DataPaginationResDto<EmotionDataResDto>;
+  // TODO: interface?
+  const emotionElastic = {
+    body: {
+      hits: {
+        hits: [{ _source: { emotions: [""], song_id: 0, user_id: 0 } }],
+      },
+    },
+  };
+
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
@@ -84,18 +83,8 @@ describe("EmotionService", () => {
       Promise.resolve(songPagination),
     unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
-  // TODO: interface ?
-  const httpServiceMock = {
-    get: (): Observable<
-      AxiosResponse<DataPaginationResDto<EmotionDataResDto>>
-    > =>
-      of({
-        config: {},
-        data: emotionDataPagination,
-        headers: {},
-        status: 200,
-        statusText: "",
-      }),
+  const elasticsearchServiceMock = {
+    search: (): any => Promise.resolve(emotionElastic),
   };
 
   let service: EmotionService;
@@ -105,7 +94,7 @@ describe("EmotionService", () => {
       providers: [
         EmotionService,
         { provide: EmotionConfigService, useValue: {} },
-        { provide: HttpService, useValue: httpServiceMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: SongService, useValue: songServiceMock },
       ],
     }).compile();
