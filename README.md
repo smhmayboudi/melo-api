@@ -64,9 +64,9 @@ $ docker pull minio/minio
 $ docker pull mongo
 $ docker pull mysql@5.6
 # latest lts node version which support microservice well
-$ docker pull node@12.16.2
+$ docker pull node@12.16.3
 # latest lts slim node version which support microservice well
-$ docker pull node@12.16.2-slim
+$ docker pull node@12.16.3-slim
 $ docker pull redis
 
 # test

@@ -9,6 +9,7 @@ import { AppSongService } from "../app/app.song.service";
 import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
+import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { map } from "rxjs/operators";
@@ -17,22 +18,18 @@ import { map } from "rxjs/operators";
 export class PlaylistLocalizeInterceptor implements NestInterceptor {
   constructor(private readonly appSongService: AppSongService) {}
 
-  transform = (playlists: DataPlaylistResDto[]): DataPlaylistResDto[] =>
-    playlists.map(
-      (value) =>
-        ({
-          ...value,
-          songs:
-            value.songs === undefined
-              ? undefined
-              : {
-                  results: value.songs.results.map((value) =>
-                    this.appSongService.localize(value)
-                  ),
-                  total: value.songs.total,
-                },
-        } as DataPlaylistResDto)
-    );
+  transform = (playlist: DataPlaylistResDto): DataPlaylistResDto => ({
+    ...playlist,
+    songs:
+      playlist.songs === undefined
+        ? undefined
+        : ({
+            results: playlist.songs.results.map((value) =>
+              this.appSongService.localize(value)
+            ),
+            total: playlist.songs.total,
+          } as DataPaginationResDto<DataSongResDto>),
+  });
 
   intercept(
     context: ExecutionContext,
@@ -47,10 +44,10 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
         if (request.user.sub !== "0") {
           return data;
         } else if (data.total === undefined) {
-          return this.transform([data])[0];
+          return this.transform(data);
         } else {
           return {
-            results: this.transform(data.results),
+            results: data.results.map((value) => this.transform(value)),
             total: data.total,
           };
         }
