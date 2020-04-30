@@ -2,12 +2,13 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadConfigServiceInterface } from "./download.config.service.interface";
-import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
+import { DownloadElasticsearchOptionsFactory } from "./download.elasticsearch.options.factory";
 
-describe("DownloadHttpOptionsFactory", () => {
+describe("DownloadElasticsearchOptionsFactory", () => {
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {
-    timeout: 0,
-    url: "",
+    elasticNode: "",
+    index: "",
+    requestLimit: 0,
   };
 
   let service: DownloadConfigService;
@@ -25,12 +26,14 @@ describe("DownloadHttpOptionsFactory", () => {
   });
 
   it("should be defined", () => {
-    expect(new DownloadHttpOptionsFactory(service)).toBeDefined();
+    expect(new DownloadElasticsearchOptionsFactory(service)).toBeDefined();
   });
 
-  it("createHttpOptions should return an option", () => {
+  it("createElasticsearchOptions should return an option", () => {
     expect(
-      new DownloadHttpOptionsFactory(service).createHttpOptions()
+      new DownloadElasticsearchOptionsFactory(
+        service
+      ).createElasticsearchOptions()
     ).toBeDefined();
   });
 });

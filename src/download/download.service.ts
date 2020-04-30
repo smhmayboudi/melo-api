@@ -1,25 +1,24 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import { HttpService, Injectable } from "@nestjs/common";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadConfigService } from "./download.config.service";
-import { DownloadDataSongResDto } from "./dto/res/download.data.song.res.dto";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadServiceInterface } from "./download.service.interface";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
-import { DownloadSortByType } from "./download.sort-by.type";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "../prom/prom.decorator";
 import { SongService } from "../song/song.service";
-import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
 export class DownloadService implements DownloadServiceInterface {
   constructor(
     private readonly downloadConfigService: DownloadConfigService,
-    private readonly httpService: HttpService,
+    private readonly elasticsearchService: ElasticsearchService,
     private readonly songService: SongService
   ) {}
 
@@ -30,30 +29,45 @@ export class DownloadService implements DownloadServiceInterface {
     paramDto: DownloadSongParamReqDto,
     queryDto: DownloadSongQueryReqDto,
     orderBy: DownloadOrderByType,
-    sortBy: DownloadSortByType,
     sub: number
   ): Promise<DataPaginationResDto<DownloadSongResDto>> {
-    const downloadDataSong = await this.httpService
-      .get<DataPaginationResDto<DownloadDataSongResDto>>(
-        `${this.downloadConfigService.url}/download/song/${sub}/${paramDto.from}/${paramDto.limit}`,
-        {
-          params: {
-            filter: queryDto.filter,
-            orderBy,
-            sortBy,
-          },
-        }
-      )
-      .pipe(map((value) => value.data))
-      .toPromise();
+    const elasticSearchRes = await this.elasticsearchService.search({
+      body: {
+        _source: ["song_id", "date"],
+        from: paramDto.from,
+        query:
+          queryDto.filter === undefined
+            ? {
+                term: {
+                  user_id: sub,
+                },
+              }
+            : {
+                bool: {
+                  must: [
+                    {
+                      match: { song_unique_name: queryDto.filter },
+                    },
+                    {
+                      term: { user_id: sub },
+                    },
+                  ],
+                },
+              },
+        size: Math.min(paramDto.limit, this.downloadConfigService.requestLimit),
+        sort: { date: orderBy },
+      },
+      index: this.downloadConfigService.index,
+    });
+
     return {
-      results: await Promise.all(
-        downloadDataSong.results.map(async (value) => ({
-          downloadedAt: value.downloadedAt,
-          song: await this.songService.byId({ id: value.songId }),
+      results: (await Promise.all(
+        elasticSearchRes.body.hits.hits.map(async (value) => ({
+          downloadedAt: value._source.date,
+          song: await this.songService.byId({ id: value._source.song_id }),
         }))
-      ),
-      total: downloadDataSong.total,
+      )) as DownloadSongResDto[],
+      total: elasticSearchRes.body.hits.hits.length,
     } as DataPaginationResDto<DownloadSongResDto>;
   }
 }

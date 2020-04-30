@@ -1,19 +1,16 @@
-import { Observable, of } from "rxjs";
+/* eslint-disable @typescript-eslint/camelcase */
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { AxiosResponse } from "axios";
 import { DataArtistType } from "../data/data.artist.type";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DownloadConfigService } from "./download.config.service";
-import { DownloadDataSongResDto } from "./dto/res/download.data.song.res.dto";
 import { DownloadOrderByType } from "./download.order-by.type";
 import { DownloadService } from "./download.service";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
-import { DownloadSortByType } from "./download.sort-by.type";
-import { HttpService } from "@nestjs/common";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { SongService } from "../song/song.service";
 import { SongServiceInterface } from "../song/song.service.interface";
 
@@ -42,18 +39,18 @@ describe("DownloadService", () => {
     downloadedAt,
     song,
   };
-  const downloadDataSong: DownloadDataSongResDto = {
-    downloadedAt,
-    songId: 0,
+  // TODO: interface?
+  const downloadElastic = {
+    body: {
+      hits: {
+        hits: [{ _source: { date: downloadedAt, song_id: 0, user_id: 0 } }],
+      },
+    },
   };
   const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
     results: [downloadSong],
     total: 1,
   } as DataPaginationResDto<DownloadSongResDto>;
-  const downloadDataSongPagination: DataPaginationResDto<DownloadDataSongResDto> = {
-    results: [downloadDataSong],
-    total: 1,
-  } as DataPaginationResDto<DownloadDataSongResDto>;
 
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
@@ -87,18 +84,8 @@ describe("DownloadService", () => {
       Promise.resolve(songPagination),
     unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
-  // TODO: interface ?
-  const httpServiceMock = {
-    get: (): Observable<
-      AxiosResponse<DataPaginationResDto<DownloadDataSongResDto>>
-    > =>
-      of({
-        config: {},
-        data: downloadDataSongPagination,
-        headers: {},
-        status: 200,
-        statusText: "",
-      }),
+  const elasticsearchServiceMock = {
+    search: (): any => Promise.resolve(downloadElastic),
   };
 
   let service: DownloadService;
@@ -108,7 +95,7 @@ describe("DownloadService", () => {
       providers: [
         DownloadService,
         { provide: DownloadConfigService, useValue: {} },
-        { provide: HttpService, useValue: httpServiceMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: SongService, useValue: songServiceMock },
       ],
     }).compile();
@@ -120,7 +107,6 @@ describe("DownloadService", () => {
       from: 0,
       limit: 0,
       orderBy: DownloadOrderByType.asc,
-      sortBy: DownloadSortByType.date,
     };
     const queryDto: DownloadSongQueryReqDto = {
       filter: "",
@@ -130,7 +116,6 @@ describe("DownloadService", () => {
         paramDto,
         queryDto,
         DownloadOrderByType.asc,
-        DownloadSortByType.date,
         0
       )
     ).toEqual(downloadSongPagination);

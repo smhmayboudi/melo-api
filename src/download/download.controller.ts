@@ -22,8 +22,6 @@ import { DownloadService } from "./download.service";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
-import { DownloadSortByPipe } from "./download.sort-by.pipe";
-import { DownloadSortByType } from "./download.sort-by.type";
 
 @UseInterceptors(DownloadLikeInterceptor, DownloadHashIdInterceptor)
 @ApiBearerAuth("jwt")
@@ -39,20 +37,18 @@ import { DownloadSortByType } from "./download.sort-by.type";
 export class DownloadController {
   constructor(private readonly downloadService: DownloadService) {}
 
-  @Get("song/:orderBy/:sortBy/:from/:limit")
+  @Get("song/:orderBy/:from/:limit")
   @UseGuards(AuthGuard("jwt"))
   async downloadedSongs(
     @Param() paramDto: DownloadSongParamReqDto,
     @Query() queryDto: DownloadSongQueryReqDto,
     @Param("orderBy", DownloadOrderByPipe) orderBy: DownloadOrderByType,
-    @Param("sortBy", DownloadSortByPipe) sortBy: DownloadSortByType,
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<DataPaginationResDto<DownloadSongResDto>> {
     return this.downloadService.downloadedSongs(
       paramDto,
       queryDto,
       orderBy,
-      sortBy,
       sub
     );
   }

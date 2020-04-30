@@ -2,19 +2,12 @@ import { IsEnum, IsNumberString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 import { DownloadOrderByType } from "../../download.order-by.type";
-import { DownloadSortByType } from "../../download.sort-by.type";
 
 export class DownloadSongParamReqDto {
-  constructor(
-    from: number,
-    limit: number,
-    orderBy: DownloadOrderByType,
-    sortBy: DownloadSortByType
-  ) {
+  constructor(from: number, limit: number, orderBy: DownloadOrderByType) {
     this.from = from;
     this.limit = limit;
     this.orderBy = orderBy;
-    this.sortBy = sortBy;
   }
 
   @ApiProperty({
@@ -37,11 +30,4 @@ export class DownloadSongParamReqDto {
   })
   @IsEnum(DownloadOrderByType)
   orderBy: DownloadOrderByType;
-
-  @ApiProperty({
-    description: "The sort",
-    example: DownloadSortByType.date,
-  })
-  @IsEnum(DownloadSortByType)
-  sortBy: DownloadSortByType;
 }

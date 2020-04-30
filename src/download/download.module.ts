@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { HttpModule, Module, forwardRef } from "@nestjs/common";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadController } from "./download.controller";
+import { DownloadElasticsearchOptionsFactory } from "./download.elasticsearch.options.factory";
 import { DownloadHealthIndicator } from "./download.health.indicator";
-import { DownloadHttpOptionsFactory } from "./download.http.options.factory";
 import { DownloadService } from "./download.service";
+import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { SongModule } from "../song/song.module";
 import config from "./download.config";
 
@@ -18,9 +19,9 @@ import config from "./download.config";
   imports: [
     forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
-    HttpModule.registerAsync({
+    ElasticsearchModule.registerAsync({
       imports: [DownloadModule],
-      useClass: DownloadHttpOptionsFactory,
+      useClass: DownloadElasticsearchOptionsFactory,
     }),
     SongModule,
   ],

@@ -1,6 +1,7 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("download", () => ({
-  timeout: process.env.DOWNLOAD_TIMEOUT,
-  url: process.env.DOWNLOAD_URL,
+  elasticNode: process.env.DOWNLOAD_ELASTIC_NODE,
+  index: process.env.DOWNLOAD_INDEX_NAME,
+  requestLimit: process.env.DOWNLOAD_REQUEST_LIMIT,
 }));

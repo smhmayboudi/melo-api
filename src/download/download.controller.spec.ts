@@ -19,7 +19,6 @@ import { DownloadServiceInterface } from "./download.service.interface";
 import { DownloadSongParamReqDto } from "./dto/req/download.song.param.req.dto";
 import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
-import { DownloadSortByType } from "./download.sort-by.type";
 
 describe("DownloadController", () => {
   const releaseDate = new Date();
@@ -110,7 +109,6 @@ describe("DownloadController", () => {
       from: 0,
       limit: 0,
       orderBy: DownloadOrderByType.asc,
-      sortBy: DownloadSortByType.date,
     };
     const queryDto: DownloadSongQueryReqDto = {
       filter: "",
@@ -120,7 +118,6 @@ describe("DownloadController", () => {
         paramDto,
         queryDto,
         DownloadOrderByType.asc,
-        DownloadSortByType.date,
         0
       )
     ).toEqual(downloadSongPagination);
