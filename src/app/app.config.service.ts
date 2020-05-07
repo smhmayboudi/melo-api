@@ -57,6 +57,30 @@ export class AppConfigService implements AppConfigServiceInterface {
   get dgraphDebug(): boolean {
     return this.configService.get<boolean>("app.dgraphDebug", true);
   }
+  get dataTypeOrmDatabase(): string {
+    return this.configService.get<string>("app.dataTypeOrmDatabase", "");
+  }
+
+  get dataTypeOrmHost(): string {
+    return this.configService.get<string>("app.dataTypeOrmHost", "");
+  }
+
+  get dataTypeOrmPassword(): string {
+    return this.configService.get<string>("app.dataTypeOrmPassword", "");
+  }
+
+  get dataTypeOrmPort(): number {
+    return this.configService.get<number>("app.dataTypeOrmPort", 0);
+  }
+
+  get dataTypeOrmSynchronize(): boolean {
+    return this.configService.get<boolean>("app.dataTypeOrmSynchronize", false);
+  }
+
+  get dataTypeOrmUsername(): string {
+    return this.configService.get<string>("app.dataTypeOrmUsername", "");
+  }
+
   get hashIdAlphabet(): string {
     return this.configService.get<string>("app.hashIdAlphabet", "");
   }
@@ -178,6 +202,30 @@ export class AppConfigService implements AppConfigServiceInterface {
 
   get sentryRelease(): string {
     return this.configService.get<string>("app.sentryRelease", "");
+  }
+
+  get siteTypeOrmDatabase(): string {
+    return this.configService.get<string>("app.dataTypeOrmDatabase", "");
+  }
+
+  get siteTypeOrmHost(): string {
+    return this.configService.get<string>("app.dataTypeOrmHost", "");
+  }
+
+  get siteTypeOrmPassword(): string {
+    return this.configService.get<string>("app.dataTypeOrmPassword", "");
+  }
+
+  get siteTypeOrmPort(): number {
+    return this.configService.get<number>("app.dataTypeOrmPort", 0);
+  }
+
+  get siteTypeOrmSynchronize(): boolean {
+    return this.configService.get<boolean>("app.dataTypeOrmSynchronize", false);
+  }
+
+  get siteTypeOrmUsername(): string {
+    return this.configService.get<string>("app.dataTypeOrmUsername", "");
   }
 
   get typeOrmDatabase(): string {

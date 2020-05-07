@@ -6,11 +6,11 @@ import { SearchMoodQueryDto } from "./dto/req/search.mood.query.req.dto";
 import { SearchQueryReqDto } from "./dto/req/search.query.req.dto";
 
 export interface SearchServiceInterface {
+  mood(
+    paramDto: SearchMoodParamDto,
+    queryDto: SearchMoodQueryDto
+  ): Promise<DataPaginationResDto<DataSongResDto>>;
   query(
     dto: SearchQueryReqDto
   ): Promise<DataPaginationResDto<DataSearchResDto>>;
-  mood(
-    paramDto: SearchMoodParamDto,
-    querydto: SearchMoodQueryDto
-  ): Promise<DataPaginationResDto<DataSongResDto>>;
 }

@@ -6,4 +6,8 @@ export default registerAs("search", () => ({
   cachePort: process.env.SEARCH_CACHE_PORT,
   cacheStore: process.env.SEARCH_CACHE_STORE,
   cacheTTL: process.env.SEARCH_CACHE_TTL,
+  elasticNode: process.env.SEARCH_ELASTIC_NODE,
+  elasticScriptScore: process.env.SEARCH_ELASTIC_SCRIPT_SCORE,
+  index: process.env.SEARCH_INDEX_NAME,
+  suggestIndex: process.env.SEARCH_SUGGEST_INDEX_NAME,
 }));

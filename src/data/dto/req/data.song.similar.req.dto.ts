@@ -1,6 +1,5 @@
-import { IsNumberString } from "class-validator";
-
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNumberString } from "class-validator";
 
 export class DataSongSimilarReqDto {
   constructor(from: number, id: number, limit: number) {

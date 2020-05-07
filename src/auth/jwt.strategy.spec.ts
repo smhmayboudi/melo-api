@@ -204,7 +204,7 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an error", () => {
+    it("validate should throw an error 2", () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,
@@ -250,7 +250,7 @@ describe("JwtStrategy", () => {
       rtService = module.get<RtService>(RtService);
     });
 
-    it("validate should throw an error", async () => {
+    it("validate should throw an error 3", async () => {
       const dto: AuthJwtPayloadReqDto = {
         exp: 0,
         iat: 0,

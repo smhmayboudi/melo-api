@@ -1,4 +1,10 @@
 export interface DataConfigServiceInterface {
-  timeout: number;
-  url: string;
+  defaultAlbumImagePath: string;
+  defaultArtistImagePath: string;
+  defaultSongImagePath: string;
+  elasticNode: string;
+  imagePath: (id: string) => string;
+  index: string;
+  mp3Endpoint: string;
+  requestLimit: number;
 }

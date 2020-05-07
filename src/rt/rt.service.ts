@@ -27,8 +27,7 @@ export class RtService implements RtServiceInterface {
       { id },
       { description, is_blocked: true }
     );
-    const rtEntity = await this.findOneById(id);
-    return rtEntity;
+    return this.findOneById(id);
   }
 
   @ApmAfterMethod
@@ -42,8 +41,7 @@ export class RtService implements RtServiceInterface {
       { token },
       { description, is_blocked: true }
     );
-    const rtEntity = await this.findOneByToken(token);
-    return rtEntity;
+    return await this.findOneByToken(token);
   }
 
   @ApmAfterMethod

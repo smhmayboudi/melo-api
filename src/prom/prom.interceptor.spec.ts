@@ -118,7 +118,7 @@ describe("PromInterceptor", () => {
       );
     });
 
-    it("intercept should be called", () => {
+    it("intercept should be called 2", () => {
       new PromInterceptor(counter, options).intercept(
         executionContext,
         callHandler
@@ -160,7 +160,7 @@ describe("PromInterceptor", () => {
       );
     });
 
-    it("intercept should be called", () => {
+    it("intercept should be called 3", () => {
       new PromInterceptor(counter, options).intercept(
         executionContext,
         callHandler

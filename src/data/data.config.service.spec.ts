@@ -34,8 +34,8 @@ describe("DataService", () => {
       expect(service).toBeDefined();
     });
 
-    it("timeout should be equal to a value", () => {
-      expect(service.timeout).toEqual("0ms");
+    it("requestLimit should return a value", () => {
+      expect(service.requestLimit).toEqual(0);
     });
   });
 
@@ -64,12 +64,32 @@ describe("DataService", () => {
       service = module.get<DataConfigService>(DataConfigService);
     });
 
-    it("should be defined", () => {
-      expect(service).toBeDefined();
+    it("defaultAlbumImagePath should return value", () => {
+      expect(service.defaultAlbumImagePath).toEqual("");
     });
 
-    it("jwtAuhSchema url should be equal to a value", () => {
-      expect(service.url).toEqual("");
+    it("defaultArtistImagePath should return value", () => {
+      expect(service.defaultArtistImagePath).toEqual("");
+    });
+
+    it("defaultSongImagePath should return value", () => {
+      expect(service.defaultSongImagePath).toEqual("");
+    });
+
+    it("elasticNode should return value", () => {
+      expect(service.elasticNode).toEqual("");
+    });
+
+    it("imagePath should return value", () => {
+      expect(service.imagePath("")).toEqual("");
+    });
+
+    it("index should return value", () => {
+      expect(service.index).toEqual("");
+    });
+
+    it("mp3Endpoint should return value", () => {
+      expect(service.mp3Endpoint).toEqual("");
     });
   });
 });

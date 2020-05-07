@@ -46,8 +46,8 @@ export class SearchController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async searchMood(
     @Param() paramDto: SearchMoodParamDto,
-    @Query() querydto: SearchMoodQueryDto
+    @Query() queryDto: SearchMoodQueryDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.searchService.mood(paramDto, querydto);
+    return this.searchService.mood(paramDto, queryDto);
   }
 }

@@ -8,6 +8,14 @@ export class AppTypeOrmLogger implements typeorm.Logger {
     | ("log" | "info" | "warn" | "query" | "schema" | "error" | "migration")[]
     | undefined;
 
+  private query(query: string, parameters: unknown[] | undefined): string {
+    return `${query}${
+      parameters !== undefined && parameters.length !== 0
+        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
+        : ""
+    }`;
+  }
+
   constructor(
     options?:
       | boolean
@@ -28,12 +36,7 @@ export class AppTypeOrmLogger implements typeorm.Logger {
       this.options === true ||
       (this.options instanceof Array && this.options.includes("query"))
     ) {
-      const sql =
-        query +
-        (parameters && parameters.length
-          ? " -- PARAMETERS: " + this.stringifyParams(parameters)
-          : "");
-      Logger.log(`query: ${sql}`, "AppTypeOrmLogger");
+      Logger.log(`query: ${this.query(query, parameters)}`, "AppTypeOrmLogger");
     }
   }
 
@@ -48,13 +51,8 @@ export class AppTypeOrmLogger implements typeorm.Logger {
       this.options === true ||
       (this.options instanceof Array && this.options.includes("error"))
     ) {
-      const sql =
-        query +
-        (parameters && parameters.length
-          ? " -- PARAMETERS: " + this.stringifyParams(parameters)
-          : "");
       Logger.error(
-        `query failed: ${sql}, with error: ${error}`,
+        `query failed: ${this.query(query, parameters)}, with error: ${error}`,
         undefined,
         "AppTypeOrmLogger"
       );
@@ -67,13 +65,11 @@ export class AppTypeOrmLogger implements typeorm.Logger {
     parameters?: unknown[] | undefined,
     _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
-    const sql =
-      query +
-      (parameters && parameters.length
-        ? " -- PARAMETERS: " + this.stringifyParams(parameters)
-        : "");
     Logger.log(
-      `query is slow: ${sql}, with execution time: ${time}`,
+      `query is slow: ${this.query(
+        query,
+        parameters
+      )}, with execution time: ${time}`,
       "AppTypeOrmLogger"
     );
   }

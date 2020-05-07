@@ -14,7 +14,7 @@ export interface DownloadOrderByPipeOptions {
 @Injectable()
 export class DownloadOrderByPipe
   implements PipeTransform<string, DownloadOrderByType> {
-  protected exceptionFactory: (errors: string) => unknown;
+  private exceptionFactory: (errors: string) => unknown;
 
   constructor(@Optional() options?: DownloadOrderByPipeOptions) {
     options = options || {};

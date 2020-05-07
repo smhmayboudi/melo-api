@@ -84,6 +84,7 @@ describe("DownloadService", () => {
       Promise.resolve(songPagination),
     unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
   };
+  // TODO: interface ?
   const elasticsearchServiceMock = {
     search: (): any => Promise.resolve(downloadElastic),
   };

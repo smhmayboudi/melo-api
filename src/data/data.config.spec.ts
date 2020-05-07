@@ -1,10 +1,16 @@
 import config from "./data.config";
 
 describe("DataConfig", () => {
-  it("should be equal to an object", () => {
+  it("should be defined", () => {
     expect(config()).toStrictEqual({
-      timeout: undefined,
-      url: undefined,
+      defaultAlbumImagePath: undefined,
+      defaultArtistImagePath: undefined,
+      defaultSongImagePath: undefined,
+      elasticNode: undefined,
+      imagePath: undefined,
+      index: undefined,
+      mp3Endpoint: undefined,
+      requestLimit: undefined,
     });
   });
 });

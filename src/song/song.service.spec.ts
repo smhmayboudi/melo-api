@@ -75,6 +75,8 @@ describe("SongService", () => {
     localize: (): DataSongResDto => song,
   };
   const dataSongServiceMock: DataSongServiceInterface = {
+    albumSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
+      Promise.resolve(songPagination),
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     artistSongsTop: (): Promise<DataPaginationResDto<DataSongResDto>> =>

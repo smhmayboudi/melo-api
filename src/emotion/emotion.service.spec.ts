@@ -51,6 +51,10 @@ describe("EmotionService", () => {
     },
   };
 
+  // TODO: interface ?
+  const elasticsearchServiceMock = {
+    search: (): any => Promise.resolve(emotionElastic),
+  };
   const songServiceMock: SongServiceInterface = {
     artistSongs: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
@@ -82,9 +86,6 @@ describe("EmotionService", () => {
     topWeek: (): Promise<DataPaginationResDto<DataSongResDto>> =>
       Promise.resolve(songPagination),
     unlike: (): Promise<DataSongResDto> => Promise.resolve(song),
-  };
-  const elasticsearchServiceMock = {
-    search: (): any => Promise.resolve(emotionElastic),
   };
 
   let service: EmotionService;

@@ -1,16 +1,22 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { HttpModule, Module } from "@nestjs/common";
+import { DATA_TYPEORM, SITE_TYPEORM } from "../app/app.constant";
+import { Module, forwardRef } from "@nestjs/common";
 
+import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { DataAlbumService } from "./data.album.service";
 import { DataArtistService } from "./data.artist.service";
+import { DataCacheEntityRepository } from "./data.cache.entity.repository";
 import { DataConfigService } from "./data.config.service";
+import { DataElasticsearchOptionsFactory } from "./data.elasticsearch.options.factory";
 import { DataHealthIndicator } from "./data.health.indicator";
-import { DataHttpOptionsFactory } from "./data.http.options.factory";
-import { DataSearchService } from "./data.search.service";
 import { DataService } from "./data.service";
+import { DataSiteEntityRepository } from "./data.site.entity.repository";
 import { DataSongService } from "./data.song.service";
+import { DataTransformService } from "./data.transform.service";
+import { ElasticsearchModule } from "@nestjs/elasticsearch";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "./data.config";
 
 @Module({
@@ -19,25 +25,28 @@ import config from "./data.config";
     DataHealthIndicator,
     DataArtistService,
     DataConfigService,
-    DataSearchService,
     DataService,
     DataSongService,
+    DataTransformService,
   ],
   imports: [
+    forwardRef(() => AppModule),
     ConfigModule.forFeature(config),
-    HttpModule.registerAsync({
+    ElasticsearchModule.registerAsync({
       imports: [DataModule],
-      useClass: DataHttpOptionsFactory,
+      useClass: DataElasticsearchOptionsFactory,
     }),
+    TypeOrmModule.forFeature([DataCacheEntityRepository], DATA_TYPEORM),
+    TypeOrmModule.forFeature([DataSiteEntityRepository], SITE_TYPEORM),
   ],
   providers: [
     DataAlbumService,
     DataHealthIndicator,
     DataArtistService,
     DataConfigService,
-    DataSearchService,
     DataService,
     DataSongService,
+    DataTransformService,
   ],
 })
 export class DataModule {}

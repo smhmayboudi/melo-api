@@ -14,7 +14,7 @@ export interface DownloadSortByPipeOptions {
 @Injectable()
 export class DownloadSortByPipe
   implements PipeTransform<string, DownloadSortByType> {
-  protected exceptionFactory: (errors: string) => unknown;
+  private exceptionFactory: (errors: string) => unknown;
 
   constructor(@Optional() options?: DownloadSortByPipeOptions) {
     options = options || {};
@@ -27,11 +27,9 @@ export class DownloadSortByPipe
     if (typeof value !== "string") {
       throw this.exceptionFactory("Validation failed (string is expected)");
     }
-    switch (value) {
-      case DownloadSortByType.date.toString():
-        return DownloadSortByType.date;
-      default:
-        throw new BadRequestException();
+    if (value === DownloadSortByType.date.toString()) {
+      return DownloadSortByType.date;
     }
+    throw new BadRequestException();
   }
 }

@@ -133,7 +133,7 @@ describe("AppArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  it("follow should be equal to an artist sub: 1", async () => {
+  it("follow should be equal to an artist sub:", async () => {
     expect(await service.follow(artist, 1)).toEqual({
       ...artist,
       following: true,
@@ -144,7 +144,7 @@ describe("AppArtistService", () => {
     expect(await service.follows([], 1)).toEqual([]);
   });
 
-  it("follows should be equal to an artist sub: 1", async () => {
+  it("follows should be equal to an artist sub:", async () => {
     expect(await service.follows([artist], 1)).toEqual([
       {
         ...artist,

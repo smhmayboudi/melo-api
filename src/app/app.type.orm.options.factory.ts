@@ -13,13 +13,16 @@ import { UserEntity } from "../user/user.entity";
 export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
   constructor(private readonly appConfigService: AppConfigService) {}
 
-  createTypeOrmOptions(): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
+  createTypeOrmOptions(
+    connectionName?: string
+  ): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
     return {
       database: this.appConfigService.typeOrmDatabase,
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
       host: this.appConfigService.typeOrmHost,
       logger: new AppTypeOrmLogger(this.appConfigService.typeOrmLogging),
       logging: this.appConfigService.typeOrmLogging,
+      name: connectionName,
       password: this.appConfigService.typeOrmPassword,
       port: this.appConfigService.typeOrmPort,
       synchronize: this.appConfigService.typeOrmSynchronize,

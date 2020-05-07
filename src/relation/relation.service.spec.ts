@@ -133,7 +133,7 @@ describe("RelationService", () => {
       service = module.get<RelationService>(RelationService);
     });
 
-    it("get should be equal to an empty relation", async () => {
+    it("get should be equal to an empty relation 2", async () => {
       const dto: RelationGetReqDto = {
         from: 0,
         fromEntityDto: {
@@ -182,7 +182,7 @@ describe("RelationService", () => {
       service = module.get<RelationService>(RelationService);
     });
 
-    it("get should be equal to an empty relation", async () => {
+    it("get should be equal to an empty relation 3", async () => {
       const dto: RelationGetReqDto = {
         from: 0,
         fromEntityDto: {

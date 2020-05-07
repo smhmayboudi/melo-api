@@ -7,7 +7,7 @@ import { UniqueTokenStrategy as Strategy } from "passport-unique-token";
 
 @Injectable()
 export class TokenStrategy extends PassportStrategy(Strategy) {
-  constructor(protected readonly rtService: RtService) {
+  constructor(private readonly rtService: RtService) {
     super({
       caseSensitive: true,
       failOnMissing: true,

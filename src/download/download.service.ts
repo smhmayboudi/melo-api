@@ -59,7 +59,6 @@ export class DownloadService implements DownloadServiceInterface {
       },
       index: this.downloadConfigService.index,
     });
-
     return {
       results: (await Promise.all(
         elasticSearchRes.body.hits.hits.map(async (value) => ({

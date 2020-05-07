@@ -80,6 +80,22 @@ describe("SearchService", () => {
       expect(service.cacheStore).toEqual("");
     });
 
+    it("elasticNode should be equal to a value", () => {
+      expect(service.elasticNode).toEqual("");
+    });
+
+    it("elasticScriptScore should be equal to a value", () => {
+      expect(service.elasticScriptScore).toEqual("");
+    });
+
+    it("index should be equal to a value", () => {
+      expect(service.index).toEqual("");
+    });
+
+    it("suggestIndex should be equal to a value", () => {
+      expect(service.suggestIndex).toEqual("");
+    });
+
     it.todo("cacheTTL should be equal to a value");
   });
 });

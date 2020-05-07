@@ -8,6 +8,10 @@ describe("SearchConfig", () => {
       cachePort: undefined,
       cacheStore: undefined,
       cacheTTL: undefined,
+      elasticNode: undefined,
+      elasticScriptScore: undefined,
+      index: undefined,
+      suggestIndex: undefined,
     });
   });
 });

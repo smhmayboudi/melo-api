@@ -13,6 +13,10 @@ describe("SearchCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
+    elasticNode: "",
+    elasticScriptScore: "",
+    index: "",
+    suggestIndex: "",
   };
 
   let service: SearchConfigService;
@@ -26,12 +30,12 @@ describe("SearchCacheOptionsFactory", () => {
             useValue: {},
           },
           {
-            provide: SearchConfigService,
-            useValue: searchConfigServiceMock,
-          },
-          {
             provide: ConfigService,
             useValue: {},
+          },
+          {
+            provide: SearchConfigService,
+            useValue: searchConfigServiceMock,
           },
         ],
       }).compile();
@@ -58,12 +62,12 @@ describe("SearchCacheOptionsFactory", () => {
             useValue: {},
           },
           {
-            provide: SearchConfigService,
-            useValue: { ...searchConfigServiceMock, cacheStore: "none" },
-          },
-          {
             provide: ConfigService,
             useValue: {},
+          },
+          {
+            provide: SearchConfigService,
+            useValue: { ...searchConfigServiceMock, cacheStore: "none" },
           },
         ],
       }).compile();

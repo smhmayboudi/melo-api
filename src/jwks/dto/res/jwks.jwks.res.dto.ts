@@ -18,7 +18,7 @@ export class JwksJwksResDto {
   id: string;
 
   @ApiProperty({
-    description: "The primary key",
+    description: "The private key",
     example: `
 -----BEGIN RSA PRIVATE KEY-----
 ...

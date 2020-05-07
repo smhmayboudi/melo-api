@@ -48,6 +48,14 @@ describe("AppService", () => {
     it("typeOrmLogging should be equal to a value", () => {
       expect(service.typeOrmLogging).toEqual(true);
     });
+
+    it("dataTypeOrmSynchronize should be equal to a value", () => {
+      expect(service.dataTypeOrmSynchronize).toEqual(true);
+    });
+
+    it("siteTypeOrmSynchronize should be equal to a value", () => {
+      expect(service.siteTypeOrmSynchronize).toEqual(true);
+    });
   });
 
   describe("get: JSON", () => {
@@ -128,6 +136,14 @@ describe("AppService", () => {
     it("rateLimitMax should be equal to a value", () => {
       expect(service.rateLimitMax).toEqual(0);
     });
+
+    it("dataTypeOrmPort should be equal to a value", () => {
+      expect(service.dataTypeOrmPort).toEqual(0);
+    });
+
+    it("siteTypeOrmPort should be equal to a value", () => {
+      expect(service.siteTypeOrmPort).toEqual(0);
+    });
   });
 
   describe("get: string", () => {
@@ -185,6 +201,21 @@ describe("AppService", () => {
 
     it.todo("cacheTTL should be equal to a value");
 
+    it("dataTypeOrmDatabase should be equal to a value", () => {
+      expect(service.dataTypeOrmDatabase).toEqual("");
+    });
+
+    it("dataTypeOrmHost should be equal to a value", () => {
+      expect(service.dataTypeOrmHost).toEqual("");
+    });
+
+    it("dataTypeOrmPassword should be equal to a value", () => {
+      expect(service.dataTypeOrmPassword).toEqual("");
+    });
+
+    it("dataTypeOrmUsername should be equal to a value", () => {
+      expect(service.dataTypeOrmUsername).toEqual("");
+    });
     it("hashIdAlphabet should be equal to a value", () => {
       expect(service.hashIdAlphabet).toEqual("");
     });
@@ -239,6 +270,22 @@ describe("AppService", () => {
 
     it("sentryRelease should be equal to a value", () => {
       expect(service.sentryRelease).toEqual("");
+    });
+
+    it("siteTypeOrmDatabase should be equal to a value", () => {
+      expect(service.siteTypeOrmDatabase).toEqual("");
+    });
+
+    it("siteTypeOrmHost should be equal to a value", () => {
+      expect(service.siteTypeOrmHost).toEqual("");
+    });
+
+    it("siteTypeOrmPassword should be equal to a value", () => {
+      expect(service.siteTypeOrmPassword).toEqual("");
+    });
+
+    it("siteTypeOrmUsername should be equal to a value", () => {
+      expect(service.siteTypeOrmUsername).toEqual("");
     });
 
     it("typeOrmDatabase should be equal to a value", () => {

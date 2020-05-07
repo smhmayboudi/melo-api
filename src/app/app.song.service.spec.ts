@@ -134,11 +134,11 @@ describe("AppSongService", () => {
     expect(service).toBeDefined();
   });
 
-  it("like should be equal to a song sub: 1", async () => {
+  it("like should be equal to a song sub:", async () => {
     expect(await service.like(song, 1)).toEqual({ ...song, liked: true });
   });
 
-  it("likes should be equal to a song sub: 1", async () => {
+  it("likes should be equal to a song sub:", async () => {
     expect(await service.likes([song], 1)).toEqual([{ ...song, liked: false }]);
   });
 

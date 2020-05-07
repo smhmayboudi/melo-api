@@ -1,5 +1,4 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import { HttpService, Injectable } from "@nestjs/common";
 
 import { DataAlbumArtistsReqDto } from "./dto/req/data.album.artists.req.dto";
 import { DataAlbumByIdReqDto } from "./dto/req/data.album.by-id.req.dto";
@@ -8,15 +7,22 @@ import { DataAlbumResDto } from "./dto/res/data.album.res.dto";
 import { DataAlbumServiceInterface } from "./data.album.service.interface";
 import { DataConfigService } from "./data.config.service";
 import { DataPaginationResDto } from "./dto/res/data.pagination.res.dto";
+import { DataSearchType } from "./data.search.type";
+import { DataSongService } from "./data.song.service";
+import { DataSortByType } from "./data.sort-by.type";
+import { DataTransformService } from "./data.transform.service";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "../prom/prom.decorator";
-import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
 export class DataAlbumService implements DataAlbumServiceInterface {
   constructor(
     private readonly dataConfigService: DataConfigService,
-    private readonly httpService: HttpService
+    private readonly dataSongService: DataSongService,
+    private readonly dataTransformService: DataTransformService,
+    private readonly elasticsearchService: ElasticsearchService
   ) {}
 
   @ApmAfterMethod
@@ -25,22 +31,56 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   async albums(
     dto: DataAlbumArtistsReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    return this.httpService
-      .get<DataPaginationResDto<DataAlbumResDto>>(
-        `${this.dataConfigService.url}/artist/albums/${dto.id}/${dto.from}/${dto.limit}`
-      )
-      .pipe(map((value) => value.data))
-      .toPromise();
+    const elasticSearchRes = await this.elasticsearchService.search({
+      body: {
+        _source: { excludes: ["tags"] },
+        from: dto.from,
+        query: {
+          bool: {
+            must: [
+              {
+                match: {
+                  type: DataSearchType.album,
+                },
+              },
+              {
+                match: {
+                  artists_ids: dto.id,
+                },
+              },
+            ],
+          },
+        },
+        size: dto.limit,
+        sort: [{ release_date: DataSortByType.desc }],
+      },
+      index: this.dataConfigService.index,
+      type: DataSearchType.music,
+    });
+    return {
+      results: elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataTransformService.transformAlbum(value._source)
+      ),
+      total: elasticSearchRes.body.hits.hits.length,
+    } as DataPaginationResDto<DataAlbumResDto>;
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async byId(dto: DataAlbumByIdReqDto): Promise<DataAlbumResDto> {
-    return this.httpService
-      .get<DataAlbumResDto>(`${this.dataConfigService.url}/album/${dto.id}`)
-      .pipe(map((value) => value.data))
-      .toPromise();
+    const elasticSearchRes = await this.elasticsearchService.get({
+      id: `album-${dto.id}`,
+      index: this.dataConfigService.index,
+      type: DataSearchType.music,
+    });
+    const songs = await this.dataSongService.albumSongs(dto);
+    return {
+      ...this.dataTransformService.transformAlbum(
+        elasticSearchRes.body.hits.hits[0]._source
+      ),
+      songs,
+    };
   }
 
   @ApmAfterMethod
@@ -49,11 +89,42 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   async latest(
     dto: DataAlbumLatestReqDto
   ): Promise<DataPaginationResDto<DataAlbumResDto>> {
-    return this.httpService
-      .get<DataPaginationResDto<DataAlbumResDto>>(
-        `${this.dataConfigService.url}/album/latest/${dto.language}/${dto.from}/${dto.limit}`
-      )
-      .pipe(map((value) => value.data))
-      .toPromise();
+    const elasticSearchRes = await this.elasticsearchService.search({
+      body: {
+        _source: { excludes: ["tags"] },
+        from: dto.from,
+        query: {
+          bool: {
+            must: [
+              {
+                term: {
+                  "type.keyword": DataSearchType.album,
+                },
+              },
+              dto.language === "all"
+                ? undefined
+                : { term: { "language.keyword": dto.language } },
+            ],
+            must_not: [
+              {
+                term: {
+                  "album.keyword": "Radio Javan",
+                },
+              },
+            ],
+          },
+        },
+        size: dto.limit,
+        sort: [{ release_date: DataSortByType.desc }],
+      },
+      index: this.dataConfigService.index,
+      type: DataSearchType.music,
+    });
+    return {
+      results: elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataTransformService.transformAlbum(value._source)
+      ),
+      total: elasticSearchRes.body.hits.hits.length,
+    } as DataPaginationResDto<DataAlbumResDto>;
   }
 }

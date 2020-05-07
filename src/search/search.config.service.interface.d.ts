@@ -4,4 +4,8 @@ export interface SearchConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
+  elasticNode: string;
+  elasticScriptScore: string;
+  index: string;
+  suggestIndex: string;
 }

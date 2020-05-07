@@ -13,7 +13,7 @@ export interface AppOrderByPipeOptions {
 
 @Injectable()
 export class AppOrderByPipe implements PipeTransform<string, DataOrderByType> {
-  protected exceptionFactory: (errors: string) => unknown;
+  private exceptionFactory: (errors: string) => unknown;
 
   constructor(@Optional() options?: AppOrderByPipeOptions) {
     options = options || {};

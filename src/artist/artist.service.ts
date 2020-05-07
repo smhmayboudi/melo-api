@@ -113,7 +113,6 @@ export class ArtistService implements ArtistServiceInterface {
         type: RelationEntityType.artist,
       },
     });
-    const dataArtistResDto = await this.dataArtistService.byId(dto);
-    return dataArtistResDto;
+    return this.dataArtistService.byId(dto);
   }
 }

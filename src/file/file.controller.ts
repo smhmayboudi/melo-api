@@ -12,10 +12,10 @@ import {
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { FileService } from "./file.service";
 import { FileFileReqDto } from "./dto/req/file.file.req.dto";
 import { FileFileResDto } from "./dto/res/file.file.res.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { FileService } from "./file.service";
 
 @ApiBearerAuth("jwt")
 @ApiTags("file")

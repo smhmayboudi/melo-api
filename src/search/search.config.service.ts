@@ -47,4 +47,20 @@ export class SearchConfigService implements SearchConfigServiceInterface {
       )
     );
   }
+
+  get elasticNode(): string {
+    return this.configService.get<string>("search.elasticNode", "");
+  }
+
+  get elasticScriptScore(): string {
+    return this.configService.get<string>("search.elasticScriptScore", "");
+  }
+
+  get index(): string {
+    return this.configService.get<string>("search.index", "");
+  }
+
+  get suggestIndex(): string {
+    return this.configService.get<string>("search.suggestIndex", "");
+  }
 }

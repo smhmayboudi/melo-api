@@ -14,10 +14,10 @@ import express from "express";
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
-    protected readonly atService: AtService,
+    private readonly atService: AtService,
     protected readonly authConfigService: AuthConfigService,
     protected readonly jwksService: JwksService,
-    protected readonly rtService: RtService
+    private readonly rtService: RtService
   ) {
     super({
       algorithms: "RS256",

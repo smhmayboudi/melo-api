@@ -16,18 +16,19 @@ describe("FileService", () => {
     "base64"
   );
   const date = new Date();
+  const mimeType = "image/jpeg";
   const file: FileFileReqDto = {
     buffer,
     encoding: "",
     fieldname: "",
-    mimeType: "image/jpeg",
+    mimeType,
     originalname: "",
     size: 0,
   };
   const fileUploadImage: FileFileResDto = {
     createdAt: date,
     fileKey: "",
-    mimeType: "image/jpeg",
+    mimeType,
     originalname: "",
     size: 0,
   };
@@ -37,7 +38,7 @@ describe("FileService", () => {
     e_tag: "",
     file_key: "",
     id: 0,
-    mime_type: "image/jpeg",
+    mime_type: mimeType,
     owner_user_id: 0,
     size: 0,
   };
