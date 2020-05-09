@@ -1,5 +1,6 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DgraphService } from "../dgraph/dgraph.service";
 import { RelationConfigService } from "./relation.config.service";
 import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
@@ -8,7 +9,6 @@ import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
 import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";
 import { RelationMultiHasReqDto } from "./dto/req/relation.multi-has.req.dto";
 import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
-import { RelationPaginationResDto } from "./dto/res/relation.pagination.res.dto";
 import { RelationRemoveReqDto } from "./dto/req/relation.remove.req.dto";
 import { RelationService } from "./relation.service";
 import { RelationSetReqDto } from "./dto/req/relation.set.req.dto";
@@ -20,10 +20,10 @@ describe("RelationService", () => {
     id: 0,
     type: RelationEntityType.album,
   };
-  const relationPagination: RelationPaginationResDto<RelationEntityResDto> = {
+  const relationPagination: DataPaginationResDto<RelationEntityResDto> = {
     results: [relationResult],
     total: 1,
-  } as RelationPaginationResDto<RelationEntityResDto>;
+  } as DataPaginationResDto<RelationEntityResDto>;
 
   let service: RelationService;
 

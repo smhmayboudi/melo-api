@@ -15,7 +15,6 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { RelationEntityResDto } from "../relation/dto/res/relation.entity.res.dto";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationMultiHasResDto } from "../relation/dto/res/relation.multi-has.res.dto";
-import { RelationPaginationResDto } from "../relation/dto/res/relation.pagination.res.dto";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { RelationType } from "../relation/relation.type";
@@ -89,7 +88,7 @@ describe("AppSongService", () => {
   };
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationPaginationResDto<RelationEntityResDto>> =>
+    get: (): Promise<DataPaginationResDto<RelationEntityResDto>> =>
       Promise.resolve({
         results: [
           {
@@ -98,7 +97,7 @@ describe("AppSongService", () => {
           },
         ],
         total: 1,
-      } as RelationPaginationResDto<RelationEntityResDto>),
+      } as DataPaginationResDto<RelationEntityResDto>),
     has: (): Promise<boolean> => Promise.resolve(true),
     multiHas: (): Promise<RelationMultiHasResDto[]> =>
       Promise.resolve([

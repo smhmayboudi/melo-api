@@ -1,6 +1,7 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 import { Mutation, Request, Txn } from "dgraph-js";
 
+import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DgraphService } from "../dgraph/dgraph.service";
 import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "../prom/prom.decorator";
@@ -9,7 +10,6 @@ import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
 import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";
 import { RelationMultiHasReqDto } from "./dto/req/relation.multi-has.req.dto";
 import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
-import { RelationPaginationResDto } from "./dto/res/relation.pagination.res.dto";
 import { RelationRemoveReqDto } from "./dto/req/relation.remove.req.dto";
 import { RelationServiceInterface } from "./relation.service.interface";
 import { RelationSetReqDto } from "./dto/req/relation.set.req.dto";
@@ -24,7 +24,7 @@ export class RelationService implements RelationServiceInterface {
   @PromMethodCounter
   async get(
     dto: RelationGetReqDto
-  ): Promise<RelationPaginationResDto<RelationEntityResDto>> {
+  ): Promise<DataPaginationResDto<RelationEntityResDto>> {
     const query = `{
       relates(func: eq(id, "${dto.fromEntityDto.type}_${dto.fromEntityDto.id}")) {
         uid
@@ -51,7 +51,7 @@ export class RelationService implements RelationServiceInterface {
           return {
             results: [] as RelationEntityResDto[],
             total: 0,
-          } as RelationPaginationResDto<RelationEntityResDto>;
+          } as DataPaginationResDto<RelationEntityResDto>;
         }
         return {
           results: result.relates[0][dto.relationType].map((value2) => {
@@ -62,7 +62,7 @@ export class RelationService implements RelationServiceInterface {
             };
           }),
           total: result.relates[0].count,
-        } as RelationPaginationResDto<RelationEntityResDto>;
+        } as DataPaginationResDto<RelationEntityResDto>;
       });
   }
 
