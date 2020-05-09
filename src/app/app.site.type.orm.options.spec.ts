@@ -3,6 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { AppSiteTypeOrmOptionsFactory } from "./app.site.type.orm.options.factory";
+import { AppTypeOrmLogger } from "./app.type.orm.logger";
 import { DataSiteEntity } from "../data/data.site.entity";
 
 describe("AppSiteTypeOrmOptionsFactory", () => {
@@ -19,6 +20,7 @@ describe("AppSiteTypeOrmOptionsFactory", () => {
     cacheTTL: 0,
     dataTypeOrmDatabase: "",
     dataTypeOrmHost: "",
+    dataTypeOrmLogging: true,
     dataTypeOrmPassword: "",
     dataTypeOrmPort: 0,
     dataTypeOrmSynchronize: false,
@@ -53,6 +55,7 @@ describe("AppSiteTypeOrmOptionsFactory", () => {
     sentryRelease: "",
     siteTypeOrmDatabase: "",
     siteTypeOrmHost: "",
+    siteTypeOrmLogging: true,
     siteTypeOrmPassword: "",
     siteTypeOrmPort: 0,
     siteTypeOrmSynchronize: false,
@@ -88,6 +91,8 @@ describe("AppSiteTypeOrmOptionsFactory", () => {
       database: "",
       entities: [DataSiteEntity],
       host: "",
+      logger: new AppTypeOrmLogger(true),
+      logging: true,
       name: undefined,
       password: "",
       port: 0,

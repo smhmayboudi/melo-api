@@ -13,6 +13,7 @@ export default registerAs("app", () => ({
   cacheTTL: process.env.APP_CACHE_TTL,
   dataTypeOrmDatabase: process.env.APP_DATA_TYPEORM_DATABASE,
   dataTypeOrmHost: process.env.APP_DATA_TYPEORM_HOST,
+  dataTypeOrmLogging: process.env.APP_DATA_TYPEORM_LOGGING,
   dataTypeOrmPassword: process.env.APP_DATA_TYPEORM_PASSWORD,
   dataTypeOrmPort: process.env.APP_DATA_TYPEORM_PORT,
   dataTypeOrmSynchronize: process.env.APP_DATA_TYPEORM_SYNCHRONIZE,
@@ -46,6 +47,7 @@ export default registerAs("app", () => ({
   sentryRelease: process.env.APP_SENTRY_RELEASE,
   siteTypeOrmDatabase: process.env.APP_SITE_TYPEORM_DATABASE,
   siteTypeOrmHost: process.env.APP_SITE_TYPEORM_HOST,
+  siteTypeOrmLogging: process.env.APP_SITE_TYPEORM_LOGGING,
   siteTypeOrmPassword: process.env.APP_SITE_TYPEORM_PASSWORD,
   siteTypeOrmPort: process.env.APP_SITE_TYPEORM_PORT,
   siteTypeOrmSynchronize: process.env.APP_SITE_TYPEORM_SYNCHRONIZE,
@@ -56,5 +58,5 @@ export default registerAs("app", () => ({
   typeOrmPassword: process.env.APP_TYPEORM_PASSWORD,
   typeOrmPort: process.env.APP_TYPEORM_PORT,
   typeOrmSynchronize: process.env.APP_TYPEORM_SYNCHRONIZE,
-  typeOrmUsername: process.env.APP_TYPEORM_APPNAME,
+  typeOrmUsername: process.env.APP_TYPEORM_USERNAME,
 }));

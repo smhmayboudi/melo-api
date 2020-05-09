@@ -29,6 +29,14 @@ describe("AppService", () => {
       expect(service.apmActive).toEqual(true);
     });
 
+    it("dataTypeOrmLogging should be equal to a value", () => {
+      expect(service.dataTypeOrmLogging).toEqual(true);
+    });
+
+    it("dataTypeOrmSynchronize should be equal to a value", () => {
+      expect(service.dataTypeOrmSynchronize).toEqual(true);
+    });
+
     it("dgraphDebug should be equal to a value", () => {
       expect(service.dgraphDebug).toEqual(true);
     });
@@ -45,16 +53,12 @@ describe("AppService", () => {
       expect(service.sentryDebug).toEqual(true);
     });
 
-    it("typeOrmLogging should be equal to a value", () => {
-      expect(service.typeOrmLogging).toEqual(true);
-    });
-
-    it("dataTypeOrmSynchronize should be equal to a value", () => {
-      expect(service.dataTypeOrmSynchronize).toEqual(true);
-    });
-
     it("siteTypeOrmSynchronize should be equal to a value", () => {
       expect(service.siteTypeOrmSynchronize).toEqual(true);
+    });
+
+    it("typeOrmLogging should be equal to a value", () => {
+      expect(service.typeOrmLogging).toEqual(true);
     });
   });
 

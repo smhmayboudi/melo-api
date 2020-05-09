@@ -1,6 +1,7 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 
 import { AppConfigService } from "./app.config.service";
+import { AppTypeOrmLogger } from "./app.type.orm.logger";
 import { DataSiteEntity } from "../data/data.site.entity";
 import { Injectable } from "@nestjs/common";
 
@@ -15,6 +16,8 @@ export class AppSiteTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       database: this.appConfigService.siteTypeOrmDatabase,
       entities: [DataSiteEntity],
       host: this.appConfigService.siteTypeOrmHost,
+      logger: new AppTypeOrmLogger(this.appConfigService.siteTypeOrmLogging),
+      logging: this.appConfigService.siteTypeOrmLogging,
       name: connectionName,
       password: this.appConfigService.siteTypeOrmPassword,
       port: this.appConfigService.siteTypeOrmPort,

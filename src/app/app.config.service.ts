@@ -66,6 +66,10 @@ export class AppConfigService implements AppConfigServiceInterface {
     return this.configService.get<string>("app.dataTypeOrmHost", "");
   }
 
+  get dataTypeOrmLogging(): boolean {
+    return this.configService.get<boolean>("app.dataTypeOrmLogging", true);
+  }
+
   get dataTypeOrmPassword(): string {
     return this.configService.get<string>("app.dataTypeOrmPassword", "");
   }
@@ -211,6 +215,10 @@ export class AppConfigService implements AppConfigServiceInterface {
 
   get siteTypeOrmHost(): string {
     return this.configService.get<string>("app.dataTypeOrmHost", "");
+  }
+
+  get siteTypeOrmLogging(): boolean {
+    return this.configService.get<boolean>("app.siteTypeOrmLogging", true);
   }
 
   get siteTypeOrmPassword(): string {

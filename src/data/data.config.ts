@@ -1,9 +1,9 @@
 import { registerAs } from "@nestjs/config";
 
 export default registerAs("data", () => ({
-  defaultAlbumImagePath: process.env.DATA_DEFAULT_ALBUM_IMAGE,
-  defaultArtistImagePath: process.env.DATA_DEFAULT_ARTIST_IMAGE,
-  defaultSongImagePath: process.env.DATA_DEFAULT_SONG_IMAGE,
+  defaultAlbumImagePath: process.env.DATA_DEFAULT_ALBUM_IMAGE_PATH,
+  defaultArtistImagePath: process.env.DATA_DEFAULT_ARTIST_IMAGE_PATH,
+  defaultSongImagePath: process.env.DATA_DEFAULT_SONG_IMAGE_PATH,
   elasticNode: process.env.DATA_ELASTIC_NODE,
   imagePath: process.env.DATA_IMAGE_PATH,
   index: process.env.DATA_INDEX_NAME,
