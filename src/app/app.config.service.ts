@@ -1,4 +1,5 @@
 import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { CACHE_STORE_NONE } from "./app.constant";
 import { ConfigService } from "@nestjs/config";
 import { ImgProxyImageTypeSize } from "./app.module.interface";
 import { Injectable } from "@nestjs/common";
@@ -43,7 +44,7 @@ export class AppConfigService implements AppConfigServiceInterface {
   }
 
   get cacheStore(): string {
-    return this.configService.get<string>("app.cacheStore", "none");
+    return this.configService.get<string>("app.cacheStore", CACHE_STORE_NONE);
   }
 
   get cacheTTL(): number {

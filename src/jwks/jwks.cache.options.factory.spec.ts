@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppConfigService } from "../app/app.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 import { JwksCacheOptionsFactory } from "./jwks.cache.options.factory";
 import { JwksConfigService } from "./jwks.config.service";
@@ -59,7 +60,10 @@ describe("JwksCacheOptionsFactory", () => {
           },
           {
             provide: JwksConfigService,
-            useValue: { ...jwksConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...jwksConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
           {
             provide: ConfigService,
@@ -76,7 +80,7 @@ describe("JwksCacheOptionsFactory", () => {
           host: "",
           max: 0,
           port: 0,
-          store: "none",
+          store: CACHE_STORE_NONE,
           ttl: 0,
         }
       );

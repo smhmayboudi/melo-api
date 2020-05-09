@@ -11,6 +11,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
+import { REQUEST_USER_SUB_ANONYMOUS_ID } from "../app/app.constant";
 import express from "express";
 import { map } from "rxjs/operators";
 
@@ -41,7 +42,7 @@ export class PlaylistLocalizeInterceptor implements NestInterceptor {
     >();
     return next.handle().pipe(
       map((data) => {
-        if (request.user.sub !== "0") {
+        if (request.user.sub !== REQUEST_USER_SUB_ANONYMOUS_ID) {
           return data;
         } else if (data.total === undefined) {
           return this.transform(data);

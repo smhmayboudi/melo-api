@@ -4,6 +4,7 @@ import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import { ActionConfigService } from "./action.config.service";
 import { ActionConfigServiceInterface } from "./action.config.service.interface";
 import { AppConfigService } from "../app/app.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 
 describe("ActionCacheOptionsFactory", () => {
@@ -59,7 +60,10 @@ describe("ActionCacheOptionsFactory", () => {
           },
           {
             provide: ActionConfigService,
-            useValue: { ...actionConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...actionConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
           {
             provide: ConfigService,
@@ -77,7 +81,7 @@ describe("ActionCacheOptionsFactory", () => {
         host: "",
         max: 0,
         port: 0,
-        store: "none",
+        store: CACHE_STORE_NONE,
         ttl: 0,
       });
     });

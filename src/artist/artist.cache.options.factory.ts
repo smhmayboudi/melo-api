@@ -5,6 +5,7 @@ import {
 } from "@nestjs/common";
 
 import { ArtistConfigService } from "./artist.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import redisStore from "cache-manager-ioredis";
 
 @Injectable()
@@ -17,7 +18,9 @@ export class ArtistCacheOptionsFactory implements CacheOptionsFactory {
       max: this.artistConfigService.cacheMax,
       port: this.artistConfigService.cachePort,
       store:
-        this.artistConfigService.cacheStore === "none" ? "none" : redisStore,
+        this.artistConfigService.cacheStore === CACHE_STORE_NONE
+          ? CACHE_STORE_NONE
+          : redisStore,
       ttl: this.artistConfigService.cacheTTL / 1000,
     };
   }

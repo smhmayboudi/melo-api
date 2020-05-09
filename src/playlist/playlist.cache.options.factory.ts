@@ -4,6 +4,7 @@ import {
   Injectable,
 } from "@nestjs/common";
 
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { PlaylistConfigService } from "./playlist.config.service";
 import redisStore from "cache-manager-ioredis";
 
@@ -17,7 +18,9 @@ export class PlaylistCacheOptionsFactory implements CacheOptionsFactory {
       max: this.playlistConfigService.cacheMax,
       port: this.playlistConfigService.cachePort,
       store:
-        this.playlistConfigService.cacheStore === "none" ? "none" : redisStore,
+        this.playlistConfigService.cacheStore === CACHE_STORE_NONE
+          ? CACHE_STORE_NONE
+          : redisStore,
       ttl: this.playlistConfigService.cacheTTL / 1000,
     };
   }

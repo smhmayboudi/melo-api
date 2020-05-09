@@ -4,6 +4,7 @@ import {
   Injectable,
 } from "@nestjs/common";
 
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { SearchConfigService } from "./search.config.service";
 import redisStore from "cache-manager-ioredis";
 
@@ -17,7 +18,9 @@ export class SearchCacheOptionsFactory implements CacheOptionsFactory {
       max: this.searchConfigService.cacheMax,
       port: this.searchConfigService.cachePort,
       store:
-        this.searchConfigService.cacheStore === "none" ? "none" : redisStore,
+        this.searchConfigService.cacheStore === CACHE_STORE_NONE
+          ? CACHE_STORE_NONE
+          : redisStore,
       ttl: this.searchConfigService.cacheTTL / 1000,
     };
   }

@@ -3,6 +3,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "../app/app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { CACHE_STORE_NONE } from "./app.constant";
 import { ConfigService } from "@nestjs/config";
 
 describe("AppCacheOptionsFactory", () => {
@@ -110,7 +111,7 @@ describe("AppCacheOptionsFactory", () => {
           },
           {
             provide: AppConfigService,
-            useValue: { ...appConfigServiceMock, cacheStore: "none" },
+            useValue: { ...appConfigServiceMock, cacheStore: CACHE_STORE_NONE },
           },
           {
             provide: ConfigService,
@@ -126,7 +127,7 @@ describe("AppCacheOptionsFactory", () => {
         host: "",
         max: 0,
         port: 0,
-        store: "none",
+        store: CACHE_STORE_NONE,
         ttl: 0,
       });
     });

@@ -11,6 +11,7 @@ import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { Observable } from "rxjs";
+import { REQUEST_USER_SUB_ANONYMOUS_ID } from "../app/app.constant";
 import express from "express";
 import { map } from "rxjs/operators";
 
@@ -40,9 +41,8 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
-      // TODO: data should have type withuot writing
       map((data) => {
-        if (request.user.sub !== "0") {
+        if (request.user.sub !== REQUEST_USER_SUB_ANONYMOUS_ID) {
           return data;
         } else if (data.total === undefined) {
           return this.transform(data);

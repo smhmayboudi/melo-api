@@ -43,7 +43,7 @@ export class RelationService implements RelationServiceInterface {
           throw new Error();
         }
         // TODO: Should we define node elements before make mutations?
-        // If we don`t make we should move !result.relates[0] to top lines
+        // TODO: If we don`t make we should move !result.relates[0] to top lines
         if (
           result.relates[0] === undefined ||
           result.relates[0][dto.relationType] === undefined

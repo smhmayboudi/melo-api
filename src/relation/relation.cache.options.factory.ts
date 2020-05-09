@@ -4,6 +4,7 @@ import {
   Injectable,
 } from "@nestjs/common";
 
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { RelationConfigService } from "./relation.config.service";
 import redisStore from "cache-manager-ioredis";
 
@@ -17,7 +18,9 @@ export class RelationCacheOptionsFactory implements CacheOptionsFactory {
       max: this.relationConfigService.cacheMax,
       port: this.relationConfigService.cachePort,
       store:
-        this.relationConfigService.cacheStore === "none" ? "none" : redisStore,
+        this.relationConfigService.cacheStore === CACHE_STORE_NONE
+          ? CACHE_STORE_NONE
+          : redisStore,
       ttl: this.relationConfigService.cacheTTL / 1000,
     };
   }

@@ -4,6 +4,7 @@ import { AppConfigService } from "../app/app.config.service";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import { AtConfigService } from "./at.config.service";
 import { AtConfigServiceInterface } from "./at.config.service.interface";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 
 describe("AtCacheOptionsFactory", () => {
@@ -59,7 +60,7 @@ describe("AtCacheOptionsFactory", () => {
           },
           {
             provide: AtConfigService,
-            useValue: { ...atConfigServiceMock, cacheStore: "none" },
+            useValue: { ...atConfigServiceMock, cacheStore: CACHE_STORE_NONE },
           },
           {
             provide: ConfigService,
@@ -75,7 +76,7 @@ describe("AtCacheOptionsFactory", () => {
         host: "",
         max: 0,
         port: 0,
-        store: "none",
+        store: CACHE_STORE_NONE,
         ttl: 0,
       });
     });

@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppConfigService } from "../app/app.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import { FileConfigService } from "./file.config.service";
@@ -68,7 +69,10 @@ describe("FileCacheOptionsFactory", () => {
           },
           {
             provide: FileConfigService,
-            useValue: { ...fileConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...fileConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
         ],
       }).compile();
@@ -81,7 +85,7 @@ describe("FileCacheOptionsFactory", () => {
           host: "",
           max: 0,
           port: 0,
-          store: "none",
+          store: CACHE_STORE_NONE,
           ttl: 0,
         }
       );

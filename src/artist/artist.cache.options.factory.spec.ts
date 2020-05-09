@@ -4,6 +4,7 @@ import { AppConfigService } from "../app/app.config.service";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistConfigServiceInterface } from "./artist.config.service.interface";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 
 describe("ArtistCacheOptionsFactory", () => {
@@ -59,7 +60,10 @@ describe("ArtistCacheOptionsFactory", () => {
           },
           {
             provide: ArtistConfigService,
-            useValue: { ...artistConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...artistConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
           {
             provide: ConfigService,
@@ -77,7 +81,7 @@ describe("ArtistCacheOptionsFactory", () => {
         host: "",
         max: 0,
         port: 0,
-        store: "none",
+        store: CACHE_STORE_NONE,
         ttl: 0,
       });
     });

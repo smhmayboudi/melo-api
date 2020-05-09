@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppConfigService } from "../app/app.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import { UserConfigService } from "./user.config.service";
@@ -59,7 +60,10 @@ describe("UserCacheOptionsFactory", () => {
           },
           {
             provide: UserConfigService,
-            useValue: { ...userConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...userConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
           {
             provide: ConfigService,
@@ -76,7 +80,7 @@ describe("UserCacheOptionsFactory", () => {
           host: "",
           max: 0,
           port: 0,
-          store: "none",
+          store: CACHE_STORE_NONE,
           ttl: 0,
         }
       );

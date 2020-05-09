@@ -1,6 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppConfigService } from "../app/app.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 import { RelationCacheOptionsFactory } from "./relation.cache.options.factory";
 import { RelationConfigService } from "./relation.config.service";
@@ -59,7 +60,10 @@ describe("RelationCacheOptionsFactory", () => {
           },
           {
             provide: RelationConfigService,
-            useValue: { ...relationConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...relationConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
           {
             provide: ConfigService,
@@ -77,7 +81,7 @@ describe("RelationCacheOptionsFactory", () => {
         host: "",
         max: 0,
         port: 0,
-        store: "none",
+        store: CACHE_STORE_NONE,
         ttl: 0,
       });
     });

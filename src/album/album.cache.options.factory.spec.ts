@@ -4,6 +4,7 @@ import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumConfigServiceInterface } from "./album.config.service.interface";
 import { AppConfigService } from "../app/app.config.service";
+import { CACHE_STORE_NONE } from "../app/app.constant";
 import { ConfigService } from "@nestjs/config";
 
 describe("AlbumCacheOptionsFactory", () => {
@@ -59,7 +60,10 @@ describe("AlbumCacheOptionsFactory", () => {
           },
           {
             provide: AlbumConfigService,
-            useValue: { ...albumConfigServiceMock, cacheStore: "none" },
+            useValue: {
+              ...albumConfigServiceMock,
+              cacheStore: CACHE_STORE_NONE,
+            },
           },
           {
             provide: ConfigService,
@@ -77,7 +81,7 @@ describe("AlbumCacheOptionsFactory", () => {
         host: "",
         max: 0,
         port: 0,
-        store: "none",
+        store: CACHE_STORE_NONE,
         ttl: 0,
       });
     });
