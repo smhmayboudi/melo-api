@@ -3,10 +3,10 @@ import { IsNumberString, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchQueryReqDto {
-  constructor(from: number, limit: number, query: string) {
+  constructor(from: number, query: string, size: number) {
     this.from = from;
-    this.limit = limit;
     this.query = query;
+    this.size = size;
   }
 
   @ApiProperty({
@@ -17,16 +17,16 @@ export class SearchQueryReqDto {
   from: number;
 
   @ApiProperty({
-    description: "Count of results",
-    example: "0",
-  })
-  @IsNumberString()
-  limit: number;
-
-  @ApiProperty({
     description: "The query",
     example: "black book",
   })
   @IsString()
   query: string;
+
+  @ApiProperty({
+    description: "Size of results",
+    example: "0",
+  })
+  @IsNumberString()
+  size: number;
 }

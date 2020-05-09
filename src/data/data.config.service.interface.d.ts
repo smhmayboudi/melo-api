@@ -7,4 +7,5 @@ export interface DataConfigServiceInterface {
   index: string;
   mp3Endpoint: string;
   requestLimit: number;
+  size: number;
 }

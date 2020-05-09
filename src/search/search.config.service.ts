@@ -60,6 +60,10 @@ export class SearchConfigService implements SearchConfigServiceInterface {
     return this.configService.get<string>("search.index", "");
   }
 
+  get size(): number {
+    return this.configService.get<number>("search.size", 100);
+  }
+
   get suggestIndex(): string {
     return this.configService.get<string>("search.suggestIndex", "");
   }

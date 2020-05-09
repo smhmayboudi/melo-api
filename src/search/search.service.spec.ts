@@ -132,6 +132,7 @@ describe("SearchService", () => {
     elasticNode: "",
     elasticScriptScore: "",
     index: "",
+    size: 0,
     suggestIndex: "",
   };
 
@@ -156,8 +157,8 @@ describe("SearchService", () => {
   it("query should be equal to an empty list", async () => {
     const dto: SearchQueryReqDto = {
       from: 0,
-      limit: 0,
       query: "",
+      size: 0,
     };
     expect(await service.query(dto)).toEqual({ results: [], total: 0 });
   });
@@ -165,7 +166,7 @@ describe("SearchService", () => {
   it("mood should be equal to a list of songs", async () => {
     const paramDto: SearchMoodParamDto = {
       from: 0,
-      limit: 0,
+      size: 0,
     };
     const queryDto: SearchMoodQueryDto = {
       date: 1,
@@ -218,8 +219,8 @@ describe("SearchService", () => {
     it("query should be equal to a list of search results", async () => {
       const dto: SearchQueryReqDto = {
         from: 0,
-        limit: 0,
         query: "",
+        size: 0,
       };
       expect(await service.query(dto)).toEqual(searchArtistPagination);
     });
@@ -269,8 +270,8 @@ describe("SearchService", () => {
     it("query should be equal to a list of search results 2", async () => {
       const dto: SearchQueryReqDto = {
         from: 0,
-        limit: 0,
         query: "",
+        size: 0,
       };
       expect(await service.query(dto)).toEqual(searchAlbumPagination);
     });
@@ -320,8 +321,8 @@ describe("SearchService", () => {
     it("query should be equal to a list of search results 3", async () => {
       const dto: SearchQueryReqDto = {
         from: 0,
-        limit: 0,
         query: "",
+        size: 0,
       };
       expect(await service.query(dto)).toEqual(searchSongPagination);
     });

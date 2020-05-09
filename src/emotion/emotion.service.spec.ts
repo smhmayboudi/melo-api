@@ -105,7 +105,7 @@ describe("EmotionService", () => {
   it("emotions should return a list of emotions", async () => {
     const paramDto: EmotionParamReqDto = {
       from: 0,
-      limit: 0,
+      size: 0,
     };
     const queryDto: EmotionQueryReqDto = {
       emotions: [""],

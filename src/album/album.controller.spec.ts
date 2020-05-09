@@ -117,7 +117,7 @@ describe("AlbumController", () => {
     const dto: AlbumArtistAlbumsReqDto = {
       artistId: 0,
       from: 0,
-      limit: 0,
+      size: 0,
     };
     expect(await controller.artistAlbums(dto)).toEqual(albumPagination);
   });
@@ -133,7 +133,7 @@ describe("AlbumController", () => {
     const dto: AlbumLatestReqDto = {
       from: 0,
       language: "",
-      limit: 0,
+      size: 0,
     };
     expect(await controller.latest(dto)).toEqual(albumPagination);
   });

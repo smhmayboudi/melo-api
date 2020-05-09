@@ -9,13 +9,13 @@ export class RelationGetReqDto {
   constructor(
     from: number,
     fromEntityDto: RelationEntityResDto,
-    limit: number,
-    relationType: RelationType
+    relationType: RelationType,
+    size: number
   ) {
     this.from = from;
     this.fromEntityDto = fromEntityDto;
-    this.limit = limit;
     this.relationType = relationType;
+    this.size = size;
   }
 
   @ApiProperty({
@@ -33,16 +33,16 @@ export class RelationGetReqDto {
   fromEntityDto: RelationEntityResDto;
 
   @ApiProperty({
-    description: "Count of results",
-    example: "0",
-  })
-  @IsNumberString()
-  limit: number;
-
-  @ApiProperty({
     description: "The type",
     example: RelationType.follows,
   })
   @IsEnum(RelationType)
   relationType: RelationType;
+
+  @ApiProperty({
+    description: "Size of results",
+    example: "0",
+  })
+  @IsNumberString()
+  size: number;
 }

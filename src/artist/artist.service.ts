@@ -59,8 +59,8 @@ export class ArtistService implements ArtistServiceInterface {
         id: dto.sub,
         type: RelationEntityType.following,
       },
-      limit: dto.limit,
       relationType: RelationType.follows,
+      size: dto.size,
     });
     if (relationEntityResDto.results.length === 0) {
       return {

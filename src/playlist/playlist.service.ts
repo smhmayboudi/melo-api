@@ -231,7 +231,7 @@ export class PlaylistService implements PlaylistServiceInterface {
     const playlists = await this.playlistModel
       .find({ owner_user_id: sub })
       .skip(parseInt(dto.from.toString(), 10))
-      .limit(parseInt(dto.limit.toString(), 10));
+      .limit(parseInt(dto.size.toString(), 10));
     return {
       results: await Promise.all(
         playlists.map(async (value) => ({
@@ -264,7 +264,7 @@ export class PlaylistService implements PlaylistServiceInterface {
     const playlists = await this.playlistModel
       .find()
       .skip(parseInt(dto.from.toString(), 10))
-      .limit(parseInt(dto.limit.toString(), 10));
+      .limit(parseInt(dto.size.toString(), 10));
     return {
       results: await Promise.all(
         playlists.map(async (value) => ({

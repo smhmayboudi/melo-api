@@ -108,7 +108,7 @@ describe("ArtistService", () => {
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
       from: 0,
-      limit: 0,
+      size: 0,
       sub: 0,
     };
     expect(await service.following(dto)).toEqual(artistPaginatin);
@@ -165,7 +165,7 @@ describe("ArtistService", () => {
     it("following should equal an empty list", async () => {
       const dto: ArtistFollowingReqDto = {
         from: 0,
-        limit: 0,
+        size: 0,
         sub: 0,
       };
       expect(await service.following(dto)).toEqual({

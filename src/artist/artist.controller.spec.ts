@@ -131,7 +131,7 @@ describe("ArtistController", () => {
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
       from: 0,
-      limit: 0,
+      size: 0,
       sub: 0,
     };
     expect(await controller.following(dto, 0)).toEqual(artistPagination);

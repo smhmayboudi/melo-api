@@ -14,6 +14,7 @@ describe("SearchElasticsearchOptionsFactory", () => {
     elasticNode: "",
     elasticScriptScore: "",
     index: "",
+    size: 0,
     suggestIndex: "",
   };
 

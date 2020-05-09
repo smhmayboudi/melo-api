@@ -37,7 +37,7 @@ import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
 export class DownloadController {
   constructor(private readonly downloadService: DownloadService) {}
 
-  @Get("song/:orderBy/:from/:limit")
+  @Get("song/:orderBy/:from/:size")
   @UseGuards(AuthGuard("jwt"))
   async downloadedSongs(
     @Param() paramDto: DownloadSongParamReqDto,

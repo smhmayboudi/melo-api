@@ -2,9 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNumberString } from "class-validator";
 
 export class SongSimilarReqDto {
-  constructor(from: number, limit: number, id: number) {
+  constructor(from: number, id: number, size: number) {
     this.from = from;
-    this.limit = limit;
+    this.size = size;
     this.id = id;
   }
 
@@ -16,16 +16,16 @@ export class SongSimilarReqDto {
   from: number;
 
   @ApiProperty({
-    description: "Count of results",
-    example: "0",
-  })
-  @IsNumberString()
-  limit: number;
-
-  @ApiProperty({
     description: "The song identification",
     example: "0",
   })
   @IsNumberString()
   id: number;
+
+  @ApiProperty({
+    description: "Size of results",
+    example: "0",
+  })
+  @IsNumberString()
+  size: number;
 }

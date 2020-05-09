@@ -8,4 +8,5 @@ export interface SearchConfigServiceInterface {
   elasticScriptScore: string;
   index: string;
   suggestIndex: string;
+  size: number;
 }

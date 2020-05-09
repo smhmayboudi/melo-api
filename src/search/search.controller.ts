@@ -34,7 +34,7 @@ import { SearchService } from "./search.service";
 export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
-  @Get("query/:query/:from/:limit")
+  @Get("query/:query/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async query(
     @Param() dto: SearchQueryReqDto
@@ -42,7 +42,7 @@ export class SearchController {
     return this.searchService.query(dto);
   }
 
-  @Get("mood/:from/:limit")
+  @Get("mood/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async searchMood(
     @Param() paramDto: SearchMoodParamDto,

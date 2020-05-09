@@ -11,6 +11,7 @@ describe("DataConfig", () => {
       index: undefined,
       mp3Endpoint: undefined,
       requestLimit: undefined,
+      size: undefined,
     });
   });
 });

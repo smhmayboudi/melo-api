@@ -55,7 +55,7 @@ export class ArtistController {
     return this.artistService.follow({ ...dto, sub });
   }
 
-  @Get("following/:from/:limit")
+  @Get("following/:from/:size")
   @UseGuards(AuthGuard("jwt"))
   async following(
     @Param() dto: ArtistFollowingReqDto,

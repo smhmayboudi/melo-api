@@ -93,6 +93,7 @@ describe("DataArtistService", () => {
     index: "",
     mp3Endpoint: "",
     requestLimit: 0,
+    size: 0,
   };
   const dataTransformServiceMock: DataTransformServiceInterface = {
     transformAlbum: (): DataAlbumResDto => album,

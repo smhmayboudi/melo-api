@@ -64,7 +64,7 @@ export class SongController {
     name: "artistId",
     type: String,
   })
-  @Get("artist/songs/:artistId/:from/:limit")
+  @Get("artist/songs/:artistId/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistSongs(
     @Param() dto: SongArtistSongsReqDto
@@ -76,7 +76,7 @@ export class SongController {
     name: "artistId",
     type: String,
   })
-  @Get("artist/songs/top/:artistId/:from/:limit")
+  @Get("artist/songs/top/:artistId/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistSongsTop(
     @Param() dto: SongArtistSongsTopReqDto
@@ -98,7 +98,7 @@ export class SongController {
     name: "orderBy",
     type: String,
   })
-  @Get("genre/:orderBy/:from/:limit")
+  @Get("genre/:orderBy/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async genre(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
@@ -112,7 +112,7 @@ export class SongController {
     name: "orderBy",
     type: String,
   })
-  @Get("language/:language/:orderBy/:from/:limit")
+  @Get("language/:language/:orderBy/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async language(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
@@ -130,7 +130,7 @@ export class SongController {
     return this.songService.like({ ...dto, sub });
   }
 
-  @Get("liked/:from/:limit")
+  @Get("liked/:from/:size")
   @UseGuards(AuthGuard("jwt"))
   async liked(
     @Param() dto: SongLikedReqDto,
@@ -139,7 +139,7 @@ export class SongController {
     return this.songService.liked({ ...dto, sub });
   }
 
-  @Get("mood/:mood/:from/:limit")
+  @Get("mood/:mood/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async mood(
     @Param() dto: SongMoodReqDto
@@ -147,7 +147,7 @@ export class SongController {
     return this.songService.mood(dto);
   }
 
-  @Get("new/podcast/:from/:limit")
+  @Get("new/podcast/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newPodcast(
     @Param() dto: DataSongNewPodcastReqDto
@@ -155,7 +155,7 @@ export class SongController {
     return this.songService.newPodcast(dto);
   }
 
-  @Get("new/:from/:limit")
+  @Get("new/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newSong(
     @Param() dto: SongNewReqDto
@@ -167,7 +167,7 @@ export class SongController {
     name: "orderBy",
     type: String,
   })
-  @Get("podcast/genres/:orderBy/:from/:limit")
+  @Get("podcast/genres/:orderBy/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async podcast(
     @Param("orderBy", AppOrderByPipe) orderBy: DataOrderByType,
@@ -190,7 +190,7 @@ export class SongController {
     name: "id",
     type: String,
   })
-  @Get("similar/:id/:from/:limit")
+  @Get("similar/:id/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async similar(
     @Param() dto: SongSimilarReqDto
@@ -204,7 +204,7 @@ export class SongController {
     return this.songService.slider();
   }
 
-  @Get("top/day/:from/:limit")
+  @Get("top/day/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topDay(
     @Param() dto: SongTopDayReqDto
@@ -212,7 +212,7 @@ export class SongController {
     return this.songService.topDay(dto);
   }
 
-  @Get("top/week/:from/:limit")
+  @Get("top/week/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topWeek(
     @Param() dto: SongTopWeekReqDto

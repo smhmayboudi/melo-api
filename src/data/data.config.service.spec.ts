@@ -37,6 +37,10 @@ describe("DataService", () => {
     it("requestLimit should return a value", () => {
       expect(service.requestLimit).toEqual(0);
     });
+
+    it("size should return a value", () => {
+      expect(service.requestLimit).toEqual(0);
+    });
   });
 
   describe("get: string", () => {

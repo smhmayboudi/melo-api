@@ -44,7 +44,7 @@ export class AlbumController {
     name: "artistId",
     type: String,
   })
-  @Get("artist/albums/:artistId/:from/:limit")
+  @Get("artist/albums/:artistId/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async artistAlbums(
     @Param() dto: AlbumArtistAlbumsReqDto
@@ -62,7 +62,7 @@ export class AlbumController {
     return this.albumService.byId(dto);
   }
 
-  @Get("latest/:language/:from/:limit")
+  @Get("latest/:language/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async latest(
     @Param() dto: AlbumLatestReqDto

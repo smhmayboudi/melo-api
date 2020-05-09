@@ -63,6 +63,7 @@ describe("DataAlbumService", () => {
     index: "",
     mp3Endpoint: "",
     requestLimit: 0,
+    size: 0,
   };
   // TODO: interface ?
   const elasticSearchRes = {
@@ -157,7 +158,7 @@ describe("DataAlbumService", () => {
     const dto: DataAlbumArtistsReqDto = {
       from: 0,
       id: 0,
-      limit: 0,
+      size: 0,
     };
     expect(await service.albums(dto)).toEqual(albumPagination);
   });
@@ -166,7 +167,7 @@ describe("DataAlbumService", () => {
     const dto: DataAlbumLatestReqDto = {
       from: 0,
       language: "",
-      limit: 0,
+      size: 0,
     };
     expect(await service.latest(dto)).toEqual(albumPagination);
   });
@@ -174,7 +175,7 @@ describe("DataAlbumService", () => {
     const dto: DataAlbumLatestReqDto = {
       from: 0,
       language: "all",
-      limit: 0,
+      size: 0,
     };
     expect(await service.latest(dto)).toEqual(albumPagination);
   });

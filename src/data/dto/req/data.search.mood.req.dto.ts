@@ -5,7 +5,7 @@ import { ApiProperty } from "@nestjs/swagger";
 export class DataSearchMoodReqDto {
   constructor(
     from: number,
-    limit: number,
+    size: number,
     classy?: number,
     date?: number,
     energetic?: number,
@@ -13,7 +13,7 @@ export class DataSearchMoodReqDto {
     romantic?: number
   ) {
     this.from = from;
-    this.limit = limit;
+    this.size = size;
     this.classy = classy;
     this.date = date;
     this.energetic = energetic;
@@ -29,11 +29,11 @@ export class DataSearchMoodReqDto {
   from: number;
 
   @ApiProperty({
-    description: "Count of results",
+    description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  limit: number;
+  size: number;
 
   @ApiProperty({
     description: "The classy",

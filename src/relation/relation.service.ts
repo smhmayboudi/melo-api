@@ -28,7 +28,7 @@ export class RelationService implements RelationServiceInterface {
     const query = `{
       relates(func: eq(id, "${dto.fromEntityDto.type}_${dto.fromEntityDto.id}")) {
         uid
-        ${dto.relationType}(offset: ${dto.from}, first: ${dto.limit}) {
+        ${dto.relationType}(offset: ${dto.from}, first: ${dto.size}) {
           id
         }
         count: count(${dto.relationType})

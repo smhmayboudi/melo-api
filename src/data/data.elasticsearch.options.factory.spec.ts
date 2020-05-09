@@ -14,6 +14,7 @@ describe("DataElasticsearchOptionsFactory", () => {
     index: "",
     mp3Endpoint: "",
     requestLimit: 0,
+    size: 0,
   };
 
   let service: DataConfigService;

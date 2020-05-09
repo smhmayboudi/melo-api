@@ -46,7 +46,7 @@ export class EmotionService implements EmotionServiceInterface {
             ],
           },
         },
-        size: Math.min(paramDto.limit, this.emotionConfigService.requestLimit),
+        size: Math.min(paramDto.size, this.emotionConfigService.requestLimit),
       },
       index: this.emotionConfigService.index,
     });

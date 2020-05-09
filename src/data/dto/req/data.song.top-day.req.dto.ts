@@ -2,9 +2,9 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNumberString } from "class-validator";
 
 export class DataSongTopDayReqDto {
-  constructor(from: number, limit: number) {
+  constructor(from: number, size: number) {
     this.from = from;
-    this.limit = limit;
+    this.size = size;
   }
 
   @ApiProperty({
@@ -15,9 +15,9 @@ export class DataSongTopDayReqDto {
   from: number;
 
   @ApiProperty({
-    description: "Count of results",
+    description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  limit: number;
+  size: number;
 }

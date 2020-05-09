@@ -163,7 +163,7 @@ describe("PlaylistController", () => {
   it("my should be equal to a list of  playlists", async () => {
     const dto: PlaylistMyReqDto = {
       from: 0,
-      limit: 0,
+      size: 0,
     };
     expect(await controller.my(dto, 0)).toEqual(playlistPagination);
   });
@@ -171,7 +171,7 @@ describe("PlaylistController", () => {
   it("top should be equal to a list of  playlists", async () => {
     const dto: PlaylistTopReqDto = {
       from: 0,
-      limit: 0,
+      size: 0,
     };
     expect(await controller.top(dto)).toEqual(playlistPagination);
   });

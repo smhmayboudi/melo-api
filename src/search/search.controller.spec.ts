@@ -104,8 +104,8 @@ describe("SearchController", () => {
   it("query should be equal to a list of search results", async () => {
     const dto: SearchQueryReqDto = {
       from: 0,
-      limit: 0,
       query: "0",
+      size: 0,
     };
     expect(await controller.query(dto)).toEqual(searchPagination);
   });
@@ -113,7 +113,7 @@ describe("SearchController", () => {
   it("searchMood should be equal to a list of songs", async () => {
     const paramDto: SearchMoodParamDto = {
       from: 0,
-      limit: 0,
+      size: 0,
     };
     const queryDto: SearchMoodQueryDto = {};
     expect(await controller.searchMood(paramDto, queryDto)).toEqual(

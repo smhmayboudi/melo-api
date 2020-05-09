@@ -88,7 +88,7 @@ describe("AlbumService", () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: 0,
         from: 0,
-        limit: 0,
+        size: 0,
       };
       expect(await service.artistAlbums(dto)).toEqual(albumPagination);
     });
@@ -104,7 +104,7 @@ describe("AlbumService", () => {
       const dto: AlbumLatestReqDto = {
         from: 0,
         language: "",
-        limit: 0,
+        size: 0,
       };
       expect(await service.latest(dto)).toEqual(albumPagination);
     });
@@ -146,7 +146,7 @@ describe("AlbumService", () => {
       const dto: AlbumArtistAlbumsReqDto = {
         artistId: 0,
         from: 0,
-        limit: 0,
+        size: 0,
       };
       expect(await service.artistAlbums(dto)).toEqual(
         albumPaginationArtistsUndefined

@@ -107,8 +107,8 @@ describe("DownloadController", () => {
   it("downloadedSongs should return an array of songId and dates", async () => {
     const paramDto: DownloadSongParamReqDto = {
       from: 0,
-      limit: 0,
       orderBy: DownloadOrderByType.asc,
+      size: 0,
     };
     const queryDto: DownloadSongQueryReqDto = {
       filter: "",

@@ -40,4 +40,8 @@ export class DataConfigService implements DataConfigServiceInterface {
   get requestLimit(): number {
     return this.configService.get<number>("data.requestLimit", 0);
   }
+
+  get size(): number {
+    return this.configService.get<number>("data.size", 100);
+  }
 }

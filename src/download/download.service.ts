@@ -54,7 +54,7 @@ export class DownloadService implements DownloadServiceInterface {
                   ],
                 },
               },
-        size: Math.min(paramDto.limit, this.downloadConfigService.requestLimit),
+        size: Math.min(paramDto.size, this.downloadConfigService.requestLimit),
         sort: { date: orderBy },
       },
       index: this.downloadConfigService.index,

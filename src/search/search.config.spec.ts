@@ -11,6 +11,7 @@ describe("SearchConfig", () => {
       elasticNode: undefined,
       elasticScriptScore: undefined,
       index: undefined,
+      size: undefined,
       suggestIndex: undefined,
     });
   });

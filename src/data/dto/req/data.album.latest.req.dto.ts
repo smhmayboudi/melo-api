@@ -3,10 +3,10 @@ import { IsNumberString, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class DataAlbumLatestReqDto {
-  constructor(from: number, language: string, limit: number) {
+  constructor(from: number, language: string, size: number) {
     this.from = from;
     this.language = language;
-    this.limit = limit;
+    this.size = size;
   }
 
   @ApiProperty({
@@ -24,9 +24,9 @@ export class DataAlbumLatestReqDto {
   language: string;
 
   @ApiProperty({
-    description: "Count of results",
+    description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  limit: number;
+  size: number;
 }

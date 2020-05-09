@@ -101,7 +101,7 @@ export class PlaylistController {
     return this.playlistService.get(dto);
   }
 
-  @Get("my/:from/:limit")
+  @Get("my/:from/:size")
   @UseGuards(AuthGuard("jwt"))
   async my(
     @Param() dto: PlaylistMyReqDto,
@@ -110,7 +110,7 @@ export class PlaylistController {
     return this.playlistService.my(dto, sub);
   }
 
-  @Get("top/:from/:limit")
+  @Get("top/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async top(
     @Param() dto: PlaylistTopReqDto

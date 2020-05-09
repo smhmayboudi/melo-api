@@ -4,10 +4,10 @@ import { ApiProperty } from "@nestjs/swagger";
 import { DataOrderByType } from "../../../data/data.order-by.type";
 
 export class SongSongGenresParamReqDto {
-  constructor(from: number, limit: number, orderBy: DataOrderByType) {
+  constructor(from: number, orderBy: DataOrderByType, size: number) {
     this.from = from;
-    this.limit = limit;
     this.orderBy = orderBy;
+    this.size = size;
   }
 
   @ApiProperty({
@@ -18,16 +18,16 @@ export class SongSongGenresParamReqDto {
   from: number;
 
   @ApiProperty({
-    description: "Count of results",
-    example: "0",
-  })
-  @IsNumberString()
-  limit: number;
-
-  @ApiProperty({
     description: "The order",
     example: DataOrderByType.release,
   })
   @IsEnum(DataOrderByType)
   orderBy: DataOrderByType;
+
+  @ApiProperty({
+    description: "Size of results",
+    example: "0",
+  })
+  @IsNumberString()
+  size: number;
 }

@@ -56,8 +56,8 @@ describe("RelationService", () => {
         id: 0,
         type: RelationEntityType.album,
       },
-      limit: 0,
       relationType: RelationType.follows,
+      size: 0,
     };
     return expect(service.get(dto)).rejects.toThrowError();
   });
@@ -94,8 +94,8 @@ describe("RelationService", () => {
           id: 0,
           type: RelationEntityType.album,
         },
-        limit: 0,
         relationType: RelationType.follows,
+        size: 0,
       };
       expect(await service.get(dto)).toEqual({
         results: [],
@@ -140,8 +140,8 @@ describe("RelationService", () => {
           id: 0,
           type: RelationEntityType.album,
         },
-        limit: 0,
         relationType: RelationType.follows,
+        size: 0,
       };
       return expect(service.get(dto)).resolves.toEqual({
         results: [],
@@ -189,8 +189,8 @@ describe("RelationService", () => {
           id: 0,
           type: RelationEntityType.album,
         },
-        limit: 0,
         relationType: RelationType.follows,
+        size: 0,
       };
       expect(await service.get(dto)).toEqual(relationPagination);
     });

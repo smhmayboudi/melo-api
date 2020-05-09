@@ -7,13 +7,13 @@ export class SongLanguageReqDto {
   constructor(
     from: number,
     language: string,
-    limit: number,
-    orderBy: DataOrderByType
+    orderBy: DataOrderByType,
+    size: number
   ) {
     this.from = from;
     this.language = language;
-    this.limit = limit;
     this.orderBy = orderBy;
+    this.size = size;
   }
 
   @ApiProperty({
@@ -31,16 +31,16 @@ export class SongLanguageReqDto {
   language: string;
 
   @ApiProperty({
-    description: "Count of results",
-    example: "0",
-  })
-  @IsNumberString()
-  limit: number;
-
-  @ApiProperty({
     description: "The order",
     example: DataOrderByType.release,
   })
   @IsEnum(DataOrderByType)
   orderBy: DataOrderByType;
+
+  @ApiProperty({
+    description: "Size of results",
+    example: "0",
+  })
+  @IsNumberString()
+  size: number;
 }

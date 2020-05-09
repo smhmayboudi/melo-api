@@ -52,7 +52,7 @@ export class DataSongService implements DataSongServiceInterface {
   private async query(
     query: string,
     from: number,
-    limit: number
+    size: number
   ): Promise<DataPaginationResDto<DataSongResDto>> {
     const dataCacheEntity = await this.dataCacheEntityRepository
       .createQueryBuilder()
@@ -70,7 +70,7 @@ export class DataSongService implements DataSongServiceInterface {
       ids: JSON.parse(dataCacheEntity.result)
         .filter((value) => value.type === DataSearchType.song)
         .filter((value) => value.id)
-        .slice(from, from + limit)
+        .slice(from, from + size)
         .map((value) => value.id),
     });
   }
@@ -105,7 +105,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: 100,
+        size: this.dataConfigService.size,
         sort: [{ track: DataSortByType.asc }],
       },
       index: this.dataConfigService.index,
@@ -149,7 +149,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort: [
           {
             release_date: DataSortByType.desc,
@@ -197,7 +197,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort: [
           {
             downloads_count: DataSortByType.desc,
@@ -300,7 +300,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort: {
           [dto.orderBy === DataOrderByType.release
             ? "release_date"
@@ -350,7 +350,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort: { [dto.orderBy]: DataSortByType.desc },
       },
       index: this.dataConfigService.index,
@@ -396,7 +396,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort: { [`emotions.${dto.mood}`]: { order: DataSortByType.desc } },
       },
       index: this.dataConfigService.index,
@@ -416,7 +416,7 @@ export class DataSongService implements DataSongServiceInterface {
   async newPodcast(
     dto: DataSongNewPodcastReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.query(DataQueryType.podcast, dto.from, dto.limit);
+    return this.query(DataQueryType.podcast, dto.from, dto.size);
   }
 
   @ApmAfterMethod
@@ -425,7 +425,7 @@ export class DataSongService implements DataSongServiceInterface {
   async newSong(
     dto: DataSongNewReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.query(DataQueryType.new, dto.from, dto.limit);
+    return this.query(DataQueryType.new, dto.from, dto.size);
   }
 
   @ApmAfterMethod
@@ -460,7 +460,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort: { [dto.orderBy]: DataSortByType.desc },
       },
       index: this.dataConfigService.index,
@@ -552,7 +552,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.limit,
+        size: dto.size,
         sort,
       },
       index: this.dataConfigService.index,
@@ -583,7 +583,7 @@ export class DataSongService implements DataSongServiceInterface {
   async topDay(
     dto: DataSongTopDayReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.query(DataQueryType.topDay, dto.from, dto.limit);
+    return this.query(DataQueryType.topDay, dto.from, dto.size);
   }
 
   @ApmAfterMethod
@@ -592,6 +592,6 @@ export class DataSongService implements DataSongServiceInterface {
   async topWeek(
     dto: DataSongTopWeekReqDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    return this.query(DataQueryType.topWeek, dto.from, dto.limit);
+    return this.query(DataQueryType.topWeek, dto.from, dto.size);
   }
 }

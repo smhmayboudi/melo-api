@@ -3,9 +3,9 @@ import { IsNumberString, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class DataSearchQueryReqDto {
-  constructor(from: number, limit: number, query: string) {
+  constructor(from: number, size: number, query: string) {
     this.from = from;
-    this.limit = limit;
+    this.size = size;
     this.query = query;
   }
 
@@ -17,11 +17,11 @@ export class DataSearchQueryReqDto {
   from: number;
 
   @ApiProperty({
-    description: "Count of results",
+    description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  limit: number;
+  size: number;
 
   @ApiProperty({
     description: "The query",

@@ -35,7 +35,7 @@ import { EmotionService } from "./emotion.service";
 export class EmotionController {
   constructor(private readonly emotionService: EmotionService) {}
 
-  @Get("/:from/:limit")
+  @Get("/:from/:size")
   @UseGuards(AuthGuard("jwt"))
   async emotions(
     @Param() paramDto: EmotionParamReqDto,
