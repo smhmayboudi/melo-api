@@ -29,8 +29,7 @@ export class AppHashIdService implements AppHashIdServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   decode(hash: string): number {
-    // return this.hashIds.decode(hash)[0] as number;
-    // TODO: performance issue
+    // TODO: performance issue => return this.hashIds.decode(hash)[0] as number;
     return this.hashIds.decode(
       Buffer.from(hash, "base64").toString("utf8")
     )[0] as number;
@@ -40,8 +39,7 @@ export class AppHashIdService implements AppHashIdServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   encode(id: number): string {
-    // const encoded = this.hashIds.encode(id);
-    // TODO: performance issue
+    // TODO: performance issue => const encoded = this.hashIds.encode(id);
     const encoded = Buffer.from(this.hashIds.encode(id.toString()), "utf8")
       .toString("base64")
       .split("=")[0];

@@ -83,7 +83,6 @@ export class PlaylistService implements PlaylistServiceInterface {
     }).save();
     return {
       followersCount: playlist.followers_count,
-      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id
@@ -146,7 +145,6 @@ export class PlaylistService implements PlaylistServiceInterface {
     });
     return {
       followersCount: playlist.followers_count,
-      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id
@@ -173,7 +171,6 @@ export class PlaylistService implements PlaylistServiceInterface {
     await playlist.save();
     return {
       followersCount: playlist.followers_count,
-      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id
@@ -206,7 +203,6 @@ export class PlaylistService implements PlaylistServiceInterface {
     });
     return {
       followersCount: playlist.followers_count,
-      // TODO: which one id or _id ?
       id: playlist._id,
       image: this.appImgProxyService.generateUrl(
         playlist.photo_id

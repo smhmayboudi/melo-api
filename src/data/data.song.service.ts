@@ -491,14 +491,14 @@ export class DataSongService implements DataSongServiceInterface {
         total: 0,
       } as DataPaginationResDto<DataSongResDto>;
     }
-    // TODO interface ?
+    // TODO: interface ?
     const moods = [
       { classy: songMoods["classy"] },
       { energetic: songMoods["energetic"] },
       { happiness: songMoods["happiness"] },
       { romantic: songMoods["romantic"] },
     ];
-    // TODO interface ?
+    // TODO: interface ?
     const sort: any[] = Object.keys(moods).map((value) => ({
       _script: {
         order: "asc",

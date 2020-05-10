@@ -54,7 +54,7 @@ describe("PlaylistService", () => {
     title: "",
     tracksCount: 1,
   };
-  // TODO interface ?
+  // TODO: interface ?
   const dbPlaylist = {
     _id: id,
     downloads_count: 0,
@@ -67,13 +67,13 @@ describe("PlaylistService", () => {
     title: "",
     tracks_count: 1,
   };
-  // TODO interface ?
+  // TODO: interface ?
   const mongooseMethodsMock = {
     findById: () => dbPlaylist,
     findOne: () => dbPlaylist,
     save: () => dbPlaylist,
   };
-  // TODO interface ?
+  // TODO: interface ?
   const playlistModelRes = {
     ...dbPlaylist,
     ...mongooseMethodsMock,

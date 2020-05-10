@@ -286,14 +286,14 @@ export class SearchService implements SearchServiceInterface {
     paramDto: SearchMoodParamDto,
     queryDto: SearchMoodQueryDto
   ): Promise<DataPaginationResDto<DataSongResDto>> {
-    // TODO interface ?
+    // TODO: interface ?
     const moods = [
       { classy: queryDto.classy },
       { energetic: queryDto.energetic },
       { happiness: queryDto.happiness },
       { romantic: queryDto.romantic },
     ];
-    // TODO interface ?
+    // TODO: interface ?
     const sort: any[] = Object.keys(moods).map((value) => ({
       _script: {
         order: "asc",

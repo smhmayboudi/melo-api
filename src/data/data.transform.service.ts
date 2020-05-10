@@ -59,7 +59,6 @@ export class DataTransformService implements DataTransformServiceInterface {
             )
           : this.dataConfigService.defaultArtistImagePath
       ),
-      // TODO: sum
       sumSongsDownloadsCount:
         artist.sum_downloads_count > 0 ? artist.sum_downloads_count : undefined,
       tags:
