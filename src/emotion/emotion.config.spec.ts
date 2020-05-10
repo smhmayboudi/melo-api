@@ -5,7 +5,7 @@ describe("EmotionConfig", () => {
     expect(config()).toStrictEqual({
       elasticNode: undefined,
       index: undefined,
-      requestLimit: undefined,
+      resultSize: undefined,
     });
   });
 });

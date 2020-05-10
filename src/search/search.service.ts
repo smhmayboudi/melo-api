@@ -38,7 +38,7 @@ export class SearchService implements SearchServiceInterface {
             query: dto.query,
           },
         },
-        size: this.searchConfigService.size,
+        size: Math.min(dto.size, this.searchConfigService.resultSize),
       },
       index: this.searchConfigService.suggestIndex,
     });
@@ -205,7 +205,7 @@ export class SearchService implements SearchServiceInterface {
             },
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.searchConfigService.resultSize),
       },
       index: this.searchConfigService.index,
     });
@@ -368,7 +368,7 @@ export class SearchService implements SearchServiceInterface {
             ],
           },
         },
-        size: paramDto.size,
+        size: Math.min(paramDto.size, this.searchConfigService.resultSize),
         sort,
       },
       index: this.searchConfigService.index,

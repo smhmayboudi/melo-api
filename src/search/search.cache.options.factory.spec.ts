@@ -17,7 +17,7 @@ describe("SearchCacheOptionsFactory", () => {
     elasticNode: "",
     elasticScriptScore: "",
     index: "",
-    size: 0,
+    resultSize: 0,
     suggestIndex: "",
   };
 

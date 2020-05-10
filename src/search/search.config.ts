@@ -9,6 +9,6 @@ export default registerAs("search", () => ({
   elasticNode: process.env.SEARCH_ELASTIC_NODE,
   elasticScriptScore: process.env.SEARCH_ELASTIC_SCRIPT_SCORE,
   index: process.env.SEARCH_INDEX_NAME,
-  size: process.env.SEARCH_SIZE,
+  resultSize: process.env.SEARCH_RESULT_SIZE,
   suggestIndex: process.env.SEARCH_SUGGEST_INDEX_NAME,
 }));

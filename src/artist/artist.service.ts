@@ -1,6 +1,7 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
 
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistConfigService } from "./artist.config.service";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
 import { ArtistServiceInterface } from "./artist.servcie.interface";
@@ -19,6 +20,7 @@ import { RelationType } from "../relation/relation.type";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
+    private readonly artistConfigService: ArtistConfigService,
     private readonly dataArtistService: DataArtistService,
     private readonly relationService: RelationService
   ) {}
@@ -60,7 +62,7 @@ export class ArtistService implements ArtistServiceInterface {
         type: RelationEntityType.following,
       },
       relationType: RelationType.follows,
-      size: dto.size,
+      size: Math.min(dto.size, this.artistConfigService.resultSize),
     });
     if (relationEntityResDto.results.length === 0) {
       return {

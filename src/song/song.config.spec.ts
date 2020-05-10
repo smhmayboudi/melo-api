@@ -8,6 +8,7 @@ describe("SongConfig", () => {
       cachePort: undefined,
       cacheStore: undefined,
       cacheTTL: undefined,
+      resultSize: undefined,
       sendTelegramTimeout: undefined,
       sendTelegramUrl: undefined,
     });

@@ -4,4 +4,5 @@ export interface ArtistConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
+  resultSize: number;
 }

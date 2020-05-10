@@ -105,7 +105,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: this.dataConfigService.size,
+        size: this.dataConfigService.resultSize,
         sort: [{ track: DataSortByType.asc }],
       },
       index: this.dataConfigService.index,
@@ -149,7 +149,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort: [
           {
             release_date: DataSortByType.desc,
@@ -197,7 +197,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort: [
           {
             downloads_count: DataSortByType.desc,
@@ -259,7 +259,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: this.dataConfigService.requestLimit,
+        size: this.dataConfigService.resultSize,
       },
       index: this.dataConfigService.index,
       type: DataSearchType.music,
@@ -300,7 +300,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort: {
           [dto.orderBy === DataOrderByType.release
             ? "release_date"
@@ -350,7 +350,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort: { [dto.orderBy]: DataSortByType.desc },
       },
       index: this.dataConfigService.index,
@@ -396,7 +396,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort: { [`emotions.${dto.mood}`]: { order: DataSortByType.desc } },
       },
       index: this.dataConfigService.index,
@@ -460,7 +460,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort: { [dto.orderBy]: DataSortByType.desc },
       },
       index: this.dataConfigService.index,
@@ -552,7 +552,7 @@ export class DataSongService implements DataSongServiceInterface {
             ],
           },
         },
-        size: dto.size,
+        size: Math.min(dto.size, this.dataConfigService.resultSize),
         sort,
       },
       index: this.dataConfigService.index,

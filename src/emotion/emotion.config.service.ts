@@ -14,7 +14,7 @@ export class EmotionConfigService implements EmotionConfigServiceInterface {
     return this.configService.get<string>("emotion.index", "");
   }
 
-  get requestLimit(): number {
-    return this.configService.get<number>("emotion.requestLimit", 0);
+  get resultSize(): number {
+    return this.configService.get<number>("emotion.resultSize", 0);
   }
 }

@@ -37,11 +37,7 @@ export class DataConfigService implements DataConfigServiceInterface {
     return this.configService.get<string>("data.mp3Endpoint", "");
   }
 
-  get requestLimit(): number {
-    return this.configService.get<number>("data.requestLimit", 0);
-  }
-
-  get size(): number {
-    return this.configService.get<number>("data.size", 100);
+  get resultSize(): number {
+    return this.configService.get<number>("data.resultSize", 0);
   }
 }

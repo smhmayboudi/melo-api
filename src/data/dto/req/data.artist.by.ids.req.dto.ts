@@ -11,7 +11,7 @@ export class DataArtistByIdsReqDto {
     description: "The artists identification",
     example: ["abcdef"],
     isArray: true,
-    type: Number,
+    type: String,
   })
   @IsArray()
   @IsNumberString({}, { each: true })

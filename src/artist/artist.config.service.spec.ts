@@ -41,6 +41,10 @@ describe("ArtistService", () => {
     it("cachePort should be equal to a value", () => {
       expect(service.cachePort).toEqual(0);
     });
+
+    it("resultSize should return a value", () => {
+      expect(service.resultSize).toEqual(0);
+    });
   });
 
   describe("get: string", () => {

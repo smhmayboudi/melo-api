@@ -6,4 +6,5 @@ export default registerAs("artist", () => ({
   cachePort: process.env.ARTIST_CACHE_PORT,
   cacheStore: process.env.ARTIST_CACHE_STORE,
   cacheTTL: process.env.ARTIST_CACHE_TTL,
+  resultSize: process.env.ARTIST_RESULT_SIZE,
 }));

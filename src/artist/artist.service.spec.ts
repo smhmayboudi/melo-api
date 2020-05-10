@@ -3,6 +3,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppArtistServceInterface } from "../app/app.artist.service.interface";
 import { AppArtistService } from "../app/app.artist.service";
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
+import { ArtistConfigService } from "./artist.config.service";
+import { ArtistConfigServiceInterface } from "./artist.config.service.interface";
 import { ArtistFollowReqDto } from "./dto/req/artist.follow.req.dto";
 import { ArtistFollowingReqDto } from "./dto/req/artist.following.req.dto";
 import { ArtistService } from "./artist.service";
@@ -31,6 +33,14 @@ describe("ArtistService", () => {
     total: 1,
   } as DataPaginationResDto<DataArtistResDto>;
 
+  const artistConfigServiceMock: ArtistConfigServiceInterface = {
+    cacheHost: "",
+    cacheMax: 0,
+    cachePort: 0,
+    cacheStore: "",
+    cacheTTL: 0,
+    resultSize: 0,
+  };
   const dataArtistServiceMock: DataArtistServiceInterface = {
     byId: (): Promise<DataArtistResDto> => Promise.resolve(artist),
     byIds: (): Promise<DataPaginationResDto<DataArtistResDto>> =>
@@ -81,6 +91,7 @@ describe("ArtistService", () => {
       providers: [
         ArtistService,
         { provide: AppArtistService, useValue: appArtistMock },
+        { provide: ArtistConfigService, useValue: artistConfigServiceMock },
         { provide: DataArtistService, useValue: dataArtistServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
       ],
@@ -154,6 +165,7 @@ describe("ArtistService", () => {
         providers: [
           ArtistService,
           { provide: AppArtistService, useValue: appArtistMock },
+          { provide: ArtistConfigService, useValue: artistConfigServiceMock },
           { provide: DataArtistService, useValue: dataArtistServiceMock },
           { provide: RelationService, useValue: relationServiceMockEmptyGet },
         ],

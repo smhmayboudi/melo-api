@@ -8,7 +8,7 @@ describe("EmotionElasticsearchOptionsFactory", () => {
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
     elasticNode: "",
     index: "",
-    requestLimit: 0,
+    resultSize: 0,
   };
 
   let service: EmotionConfigService;

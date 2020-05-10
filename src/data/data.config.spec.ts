@@ -10,8 +10,7 @@ describe("DataConfig", () => {
       imagePath: undefined,
       index: undefined,
       mp3Endpoint: undefined,
-      requestLimit: undefined,
-      size: undefined,
+      resultSize: undefined,
     });
   });
 });

@@ -8,6 +8,7 @@ describe("ArtistConfig", () => {
       cachePort: undefined,
       cacheStore: undefined,
       cacheTTL: undefined,
+      resultSize: undefined,
     });
   });
 });

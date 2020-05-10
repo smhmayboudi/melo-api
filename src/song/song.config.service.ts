@@ -48,6 +48,10 @@ export class SongConfigService implements SongConfigServiceInterface {
     );
   }
 
+  get resultSize(): number {
+    return this.configService.get<number>("song.resultSize", 0);
+  }
+
   get sendTelegramUrl(): string {
     return this.configService.get<string>("song.sendTelegramUrl", "");
   }

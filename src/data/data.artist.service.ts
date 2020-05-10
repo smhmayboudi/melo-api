@@ -81,6 +81,7 @@ export class DataArtistService implements DataArtistServiceInterface {
             ],
           },
         },
+        size: this.dataConfigService.resultSize,
       },
       index: this.dataConfigService.index,
       type: DataSearchType.music,

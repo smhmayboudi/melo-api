@@ -6,6 +6,5 @@ export interface DataConfigServiceInterface {
   imagePath: (id: string) => string;
   index: string;
   mp3Endpoint: string;
-  requestLimit: number;
-  size: number;
+  resultSize: number;
 }

@@ -42,8 +42,8 @@ describe("SearchService", () => {
       expect(service.cachePort).toEqual(0);
     });
 
-    it("size should be equal to a value", () => {
-      expect(service.size).toEqual(0);
+    it("resultSize should be equal to a value", () => {
+      expect(service.resultSize).toEqual(0);
     });
   });
 

@@ -34,8 +34,8 @@ describe("DownloadService", () => {
       expect(service).toBeDefined();
     });
 
-    it("requestLimit should return a value", () => {
-      expect(service.requestLimit).toEqual(0);
+    it("resultSize should return a value", () => {
+      expect(service.resultSize).toEqual(0);
     });
   });
 

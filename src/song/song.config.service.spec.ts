@@ -42,6 +42,10 @@ describe("SongService", () => {
       expect(service.cachePort).toEqual(0);
     });
 
+    it("resultSize should be equal to a value", () => {
+      expect(service.resultSize).toEqual(0);
+    });
+
     it("timeout should be equal to a value", () => {
       expect(service.timeout).toEqual("0ms");
     });

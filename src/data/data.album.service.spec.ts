@@ -62,8 +62,7 @@ describe("DataAlbumService", () => {
     imagePath: () => "",
     index: "",
     mp3Endpoint: "",
-    requestLimit: 0,
-    size: 0,
+    resultSize: 0,
   };
   // TODO: interface ?
   const elasticSearchRes = {

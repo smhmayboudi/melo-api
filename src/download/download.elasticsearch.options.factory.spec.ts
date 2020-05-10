@@ -8,7 +8,7 @@ describe("DownloadElasticsearchOptionsFactory", () => {
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {
     elasticNode: "",
     index: "",
-    requestLimit: 0,
+    resultSize: 0,
   };
 
   let service: DownloadConfigService;

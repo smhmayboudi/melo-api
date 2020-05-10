@@ -104,8 +104,7 @@ describe("DataTransformService", () => {
     imagePath: () => "",
     index: "",
     mp3Endpoint: "",
-    requestLimit: 0,
-    size: 0,
+    resultSize: 0,
   };
 
   let service: DataTransformService;

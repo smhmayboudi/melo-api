@@ -4,6 +4,7 @@ export interface SongConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
+  resultSize: number;
   sendTelegramUrl: string;
   timeout: number;
 }

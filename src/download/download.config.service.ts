@@ -14,7 +14,7 @@ export class DownloadConfigService implements DownloadConfigServiceInterface {
     return this.configService.get<string>("download.index", "");
   }
 
-  get requestLimit(): number {
-    return this.configService.get<number>("download.requestLimit", 0);
+  get resultSize(): number {
+    return this.configService.get<number>("download.resultSize", 0);
   }
 }

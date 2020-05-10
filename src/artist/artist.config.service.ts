@@ -47,4 +47,8 @@ export class ArtistConfigService implements ArtistConfigServiceInterface {
       )
     );
   }
+
+  get resultSize(): number {
+    return this.configService.get<number>("data.resultSize", 0);
+  }
 }

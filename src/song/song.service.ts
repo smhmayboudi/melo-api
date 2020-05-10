@@ -132,7 +132,7 @@ export class SongService implements SongServiceInterface {
         type: RelationEntityType.user,
       },
       relationType: RelationType.likedSongs,
-      size: dto.size,
+      size: Math.min(dto.size, this.songConfigService.resultSize),
     });
     if (relationEntityResDto.results.length === 0) {
       return {
