@@ -105,6 +105,13 @@ describe("DataTransformService", () => {
     index: "",
     mp3Endpoint: "",
     resultSize: 0,
+    typeOrmDatabase: "",
+    typeOrmHost: "",
+    typeOrmLogging: true,
+    typeOrmPassword: "",
+    typeOrmPort: 0,
+    typeOrmSynchronize: true,
+    typeOrmUsername: "",
   };
 
   let service: DataTransformService;

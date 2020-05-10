@@ -7,4 +7,11 @@ export interface DataConfigServiceInterface {
   index: string;
   mp3Endpoint: string;
   resultSize: number;
+  typeOrmDatabase: string;
+  typeOrmHost: string;
+  typeOrmLogging: boolean;
+  typeOrmPassword: string;
+  typeOrmPort: number;
+  typeOrmSynchronize: boolean;
+  typeOrmUsername: string;
 }

@@ -1,5 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import { DATA_TYPEORM, SITE_TYPEORM } from "../app/app.constant";
+import { DATA_TYPEORM } from "../app/app.constant";
 
 import { DataCacheEntity } from "./data.cache.entity";
 import { DataCacheEntityRepository } from "./data.cache.entity.repository";
@@ -42,7 +42,7 @@ export class DataSongService implements DataSongServiceInterface {
     private readonly dataConfigService: DataConfigService,
     private readonly dataTransformService: DataTransformService,
     private readonly elasticsearchService: ElasticsearchService,
-    @InjectRepository(DataSiteEntity, SITE_TYPEORM)
+    @InjectRepository(DataSiteEntity, DATA_TYPEORM)
     private readonly dataSiteEntityRepository: DataSiteEntityRepository
   ) {}
 

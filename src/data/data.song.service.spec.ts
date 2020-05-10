@@ -1,6 +1,6 @@
-import { DATA_TYPEORM, SITE_TYPEORM } from "../app/app.constant";
 import { Test, TestingModule } from "@nestjs/testing";
 
+import { DATA_TYPEORM } from "../app/app.constant";
 import { DataAlbumResDto } from "./dto/res/data.album.res.dto";
 import { DataArtistResDto } from "./dto/res/data.artist.res.dto";
 import { DataArtistType } from "./data.artist.type";
@@ -166,7 +166,7 @@ describe("DataSongService", () => {
         },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         {
-          provide: getRepositoryToken(DataSiteEntity, SITE_TYPEORM),
+          provide: getRepositoryToken(DataSiteEntity, DATA_TYPEORM),
           useValue: dataSiteEntityRepositoryMock,
         },
       ],

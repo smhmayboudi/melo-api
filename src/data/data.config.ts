@@ -9,4 +9,11 @@ export default registerAs("data", () => ({
   index: process.env.DATA_INDEX_NAME,
   mp3Endpoint: process.env.DATA_MP3_ENDPOINT,
   resultSize: process.env.DATA_RESULT_SIZE,
+  typeOrmDatabase: process.env.DATA_TYPEORM_DATABASE,
+  typeOrmHost: process.env.DATA_TYPEORM_HOST,
+  typeOrmLogging: process.env.DATA_TYPEORM_LOGGING,
+  typeOrmPassword: process.env.DATA_TYPEORM_PASSWORD,
+  typeOrmPort: process.env.DATA_TYPEORM_PORT,
+  typeOrmSynchronize: process.env.DATA_TYPEORM_SYNCHRONIZE,
+  typeOrmUsername: process.env.DATA_TYPEORM_USERNAME,
 }));

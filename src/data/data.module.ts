@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { DATA_TYPEORM, SITE_TYPEORM } from "../app/app.constant";
 import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
+import { DATA_TYPEORM } from "../app/app.constant";
 import { DataAlbumService } from "./data.album.service";
 import { DataArtistService } from "./data.artist.service";
 import { DataCacheEntityRepository } from "./data.cache.entity.repository";
@@ -36,8 +36,10 @@ import config from "./data.config";
       imports: [DataModule],
       useClass: DataElasticsearchOptionsFactory,
     }),
-    TypeOrmModule.forFeature([DataCacheEntityRepository], DATA_TYPEORM),
-    TypeOrmModule.forFeature([DataSiteEntityRepository], SITE_TYPEORM),
+    TypeOrmModule.forFeature(
+      [DataCacheEntityRepository, DataSiteEntityRepository],
+      DATA_TYPEORM
+    ),
   ],
   providers: [
     DataAlbumService,

@@ -11,6 +11,13 @@ describe("DataConfig", () => {
       index: undefined,
       mp3Endpoint: undefined,
       resultSize: undefined,
+      typeOrmDatabase: undefined,
+      typeOrmHost: undefined,
+      typeOrmLogging: undefined,
+      typeOrmPassword: undefined,
+      typeOrmPort: undefined,
+      typeOrmSynchronize: undefined,
+      typeOrmUsername: undefined,
     });
   });
 });

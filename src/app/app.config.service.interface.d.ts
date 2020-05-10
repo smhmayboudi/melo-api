@@ -13,13 +13,6 @@ export interface AppConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
-  dataTypeOrmDatabase: string;
-  dataTypeOrmHost: string;
-  dataTypeOrmLogging: boolean;
-  dataTypeOrmPassword: string;
-  dataTypeOrmPort: number;
-  dataTypeOrmSynchronize: boolean;
-  dataTypeOrmUsername: string;
   dgraphAddress: string;
   dgraphDebug: boolean;
   hashIdAlphabet: string;
@@ -47,13 +40,6 @@ export interface AppConfigServiceInterface {
   sentryEnviroment: string;
   sentryLogLevel: LogLevel;
   sentryRelease: string;
-  siteTypeOrmDatabase: string;
-  siteTypeOrmHost: string;
-  siteTypeOrmLogging: boolean;
-  siteTypeOrmPassword: string;
-  siteTypeOrmPort: number;
-  siteTypeOrmSynchronize: boolean;
-  siteTypeOrmUsername: string;
   typeOrmDatabase: string;
   typeOrmHost: string;
   typeOrmLogging: boolean;

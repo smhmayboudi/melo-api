@@ -93,6 +93,13 @@ describe("DataArtistService", () => {
     index: "",
     mp3Endpoint: "",
     resultSize: 0,
+    typeOrmDatabase: "",
+    typeOrmHost: "",
+    typeOrmLogging: true,
+    typeOrmPassword: "",
+    typeOrmPort: 0,
+    typeOrmSynchronize: true,
+    typeOrmUsername: "",
   };
   const dataTransformServiceMock: DataTransformServiceInterface = {
     transformAlbum: (): DataAlbumResDto => album,

@@ -40,4 +40,32 @@ export class DataConfigService implements DataConfigServiceInterface {
   get resultSize(): number {
     return this.configService.get<number>("data.resultSize", 0);
   }
+
+  get typeOrmDatabase(): string {
+    return this.configService.get<string>("app.typeOrmDatabase", "");
+  }
+
+  get typeOrmHost(): string {
+    return this.configService.get<string>("app.typeOrmHost", "");
+  }
+
+  get typeOrmLogging(): boolean {
+    return this.configService.get<boolean>("app.typeOrmLogging", true);
+  }
+
+  get typeOrmPassword(): string {
+    return this.configService.get<string>("app.typeOrmPassword", "");
+  }
+
+  get typeOrmPort(): number {
+    return this.configService.get<number>("app.typeOrmPort", 0);
+  }
+
+  get typeOrmSynchronize(): boolean {
+    return this.configService.get<boolean>("app.typeOrmSynchronize", false);
+  }
+
+  get typeOrmUsername(): string {
+    return this.configService.get<string>("app.typeOrmUsername", "");
+  }
 }

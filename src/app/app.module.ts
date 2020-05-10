@@ -5,7 +5,6 @@ import {
   ClassSerializerInterceptor,
   Module,
 } from "@nestjs/common";
-import { DATA_TYPEORM, SITE_TYPEORM } from "./app.constant";
 
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ActionModule } from "../action/action.module";
@@ -15,7 +14,6 @@ import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppArtistService } from "./app.artist.service";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
-import { AppDataTypeOrmOptionsFactory } from "./app.data.type.orm.options.factory";
 import { AppDgraphOptionsFactory } from "./app.dgraph.options.factory";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppHashIdService } from "./app.hash-id.service";
@@ -26,7 +24,6 @@ import { AppMongooseOptionsFactory } from "./app.mongoose.options.factory";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
-import { AppSiteTypeOrmOptionsFactory } from "./app.site.type.orm.options.factory";
 import { AppSongService } from "./app.song.service";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
 import { ArtistModule } from "../artist/artist.module";
@@ -34,7 +31,9 @@ import { AtModule } from "../at/at.module";
 import { AuthModule } from "../auth/auth.module";
 import { ConfigModule } from "@nestjs/config";
 import { ConstModule } from "../const/const.module";
+import { DATA_TYPEORM } from "./app.constant";
 import { DataModule } from "../data/data.module";
+import { DataTypeOrmOptionsFactory } from "../data/data.type.orm.options.factory";
 import { DgraphModule } from "../dgraph/dgraph.module";
 import { DownloadModule } from "../download/download.module";
 import { EmotionModule } from "../emotion/emotion.module";
@@ -112,12 +111,7 @@ import config from "./app.config";
     TypeOrmModule.forRootAsync({
       imports: [AppModule],
       name: DATA_TYPEORM,
-      useClass: AppDataTypeOrmOptionsFactory,
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [AppModule],
-      name: SITE_TYPEORM,
-      useClass: AppSiteTypeOrmOptionsFactory,
+      useClass: DataTypeOrmOptionsFactory,
     }),
     TypeOrmModule.forRootAsync({
       imports: [AppModule],

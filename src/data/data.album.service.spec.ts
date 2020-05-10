@@ -63,6 +63,13 @@ describe("DataAlbumService", () => {
     index: "",
     mp3Endpoint: "",
     resultSize: 0,
+    typeOrmDatabase: "",
+    typeOrmHost: "",
+    typeOrmLogging: true,
+    typeOrmPassword: "",
+    typeOrmPort: 0,
+    typeOrmSynchronize: true,
+    typeOrmUsername: "",
   };
   // TODO: interface ?
   const elasticSearchRes = {

@@ -5,6 +5,36 @@ import { ConfigService } from "@nestjs/config";
 import { DataConfigService } from "./data.config.service";
 
 describe("DataService", () => {
+  describe("get: boolean", () => {
+    // TODO: interface ?
+    const configServiceMock = {
+      get: (): boolean => true,
+    };
+
+    let service: AppConfigService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+          AppConfigService,
+          {
+            provide: ConfigService,
+            useValue: configServiceMock,
+          },
+        ],
+      }).compile();
+      service = module.get<AppConfigService>(AppConfigService);
+    });
+
+    it("typeOrmLogging should be equal to a value", () => {
+      expect(service.typeOrmLogging).toEqual(true);
+    });
+
+    it("typeOrmSynchronize should be equal to a value", () => {
+      expect(service.typeOrmSynchronize).toEqual(true);
+    });
+  });
+
   describe("get: number", () => {
     // TODO: interface ?
     const configServiceMock = {
@@ -36,6 +66,10 @@ describe("DataService", () => {
 
     it("resultSize should return a value", () => {
       expect(service.resultSize).toEqual(0);
+    });
+
+    it("typeOrmPort should be equal to a value", () => {
+      expect(service.typeOrmPort).toEqual(0);
     });
   });
 
@@ -90,6 +124,22 @@ describe("DataService", () => {
 
     it("mp3Endpoint should return value", () => {
       expect(service.mp3Endpoint).toEqual("");
+    });
+
+    it("typeOrmDatabase should be equal to a value", () => {
+      expect(service.typeOrmDatabase).toEqual("");
+    });
+
+    it("typeOrmHost should be equal to a value", () => {
+      expect(service.typeOrmHost).toEqual("");
+    });
+
+    it("typeOrmPassword should be equal to a value", () => {
+      expect(service.typeOrmPassword).toEqual("");
+    });
+
+    it("typeOrmUsername should be equal to a value", () => {
+      expect(service.typeOrmUsername).toEqual("");
     });
   });
 });
