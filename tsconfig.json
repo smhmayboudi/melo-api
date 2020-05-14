@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
-    // "declaration": true,
+    "declaration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -21,7 +21,6 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "resolveJsonModule": true,
-    // "sourceMap": true,
     "strict": true,
     "target": "es6"
   },
