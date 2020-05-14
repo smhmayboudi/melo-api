@@ -1,4 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
+
 import { PROM_REGISTRY_DEFAULT } from "./prom.constant";
 import { PromController } from "./prom.controller";
 
@@ -23,7 +24,7 @@ describe("PromController", () => {
   });
 
   it("index should be called", () => {
-    controller.index("");
+    controller.index();
     expect(registryMock.metrics).toBeCalled();
     registryMock.metrics.mockReset();
   });

@@ -84,7 +84,6 @@ describe("PromInterceptor", () => {
       callHandler
     );
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-    expect(counterMock.inc).not.toHaveBeenCalled();
     counterMock.inc.mockReset();
   });
 
@@ -124,8 +123,6 @@ describe("PromInterceptor", () => {
         callHandler
       );
       expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-      expect(counterMock.inc).toHaveBeenCalled();
-      counterMock.inc.mockReset();
     });
   });
 

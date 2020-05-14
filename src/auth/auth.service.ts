@@ -9,6 +9,7 @@ import { JwksService } from "../jwks/jwks.service";
 import { JwtService } from "@nestjs/jwt";
 import { PromMethodCounter } from "../prom/prom.decorator";
 import { RtService } from "../rt/rt.service";
+// eslint-disable-next-line import/default
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";

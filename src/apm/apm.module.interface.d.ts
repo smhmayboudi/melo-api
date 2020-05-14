@@ -248,15 +248,15 @@ export interface TransactionOptions {
 export interface SpanOptions {
   childOf?: Transaction | Span | string;
 }
-type CaptureBody = "off" | "errors" | "transactions" | "all";
-type CaptureErrorLogStackTraces = "never" | "messages" | "always";
-type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
-type CaptureErrorCallback = (err: Error | null, id: string) => void;
-type FilterFn = (payload: Payload) => Payload | boolean | void;
-type LabelValue = string | number | boolean | null | undefined;
-type KeyValueConfig = string | Labels | LabelValue[][];
-type Payload = { [propName: string]: unknown };
-type PatchHandler = (
+export type CaptureBody = "off" | "errors" | "transactions" | "all";
+export type CaptureErrorLogStackTraces = "never" | "messages" | "always";
+export type LogLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
+export type CaptureErrorCallback = (err: Error | null, id: string) => void;
+export type FilterFn = (payload: Payload) => Payload | boolean | void;
+export type LabelValue = string | number | boolean | null | undefined;
+export type KeyValueConfig = string | Labels | LabelValue[][];
+export type Payload = { [propName: string]: unknown };
+export type PatchHandler = (
   exports: unknown,
   agent: Agent,
   options: PatchOptions

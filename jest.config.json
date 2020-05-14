@@ -1,5 +1,7 @@
 {
-  "roots": [ "<rootDir>/src", "<rootDir>/test" ],
+  "coverageDirectory": "../coverage",
+  "moduleFileExtensions": ["js", "json", "node", "ts"],
+  "rootDir": "src",
   "testEnvironment": "node",
   "testPathIgnorePatterns": [
     "<rootDir>/node_modules/",

@@ -8,6 +8,7 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
+// eslint-disable-next-line import/default
 import Hashids from "hashids/cjs";
 import { PromMethodCounter } from "../prom/prom.decorator";
 

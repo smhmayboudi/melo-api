@@ -2,6 +2,6 @@
   "*.ts": [
     "eslint --fix",
     "git add",
-    "jest --bail --findRelatedTests"
+    "jest --bail --findRelatedTests --no-cache"
   ]
 }
