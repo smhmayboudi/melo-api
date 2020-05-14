@@ -12,9 +12,7 @@ $ brew cask install google-chrome
 $ brew cask install insomnia
 $ brew cask install mongodb-compass
 $ brew cask install mysqlworkbench
-$ brew cask install postman
 $ brew cask install proxifier
-$ brew cask install rocket-chat
 $ brew cask install shadowsocksx-ng
 $ brew cask install skype
 $ brew cask install visual-studio-code
@@ -23,7 +21,6 @@ $ brew install tig
 
 ## vscode
 ```Shell
-$ code --install-extension amatiasq.sort-imports
 $ code --install-extension coenraads.bracket-pair-colorizer-2
 $ code --install-extension dbaeumer.vscode-eslint
 $ code --install-extension eamodio.gitlens
@@ -31,10 +28,14 @@ $ code --install-extension esbenp.prettier-vscode
 $ code --install-extension mhutchie.git-graph
 $ code --install-extension ms-azuretools.vscode-docker
 $ code --install-extension ms-vsliveshare.vsliveshare
+$ code --install-extension ms-vsliveshare.vsliveshare-audio
+$ code --install-extension piotrpalarz.vscode-gitignore-generator
 $ code --install-extension piotrpalarz.vscode-gitignore-generator
 $ code --install-extension pkief.material-icon-theme
 $ code --install-extension quicktype.quicktype
+$ code --install-extension streetsidesoftware.code-spell-checker
 $ code --install-extension tyriar.sort-lines
+$ code --install-extension visualstudioexptteam.vscodeintellicode
 $ code --install-extension wesbos.theme-cobalt2
 ```
 

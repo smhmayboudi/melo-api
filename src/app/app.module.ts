@@ -109,7 +109,7 @@ import config from "./app.config";
     SongModule,
     TerminusModule,
     TypeOrmModule.forRootAsync({
-      imports: [AppModule],
+      imports: [DataModule],
       name: DATA_TYPEORM,
       useClass: DataTypeOrmOptionsFactory,
     }),

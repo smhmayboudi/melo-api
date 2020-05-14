@@ -22,9 +22,9 @@ import config from "./data.config";
 @Module({
   exports: [
     DataAlbumService,
-    DataHealthIndicator,
     DataArtistService,
     DataConfigService,
+    DataHealthIndicator,
     DataService,
     DataSongService,
     DataTransformService,
@@ -43,9 +43,9 @@ import config from "./data.config";
   ],
   providers: [
     DataAlbumService,
-    DataHealthIndicator,
     DataArtistService,
     DataConfigService,
+    DataHealthIndicator,
     DataService,
     DataSongService,
     DataTransformService,
