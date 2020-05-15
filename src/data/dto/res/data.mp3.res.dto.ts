@@ -12,12 +12,12 @@ export class DataMp3ResDto {
     example: "abcdef",
   })
   @IsString()
-  fingerprint: string;
+  readonly fingerprint: string;
 
   @ApiProperty({
     description: "The url",
     example: "http://...",
   })
   @IsString()
-  url: string;
+  readonly url: string;
 }

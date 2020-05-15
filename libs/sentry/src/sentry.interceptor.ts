@@ -5,18 +5,13 @@ import {
   Injectable,
   NestInterceptor,
 } from "@nestjs/common";
-import { GqlArgumentsHost, GraphQLArgumentsHost } from "@nestjs/graphql";
-import {
-  HttpArgumentsHost,
-  RpcArgumentsHost,
-  WsArgumentsHost,
-} from "@nestjs/common/interfaces";
 import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
 
 import Sentry, { Handlers } from "@sentry/node";
+import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { Observable } from "rxjs";
 import { Scope } from "@sentry/hub";
 import { SentryModuleOptions } from "./sentry.module.interface";
@@ -24,71 +19,6 @@ import { tap } from "rxjs/operators";
 
 @Injectable()
 export class SentryInterceptor implements NestInterceptor {
-  constructor(
-    @Inject(SENTRY_MODULE_OPTIONS)
-    private readonly options: SentryModuleOptions,
-    @Inject(SENTRY_INSTANCE_TOKEN)
-    private readonly sentry: typeof Sentry
-  ) {}
-
-  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
-    const http = context.switchToHttp();
-    const ws = context.switchToWs();
-    const rpc = context.switchToRpc();
-    if (this.options.context === undefined) {
-      this.options.context = "Http";
-    }
-    return next.handle().pipe(
-      tap(undefined, (error) => {
-        if (process.env.NODE_ENV !== "test" && this.shouldReport(error)) {
-          this.sentry.withScope((scope) => {
-            // TODO: When https://github.com/nestjs/nest/issues/1581 gets implemented switch to that
-            switch (this.options.context) {
-              case "GraphQL":
-                this.captureGraphQLException(
-                  scope,
-                  GqlArgumentsHost.create(context),
-                  error
-                );
-                break;
-              case "Http":
-                this.captureHttpException(scope, http, error);
-                break;
-              case "Rpc":
-                this.captureRpcException(scope, rpc, error);
-                break;
-              case "Ws":
-                this.captureWsException(scope, ws, error);
-                break;
-            }
-          });
-        }
-      })
-    );
-  }
-
-  private captureGraphQLException(
-    scope: Scope,
-    gqlHost: GraphQLArgumentsHost,
-    exception
-  ): void {
-    // Same as HttpException
-    const data = Handlers.parseRequest({}, gqlHost.getContext(), this.options);
-    scope.setExtra("req", data.request);
-    if (data.extra !== undefined) {
-      scope.setExtras(data.extra);
-    }
-    if (data.user !== undefined) {
-      scope.setUser(data.user);
-    }
-    // GraphQL Specifics
-    const info = gqlHost.getInfo();
-    scope.setExtra("fieldName", info.fieldName);
-    const args = gqlHost.getArgs();
-    scope.setExtra("args", args);
-    this.captureException(exception, scope);
-  }
-
   private captureHttpException(
     scope: Scope,
     http: HttpArgumentsHost,
@@ -102,29 +32,6 @@ export class SentryInterceptor implements NestInterceptor {
     if (data.user !== undefined) {
       scope.setUser(data.user);
     }
-    this.captureException(exception, scope);
-  }
-
-  private captureRpcException(
-    scope: Scope,
-    rpc: RpcArgumentsHost,
-    exception
-  ): void {
-    scope.setExtra("rpc_data", rpc.getData());
-    this.captureException(exception, scope);
-  }
-
-  private captureWsException(
-    scope: Scope,
-    ws: WsArgumentsHost,
-    exception
-  ): void {
-    scope.setExtra("ws_client", ws.getClient());
-    scope.setExtra("ws_data", ws.getData());
-    this.captureException(exception, scope);
-  }
-
-  private captureException(exception, scope: Scope): void {
     if (this.options.level !== undefined) {
       scope.setLevel(this.options.level);
     }
@@ -150,6 +57,26 @@ export class SentryInterceptor implements NestInterceptor {
             (filter === undefined || filter(exception))
           )
       )
+    );
+  }
+
+  constructor(
+    @Inject(SENTRY_MODULE_OPTIONS)
+    private readonly options: SentryModuleOptions,
+    @Inject(SENTRY_INSTANCE_TOKEN)
+    private readonly sentry: typeof Sentry
+  ) {}
+
+  intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
+    const http = context.switchToHttp();
+    return next.handle().pipe(
+      tap(undefined, (error) => {
+        if (process.env.NODE_ENV !== "test" && this.shouldReport(error)) {
+          this.sentry.withScope((scope) => {
+            this.captureHttpException(scope, http, error);
+          });
+        }
+      })
     );
   }
 }

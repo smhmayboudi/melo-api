@@ -49,9 +49,9 @@ export class Strategy extends PassportStrategy {
       this.success(user, info);
     };
 
-    const optionalCallbackParams: any[] = [];
+    let optionalCallbackParams: any[] = [];
     if (this.passReqToCallback) {
-      optionalCallbackParams.push(req);
+      optionalCallbackParams = [...optionalCallbackParams, req];
     }
     this.verify(authorization, verified, ...optionalCallbackParams);
   }

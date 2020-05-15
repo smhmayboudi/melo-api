@@ -15,26 +15,26 @@ export class LikeSongDto {
     example: "abcdef",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 
   @ApiProperty({
     description: "The like",
     example: false,
   })
   @IsBoolean()
-  like: boolean;
+  readonly like: boolean;
 
   @ApiProperty({
     description: "The playing",
     example: false,
   })
   @IsBoolean()
-  playing: boolean;
+  readonly playing: boolean;
 
   @ApiProperty({
     description: "The position",
     example: "0",
   })
   @IsNumberString()
-  position: number;
+  readonly position: number;
 }

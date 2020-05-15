@@ -13,12 +13,12 @@ export class DownloadDataSongResDto {
     example: "0",
   })
   @IsNumberString()
-  songId: number;
+  readonly songId: number;
 
   @ApiProperty({
     description: "The date of download",
     example: new Date(),
   })
   @IsDate()
-  downloadedAt: Date;
+  readonly downloadedAt: Date;
 }

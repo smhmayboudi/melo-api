@@ -15,7 +15,7 @@ export class JwksJwksResDto {
     example: "4f38f054-38e9-11ea-9e09-0242ac110004",
   })
   @IsUUID()
-  id: string;
+  readonly id: string;
 
   @ApiProperty({
     description: "The private key",
@@ -27,7 +27,7 @@ export class JwksJwksResDto {
   })
   @Exclude()
   @IsString()
-  private_key: string;
+  readonly private_key: string;
 
   @ApiProperty({
     description: "The primary key",
@@ -38,5 +38,5 @@ export class JwksJwksResDto {
 `,
   })
   @IsString()
-  public_key: string;
+  readonly public_key: string;
 }

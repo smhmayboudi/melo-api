@@ -11,5 +11,5 @@ export class DataArtistByIdReqDto {
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 }

@@ -22,14 +22,14 @@ export class RelationMultiHasReqDto {
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
-  from: RelationEntityResDto;
+  readonly from: RelationEntityResDto;
 
   @ApiProperty({
     description: "The relation type",
     example: RelationType.follows,
   })
   @IsEnum(RelationType)
-  relationType: RelationType;
+  readonly relationType: RelationType;
 
   @ApiProperty({
     description: "The to entity",
@@ -40,5 +40,5 @@ export class RelationMultiHasReqDto {
   @ValidateNested({
     each: true,
   })
-  tos: RelationEntityResDto[];
+  readonly tos: RelationEntityResDto[];
 }

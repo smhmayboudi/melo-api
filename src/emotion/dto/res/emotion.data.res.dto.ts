@@ -13,7 +13,7 @@ export class EmotionDataResDto {
     example: "0",
   })
   @IsNumberString()
-  songId: number;
+  readonly songId: number;
 
   @ApiProperty({
     description: "The emotions",
@@ -23,5 +23,5 @@ export class EmotionDataResDto {
   })
   @IsArray()
   @IsString({ each: true })
-  emotions: string[];
+  readonly emotions: string[];
 }

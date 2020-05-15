@@ -210,11 +210,11 @@ export class SearchService implements SearchServiceInterface {
       },
       index: this.searchConfigService.index,
     });
-    const mixed = suggest.body.hits.hits.map((value) => ({
+    let mixed = suggest.body.hits.hits.map((value) => ({
       ...value._source,
       suggested: 1,
     }));
-    for (const value of normal.body.hits.hits) {
+    normal.body.hits.hits.forEach((value) => {
       if (
         !mixed
           .map(
@@ -228,9 +228,9 @@ export class SearchService implements SearchServiceInterface {
             false
           )
       ) {
-        mixed.push(value._source);
+        mixed = [...mixed, value._source];
       }
-    }
+    });
     if (mixed.length === 0) {
       return {
         results: [] as DataSearchResDto[],
@@ -295,7 +295,7 @@ export class SearchService implements SearchServiceInterface {
       { romantic: queryDto.romantic },
     ];
     // TODO: interface ?
-    const sort: any[] = Object.keys(moods).map((value) => ({
+    let sort: any[] = Object.keys(moods).map((value) => ({
       _script: {
         order: "asc",
         script: {
@@ -309,20 +309,26 @@ export class SearchService implements SearchServiceInterface {
       const dateFilter = moment(new Date())
         .subtract(10 + 5 * queryDto.date, "y")
         .milliseconds();
-      sort.push({
-        _script: {
-          order: "asc",
-          script: {
-            lang: "painless",
-            source: `Math.abs(${dateFilter}L-doc['release_date'].value.getMillis())`,
+      sort = [
+        ...sort,
+        {
+          _script: {
+            order: "asc",
+            script: {
+              lang: "painless",
+              source: `Math.abs(${dateFilter}L-doc['release_date'].value.getMillis())`,
+            },
+            type: "number",
           },
-          type: "number",
         },
-      });
+      ];
     }
-    sort.push({
-      downloads_count: "desc",
-    });
+    sort = [
+      ...sort,
+      {
+        downloads_count: "desc",
+      },
+    ];
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
         _source: [

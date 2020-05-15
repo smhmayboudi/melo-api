@@ -12,12 +12,12 @@ export class DataSongTopDayReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

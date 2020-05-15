@@ -14,19 +14,19 @@ export class NextSongDto {
     example: "abcdef",
   })
   @IsString()
-  currentId: string;
+  readonly currentId: string;
 
   @ApiProperty({
     description: "The current position",
     example: "0",
   })
   @IsNumberString()
-  currentPosition: number;
+  readonly currentPosition: number;
 
   @ApiProperty({
     description: "The next song identification",
     example: "abcdef",
   })
   @IsString()
-  nextId: string;
+  readonly nextId: string;
 }

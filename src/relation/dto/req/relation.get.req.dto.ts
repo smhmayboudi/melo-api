@@ -23,26 +23,26 @@ export class RelationGetReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
-  fromEntityDto: RelationEntityResDto;
+  readonly fromEntityDto: RelationEntityResDto;
 
   @ApiProperty({
     description: "The type",
     example: RelationType.follows,
   })
   @IsEnum(RelationType)
-  relationType: RelationType;
+  readonly relationType: RelationType;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

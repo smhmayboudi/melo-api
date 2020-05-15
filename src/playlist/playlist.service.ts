@@ -39,13 +39,16 @@ export class PlaylistService implements PlaylistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async addSong(dto: PlaylistAddSongReqDto): Promise<DataPlaylistResDto> {
-    const playlist = await this.playlistModel.findById(
+    let playlist = await this.playlistModel.findById(
       new Types.ObjectId(dto.playlistId)
     );
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    playlist.songs_ids.push(dto.songId);
+    playlist = {
+      ...playlist,
+      songs_ids: [...playlist.songs_ids, dto.songId],
+    } as PlaylistInterface;
     await playlist.save();
     const dataSongResDto = await this.dataSongService.byIds({
       ids: playlist.songs_ids.map((value) => value),
@@ -163,11 +166,14 @@ export class PlaylistService implements PlaylistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async deleteSong(dto: PlaylistSongReqDto): Promise<DataPlaylistResDto> {
-    const playlist = await this.playlistModel.findById(dto.playlistId);
+    let playlist = await this.playlistModel.findById(dto.playlistId);
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    playlist.songs_ids.splice(playlist.songs_ids.indexOf(dto.songId), 1);
+    playlist = {
+      ...playlist,
+      songs_ids: playlist.songs_ids.filter((value) => value === dto.songId),
+    } as PlaylistInterface;
     await playlist.save();
     return {
       followersCount: playlist.followers_count,

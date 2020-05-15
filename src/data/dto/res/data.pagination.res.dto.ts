@@ -28,14 +28,14 @@ export class DataPaginationResDto<T> {
   @ValidateNested({
     each: true,
   })
-  results: T[];
+  readonly results: T[];
 
   @ApiProperty({
     description: "The total number of results",
     example: "0",
   })
   @IsNumberString()
-  total: number;
+  readonly total: number;
 
   @Exclude()
   private type: Function;

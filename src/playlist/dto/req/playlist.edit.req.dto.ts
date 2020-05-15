@@ -20,7 +20,7 @@ export class PlaylistEditReqDto {
     example: "abcdef",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 
   @ApiProperty({
     description: "The publiciity",
@@ -28,7 +28,7 @@ export class PlaylistEditReqDto {
   })
   @IsBoolean()
   @IsOptional()
-  isPublic?: boolean;
+  readonly isPublic?: boolean;
 
   @ApiProperty({
     description: "The photo identification",
@@ -36,7 +36,7 @@ export class PlaylistEditReqDto {
   })
   @IsOptional()
   @IsString()
-  photoId?: string;
+  readonly photoId?: string;
 
   @ApiProperty({
     description: "The title",
@@ -44,5 +44,5 @@ export class PlaylistEditReqDto {
   })
   @IsOptional()
   @IsString()
-  title?: string;
+  readonly title?: string;
 }

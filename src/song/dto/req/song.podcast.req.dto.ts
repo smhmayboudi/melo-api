@@ -21,7 +21,7 @@ export class SongPodcastReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "The genres",
@@ -31,19 +31,19 @@ export class SongPodcastReqDto {
   })
   @IsArray()
   @IsString({ each: true })
-  genres: string[];
+  readonly genres: string[];
 
   @ApiProperty({
     description: "The order",
     example: DataOrderByType.release,
   })
   @IsEnum(DataOrderByType)
-  orderBy: DataOrderByType;
+  readonly orderBy: DataOrderByType;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

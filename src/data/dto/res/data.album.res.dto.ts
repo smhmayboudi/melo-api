@@ -42,14 +42,14 @@ export class DataAlbumResDto {
     example: "smith",
   })
   @IsString()
-  name: string;
+  readonly name: string;
 
   @ApiProperty({
     description: "The downlaod count",
     example: new Date(),
   })
   @IsDate()
-  releaseDate: Date;
+  readonly releaseDate: Date;
 
   @ApiProperty({
     description: "The artists",
@@ -62,7 +62,7 @@ export class DataAlbumResDto {
   @ValidateNested({
     each: true,
   })
-  artists?: DataArtistResDto[];
+  readonly artists?: DataArtistResDto[];
 
   @ApiProperty({
     description: "The downlaod count",
@@ -70,7 +70,7 @@ export class DataAlbumResDto {
   })
   @IsNumberString()
   @IsOptional()
-  downloadCount?: number;
+  readonly downloadCount?: number;
 
   @ApiProperty({
     description: "The identification",
@@ -78,21 +78,21 @@ export class DataAlbumResDto {
   })
   @IsNumberString()
   @IsOptional()
-  id?: number;
+  readonly id?: number;
 
   @ApiProperty({
     description: "The image",
   })
   @IsOptional()
   @ValidateNested()
-  image?: DataImageResDto;
+  readonly image?: DataImageResDto;
 
   @ApiProperty({
     description: "The image",
   })
   @IsOptional()
   @ValidateNested()
-  songs?: DataPaginationResDto<DataSongResDto>;
+  readonly songs?: DataPaginationResDto<DataSongResDto>;
 
   @ApiProperty({
     description: "The tags",
@@ -103,7 +103,7 @@ export class DataAlbumResDto {
   @IsArray()
   @IsOptional()
   @IsString()
-  tags?: string[];
+  readonly tags?: string[];
 
   @ApiProperty({
     description: "The track count",
@@ -111,5 +111,5 @@ export class DataAlbumResDto {
   })
   @IsNumberString()
   @IsOptional()
-  tracksCount?: number;
+  readonly tracksCount?: number;
 }

@@ -13,8 +13,8 @@ export class SongLikeReqDto {
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiHideProperty()
-  sub: number;
+  readonly sub: number;
 }

@@ -11,5 +11,5 @@ export class SongByIdReqDto {
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 }

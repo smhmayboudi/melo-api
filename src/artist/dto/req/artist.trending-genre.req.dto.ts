@@ -11,5 +11,5 @@ export class ArtistTrendingGenreReqDto {
     example: "pop",
   })
   @IsString()
-  genre: string;
+  readonly genre: string;
 }

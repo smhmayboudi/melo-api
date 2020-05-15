@@ -26,14 +26,14 @@ export class DataSearchMoodReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 
   @ApiProperty({
     description: "The classy",
@@ -41,7 +41,7 @@ export class DataSearchMoodReqDto {
   })
   @IsNumberString()
   @IsOptional()
-  classy?: number;
+  readonly classy?: number;
 
   @ApiProperty({
     description: "The date",
@@ -49,7 +49,7 @@ export class DataSearchMoodReqDto {
   })
   @IsNumberString()
   @IsOptional()
-  date?: number;
+  readonly date?: number;
 
   @ApiProperty({
     description: "The energetic",
@@ -57,7 +57,7 @@ export class DataSearchMoodReqDto {
   })
   @IsNumberString()
   @IsOptional()
-  energetic?: number;
+  readonly energetic?: number;
 
   @ApiProperty({
     description: "The happiness",
@@ -65,7 +65,7 @@ export class DataSearchMoodReqDto {
   })
   @IsNumberString()
   @IsOptional()
-  happiness?: number;
+  readonly happiness?: number;
 
   @ApiProperty({
     description: "The romantic",
@@ -73,5 +73,5 @@ export class DataSearchMoodReqDto {
   })
   @IsNumberString()
   @IsOptional()
-  romantic?: number;
+  readonly romantic?: number;
 }

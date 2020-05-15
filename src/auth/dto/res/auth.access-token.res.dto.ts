@@ -6,5 +6,5 @@ export class AuthAccessTokenResDto {
   }
 
   @IsString()
-  at: string;
+  readonly at: string;
 }

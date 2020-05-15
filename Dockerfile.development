@@ -9,4 +9,4 @@ COPY ./tsconfig.build.json /app/tsconfig.build.json
 COPY ./tsconfig.eslint.json /app/tsconfig.eslint.json
 COPY ./tsconfig.json /app/tsconfig.json
 RUN npm install
-CMD [ "npm", "run", "start:debug" ]
+CMD ["npm", "run", "start:debug"]

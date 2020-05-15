@@ -14,19 +14,19 @@ export class SeekSongDto {
     example: "0",
   })
   @IsNumberString()
-  fromSec: number;
+  readonly fromSec: number;
 
   @ApiProperty({
     description: "The song identification",
     example: "abcdef",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 
   @ApiProperty({
     description: "The to second",
     example: "0",
   })
   @IsNumberString()
-  toSec: number;
+  readonly toSec: number;
 }

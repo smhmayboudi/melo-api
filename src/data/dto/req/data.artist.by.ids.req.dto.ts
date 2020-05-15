@@ -15,5 +15,5 @@ export class DataArtistByIdsReqDto {
   })
   @IsArray()
   @IsNumberString({}, { each: true })
-  ids: number[];
+  readonly ids: number[];
 }

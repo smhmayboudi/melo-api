@@ -15,5 +15,5 @@ export class SongPodcastGenresQueryReqDto {
   })
   @IsArray()
   @IsString({ each: true })
-  genres: string[];
+  readonly genres: string[];
 }

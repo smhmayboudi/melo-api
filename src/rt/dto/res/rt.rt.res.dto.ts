@@ -26,47 +26,47 @@ export class RtRtResDto {
     example: new Date(),
   })
   @IsDate()
-  created_at: Date;
+  readonly created_at: Date;
 
   @ApiProperty({
     description: "description of blocked",
     example: "This token is bridged.",
   })
   @IsString()
-  description: string;
+  readonly description: string;
 
   @ApiProperty({
     description: "expire datetime",
     example: new Date(),
   })
   @IsDate()
-  expire_at: Date;
+  readonly expire_at: Date;
 
   @ApiProperty({
     description: "The primary key",
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "is blockeed",
     example: false,
   })
   @IsBoolean()
-  is_blocked: boolean;
+  readonly is_blocked: boolean;
 
   @ApiProperty({
     description: "user identification",
     example: new Date(),
   })
   @IsNumberString()
-  user_id: number;
+  readonly user_id: number;
 
   @ApiProperty({
     description: "refresh token",
     example: new Date(),
   })
   @IsString()
-  token: string;
+  readonly token: string;
 }

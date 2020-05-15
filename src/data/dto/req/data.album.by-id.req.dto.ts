@@ -11,5 +11,5 @@ export class DataAlbumByIdReqDto {
     example: "abcdef",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 }

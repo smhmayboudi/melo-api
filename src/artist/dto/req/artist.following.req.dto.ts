@@ -14,15 +14,15 @@ export class ArtistFollowingReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 
   @ApiHideProperty()
-  sub: number;
+  readonly sub: number;
 }

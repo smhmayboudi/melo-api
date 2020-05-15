@@ -13,7 +13,7 @@ export class UserSaveReqDto {
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "The telegram identification",
@@ -21,5 +21,5 @@ export class UserSaveReqDto {
   })
   @IsNumberString()
   @IsOptional()
-  telegramId?: number;
+  readonly telegramId?: number;
 }

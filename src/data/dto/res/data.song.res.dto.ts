@@ -62,56 +62,56 @@ export class DataSongResDto {
   @ValidateNested({
     each: true,
   })
-  artists: DataArtistResDto[];
+  readonly artists: DataArtistResDto[];
 
   @ApiProperty({
     description: "The audio",
   })
   @IsOptional()
   @ValidateNested()
-  audio?: DataAudioResDto;
+  readonly audio?: DataAudioResDto;
 
   @ApiProperty({
     description: "The duration",
     example: "0",
   })
   @IsNumberString()
-  duration: number;
+  readonly duration: number;
 
   @ApiProperty({
     description: "The identification",
     example: "abcdef",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "The localized",
     example: false,
   })
   @IsBoolean()
-  localized: boolean;
+  readonly localized: boolean;
 
   @ApiProperty({
     description: "The date of release",
     example: new Date(),
   })
   @IsDate()
-  releaseDate: Date;
+  readonly releaseDate: Date;
 
   @ApiProperty({
     description: "The title",
     example: "black cover",
   })
   @IsString()
-  title: string;
+  readonly title: string;
 
   @ApiProperty({
     description: "The album",
   })
   @IsOptional()
   @ValidateNested()
-  album?: DataAlbumResDto;
+  readonly album?: DataAlbumResDto;
 
   @ApiProperty({
     description: "The copyright",
@@ -119,7 +119,7 @@ export class DataSongResDto {
   })
   @IsBoolean()
   @IsOptional()
-  copyrighted?: boolean;
+  readonly copyrighted?: boolean;
 
   @ApiProperty({
     description: "The couont of download",
@@ -127,7 +127,7 @@ export class DataSongResDto {
   })
   @IsNumberString()
   @IsOptional()
-  downloadCount?: number;
+  readonly downloadCount?: number;
 
   @ApiProperty({
     description: "The has video",
@@ -135,14 +135,14 @@ export class DataSongResDto {
   })
   @IsBoolean()
   @IsOptional()
-  hasVideo?: boolean;
+  readonly hasVideo?: boolean;
 
   @ApiProperty({
     description: "The image",
   })
   @IsOptional()
   @ValidateNested()
-  image?: DataImageResDto;
+  readonly image?: DataImageResDto;
 
   @ApiProperty({
     description: "The count of like",
@@ -150,7 +150,7 @@ export class DataSongResDto {
   })
   @IsNumberString()
   @IsOptional()
-  likeCount?: number;
+  readonly likeCount?: number;
 
   @ApiProperty({
     description: "If user liked the song",
@@ -158,7 +158,7 @@ export class DataSongResDto {
   })
   @IsBoolean()
   @IsOptional()
-  liked?: boolean;
+  readonly liked?: boolean;
 
   @ApiProperty({
     description: "The lyrics",
@@ -166,7 +166,7 @@ export class DataSongResDto {
   })
   @IsOptional()
   @IsString()
-  lyrics?: string;
+  readonly lyrics?: string;
 
   @ApiProperty({
     description: "The tags",
@@ -176,5 +176,5 @@ export class DataSongResDto {
   })
   @IsOptional()
   @IsString()
-  tags?: string[];
+  readonly tags?: string[];
 }

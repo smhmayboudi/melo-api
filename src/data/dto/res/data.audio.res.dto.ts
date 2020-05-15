@@ -12,11 +12,11 @@ export class DataAudioResDto {
     description: "The hiigh quality of mp3",
   })
   @IsOptional()
-  high?: DataMp3ResDto;
+  readonly high?: DataMp3ResDto;
 
   @ApiProperty({
     description: "The medium quality of mp3",
   })
   @IsOptional()
-  medium?: DataMp3ResDto;
+  readonly medium?: DataMp3ResDto;
 }

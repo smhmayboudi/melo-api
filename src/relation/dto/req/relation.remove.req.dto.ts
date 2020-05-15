@@ -22,7 +22,7 @@ export class RelationRemoveReqDto {
   @Exclude({ toPlainOnly: true })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
-  from: RelationEntityResDto;
+  readonly from: RelationEntityResDto;
 
   @ApiProperty({
     description: "The entity",
@@ -30,12 +30,12 @@ export class RelationRemoveReqDto {
   @Exclude({ toPlainOnly: true })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
-  to: RelationEntityResDto;
+  readonly to: RelationEntityResDto;
 
   @ApiProperty({
     description: "The type",
     example: RelationType.follows,
   })
   @IsEnum(RelationType)
-  relationType: RelationType;
+  readonly relationType: RelationType;
 }

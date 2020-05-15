@@ -9,14 +9,14 @@ export class AuthJwtPayloadReqDto {
   }
 
   @IsNumberString()
-  exp: number;
+  readonly exp: number;
 
   @IsNumberString()
-  iat: number;
+  readonly iat: number;
 
   @IsString()
-  jti: string;
+  readonly jti: string;
 
   @IsString()
-  sub: string;
+  readonly sub: string;
 }

@@ -22,33 +22,33 @@ export class FileFileResDto {
     example: new Date(),
   })
   @IsDate()
-  createdAt: Date;
+  readonly createdAt: Date;
 
   @ApiProperty({
     description: "The file identification",
     example: "abcdef",
   })
   @IsString()
-  fileKey: string;
+  readonly fileKey: string;
 
   @ApiProperty({
     description: "The content type",
     example: "image/jpeg",
   })
   @IsString()
-  mimeType: string;
+  readonly mimeType: string;
 
   @ApiProperty({
     description: "The orginal filename",
     example: "pic.jpg",
   })
   @IsString()
-  originalname: string;
+  readonly originalname: string;
 
   @ApiProperty({
     description: "The size",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

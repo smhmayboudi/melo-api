@@ -23,7 +23,7 @@ export class UserEditReqDto {
   })
   @IsDate()
   @IsOptional()
-  birthday?: Date;
+  readonly birthday?: Date;
 
   @ApiProperty({
     description: "The firstname",
@@ -31,7 +31,7 @@ export class UserEditReqDto {
   })
   @IsOptional()
   @IsString()
-  firstname?: string;
+  readonly firstname?: string;
 
   @ApiProperty({
     description: "The gender",
@@ -39,7 +39,7 @@ export class UserEditReqDto {
   })
   @IsEnum(UserGenderType)
   @IsOptional()
-  gender?: UserGenderType;
+  readonly gender?: UserGenderType;
 
   @ApiProperty({
     description: "The lastname",
@@ -47,7 +47,7 @@ export class UserEditReqDto {
   })
   @IsOptional()
   @IsString()
-  lastname?: string;
+  readonly lastname?: string;
 
   @ApiProperty({
     description: "The photoId",
@@ -55,5 +55,5 @@ export class UserEditReqDto {
   })
   @IsOptional()
   @IsString()
-  photoId?: string;
+  readonly photoId?: string;
 }

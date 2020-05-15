@@ -24,40 +24,40 @@ export class AtAtResDto {
     example: new Date(),
   })
   @IsDate()
-  count: number;
+  readonly count: number;
 
   @ApiProperty({
     description: "create datetime",
     example: new Date(),
   })
   @IsDate()
-  created_at: Date;
+  readonly created_at: Date;
 
   @ApiProperty({
     description: "expire datetime",
     example: new Date(),
   })
   @IsDate()
-  expire_at: Date;
+  readonly expire_at: Date;
 
   @ApiProperty({
     description: "The primary key",
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "user identification",
     example: new Date(),
   })
   @IsNumberString()
-  user_id: number;
+  readonly user_id: number;
 
   @ApiProperty({
     description: "access token block",
     example: "a3e45676-9428-46a6-8be0-df754121dcf2",
   })
   @IsUUID()
-  token: string;
+  readonly token: string;
 }

@@ -7,14 +7,23 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": false,
+  "editor.suggestSelection": "first",
   "editor.tabSize": 2,
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
-  "eslint.probe": ["javascript", "typescript"],
-  "eslint.validate": ["javascript", "typescript"],
+  "eslint.probe": [
+    "javascript",
+    "typescript"
+  ],
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
   "javascript.updateImportsOnFileMove.enabled": "always",
   "sort-imports.ignore-type-defs": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "window.zoomLevel": 1,
-  "workbench.iconTheme": "material-icon-theme"
+  "workbench.colorTheme": "Cobalt2",
+  "workbench.iconTheme": "material-icon-theme",
 }

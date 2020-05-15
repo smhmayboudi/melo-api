@@ -20,23 +20,23 @@ export class AuthTelegramPayloadReqDto {
   }
 
   @IsNumberString()
-  auth_date: number;
+  readonly auth_date: number;
 
   @IsString()
-  first_name: string;
+  readonly first_name: string;
 
   @IsString()
-  hash: string;
+  readonly hash: string;
 
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @IsString()
-  last_name: string;
+  readonly last_name: string;
 
   @IsString()
-  photo_url: string;
+  readonly photo_url: string;
 
   @IsString()
-  username: string;
+  readonly username: string;
 }

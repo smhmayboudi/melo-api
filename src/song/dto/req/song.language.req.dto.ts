@@ -21,26 +21,26 @@ export class SongLanguageReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "The language",
     example: "abcdef",
   })
   @IsString()
-  language: string;
+  readonly language: string;
 
   @ApiProperty({
     description: "The order",
     example: DataOrderByType.release,
   })
   @IsEnum(DataOrderByType)
-  orderBy: DataOrderByType;
+  readonly orderBy: DataOrderByType;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

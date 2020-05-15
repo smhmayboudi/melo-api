@@ -23,40 +23,40 @@ export class FileFileReqDto {
     description: "File Buffer",
     example: "<>",
   })
-  buffer: Buffer;
+  readonly buffer: Buffer;
 
   @ApiProperty({
     description: "File encoding",
     example: "8bit",
   })
   @IsString()
-  encoding: string;
+  readonly encoding: string;
 
   @ApiProperty({
     description: "The file name",
     example: "abcdef",
   })
   @IsString()
-  fieldname: string;
+  readonly fieldname: string;
 
   @ApiProperty({
     description: "The content type",
     example: "image/jpeg",
   })
   @IsString()
-  mimeType: string;
+  readonly mimeType: string;
 
   @ApiProperty({
     description: "The orginal filename",
     example: "pic.jpg",
   })
   @IsString()
-  originalname: string;
+  readonly originalname: string;
 
   @ApiProperty({
     description: "The size",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

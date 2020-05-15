@@ -47,7 +47,7 @@ export class UserUserResDto {
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "The avatar link",
@@ -55,7 +55,7 @@ export class UserUserResDto {
   })
   @IsOptional()
   @IsString()
-  avatar?: string;
+  readonly avatar?: string;
 
   @ApiProperty({
     description: "Small description of user",
@@ -63,7 +63,7 @@ export class UserUserResDto {
   })
   @IsOptional()
   @IsString()
-  biography?: string;
+  readonly biography?: string;
 
   @ApiProperty({
     description: "The birthdate",
@@ -71,7 +71,7 @@ export class UserUserResDto {
   })
   @IsDate()
   @IsOptional()
-  birthday?: Date;
+  readonly birthday?: Date;
 
   @ApiProperty({
     description: "The cellphone number",
@@ -80,7 +80,7 @@ export class UserUserResDto {
   @IsPhoneNumber("IR")
   @IsOptional()
   @IsString()
-  cellphone?: string;
+  readonly cellphone?: string;
 
   @ApiProperty({
     description: "The primary key",
@@ -88,7 +88,7 @@ export class UserUserResDto {
   })
   @IsEmail()
   @IsOptional()
-  email?: string;
+  readonly email?: string;
 
   @ApiProperty({
     description: "The firstname",
@@ -96,7 +96,7 @@ export class UserUserResDto {
   })
   @IsOptional()
   @IsString()
-  firstname?: string;
+  readonly firstname?: string;
 
   @ApiProperty({
     description: "The gender",
@@ -105,7 +105,7 @@ export class UserUserResDto {
   })
   @IsEnum(UserGenderType)
   @IsOptional()
-  gender?: UserGenderType;
+  readonly gender?: UserGenderType;
 
   @ApiProperty({
     description: "The language",
@@ -113,7 +113,7 @@ export class UserUserResDto {
   })
   @IsOptional()
   @IsString()
-  language_code?: string;
+  readonly language_code?: string;
 
   @ApiProperty({
     description: "The lastname",
@@ -121,7 +121,7 @@ export class UserUserResDto {
   })
   @IsOptional()
   @IsString()
-  lastname?: string;
+  readonly lastname?: string;
 
   @ApiProperty({
     description: "The registration date",
@@ -129,7 +129,7 @@ export class UserUserResDto {
   })
   @IsDate()
   @IsOptional()
-  registered_date?: Date;
+  readonly registered_date?: Date;
 
   @ApiProperty({
     description: "The telegram identification",
@@ -137,7 +137,7 @@ export class UserUserResDto {
   })
   @IsNumberString()
   @IsOptional()
-  telegram_id?: number;
+  readonly telegram_id?: number;
 
   @ApiProperty({
     description: "The username",
@@ -145,5 +145,5 @@ export class UserUserResDto {
   })
   @IsOptional()
   @IsString()
-  username?: string;
+  readonly username?: string;
 }

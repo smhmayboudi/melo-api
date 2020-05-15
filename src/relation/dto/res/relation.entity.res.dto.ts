@@ -15,7 +15,7 @@ export class RelationEntityResDto {
     example: "0",
   })
   @IsNumberString()
-  id: number;
+  readonly id: number;
 
   @ApiProperty({
     description: "The name",
@@ -23,12 +23,12 @@ export class RelationEntityResDto {
   })
   @IsOptional()
   @IsString()
-  name?: string;
+  readonly name?: string;
 
   @ApiProperty({
     description: "The type",
     example: RelationEntityType.album,
   })
   @IsEnum(RelationEntityType)
-  type: RelationEntityType;
+  readonly type: RelationEntityType;
 }

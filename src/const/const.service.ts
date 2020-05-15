@@ -6,6 +6,7 @@ import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 import { ConstServiceInterface } from "./const.service.interface";
 import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "@melo/prom";
+import { Seq } from "immutable";
 
 @Injectable()
 // @PromInstanceCounter
@@ -19,12 +20,10 @@ export class ConstService implements ConstServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async images(): Promise<{ [key: string]: ConstImageResDto }> {
-    const images: { [key: string]: ConstImageResDto } = {};
-    for (const image in this.constConfigService.staticImagePaths) {
-      images[image] = this.appImgProxyService.generateUrl(
-        this.constConfigService.staticImagePaths[image]
-      );
-    }
-    return Promise.resolve(images);
+    return Promise.resolve(
+      Seq(this.constConfigService.staticImagePaths)
+        .map((value) => this.appImgProxyService.generateUrl(value))
+        .toObject()
+    );
   }
 }

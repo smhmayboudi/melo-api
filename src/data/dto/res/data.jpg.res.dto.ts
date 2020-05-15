@@ -11,5 +11,5 @@ export class DataJpgResDto {
     example: "http://www.google.coom",
   })
   @IsString()
-  url: string;
+  readonly url: string;
 }

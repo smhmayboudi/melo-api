@@ -14,12 +14,12 @@ export class DownloadSongResDto {
     example: "0",
   })
   @ValidateNested()
-  song: DataSongResDto;
+  readonly song: DataSongResDto;
 
   @ApiProperty({
     description: "The date of download",
     example: new Date(),
   })
   @IsDate()
-  downloadedAt: Date;
+  readonly downloadedAt: Date;
 }

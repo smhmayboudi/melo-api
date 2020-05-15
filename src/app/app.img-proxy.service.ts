@@ -27,8 +27,9 @@ export class AppImgProxyService implements AppImgProxyServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   generateUrl(uriNormal: string): DataImageResDto {
-    const images: DataImageResDto = {};
-    this.appConfigService.imgProxyTypeSize.map((value) => {
+    const images: any = {};
+    this.appConfigService.imgProxyTypeSize.forEach((value) => {
+      // eslint-disable-next-line functional/immutable-data
       images[value.name] = {
         url: this.imgproxy
           .builder()

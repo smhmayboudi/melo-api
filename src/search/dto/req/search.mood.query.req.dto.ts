@@ -23,7 +23,7 @@ export class SearchMoodQueryDto {
   })
   @IsNumberString()
   @IsOptional()
-  classy?: number;
+  readonly classy?: number;
 
   @ApiProperty({
     description: "The date",
@@ -31,7 +31,7 @@ export class SearchMoodQueryDto {
   })
   @IsNumberString()
   @IsOptional()
-  date?: number;
+  readonly date?: number;
 
   @ApiProperty({
     description: "The energetic",
@@ -39,7 +39,7 @@ export class SearchMoodQueryDto {
   })
   @IsNumberString()
   @IsOptional()
-  energetic?: number;
+  readonly energetic?: number;
 
   @ApiProperty({
     description: "The happiness",
@@ -47,7 +47,7 @@ export class SearchMoodQueryDto {
   })
   @IsNumberString()
   @IsOptional()
-  happiness?: number;
+  readonly happiness?: number;
 
   @ApiProperty({
     description: "The romantic",
@@ -55,5 +55,5 @@ export class SearchMoodQueryDto {
   })
   @IsNumberString()
   @IsOptional()
-  romantic?: number;
+  readonly romantic?: number;
 }

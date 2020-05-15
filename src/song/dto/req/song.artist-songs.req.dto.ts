@@ -13,19 +13,19 @@ export class SongArtistSongsReqDto {
     example: "0",
   })
   @IsNumberString()
-  artistId: number;
+  readonly artistId: number;
 
   @ApiProperty({
     description: "Starting point index",
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

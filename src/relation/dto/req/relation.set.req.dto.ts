@@ -24,26 +24,26 @@ export class RelationSetReqDto {
   })
   @IsDate()
   @Type(() => Date)
-  createdAt: Date;
+  readonly createdAt: Date;
 
   @ApiProperty({
     description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
-  from: RelationEntityResDto;
+  readonly from: RelationEntityResDto;
 
   @ApiProperty({
     description: "The entity",
   })
   @Type(() => RelationEntityResDto)
   @ValidateNested()
-  to: RelationEntityResDto;
+  readonly to: RelationEntityResDto;
 
   @ApiProperty({
     description: "The type",
     example: RelationType.follows,
   })
   @IsEnum(RelationType)
-  relationType: RelationType;
+  readonly relationType: RelationType;
 }

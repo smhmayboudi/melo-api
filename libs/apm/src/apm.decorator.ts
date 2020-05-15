@@ -41,7 +41,7 @@ export const ApmAfterMethod = afterMethod((meta) => {
   );
   spans
     .filter((value) => value.name === tokenName)
-    .map((value) => value.span.end());
+    .forEach((value) => value.span.end());
   spans = spans.filter((value) => value.name !== tokenName);
 });
 
@@ -69,8 +69,11 @@ export const ApmBeforeMethod = beforeMethod((meta) => {
   if (span === null) {
     return;
   }
-  spans.push({
-    name: getTokenName(meta.target.constructor.name, meta.method.name),
-    span,
-  });
+  spans = [
+    ...spans,
+    {
+      name: getTokenName(meta.target.constructor.name, meta.method.name),
+      span,
+    },
+  ];
 });

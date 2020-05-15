@@ -7,8 +7,8 @@ export class AuthRefreshTokenResDto {
   }
 
   @IsString()
-  at: string;
+  readonly at: string;
 
   @IsString()
-  rt: string;
+  readonly rt: string;
 }

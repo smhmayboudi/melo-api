@@ -15,5 +15,5 @@ export class DataSongByIdsReqDto {
   })
   @IsArray()
   @IsNumberString({}, { each: true })
-  ids: number[];
+  readonly ids: number[];
 }

@@ -13,7 +13,7 @@ export class PlaylistCreateReqDto {
     example: "black",
   })
   @IsString()
-  title: string;
+  readonly title: string;
 
   @ApiProperty({
     description: "The photo identification",
@@ -21,5 +21,5 @@ export class PlaylistCreateReqDto {
   })
   @IsOptional()
   @IsString()
-  photoId?: string;
+  readonly photoId?: string;
 }

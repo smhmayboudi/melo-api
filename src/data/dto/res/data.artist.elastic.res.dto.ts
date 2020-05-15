@@ -23,13 +23,13 @@ export class DataArtistElasticResDto {
     this.tags = tags;
   }
 
-  available: boolean;
-  followers_count: number;
-  full_name: string;
-  has_cover: boolean;
-  id: number;
-  popular: boolean;
-  sum_downloads_count: number;
-  type: DataArtistType;
-  tags?: { tag: string }[];
+  readonly available: boolean;
+  readonly followers_count: number;
+  readonly full_name: string;
+  readonly has_cover: boolean;
+  readonly id: number;
+  readonly popular: boolean;
+  readonly sum_downloads_count: number;
+  readonly type: DataArtistType;
+  readonly tags?: { tag: string }[];
 }

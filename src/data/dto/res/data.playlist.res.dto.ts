@@ -38,54 +38,54 @@ export class DataPlaylistResDto {
     example: "0",
   })
   @IsNumberString()
-  followersCount: number;
+  readonly followersCount: number;
 
   @ApiProperty({
     description: "The identification",
     example: "0",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 
   @ApiProperty({
     description: "The cover",
     example: "http://www.google.com",
   })
   @ValidateNested()
-  image: DataImageResDto;
+  readonly image: DataImageResDto;
 
   @ApiProperty({
     description: "Is it public?",
     example: false,
   })
   @IsBoolean()
-  isPublic: boolean;
+  readonly isPublic: boolean;
 
   @ApiProperty({
     description: "The release date",
     example: new Date(),
   })
   @IsDate()
-  releaseDate: Date;
+  readonly releaseDate: Date;
 
   @ApiProperty({
     description: "The title",
     example: "black count down",
   })
   @IsString()
-  title: string;
+  readonly title: string;
 
   @ApiProperty({
     description: "The count of tracks",
     example: "0",
   })
   @IsNumberString()
-  tracksCount: number;
+  readonly tracksCount: number;
 
   @ApiProperty({
     description: "The songs",
   })
   @IsOptional()
   @ValidateNested()
-  songs?: DataPaginationResDto<DataSongResDto>;
+  readonly songs?: DataPaginationResDto<DataSongResDto>;
 }

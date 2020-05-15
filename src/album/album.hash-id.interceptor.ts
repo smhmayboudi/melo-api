@@ -20,13 +20,17 @@ export class AlbumHashIdInterceptor implements NestInterceptor {
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
-    const fields = ["id", "artistId"];
-    fields.map((value) => {
-      if (request.params[value] !== undefined) {
-        request.params[value] = this.appHashIdService
-          .decode(request.params[value])
-          .toString();
-      }
+    const reqFields = ["params"];
+    const reqFields2 = ["id", "artistId"];
+    reqFields.forEach((value) => {
+      reqFields2.forEach((value2) => {
+        if (request[value][value2] !== undefined) {
+          // eslint-disable-next-line functional/immutable-data
+          request[value][value2] = this.appHashIdService
+            .decode(request[value][value2])
+            .toString();
+        }
+      });
     });
     return next.handle().pipe(
       map((data) => {

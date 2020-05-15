@@ -18,7 +18,7 @@ export class DgraphService implements DgraphServiceInterface {
 
   close(): void {
     if (this.dgraphInstance.stubs) {
-      this.dgraphInstance.stubs.map((value) => {
+      this.dgraphInstance.stubs.forEach((value) => {
         value.close();
       });
     }

@@ -14,7 +14,7 @@ export class EmotionResDto {
     example: "0",
   })
   @ValidateNested()
-  song: DataSongResDto;
+  readonly song: DataSongResDto;
 
   @ApiProperty({
     description: "The emotions",
@@ -24,5 +24,5 @@ export class EmotionResDto {
   })
   @IsArray()
   @IsString({ each: true })
-  emotions: string[];
+  readonly emotions: string[];
 }

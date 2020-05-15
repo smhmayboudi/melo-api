@@ -14,19 +14,19 @@ export class AlbumLatestReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "The language",
     example: "persian",
   })
   @IsString()
-  language: string;
+  readonly language: string;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

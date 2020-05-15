@@ -20,11 +20,12 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
     >();
-    const fields = ["id"];
     const reqFields = ["body", "params"];
-    reqFields.map((value) => {
-      fields.map((value2) => {
+    const reqFields2 = ["id"];
+    reqFields.forEach((value) => {
+      reqFields2.forEach((value2) => {
         if (request[value][value2] !== undefined) {
+          // eslint-disable-next-line functional/immutable-data
           request[value][value2] = this.appHashIdService
             .decode(request[value][value2])
             .toString();

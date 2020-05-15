@@ -5,13 +5,19 @@
     "subscribersDir": "subscriber"
   },
   "database": "meloapp",
-  "entities": [ "*.entity.js" ],
+  "entities": [
+    "*.entity.js"
+  ],
   "host": "127.0.0.1",
   "logging": "all",
-  "migrations": [ "*.migration.js" ],
+  "migrations": [
+    "*.migration.js"
+  ],
   "password": "testpassword",
   "port": 3306,
-  "subscribers": [ "*.subscriber.js" ],
+  "subscribers": [
+    "*.subscriber.js"
+  ],
   "synchronize": "true",
   "type": "mysql",
   "username": "root"

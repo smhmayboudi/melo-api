@@ -11,5 +11,5 @@ export class PlaylistDeleteReqDto {
     example: "abcdef",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 }

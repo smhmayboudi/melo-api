@@ -34,28 +34,28 @@ export class DataSearchResDto {
     example: DataSearchType.album,
   })
   @IsEnum(DataSearchType)
-  type: DataSearchType;
+  readonly type: DataSearchType;
 
   @ApiProperty({
     description: "The album",
   })
   @IsOptional()
   @ValidateNested()
-  album?: DataAlbumResDto;
+  readonly album?: DataAlbumResDto;
 
   @ApiProperty({
     description: "The artist",
   })
   @IsOptional()
   @ValidateNested()
-  artist?: DataArtistResDto;
+  readonly artist?: DataArtistResDto;
 
   @ApiProperty({
     description: "The playlist",
   })
   @IsOptional()
   @ValidateNested()
-  playlist?: DataPlaylistResDto;
+  readonly playlist?: DataPlaylistResDto;
 
   @ApiProperty({
     description: "The position",
@@ -63,12 +63,12 @@ export class DataSearchResDto {
   })
   @IsNumberString()
   @IsOptional()
-  position?: number;
+  readonly position?: number;
 
   @ApiProperty({
     description: "The song",
   })
   @IsOptional()
   @ValidateNested()
-  song?: DataSongResDto;
+  readonly song?: DataSongResDto;
 }

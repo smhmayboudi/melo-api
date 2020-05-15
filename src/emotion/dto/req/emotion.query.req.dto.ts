@@ -15,5 +15,5 @@ export class EmotionQueryReqDto {
   })
   @IsArray()
   @IsString({ each: true })
-  emotions: string[];
+  readonly emotions: string[];
 }

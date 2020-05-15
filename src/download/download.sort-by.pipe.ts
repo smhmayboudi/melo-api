@@ -17,9 +17,9 @@ export class DownloadSortByPipe
   private exceptionFactory: (errors: string) => unknown;
 
   constructor(@Optional() options?: DownloadSortByPipeOptions) {
-    options = options || {};
+    const newOptions = options || {};
     this.exceptionFactory =
-      options.exceptionFactory ||
+      newOptions.exceptionFactory ||
       ((error: string): unknown => new BadRequestException(error));
   }
 

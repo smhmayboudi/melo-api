@@ -11,5 +11,5 @@ export class PlaylistGetReqDto {
     example: "abcdef",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 }

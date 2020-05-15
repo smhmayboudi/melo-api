@@ -14,5 +14,5 @@ export class DownloadSongQueryReqDto {
   })
   @IsString()
   @IsOptional()
-  filter?: string;
+  readonly filter?: string;
 }

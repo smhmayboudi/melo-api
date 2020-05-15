@@ -1,6 +1,11 @@
 {
   "coverageDirectory": "../coverage",
-  "moduleFileExtensions": ["js", "json", "node", "ts"],
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "node",
+    "ts"
+  ],
   "moduleNameMapper": {
     "@melo/common/(.*)": "<rootDir>/../libs/common/src/$1",
     "@melo/common": "<rootDir>/../libs/common/src",

@@ -21,19 +21,19 @@ export class DataSliderResDto {
   })
   @IsOptional()
   @ValidateNested()
-  album?: DataAlbumResDto;
+  readonly album?: DataAlbumResDto;
 
   @ApiProperty({
     description: "The image dto",
   })
   @IsOptional()
   @ValidateNested()
-  image?: DataImageResDto;
+  readonly image?: DataImageResDto;
 
   @ApiProperty({
     description: "The song dto",
   })
   @IsOptional()
   @ValidateNested()
-  song?: DataSongResDto;
+  readonly song?: DataSongResDto;
 }

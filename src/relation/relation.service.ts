@@ -13,10 +13,15 @@ import { RelationMultiHasResDto } from "./dto/res/relation.multi-has.res.dto";
 import { RelationRemoveReqDto } from "./dto/req/relation.remove.req.dto";
 import { RelationServiceInterface } from "./relation.service.interface";
 import { RelationSetReqDto } from "./dto/req/relation.set.req.dto";
+import { TYPE_ID_SEPARATOR } from "./relation.constant";
 
 @Injectable()
 // @PromInstanceCounter
 export class RelationService implements RelationServiceInterface {
+  private key(dto: RelationEntityResDto): string {
+    return `${dto.type}${TYPE_ID_SEPARATOR}${dto.id}`;
+  }
+
   constructor(private readonly dgraphService: DgraphService) {}
 
   @ApmAfterMethod
@@ -26,7 +31,7 @@ export class RelationService implements RelationServiceInterface {
     dto: RelationGetReqDto
   ): Promise<DataPaginationResDto<RelationEntityResDto>> {
     const query = `{
-      relates(func: eq(id, "${dto.fromEntityDto.type}_${dto.fromEntityDto.id}")) {
+      relates(func: eq(id, "${this.key(dto.fromEntityDto)}")) {
         uid
         ${dto.relationType}(offset: ${dto.from}, first: ${dto.size}) {
           id
@@ -53,7 +58,7 @@ export class RelationService implements RelationServiceInterface {
         }
         return {
           results: result.relates[0][dto.relationType].map((value2) => {
-            const [type, id] = value2.id.split("_");
+            const [type, id] = value2.id.split(TYPE_ID_SEPARATOR);
             return {
               id: parseInt(id, 10),
               type,
@@ -69,10 +74,10 @@ export class RelationService implements RelationServiceInterface {
   @PromMethodCounter
   async has(dto: RelationHasReqDto): Promise<boolean> {
     const query = `{
-      hasRelate(func: eq(id, "${dto.from.type}_${dto.to.id}")) {
+      hasRelate(func: eq(id, "${this.key(dto.from)}")) {
         uid
         name
-        ${dto.relationType} @filter(eq(id, "${dto.from.type}_${dto.to.id}")) {
+        ${dto.relationType} @filter(eq(id, "${this.key(dto.to)}")) {
           id
           name
         }
@@ -102,11 +107,11 @@ export class RelationService implements RelationServiceInterface {
     dto: RelationMultiHasReqDto
   ): Promise<RelationMultiHasResDto[]> {
     const query = `{
-      hasRelate(func: eq(id, "${dto.from.type}_${dto.from.id}")) {
+      hasRelate(func: eq(id, "${this.key(dto.from)}")) {
         uid
         name
         ${dto.relationType} @filter(${dto.tos
-      .map((value) => `eq(id, "${value.type}_${value.id}")`)
+      .map((value) => `eq(id, "${this.key(value)}")`)
       .join(" or ")}) {
           id
           name
@@ -126,7 +131,7 @@ export class RelationService implements RelationServiceInterface {
           return [] as RelationMultiHasResDto[];
         }
         return result[dto.relationType].map((value2) => {
-          const [type, id] = value2.id.split("_");
+          const [type, id] = value2.id.split(TYPE_ID_SEPARATOR);
           return {
             from: dto.from,
             relation: dto.relationType,
@@ -143,26 +148,22 @@ export class RelationService implements RelationServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async remove(dto: RelationRemoveReqDto): Promise<boolean> {
+    const dtoFromId = this.key(dto.from);
+    const dtoToId = this.key(dto.to);
+    const mutation: Mutation = new Mutation();
+    const quads = [`uid(From) <${dto.relationType}> uid(To) .`];
     const request: Request = new Request();
+    const txn: Txn = this.dgraphService.client.newTxn();
     request.setQuery(`
       query {
-        var(func: eq(id, "${dto.from.type}_${dto.from.id}")) {
+        var(func: eq(id, "${dtoFromId}")) {
           From as uid
         }
-        var(func: eq(id, "${dto.to.type}_${dto.to.id}")) {
+        var(func: eq(id, "${dtoToId}")) {
           To as uid
         }
       }
     `);
-    const txn: Txn = this.dgraphService.client.newTxn();
-    const mutation: Mutation = new Mutation();
-    if (dto.from.name === undefined) {
-      dto.from.name = `${dto.from.type}_${dto.from.id}`;
-    }
-    if (dto.to.name === undefined) {
-      dto.to.name = `${dto.to.type}_${dto.to.id}`;
-    }
-    const quads = [`uid(From) <${dto.relationType}> uid(To) .`];
     mutation.setDelNquads(quads.join("\n"));
     request.setMutationsList([mutation]);
     request.setCommitNow(true);
@@ -175,35 +176,32 @@ export class RelationService implements RelationServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async set(dto: RelationSetReqDto): Promise<boolean> {
-    const request: Request = new Request();
-    request.setQuery(`
-    query {
-      var(func: eq(id, "${dto.from.type}_${dto.from.id}")) {
-        From as uid
-      }
-      var(func: eq(id, "${dto.to.type}_${dto.to.id}")) {
-        To as uid
-      }
-    }`);
-
-    const txn: Txn = this.dgraphService.client.newTxn();
+    const dtoFromId = this.key(dto.from);
+    const dtoToId = this.key(dto.to);
     const mutation: Mutation = new Mutation();
-    if (!dto.from.name) {
-      dto.from.name = `${dto.from.type}_${dto.from.id}`;
-    }
-    if (!dto.to.name) {
-      dto.to.name = `${dto.to.type}_${dto.to.id}`;
-    }
     const quads: string[] = [
-      `uid(From) <id> "${dto.from.type}_${dto.from.id}" .`,
-      `uid(From) <name> "${dto.from.name}" .`,
-      `uid(To) <id> "${dto.to.type}_${dto.to.id}" .`,
-      `uid(To) <name> "${dto.to.name}" .`,
+      `uid(From) <id> "${dtoFromId}" .`,
+      `uid(From) <name> "${
+        dto.from.name === undefined ? dtoFromId : dto.from.name
+      }" .`,
+      `uid(To) <id> "${dtoToId}" .`,
+      `uid(To) <name> "${dto.to.name === undefined ? dtoToId : dto.to.name}" .`,
       `uid(From) <${
         dto.relationType
       }> uid(To) (date=${dto.createdAt.toISOString()}) .`,
     ];
+    const request: Request = new Request();
+    const txn: Txn = this.dgraphService.client.newTxn();
     mutation.setSetNquads(quads.join("\n"));
+    request.setQuery(`
+    query {
+      var(func: eq(id, "${dtoFromId}")) {
+        From as uid
+      }
+      var(func: eq(id, "${dtoToId}")) {
+        To as uid
+      }
+    }`);
     request.setMutationsList([mutation]);
     request.setCommitNow(true);
     return txn.doRequest(request).then((_value) => {

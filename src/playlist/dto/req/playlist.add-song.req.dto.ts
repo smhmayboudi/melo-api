@@ -13,12 +13,12 @@ export class PlaylistAddSongReqDto {
     example: "abcdef",
   })
   @IsString()
-  playlistId: string;
+  readonly playlistId: string;
 
   @ApiProperty({
     description: "The song identification",
     example: "0",
   })
   @IsNumberString()
-  songId: number;
+  readonly songId: number;
 }

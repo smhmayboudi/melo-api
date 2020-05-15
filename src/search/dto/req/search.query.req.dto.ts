@@ -14,19 +14,19 @@ export class SearchQueryReqDto {
     example: "0",
   })
   @IsNumberString()
-  from: number;
+  readonly from: number;
 
   @ApiProperty({
     description: "The query",
     example: "black book",
   })
   @IsString()
-  query: string;
+  readonly query: string;
 
   @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
-  size: number;
+  readonly size: number;
 }

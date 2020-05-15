@@ -13,12 +13,12 @@ export class PauseSongDto {
     example: "0",
   })
   @IsNumberString()
-  currentPosition: number;
+  readonly currentPosition: number;
 
   @ApiProperty({
     description: "The song identification",
     example: "abcdef",
   })
   @IsString()
-  id: string;
+  readonly id: string;
 }
