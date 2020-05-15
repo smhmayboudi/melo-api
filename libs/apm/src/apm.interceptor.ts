@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common";
 
 import { ApmService } from "./apm.service";
-import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
+import { AuthJwtPayloadReqDto } from "../../../src/auth/dto/req/auth.jwt-payload.req.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { tap } from "rxjs/operators";

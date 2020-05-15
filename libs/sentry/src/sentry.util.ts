@@ -1,7 +1,6 @@
-import * as Sentry from "@sentry/node";
-
 import { Client, Options } from "@sentry/types";
 
+import Sentry from "@sentry/node";
 import { SentryModuleOptions } from "./sentry.module.interface";
 
 let sentryInstance: typeof Sentry | undefined;

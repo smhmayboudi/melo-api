@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { DATA_TYPEORM } from "../app/app.constant";
 
 import { DataCacheEntity } from "./data.cache.entity";
@@ -31,7 +31,7 @@ import { DataTransformService } from "./data.transform.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

@@ -1,8 +1,8 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtRtResDto } from "./dto/res/rt.rt.res.dto";

@@ -2,13 +2,68 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "plugins": [{
-      "name": "@nestjs/swagger/plugin",
-      "options": {
-        "classValidatorShim": true,
-        "controllerFileNameSuffix": [".controller.ts"],
-        "dtoFileNameSuffix": [".dto.ts", ".entity.ts"]
+    "plugins": [
+      {
+        "name": "@nestjs/swagger/plugin",
+        "options": {
+          "classValidatorShim": true,
+          "controllerFileNameSuffix": [
+            ".controller.ts"
+          ],
+          "dtoFileNameSuffix": [
+            ".dto.ts",
+            ".entity.ts"
+          ]
+        }
       }
-    }]
+    ],
+    "webpack": true
+  },
+  "projects": {
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
+      }
+    },
+    "apm": {
+      "type": "library",
+      "root": "libs/apm",
+      "entryFile": "index",
+      "sourceRoot": "libs/apm/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/apm/tsconfig.lib.json"
+      }
+    },
+    "dgraph": {
+      "type": "library",
+      "root": "libs/dgraph",
+      "entryFile": "index",
+      "sourceRoot": "libs/dgraph/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/dgraph/tsconfig.lib.json"
+      }
+    },
+    "prom": {
+      "type": "library",
+      "root": "libs/prom",
+      "entryFile": "index",
+      "sourceRoot": "libs/prom/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/prom/tsconfig.lib.json"
+      }
+    },
+    "sentry": {
+      "type": "library",
+      "root": "libs/sentry",
+      "entryFile": "index",
+      "sourceRoot": "libs/sentry/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/sentry/tsconfig.lib.json"
+      }
+    }
   }
 }

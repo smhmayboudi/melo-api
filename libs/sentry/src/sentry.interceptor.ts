@@ -1,5 +1,3 @@
-import * as Sentry from "@sentry/node";
-
 import {
   CallHandler,
   ExecutionContext,
@@ -18,7 +16,7 @@ import {
   SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
 
-import { Handlers } from "@sentry/node";
+import Sentry, { Handlers } from "@sentry/node";
 import { Observable } from "rxjs";
 import { Scope } from "@sentry/hub";
 import { SentryModuleOptions } from "./sentry.module.interface";

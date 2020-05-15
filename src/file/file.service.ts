@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { MAGIC_MIME_TYPE, Magic } from "mmmagic";
 
@@ -9,7 +9,7 @@ import { FileFileReqDto } from "./dto/req/file.file.req.dto";
 import { FileFileResDto } from "./dto/res/file.file.res.dto";
 import { FileServiceInterface } from "./file.service.interface";
 import { InjectRepository } from "@nestjs/typeorm";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import aws from "aws-sdk";
 import bluebird from "bluebird";
 import mime from "mime-types";

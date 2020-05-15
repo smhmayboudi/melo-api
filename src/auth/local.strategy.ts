@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from "@nestjs/common";
 
 import { AuthStrategyResDto } from "./dto/res/auth.strategy.res";
 import { PassportStrategy } from "@nestjs/passport";
+// eslint-disable-next-line import/named
 import { Strategy } from "passport-local";
 import { UserService } from "../user/user.service";
 

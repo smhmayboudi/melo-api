@@ -1,11 +1,10 @@
-import { PATH_HEALTH, PATH_METRICS } from "./app.constant";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import AppApmLogger from "./app.apm.logger";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
-import { LogLevel } from "../apm/apm.module.interface";
+import { LogLevel } from "@melo/apm";
 
 describe("AppApmOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -78,7 +77,7 @@ describe("AppApmOptionsFactory", () => {
     expect(new AppApmOptionsFactory(service).createApmOptions()).toEqual({
       active: false,
       errorOnAbortedRequests: true,
-      ignoreUrls: [PATH_HEALTH, PATH_METRICS],
+      ignoreUrls: ["/health"],
       logLevel: "trace" as LogLevel,
       logUncaughtExceptions: true,
       logger: AppApmLogger,

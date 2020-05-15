@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { DataAlbumResDto } from "./dto/res/data.album.res.dto";
@@ -9,7 +9,7 @@ import { DataSearchElasticResDto } from "./dto/res/data.search.elastic.res.dto";
 import { DataSongResDto } from "./dto/res/data.song.res.dto";
 import { DataTransformServiceInterface } from "./data.transform.interface";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 export class DataTransformService implements DataTransformServiceInterface {

@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
 
 import { DataOrderByType } from "../data/data.order-by.type";
@@ -6,7 +6,7 @@ import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSongNewPodcastReqDto } from "../data/dto/req/data.song.new-podcast.req.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DataSongService } from "../data/data.song.service";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";

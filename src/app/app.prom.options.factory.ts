@@ -1,10 +1,8 @@
-import {
-  PromModuleOptions,
-  PromOptionsFactory,
-} from "../prom/prom.module.interface";
+import { PromModuleOptions, PromOptionsFactory } from "@melo/prom";
 
 import { AppConfigService } from "./app.config.service";
 import { Injectable } from "@nestjs/common";
+import { PATH_HEALTH } from "../app/app.constant";
 
 @Injectable()
 export class AppPromOptionsFactory implements PromOptionsFactory {
@@ -19,6 +17,7 @@ export class AppPromOptionsFactory implements PromOptionsFactory {
         },
         enabled: this.appConfigService.promDefaultMetricsEnabled,
       },
+      ignorePaths: [PATH_HEALTH],
       path: this.appConfigService.promPath,
       prefix: this.appConfigService.promPrefix,
       registryName: undefined,

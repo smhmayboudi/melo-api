@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { AlbumArtistAlbumsReqDto } from "./dto/req/album.artist-albums.req.dto";
 import { AlbumByIdReqDto } from "./dto/req/album.by-id.req.dto";
@@ -7,7 +7,7 @@ import { DataAlbumResDto } from "../data/dto/res/data.album.res.dto";
 import { DataAlbumService } from "../data/data.album.service";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

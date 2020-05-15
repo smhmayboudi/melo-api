@@ -1,7 +1,4 @@
-import {
-  SentryModuleOptions,
-  SentryOptionsFactory,
-} from "../sentry/sentry.module.interface";
+import { SentryModuleOptions, SentryOptionsFactory } from "@melo/sentry";
 
 import { AppConfigService } from "./app.config.service";
 import { Injectable } from "@nestjs/common";

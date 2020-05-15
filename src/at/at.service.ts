@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { DeleteResult, UpdateResult } from "typeorm";
 
 import { AtAtResDto } from "./dto/res/at.at.res.dto";
@@ -7,7 +7,7 @@ import { AtEntityRepository } from "./at.entity.repository";
 import { AtServiceInterface } from "./at.service.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

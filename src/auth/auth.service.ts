@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Injectable, InternalServerErrorException } from "@nestjs/common";
 
 import { AuthAccessTokenResDto } from "./dto/res/auth.access-token.res.dto";
@@ -7,9 +7,8 @@ import { AuthRefreshTokenResDto } from "./dto/res/auth.refresh-token.res.dto";
 import { AuthServiceInterface } from "./auth.service.interface";
 import { JwksService } from "../jwks/jwks.service";
 import { JwtService } from "@nestjs/jwt";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { RtService } from "../rt/rt.service";
-// eslint-disable-next-line import/default
 import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";

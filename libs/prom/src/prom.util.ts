@@ -13,11 +13,11 @@ import {
   collectDefaultMetrics,
   register,
 } from "prom-client";
-import { PATH_HEALTH, PATH_METRICS } from "../app/app.constant";
 import {
   PROM_CONFIGURATION_DEFAULT,
   PROM_CONFIGURATION_NAME,
   PROM_METRIC,
+  PROM_PATH_METRICS,
   PROM_REGISTRY_DEFAULT,
   PROM_REGISTRY_NAME,
 } from "./prom.constant";
@@ -138,11 +138,11 @@ export function makeDefaultOptions(
     },
     ignorePaths:
       options === undefined || options.ignorePaths === undefined
-        ? [PATH_HEALTH, PATH_METRICS]
-        : options.ignorePaths,
+        ? [PROM_PATH_METRICS]
+        : [PROM_PATH_METRICS, ...options.ignorePaths],
     path:
       options === undefined || options.path === undefined
-        ? PATH_METRICS
+        ? PROM_PATH_METRICS
         : options.path,
     prefix:
       options === undefined || options.prefix === undefined
@@ -159,9 +159,9 @@ export function promConfigurationProviderImp(
   options: PromModuleOptions,
   promConfigurationName: string
 ): void {
-  let path = PATH_METRICS;
+  let path = PROM_PATH_METRICS;
   if (promConfigurationName !== PROM_CONFIGURATION_DEFAULT) {
-    path = options.path || PATH_METRICS;
+    path = options.path || PROM_PATH_METRICS;
   }
   Reflect.defineMetadata(PATH_METADATA, path, PromController);
 }

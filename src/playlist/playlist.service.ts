@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
   BadRequestException,
   Injectable,
@@ -22,7 +22,7 @@ import { PlaylistMyReqDto } from "./dto/req/playlist.my.req.dto";
 import { PlaylistServiceInterface } from "./playlist.service.interface";
 import { PlaylistSongReqDto } from "./dto/req/playlist.song.req.dto";
 import { PlaylistTopReqDto } from "./dto/req/playlist.top.req.dto";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

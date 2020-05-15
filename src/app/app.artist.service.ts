@@ -1,9 +1,9 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { AppArtistServceInterface } from "./app.artist.service.interface";
 import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";

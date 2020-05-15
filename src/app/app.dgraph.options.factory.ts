@@ -1,7 +1,4 @@
-import {
-  DgraphModuleOptions,
-  DgraphOptionsFactory,
-} from "../dgraph/dgraph.module.interface";
+import { DgraphModuleOptions, DgraphOptionsFactory } from "@melo/dgraph";
 
 import { AppConfigService } from "./app.config.service";
 import { Injectable } from "@nestjs/common";

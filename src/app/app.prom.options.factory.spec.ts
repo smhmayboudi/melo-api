@@ -77,6 +77,7 @@ describe("AppPromOptionsFactory", () => {
         },
         enabled: true,
       },
+      ignorePaths: ["/health"],
       path: "",
       prefix: "",
       registryName: undefined,

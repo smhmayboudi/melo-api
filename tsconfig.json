@@ -2,7 +2,6 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
-    "declaration": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -22,10 +21,42 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "strict": true,
-    "target": "es6"
+    "target": "es6",
+    "paths": {
+      "@melo/common": [
+        "libs/common/src"
+      ],
+      "@melo/common/*": [
+        "libs/common/src/*"
+      ],
+      "@melo/apm": [
+        "libs/apm/src"
+      ],
+      "@melo/apm/*": [
+        "libs/apm/src/*"
+      ],
+      "@melo/dgraph": [
+        "libs/dgraph/src"
+      ],
+      "@melo/dgraph/*": [
+        "libs/dgraph/src/*"
+      ],
+      "@melo/prom": [
+        "libs/prom/src"
+      ],
+      "@melo/prom/*": [
+        "libs/prom/src/*"
+      ],
+      "@melo/sentry": [
+        "libs/sentry/src"
+      ],
+      "@melo/sentry/*": [
+        "libs/sentry/src/*"
+      ]
+    }
   },
   "exclude": [
-    "./node_modules",
-    "./dist"
+    "dist",
+    "node_modules"
   ]
 }

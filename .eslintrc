@@ -77,9 +77,18 @@
       "user_id"
     ]}],
     "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "import/default":"warn",
+    "import/namespace":"warn",
     "sonarjs/no-identical-functions": "warn",
     "sort-imports":"error",
     "sort-keys":"error",
     "sort-vars":"error"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "directory": "libs/*/tsconfig.lib.json"
+      }
+    }
   }
 }

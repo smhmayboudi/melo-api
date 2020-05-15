@@ -1,15 +1,24 @@
 {
   "coverageDirectory": "../coverage",
   "moduleFileExtensions": ["js", "json", "node", "ts"],
+  "moduleNameMapper": {
+    "@melo/common/(.*)": "<rootDir>/../libs/common/src/$1",
+    "@melo/common": "<rootDir>/../libs/common/src",
+    "@melo/apm/(.*)": "<rootDir>/../libs/apm/src/$1",
+    "@melo/apm": "<rootDir>/../libs/apm/src",
+    "@melo/dgraph/(.*)": "<rootDir>/../libs/dgraph/src/$1",
+    "@melo/dgraph": "<rootDir>/../libs/dgraph/src",
+    "@melo/prom/(.*)": "<rootDir>/../libs/prom/src/$1",
+    "@melo/prom": "<rootDir>/../libs/prom/src",
+    "@melo/sentry/(.*)": "<rootDir>/../libs/sentry/src/$1",
+    "@melo/sentry": "<rootDir>/../libs/sentry/src"
+  },
   "rootDir": "src",
   "testEnvironment": "node",
   "testPathIgnorePatterns": [
-    "<rootDir>/node_modules/",
-    "<rootDir>/src/apm",
-    "<rootDir>/src/prom",
-    "<rootDir>/src/sentry"
+    "node_modules"
   ],
-  "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(t|j)s$",
+  "testRegex": ".(spec|test).ts$",
   "transform": {
     "^.+\\.ts$": "ts-jest"
   }

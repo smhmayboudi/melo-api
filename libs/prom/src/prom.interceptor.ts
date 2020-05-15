@@ -10,7 +10,7 @@ import {
   PROM_MODULE_OPTIONS,
 } from "./prom.constant";
 
-import { AuthJwtPayloadReqDto } from "../auth/dto/req/auth.jwt-payload.req.dto";
+import { AuthJwtPayloadReqDto } from "../../../src/auth/dto/req/auth.jwt-payload.req.dto";
 import { Counter } from "prom-client";
 import { InjectCounter } from "./prom.decorator";
 import { Observable } from "rxjs";

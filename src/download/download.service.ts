@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DownloadConfigService } from "./download.config.service";
@@ -10,7 +10,7 @@ import { DownloadSongQueryReqDto } from "./dto/req/download.song.query.req.dto";
 import { DownloadSongResDto } from "./dto/res/download.song.res.dto";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { SongService } from "../song/song.service";
 
 @Injectable()

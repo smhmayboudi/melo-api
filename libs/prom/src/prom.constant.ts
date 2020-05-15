@@ -3,5 +3,6 @@ export const PROM_CONFIGURATION_NAME = "PROM_CONFIGURATION";
 export const PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL = "http_requests_total";
 export const PROM_METRIC = "PROM";
 export const PROM_MODULE_OPTIONS = "PROM_MODULE_OPTIONS";
+export const PROM_PATH_METRICS = "/metrics";
 export const PROM_REGISTRY_DEFAULT = "PROM_REGISTRY_DEFAULT";
 export const PROM_REGISTRY_NAME = "PROM_REGISTRY";

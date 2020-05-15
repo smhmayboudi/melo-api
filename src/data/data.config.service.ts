@@ -1,7 +1,8 @@
+import * as _ from "lodash";
+
 import { ConfigService } from "@nestjs/config";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { Injectable } from "@nestjs/common";
-import { template } from "lodash";
 
 @Injectable()
 export class DataConfigService implements DataConfigServiceInterface {
@@ -24,7 +25,7 @@ export class DataConfigService implements DataConfigServiceInterface {
   }
 
   imagePath(id: string): string {
-    return template(this.configService.get<string>("data.imagePath", ""))({
+    return _.template(this.configService.get<string>("data.imagePath", ""))({
       id,
     });
   }

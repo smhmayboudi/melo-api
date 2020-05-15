@@ -1,10 +1,10 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Mutation, Request, Txn } from "dgraph-js";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DgraphService } from "../dgraph/dgraph.service";
+import { DgraphService } from "@melo/dgraph";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
 import { RelationGetReqDto } from "./dto/req/relation.get.req.dto";
 import { RelationHasReqDto } from "./dto/req/relation.has.req.dto";

@@ -1,11 +1,11 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { AppImgProxyService } from "../app/app.img-proxy.service";
 import { ConstConfigService } from "./const.config.service";
 import { ConstImageResDto } from "./dto/res/const.image.res.dto";
 import { ConstServiceInterface } from "./const.service.interface";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

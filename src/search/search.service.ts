@@ -1,5 +1,6 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
-import { groupBy, orderBy, uniqBy } from "lodash";
+import * as _ from "lodash";
+
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
@@ -8,7 +9,7 @@ import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
 import { DataTransformService } from "../data/data.transform.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { SearchConfigService } from "./search.config.service";
 import { SearchMoodParamDto } from "./dto/req/search.mood.param.req.dto";
 import { SearchMoodQueryDto } from "./dto/req/search.mood.query.req.dto";
@@ -45,10 +46,10 @@ export class SearchService implements SearchServiceInterface {
     const suggestKeys =
       elasticSuggestRes.body.hits.hits.length === 0
         ? []
-        : uniqBy(
+        : _.uniqBy(
             [
-              orderBy(
-                groupBy(
+              _.orderBy(
+                _.groupBy(
                   elasticSuggestRes.body.hits.hits
                     .map((value) => value._source)
                     .slice(0, 10),
@@ -57,8 +58,8 @@ export class SearchService implements SearchServiceInterface {
                 (value) => value.length,
                 "desc"
               )[0][0].key,
-              orderBy(
-                groupBy(
+              _.orderBy(
+                _.groupBy(
                   elasticSuggestRes.body.hits.hits.map(
                     (value) => value._source
                   ),

@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { DataArtistByIdReqDto } from "./dto/req/data.artist.by-id.req.dto";
 import { DataArtistByIdsReqDto } from "./dto/req/data.artist.by.ids.req.dto";
@@ -11,7 +11,7 @@ import { DataTransformService } from "./data.transform.service";
 import { DataTrendingGenreReqDto } from "./dto/req/data.trending-genre.req.dto";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { BadRequestException, Injectable } from "@nestjs/common";
 
 import { AppConfigService } from "./app.config.service";
@@ -8,9 +8,8 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataPlaylistResDto } from "../data/dto/res/data.playlist.res.dto";
 import { DataSearchResDto } from "../data/dto/res/data.search.res.dto";
 import { DataSongResDto } from "../data/dto/res/data.song.res.dto";
-// eslint-disable-next-line import/default
 import Hashids from "hashids/cjs";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter

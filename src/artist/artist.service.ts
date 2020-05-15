@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { ArtistByIdReqDto } from "./dto/req/artist.by-id.req.dto";
 import { ArtistConfigService } from "./artist.config.service";
@@ -11,7 +11,7 @@ import { DataArtistResDto } from "../data/dto/res/data.artist.res.dto";
 import { DataArtistService } from "../data/data.artist.service";
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { RelationEntityType } from "../relation/relation.entity.type";
 import { RelationService } from "../relation/relation.service";
 import { RelationType } from "../relation/relation.type";

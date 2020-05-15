@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
-import { DgraphService } from "../dgraph/dgraph.service";
+import { DgraphService } from "@melo/dgraph";
 import { RelationConfigService } from "./relation.config.service";
 import { RelationEntityResDto } from "./dto/res/relation.entity.res.dto";
 import { RelationEntityType } from "./relation.entity.type";

@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "../../dist/libs/apm"
+  },
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/__mocks__",
+    "coverage",
+    "dist",
+    "node_modules",
+    "test",
+  ],
+  "include": [
+    "src/**/*"
+  ],
+}

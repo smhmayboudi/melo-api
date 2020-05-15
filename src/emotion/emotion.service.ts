@@ -1,4 +1,4 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "../apm/apm.decorator";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { DataPaginationResDto } from "../data/dto/res/data.pagination.res.dto";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
@@ -8,7 +8,7 @@ import { EmotionQueryReqDto } from "./dto/req/emotion.query.req.dto";
 import { EmotionResDto } from "./dto/res/emotion.res.dto";
 import { EmotionServiceInterface } from "./emotion.service.interface";
 import { Injectable } from "@nestjs/common";
-import { PromMethodCounter } from "../prom/prom.decorator";
+import { PromMethodCounter } from "@melo/prom";
 import { SongService } from "../song/song.service";
 
 @Injectable()

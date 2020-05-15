@@ -1,9 +1,10 @@
+import * as _ from "lodash";
+
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
 import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 import ms from "ms";
-import { template } from "lodash";
 
 @Injectable()
 export class PlaylistConfigService implements PlaylistConfigServiceInterface {
@@ -54,7 +55,7 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
   }
 
   imagePath(id: string): string {
-    return template(this.configService.get<string>("app.imagePath", ""))({
+    return _.template(this.configService.get<string>("app.imagePath", ""))({
       id,
     });
   }
