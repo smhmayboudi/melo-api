@@ -1,10 +1,11 @@
+import * as Sentry from "@sentry/node";
+
 import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import Sentry from "@sentry/node";
 import { SentryInterceptor } from "./sentry.interceptor";
 import { SentryModuleOptions } from "./sentry.module.interface";
 

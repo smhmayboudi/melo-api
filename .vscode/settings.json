@@ -24,6 +24,4 @@
   "typescript.updateImportsOnFileMove.enabled": "always",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "window.zoomLevel": 1,
-  "workbench.colorTheme": "Cobalt2",
-  "workbench.iconTheme": "material-icon-theme",
 }

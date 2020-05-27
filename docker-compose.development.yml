@@ -8,7 +8,7 @@ services:
     environment:
       - apm-server.host=0.0.0.0:8200
       - output.elasticsearch.hosts=["elasticsearch:9200"]
-    image: docker.elastic.co/apm/apm-server:7.6.0
+    image: docker.elastic.co/apm/apm-server:7.7.0
     links:
       - elasticsearch:elasticsearch
     ports:
@@ -25,7 +25,7 @@ services:
     environment:
       - output.elasticsearch.hosts=["elasticsearch:9200"]
       # - setup.kibana.host=kibana:5601
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     links:
       - elasticsearch:elasticsearch
       # - kibana:kibana
@@ -38,7 +38,7 @@ services:
   elasticsearch:
     environment:
       - discovery.type=single-node
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     ports:
       - 127.0.0.1:9200:9200
       - 127.0.0.1:9300:9300
@@ -50,7 +50,7 @@ services:
       - elasticsearch
     environment:
       - STATUS_ALLOWANONYMOUS=true
-    image: docker.elastic.co/kibana/kibana:7.6.0
+    image: docker.elastic.co/kibana/kibana:7.7.0
     links:
       - elasticsearch:elasticsearch
     ports:

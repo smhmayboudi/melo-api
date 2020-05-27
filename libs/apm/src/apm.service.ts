@@ -16,7 +16,6 @@ import {
   UserObject,
 } from "./apm.module.interface";
 import { Inject, Injectable } from "@nestjs/common";
-
 import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import { ApmServiceInterface } from "./apm.service.interface";
 import AwsLambda from "aws-lambda";

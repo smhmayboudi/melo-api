@@ -58,7 +58,7 @@ describe("SentryService", () => {
     sentryMock.captureMessage.mockReset();
   });
 
-  describe("exception", () => {
+  it("log should be undefined", async () => {
     // TODO: interface ?
     const sentryMock = {
       captureMessage: (): void => {
@@ -66,43 +66,105 @@ describe("SentryService", () => {
       },
     };
 
-    let service: SentryService;
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SentryService,
+        {
+          provide: SENTRY_INSTANCE_TOKEN,
+          useValue: sentryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SentryService>(SentryService);
 
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          SentryService,
-          {
-            provide: SENTRY_INSTANCE_TOKEN,
-            useValue: sentryMock,
-          },
-        ],
-      }).compile();
-      service = module.get<SentryService>(SentryService);
-    });
+    expect(service.log("")).toBeUndefined();
+  });
 
-    it("should be defined", () => {
-      expect(service).toBeDefined();
-    });
+  it("error should be undefined", async () => {
+    // TODO: interface ?
+    const sentryMock = {
+      captureMessage: (): void => {
+        throw new Error("");
+      },
+    };
 
-    it("log should be undefined", () => {
-      expect(service.log("")).toBeUndefined();
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SentryService,
+        {
+          provide: SENTRY_INSTANCE_TOKEN,
+          useValue: sentryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SentryService>(SentryService);
 
-    it("error should be undefined", () => {
-      expect(service.error("")).toBeUndefined();
-    });
+    expect(service.error("")).toBeUndefined();
+  });
 
-    it("warn should be undefined", () => {
-      expect(service.warn("")).toBeUndefined();
-    });
+  it("warn should be undefined", async () => {
+    // TODO: interface ?
+    const sentryMock = {
+      captureMessage: (): void => {
+        throw new Error("");
+      },
+    };
 
-    it("debug should be undefined", () => {
-      expect(service.debug("")).toBeUndefined();
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SentryService,
+        {
+          provide: SENTRY_INSTANCE_TOKEN,
+          useValue: sentryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SentryService>(SentryService);
 
-    it("verbose should be undefined", () => {
-      expect(service.verbose("")).toBeUndefined();
-    });
+    expect(service.warn("")).toBeUndefined();
+  });
+
+  it("debug should be undefined", async () => {
+    // TODO: interface ?
+    const sentryMock = {
+      captureMessage: (): void => {
+        throw new Error("");
+      },
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SentryService,
+        {
+          provide: SENTRY_INSTANCE_TOKEN,
+          useValue: sentryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SentryService>(SentryService);
+
+    expect(service.debug("")).toBeUndefined();
+  });
+
+  it("verbose should be undefined", async () => {
+    // TODO: interface ?
+    const sentryMock = {
+      captureMessage: (): void => {
+        throw new Error("");
+      },
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SentryService,
+        {
+          provide: SENTRY_INSTANCE_TOKEN,
+          useValue: sentryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SentryService>(SentryService);
+
+    expect(service.verbose("")).toBeUndefined();
   });
 });

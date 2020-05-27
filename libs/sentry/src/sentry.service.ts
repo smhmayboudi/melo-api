@@ -1,8 +1,8 @@
+import * as Sentry from "@sentry/node";
 import { Inject, Injectable, Logger } from "@nestjs/common";
-
 import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
-import Sentry from "@sentry/node";
 import { SentryServiceInterface } from "./sentry.service.interface";
+import { Severity } from "@sentry/types";
 
 @Injectable()
 export class SentryService implements SentryServiceInterface {
@@ -17,7 +17,7 @@ export class SentryService implements SentryServiceInterface {
 
   log(message: string, context?: string): void {
     try {
-      this.sentry.captureMessage(message, Sentry.Severity.Log);
+      this.sentry.captureMessage(message, Severity.Log);
       this.logger.log(message, context);
     } catch (error) {
       console.error(message, error);
@@ -26,7 +26,7 @@ export class SentryService implements SentryServiceInterface {
 
   error(message: string, trace?: string, context?: string): void {
     try {
-      this.sentry.captureMessage(message, Sentry.Severity.Error);
+      this.sentry.captureMessage(message, Severity.Error);
       this.logger.error(message, trace, context);
     } catch (error) {
       console.error(message, error);
@@ -35,7 +35,7 @@ export class SentryService implements SentryServiceInterface {
 
   warn(message: string, context?: string): void {
     try {
-      this.sentry.captureMessage(message, Sentry.Severity.Warning);
+      this.sentry.captureMessage(message, Severity.Warning);
       this.logger.warn(message, context);
     } catch (error) {
       console.error(message, error);
@@ -44,7 +44,7 @@ export class SentryService implements SentryServiceInterface {
 
   debug(message: string, context?: string): void {
     try {
-      this.sentry.captureMessage(message, Sentry.Severity.Debug);
+      this.sentry.captureMessage(message, Severity.Debug);
       this.logger.debug(message, context);
     } catch (error) {
       console.error(message, error);
@@ -53,7 +53,7 @@ export class SentryService implements SentryServiceInterface {
 
   verbose(message: string, context?: string): void {
     try {
-      this.sentry.captureMessage(message, Sentry.Severity.Info);
+      this.sentry.captureMessage(message, Severity.Info);
       this.logger.verbose(message, context);
     } catch (error) {
       console.error(message, error);

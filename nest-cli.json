@@ -1,6 +1,6 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/melo-api/src",
   "compilerOptions": {
     "plugins": [
       {
@@ -17,18 +17,10 @@
         }
       }
     ],
-    "webpack": true
+    "webpack": true,
+    "tsConfigPath": "apps/melo-api/tsconfig.app.json"
   },
   "projects": {
-    "common": {
-      "type": "library",
-      "root": "libs/common",
-      "entryFile": "index",
-      "sourceRoot": "libs/common/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/common/tsconfig.lib.json"
-      }
-    },
     "apm": {
       "type": "library",
       "root": "libs/apm",
@@ -36,6 +28,15 @@
       "sourceRoot": "libs/apm/src",
       "compilerOptions": {
         "tsConfigPath": "libs/apm/tsconfig.lib.json"
+      }
+    },
+    "common": {
+      "type": "library",
+      "root": "libs/common",
+      "entryFile": "index",
+      "sourceRoot": "libs/common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/common/tsconfig.lib.json"
       }
     },
     "dgraph": {
@@ -64,6 +65,170 @@
       "compilerOptions": {
         "tsConfigPath": "libs/sentry/tsconfig.lib.json"
       }
+    },
+    "melo-api": {
+      "type": "application",
+      "root": "apps/melo-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/melo-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/melo-api/tsconfig.app.json"
+      }
+    },
+    "action": {
+      "type": "application",
+      "root": "apps/action",
+      "entryFile": "main",
+      "sourceRoot": "apps/action/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/action/tsconfig.app.json"
+      }
+    },
+    "album": {
+      "type": "application",
+      "root": "apps/album",
+      "entryFile": "main",
+      "sourceRoot": "apps/album/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/album/tsconfig.app.json"
+      }
+    },
+    "artist": {
+      "type": "application",
+      "root": "apps/artist",
+      "entryFile": "main",
+      "sourceRoot": "apps/artist/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/artist/tsconfig.app.json"
+      }
+    },
+    "at": {
+      "type": "application",
+      "root": "apps/at",
+      "entryFile": "main",
+      "sourceRoot": "apps/at/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/at/tsconfig.app.json"
+      }
+    },
+    "auth": {
+      "type": "application",
+      "root": "apps/auth",
+      "entryFile": "main",
+      "sourceRoot": "apps/auth/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/auth/tsconfig.app.json"
+      }
+    },
+    "const": {
+      "type": "application",
+      "root": "apps/const",
+      "entryFile": "main",
+      "sourceRoot": "apps/const/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/const/tsconfig.app.json"
+      }
+    },
+    "data": {
+      "type": "application",
+      "root": "apps/data",
+      "entryFile": "main",
+      "sourceRoot": "apps/data/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/data/tsconfig.app.json"
+      }
+    },
+    "download": {
+      "type": "application",
+      "root": "apps/download",
+      "entryFile": "main",
+      "sourceRoot": "apps/download/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/download/tsconfig.app.json"
+      }
+    },
+    "emotion": {
+      "type": "application",
+      "root": "apps/emotion",
+      "entryFile": "main",
+      "sourceRoot": "apps/emotion/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/emotion/tsconfig.app.json"
+      }
+    },
+    "file": {
+      "type": "application",
+      "root": "apps/file",
+      "entryFile": "main",
+      "sourceRoot": "apps/file/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/file/tsconfig.app.json"
+      }
+    },
+    "jwks": {
+      "type": "application",
+      "root": "apps/jwks",
+      "entryFile": "main",
+      "sourceRoot": "apps/jwks/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/jwks/tsconfig.app.json"
+      }
+    },
+    "playlist": {
+      "type": "application",
+      "root": "apps/playlist",
+      "entryFile": "main",
+      "sourceRoot": "apps/playlist/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/playlist/tsconfig.app.json"
+      }
+    },
+    "relation": {
+      "type": "application",
+      "root": "apps/relation",
+      "entryFile": "main",
+      "sourceRoot": "apps/relation/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/relation/tsconfig.app.json"
+      }
+    },
+    "rt": {
+      "type": "application",
+      "root": "apps/rt",
+      "entryFile": "main",
+      "sourceRoot": "apps/rt/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/rt/tsconfig.app.json"
+      }
+    },
+    "search": {
+      "type": "application",
+      "root": "apps/search",
+      "entryFile": "main",
+      "sourceRoot": "apps/search/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/search/tsconfig.app.json"
+      }
+    },
+    "song": {
+      "type": "application",
+      "root": "apps/song",
+      "entryFile": "main",
+      "sourceRoot": "apps/song/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/song/tsconfig.app.json"
+      }
+    },
+    "user": {
+      "type": "application",
+      "root": "apps/user",
+      "entryFile": "main",
+      "sourceRoot": "apps/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user/tsconfig.app.json"
+      }
     }
-  }
+  },
+  "monorepo": true,
+  "root": "apps/melo-api"
 }

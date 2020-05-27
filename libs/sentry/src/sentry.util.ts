@@ -1,6 +1,8 @@
-import { Client, Options } from "@sentry/types";
+import * as Sentry from "@sentry/node";
 
-import Sentry from "@sentry/node";
+import { Client, Options } from "@sentry/types";
+import { Integrations, getCurrentHub } from "@sentry/node";
+
 import { SentryModuleOptions } from "./sentry.module.interface";
 
 let sentryInstance: typeof Sentry | undefined;
@@ -15,17 +17,17 @@ export function getOrCreateSentryInstance(
       dsn: options.dsn,
       environment: options.environment,
       integrations: [
-        new Sentry.Integrations.OnUncaughtException({
+        new Integrations.OnUncaughtException({
           onFatalError: (error): void => {
             if (error.name !== "SentryError") {
-              (Sentry.getCurrentHub().getClient<Client<Options>>() as Client<
+              (getCurrentHub().getClient<Client<Options>>() as Client<
                 Options
               >).captureException(error);
               process.exit(1);
             }
           },
         }),
-        new Sentry.Integrations.OnUnhandledRejection(),
+        new Integrations.OnUnhandledRejection(),
       ],
       logLevel: options.logLevel,
       release: options.release,

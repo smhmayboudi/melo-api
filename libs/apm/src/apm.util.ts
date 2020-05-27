@@ -4,8 +4,11 @@ import apm from "elastic-apm-node";
 
 let apmInstance: Agent | undefined;
 
-export function getOrCreateApmInstance(options: ApmModuleOptions): Agent {
-  if (apmInstance === undefined) {
+export function getOrCreateApmInstance(
+  options: ApmModuleOptions,
+  isTest = false
+): Agent {
+  if (apmInstance === undefined || isTest) {
     apmInstance = (apm.start(options) as unknown) as Agent;
   }
   return apmInstance;

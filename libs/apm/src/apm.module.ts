@@ -14,7 +14,6 @@ import { ApmService } from "./apm.service";
 
 @Global()
 @Module({
-  exports: [ApmService],
   providers: [
     ApmService,
     {

@@ -1,5 +1,5 @@
 {
-  "coverageDirectory": "../coverage",
+  "coverageDirectory": "./coverage",
   "moduleFileExtensions": [
     "js",
     "json",
@@ -7,23 +7,26 @@
     "ts"
   ],
   "moduleNameMapper": {
-    "@melo/common/(.*)": "<rootDir>/../libs/common/src/$1",
-    "@melo/common": "<rootDir>/../libs/common/src",
-    "@melo/apm/(.*)": "<rootDir>/../libs/apm/src/$1",
-    "@melo/apm": "<rootDir>/../libs/apm/src",
-    "@melo/dgraph/(.*)": "<rootDir>/../libs/dgraph/src/$1",
-    "@melo/dgraph": "<rootDir>/../libs/dgraph/src",
-    "@melo/prom/(.*)": "<rootDir>/../libs/prom/src/$1",
-    "@melo/prom": "<rootDir>/../libs/prom/src",
-    "@melo/sentry/(.*)": "<rootDir>/../libs/sentry/src/$1",
-    "@melo/sentry": "<rootDir>/../libs/sentry/src"
+    "@melo/common/(.*)": "<rootDir>/libs/common/src/$1",
+    "@melo/common": "<rootDir>/libs/common/src",
+    "@melo/apm/(.*)": "<rootDir>/libs/apm/src/$1",
+    "@melo/apm": "<rootDir>/libs/apm/src",
+    "@melo/dgraph/(.*)": "<rootDir>/libs/dgraph/src/$1",
+    "@melo/dgraph": "<rootDir>/libs/dgraph/src",
+    "@melo/prom/(.*)": "<rootDir>/libs/prom/src/$1",
+    "@melo/prom": "<rootDir>/libs/prom/src",
+    "@melo/sentry/(.*)": "<rootDir>/libs/sentry/src/$1",
+    "@melo/sentry": "<rootDir>/libs/sentry/src"
   },
-  "rootDir": "src",
+  "roots": [
+    "<rootDir>/apps/",
+    "<rootDir>/libs/"
+  ],
   "testEnvironment": "node",
   "testPathIgnorePatterns": [
     "node_modules"
   ],
-  "testRegex": ".(spec|test).ts$",
+  "testRegex": ".spec.ts$",
   "transform": {
     "^.+\\.ts$": "ts-jest"
   }

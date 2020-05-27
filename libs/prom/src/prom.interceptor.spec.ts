@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/unbound-method */
-
 import {
   CallHandler,
   ExecutionContext,
@@ -83,88 +81,84 @@ describe("PromInterceptor", () => {
       executionContext,
       callHandler
     );
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
     counterMock.inc.mockReset();
   });
 
-  describe("includes: false", () => {
-    beforeEach(async () => {
-      const optionsMockIncludesFalse: PromModuleOptions = {
-        ...optionsMock,
-        ignorePaths: [""],
-      };
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
-            useValue: counterMock,
-          },
-          {
-            provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-            useValue: optionsMockIncludesFalse,
-          },
-          {
-            provide: APP_INTERCEPTOR,
-            useValue: PromInterceptor,
-          },
-        ],
-      }).compile();
-      counter = module.get<Counter<string>>(
-        getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
-      );
-      options = module.get<PromModuleOptions>(
-        getTokenConfiguration(PROM_MODULE_OPTIONS)
-      );
-    });
+  it("intercept should be called 2", async () => {
+    const optionsMockIgnorePaths: PromModuleOptions = {
+      ...optionsMock,
+      ignorePaths: [""],
+    };
 
-    it("intercept should be called 2", () => {
-      new PromInterceptor(counter, options).intercept(
-        executionContext,
-        callHandler
-      );
-      expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
+          useValue: counterMock,
+        },
+        {
+          provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
+          useValue: optionsMockIgnorePaths,
+        },
+        {
+          provide: APP_INTERCEPTOR,
+          useValue: PromInterceptor,
+        },
+      ],
+    }).compile();
+    counter = module.get<Counter<string>>(
+      getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
+    );
+    options = module.get<PromModuleOptions>(
+      getTokenConfiguration(PROM_MODULE_OPTIONS)
+    );
+
+    new PromInterceptor(counter, options).intercept(
+      executionContext,
+      callHandler
+    );
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
-  describe("includes: true", () => {
-    beforeEach(async () => {
-      // TODO: interface ?
-      const optionsMockIncludesTrue = {
-        ...optionsMock,
-        ignorePaths: ["/test"],
-      };
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
-            useValue: counterMock,
-          },
-          {
-            provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-            useValue: optionsMockIncludesTrue,
-          },
-          {
-            provide: APP_INTERCEPTOR,
-            useValue: PromInterceptor,
-          },
-        ],
-      }).compile();
-      counter = module.get<Counter<string>>(
-        getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
-      );
-      options = module.get<PromModuleOptions>(
-        getTokenConfiguration(PROM_MODULE_OPTIONS)
-      );
-    });
+  it("intercept should be called 3", async () => {
+    const optionsMockIgnorePaths: PromModuleOptions = {
+      ...optionsMock,
+      ignorePaths: ["/test"],
+    };
 
-    it("intercept should be called 3", () => {
-      new PromInterceptor(counter, options).intercept(
-        executionContext,
-        callHandler
-      );
-      expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-      expect(counterMock.inc).not.toHaveBeenCalled();
-      counterMock.inc.mockReset();
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        {
+          provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
+          useValue: counterMock,
+        },
+        {
+          provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
+          useValue: optionsMockIgnorePaths,
+        },
+        {
+          provide: APP_INTERCEPTOR,
+          useValue: PromInterceptor,
+        },
+      ],
+    }).compile();
+    counter = module.get<Counter<string>>(
+      getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL)
+    );
+    options = module.get<PromModuleOptions>(
+      getTokenConfiguration(PROM_MODULE_OPTIONS)
+    );
+
+    new PromInterceptor(counter, options).intercept(
+      executionContext,
+      callHandler
+    );
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+    expect(counterMock.inc).toHaveBeenCalled();
+    counterMock.inc.mockReset();
   });
 });

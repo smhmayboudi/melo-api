@@ -12,11 +12,8 @@ temp
 .lintstagedrc
 .npm*
 .prettier*
-CHANGELOG.md
-CODE_OF_CONDUCT.md
-CONTRIBUTING.md
+*.md
 docker-compose*
 Dockerfile*
 LICENSE
 ormconfig.json
-README.md

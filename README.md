@@ -25,17 +25,9 @@ $ code --install-extension coenraads.bracket-pair-colorizer-2
 $ code --install-extension dbaeumer.vscode-eslint
 $ code --install-extension eamodio.gitlens
 $ code --install-extension esbenp.prettier-vscode
-$ code --install-extension mhutchie.git-graph
-$ code --install-extension ms-azuretools.vscode-docker
-$ code --install-extension ms-vsliveshare.vsliveshare
-$ code --install-extension ms-vsliveshare.vsliveshare-audio
-$ code --install-extension piotrpalarz.vscode-gitignore-generator
-$ code --install-extension piotrpalarz.vscode-gitignore-generator
 $ code --install-extension pkief.material-icon-theme
-$ code --install-extension quicktype.quicktype
 $ code --install-extension streetsidesoftware.code-spell-checker
 $ code --install-extension tyriar.sort-lines
-$ code --install-extension visualstudioexptteam.vscodeintellicode
 $ code --install-extension wesbos.theme-cobalt2
 ```
 
@@ -63,25 +55,24 @@ $ docker pull darthsim/imgproxy
 $ docker pull dgraph/dgraph
 $ docker pull minio/minio
 $ docker pull mongo
-$ docker pull mysql@5.6
-# latest lts node version which support microservice well
-$ docker pull node@12.16.3
-# latest lts slim node version which support microservice well
-$ docker pull node@12.16.3-slim
+$ docker pull mysql:5.6
+$ docker pull node:12.16.3
+$ docker pull node:12.16.3-alpine
+$ docker pull node:12.16.3-slim
 $ docker pull redis
 
 # test
-$ docker pull docker.elastic.co/apm/apm-server@7.6.0
-$ docker pull docker.elastic.co/app-search/app-search@7.6.0
-$ docker pull docker.elastic.co/beats/auditbeat@7.6.0
-$ docker pull docker.elastic.co/beats/filebeat@7.6.0
-$ docker pull docker.elastic.co/beats/heartbeat@7.6.0
-$ docker pull docker.elastic.co/beats/journalbeat@7.6.0
-$ docker pull docker.elastic.co/beats/metricbeat@7.6.0
-$ docker pull docker.elastic.co/beats/packetbeat@7.6.0
-$ docker pull docker.elastic.co/elasticsearch/elasticsearch7.6.0
-$ docker pull docker.elastic.co/kibana/kibana7.6.0
-$ docker pull docker.elastic.co/logstash/logstash7.6.0
+$ docker pull docker.elastic.co/apm/apm-server@7.7.0
+$ docker pull docker.elastic.co/app-search/app-search@7.7.0
+$ docker pull docker.elastic.co/beats/auditbeat@7.7.0
+$ docker pull docker.elastic.co/beats/filebeat@7.7.0
+$ docker pull docker.elastic.co/beats/heartbeat@7.7.0
+$ docker pull docker.elastic.co/beats/journalbeat@7.7.0
+$ docker pull docker.elastic.co/beats/metricbeat@7.7.0
+$ docker pull docker.elastic.co/beats/packetbeat@7.7.0
+$ docker pull docker.elastic.co/elasticsearch/elasticsearch7.7.0
+$ docker pull docker.elastic.co/kibana/kibana7.7.0
+$ docker pull docker.elastic.co/logstash/logstash7.7.0
 ```
 
 ## Develpoment

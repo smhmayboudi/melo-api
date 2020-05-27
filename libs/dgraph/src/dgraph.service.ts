@@ -1,5 +1,4 @@
 import { Inject, Injectable } from "@nestjs/common";
-
 import { DGRAPH_INSTANCE_TOKEN } from "./dgraph.constant";
 import { DgraphClient } from "dgraph-js";
 import { DgraphInstance } from "./dgraph.module.interface";

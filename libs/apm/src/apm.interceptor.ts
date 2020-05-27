@@ -6,7 +6,6 @@ import {
 } from "@nestjs/common";
 
 import { ApmService } from "./apm.service";
-import { AuthJwtPayloadReqDto } from "../../../src/auth/dto/req/auth.jwt-payload.req.dto";
 import { Observable } from "rxjs";
 import express from "express";
 import { tap } from "rxjs/operators";
@@ -21,16 +20,16 @@ export class ApmInterceptor implements NestInterceptor {
   ): Observable<Response> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      express.Request & { user: AuthJwtPayloadReqDto }
+      express.Request & { user: { sub: string } }
     >();
-    if (process.env.NODE_ENV !== "test" && this.apmService.isStarted()) {
+    if (this.apmService.isStarted()) {
       this.apmService.setUserContext({
-        id: request.user && request.user.sub,
+        id: request.user.sub,
       });
     }
     return next.handle().pipe(
       tap(undefined, (error) => {
-        if (process.env.NODE_ENV !== "test" && this.apmService.isStarted()) {
+        if (this.apmService.isStarted()) {
           this.apmService.captureError(error);
         }
       })

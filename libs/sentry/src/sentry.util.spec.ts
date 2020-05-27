@@ -1,18 +1,20 @@
-// import Sentry from "@sentry/node";
-
 import { getOrCreateSentryInstance, makeDefaultOptions } from "./sentry.util";
 
 describe("SentryUtil", () => {
-  it("getOrCreateSentryInstance should be defined", () => {
-    expect(getOrCreateSentryInstance({}, true)).toBeDefined();
+  it("getOrCreateSentryInstance should be instance of a sentry", () => {
+    expect(getOrCreateSentryInstance({})).toBeDefined();
   });
 
-  it("getOrCreateSentryInstance should be defined with debug true", () => {
+  it("getOrCreateSentryInstance should be instance of the same sentry", () => {
+    expect(getOrCreateSentryInstance({})).toBeDefined();
+  });
+
+  it("getOrCreateSentryInstance should be instance of a sentry with debug true", () => {
     expect(getOrCreateSentryInstance({ debug: true }, true)).toBeDefined();
   });
 
-  it("getOrCreateSentryInstance should be defined 2", () => {
-    expect(getOrCreateSentryInstance({}, false)).toBeDefined();
+  it("getOrCreateSentryInstance should be instance of same sentry with debug true", () => {
+    expect(getOrCreateSentryInstance({})).toBeDefined();
   });
 
   it.todo("getOrCreateSentryInstance integrations");

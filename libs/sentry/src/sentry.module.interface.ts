@@ -1,8 +1,6 @@
+import { LogLevel, Severity } from "@sentry/types";
 // import { Breadcrumb, Scope, Severity, User } from "@sentry/node";
 import { ModuleMetadata, Type } from "@nestjs/common/interfaces";
-
-import { LogLevel } from "@sentry/types";
-import Sentry from "@sentry/node";
 
 export interface SentryFilterFunction {
   (exception: unknown): boolean;
@@ -21,7 +19,7 @@ export interface SentryModuleOptions {
   extra?: { [key: string]: unknown };
   filters?: SentryInterceptorOptionsFilter[];
   fingerprint?: string[];
-  level?: Sentry.Severity;
+  level?: Severity;
   tags?: { [key: string]: string };
   // https://github.com/getsentry/sentry-javascript/blob/master/packages/node/src/handlers.ts#L163
   request?: boolean;
@@ -101,7 +99,7 @@ export interface SentryModuleAsyncOptions
 //    * Set an object that will be merged sent as tags data with the event.
 //    * @param tags Tags context object to merge into current context.
 //    */
-//   setTags(tags: { [key: string]: string }): void;
+//   setTags(tags: ConstImagesReqDto): void;
 //   /**
 //    * Set key:value that will be sent as extra data with the event.
 //    * @param key String of extra

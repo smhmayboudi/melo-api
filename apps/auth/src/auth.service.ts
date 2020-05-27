@@ -1,0 +1,119 @@
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
+import {
+  AuthAccessTokenReqDto,
+  AuthAccessTokenResDto,
+  AuthDeleteByTokenReqDto,
+  AuthRefreshTokenReqDto,
+  AuthRefreshTokenResDto,
+  JWKS_SERVICE,
+  JWKS_SERVICE_GET_ONE_RANDOM,
+  JwksResDto,
+  RT_SERVICE,
+  RT_SERVICE_DELETE_BY_TOKEN,
+  RT_SERVICE_SAVE,
+  RtResDto,
+  RtSaveReqDto,
+} from "@melo/common";
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from "@nestjs/common";
+
+import { AuthServiceInterface } from "./auth.service.interface";
+import { ClientProxy } from "@nestjs/microservices";
+import { JwtService } from "@nestjs/jwt";
+import { PromMethodCounter } from "@melo/prom";
+import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
+
+@Injectable()
+// @PromInstanceCounter
+export class AuthService implements AuthServiceInterface {
+  constructor(
+    @Inject(JWKS_SERVICE) private readonly clientProxyJwks: ClientProxy,
+    @Inject(RT_SERVICE) private readonly clientProxyRt: ClientProxy,
+    private readonly jwtService: JwtService
+  ) {}
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  async accessToken(
+    dto: AuthAccessTokenReqDto
+  ): Promise<AuthAccessTokenResDto> {
+    const jwks = await this.clientProxyJwks
+      .send<JwksResDto | undefined, void>(
+        JWKS_SERVICE_GET_ONE_RANDOM,
+        undefined
+      )
+      .toPromise();
+    if (jwks === undefined) {
+      throw new InternalServerErrorException();
+    }
+    const at = this.jwtService.sign(
+      {},
+      {
+        jwtid: uuidv4(),
+        keyid: jwks.id,
+        subject: dto.sub.toString(),
+      }
+    );
+    return {
+      at,
+    };
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  deleteByToken(dto: AuthDeleteByTokenReqDto): Promise<RtResDto | undefined> {
+    return this.clientProxyRt
+      .send<RtResDto | undefined, AuthDeleteByTokenReqDto>(
+        RT_SERVICE_DELETE_BY_TOKEN,
+        dto
+      )
+      .toPromise();
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  async refreshToken(
+    dto: AuthRefreshTokenReqDto
+  ): Promise<AuthRefreshTokenResDto> {
+    const jwks = await this.clientProxyJwks
+      .send<JwksResDto | undefined, void>(
+        JWKS_SERVICE_GET_ONE_RANDOM,
+        undefined
+      )
+      .toPromise();
+    if (jwks === undefined) {
+      throw new InternalServerErrorException();
+    }
+    const at = this.jwtService.sign(
+      {},
+      {
+        jwtid: dto.jwtid,
+        keyid: jwks.id,
+        subject: dto.sub.toString(),
+      }
+    );
+    const exp = moment(dto.now).add(dto.config.expiresIn, "ms").toDate();
+    await this.clientProxyRt
+      .send<RtResDto, RtSaveReqDto>(RT_SERVICE_SAVE, {
+        created_at: dto.now!,
+        description: "",
+        expire_at: exp,
+        id: 0,
+        is_blocked: false,
+        token: dto.rt!,
+        user_id: dto.sub,
+      })
+      .toPromise();
+    return {
+      at,
+      rt: dto.rt!,
+    };
+  }
+}

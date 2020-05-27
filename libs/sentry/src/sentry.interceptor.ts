@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/node";
 import {
   CallHandler,
   ExecutionContext,
@@ -9,8 +10,7 @@ import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
-
-import Sentry, { Handlers } from "@sentry/node";
+import { Handlers } from "@sentry/node";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { Observable } from "rxjs";
 import { Scope } from "@sentry/hub";
@@ -71,7 +71,7 @@ export class SentryInterceptor implements NestInterceptor {
     const http = context.switchToHttp();
     return next.handle().pipe(
       tap(undefined, (error) => {
-        if (process.env.NODE_ENV !== "test" && this.shouldReport(error)) {
+        if (this.shouldReport(error)) {
           this.sentry.withScope((scope) => {
             this.captureHttpException(scope, http, error);
           });

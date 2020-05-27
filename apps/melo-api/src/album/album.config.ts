@@ -1,0 +1,10 @@
+import { ALBUM } from "@melo/common";
+import { registerAs } from "@nestjs/config";
+
+export default registerAs(ALBUM, () => ({
+  cacheHost: process.env.ALBUM_CACHE_HOST,
+  cacheMax: process.env.ALBUM_CACHE_MAX,
+  cachePort: process.env.ALBUM_CACHE_PORT,
+  cacheStore: process.env.ALBUM_CACHE_STORE,
+  cacheTTL: process.env.ALBUM_CACHE_TTL,
+}));

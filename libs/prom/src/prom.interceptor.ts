@@ -9,8 +9,6 @@ import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS,
 } from "./prom.constant";
-
-import { AuthJwtPayloadReqDto } from "../../../src/auth/dto/req/auth.jwt-payload.req.dto";
 import { Counter } from "prom-client";
 import { InjectCounter } from "./prom.decorator";
 import { Observable } from "rxjs";
@@ -31,12 +29,9 @@ export class PromInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<Response> {
     const http = context.switchToHttp();
-    const request = http.getRequest<
-      express.Request & { user: AuthJwtPayloadReqDto }
-    >();
+    const request = http.getRequest<express.Request>();
     const response = http.getResponse<express.Response>();
     if (
-      process.env.NODE_ENV !== "test" &&
       this.options.ignorePaths !== undefined &&
       !this.options.ignorePaths.includes(request.route.path)
     ) {
