@@ -2,11 +2,12 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataElasticSearchArtistResDto,
-  DataElasticSearchSearchResDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   DataImageResDto,
+  DataSearchType,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -16,7 +17,7 @@ import { DataTransformService } from "./data.transform.service";
 import { DataTransformServiceInterface } from "./data.transform.service.interface";
 
 describe("DataTransformController", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -65,9 +66,9 @@ describe("DataTransformController", () => {
     tags: [""],
     tracksCount: 0,
   };
-  const artistElastic: DataElasticSearchArtistResDto = {
+  const artistElastic: DataElasticsearchArtistResDto = {
     available: false,
-    dataConfigElasticSearch,
+    dataConfigElasticsearch,
     dataConfigImage,
     followers_count: 0,
     full_name: "",
@@ -78,7 +79,7 @@ describe("DataTransformController", () => {
     tags: [{ tag: "" }],
     type: DataArtistType.prime,
   };
-  const searchElastic: DataElasticSearchSearchResDto = {
+  const albumElastic: DataElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
     album_id: 0,
@@ -89,7 +90,7 @@ describe("DataTransformController", () => {
     artist_sum_downloads_count: 1,
     artists: [artistElastic],
     copyright: false,
-    dataConfigElasticSearch,
+    dataConfigElasticsearch,
     dataConfigImage,
     downloads_count: 0,
     duration: 0,
@@ -102,14 +103,44 @@ describe("DataTransformController", () => {
     release_date: releaseDate,
     tags: [{ tag: "" }],
     title: "",
-    type: "",
+    type: DataSearchType.album,
+    unique_name: "",
+  };
+  const songElastic: DataElasticsearchSearchResDto = {
+    album: "",
+    album_downloads_count: 0,
+    album_id: 0,
+    album_tracks_count: 0,
+    artist_followers_count: 0,
+    artist_full_name: "",
+    artist_id: 0,
+    artist_sum_downloads_count: 1,
+    artists: [artistElastic],
+    copyright: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    downloads_count: 0,
+    duration: 0,
+    has_cover: false,
+    has_video: false,
+    id: 0,
+    localize: false,
+    lyrics: "",
+    max_audio_rate: 0,
+    release_date: releaseDate,
+    tags: [{ tag: "" }],
+    title: "",
+    type: DataSearchType.album,
     unique_name: "",
   };
   const song: SongResDto = {
     album,
     artists: [artist],
     audio: {
-      medium: { fingerprint: "", url: "-0.mp3" },
+      medium: {
+        fingerprint: "",
+        url: "-0.mp3",
+      },
     },
     copyrighted: false,
     downloadCount: 0,
@@ -147,17 +178,17 @@ describe("DataTransformController", () => {
   });
 
   it("album should be equal to a DataAlbumResDto", async () => {
-    const dto: DataElasticSearchSearchResDto = searchElastic;
+    const dto: DataElasticsearchSearchResDto = albumElastic;
     expect(await controller.album(dto)).toEqual(album);
   });
 
   it("artist should be equal to a ArtistResDto", async () => {
-    const dto: DataElasticSearchArtistResDto = artistElastic;
+    const dto: DataElasticsearchArtistResDto = artistElastic;
     expect(await controller.artist(dto)).toEqual(artist);
   });
 
   it("song should be equal to a ArtistResDto", async () => {
-    const dto: DataElasticSearchSearchResDto = searchElastic;
+    const dto: DataElasticsearchSearchResDto = songElastic;
     expect(await controller.song(dto)).toEqual(song);
   });
 });

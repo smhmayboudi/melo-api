@@ -3,8 +3,8 @@ import {
   AppSongLikeReqDto,
   AppSongLikesReqDto,
   AppSongLocalizeReqDto,
+  RelationEdgeType,
   RelationEntityType,
-  RelationType,
   SongResDto,
 } from "@melo/common";
 
@@ -21,20 +21,20 @@ export class AppSongService implements AppSongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async like(dto: AppSongLikeReqDto): Promise<SongResDto> {
-    const relation = await this.relationService.has({
+    const has = await this.relationService.has({
       from: {
         id: dto.sub,
         type: RelationEntityType.user,
       },
-      relationType: RelationType.likedSongs,
       to: {
         id: dto.song.id,
         type: RelationEntityType.song,
       },
+      type: RelationEdgeType.likedSongs,
     });
     return {
       ...dto.song,
-      liked: relation,
+      liked: has !== undefined,
     };
   }
 
@@ -47,11 +47,11 @@ export class AppSongService implements AppSongServiceInterface {
         id: dto.sub,
         type: RelationEntityType.user,
       },
-      relationType: RelationType.likedSongs,
       tos: dto.songs.map((value) => ({
         id: value.id,
         type: RelationEntityType.song,
       })),
+      type: RelationEdgeType.likedSongs,
     });
     return dto.songs.map((value) => ({
       ...value,

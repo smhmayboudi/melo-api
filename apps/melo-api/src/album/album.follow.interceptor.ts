@@ -2,7 +2,6 @@ import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   AlbumResDto,
   AuthJwtPayloadReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import {
   CallHandler,
@@ -34,7 +33,7 @@ export class AlbumFollowInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
     next: CallHandler
-  ): Observable<DataPaginationResDto<AlbumResDto> | AlbumResDto> {
+  ): Observable<AlbumResDto[] | AlbumResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
@@ -43,15 +42,10 @@ export class AlbumFollowInterceptor implements NestInterceptor {
       flatMap(async (data) => {
         if (request.user.sub === APP_REQUEST_USER_SUB_ANONYMOUS_ID) {
           return data;
-        } else if (data.total === undefined) {
+        } else if (data.length === undefined) {
           return this.transform(data, request.user.sub);
         } else {
-          return {
-            results: data.results.map((value) =>
-              this.transform(value, request.user.sub)
-            ),
-            total: data.total,
-          };
+          return data.map((value) => this.transform(value, request.user.sub));
         }
       })
     );

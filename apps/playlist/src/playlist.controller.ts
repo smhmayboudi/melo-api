@@ -1,5 +1,5 @@
+import { MessagePattern, Payload } from "@nestjs/microservices";
 import {
-  DataPaginationResDto,
   PLAYLIST_SERVICE_ADD_SONG,
   PLAYLIST_SERVICE_CREATE,
   PLAYLIST_SERVICE_DELETE,
@@ -18,7 +18,6 @@ import {
   PlaylistResDto,
   PlaylistTopReqDto,
 } from "@melo/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { Controller } from "@nestjs/common";
 import { PlaylistService } from "./playlist.service";
@@ -55,9 +54,7 @@ export class PlaylistController {
   }
 
   @MessagePattern(PLAYLIST_SERVICE_MY)
-  async my(
-    @Payload() dto: PlaylistMyReqDto
-  ): Promise<DataPaginationResDto<PlaylistResDto>> {
+  async my(@Payload() dto: PlaylistMyReqDto): Promise<PlaylistResDto[]> {
     return this.playlistService.my(dto);
   }
 
@@ -69,9 +66,7 @@ export class PlaylistController {
   }
 
   @MessagePattern(PLAYLIST_SERVICE_TOP)
-  async top(
-    @Payload() dto: PlaylistTopReqDto
-  ): Promise<DataPaginationResDto<PlaylistResDto>> {
+  async top(@Payload() dto: PlaylistTopReqDto): Promise<PlaylistResDto[]> {
     return this.playlistService.top(dto);
   }
 }

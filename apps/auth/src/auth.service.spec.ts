@@ -4,28 +4,38 @@ import {
   AuthDeleteByTokenReqDto,
   AuthRefreshTokenReqDto,
   JWKS_SERVICE,
-  JwksResDto,
   RT_SERVICE,
+  RtResDto,
 } from "@melo/common";
-import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AuthService } from "./auth.service";
 import { JwtService } from "@nestjs/jwt";
+import { of } from "rxjs";
+
+jest.mock("crypto-random-string", () => jest.fn(() => "1"));
 
 describe("AuthService", () => {
   const config: AuthConfigReqDto = {
     expiresIn: 0,
   };
+  const rt: RtResDto = {
+    created_at: new Date(100001),
+    description: "",
+    expire_at: new Date(900009),
+    id: 0,
+    is_blocked: false,
+    token: "",
+    user_id: 0,
+  };
 
   // TODO: interface ?
-  const clientProxyJwksMock = {
-    send: (): Observable<JwksResDto> =>
-      of({ id: "", private_key: "", public_key: "" }),
+  const jwksClientProxyMock = {
+    send: () => of({ id: "", private_key: "", public_key: "" }),
   };
   // TODO: interface ?
-  const clientProxyRtMock = {
-    send: (): Observable<void> => of(undefined),
+  const rtClientProxyMock = {
+    send: () => of(rt),
   };
   // TODO: interface ?
   const jwtServiceMock = {
@@ -38,13 +48,12 @@ describe("AuthService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
-        { provide: JWKS_SERVICE, useValue: clientProxyJwksMock },
-        { provide: RT_SERVICE, useValue: clientProxyRtMock },
+        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
         { provide: JwtService, useValue: jwtServiceMock },
+        { provide: RT_SERVICE, useValue: rtClientProxyMock },
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);
-    jest.mock("crypto-random-string").fn(() => "");
   });
 
   it("should be defined", () => {
@@ -60,18 +69,18 @@ describe("AuthService", () => {
     });
   });
 
-  it("accessToken should throw an error", async () => {
+  it("accessToken should be equal to a token 2", async () => {
     // TODO: interface ?
-    const clientProxyJwksMock = {
-      send: (): Observable<JwksResDto | undefined> => of(),
+    const jwksClientProxyMock = {
+      send: () => of(undefined),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
-        { provide: JWKS_SERVICE, useValue: clientProxyJwksMock },
-        { provide: RT_SERVICE, useValue: clientProxyRtMock },
+        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
         { provide: JwtService, useValue: jwtServiceMock },
+        { provide: RT_SERVICE, useValue: rtClientProxyMock },
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);
@@ -86,36 +95,48 @@ describe("AuthService", () => {
     const dto: AuthDeleteByTokenReqDto = {
       token: "",
     };
-    expect(await service.deleteByToken(dto)).toEqual(undefined);
+    expect(await service.deleteByToken(dto)).toEqual(rt);
   });
 
   it("refreshToken should be equal to a token", async () => {
     const dto: AuthRefreshTokenReqDto = {
       config,
+      rt: "0",
       sub: 1,
     };
     expect(await service.refreshToken(dto)).toEqual({
       at: "0",
-      rt: undefined,
+      rt: "0",
     });
   });
 
   it("refreshToken should be equal to a token 2", async () => {
+    const dto: AuthRefreshTokenReqDto = {
+      config,
+      rt: "",
+      sub: 1,
+    };
+    expect(await service.refreshToken(dto)).toEqual({
+      at: "0",
+      rt: "1",
+    });
+  });
+
+  it("refreshToken should throw an error", async () => {
     // TODO: interface ?
-    const clientProxyJwksMock = {
-      send: (): Observable<JwksResDto | undefined> => of(),
+    const jwksClientProxyMock = {
+      send: () => of(undefined),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthService,
-        { provide: JWKS_SERVICE, useValue: clientProxyJwksMock },
-        { provide: RT_SERVICE, useValue: clientProxyRtMock },
+        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
         { provide: JwtService, useValue: jwtServiceMock },
+        { provide: RT_SERVICE, useValue: rtClientProxyMock },
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);
-    jest.mock("crypto-random-string").fn(() => "");
 
     const dto: AuthRefreshTokenReqDto = {
       config,

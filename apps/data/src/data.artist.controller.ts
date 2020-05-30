@@ -8,7 +8,6 @@ import {
   DATA_ARTIST_SERVICE_GET_BY_IDS,
   DATA_ARTIST_SERVICE_TRENDING,
   DATA_ARTIST_SERVICE_TRENDING_GENRE,
-  DataPaginationResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -25,23 +24,19 @@ export class DataArtistController {
   }
 
   @MessagePattern(DATA_ARTIST_SERVICE_GET_BY_IDS)
-  getByIds(
-    @Payload() dto: ArtistGetByIdsReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  getByIds(@Payload() dto: ArtistGetByIdsReqDto): Promise<ArtistResDto[]> {
     return this.dataArtistService.getByIds(dto);
   }
 
   @MessagePattern(DATA_ARTIST_SERVICE_TRENDING)
-  trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
     return this.dataArtistService.trending(dto);
   }
 
   @MessagePattern(DATA_ARTIST_SERVICE_TRENDING_GENRE)
   trendingGenre(
     @Payload() dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  ): Promise<ArtistResDto[]> {
     return this.dataArtistService.trendingGenre(dto);
   }
 }

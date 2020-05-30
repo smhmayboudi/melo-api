@@ -2,21 +2,21 @@ import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import { IsNumber, IsNumberString, ValidateNested } from "class-validator";
 
 import { ArtistConfigReqDto } from "./artist.config.req.dto";
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { Type } from "class-transformer";
 
 export class ArtistFollowingReqDto {
   constructor(
     config: ArtistConfigReqDto,
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     dataConfigImage: DataConfigImageReqDto,
     from: number,
     size: number,
     sub: number
   ) {
     this.config = config;
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.dataConfigImage = dataConfigImage;
     this.from = from;
     this.size = size;
@@ -31,7 +31,7 @@ export class ArtistFollowingReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)

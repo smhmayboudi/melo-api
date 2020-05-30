@@ -38,13 +38,13 @@ describe("AppPromOptionsFactory", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
 
   let service: AppConfigService;

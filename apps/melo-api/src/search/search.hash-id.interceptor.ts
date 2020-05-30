@@ -18,12 +18,13 @@ export class SearchHashIdInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<unknown> {
     return next.handle().pipe(
-      map((data) => ({
-        results: data.results.map((value) =>
-          this.appHashIdService.encodeSearch(value)
-        ),
-        total: data.total,
-      }))
+      map((data) => {
+        if (data.length === undefined) {
+          return this.appHashIdService.encodeSearch(data);
+        } else {
+          return data.map((value) => this.appHashIdService.encodeSearch(value));
+        }
+      })
     );
   }
 }

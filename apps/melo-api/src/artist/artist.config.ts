@@ -2,10 +2,10 @@ import { ARTIST } from "@melo/common";
 import { registerAs } from "@nestjs/config";
 
 export default registerAs(ARTIST, () => ({
-  cacheHost: process.env.ARTIST_CACHE_HOST,
-  cacheMax: process.env.ARTIST_CACHE_MAX,
-  cachePort: process.env.ARTIST_CACHE_PORT,
-  cacheStore: process.env.ARTIST_CACHE_STORE,
-  cacheTTL: process.env.ARTIST_CACHE_TTL,
-  maxSize: process.env.ARTIST_MAX_SIZE,
+  CACHE_HOST: process.env.ARTIST_CACHE_HOST,
+  CACHE_MAX: process.env.ARTIST_CACHE_MAX,
+  CACHE_PORT: process.env.ARTIST_CACHE_PORT,
+  CACHE_STORE: process.env.ARTIST_CACHE_STORE,
+  CACHE_TTL: process.env.ARTIST_CACHE_TTL,
+  MAX_SIZE: process.env.ARTIST_MAX_SIZE,
 }));

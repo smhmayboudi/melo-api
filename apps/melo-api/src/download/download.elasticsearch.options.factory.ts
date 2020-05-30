@@ -15,7 +15,7 @@ export class DownloadElasticsearchOptionsFactory
     | Promise<ElasticsearchModuleOptions>
     | ElasticsearchModuleOptions {
     return {
-      node: this.downloadConfigService.elasticNode,
+      node: this.downloadConfigService.elasticsearchNode,
     };
   }
 }

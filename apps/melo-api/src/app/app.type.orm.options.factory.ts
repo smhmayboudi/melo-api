@@ -17,17 +17,17 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
     connectionName?: string
   ): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
     return {
-      database: this.appConfigService.typeOrmDatabase,
+      database: this.appConfigService.typeormDatabase,
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
-      host: this.appConfigService.typeOrmHost,
-      logger: new AppTypeOrmLogger(this.appConfigService.typeOrmLogging),
-      logging: this.appConfigService.typeOrmLogging,
+      host: this.appConfigService.typeormHost,
+      logger: new AppTypeOrmLogger(this.appConfigService.typeormLogging),
+      logging: this.appConfigService.typeormLogging,
       name: connectionName,
-      password: this.appConfigService.typeOrmPassword,
-      port: this.appConfigService.typeOrmPort,
-      synchronize: this.appConfigService.typeOrmSynchronize,
+      password: this.appConfigService.typeormPassword,
+      port: this.appConfigService.typeormPort,
+      synchronize: this.appConfigService.typeormSynchronize,
       type: "mysql",
-      username: this.appConfigService.typeOrmUsername,
+      username: this.appConfigService.typeormUsername,
     };
   }
 }

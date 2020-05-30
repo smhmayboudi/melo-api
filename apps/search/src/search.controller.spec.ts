@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   SearchConfigReqDto,
   SearchMoodReqDto,
@@ -23,7 +22,7 @@ describe("SearchController", () => {
     scriptScore: "",
     suggestIndex: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -50,10 +49,6 @@ describe("SearchController", () => {
   const search: SearchResDto = {
     type: DataSearchType.album,
   };
-  const searchPagination: DataPaginationResDto<SearchResDto> = {
-    results: [search],
-    total: 1,
-  } as DataPaginationResDto<SearchResDto>;
   const song: SongResDto = {
     artists: [
       {
@@ -69,16 +64,9 @@ describe("SearchController", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
-
   const searchServiceMock: SearchServiceInterface = {
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    query: (): Promise<DataPaginationResDto<SearchResDto>> =>
-      Promise.resolve(searchPagination),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    query: (): Promise<SearchResDto[]> => Promise.resolve([search]),
   };
 
   let controller: SearchController;
@@ -98,22 +86,22 @@ describe("SearchController", () => {
   it("query should be equal to a list of search results", async () => {
     const dto: SearchQueryReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       query: "0",
       size: 0,
     };
-    expect(await controller.query(dto)).toEqual(searchPagination);
+    expect(await controller.query(dto)).toEqual([search]);
   });
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SearchMoodReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       from: 0,
       size: 0,
     };
-    expect(await controller.mood(dto)).toEqual(songPagination);
+    expect(await controller.mood(dto)).toEqual([song]);
   });
 });

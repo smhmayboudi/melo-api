@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Strategy as PassportStrategy } from "passport-strategy";
 import express from "express";
 
@@ -6,7 +7,7 @@ export class Strategy extends PassportStrategy {
   verify: (
     authorization: string | undefined,
     verified: (
-      err: Error | null,
+      error: Error | null,
       user?: Record<string, unknown>,
       info?: Record<string, unknown>
     ) => void,
@@ -14,11 +15,26 @@ export class Strategy extends PassportStrategy {
   ) => void;
   passReqToCallback: boolean;
 
+  verified: (
+    error: Error | null,
+    user?: Record<string, unknown>,
+    info?: Record<string, unknown>
+  ) => void = (
+    error: Error | null,
+    user?: Record<string, unknown>,
+    info?: Record<string, unknown>
+  ) => {
+    if (error) {
+      return this.error(error);
+    }
+    this.success(user, info);
+  };
+
   constructor(
     verify: (
       authorization: string | undefined,
       verified: (
-        err: Error | null,
+        error: Error | null,
         user?: Record<string, unknown>,
         info?: Record<string, unknown>
       ) => void,
@@ -32,27 +48,15 @@ export class Strategy extends PassportStrategy {
     this.passReqToCallback = passReqToCallback || false;
   }
 
-  authenticate(req: express.Request, _options?: Record<string, unknown>): void {
+  authenticate(
+    req: { headers: { authorization?: string } },
+    _options?: Record<string, unknown>
+  ): void {
     const authorization = req.headers.authorization;
-    const verified: (
-      err: Error | null,
-      user?: Record<string, unknown> | undefined,
-      info?: Record<string, unknown> | undefined
-    ) => void = (
-      err: Error | null,
-      user?: Record<string, unknown>,
-      info?: Record<string, unknown>
-    ) => {
-      if (err) {
-        return this.error(err);
-      }
-      this.success(user, info);
-    };
-
     let optionalCallbackParams: any[] = [];
     if (this.passReqToCallback) {
       optionalCallbackParams = [...optionalCallbackParams, req];
     }
-    this.verify(authorization, verified, ...optionalCallbackParams);
+    this.verify(authorization, this.verified, ...optionalCallbackParams);
   }
 }

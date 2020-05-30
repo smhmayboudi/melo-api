@@ -2,9 +2,8 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
   SearchConfigReqDto,
@@ -33,7 +32,7 @@ describe("SearchController", () => {
     scriptScore: "",
     suggestIndex: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -69,10 +68,6 @@ describe("SearchController", () => {
   const search: SearchResDto = {
     type: DataSearchType.album,
   };
-  const searchPagination: DataPaginationResDto<SearchResDto> = {
-    results: [search],
-    total: 1,
-  } as DataPaginationResDto<SearchResDto>;
   const song: SongResDto = {
     artists: [
       {
@@ -88,10 +83,6 @@ describe("SearchController", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const playlist: PlaylistResDto = {
     followersCount: 0,
     id: "",
@@ -116,7 +107,7 @@ describe("SearchController", () => {
     encodeSong: (): unknown => song,
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -130,13 +121,13 @@ describe("SearchController", () => {
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
   const searchConfigServiceMock: SearchConfigServiceInterface = {
     cacheHost: "",
@@ -144,17 +135,15 @@ describe("SearchController", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
     scriptScore: "",
     suggestIndex: "",
   };
   const searchServiceMock: SearchServiceInterface = {
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    query: (): Promise<DataPaginationResDto<SearchResDto>> =>
-      Promise.resolve(searchPagination),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    query: (): Promise<SearchResDto[]> => Promise.resolve([search]),
   };
 
   let controller: SearchController;
@@ -179,13 +168,13 @@ describe("SearchController", () => {
   it("query should be equal to a list of search results", async () => {
     const dto: SearchQueryReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       query: "0",
       size: 0,
     };
-    expect(await controller.query(dto)).toEqual(searchPagination);
+    expect(await controller.query(dto)).toEqual([search]);
   });
 
   it("mood should be equal to a list of songs", async () => {
@@ -194,6 +183,6 @@ describe("SearchController", () => {
       size: 0,
     };
     const queryDto: SearchMoodQueryReqDto = {};
-    expect(await controller.mood(paramDto, queryDto)).toEqual(songPagination);
+    expect(await controller.mood(paramDto, queryDto)).toEqual([song]);
   });
 });

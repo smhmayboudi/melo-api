@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   SongAlbumReqDto,
   SongArtistSongsTopReqDto,
   SongArtistsReqDto,
@@ -28,7 +27,7 @@ import { DataSongService } from "./data.song.service";
 import { DataSongServiceInterface } from "./data.song.service.interface.d";
 
 describe("DataSongController", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -67,41 +66,22 @@ describe("DataSongController", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
-
   const dataSongServiceMock: DataSongServiceInterface = {
-    albumSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongsTop: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    genre: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
     get: (): Promise<SongResDto> => Promise.resolve(song),
-    getByIds: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    language: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newPodcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newSong: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    podcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    similar: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    slider: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topDay: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topWeek: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
   };
 
   let controller: DataSongController;
@@ -120,50 +100,50 @@ describe("DataSongController", () => {
 
   it("albumSongs should be equal to a list of songs", async () => {
     const dto: SongAlbumReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
-    expect(await controller.albumSongs(dto)).toEqual(songPagination);
+    expect(await controller.albumSongs(dto)).toEqual([song]);
   });
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await controller.artistSongs(dto)).toEqual(songPagination);
+    expect(await controller.artistSongs(dto)).toEqual([song]);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsTopReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await controller.artistSongsTop(dto)).toEqual(songPagination);
+    expect(await controller.artistSongsTop(dto)).toEqual([song]);
   });
 
   it("genre should be equal to a list of songs", async () => {
     const dto: SongGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await controller.genre(dto)).toEqual(songPagination);
+    expect(await controller.genre(dto)).toEqual([song]);
   });
 
   it("get should be equal to a songs", async () => {
     const dto: SongGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -172,128 +152,128 @@ describe("DataSongController", () => {
 
   it("getByIds should be equal to a list of songs", async () => {
     const dto: SongGetByIdsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       ids: [],
     };
-    expect(await controller.getByIds(dto)).toEqual(songPagination);
+    expect(await controller.getByIds(dto)).toEqual([song]);
   });
 
   it("genre should be equal to a list of songs, genre all", async () => {
     const dto: SongGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: ["all"],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await controller.genre(dto)).toEqual(songPagination);
+    expect(await controller.genre(dto)).toEqual([song]);
   });
 
   it("language should be equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await controller.language(dto)).toEqual(songPagination);
+    expect(await controller.language(dto)).toEqual([song]);
   });
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       mood: "",
       size: 0,
     };
-    expect(await controller.mood(dto)).toEqual(songPagination);
+    expect(await controller.mood(dto)).toEqual([song]);
   });
 
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: SongNewPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await controller.newPodcast(dto)).toEqual(songPagination);
+    expect(await controller.newPodcast(dto)).toEqual([song]);
   });
 
   it("newSong should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await controller.newSong(dto)).toEqual(songPagination);
+    expect(await controller.newSong(dto)).toEqual([song]);
   });
 
   it("podcast should be equal to a list of songs", async () => {
     const dto: SongPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await controller.podcast(dto)).toEqual(songPagination);
+    expect(await controller.podcast(dto)).toEqual([song]);
   });
 
   it("podcast should be equal to a list of songs genres all", async () => {
     const dto: SongPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: ["all"],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await controller.podcast(dto)).toEqual(songPagination);
+    expect(await controller.podcast(dto)).toEqual([song]);
   });
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await controller.similar(dto)).toEqual(songPagination);
+    expect(await controller.similar(dto)).toEqual([song]);
   });
 
   it("slider should be equal to a list of songs", async () => {
     const dto: SongSliderReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await controller.slider(dto)).toEqual(songPagination);
+    expect(await controller.slider(dto)).toEqual([song]);
   });
 
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await controller.topDay(dto)).toEqual(songPagination);
+    expect(await controller.topDay(dto)).toEqual([song]);
   });
 
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await controller.topWeek(dto)).toEqual(songPagination);
+    expect(await controller.topWeek(dto)).toEqual([song]);
   });
 });

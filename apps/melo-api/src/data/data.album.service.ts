@@ -3,7 +3,6 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
-  DataPaginationResDto,
   DataSearchType,
   DataSortByType,
 } from "@melo/common";
@@ -28,12 +27,12 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async albums(
-    dto: AlbumArtistsReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  async albums(dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
-        _source: { excludes: ["tags"] },
+        _source: {
+          excludes: ["tags"],
+        },
         from: dto.from,
         query: {
           bool: {
@@ -51,27 +50,27 @@ export class DataAlbumService implements DataAlbumServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticSearch.maxSize, dto.size),
-        sort: [{ release_date: DataSortByType.desc }],
+        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        sort: [
+          {
+            release_date: DataSortByType.desc,
+          },
+        ],
       },
-      index: dto.dataConfigElasticSearch.indexName,
+      index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
-    const results = (await Promise.all(
+    return (await Promise.all(
       elasticSearchRes.body.hits.hits.map(
         async (value) =>
           await this.dataTransformService.album({
             ...value._source,
-            imagePath: dto.dataConfigElasticSearch.imagePath,
+            imagePath: dto.dataConfigElasticsearch.imagePath,
             imagePathDefaultAlbum:
-              dto.dataConfigElasticSearch.imagePathDefaultAlbum,
+              dto.dataConfigElasticsearch.imagePathDefaultAlbum,
           })
       )
     )) as AlbumResDto[];
-    return {
-      results,
-      total: elasticSearchRes.body.hits.hits.length,
-    } as DataPaginationResDto<AlbumResDto>;
   }
 
   @ApmAfterMethod
@@ -80,13 +79,13 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   async get(dto: AlbumGetReqDto): Promise<AlbumResDto> {
     const elasticSearchRes = await this.elasticsearchService.get({
       id: `album-${dto.id}`,
-      index: dto.dataConfigElasticSearch.indexName,
+      index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
     const album = await this.dataTransformService.album({
       ...elasticSearchRes.body.hits.hits[0]._source,
-      imagePath: dto.dataConfigElasticSearch.imagePath,
-      imagePathDefaultAlbum: dto.dataConfigElasticSearch.imagePathDefaultAlbum,
+      imagePath: dto.dataConfigElasticsearch.imagePath,
+      imagePathDefaultAlbum: dto.dataConfigElasticsearch.imagePathDefaultAlbum,
     });
     const songs = await this.dataSongService.albumSongs(dto);
     return {
@@ -98,12 +97,12 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async latest(
-    dto: AlbumLatestReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  async latest(dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
-        _source: { excludes: ["tags"] },
+        _source: {
+          excludes: ["tags"],
+        },
         from: dto.from,
         query: {
           bool: {
@@ -115,7 +114,11 @@ export class DataAlbumService implements DataAlbumServiceInterface {
               },
               dto.language === "all"
                 ? undefined
-                : { term: { "language.keyword": dto.language } },
+                : {
+                    term: {
+                      "language.keyword": dto.language,
+                    },
+                  },
             ],
             must_not: [
               {
@@ -126,26 +129,26 @@ export class DataAlbumService implements DataAlbumServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticSearch.maxSize, dto.size),
-        sort: [{ release_date: DataSortByType.desc }],
+        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        sort: [
+          {
+            release_date: DataSortByType.desc,
+          },
+        ],
       },
-      index: dto.dataConfigElasticSearch.indexName,
+      index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
-    const results: AlbumResDto[] = (await Promise.all(
+    return (await Promise.all(
       elasticSearchRes.body.hits.hits.map(
         async (value) =>
           await this.dataTransformService.album({
             ...value._source,
-            imagePath: dto.dataConfigElasticSearch.imagePath,
+            imagePath: dto.dataConfigElasticsearch.imagePath,
             imagePathDefaultAlbum:
-              dto.dataConfigElasticSearch.imagePathDefaultAlbum,
+              dto.dataConfigElasticsearch.imagePathDefaultAlbum,
           })
       )
     )) as AlbumResDto[];
-    return {
-      results,
-      total: results.length,
-    } as DataPaginationResDto<AlbumResDto>;
   }
 }

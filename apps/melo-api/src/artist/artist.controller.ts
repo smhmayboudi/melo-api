@@ -8,9 +8,8 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import {
   Body,
@@ -55,7 +54,7 @@ export class ArtistController {
   private config: ArtistConfigReqDto = {
     maxSize: this.artistConfigService.maxSize,
   };
-  private dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: this.dataConfigService.imagePath,
     imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
     imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
@@ -87,7 +86,7 @@ export class ArtistController {
   ): Promise<ArtistResDto> {
     return this.artistService.follow({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       sub,
     });
@@ -98,11 +97,11 @@ export class ArtistController {
   async following(
     @Param() dto: ArtistFollowingReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  ): Promise<ArtistResDto[]> {
     return this.artistService.following({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       sub,
     });
@@ -117,19 +116,17 @@ export class ArtistController {
   async profile(@Param() dto: ArtistGetReqDto): Promise<ArtistResDto> {
     return this.artistService.profile({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
 
   @Get("trending")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  async trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
     return this.artistService.trending({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -138,10 +135,10 @@ export class ArtistController {
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async trendingGenre(
     @Param() dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  ): Promise<ArtistResDto[]> {
     return this.artistService.trendingGenre({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -154,7 +151,7 @@ export class ArtistController {
   ): Promise<ArtistResDto> {
     return this.artistService.unfollow({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       sub,
     });

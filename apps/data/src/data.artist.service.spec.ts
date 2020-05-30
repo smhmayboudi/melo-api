@@ -6,23 +6,20 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataArtistService } from "./data.artist.service";
-import { DataConfigService } from "./data.config.service";
-import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataTransformService } from "./data.transform.service";
 import { DataTransformServiceInterface } from "./data.transform.service.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 
 describe("DataArtistService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -55,10 +52,6 @@ describe("DataArtistService", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const artistPagination: DataPaginationResDto<ArtistResDto> = {
-    results: [artist],
-    total: 1,
-  } as DataPaginationResDto<ArtistResDto>;
   // TODO: interface ?
   const elasticArtistRes = {
     body: {
@@ -112,29 +105,6 @@ describe("DataArtistService", () => {
     title: "",
   };
 
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
-  };
   const dataTransformServiceMock: DataTransformServiceInterface = {
     album: (): Promise<AlbumResDto> => Promise.resolve(album),
     artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
@@ -151,7 +121,6 @@ describe("DataArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DataArtistService,
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: DataTransformService, useValue: dataTransformServiceMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
       ],
@@ -161,7 +130,7 @@ describe("DataArtistService", () => {
 
   it("get should equal list of artists", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -170,7 +139,7 @@ describe("DataArtistService", () => {
 
   it("get should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -179,27 +148,27 @@ describe("DataArtistService", () => {
 
   it("getByIds should equal list of artists", async () => {
     const dto: ArtistGetByIdsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       ids: [0],
     };
-    expect(await service.getByIds(dto)).toEqual(artistPagination);
+    expect(await service.getByIds(dto)).toEqual([artist]);
   });
 
   it("trending should equal list of artists", async () => {
     const dto: ArtistTrendingReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await service.trending(dto)).toEqual(artistPagination);
+    expect(await service.trending(dto)).toEqual([artist]);
   });
 
   it("trendingGenre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       genre: "",
     };
-    expect(await service.trendingGenre(dto)).toEqual(artistPagination);
+    expect(await service.trendingGenre(dto)).toEqual([artist]);
   });
 });

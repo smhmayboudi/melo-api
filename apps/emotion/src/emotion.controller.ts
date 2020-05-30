@@ -1,5 +1,4 @@
 import {
-  DataPaginationResDto,
   EMOTION_SERVICE_EMOTIONS,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
@@ -16,7 +15,7 @@ export class EmotionController {
   @MessagePattern(EMOTION_SERVICE_EMOTIONS)
   emotions(
     @Payload() dto: EmotionEmotionsReqDto
-  ): Promise<DataPaginationResDto<EmotionEmotionsResDto>> {
+  ): Promise<EmotionEmotionsResDto[]> {
     return this.emotionService.emotions(dto);
   }
 }

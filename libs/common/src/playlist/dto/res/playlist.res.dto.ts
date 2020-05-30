@@ -9,7 +9,6 @@ import {
 
 import { ApiProperty } from "@nestjs/swagger";
 import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
-import { DataPaginationResDto } from "../../../data/dto/res/data.pagination.res.dto";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
@@ -22,7 +21,7 @@ export class PlaylistResDto {
     releaseDate: Date,
     title: string,
     tracksCount: number,
-    songs?: DataPaginationResDto<SongResDto>
+    songs?: SongResDto[]
   ) {
     this.followersCount = followersCount;
     this.id = id;
@@ -90,5 +89,5 @@ export class PlaylistResDto {
   })
   @IsOptional()
   @ValidateNested()
-  readonly songs?: DataPaginationResDto<SongResDto>;
+  readonly songs?: SongResDto[];
 }

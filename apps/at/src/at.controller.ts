@@ -18,7 +18,6 @@ import {
   AtValidateByTokenReqDto,
   AtValidateReqDto,
 } from "@melo/common";
-import { DeleteResult, UpdateResult } from "typeorm";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { AtService } from "./at.service";
@@ -29,12 +28,14 @@ export class AtController {
   constructor(private readonly atService: AtService) {}
 
   @MessagePattern(AT_SERVICE_DELETE)
-  delete(@Payload() dto: AtDeleteReqDto): Promise<DeleteResult> {
+  delete(@Payload() dto: AtDeleteReqDto): Promise<AtResDto | undefined> {
     return this.atService.delete(dto);
   }
 
   @MessagePattern(AT_SERVICE_DELETE_BY_TOKEN)
-  deleteByToken(@Payload() dto: AtDeleteByTokenReqDto): Promise<DeleteResult> {
+  deleteByToken(
+    @Payload() dto: AtDeleteByTokenReqDto
+  ): Promise<AtResDto | undefined> {
     return this.atService.deleteByToken(dto);
   }
 
@@ -61,7 +62,7 @@ export class AtController {
   }
 
   @MessagePattern(AT_SERVICE_UPDATE)
-  update(@Payload() dto: AtUpdateReqDto): Promise<UpdateResult> {
+  update(@Payload() dto: AtUpdateReqDto): Promise<AtResDto | undefined> {
     return this.atService.update(dto);
   }
 

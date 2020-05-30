@@ -12,7 +12,6 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -29,9 +28,7 @@ export class ArtistController {
   }
 
   @MessagePattern(ARTIST_SERVICE_FOLLOWING)
-  following(
-    @Payload() dto: ArtistFollowingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  following(@Payload() dto: ArtistFollowingReqDto): Promise<ArtistResDto[]> {
     return this.artistService.following(dto);
   }
 
@@ -41,16 +38,14 @@ export class ArtistController {
   }
 
   @MessagePattern(ARTIST_SERVICE_TRENDING)
-  trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
     return this.artistService.trending(dto);
   }
 
   @MessagePattern(ARTIST_SERVICE_TRENDING_GENRE)
   trendingGenre(
     @Payload() dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  ): Promise<ArtistResDto[]> {
     return this.artistService.trendingGenre(dto);
   }
 

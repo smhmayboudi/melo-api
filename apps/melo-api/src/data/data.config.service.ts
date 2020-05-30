@@ -1,4 +1,28 @@
-import { DATA, DataImageTypeSize } from "@melo/common";
+import {
+  DATA,
+  DataImageTypeSize,
+  ELASTICSEARCH_NODE,
+  IMAGE_BASE_URL,
+  IMAGE_ENCODE,
+  IMAGE_KEY,
+  IMAGE_PATH,
+  IMAGE_PATH_DEFAULT_ALBUM,
+  IMAGE_PATH_DEFAULT_ARTIST,
+  IMAGE_PATH_DEFAULT_SONG,
+  IMAGE_SALT,
+  IMAGE_SIGNATURE_SIZE,
+  IMAGE_TYPE_SIZE,
+  INDEX_NAME,
+  MAX_SIZE,
+  MP3_ENDPOINT,
+  TYPEORM_DATABASE,
+  TYPEORM_HOST,
+  TYPEORM_LOGGING,
+  TYPEORM_PASSWORD,
+  TYPEORM_PORT,
+  TYPEORM_SYNCHRONIZE,
+  TYPEORM_USERNAME,
+} from "@melo/common";
 
 import { ConfigService } from "@nestjs/config";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
@@ -9,92 +33,107 @@ import { SignatureSize } from "imgproxy/dist/types";
 export class DataConfigService implements DataConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
-  get elasticNode(): string {
-    return this.configService.get<string>(`${DATA}.elasticNode`, "");
+  get elasticsearchNode(): string {
+    return this.configService.get<string>(`${DATA}.${ELASTICSEARCH_NODE}`, "");
   }
 
   get imageBaseUrl(): string {
-    return this.configService.get<string>(`${DATA}.imageBaseUrl`, "");
+    return this.configService.get<string>(`${DATA}.${IMAGE_BASE_URL}`, "");
   }
 
   get imageEncode(): boolean {
-    return this.configService.get<boolean>(`${DATA}.imageEncode`, true);
+    return this.configService.get<boolean>(`${DATA}.${IMAGE_ENCODE}`, true);
   }
 
   get imagePath(): string {
-    return this.configService.get<string>(`${DATA}.imagePath`, "");
+    return this.configService.get<string>(`${DATA}.${IMAGE_PATH}`, "");
   }
 
   get imagePathDefaultAlbum(): string {
-    return this.configService.get<string>(`${DATA}.imagePathDefaultAlbum`, "");
+    return this.configService.get<string>(
+      `${DATA}.${IMAGE_PATH_DEFAULT_ALBUM}`,
+      ""
+    );
   }
 
   get imagePathDefaultArtist(): string {
-    return this.configService.get<string>(`${DATA}.imagePathDefaultArtist`, "");
+    return this.configService.get<string>(
+      `${DATA}.${IMAGE_PATH_DEFAULT_ARTIST}`,
+      ""
+    );
   }
 
   get imagePathDefaultSong(): string {
-    return this.configService.get<string>(`${DATA}.imagePathDefaultSong`, "");
+    return this.configService.get<string>(
+      `${DATA}.${IMAGE_PATH_DEFAULT_SONG}`,
+      ""
+    );
   }
 
   get imageTypeSize(): DataImageTypeSize[] {
     return JSON.parse(
-      this.configService.get<string>(`${DATA}.imageTypeSize`, "")
+      this.configService.get<string>(
+        `${DATA}.${IMAGE_TYPE_SIZE}`,
+        '[{"height":0,"name":"","width":0}]'
+      )
     ) as DataImageTypeSize[];
   }
 
   get imageKey(): string {
-    return this.configService.get<string>(`${DATA}.imageKey`, "");
+    return this.configService.get<string>(`${DATA}.${IMAGE_KEY}`, "");
   }
 
   get imageSalt(): string {
-    return this.configService.get<string>(`${DATA}.imageSalt`, "");
+    return this.configService.get<string>(`${DATA}.${IMAGE_SALT}`, "");
   }
 
   get imageSignatureSize(): SignatureSize {
     return this.configService.get<SignatureSize>(
-      `${DATA}.imageSignatureSize`,
+      `${DATA}.${IMAGE_SIGNATURE_SIZE}`,
       1
     );
   }
 
   get indexName(): string {
-    return this.configService.get<string>(`${DATA}.index`, "");
-  }
-
-  get mp3Endpoint(): string {
-    return this.configService.get<string>(`${DATA}.mp3Endpoint`, "");
+    return this.configService.get<string>(`${DATA}.${INDEX_NAME}`, "");
   }
 
   get maxSize(): number {
-    return this.configService.get<number>(`${DATA}.maxSize`, 0);
+    return this.configService.get<number>(`${DATA}.${MAX_SIZE}`, 0);
   }
 
-  get typeOrmDatabase(): string {
-    return this.configService.get<string>(`${DATA}.typeOrmDatabase`, "");
+  get mp3Endpoint(): string {
+    return this.configService.get<string>(`${DATA}.${MP3_ENDPOINT}`, "");
   }
 
-  get typeOrmHost(): string {
-    return this.configService.get<string>(`${DATA}.typeOrmHost`, "");
+  get typeormDatabase(): string {
+    return this.configService.get<string>(`${DATA}.${TYPEORM_DATABASE}`, "");
   }
 
-  get typeOrmLogging(): boolean {
-    return this.configService.get<boolean>(`${DATA}.typeOrmLogging`, true);
+  get typeormHost(): string {
+    return this.configService.get<string>(`${DATA}.${TYPEORM_HOST}`, "");
   }
 
-  get typeOrmPassword(): string {
-    return this.configService.get<string>(`${DATA}.typeOrmPassword`, "");
+  get typeormLogging(): boolean {
+    return this.configService.get<boolean>(`${DATA}.${TYPEORM_LOGGING}`, true);
   }
 
-  get typeOrmPort(): number {
-    return this.configService.get<number>(`${DATA}.typeOrmPort`, 0);
+  get typeormPassword(): string {
+    return this.configService.get<string>(`${DATA}.${TYPEORM_PASSWORD}`, "");
   }
 
-  get typeOrmSynchronize(): boolean {
-    return this.configService.get<boolean>(`${DATA}.typeOrmSynchronize`, false);
+  get typeormPort(): number {
+    return this.configService.get<number>(`${DATA}.${TYPEORM_PORT}`, 0);
   }
 
-  get typeOrmUsername(): string {
-    return this.configService.get<string>(`${DATA}.typeOrmUsername`, "");
+  get typeormSynchronize(): boolean {
+    return this.configService.get<boolean>(
+      `${DATA}.${TYPEORM_SYNCHRONIZE}`,
+      false
+    );
+  }
+
+  get typeormUsername(): string {
+    return this.configService.get<string>(`${DATA}.${TYPEORM_USERNAME}`, "");
   }
 }

@@ -1,8 +1,8 @@
 import { ACTION_SERVICE, ActionBulkReqDto, ActionType } from "@melo/common";
-import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { ActionService } from "./action.service";
+import { of } from "rxjs";
 
 describe("ActionService", () => {
   const datetime = new Date().toString();
@@ -12,8 +12,8 @@ describe("ActionService", () => {
   };
 
   // TODO: interface ?
-  const clientProxyMock = {
-    send: (): Observable<ActionBulkReqDto> => of(action),
+  const actionClientProxyMock = {
+    send: () => of(action),
   };
 
   let service: ActionService;
@@ -24,7 +24,7 @@ describe("ActionService", () => {
         ActionService,
         {
           provide: ACTION_SERVICE,
-          useValue: clientProxyMock,
+          useValue: actionClientProxyMock,
         },
       ],
     }).compile();

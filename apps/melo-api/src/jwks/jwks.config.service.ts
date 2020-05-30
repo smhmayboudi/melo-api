@@ -1,7 +1,15 @@
+import {
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+  JWKS,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
-import { JWKS } from "@melo/common";
 import { JwksConfigServiceInterface } from "./jwks.config.service.interface";
 import ms from "ms";
 
@@ -14,28 +22,28 @@ export class JwksConfigService implements JwksConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${JWKS}.cacheHost`,
+      `${JWKS}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${JWKS}.cacheMax`,
+      `${JWKS}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${JWKS}.cachePort`,
+      `${JWKS}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${JWKS}.cacheStore`,
+      `${JWKS}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,7 +51,7 @@ export class JwksConfigService implements JwksConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${JWKS}.cacheTTL`,
+        `${JWKS}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );

@@ -3,7 +3,6 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
@@ -20,7 +19,7 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  albums(dto: AlbumArtistsReqDto): Promise<DataPaginationResDto<AlbumResDto>> {
+  albums(dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
     return this.dataAlbumService.albums(dto);
   }
 
@@ -34,7 +33,7 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  latest(dto: AlbumLatestReqDto): Promise<DataPaginationResDto<AlbumResDto>> {
+  latest(dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
     return this.dataAlbumService.latest(dto);
   }
 }

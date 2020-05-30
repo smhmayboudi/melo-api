@@ -1,16 +1,15 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
+import { Mutation, Request, Txn } from "dgraph-js";
 import {
-  DataPaginationResDto,
   RELATION_TYPE_ID_SEPARATOR,
   RelationEntityReqDto,
   RelationGetReqDto,
   RelationHasReqDto,
   RelationMultiHasReqDto,
-  RelationMultiHasResDto,
   RelationRemoveReqDto,
+  RelationResDto,
   RelationSetReqDto,
 } from "@melo/common";
-import { Mutation, Request, Txn } from "dgraph-js";
 
 import { DgraphService } from "@melo/dgraph";
 import { Injectable } from "@nestjs/common";
@@ -29,16 +28,14 @@ export class RelationService implements RelationServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async get(
-    dto: RelationGetReqDto
-  ): Promise<DataPaginationResDto<RelationEntityReqDto>> {
+  async get(dto: RelationGetReqDto): Promise<RelationResDto[]> {
     const query = `{
-      relates(func: eq(id, "${this.key(dto.fromEntityDto)}")) {
+      relates(func: eq(id, "${this.key(dto.entity)}")) {
         uid
-        ${dto.relationType}(offset: ${dto.from}, first: ${dto.size}) {
+        ${dto.type}(offset: ${dto.from}, first: ${dto.size}) {
           id
         }
-        count: count(${dto.relationType})
+        count: count(${dto.type})
       }
     }`;
     return this.dgraphService.client
@@ -51,36 +48,33 @@ export class RelationService implements RelationServiceInterface {
         }
         if (
           result.relates[0] === undefined ||
-          result.relates[0][dto.relationType] === undefined
+          result.relates[0][dto.type] === undefined
         ) {
-          return {
-            results: [] as RelationEntityReqDto[],
-            total: 0,
-          } as DataPaginationResDto<RelationEntityReqDto>;
+          return [];
         }
-        const results = result.relates[0][dto.relationType].map((value2) => {
+        return result.relates[0][dto.type].map((value2) => {
           const [type, id] = value2.id.split(RELATION_TYPE_ID_SEPARATOR);
           return {
-            id: parseInt(id, 10),
-            type,
+            from: dto.entity,
+            to: {
+              id: parseInt(id, 10),
+              type,
+            },
+            type: dto.type,
           };
         });
-        return {
-          results,
-          total: result.relates[0].count,
-        } as DataPaginationResDto<RelationEntityReqDto>;
       });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async has(dto: RelationHasReqDto): Promise<boolean> {
+  async has(dto: RelationHasReqDto): Promise<RelationResDto | undefined> {
     const query = `{
       hasRelate(func: eq(id, "${this.key(dto.from)}")) {
         uid
         name
-        ${dto.relationType} @filter(eq(id, "${this.key(dto.to)}")) {
+        ${dto.type} @filter(eq(id, "${this.key(dto.to)}")) {
           id
           name
         }
@@ -95,25 +89,23 @@ export class RelationService implements RelationServiceInterface {
               [key: string]: { id: string }[];
             }
           | undefined;
-        return (
-          result !== undefined &&
-          result[dto.relationType] !== undefined &&
-          result[dto.relationType].length > 0
-        );
+        return result !== undefined &&
+          result[dto.type] !== undefined &&
+          result[dto.type].length > 0
+          ? dto
+          : undefined;
       });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async multiHas(
-    dto: RelationMultiHasReqDto
-  ): Promise<RelationMultiHasResDto[]> {
+  async multiHas(dto: RelationMultiHasReqDto): Promise<RelationResDto[]> {
     const query = `{
       hasRelate(func: eq(id, "${this.key(dto.from)}")) {
         uid
         name
-        ${dto.relationType} @filter(${dto.tos
+        ${dto.type} @filter(${dto.tos
       .map((value) => `eq(id, "${this.key(value)}")`)
       .join(" or ")}) {
           id
@@ -130,19 +122,19 @@ export class RelationService implements RelationServiceInterface {
               [key: string]: { id: string }[];
             }
           | undefined;
-        if (result === undefined || result[dto.relationType] === undefined) {
-          return [] as RelationMultiHasResDto[];
+        if (result === undefined || result[dto.type] === undefined) {
+          return [] as RelationResDto[];
         }
-        return result[dto.relationType].map((value2) => {
+        return result[dto.type].map((value2) => {
           const [type, id] = value2.id.split(RELATION_TYPE_ID_SEPARATOR);
           return {
             from: dto.from,
-            relation: dto.relationType,
             to: {
               id: parseInt(id, 10),
               type: type,
             },
-          } as RelationMultiHasResDto;
+            type: dto.type,
+          } as RelationResDto;
         });
       });
   }
@@ -150,11 +142,11 @@ export class RelationService implements RelationServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async remove(dto: RelationRemoveReqDto): Promise<boolean> {
+  async remove(dto: RelationRemoveReqDto): Promise<RelationResDto> {
     const dtoFromId = this.key(dto.from);
     const dtoToId = this.key(dto.to);
     const mutation: Mutation = new Mutation();
-    const quads = [`uid(From) <${dto.relationType}> uid(To) .`];
+    const quads = [`uid(From) <${dto.type}> uid(To) .`];
     const request: Request = new Request();
     const txn: Txn = this.dgraphService.client.newTxn();
     request.setQuery(`
@@ -170,15 +162,18 @@ export class RelationService implements RelationServiceInterface {
     mutation.setDelNquads(quads.join("\n"));
     request.setMutationsList([mutation]);
     request.setCommitNow(true);
-    return txn.doRequest(request).then((_value) => {
-      return true;
-    });
+    await txn.doRequest(request);
+    return {
+      from: dto.from,
+      to: dto.to,
+      type: dto.type,
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async set(dto: RelationSetReqDto): Promise<boolean> {
+  async set(dto: RelationSetReqDto): Promise<RelationResDto> {
     const dtoFromId = this.key(dto.from);
     const dtoToId = this.key(dto.to);
     const mutation: Mutation = new Mutation();
@@ -189,9 +184,7 @@ export class RelationService implements RelationServiceInterface {
       }" .`,
       `uid(To) <id> "${dtoToId}" .`,
       `uid(To) <name> "${dto.to.name === undefined ? dtoToId : dto.to.name}" .`,
-      `uid(From) <${
-        dto.relationType
-      }> uid(To) (date=${dto.createdAt.toISOString()}) .`,
+      `uid(From) <${dto.type}> uid(To) (date=${dto.createdAt.toISOString()}) .`,
     ];
     const request: Request = new Request();
     const txn: Txn = this.dgraphService.client.newTxn();
@@ -207,8 +200,11 @@ export class RelationService implements RelationServiceInterface {
     }`);
     request.setMutationsList([mutation]);
     request.setCommitNow(true);
-    return txn.doRequest(request).then((_value) => {
-      return true;
-    });
+    await txn.doRequest(request);
+    return {
+      from: dto.from,
+      to: dto.to,
+      type: dto.type,
+    };
   }
 }

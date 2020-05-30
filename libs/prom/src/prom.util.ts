@@ -174,7 +174,9 @@ export function promRegistryProviderImp(
   if (promRegistryName !== PROM_REGISTRY_DEFAULT) {
     registry = new Registry();
   }
-  register.setDefaultLabels({ ...options.defaultLabels });
+  register.setDefaultLabels({
+    ...options.defaultLabels,
+  });
   if (
     options.defaultMetrics !== undefined &&
     options.defaultMetrics.enabled !== false

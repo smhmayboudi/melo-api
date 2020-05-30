@@ -34,15 +34,12 @@ export class PlaylistHashIdInterceptor implements NestInterceptor {
     });
     return next.handle().pipe(
       map((data) => {
-        if (data.total === undefined) {
+        if (data.length === undefined) {
           return this.appHashIdService.encodePlaylist(data);
         } else {
-          return {
-            results: data.results.map((value) =>
-              this.appHashIdService.encodePlaylist(value)
-            ),
-            total: data.total,
-          };
+          return data.map((value) =>
+            this.appHashIdService.encodePlaylist(value)
+          );
         }
       })
     );

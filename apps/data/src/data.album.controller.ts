@@ -6,7 +6,6 @@ import {
   DATA_ALBUM_SERVICE_ALBUMS,
   DATA_ALBUM_SERVICE_GET,
   DATA_ALBUM_SERVICE_LATEST,
-  DataPaginationResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -18,9 +17,7 @@ export class DataAlbumController {
   constructor(private readonly dataAlbumService: DataAlbumService) {}
 
   @MessagePattern(DATA_ALBUM_SERVICE_ALBUMS)
-  albums(
-    @Payload() dto: AlbumArtistsReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  albums(@Payload() dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
     return this.dataAlbumService.albums(dto);
   }
 
@@ -30,9 +27,7 @@ export class DataAlbumController {
   }
 
   @MessagePattern(DATA_ALBUM_SERVICE_LATEST)
-  latest(
-    @Payload() dto: AlbumLatestReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  latest(@Payload() dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
     return this.dataAlbumService.latest(dto);
   }
 }

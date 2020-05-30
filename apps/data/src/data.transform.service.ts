@@ -1,8 +1,8 @@
 import {
   AlbumResDto,
   ArtistResDto,
-  DataElasticSearchArtistResDto,
-  DataElasticSearchSearchResDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   SongResDto,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
@@ -20,14 +20,14 @@ export class DataTransformService implements DataTransformServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async album(dto: DataElasticSearchSearchResDto): Promise<AlbumResDto> {
+  async album(dto: DataElasticsearchSearchResDto): Promise<AlbumResDto> {
     const artists = await Promise.all(
       dto.artists.map(async (value) => await this.artist(value))
     );
     const uri =
       dto.unique_name === undefined
-        ? dto.dataConfigElasticSearch.imagePathDefaultAlbum
-        : lodash.template(dto.dataConfigElasticSearch.imagePath)({
+        ? dto.dataConfigElasticsearch.imagePathDefaultAlbum
+        : lodash.template(dto.dataConfigElasticsearch.imagePath)({
             id: dto.unique_name,
           });
     const image = await this.dataImageService.generateUrl({
@@ -51,10 +51,10 @@ export class DataTransformService implements DataTransformServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async artist(dto: DataElasticSearchArtistResDto): Promise<ArtistResDto> {
+  async artist(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto> {
     const uri = !dto.has_cover
-      ? dto.dataConfigElasticSearch.imagePathDefaultArtist
-      : lodash.template(dto.dataConfigElasticSearch.imagePath)({
+      ? dto.dataConfigElasticsearch.imagePathDefaultArtist
+      : lodash.template(dto.dataConfigElasticsearch.imagePath)({
           id: `artist-${dto.full_name
             .toLowerCase()
             .replace(/ /g, "-")
@@ -82,7 +82,7 @@ export class DataTransformService implements DataTransformServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async song(dto: DataElasticSearchSearchResDto): Promise<SongResDto> {
+  async song(dto: DataElasticsearchSearchResDto): Promise<SongResDto> {
     const artists = await Promise.all(
       dto.artists.map(async (value) => await this.artist(value))
     );
@@ -91,23 +91,23 @@ export class DataTransformService implements DataTransformServiceInterface {
         ? {
             high: {
               fingerprint: "",
-              url: `${dto.dataConfigElasticSearch.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
+              url: `${dto.dataConfigElasticsearch.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
             },
             medium: {
               fingerprint: "",
-              url: `${dto.dataConfigElasticSearch.mp3Endpoint}${dto.unique_name}-128.mp3`,
+              url: `${dto.dataConfigElasticsearch.mp3Endpoint}${dto.unique_name}-128.mp3`,
             },
           }
         : {
             medium: {
               fingerprint: "",
-              url: `${dto.dataConfigElasticSearch.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
+              url: `${dto.dataConfigElasticsearch.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
             },
           };
     const uri =
       !dto.has_cover || dto.unique_name === undefined
-        ? dto.dataConfigElasticSearch.imagePathDefaultSong
-        : lodash.template(dto.dataConfigElasticSearch.imagePath)({
+        ? dto.dataConfigElasticsearch.imagePathDefaultSong
+        : lodash.template(dto.dataConfigElasticsearch.imagePath)({
             id: dto.unique_name,
           });
     const image = await this.dataImageService.generateUrl({

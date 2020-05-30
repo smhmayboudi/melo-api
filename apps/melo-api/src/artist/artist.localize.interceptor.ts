@@ -2,7 +2,6 @@ import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   ArtistResDto,
   AuthJwtPayloadReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import {
   CallHandler,
@@ -26,44 +25,35 @@ export class ArtistLocalizeInterceptor implements NestInterceptor {
       albums:
         dto.albums === undefined
           ? undefined
-          : {
-              results: dto.albums.results.map(async (value) => ({
-                ...value,
-                songs:
-                  value.songs === undefined
-                    ? undefined
-                    : {
-                        results: await Promise.all(
-                          value.songs.results.map(
-                            async (value) =>
-                              await this.appSongService.localize({
-                                song: value,
-                              })
-                          )
-                        ),
-                        total: value.songs.total,
-                      },
-              })),
-              total: dto.albums.total,
-            },
+          : dto.albums.map(async (value) => ({
+              ...value,
+              songs:
+                value.songs === undefined
+                  ? undefined
+                  : await Promise.all(
+                      value.songs.map(
+                        async (value) =>
+                          await this.appSongService.localize({
+                            song: value,
+                          })
+                      )
+                    ),
+            })),
       songs:
         dto.songs === undefined
           ? undefined
-          : {
-              results: await Promise.all(
-                dto.songs.results.map(
-                  async (value) =>
-                    await this.appSongService.localize({ song: value })
-                )
-              ),
-              total: dto.songs.total,
-            },
+          : await Promise.all(
+              dto.songs.map(
+                async (value) =>
+                  await this.appSongService.localize({ song: value })
+              )
+            ),
     } as ArtistResDto);
 
   intercept(
     context: ExecutionContext,
     next: CallHandler
-  ): Observable<DataPaginationResDto<ArtistResDto> | ArtistResDto> {
+  ): Observable<ArtistResDto[] | ArtistResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
@@ -72,13 +62,10 @@ export class ArtistLocalizeInterceptor implements NestInterceptor {
       map((data) => {
         if (request.user.sub !== APP_REQUEST_USER_SUB_ANONYMOUS_ID) {
           return data;
-        } else if (data.total === undefined) {
+        } else if (data.length === undefined) {
           return this.transform(data);
         } else {
-          return {
-            results: data.results.map((value) => this.transform(value)),
-            total: data.total,
-          };
+          return data.map((value) => this.transform(value));
         }
       })
     );

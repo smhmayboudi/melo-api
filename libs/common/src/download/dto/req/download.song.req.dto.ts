@@ -8,7 +8,7 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { DownloadConfigReqDto } from "./download.config.req.dto";
 import { DownloadOrderByType } from "../../download.order-by.type";
@@ -17,7 +17,7 @@ import { Type } from "class-transformer";
 export class DownloadSongReqDto {
   constructor(
     config: DownloadConfigReqDto,
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     dataConfigImage: DataConfigImageReqDto,
     from: number,
     orderBy: DownloadOrderByType,
@@ -26,7 +26,7 @@ export class DownloadSongReqDto {
     filter?: string
   ) {
     this.config = config;
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.dataConfigImage = dataConfigImage;
     this.from = from;
     this.orderBy = orderBy;
@@ -43,7 +43,7 @@ export class DownloadSongReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)

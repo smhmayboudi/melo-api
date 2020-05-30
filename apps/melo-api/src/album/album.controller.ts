@@ -3,9 +3,8 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import { ApiBearerAuth, ApiParam, ApiTags } from "@nestjs/swagger";
 import {
@@ -43,7 +42,7 @@ import { DataConfigService } from "../data/data.config.service";
   })
 )
 export class AlbumController {
-  private dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: this.dataConfigService.imagePath,
     imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
     imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
@@ -73,12 +72,10 @@ export class AlbumController {
   })
   @Get("artist/albums/:id/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async albums(
-    @Param() dto: AlbumArtistsReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  async albums(@Param() dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
     return this.albumService.albums({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -92,19 +89,17 @@ export class AlbumController {
   async get(@Param() dto: AlbumGetReqDto): Promise<AlbumResDto> {
     return this.albumService.get({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
 
   @Get("latest/:language/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async latest(
-    @Param() dto: AlbumLatestReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  async latest(@Param() dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
     return this.albumService.latest({
       ...dto,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }

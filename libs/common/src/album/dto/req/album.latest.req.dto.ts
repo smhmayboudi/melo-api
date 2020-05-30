@@ -1,19 +1,19 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import { IsNumberString, IsString, ValidateNested } from "class-validator";
 
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { Type } from "class-transformer";
 
 export class AlbumLatestReqDto {
   constructor(
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     dataConfigImage: DataConfigImageReqDto,
     from: number,
     language: string,
     size: number
   ) {
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.dataConfigImage = dataConfigImage;
     this.from = from;
     this.language = language;
@@ -23,7 +23,7 @@ export class AlbumLatestReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)

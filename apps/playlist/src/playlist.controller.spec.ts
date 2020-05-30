@@ -1,7 +1,6 @@
 import {
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   PlaylistAddSongReqDto,
   PlaylistConfigReqDto,
   PlaylistCreateReqDto,
@@ -24,7 +23,7 @@ describe("PlaylistController", () => {
     imagePath: "",
     imagePathDefaultPlaylist: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -61,22 +60,15 @@ describe("PlaylistController", () => {
     title: "",
     tracksCount: 0,
   };
-  const playlistPagination: DataPaginationResDto<PlaylistResDto> = {
-    results: [playlist],
-    total: 1,
-  } as DataPaginationResDto<PlaylistResDto>;
-
   const playlistServiceMock: PlaylistServiceInterface = {
     addSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     create: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     delete: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     edit: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     get: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    my: (): Promise<DataPaginationResDto<PlaylistResDto>> =>
-      Promise.resolve(playlistPagination),
+    my: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
     removeSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    top: (): Promise<DataPaginationResDto<PlaylistResDto>> =>
-      Promise.resolve(playlistPagination),
+    top: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
   };
 
   let controller: PlaylistController;
@@ -96,7 +88,7 @@ describe("PlaylistController", () => {
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
@@ -107,7 +99,7 @@ describe("PlaylistController", () => {
   it("create should be equal to a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       sub: 1,
       title: "",
@@ -118,7 +110,7 @@ describe("PlaylistController", () => {
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: "",
       sub: 1,
@@ -129,7 +121,7 @@ describe("PlaylistController", () => {
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: "",
     };
@@ -139,7 +131,7 @@ describe("PlaylistController", () => {
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: "",
     };
@@ -149,19 +141,19 @@ describe("PlaylistController", () => {
   it("my should be equal to a list of playlists", async () => {
     const dto: PlaylistMyReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await controller.my(dto)).toEqual(playlistPagination);
+    expect(await controller.my(dto)).toEqual([playlist]);
   });
 
   it("removeSong should be equal to a playlist", async () => {
     const dto: PlaylistRemoveSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
@@ -172,11 +164,11 @@ describe("PlaylistController", () => {
   it("top should be equal to a list of playlists", async () => {
     const dto: PlaylistTopReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await controller.top(dto)).toEqual(playlistPagination);
+    expect(await controller.top(dto)).toEqual([playlist]);
   });
 });

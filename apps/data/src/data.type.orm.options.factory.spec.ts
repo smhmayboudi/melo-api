@@ -9,7 +9,7 @@ import { DataTypeOrmOptionsFactory } from "./data.type.orm.options.factory";
 
 describe("DataTypeOrmOptionsFactory", () => {
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -19,17 +19,23 @@ describe("DataTypeOrmOptionsFactory", () => {
     imagePathDefaultSong: "",
     imageSalt: "",
     imageSignatureSize: 32,
-    imageTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
+    imageTypeSize: [
+      {
+        height: 1024,
+        name: "cover",
+        width: 1024,
+      },
+    ],
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
 
   let service: DataConfigService;
@@ -59,7 +65,6 @@ describe("DataTypeOrmOptionsFactory", () => {
       host: "",
       logger: new DataTypeOrmLogger(true),
       logging: true,
-      name: undefined,
       password: "",
       port: 0,
       synchronize: true,

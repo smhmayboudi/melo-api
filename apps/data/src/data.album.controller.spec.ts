@@ -3,9 +3,8 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -14,7 +13,7 @@ import { DataAlbumService } from "./data.album.service";
 import { DataAlbumServiceInterface } from "./data.album.service.interface";
 
 describe("DataAlbumController", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -42,17 +41,10 @@ describe("DataAlbumController", () => {
     name: "",
     releaseDate,
   };
-  const albumPagination: DataPaginationResDto<AlbumResDto> = {
-    results: [album],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
-
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
-    albums: (): Promise<DataPaginationResDto<AlbumResDto>> =>
-      Promise.resolve(albumPagination),
+    albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
     get: (): Promise<AlbumResDto> => Promise.resolve(album),
-    latest: (): Promise<DataPaginationResDto<AlbumResDto>> =>
-      Promise.resolve(albumPagination),
+    latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
   };
 
   let controller: DataAlbumController;
@@ -73,18 +65,18 @@ describe("DataAlbumController", () => {
 
   it("albums should be equal to an dataAlbum", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await controller.albums(dto)).toEqual(albumPagination);
+    expect(await controller.albums(dto)).toEqual([album]);
   });
 
   it("get should be equal to an dataAlbum", async () => {
     const dto: AlbumGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -93,12 +85,12 @@ describe("DataAlbumController", () => {
 
   it("latest should be equal to an dataAlbum", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       size: 0,
     };
-    expect(await controller.latest(dto)).toEqual(albumPagination);
+    expect(await controller.latest(dto)).toEqual([album]);
   });
 });

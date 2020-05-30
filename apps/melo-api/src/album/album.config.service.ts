@@ -1,4 +1,12 @@
-import { ALBUM } from "@melo/common";
+import {
+  ALBUM,
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+} from "@melo/common";
+
 import { AlbumConfigServiceInterface } from "./album.config.service.interface";
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
@@ -14,36 +22,36 @@ export class AlbumConfigService implements AlbumConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${ALBUM}.cacheHost`,
+      `${ALBUM}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${ALBUM}.cacheMax`,
+      `${ALBUM}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${ALBUM}.cachePort`,
+      `${ALBUM}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${ALBUM}.cacheStore`,
-      this.appConfigService.cacheStore
+      `${ALBUM}.${CACHE_STORE}`,
+      this.appConfigService.cacheHost
     );
   }
 
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${ALBUM}.cacheTTL`,
+        `${ALBUM}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );

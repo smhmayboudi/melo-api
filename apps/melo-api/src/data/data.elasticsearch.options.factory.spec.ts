@@ -6,7 +6,7 @@ import { DataElasticsearchOptionsFactory } from "./data.elasticsearch.options.fa
 
 describe("DataElasticsearchOptionsFactory", () => {
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -16,17 +16,23 @@ describe("DataElasticsearchOptionsFactory", () => {
     imagePathDefaultSong: "",
     imageSalt: "",
     imageSignatureSize: 32,
-    imageTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
+    imageTypeSize: [
+      {
+        height: 1024,
+        name: "cover",
+        width: 1024,
+      },
+    ],
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
 
   let service: DataConfigService;

@@ -5,7 +5,7 @@ import { DgraphService } from "./dgraph.service";
 
 describe("DgraphService", () => {
   // TODO: interface ?
-  const dgraphMock = {
+  const dgraphServiceMock = {
     setDebugMode: jest.fn(),
   };
 
@@ -17,7 +17,7 @@ describe("DgraphService", () => {
         DgraphService,
         {
           provide: DGRAPH_INSTANCE_TOKEN,
-          useValue: dgraphMock,
+          useValue: dgraphServiceMock,
         },
       ],
     }).compile();

@@ -78,6 +78,4 @@ describe("DataTypeOrmLogger", () => {
   it("log should be undefined level warn with empty options", () => {
     expect(new DataTypeOrmLogger([]).log("warn", "")).toBeUndefined();
   });
-
-  it.todo("stringifyParams");
 });

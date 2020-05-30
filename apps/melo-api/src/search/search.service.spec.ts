@@ -2,9 +2,8 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   SearchConfigReqDto,
   SearchMoodReqDto,
@@ -25,7 +24,7 @@ describe("SearchService", () => {
     scriptScore: "",
     suggestIndex: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -74,10 +73,6 @@ describe("SearchService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   // TODO: interface ?
   const _source = {
     album: "",
@@ -99,9 +94,14 @@ describe("SearchService", () => {
     lyrics: "",
     max_audio_rate: 0,
     release_date: releaseDate,
-    tags: [{ tag: "" }],
+    suggested: 0,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
     title: "",
-    type: "",
+    type: DataSearchType.album,
     unique_name: "",
   };
   // TODO: interface ?
@@ -147,13 +147,19 @@ describe("SearchService", () => {
   it("query should be equal to an empty list", async () => {
     const dto: SearchQueryReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       query: "",
       size: 0,
     };
-    expect(await service.query(dto)).toEqual({ results: [], total: 0 });
+    expect(await service.query(dto)).toEqual([
+      {
+        album,
+        position: 1,
+        type: DataSearchType.album,
+      },
+    ]);
   });
 
   it("query should be equal to an empty list 2", async () => {
@@ -179,13 +185,13 @@ describe("SearchService", () => {
 
     const dto: SearchQueryReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       query: "",
       size: 0,
     };
-    expect(await service.query(dto)).toEqual({ results: [], total: 0 });
+    expect(await service.query(dto)).toEqual([]);
   });
 
   it("query should be equal to an empty list 3", async () => {
@@ -237,27 +243,24 @@ describe("SearchService", () => {
 
     const dto: SearchQueryReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       query: "",
       size: 0,
     };
-    expect(await service.query(dto)).toEqual({
-      results: [
-        {
-          album,
-          position: 1,
-          type: DataSearchType.album,
-        },
-        {
-          artist,
-          position: 2,
-          type: DataSearchType.artist,
-        },
-      ],
-      total: 2,
-    });
+    expect(await service.query(dto)).toEqual([
+      {
+        album,
+        position: 1,
+        type: DataSearchType.album,
+      },
+      {
+        artist,
+        position: 2,
+        type: DataSearchType.artist,
+      },
+    ]);
   });
 
   it("query should be equal to an empty list 4", async () => {
@@ -312,58 +315,55 @@ describe("SearchService", () => {
 
     const dto: SearchQueryReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       query: "",
       size: 0,
     };
-    expect(await service.query(dto)).toEqual({
-      results: [
-        {
-          album,
-          position: 1,
-          type: DataSearchType.album,
-        },
-        {
-          artist,
-          position: 2,
-          type: DataSearchType.artist,
-        },
-        {
-          position: 3,
-          song,
-          type: DataSearchType.podcast,
-        },
-        {
-          position: 4,
-          song,
-          type: DataSearchType.song,
-        },
-      ],
-      total: 4,
-    });
+    expect(await service.query(dto)).toEqual([
+      {
+        album,
+        position: 1,
+        type: DataSearchType.album,
+      },
+      {
+        artist,
+        position: 2,
+        type: DataSearchType.artist,
+      },
+      {
+        position: 3,
+        song,
+        type: DataSearchType.podcast,
+      },
+      {
+        position: 4,
+        song,
+        type: DataSearchType.song,
+      },
+    ]);
   });
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SearchMoodReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       date: 1,
       from: 0,
       size: 0,
     };
-    expect(await service.mood(dto)).toEqual(songPagination);
+    expect(await service.mood(dto)).toEqual([song]);
   });
 
   it("mood should be equal to a list of songs 2", async () => {
     const dto: SearchMoodReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       date: undefined,
       from: 0,
       size: 0,
     };
-    expect(await service.mood(dto)).toEqual(songPagination);
+    expect(await service.mood(dto)).toEqual([song]);
   });
 });

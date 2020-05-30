@@ -5,16 +5,13 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataAlbumService } from "./data.album.service";
-import { DataConfigService } from "./data.config.service";
-import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataSongService } from "./data.song.service";
 import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataTransformService } from "./data.transform.service";
@@ -22,7 +19,7 @@ import { DataTransformServiceInterface } from "./data.transform.service.interfac
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 
 describe("DataAlbumService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -66,42 +63,10 @@ describe("DataAlbumService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     name: "",
     releaseDate,
-    songs: songPagination,
-  };
-  const albumPagination: DataPaginationResDto<AlbumResDto> = {
-    results: [album],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
-
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    songs: [song],
   };
   // TODO: interface ?
   const elasticSearchRes = {
@@ -136,35 +101,21 @@ describe("DataAlbumService", () => {
     },
   };
   const dataSongServiceMock: DataSongServiceInterface = {
-    albumSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongsTop: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    genre: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
     get: (): Promise<SongResDto> => Promise.resolve(song),
-    getByIds: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    language: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newPodcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newSong: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    podcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    similar: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    slider: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topDay: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topWeek: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
   };
   const dataTransformServiceMock: DataTransformServiceInterface = {
     album: (): Promise<AlbumResDto> => Promise.resolve(album),
@@ -183,7 +134,6 @@ describe("DataAlbumService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         DataAlbumService,
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: DataTransformService, useValue: dataTransformServiceMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
@@ -194,39 +144,39 @@ describe("DataAlbumService", () => {
 
   it("albums should equal list of albums", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.albums(dto)).toEqual(albumPagination);
+    expect(await service.albums(dto)).toEqual([album]);
   });
 
   it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       size: 0,
     };
-    expect(await service.latest(dto)).toEqual(albumPagination);
+    expect(await service.latest(dto)).toEqual([album]);
   });
   it("latest should equal list of albums, language all", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "all",
       size: 0,
     };
-    expect(await service.latest(dto)).toEqual(albumPagination);
+    expect(await service.latest(dto)).toEqual([album]);
   });
 
   it("get should be equal to an album", async () => {
     const dto: AlbumGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };

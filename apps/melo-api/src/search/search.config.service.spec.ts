@@ -13,7 +13,7 @@ describe("SearchConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
     scriptScore: "",
@@ -67,8 +67,8 @@ describe("SearchConfigService", () => {
     expect(service.cacheTTL).toEqual(0);
   });
 
-  it("elasticNode should be equal to a value", () => {
-    expect(service.elasticNode).toEqual("");
+  it("elasticsearchNode should be equal to a value", () => {
+    expect(service.elasticsearchNode).toEqual("");
   });
 
   it("indexName should be equal to a value", () => {

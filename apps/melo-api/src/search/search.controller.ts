@@ -10,9 +10,8 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   SearchConfigReqDto,
   SearchMoodParamReqDto,
   SearchMoodQueryReqDto,
@@ -45,7 +44,7 @@ export class SearchController {
     scriptScore: this.searchConfigService.scriptScore,
     suggestIndex: this.searchConfigService.suggestIndex,
   };
-  private dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: this.dataConfigService.imagePath,
     imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
     imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
@@ -71,13 +70,11 @@ export class SearchController {
 
   @Get("query/:query/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async query(
-    @Param() dto: SearchQueryReqDto
-  ): Promise<DataPaginationResDto<SearchResDto>> {
+  async query(@Param() dto: SearchQueryReqDto): Promise<SearchResDto[]> {
     return this.searchService.query({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -87,12 +84,12 @@ export class SearchController {
   async mood(
     @Param() paramDto: SearchMoodParamReqDto,
     @Query() queryDto: SearchMoodQueryReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  ): Promise<SongResDto[]> {
     return this.searchService.mood({
       ...paramDto,
       ...queryDto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
     });
   }
 }

@@ -62,7 +62,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException();
     }
     if (at !== undefined) {
-      await this.atService.update({ ...at, count: at.count + 1 });
+      await this.atService.update({
+        ...at,
+        count: at.count + 1,
+      });
     } else {
       await this.atService.save({
         count: 1,

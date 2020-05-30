@@ -2,22 +2,22 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: "cache" })
 export class DataCacheEntity {
-  constructor(id: number, name: string, result: string, date: Date) {
+  constructor(id: number, date: Date, name: string, result: string) {
+    this.date = date;
     this.id = id;
     this.name = name;
     this.result = result;
-    this.date = date;
   }
 
   @PrimaryGeneratedColumn("increment", { type: "int" })
   id: number;
+
+  @Column({ type: "date" })
+  date: Date;
 
   @Column({ length: 100, type: "varchar" })
   name: string;
 
   @Column({ type: "varchar" })
   result: string;
-
-  @Column({ type: "date" })
-  date: Date;
 }

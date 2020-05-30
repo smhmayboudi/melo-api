@@ -8,7 +8,7 @@ import { EmotionConfigServiceInterface } from "./emotion.config.service.interfac
 describe("EmotionConfigService", () => {
   // TODO: interface ?
   const appConfigServiceMock: EmotionConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
   };
@@ -42,7 +42,7 @@ describe("EmotionConfigService", () => {
   });
 
   it("cacheHost cacheHost should be equal to a value", () => {
-    expect(service.elasticNode).toEqual("");
+    expect(service.elasticsearchNode).toEqual("");
   });
 
   it("cacheMax should be equal to a value", () => {

@@ -76,10 +76,4 @@ describe("AppTypeOrmLogger", () => {
   it("log should be undefined level warn with empty options", () => {
     expect(new AppTypeOrmLogger([]).log("warn", "")).toBeUndefined();
   });
-
-  it("stringifyParams should be equal to a value", () => {
-    expect(new AppTypeOrmLogger().stringifyParams([0])).toEqual("[0]");
-  });
-
-  it.todo("stringifyParams should throw an error");
 });

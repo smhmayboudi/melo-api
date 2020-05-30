@@ -7,7 +7,7 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { EmotionConfigReqDto } from "./emotion.config.req.dto";
 import { Type } from "class-transformer";
@@ -15,7 +15,7 @@ import { Type } from "class-transformer";
 export class EmotionEmotionsReqDto {
   constructor(
     config: EmotionConfigReqDto,
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     dataConfigImage: DataConfigImageReqDto,
     emotions: string[],
     from: number,
@@ -23,7 +23,7 @@ export class EmotionEmotionsReqDto {
     sub: number
   ) {
     this.config = config;
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.dataConfigImage = dataConfigImage;
     this.emotions = emotions;
     this.from = from;
@@ -39,7 +39,7 @@ export class EmotionEmotionsReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)

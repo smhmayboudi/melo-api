@@ -11,9 +11,8 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   EmotionConfigReqDto,
   EmotionEmotionsParamReqDto,
   EmotionEmotionsQueryReqDto,
@@ -44,7 +43,7 @@ export class EmotionController {
     indexName: this.emotionConfigService.indexName,
     maxSize: this.emotionConfigService.maxSize,
   };
-  private dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: this.dataConfigService.imagePath,
     imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
     imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
@@ -74,12 +73,12 @@ export class EmotionController {
     @Param() paramDto: EmotionEmotionsParamReqDto,
     @Query() queryDto: EmotionEmotionsQueryReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<EmotionEmotionsResDto>> {
+  ): Promise<EmotionEmotionsResDto[]> {
     return this.emotionService.emotions({
       ...paramDto,
       ...queryDto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       sub,
     });

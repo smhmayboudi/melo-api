@@ -20,7 +20,11 @@ export class ApmInterceptor implements NestInterceptor {
   ): Observable<Response> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      express.Request & { user: { sub: string } }
+      express.Request & {
+        user: {
+          sub: string;
+        };
+      }
     >();
     if (this.apmService.isStarted()) {
       this.apmService.setUserContext({

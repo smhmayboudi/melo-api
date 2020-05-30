@@ -55,9 +55,6 @@ describe("AuthJwtOptionsFactory", () => {
         jwksService
       ).createJwtOptions()
     ).toEqual({
-      jsonWebTokenOptions: {
-        algorithms: ["RS256"],
-      },
       privateKey: "",
       publicKey: "",
       signOptions: {

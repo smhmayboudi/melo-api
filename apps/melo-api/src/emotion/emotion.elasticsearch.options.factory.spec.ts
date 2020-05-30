@@ -6,7 +6,7 @@ import { EmotionElasticsearchOptionsFactory } from "./emotion.elasticsearch.opti
 
 describe("EmotionElasticsearchOptionsFactory", () => {
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
   };

@@ -10,7 +10,6 @@ import {
   AtValidateByTokenReqDto,
   AtValidateReqDto,
 } from "@melo/common";
-import { DeleteResult, UpdateResult } from "typeorm";
 
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
@@ -30,19 +29,25 @@ export class AtService implements AtServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async delete(dto: AtDeleteReqDto): Promise<DeleteResult> {
-    return this.atEntityRepository.delete({
+  async delete(dto: AtDeleteReqDto): Promise<AtResDto | undefined> {
+    const at = await this.findOne(dto);
+    await this.atEntityRepository.delete({
       id: dto.id,
     });
+    return at;
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async deleteByToken(dto: AtDeleteByTokenReqDto): Promise<DeleteResult> {
-    return this.atEntityRepository.delete({
+  async deleteByToken(
+    dto: AtDeleteByTokenReqDto
+  ): Promise<AtResDto | undefined> {
+    const at = await this.findOneByToken(dto);
+    await this.atEntityRepository.delete({
       token: dto.token,
     });
+    return at;
   }
 
   @ApmAfterMethod
@@ -80,13 +85,14 @@ export class AtService implements AtServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async update(dto: AtUpdateReqDto): Promise<UpdateResult> {
-    return this.atEntityRepository.update(
+  async update(dto: AtUpdateReqDto): Promise<AtResDto | undefined> {
+    await this.atEntityRepository.update(
       {
         id: dto.id,
       },
       dto
     );
+    return this.findOne(dto);
   }
 
   @ApmAfterMethod

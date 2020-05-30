@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DownloadConfigReqDto,
   DownloadOrderByType,
   DownloadSongReqDto,
@@ -20,7 +19,7 @@ describe("DownloadController", () => {
     indexName: "",
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -63,14 +62,9 @@ describe("DownloadController", () => {
     downloadedAt: releaseDate,
     song,
   };
-  const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
-    results: [downloadSong],
-    total: 1,
-  } as DataPaginationResDto<DownloadSongResDto>;
-
   const downloadServiceMock: DownloadServiceInterface = {
-    downloadedSongs: (): Promise<DataPaginationResDto<DownloadSongResDto>> =>
-      Promise.resolve(downloadSongPagination),
+    downloadedSongs: (): Promise<DownloadSongResDto[]> =>
+      Promise.resolve([downloadSong]),
   };
 
   let controller: DownloadController;
@@ -86,7 +80,7 @@ describe("DownloadController", () => {
   it("downloadedSongs should return an array of songId and dates", async () => {
     const dto: DownloadSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       filter: "",
       from: 0,
@@ -94,8 +88,6 @@ describe("DownloadController", () => {
       size: 0,
       sub: 1,
     };
-    expect(await controller.downloadedSongs(dto)).toEqual(
-      downloadSongPagination
-    );
+    expect(await controller.downloadedSongs(dto)).toEqual([downloadSong]);
   });
 });

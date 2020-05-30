@@ -34,15 +34,10 @@ export class AlbumHashIdInterceptor implements NestInterceptor {
     });
     return next.handle().pipe(
       map((data) => {
-        if (data.total === undefined) {
+        if (data.length === undefined) {
           return this.appHashIdService.encodeAlbum(data);
         } else {
-          return {
-            results: data.results.map((value) =>
-              this.appHashIdService.encodeAlbum(value)
-            ),
-            total: data.total,
-          };
+          return data.map((value) => this.appHashIdService.encodeAlbum(value));
         }
       })
     );

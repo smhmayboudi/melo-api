@@ -2,9 +2,9 @@ import { USER } from "@melo/common";
 import { registerAs } from "@nestjs/config";
 
 export default registerAs(USER, () => ({
-  cacheHost: process.env.USER_CACHE_HOST,
-  cacheMax: process.env.USER_CACHE_MAX,
-  cachePort: process.env.USER_CACHE_PORT,
-  cacheStore: process.env.USER_CACHE_STORE,
-  cacheTTL: process.env.USER_CACHE_TTL,
+  CACHE_HOST: process.env.USER_CACHE_HOST,
+  CACHE_MAX: process.env.USER_CACHE_MAX,
+  CACHE_PORT: process.env.USER_CACHE_PORT,
+  CACHE_STORE: process.env.USER_CACHE_STORE,
+  CACHE_TTL: process.env.USER_CACHE_TTL,
 }));

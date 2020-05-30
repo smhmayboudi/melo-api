@@ -5,18 +5,10 @@ import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
 export class EmotionEmotionsResDto {
-  constructor(song: SongResDto, emotions: string[]) {
-    this.song = song;
+  constructor(emotions: string[], song: SongResDto) {
     this.emotions = emotions;
+    this.song = song;
   }
-
-  @ApiProperty({
-    description: "The song",
-    example: "0",
-  })
-  @Type(() => SongResDto)
-  @ValidateNested()
-  readonly song: SongResDto;
 
   @ApiProperty({
     description: "The emotions",
@@ -27,4 +19,12 @@ export class EmotionEmotionsResDto {
   @IsArray()
   @IsString({ each: true })
   readonly emotions: string[];
+
+  @ApiProperty({
+    description: "The song",
+    example: "0",
+  })
+  @Type(() => SongResDto)
+  @ValidateNested()
+  readonly song: SongResDto;
 }

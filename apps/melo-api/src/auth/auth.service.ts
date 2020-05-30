@@ -14,6 +14,7 @@ import { JwksService } from "../jwks/jwks.service";
 import { JwtService } from "@nestjs/jwt";
 import { PromMethodCounter } from "@melo/prom";
 import { RtService } from "../rt/rt.service";
+import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 
@@ -76,19 +77,21 @@ export class AuthService implements AuthServiceInterface {
         subject: dto.sub.toString(),
       }
     );
-    const exp = moment(dto.now).add(dto.config.expiresIn, "ms").toDate();
+    const now = dto.now || new Date();
+    const exp = moment(now).add(dto.config.expiresIn, "ms").toDate();
+    const rt = dto.rt || cryptoRandomString({ length: 256, type: "base64" });
     await this.rtService.save({
-      created_at: dto.now!,
+      created_at: now,
       description: "",
       expire_at: exp,
       id: 0,
       is_blocked: false,
-      token: dto.rt!,
+      token: rt,
       user_id: dto.sub,
     });
     return {
       at,
-      rt: dto.rt!,
+      rt,
     };
   }
 }

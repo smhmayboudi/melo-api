@@ -7,9 +7,8 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DataPaginationResDto,
+  RelationEdgeType,
   RelationEntityType,
-  RelationType,
 } from "@melo/common";
 
 import { ArtistServiceInterface } from "./artist.service.interface";
@@ -36,11 +35,11 @@ export class ArtistService implements ArtistServiceInterface {
         id: dto.sub,
         type: RelationEntityType.user,
       },
-      relationType: RelationType.follows,
       to: {
         id: dto.id,
         type: RelationEntityType.artist,
       },
+      type: RelationEdgeType.follows,
     });
     const artist = await this.dataArtistService.get(dto);
     return {
@@ -53,27 +52,22 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async following(
-    dto: ArtistFollowingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
-    const relation = await this.relationService.get({
-      from: dto.from,
-      fromEntityDto: {
+  async following(dto: ArtistFollowingReqDto): Promise<ArtistResDto[]> {
+    const relations = await this.relationService.get({
+      entity: {
         id: dto.sub,
-        type: RelationEntityType.following,
+        type: RelationEntityType.user,
       },
-      relationType: RelationType.follows,
+      from: dto.from,
       size: Math.min(dto.config.maxSize, dto.size),
+      type: RelationEdgeType.follows,
     });
-    if (relation.results.length === 0) {
-      return {
-        results: [] as ArtistResDto[],
-        total: 0,
-      } as DataPaginationResDto<ArtistResDto>;
+    if (relations.length === 0) {
+      return [];
     }
     return this.dataArtistService.getByIds({
       ...dto,
-      ids: relation.results.map((value) => value.id),
+      ids: relations.map((value) => value.to.id),
     });
   }
 
@@ -87,18 +81,14 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  async trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
     return this.dataArtistService.trending(dto);
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trendingGenre(
-    dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  async trendingGenre(dto: ArtistTrendingGenreReqDto): Promise<ArtistResDto[]> {
     return this.dataArtistService.trendingGenre(dto);
   }
 
@@ -111,12 +101,17 @@ export class ArtistService implements ArtistServiceInterface {
         id: dto.sub,
         type: RelationEntityType.user,
       },
-      relationType: RelationType.unfollows,
       to: {
         id: dto.id,
         type: RelationEntityType.artist,
       },
+      type: RelationEdgeType.follows,
     });
-    return this.dataArtistService.get(dto);
+    const artist = await this.dataArtistService.get(dto);
+    return {
+      ...artist,
+      followersCount: artist.followersCount - 1,
+      following: false,
+    };
   }
 }

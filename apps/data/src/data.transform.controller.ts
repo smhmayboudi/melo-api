@@ -4,8 +4,8 @@ import {
   DATA_TRANSFORM_SERVICE_ALBUM,
   DATA_TRANSFORM_SERVICE_ARTIST,
   DATA_TRANSFORM_SERVICE_SONG,
-  DataElasticSearchArtistResDto,
-  DataElasticSearchSearchResDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   SongResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
@@ -18,17 +18,17 @@ export class DataTransformController {
   constructor(private readonly dataTransformService: DataTransformService) {}
 
   @MessagePattern(DATA_TRANSFORM_SERVICE_ALBUM)
-  album(@Payload() dto: DataElasticSearchSearchResDto): Promise<AlbumResDto> {
+  album(@Payload() dto: DataElasticsearchSearchResDto): Promise<AlbumResDto> {
     return this.dataTransformService.album(dto);
   }
 
   @MessagePattern(DATA_TRANSFORM_SERVICE_ARTIST)
-  artist(@Payload() dto: DataElasticSearchArtistResDto): Promise<ArtistResDto> {
+  artist(@Payload() dto: DataElasticsearchArtistResDto): Promise<ArtistResDto> {
     return this.dataTransformService.artist(dto);
   }
 
   @MessagePattern(DATA_TRANSFORM_SERVICE_SONG)
-  song(@Payload() dto: DataElasticSearchSearchResDto): Promise<SongResDto> {
+  song(@Payload() dto: DataElasticsearchSearchResDto): Promise<SongResDto> {
     return this.dataTransformService.song(dto);
   }
 }

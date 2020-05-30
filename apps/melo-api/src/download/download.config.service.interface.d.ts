@@ -1,5 +1,5 @@
 export interface DownloadConfigServiceInterface {
-  elasticNode: string;
+  elasticsearchNode: string;
   indexName: string;
   maxSize: number;
 }

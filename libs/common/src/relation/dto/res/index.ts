@@ -1,1 +1,1 @@
-export * from "./relation.multi-has.res.dto";
+export * from "./relation.res.dto";

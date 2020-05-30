@@ -2,18 +2,18 @@ import { Exclude, Type } from "class-transformer";
 import { IsEnum, ValidateNested } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
+import { RelationEdgeType } from "../../relation.edge.type";
 import { RelationEntityReqDto } from "../req/relation.entity.req.dto";
-import { RelationType } from "../../relation.type";
 
 export class RelationRemoveReqDto {
   constructor(
     from: RelationEntityReqDto,
     to: RelationEntityReqDto,
-    relationType: RelationType
+    type: RelationEdgeType
   ) {
     this.from = from;
     this.to = to;
-    this.relationType = relationType;
+    this.type = type;
   }
 
   @ApiProperty({
@@ -34,8 +34,8 @@ export class RelationRemoveReqDto {
 
   @ApiProperty({
     description: "The type",
-    example: RelationType.follows,
+    example: RelationEdgeType.follows,
   })
-  @IsEnum(RelationType)
-  readonly relationType: RelationType;
+  @IsEnum(RelationEdgeType)
+  readonly type: RelationEdgeType;
 }

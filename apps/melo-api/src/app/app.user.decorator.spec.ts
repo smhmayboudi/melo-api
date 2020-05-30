@@ -26,7 +26,11 @@ describe("AppUser", () => {
   it("shoud be equal to a value data undefined", () => {
     const httpArgumentsHost: HttpArgumentsHost = {
       ...httpArgumentsHostPartial,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        user: {
+          sub: "0",
+        },
+      })),
     };
     const executionContext: ExecutionContext = {
       ...executionContextPartial,
@@ -64,7 +68,11 @@ describe("AppUser", () => {
   it("shoud be equal to a value", () => {
     const httpArgumentsHost: HttpArgumentsHost = {
       ...httpArgumentsHostPartial,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        user: {
+          sub: "0",
+        },
+      })),
     };
     const executionContext: ExecutionContext = {
       ...executionContextPartial,

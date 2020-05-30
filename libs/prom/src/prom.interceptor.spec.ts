@@ -19,10 +19,15 @@ import { of } from "rxjs";
 describe("PromInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest
-      .fn()
-      .mockImplementation(() => ({ method: "", route: { path: "/test" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      method: "",
+      route: {
+        path: "/test",
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -42,7 +47,7 @@ describe("PromInterceptor", () => {
   const counterMock = {
     inc: jest.fn(() => undefined),
   };
-  const optionsMock: PromModuleOptions = {};
+  const promModuleOptionsMock: PromModuleOptions = {};
 
   let counter: Counter<string>;
   let options: PromModuleOptions;
@@ -56,7 +61,7 @@ describe("PromInterceptor", () => {
         },
         {
           provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-          useValue: optionsMock,
+          useValue: promModuleOptionsMock,
         },
         {
           provide: APP_INTERCEPTOR,
@@ -87,8 +92,8 @@ describe("PromInterceptor", () => {
   });
 
   it("intercept should be called 2", async () => {
-    const optionsMockIgnorePaths: PromModuleOptions = {
-      ...optionsMock,
+    const promModuleOptionsMockIgnorePaths: PromModuleOptions = {
+      ...promModuleOptionsMock,
       ignorePaths: [""],
     };
 
@@ -100,7 +105,7 @@ describe("PromInterceptor", () => {
         },
         {
           provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-          useValue: optionsMockIgnorePaths,
+          useValue: promModuleOptionsMockIgnorePaths,
         },
         {
           provide: APP_INTERCEPTOR,
@@ -124,8 +129,8 @@ describe("PromInterceptor", () => {
   });
 
   it("intercept should be called 3", async () => {
-    const optionsMockIgnorePaths: PromModuleOptions = {
-      ...optionsMock,
+    const promModuleOptionsMockIgnorePaths: PromModuleOptions = {
+      ...promModuleOptionsMock,
       ignorePaths: ["/test"],
     };
 
@@ -137,7 +142,7 @@ describe("PromInterceptor", () => {
         },
         {
           provide: getTokenConfiguration(PROM_MODULE_OPTIONS),
-          useValue: optionsMockIgnorePaths,
+          useValue: promModuleOptionsMockIgnorePaths,
         },
         {
           provide: APP_INTERCEPTOR,

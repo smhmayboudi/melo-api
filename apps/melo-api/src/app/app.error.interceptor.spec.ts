@@ -10,9 +10,12 @@ import { of } from "rxjs";
 describe("AppErrorInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest
-      .fn()
-      .mockImplementation(() => ({ path: "", user: { sub: "0" } })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      path: "",
+      user: {
+        sub: "0",
+      },
+    })),
     getResponse: jest.fn(),
   };
   const executionContext: ExecutionContext = {

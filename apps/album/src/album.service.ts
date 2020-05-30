@@ -7,7 +7,6 @@ import {
   DATA_ALBUM_SERVICE_GET,
   DATA_ALBUM_SERVICE_LATEST,
   DATA_SERVICE,
-  DataPaginationResDto,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Inject, Injectable } from "@nestjs/common";
@@ -26,16 +25,11 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async albums(
-    dto: AlbumArtistsReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  async albums(dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
     return this.clientProxy
-      .send<DataPaginationResDto<AlbumResDto>, AlbumArtistsReqDto>(
-        DATA_ALBUM_SERVICE_ALBUMS,
-        {
-          ...dto,
-        }
-      )
+      .send<AlbumResDto[], AlbumArtistsReqDto>(DATA_ALBUM_SERVICE_ALBUMS, {
+        ...dto,
+      })
       .toPromise();
   }
 
@@ -51,14 +45,9 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async latest(
-    dto: AlbumLatestReqDto
-  ): Promise<DataPaginationResDto<AlbumResDto>> {
+  async latest(dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
     return this.clientProxy
-      .send<DataPaginationResDto<AlbumResDto>, AlbumLatestReqDto>(
-        DATA_ALBUM_SERVICE_LATEST,
-        dto
-      )
+      .send<AlbumResDto[], AlbumLatestReqDto>(DATA_ALBUM_SERVICE_LATEST, dto)
       .toPromise();
   }
 }

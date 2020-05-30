@@ -26,52 +26,84 @@ import { UserHealthIndicator } from "../user/user.health.indicator";
 
 describe("AppHealthController", () => {
   const actionHealthIndicatorResult: HealthIndicatorResult = {
-    action: { status: "up" },
+    action: {
+      status: "up",
+    },
   };
   const albumHealthIndicatorResult: HealthIndicatorResult = {
-    album: { status: "up" },
+    album: {
+      status: "up",
+    },
   };
   const appHealthIndicatorResult: HealthIndicatorResult = {
-    app: { status: "up" },
+    app: {
+      status: "up",
+    },
   };
   const artistHealthIndicatorResult: HealthIndicatorResult = {
-    artist: { status: "up" },
+    artist: {
+      status: "up",
+    },
   };
   const atHealthIndicatorResult: HealthIndicatorResult = {
-    at: { status: "up" },
+    at: {
+      status: "up",
+    },
   };
   const authHealthIndicatorResult: HealthIndicatorResult = {
-    auth: { status: "up" },
+    auth: {
+      status: "up",
+    },
   };
   const constHealthIndicatorResult: HealthIndicatorResult = {
-    const: { status: "up" },
+    const: {
+      status: "up",
+    },
   };
   const dataHealthIndicatorResult: HealthIndicatorResult = {
-    data: { status: "up" },
+    data: {
+      status: "up",
+    },
   };
   const fileHealthIndicatorResult: HealthIndicatorResult = {
-    file: { status: "up" },
+    file: {
+      status: "up",
+    },
   };
   const jwksHealthIndicatorResult: HealthIndicatorResult = {
-    jwks: { status: "up" },
+    jwks: {
+      status: "up",
+    },
   };
   const playlistHealthIndicatorResult: HealthIndicatorResult = {
-    playlist: { status: "up" },
+    playlist: {
+      status: "up",
+    },
   };
   const relationHealthIndicatorResult: HealthIndicatorResult = {
-    relation: { status: "up" },
+    relation: {
+      status: "up",
+    },
   };
   const rtHealthIndicatorResult: HealthIndicatorResult = {
-    rt: { status: "up" },
+    rt: {
+      status: "up",
+    },
   };
   const searchHealthIndicatorResult: HealthIndicatorResult = {
-    search: { status: "up" },
+    search: {
+      status: "up",
+    },
   };
   const songHealthIndicatorResult: HealthIndicatorResult = {
-    song: { status: "up" },
+    song: {
+      status: "up",
+    },
   };
   const userHealthIndicatorResult: HealthIndicatorResult = {
-    user: { status: "up" },
+    user: {
+      status: "up",
+    },
   };
   const healthCheckResult: HealthCheckResult = {
     details: {
@@ -182,7 +214,21 @@ describe("AppHealthController", () => {
   };
   // TODO: interface ?
   const healthCheckServiceMock = {
-    check: (): Promise<HealthCheckResult> => Promise.resolve(healthCheckResult),
+    check: async (indicatorFunctions: any[]): Promise<HealthCheckResult> => {
+      let indicator;
+      await Promise.all(
+        indicatorFunctions.map(async (value) => {
+          const value2 = await value();
+          indicator = { ...indicator, ...value2 };
+        })
+      );
+      return Promise.resolve({
+        details: indicator,
+        error: {},
+        info: indicator,
+        status: "ok",
+      });
+    },
   };
 
   beforeEach(async () => {

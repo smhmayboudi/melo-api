@@ -3,8 +3,8 @@ import {
   AppArtistFollowReqDto,
   AppArtistFollowsReqDto,
   ArtistResDto,
+  RelationEdgeType,
   RelationEntityType,
-  RelationType,
 } from "@melo/common";
 
 import { AppArtistServiceInterface } from "./app.artist.service.interface";
@@ -20,20 +20,20 @@ export class AppArtistService implements AppArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async follow(dto: AppArtistFollowReqDto): Promise<ArtistResDto> {
-    const relation = await this.relationService.has({
+    const has = await this.relationService.has({
       from: {
         id: dto.sub,
         type: RelationEntityType.user,
       },
-      relationType: RelationType.follows,
       to: {
         id: dto.artist.id,
         type: RelationEntityType.artist,
       },
+      type: RelationEdgeType.follows,
     });
     return {
       ...dto.artist,
-      following: relation,
+      following: has !== undefined,
     };
   }
 
@@ -49,11 +49,11 @@ export class AppArtistService implements AppArtistServiceInterface {
         id: dto.sub,
         type: RelationEntityType.user,
       },
-      relationType: RelationType.follows,
       tos: dto.artists.map((value) => ({
         id: value.id,
         type: RelationEntityType.artist,
       })),
+      type: RelationEdgeType.follows,
     });
     return dto.artists.map((value) => ({
       ...value,

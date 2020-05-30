@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
@@ -21,8 +20,14 @@ describe("SearchHashIdInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest.fn().mockImplementation(() => ({ body: { id: 0 } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      body: {
+        id: 0,
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -60,16 +65,12 @@ describe("SearchHashIdInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -86,13 +87,6 @@ describe("SearchHashIdInterceptor", () => {
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
-  };
-  const searchPagination: DataPaginationResDto<SearchResDto> = {
-    results: [search],
-    total: 1,
-  } as DataPaginationResDto<SearchResDto>;
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(searchPagination)),
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -120,7 +114,10 @@ describe("SearchHashIdInterceptor", () => {
     expect(new SearchHashIdInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
+  it("intercept should be called data: single search", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(search)),
+    };
     new SearchHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
@@ -129,6 +126,9 @@ describe("SearchHashIdInterceptor", () => {
   });
 
   it("intercept should be called data: list of searches", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([search])),
+    };
     new SearchHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();

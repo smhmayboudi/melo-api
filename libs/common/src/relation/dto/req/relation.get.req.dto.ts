@@ -1,22 +1,29 @@
 import { IsEnum, IsNumberString, ValidateNested } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
+import { RelationEdgeType } from "../../relation.edge.type";
 import { RelationEntityReqDto } from "./relation.entity.req.dto";
-import { RelationType } from "../../relation.type";
 import { Type } from "class-transformer";
 
 export class RelationGetReqDto {
   constructor(
+    entity: RelationEntityReqDto,
     from: number,
-    fromEntityDto: RelationEntityReqDto,
-    relationType: RelationType,
-    size: number
+    size: number,
+    type: RelationEdgeType
   ) {
+    this.entity = entity;
     this.from = from;
-    this.fromEntityDto = fromEntityDto;
-    this.relationType = relationType;
     this.size = size;
+    this.type = type;
   }
+
+  @ApiProperty({
+    description: "The entity",
+  })
+  @Type(() => RelationEntityReqDto)
+  @ValidateNested()
+  readonly entity: RelationEntityReqDto;
 
   @ApiProperty({
     description: "Starting point index",
@@ -26,23 +33,16 @@ export class RelationGetReqDto {
   readonly from: number;
 
   @ApiProperty({
-    description: "The entity",
-  })
-  @Type(() => RelationEntityReqDto)
-  @ValidateNested()
-  readonly fromEntityDto: RelationEntityReqDto;
-
-  @ApiProperty({
-    description: "The type",
-    example: RelationType.follows,
-  })
-  @IsEnum(RelationType)
-  readonly relationType: RelationType;
-
-  @ApiProperty({
     description: "Size of results",
     example: "0",
   })
   @IsNumberString()
   readonly size: number;
+
+  @ApiProperty({
+    description: "The type",
+    example: RelationEdgeType.follows,
+  })
+  @IsEnum(RelationEdgeType)
+  readonly type: RelationEdgeType;
 }

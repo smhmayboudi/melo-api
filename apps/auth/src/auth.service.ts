@@ -24,6 +24,7 @@ import { AuthServiceInterface } from "./auth.service.interface";
 import { ClientProxy } from "@nestjs/microservices";
 import { JwtService } from "@nestjs/jwt";
 import { PromMethodCounter } from "@melo/prom";
+import cryptoRandomString from "crypto-random-string";
 import moment from "moment";
 import { v4 as uuidv4 } from "uuid";
 
@@ -99,21 +100,23 @@ export class AuthService implements AuthServiceInterface {
         subject: dto.sub.toString(),
       }
     );
-    const exp = moment(dto.now).add(dto.config.expiresIn, "ms").toDate();
+    const now = dto.now || new Date();
+    const exp = moment(now).add(dto.config.expiresIn, "ms").toDate();
+    const rt = dto.rt || cryptoRandomString({ length: 256, type: "base64" });
     await this.clientProxyRt
       .send<RtResDto, RtSaveReqDto>(RT_SERVICE_SAVE, {
-        created_at: dto.now!,
+        created_at: now,
         description: "",
         expire_at: exp,
         id: 0,
         is_blocked: false,
-        token: dto.rt!,
+        token: rt,
         user_id: dto.sub,
       })
       .toPromise();
     return {
       at,
-      rt: dto.rt!,
+      rt,
     };
   }
 }

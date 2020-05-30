@@ -1,14 +1,13 @@
 import {
-  DataPaginationResDto,
+  RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
   RelationGetReqDto,
   RelationHasReqDto,
   RelationMultiHasReqDto,
-  RelationMultiHasResDto,
   RelationRemoveReqDto,
+  RelationResDto,
   RelationSetReqDto,
-  RelationType,
 } from "@melo/common";
 
 import { RelationController } from "./relation.controller";
@@ -18,28 +17,27 @@ import { Test } from "@nestjs/testing";
 
 describe("RelationController", () => {
   const date = new Date();
-  const relation: RelationEntityReqDto = {
+  const from: RelationEntityReqDto = {
     id: 0,
-    type: RelationEntityType.album,
+    type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationMultiHasResDto = {
-    from: { id: 0, type: RelationEntityType.album },
-    relation: RelationType.follows,
-    to: { id: 0, type: RelationEntityType.album },
+  const relationMultiHas: RelationResDto = {
+    from,
+    to: {
+      id: 0,
+      type: RelationEntityType.user,
+    },
+    type: RelationEdgeType.follows,
   };
-  const relationPagination: DataPaginationResDto<RelationEntityReqDto> = {
-    results: [relation],
-    total: 1,
-  } as DataPaginationResDto<RelationEntityReqDto>;
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<DataPaginationResDto<RelationEntityReqDto>> =>
-      Promise.resolve(relationPagination),
-    has: (): Promise<boolean> => Promise.resolve(true),
-    multiHas: (): Promise<RelationMultiHasResDto[]> =>
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
+    has: (): Promise<RelationResDto | undefined> =>
+      Promise.resolve(relationMultiHas),
+    multiHas: (): Promise<RelationResDto[]> =>
       Promise.resolve([relationMultiHas]),
-    remove: (): Promise<boolean> => Promise.resolve(true),
-    set: (): Promise<boolean> => Promise.resolve(true),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
   };
 
   let controller: RelationController;
@@ -63,51 +61,85 @@ describe("RelationController", () => {
 
   it("get should equal to a relation", async () => {
     const dto: RelationGetReqDto = {
-      from: 0,
-      fromEntityDto: {
+      entity: {
         id: 0,
-        type: RelationEntityType.album,
+        type: RelationEntityType.user,
       },
-      relationType: RelationType.follows,
+      from: 0,
       size: 0,
+      type: RelationEdgeType.follows,
     };
-    expect(await controller.get(dto)).toEqual(relationPagination);
+    expect(await controller.get(dto)).toEqual([relationMultiHas]);
   });
 
   it("has should equal to a relation", async () => {
     const dto: RelationHasReqDto = {
-      from: { id: 0, type: RelationEntityType.album },
-      relationType: RelationType.follows,
-      to: { id: 0, type: RelationEntityType.album },
+      from: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      to: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      type: RelationEdgeType.follows,
     };
-    expect(await controller.has(dto)).toEqual(true);
+    expect(await controller.has(dto)).toEqual(dto);
   });
 
   it("multiHas should equal to a relation", async () => {
     const dto: RelationMultiHasReqDto = {
-      from: { id: 0, type: RelationEntityType.album },
-      relationType: RelationType.follows,
-      tos: [{ id: 0, type: RelationEntityType.album }],
+      from: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      tos: [
+        {
+          id: 0,
+          type: RelationEntityType.user,
+        },
+      ],
+      type: RelationEdgeType.follows,
     };
     expect(await controller.multiHas(dto)).toEqual([relationMultiHas]);
   });
 
   it("remove should equal to a relation", async () => {
     const dto: RelationRemoveReqDto = {
-      from: { id: 0, name: undefined, type: RelationEntityType.album },
-      relationType: RelationType.follows,
-      to: { id: 0, name: undefined, type: RelationEntityType.album },
+      from: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      to: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      type: RelationEdgeType.follows,
     };
-    expect(await controller.remove(dto)).toEqual(true);
+    expect(await controller.remove(dto)).toEqual({
+      from: dto.from,
+      to: dto.to,
+      type: dto.type,
+    });
   });
 
   it("set should equal to a relation", async () => {
     const dto: RelationSetReqDto = {
       createdAt: date,
-      from: { id: 0, name: undefined, type: RelationEntityType.album },
-      relationType: RelationType.follows,
-      to: { id: 0, name: undefined, type: RelationEntityType.album },
+      from: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      to: {
+        id: 0,
+        type: RelationEntityType.user,
+      },
+      type: RelationEdgeType.follows,
     };
-    expect(await controller.set(dto)).toEqual(true);
+    expect(await controller.set(dto)).toEqual({
+      from: dto.from,
+      to: dto.to,
+      type: dto.type,
+    });
   });
 });

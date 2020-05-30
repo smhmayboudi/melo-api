@@ -2,11 +2,12 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataElasticSearchArtistResDto,
-  DataElasticSearchSearchResDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   DataImageResDto,
+  DataSearchType,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -16,7 +17,7 @@ import { DataImageServiceInterface } from "./data.image.service.interface";
 import { DataTransformService } from "./data.transform.service";
 
 describe("DataTransformService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -64,9 +65,9 @@ describe("DataTransformService", () => {
     tags: [""],
     tracksCount: 0,
   };
-  const artistElastic: DataElasticSearchArtistResDto = {
+  const artistElastic: DataElasticsearchArtistResDto = {
     available: false,
-    dataConfigElasticSearch,
+    dataConfigElasticsearch,
     dataConfigImage,
     followers_count: 0,
     full_name: "",
@@ -74,10 +75,14 @@ describe("DataTransformService", () => {
     id: 0,
     popular: false,
     sum_downloads_count: 1,
-    tags: [{ tag: "" }],
+    tags: [
+      {
+        tag: "",
+      },
+    ],
     type: DataArtistType.prime,
   };
-  const searchElastic: DataElasticSearchSearchResDto = {
+  const searchElastic: DataElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
     album_id: 0,
@@ -88,7 +93,7 @@ describe("DataTransformService", () => {
     artist_sum_downloads_count: 1,
     artists: [artistElastic],
     copyright: false,
-    dataConfigElasticSearch,
+    dataConfigElasticsearch,
     dataConfigImage,
     downloads_count: 0,
     duration: 0,
@@ -99,16 +104,24 @@ describe("DataTransformService", () => {
     lyrics: "",
     max_audio_rate: 0,
     release_date: releaseDate,
-    tags: [{ tag: "" }],
+    suggested: 0,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
     title: "",
-    type: "",
+    type: DataSearchType.album,
     unique_name: "",
   };
   const song: SongResDto = {
     album,
     artists: [artist],
     audio: {
-      medium: { fingerprint: "", url: "-0.mp3" },
+      medium: {
+        fingerprint: "",
+        url: "-0.mp3",
+      },
     },
     copyrighted: false,
     downloadCount: 0,
@@ -152,11 +165,67 @@ describe("DataTransformService", () => {
     expect(await service.album(searchElastic)).toEqual(album);
   });
 
+  it("album should be equal to an album 2", async () => {
+    expect(
+      await service.album({
+        ...searchElastic,
+        tags: undefined,
+        unique_name: undefined,
+      })
+    ).toEqual({
+      ...album,
+      tags: undefined,
+    });
+  });
+
   it("artist should be equal to an artist", async () => {
     expect(await service.artist(artistElastic)).toEqual(artist);
   });
 
+  it("artist should be equal to an artist 2", async () => {
+    expect(
+      await service.artist({
+        ...artistElastic,
+        has_cover: true,
+        sum_downloads_count: 0,
+        tags: undefined,
+      })
+    ).toEqual({
+      ...artist,
+      sumSongsDownloadsCount: undefined,
+      tags: undefined,
+    });
+  });
+
   it("song should be equal to a song", async () => {
     expect(await service.song(searchElastic)).toEqual(song);
+  });
+
+  it("song should be equal to a song 2", async () => {
+    expect(
+      await service.song({
+        ...searchElastic,
+        localize: undefined,
+        tags: undefined,
+        title: undefined,
+      })
+    ).toEqual({
+      ...song,
+      album: { ...album, tags: undefined },
+      tags: undefined,
+    });
+  });
+
+  it("song should be equal to a song 3", async () => {
+    expect(
+      await service.song({
+        ...searchElastic,
+        has_cover: true,
+        localize: true,
+      })
+    ).toEqual({
+      ...song,
+      localized: true,
+    });
   });
 });

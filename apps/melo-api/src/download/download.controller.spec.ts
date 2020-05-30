@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   DownloadOrderByType,
   DownloadSongParamReqDto,
@@ -56,10 +55,6 @@ describe("DownloadController", () => {
     downloadedAt: releaseDate,
     song,
   };
-  const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
-    results: [downloadSong],
-    total: 1,
-  } as DataPaginationResDto<DownloadSongResDto>;
   const playlist: PlaylistResDto = {
     followersCount: 0,
     id: "",
@@ -86,18 +81,18 @@ describe("DownloadController", () => {
     encodeSearch: (): unknown => search,
     encodeSong: (): unknown => song,
   };
-  const appSongMock: AppSongServiceInterface = {
+  const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
     localize: (): Promise<SongResDto> => Promise.resolve(song),
   };
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -111,17 +106,17 @@ describe("DownloadController", () => {
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
   const downloadServiceMock: DownloadServiceInterface = {
-    downloadedSongs: (): Promise<DataPaginationResDto<DownloadSongResDto>> =>
-      Promise.resolve(downloadSongPagination),
+    downloadedSongs: (): Promise<DownloadSongResDto[]> =>
+      Promise.resolve([downloadSong]),
   };
 
   let controller: DownloadController;
@@ -131,7 +126,7 @@ describe("DownloadController", () => {
       controllers: [DownloadController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppSongService, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongServiceMock },
         { provide: DownloadConfigService, useValue: downloadConfigServiceMock },
         { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: DownloadService, useValue: downloadServiceMock },
@@ -156,6 +151,6 @@ describe("DownloadController", () => {
         paramDto,
         queryDto
       )
-    ).toEqual(downloadSongPagination);
+    ).toEqual([downloadSong]);
   });
 });

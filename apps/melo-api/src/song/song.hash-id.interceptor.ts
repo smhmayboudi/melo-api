@@ -34,15 +34,10 @@ export class SongHashIdInterceptor implements NestInterceptor {
     });
     return next.handle().pipe(
       map((data) => {
-        if (data.total === undefined) {
+        if (data.length === undefined) {
           return this.appHashIdService.encodeSong(data);
         } else {
-          return {
-            results: data.results.map((value) =>
-              this.appHashIdService.encodeSong(value)
-            ),
-            total: data.total,
-          };
+          return data.map((value) => this.appHashIdService.encodeSong(value));
         }
       })
     );

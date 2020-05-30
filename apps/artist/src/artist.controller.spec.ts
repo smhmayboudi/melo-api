@@ -8,9 +8,8 @@ import {
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -22,7 +21,7 @@ describe("ArtistController", () => {
   const config: ArtistConfigReqDto = {
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -50,20 +49,12 @@ describe("ArtistController", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const artistPagination: DataPaginationResDto<ArtistResDto> = {
-    results: [artist],
-    total: 1,
-  } as DataPaginationResDto<ArtistResDto>;
-
   const artistServiceMock: ArtistServiceInterface = {
     follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    following: (): Promise<DataPaginationResDto<ArtistResDto>> =>
-      Promise.resolve(artistPagination),
+    following: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
     profile: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    trending: (): Promise<DataPaginationResDto<ArtistResDto>> =>
-      Promise.resolve(artistPagination),
-    trendingGenre: (): Promise<DataPaginationResDto<ArtistResDto>> =>
-      Promise.resolve(artistPagination),
+    trending: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    trendingGenre: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
     unfollow: (): Promise<ArtistResDto> => Promise.resolve(artist),
   };
 
@@ -81,9 +72,9 @@ describe("ArtistController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("follows should be equal to an artist", async () => {
+  it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,
@@ -94,18 +85,18 @@ describe("ArtistController", () => {
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await controller.following(dto)).toEqual(artistPagination);
+    expect(await controller.following(dto)).toEqual([artist]);
   });
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -114,24 +105,24 @@ describe("ArtistController", () => {
 
   it("trending should equal list of artists", async () => {
     const dto: ArtistTrendingReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await controller.trending(dto)).toEqual(artistPagination);
+    expect(await controller.trending(dto)).toEqual([artist]);
   });
 
   it("trending/genre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       genre: "pop",
     };
-    expect(await controller.trendingGenre(dto)).toEqual(artistPagination);
+    expect(await controller.trendingGenre(dto)).toEqual([artist]);
   });
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,

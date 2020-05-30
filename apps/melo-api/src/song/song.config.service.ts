@@ -1,7 +1,18 @@
+import {
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+  MAX_SIZE,
+  SEND_TIMEOUT,
+  SEND_URL,
+  SONG,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
-import { SONG } from "@melo/common";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
 import ms from "ms";
 
@@ -14,28 +25,28 @@ export class SongConfigService implements SongConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${SONG}.cacheHost`,
+      `${SONG}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${SONG}.cacheMax`,
+      `${SONG}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${SONG}.cachePort`,
+      `${SONG}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${SONG}.cacheStore`,
+      `${SONG}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,21 +54,21 @@ export class SongConfigService implements SongConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${SONG}.cacheTTL`,
+        `${SONG}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );
   }
 
   get maxSize(): number {
-    return this.configService.get<number>(`${SONG}.maxSize`, 0);
+    return this.configService.get<number>(`${SONG}.${MAX_SIZE}`, 0);
   }
 
-  get timeout(): number {
-    return ms(this.configService.get<string>(`${SONG}.timeout`, "0"));
+  get sendTimeout(): number {
+    return ms(this.configService.get<string>(`${SONG}.${SEND_TIMEOUT}`, "0"));
   }
 
-  get url(): string {
-    return this.configService.get<string>(`${SONG}.timeout`, "");
+  get sendUrl(): string {
+    return this.configService.get<string>(`${SONG}.${SEND_URL}`, "");
   }
 }

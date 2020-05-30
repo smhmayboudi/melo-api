@@ -1,19 +1,19 @@
 import { IsEnum, ValidateNested } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
+import { RelationEdgeType } from "../../relation.edge.type";
 import { RelationEntityReqDto } from "../req/relation.entity.req.dto";
-import { RelationType } from "../../relation.type";
 import { Type } from "class-transformer";
 
 export class RelationMultiHasReqDto {
   constructor(
     from: RelationEntityReqDto,
-    relationType: RelationType,
-    tos: RelationEntityReqDto[]
+    tos: RelationEntityReqDto[],
+    type: RelationEdgeType
   ) {
     this.from = from;
-    this.relationType = relationType;
     this.tos = tos;
+    this.type = type;
   }
 
   @ApiProperty({
@@ -25,13 +25,6 @@ export class RelationMultiHasReqDto {
   readonly from: RelationEntityReqDto;
 
   @ApiProperty({
-    description: "The relation type",
-    example: RelationType.follows,
-  })
-  @IsEnum(RelationType)
-  readonly relationType: RelationType;
-
-  @ApiProperty({
     description: "The to entity",
     isArray: true,
     type: RelationEntityReqDto,
@@ -41,4 +34,11 @@ export class RelationMultiHasReqDto {
     each: true,
   })
   readonly tos: RelationEntityReqDto[];
+
+  @ApiProperty({
+    description: "The relation type",
+    example: RelationEdgeType.follows,
+  })
+  @IsEnum(RelationEdgeType)
+  readonly type: RelationEdgeType;
 }

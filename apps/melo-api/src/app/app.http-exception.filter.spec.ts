@@ -6,11 +6,16 @@ import { HttpException } from "@nestjs/common";
 describe("HttpExceptionFilter", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest
-      .fn()
-      .mockImplementation(() => ({ method: "", route: { path: "" } })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      method: "",
+      route: {
+        path: "",
+      },
+    })),
     getResponse: jest.fn().mockImplementation(() => ({
-      status: (): unknown => ({ json: (): unknown => ({}) }),
+      status: (): unknown => ({
+        json: (): unknown => ({}),
+      }),
     })),
   };
   const argumentsHost: ArgumentsHost = {

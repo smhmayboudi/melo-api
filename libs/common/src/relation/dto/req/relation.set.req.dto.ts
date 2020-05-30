@@ -1,8 +1,8 @@
 import { IsDate, IsEnum, ValidateNested } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
+import { RelationEdgeType } from "../../relation.edge.type";
 import { RelationEntityReqDto } from "../req/relation.entity.req.dto";
-import { RelationType } from "../../relation.type";
 import { Type } from "class-transformer";
 
 export class RelationSetReqDto {
@@ -10,12 +10,12 @@ export class RelationSetReqDto {
     createdAt: Date,
     from: RelationEntityReqDto,
     to: RelationEntityReqDto,
-    relationType: RelationType
+    type: RelationEdgeType
   ) {
     this.createdAt = createdAt;
     this.from = from;
     this.to = to;
-    this.relationType = relationType;
+    this.type = type;
   }
 
   @ApiProperty({
@@ -42,8 +42,8 @@ export class RelationSetReqDto {
 
   @ApiProperty({
     description: "The type",
-    example: RelationType.follows,
+    example: RelationEdgeType.follows,
   })
-  @IsEnum(RelationType)
-  readonly relationType: RelationType;
+  @IsEnum(RelationEdgeType)
+  readonly type: RelationEdgeType;
 }

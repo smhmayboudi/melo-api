@@ -1,12 +1,15 @@
 import {
   DATA_SERVICE,
+  DATA_SONG_SERVICE_GET,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   RELATION_SERVICE,
+  RELATION_SERVICE_GET,
+  RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
+  RelationResDto,
   SongArtistSongsReqDto,
   SongConfigReqDto,
   SongGetReqDto,
@@ -39,9 +42,9 @@ import { SongService } from "./song.service";
 describe("SongService", () => {
   const config: SongConfigReqDto = {
     maxSize: 0,
-    url: "",
+    sendUrl: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -64,14 +67,18 @@ describe("SongService", () => {
       },
     ],
   };
-  const relation: RelationEntityReqDto = {
+  const from: RelationEntityReqDto = {
     id: 0,
-    type: RelationEntityType.album,
+    type: RelationEntityType.user,
   };
-  const relationPagination: DataPaginationResDto<RelationEntityReqDto> = {
-    results: [relation],
-    total: 1,
-  } as DataPaginationResDto<RelationEntityReqDto>;
+  const relationMultiHas: RelationResDto = {
+    from,
+    to: {
+      id: 0,
+      type: RelationEntityType.user,
+    },
+    type: RelationEdgeType.follows,
+  };
   const releaseDate = new Date();
   const song: SongResDto = {
     artists: [
@@ -88,28 +95,24 @@ describe("SongService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const user: UserResDto = {
     id: 0,
     telegram_id: 0,
   };
 
   // TODO: interface ?
-  const clientProxyDataMock = {
-    send: (): Observable<DataPaginationResDto<SongResDto>> =>
-      of(songPagination),
+  const dataClientProxyMock = {
+    send: (token: string) =>
+      token === DATA_SONG_SERVICE_GET ? of(song) : of([song]),
   };
   // TODO: interface ?
-  const clientProxyRelationMock = {
-    send: (): Observable<DataPaginationResDto<RelationEntityReqDto>> =>
-      of(relationPagination),
+  const relationClientProxyMock = {
+    send: (token: string) =>
+      token === RELATION_SERVICE_GET ? of([relationMultiHas]) : of(true),
   };
   // TODO: interface ?
-  const clientProxyUserMock = {
-    send: (): Observable<UserResDto> => of(user),
+  const userClientProxyMock = {
+    send: () => of(user),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -129,10 +132,10 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-        { provide: USER_SERVICE, useValue: clientProxyUserMock },
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
         { provide: HttpService, useValue: httpServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
@@ -144,56 +147,41 @@ describe("SongService", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.artistSongs(dto)).toEqual(songPagination);
+    expect(await service.artistSongs(dto)).toEqual([song]);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.artistSongsTop(dto)).toEqual(songPagination);
+    expect(await service.artistSongsTop(dto)).toEqual([song]);
   });
 
   it("genre should be equal to a list of songs", async () => {
     const dto: SongSongGenresReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [""],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.genre(dto)).toEqual(songPagination);
+    expect(await service.genre(dto)).toEqual([song]);
   });
 
   it("get should be equal to a song", async () => {
-    // TODO: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<SongResDto> => of(song),
-    };
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        SongService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-        { provide: USER_SERVICE, useValue: clientProxyUserMock },
-        { provide: HttpService, useValue: httpServiceMock },
-      ],
-    }).compile();
-    service = module.get<SongService>(SongService);
-
     const dto: SongGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -202,38 +190,19 @@ describe("SongService", () => {
 
   it("language should be equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.language(dto)).toEqual(songPagination);
+    expect(await service.language(dto)).toEqual([song]);
   });
 
   it("like should be equal to a songs", async () => {
-    // TODO: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<SongResDto> => of(song),
-    };
-    // TODO: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<boolean> => of(true),
-    };
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        SongService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-        { provide: USER_SERVICE, useValue: clientProxyUserMock },
-        { provide: HttpService, useValue: httpServiceMock },
-      ],
-    }).compile();
-    service = module.get<SongService>(SongService);
-
     const dto: SongLikeReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,
@@ -247,90 +216,84 @@ describe("SongService", () => {
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.liked(dto)).toEqual(songPagination);
+    expect(await service.liked(dto)).toEqual([song]);
   });
 
   it("liked should be equal to a list of songs 2", async () => {
     // TODO: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<DataPaginationResDto<RelationEntityReqDto>> =>
-        of({
-          results: [] as RelationEntityReqDto[],
-          total: 0,
-        } as DataPaginationResDto<RelationEntityReqDto>),
+    const relationClientProxyMock = {
+      send: (): Observable<RelationResDto[]> => of([]),
     };
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-        { provide: USER_SERVICE, useValue: clientProxyUserMock },
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
         { provide: HttpService, useValue: httpServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
 
     const dto: SongLikedReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.liked(dto)).toEqual({
-      results: [] as SongResDto[],
-      total: 0,
-    } as DataPaginationResDto<SongResDto>);
+    expect(await service.liked(dto)).toEqual([]);
   });
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       mood: "",
       size: 0,
     };
-    expect(await service.mood(dto)).toEqual(songPagination);
+    expect(await service.mood(dto)).toEqual([song]);
   });
 
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: SongNewPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.newPodcast(dto)).toEqual(songPagination);
+    expect(await service.newPodcast(dto)).toEqual([song]);
   });
 
   it("newSong should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.newSong(dto)).toEqual(songPagination);
+    expect(await service.newSong(dto)).toEqual([song]);
   });
 
   it("podcast should be equal to a list of songs", async () => {
     const dto: SongPodcastGenresReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [""],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.podcast(dto)).toEqual(songPagination);
+    expect(await service.podcast(dto)).toEqual([song]);
   });
 
   it("sendTelegram should be undefined", async () => {
@@ -344,8 +307,8 @@ describe("SongService", () => {
 
   it("sendTelegram should be undefined 2", async () => {
     // TODO: interface ?
-    const clientProxyUserMock = {
-      send: (): Observable<UserResDto> =>
+    const userClientProxyMock = {
+      send: () =>
         of({
           ...user,
           telegram_id: undefined,
@@ -354,10 +317,34 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-        { provide: USER_SERVICE, useValue: clientProxyUserMock },
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
         { provide: HttpService, useValue: httpServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
+      ],
+    }).compile();
+    service = module.get<SongService>(SongService);
+
+    const dto: SongSendTelegramReqDto = {
+      config,
+      id: 0,
+      sub: 1,
+    };
+    return expect(service.sendTelegram(dto)).rejects.toThrowError();
+  });
+
+  it("sendTelegram should be undefined 3", async () => {
+    // TODO: interface ?
+    const userClientProxyMock = {
+      send: () => of(undefined),
+    };
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SongService,
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: HttpService, useValue: httpServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
@@ -372,65 +359,46 @@ describe("SongService", () => {
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.similar(dto)).toEqual(songPagination);
+    expect(await service.similar(dto)).toEqual([song]);
   });
 
   it("slider should be equal to a list of songs", async () => {
     const dto: SongSliderReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await service.slider(dto)).toEqual(songPagination);
+    expect(await service.slider(dto)).toEqual([song]);
   });
 
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.topDay(dto)).toEqual(songPagination);
+    expect(await service.topDay(dto)).toEqual([song]);
   });
 
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.topWeek(dto)).toEqual(songPagination);
+    expect(await service.topWeek(dto)).toEqual([song]);
   });
 
   it("unlike should be equal to a songs", async () => {
-    // TODO: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<SongResDto> => of(song),
-    };
-    // TODO: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<boolean> => of(true),
-    };
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        SongService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-        { provide: USER_SERVICE, useValue: clientProxyUserMock },
-        { provide: HttpService, useValue: httpServiceMock },
-      ],
-    }).compile();
-    service = module.get<SongService>(SongService);
-
     const dto: SongUnlikeReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,

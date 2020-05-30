@@ -1,5 +1,5 @@
 export interface EmotionConfigServiceInterface {
-  elasticNode: string;
+  elasticsearchNode: string;
   indexName: string;
   maxSize: number;
 }

@@ -14,7 +14,7 @@ describe("SentryInterceptor", () => {
   const sentryServiceMock = {
     withScope: {},
   };
-  const optionsMock: SentryModuleOptions = {};
+  const sentryModuleOptionsMock: SentryModuleOptions = {};
 
   let sentry: typeof Sentry;
   let options: SentryModuleOptions;
@@ -28,7 +28,7 @@ describe("SentryInterceptor", () => {
         },
         {
           provide: SENTRY_MODULE_OPTIONS,
-          useValue: optionsMock,
+          useValue: sentryModuleOptionsMock,
         },
       ],
     }).compile();

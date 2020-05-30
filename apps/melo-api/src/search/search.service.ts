@@ -1,6 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  DataPaginationResDto,
+  DataElasticsearchSearchResDto,
   DataSearchType,
   SearchMoodReqDto,
   SearchQueryReqDto,
@@ -27,9 +27,7 @@ export class SearchService implements SearchServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async query(
-    dto: SearchQueryReqDto
-  ): Promise<DataPaginationResDto<SearchResDto>> {
+  async query(dto: SearchQueryReqDto): Promise<SearchResDto[]> {
     const elasticSuggestRes = await this.elasticsearchService.search({
       body: {
         query: {
@@ -69,7 +67,19 @@ export class SearchService implements SearchServiceInterface {
             ],
             (value) => value
           );
-    const suggest = await this.elasticsearchService.search({
+    const suggest = await this.elasticsearchService.search<
+      Record<
+        string,
+        {
+          hits: [
+            {
+              _source: DataElasticsearchSearchResDto;
+            }
+          ];
+        }
+      >,
+      any
+    >({
       body: {
         _source: [
           "album",
@@ -228,12 +238,9 @@ export class SearchService implements SearchServiceInterface {
       }
     });
     if (mixed.length === 0) {
-      return {
-        results: [] as SearchResDto[],
-        total: 0,
-      } as DataPaginationResDto<SearchResDto>;
+      return [];
     }
-    const results = ((await Promise.all(
+    return ((await Promise.all(
       mixed
         .filter((value) =>
           [
@@ -265,8 +272,7 @@ export class SearchService implements SearchServiceInterface {
                 type: value.type,
               };
             }
-            case DataSearchType.podcast:
-            case DataSearchType.song: {
+            default: {
               const song = await this.dataTransformService.song({
                 ...dto,
                 ...value,
@@ -276,27 +282,18 @@ export class SearchService implements SearchServiceInterface {
                 type: value.type,
               };
             }
-            default:
-              return {
-                results: [] as SearchResDto[],
-                total: 0,
-              } as DataPaginationResDto<SearchResDto>;
           }
         })
     )) as any[]).map((value, index) => ({
       ...value,
       position: index + 1,
     }));
-    return {
-      results,
-      total: results.length,
-    } as DataPaginationResDto<SearchResDto>;
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async mood(dto: SearchMoodReqDto): Promise<DataPaginationResDto<SongResDto>> {
+  async mood(dto: SearchMoodReqDto): Promise<SongResDto[]> {
     // TODO: interface ?
     const moods = [
       { classy: dto.classy },
@@ -373,7 +370,9 @@ export class SearchService implements SearchServiceInterface {
                 },
               },
               {
-                exists: { field: "moods" },
+                exists: {
+                  field: "moods",
+                },
               },
             ],
             must_not: [
@@ -390,7 +389,7 @@ export class SearchService implements SearchServiceInterface {
       },
       index: dto.config.indexName,
     });
-    const results = (await Promise.all(
+    return (await Promise.all(
       elasticSearchRes.body.hits.hits.map((value) =>
         this.dataTransformService.song({
           ...dto,
@@ -398,9 +397,5 @@ export class SearchService implements SearchServiceInterface {
         })
       )
     )) as SongResDto[];
-    return {
-      results,
-      total: elasticSearchRes.body.hits.hits.length,
-    } as DataPaginationResDto<SongResDto>;
   }
 }

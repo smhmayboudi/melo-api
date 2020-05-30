@@ -10,16 +10,16 @@ export class RtSaveReqDto {
     expire_at: Date,
     id: number,
     is_blocked: boolean,
-    user_id: number,
-    token: string
+    token: string,
+    user_id: number
   ) {
     this.created_at = created_at;
     this.description = description;
     this.expire_at = expire_at;
     this.id = id;
     this.is_blocked = is_blocked;
-    this.user_id = user_id;
     this.token = token;
+    this.user_id = user_id;
   }
 
   @ApiProperty({
@@ -60,16 +60,16 @@ export class RtSaveReqDto {
   is_blocked: boolean;
 
   @ApiProperty({
-    description: "user identification",
-    example: "0",
-  })
-  @IsNumberString()
-  user_id: number;
-
-  @ApiProperty({
     description: "refresh token",
     example: new Date(),
   })
   @IsString()
   token: string;
+
+  @ApiProperty({
+    description: "user identification",
+    example: "0",
+  })
+  @IsNumberString()
+  user_id: number;
 }

@@ -8,7 +8,7 @@ import { DownloadConfigServiceInterface } from "./download.config.service.interf
 describe("DownloadConfigService", () => {
   // TODO: interface ?
   const appConfigServiceMock: DownloadConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
   };
@@ -42,7 +42,7 @@ describe("DownloadConfigService", () => {
   });
 
   it("cacheHost cacheHost should be equal to a value", () => {
-    expect(service.elasticNode).toEqual("");
+    expect(service.elasticsearchNode).toEqual("");
   });
 
   it("cacheMax should be equal to a value", () => {

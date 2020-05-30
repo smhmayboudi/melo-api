@@ -14,7 +14,6 @@ import {
   DATA_SONG_SERVICE_SLIDER,
   DATA_SONG_SERVICE_TOP_DAY,
   DATA_SONG_SERVICE_TOP_WEEK,
-  DataPaginationResDto,
   SongAlbumReqDto,
   SongArtistSongsTopReqDto,
   SongArtistsReqDto,
@@ -42,30 +41,24 @@ export class DataSongController {
   constructor(private readonly dataSongService: DataSongService) {}
 
   @MessagePattern(DATA_SONG_SERVICE_ALBUM_SONGS)
-  albumSongs(
-    @Payload() dto: SongAlbumReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  albumSongs(@Payload() dto: SongAlbumReqDto): Promise<SongResDto[]> {
     return this.dataSongService.albumSongs(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_ARTIST_SONGS)
-  artistSongs(
-    @Payload() dto: SongArtistsReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  artistSongs(@Payload() dto: SongArtistsReqDto): Promise<SongResDto[]> {
     return this.dataSongService.albumSongs(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_ARTIST_SONGS_TOP)
   artistSongsTop(
     @Payload() dto: SongArtistSongsTopReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  ): Promise<SongResDto[]> {
     return this.dataSongService.artistSongsTop(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_GENRE)
-  genre(
-    @Payload() dto: SongGenreReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  genre(@Payload() dto: SongGenreReqDto): Promise<SongResDto[]> {
     return this.dataSongService.genre(dto);
   }
 
@@ -75,70 +68,52 @@ export class DataSongController {
   }
 
   @MessagePattern(DATA_SONG_SERVICE_GET_BY_IDS)
-  getByIds(
-    @Payload() dto: SongGetByIdsReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  getByIds(@Payload() dto: SongGetByIdsReqDto): Promise<SongResDto[]> {
     return this.dataSongService.getByIds(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_LANGUAGE)
-  language(
-    @Payload() dto: SongLanguageReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  language(@Payload() dto: SongLanguageReqDto): Promise<SongResDto[]> {
     return this.dataSongService.language(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_MOOD)
-  mood(
-    @Payload() dto: SongMoodReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  mood(@Payload() dto: SongMoodReqDto): Promise<SongResDto[]> {
     return this.dataSongService.mood(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_NEW_PODCAST)
-  newPodcast(
-    @Payload() dto: SongNewPodcastReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  newPodcast(@Payload() dto: SongNewPodcastReqDto): Promise<SongResDto[]> {
     return this.dataSongService.newPodcast(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_NEW_SONG)
-  newSong(
-    @Payload() dto: SongNewReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  newSong(@Payload() dto: SongNewReqDto): Promise<SongResDto[]> {
     return this.dataSongService.newSong(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_PODCAST)
-  podcast(
-    @Payload() dto: SongPodcastReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  podcast(@Payload() dto: SongPodcastReqDto): Promise<SongResDto[]> {
     return this.dataSongService.podcast(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_SIMILAR)
-  similar(
-    @Payload() dto: SongSimilarReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  similar(@Payload() dto: SongSimilarReqDto): Promise<SongResDto[]> {
     return this.dataSongService.similar(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_SLIDER)
-  slider(dto: SongSliderReqDto): Promise<DataPaginationResDto<SongResDto>> {
+  slider(dto: SongSliderReqDto): Promise<SongResDto[]> {
     return this.dataSongService.slider(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_TOP_DAY)
-  topDay(
-    @Payload() dto: SongTopDayReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  topDay(@Payload() dto: SongTopDayReqDto): Promise<SongResDto[]> {
     return this.dataSongService.topDay(dto);
   }
 
   @MessagePattern(DATA_SONG_SERVICE_TOP_WEEK)
-  topWeek(
-    @Payload() dto: SongTopWeekReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  topWeek(@Payload() dto: SongTopWeekReqDto): Promise<SongResDto[]> {
     return this.dataSongService.topWeek(dto);
   }
 }

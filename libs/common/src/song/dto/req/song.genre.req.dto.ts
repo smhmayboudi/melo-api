@@ -7,21 +7,21 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { SongOrderByType } from "../../../song/song.order-by.type";
 import { Type } from "class-transformer";
 
 export class SongGenreReqDto {
   constructor(
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     dataConfigImage: DataConfigImageReqDto,
     from: number,
     genres: string[],
     orderBy: SongOrderByType,
     size: number
   ) {
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.dataConfigImage = dataConfigImage;
     this.from = from;
     this.genres = genres;
@@ -32,7 +32,7 @@ export class SongGenreReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)

@@ -13,9 +13,8 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   PlaylistAddSongReqDto,
   PlaylistConfigReqDto,
   PlaylistCreateReqDto,
@@ -58,7 +57,7 @@ export class PlaylistController {
     imagePathDefaultPlaylist: this.playlistConfigService
       .imagePathDefaultPlaylist,
   };
-  private dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: this.dataConfigService.imagePath,
     imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
     imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
@@ -92,7 +91,7 @@ export class PlaylistController {
     return this.playlistService.addSong({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -106,7 +105,7 @@ export class PlaylistController {
     return this.playlistService.create({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       sub,
     });
@@ -121,7 +120,7 @@ export class PlaylistController {
     return this.playlistService.delete({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       sub,
     });
@@ -133,7 +132,7 @@ export class PlaylistController {
     return this.playlistService.edit({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -144,7 +143,7 @@ export class PlaylistController {
     return this.playlistService.get({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
@@ -154,11 +153,11 @@ export class PlaylistController {
   async my(
     @Param() dto: PlaylistMyReqDto,
     @AppUser("sub", ParseIntPipe) sub: number
-  ): Promise<DataPaginationResDto<PlaylistResDto>> {
+  ): Promise<PlaylistResDto[]> {
     return this.playlistService.my({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
 
       sub,
@@ -177,20 +176,18 @@ export class PlaylistController {
     return this.playlistService.removeSong({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }
 
   @Get("top/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
-  async top(
-    @Param() dto: PlaylistTopReqDto
-  ): Promise<DataPaginationResDto<PlaylistResDto>> {
+  async top(@Param() dto: PlaylistTopReqDto): Promise<PlaylistResDto[]> {
     return this.playlistService.top({
       ...dto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
     });
   }

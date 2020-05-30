@@ -9,11 +9,10 @@ import {
   DATA_CONST_SERVICE_GENERATE_URL,
   DATA_SERVICE,
   DATA_SONG_SERVICE_GET_BY_IDS,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
   DataImageReqDto,
   DataImageResDto,
-  DataPaginationResDto,
   PLAYLIST,
   PlaylistAddSongReqDto,
   PlaylistConfigReqDto,
@@ -63,15 +62,15 @@ export class PlaylistService implements PlaylistServiceInterface {
 
   private song(
     dto: {
-      dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+      dataConfigElasticsearch: DataConfigElasticsearchReqDto;
       dataConfigImage: DataConfigImageReqDto;
     },
     playlist: PlaylistInterface
-  ): Promise<DataPaginationResDto<SongResDto>> | undefined {
+  ): Promise<SongResDto[]> | undefined {
     return playlist.songs_ids.length === 0
       ? undefined
       : this.clientProxy
-          .send<DataPaginationResDto<SongResDto>, SongGetByIdsReqDto>(
+          .send<SongResDto[], SongGetByIdsReqDto>(
             DATA_SONG_SERVICE_GET_BY_IDS,
             {
               ...dto,
@@ -145,14 +144,28 @@ export class PlaylistService implements PlaylistServiceInterface {
   @PromMethodCounter
   async delete(dto: PlaylistDeleteReqDto): Promise<PlaylistResDto> {
     const playlist = await this.playlistModel.findOne({
-      $and: [{ owner_user_id: dto.sub }, { _id: new Types.ObjectId(dto.id) }],
+      $and: [
+        {
+          owner_user_id: dto.sub,
+        },
+        {
+          _id: new Types.ObjectId(dto.id),
+        },
+      ],
     });
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
     // TODO: refactory to its own repository
     const deleteOne = await this.playlistModel.deleteOne({
-      $and: [{ owner_user_id: dto.sub }, { _id: new Types.ObjectId(dto.id) }],
+      $and: [
+        {
+          owner_user_id: dto.sub,
+        },
+        {
+          _id: new Types.ObjectId(dto.id),
+        },
+      ],
     });
     if (deleteOne.deletedCount === undefined || deleteOne.deletedCount === 0) {
       throw new InternalServerErrorException();
@@ -212,14 +225,12 @@ export class PlaylistService implements PlaylistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async my(
-    dto: PlaylistMyReqDto
-  ): Promise<DataPaginationResDto<PlaylistResDto>> {
+  async my(dto: PlaylistMyReqDto): Promise<PlaylistResDto[]> {
     const playlists = await this.playlistModel
       .find({ owner_user_id: dto.sub })
       .skip(parseInt(dto.from.toString(), 10))
       .limit(parseInt(dto.size.toString(), 10));
-    const results = await Promise.all(
+    return await Promise.all(
       playlists.map(async (value) => ({
         followersCount: value.followers_count,
         id: value._id,
@@ -231,10 +242,6 @@ export class PlaylistService implements PlaylistServiceInterface {
         tracksCount: value.tracks_count,
       }))
     );
-    return {
-      results,
-      total: playlists.length,
-    } as DataPaginationResDto<PlaylistResDto>;
   }
 
   @ApmAfterMethod
@@ -265,14 +272,12 @@ export class PlaylistService implements PlaylistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async top(
-    dto: PlaylistTopReqDto
-  ): Promise<DataPaginationResDto<PlaylistResDto>> {
+  async top(dto: PlaylistTopReqDto): Promise<PlaylistResDto[]> {
     const playlists = await this.playlistModel
       .find()
       .skip(parseInt(dto.from.toString(), 10))
       .limit(parseInt(dto.size.toString(), 10));
-    const results = await Promise.all(
+    return await Promise.all(
       playlists.map(async (value) => ({
         followersCount: value.followers_count,
         id: value._id,
@@ -284,9 +289,5 @@ export class PlaylistService implements PlaylistServiceInterface {
         tracksCount: value.tracks_count,
       }))
     );
-    return {
-      results,
-      total: playlists.length,
-    } as DataPaginationResDto<PlaylistResDto>;
   }
 }

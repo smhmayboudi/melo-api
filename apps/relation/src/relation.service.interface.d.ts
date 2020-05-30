@@ -1,20 +1,16 @@
 import {
-  DataPaginationResDto,
-  RelationEntityReqDto,
   RelationGetReqDto,
   RelationHasReqDto,
   RelationMultiHasReqDto,
-  RelationMultiHasResDto,
   RelationRemoveReqDto,
+  RelationResDto,
   RelationSetReqDto,
 } from "@melo/common";
 
 export interface RelationServiceInterface {
-  get(
-    dto: RelationGetReqDto
-  ): Promise<DataPaginationResDto<RelationEntityReqDto>>;
-  has(dto: RelationHasReqDto): Promise<boolean>;
-  multiHas(dto: RelationMultiHasReqDto): Promise<RelationMultiHasResDto[]>;
-  remove(dto: RelationRemoveReqDto): Promise<boolean>;
-  set(dto: RelationSetReqDto): Promise<boolean>;
+  get(dto: RelationGetReqDto): Promise<RelationResDto[]>;
+  has(dto: RelationHasReqDto): Promise<RelationResDto | undefined>;
+  multiHas(dto: RelationMultiHasReqDto): Promise<RelationResDto[]>;
+  remove(dto: RelationRemoveReqDto): Promise<RelationResDto>;
+  set(dto: RelationSetReqDto): Promise<RelationResDto>;
 }

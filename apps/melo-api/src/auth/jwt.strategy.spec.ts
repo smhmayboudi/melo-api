@@ -4,7 +4,6 @@ import {
   JwksResDto,
   RtResDto,
 } from "@melo/common";
-import { DeleteResult, UpdateResult } from "typeorm";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AtEntity } from "../at/at.entity";
@@ -29,9 +28,6 @@ describe("JwtStrategy", () => {
     token: "",
     user_id: 0,
   };
-  const deleteResult: DeleteResult = {
-    raw: {},
-  };
   const jwksEntity: JwksEntity = {
     id: "",
     private_key: "",
@@ -46,20 +42,17 @@ describe("JwtStrategy", () => {
     token: "",
     user_id: 0,
   };
-  const updateResult: UpdateResult = {
-    generatedMaps: [{}],
-    raw: {},
-  };
 
   const atServiceMock: AtServiceInterface = {
-    delete: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
-    deleteByToken: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
+    delete: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
+    deleteByToken: (): Promise<AtResDto | undefined> =>
+      Promise.resolve(atEntity),
     find: (): Promise<AtResDto[]> => Promise.resolve([atEntity]),
     findOne: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
     findOneByToken: (): Promise<AtResDto | undefined> =>
       Promise.resolve(atEntity),
     save: (): Promise<AtResDto> => Promise.resolve(atEntity),
-    update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
+    update: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
     validate: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
     validateByToken: (): Promise<AtResDto | undefined> =>
       Promise.resolve(atEntity),

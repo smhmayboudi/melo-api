@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
@@ -22,10 +21,16 @@ describe("PlaylistHashIdInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      body: { songId: 0 },
-      params: { songId: 0 },
+      body: {
+        songId: 0,
+      },
+      params: {
+        songId: 0,
+      },
     })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -63,16 +68,12 @@ describe("PlaylistHashIdInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -86,13 +87,6 @@ describe("PlaylistHashIdInterceptor", () => {
     releaseDate,
     title: "",
     tracksCount: 0,
-  };
-  const playlistPagination: DataPaginationResDto<PlaylistResDto> = {
-    results: [playlist],
-    total: 1,
-  } as DataPaginationResDto<PlaylistResDto>;
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(playlist)),
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
@@ -123,21 +117,20 @@ describe("PlaylistHashIdInterceptor", () => {
     expect(new PlaylistHashIdInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
-    new PlaylistHashIdInterceptor(service)
-      .intercept(executionContext, callHandler)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
-  it("intercept should be called 2", async () => {
+  it("intercept should be called undefined", async () => {
     const httpArgumentsHost: HttpArgumentsHost = {
       getNext: jest.fn(),
-      getRequest: jest
-        .fn()
-        .mockImplementation(() => ({ body: { idx: 0 }, params: { idx: 0 } })),
-      getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        body: {
+          idx: 0,
+        },
+        params: {
+          idx: 0,
+        },
+      })),
+      getResponse: jest.fn().mockImplementation(() => ({
+        statusCode: 200,
+      })),
     };
     const executionContext: ExecutionContext = {
       getArgByIndex: jest.fn(),
@@ -148,6 +141,9 @@ describe("PlaylistHashIdInterceptor", () => {
       switchToHttp: () => httpArgumentsHost,
       switchToRpc: jest.fn(),
       switchToWs: jest.fn(),
+    };
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(playlist)),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -165,6 +161,9 @@ describe("PlaylistHashIdInterceptor", () => {
   });
 
   it("intercept should be called data: single playlist", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(playlist)),
+    };
     new PlaylistHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
@@ -173,11 +172,11 @@ describe("PlaylistHashIdInterceptor", () => {
   });
 
   it("intercept should be called data: list of playlist", () => {
-    const callHandlerPlaylist: CallHandler = {
-      handle: jest.fn(() => of(playlistPagination)),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([playlist])),
     };
     new PlaylistHashIdInterceptor(service)
-      .intercept(executionContext, callHandlerPlaylist)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

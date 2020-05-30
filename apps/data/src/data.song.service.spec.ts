@@ -3,9 +3,8 @@ import {
   ArtistResDto,
   DATA_TYPEORM,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   SongAlbumReqDto,
   SongArtistSongsTopReqDto,
@@ -36,7 +35,7 @@ import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 describe("DataSongService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -75,10 +74,6 @@ describe("DataSongService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const artist: ArtistResDto = {
     followersCount: 0,
     id: 0,
@@ -87,7 +82,7 @@ describe("DataSongService", () => {
   const album: AlbumResDto = {
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const dataCache: DataCacheEntity = {
     date: releaseDate,
@@ -199,50 +194,62 @@ describe("DataSongService", () => {
 
   it("albumSongs should be equal to a list of songs", async () => {
     const dto: SongAlbumReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
-    expect(await service.albumSongs(dto)).toEqual(songPagination);
+    expect(await service.albumSongs(dto)).toEqual([song]);
   });
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.artistSongs(dto)).toEqual(songPagination);
+    expect(await service.artistSongs(dto)).toEqual([song]);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsTopReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.artistSongsTop(dto)).toEqual(songPagination);
+    expect(await service.artistSongsTop(dto)).toEqual([song]);
   });
 
   it("genre should be equal to a list of songs, genre all", async () => {
     const dto: SongGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: ["all"],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.genre(dto)).toEqual(songPagination);
+    expect(await service.genre(dto)).toEqual([song]);
+  });
+
+  it("genre should be equal to a list of songs 2", async () => {
+    const dto: SongGenreReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      genres: [],
+      orderBy: SongOrderByType.release,
+      size: 0,
+    };
+    expect(await service.genre(dto)).toEqual([song]);
   });
 
   it("get should be equal to a songs", async () => {
     const dto: SongGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -251,128 +258,207 @@ describe("DataSongService", () => {
 
   it("getByIds should be equal to a list of songs", async () => {
     const dto: SongGetByIdsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       ids: [],
     };
-    expect(await service.getByIds(dto)).toEqual(songPagination);
+    expect(await service.getByIds(dto)).toEqual([song]);
   });
 
   it("genre should be equal to a list of songs", async () => {
     const dto: SongGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.genre(dto)).toEqual(songPagination);
+    expect(await service.genre(dto)).toEqual([song]);
   });
 
   it("language should be equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.language(dto)).toEqual(songPagination);
+    expect(await service.language(dto)).toEqual([song]);
   });
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       mood: "",
       size: 0,
     };
-    expect(await service.mood(dto)).toEqual(songPagination);
+    expect(await service.mood(dto)).toEqual([song]);
   });
 
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: SongNewPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      size: 1,
+    };
+    expect(await service.newPodcast(dto)).toEqual([song]);
+  });
+
+  it("newPodcast should be equal to a list of songs 2", async () => {
+    // TODO: interface ?
+    const dataCacheEntityRepositoryMock = {
+      createQueryBuilder: (): any => ({
+        where: (): any => ({
+          orderBy: (): any => ({
+            limit: (): any => ({
+              getOne: (): Promise<any> => Promise.resolve(undefined),
+            }),
+          }),
+        }),
+      }),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        DataSongService,
+        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        {
+          provide: getRepositoryToken(DataCacheEntity, DATA_TYPEORM),
+          useValue: dataCacheEntityRepositoryMock,
+        },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        {
+          provide: getRepositoryToken(DataSiteEntity, DATA_TYPEORM),
+          useValue: dataSiteEntityRepositoryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<DataSongService>(DataSongService);
+
+    const dto: SongNewPodcastReqDto = {
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.newPodcast(dto)).toEqual(songPagination);
+    expect(await service.newPodcast(dto)).toEqual([]);
   });
 
   it("newSong should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.newSong(dto)).toEqual(songPagination);
+    expect(await service.newSong(dto)).toEqual([song]);
   });
 
   it("podcast should be equal to a list of songs", async () => {
     const dto: SongPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.podcast(dto)).toEqual(songPagination);
+    expect(await service.podcast(dto)).toEqual([song]);
   });
 
   it("podcast should be equal to a list of songs genres all", async () => {
     const dto: SongPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: ["all"],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.podcast(dto)).toEqual(songPagination);
+    expect(await service.podcast(dto)).toEqual([song]);
   });
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.similar(dto)).toEqual(songPagination);
+    expect(await service.similar(dto)).toEqual([song]);
+  });
+
+  it("similar should be equal to a list of songs 2", async () => {
+    // TODO: interface ?
+    const elasticGetRes = {
+      body: {
+        _source,
+      },
+    };
+    // TODO: interface ?
+    const elasticsearchServiceMock = {
+      get: (): Promise<any> => Promise.resolve(elasticGetRes),
+      search: (): Promise<any> => Promise.resolve(elasticSearchRes),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        DataSongService,
+        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        {
+          provide: getRepositoryToken(DataCacheEntity, DATA_TYPEORM),
+          useValue: dataCacheEntityRepositoryMock,
+        },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        {
+          provide: getRepositoryToken(DataSiteEntity, DATA_TYPEORM),
+          useValue: dataSiteEntityRepositoryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<DataSongService>(DataSongService);
+    const dto: SongSimilarReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      id: 0,
+      size: 0,
+    };
+    expect(await service.similar(dto)).toEqual([]);
   });
 
   it("slider should be equal to a list of songs", async () => {
     const dto: SongSliderReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await service.slider(dto)).toEqual(songPagination);
+    expect(await service.slider(dto)).toEqual([song]);
   });
 
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.topDay(dto)).toEqual(songPagination);
+    expect(await service.topDay(dto)).toEqual([song]);
   });
 
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.topWeek(dto)).toEqual(songPagination);
+    expect(await service.topWeek(dto)).toEqual([song]);
   });
 });

@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
@@ -21,10 +20,17 @@ describe("ArtistHashIdInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest
-      .fn()
-      .mockImplementation(() => ({ body: { id: 0 }, params: { id: 0 } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      body: {
+        id: 0,
+      },
+      params: {
+        id: 0,
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -41,10 +47,6 @@ describe("ArtistHashIdInterceptor", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const artistPagination: DataPaginationResDto<ArtistResDto> = {
-    results: [artist],
-    total: 1,
-  } as DataPaginationResDto<ArtistResDto>;
   const song: SongResDto = {
     album: {
       artists: [artist],
@@ -66,16 +68,12 @@ describe("ArtistHashIdInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -92,9 +90,6 @@ describe("ArtistHashIdInterceptor", () => {
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
-  };
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(artist)),
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -122,21 +117,20 @@ describe("ArtistHashIdInterceptor", () => {
     expect(new ArtistHashIdInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
-    new ArtistHashIdInterceptor(service)
-      .intercept(executionContext, callHandler)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
-  it("intercept should be called 2", async () => {
+  it("intercept should be called undefined", async () => {
     const httpArgumentsHost: HttpArgumentsHost = {
       getNext: jest.fn(),
-      getRequest: jest
-        .fn()
-        .mockImplementation(() => ({ body: { idx: 0 }, params: { idx: 0 } })),
-      getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        body: {
+          idx: 0,
+        },
+        params: {
+          idx: 0,
+        },
+      })),
+      getResponse: jest.fn().mockImplementation(() => ({
+        statusCode: 200,
+      })),
     };
     const executionContext: ExecutionContext = {
       getArgByIndex: jest.fn(),
@@ -147,6 +141,9 @@ describe("ArtistHashIdInterceptor", () => {
       switchToHttp: () => httpArgumentsHost,
       switchToRpc: jest.fn(),
       switchToWs: jest.fn(),
+    };
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(artist)),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -164,22 +161,22 @@ describe("ArtistHashIdInterceptor", () => {
   });
 
   it("intercept should be called data: single artist", () => {
-    const callHandlerAlbum: CallHandler = {
+    const callHandler: CallHandler = {
       handle: jest.fn(() => of(artist)),
     };
     new ArtistHashIdInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
   it("intercept should be called data: list of artists", () => {
-    const callHandlerArtist: CallHandler = {
-      handle: jest.fn(() => of(artistPagination)),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([artist])),
     };
     new ArtistHashIdInterceptor(service)
-      .intercept(executionContext, callHandlerArtist)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

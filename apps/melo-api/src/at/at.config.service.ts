@@ -1,4 +1,12 @@
-import { AT } from "@melo/common";
+import {
+  AT,
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
 import { AtConfigServiceInterface } from "./at.config.service.interface";
 import { ConfigService } from "@nestjs/config";
@@ -14,28 +22,28 @@ export class AtConfigService implements AtConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${AT}.cacheHost`,
+      `${AT}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${AT}.cacheMax`,
+      `${AT}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${AT}.cachePort`,
+      `${AT}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${AT}.cacheStore`,
+      `${AT}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,7 +51,7 @@ export class AtConfigService implements AtConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${AT}.cacheTTL`,
+        `${AT}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );

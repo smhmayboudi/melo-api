@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
@@ -18,8 +17,14 @@ describe("AlbumFollowInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "1" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      user: {
+        sub: "1",
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -30,9 +35,6 @@ describe("AlbumFollowInterceptor", () => {
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
-  };
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of("")),
   };
   const artist: ArtistResDto = {
     followersCount: 0,
@@ -54,21 +56,13 @@ describe("AlbumFollowInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
-  const albumPagination: DataPaginationResDto<AlbumResDto> = {
-    results: [album],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
-  const appArtistMock: AppArtistServiceInterface = {
+  const appArtistServiceMock: AppArtistServiceInterface = {
     follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
     follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
   };
@@ -77,7 +71,9 @@ describe("AlbumFollowInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppArtistService, useValue: appArtistMock }],
+      providers: [
+        { provide: AppArtistService, useValue: appArtistServiceMock },
+      ],
     }).compile();
     service = module.get<AppArtistService>(AppArtistService);
   });
@@ -86,22 +82,21 @@ describe("AlbumFollowInterceptor", () => {
     expect(new AlbumFollowInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
-    new AlbumFollowInterceptor(service)
-      .intercept(executionContext, callHandler)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
   it("intercept should be called sub: 0", () => {
     const httpArgumentsHostUserSubZero: HttpArgumentsHost = {
       ...httpArgumentsHost,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        user: {
+          sub: "0",
+        },
+      })),
     };
     const executionContextSubZero: ExecutionContext = {
       ...executionContext,
       switchToHttp: () => httpArgumentsHostUserSubZero,
+    };
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of("")),
     };
     new AlbumFollowInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
@@ -111,22 +106,38 @@ describe("AlbumFollowInterceptor", () => {
   });
 
   it("intercept should be called data: single album", () => {
-    const callHandlerAlbum: CallHandler = {
+    const callHandler: CallHandler = {
       handle: jest.fn(() => of(album)),
     };
     new AlbumFollowInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
+      .intercept(executionContext, callHandler)
+      .subscribe();
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+  });
+
+  it("intercept should be called artists undefined", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() =>
+        of({
+          ...album,
+          artists: undefined,
+        })
+      ),
+    };
+    new AlbumFollowInterceptor(service)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
   it("intercept should be called data: list of albums", () => {
-    const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(albumPagination)),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([album])),
     };
     new AlbumFollowInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

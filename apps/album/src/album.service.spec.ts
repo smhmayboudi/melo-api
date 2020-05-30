@@ -4,20 +4,20 @@ import {
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  DATA_ALBUM_SERVICE_GET,
   DATA_SERVICE,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   SongResDto,
 } from "@melo/common";
-import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumService } from "./album.service";
+import { of } from "rxjs";
 
 describe("AlbumService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -46,7 +46,7 @@ describe("AlbumService", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const like: SongResDto = {
+  const song: SongResDto = {
     artists: [artist],
     audio: {
       high: {
@@ -60,25 +60,16 @@ describe("AlbumService", () => {
     releaseDate,
     title: "",
   };
-  const likePagination: DataPaginationResDto<SongResDto> = {
-    results: [like],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     name: "",
     releaseDate,
-    songs: likePagination,
+    songs: [song],
   };
-  const albumPagination: DataPaginationResDto<AlbumResDto> = {
-    results: [album],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
-
   // TODO: interface ?
-  const clientProxyMock = {
-    send: (): Observable<DataPaginationResDto<AlbumResDto>> =>
-      of(albumPagination),
+  const dataClientProxyMock = {
+    send: (token: string) =>
+      token === DATA_ALBUM_SERVICE_GET ? of(album) : of([album]),
   };
 
   let service: AlbumService;
@@ -87,7 +78,7 @@ describe("AlbumService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AlbumService,
-        { provide: DATA_SERVICE, useValue: clientProxyMock },
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
       ],
     }).compile();
     service = module.get<AlbumService>(AlbumService);
@@ -99,42 +90,29 @@ describe("AlbumService", () => {
 
   it("albums should equal list of artists", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.albums(dto)).toEqual(albumPagination);
+    expect(await service.albums(dto)).toEqual([album]);
   });
 
   it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       size: 0,
     };
-    expect(await service.latest(dto)).toEqual(albumPagination);
+    expect(await service.latest(dto)).toEqual([album]);
   });
 
   it("get should be equal to an artist", async () => {
-    // TODO: interface ?
-    const clientProxyMock = {
-      send: (): Observable<AlbumResDto> => of(album),
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        AlbumService,
-        { provide: DATA_SERVICE, useValue: clientProxyMock },
-      ],
-    }).compile();
-    service = module.get<AlbumService>(AlbumService);
-
     const dto: AlbumGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };

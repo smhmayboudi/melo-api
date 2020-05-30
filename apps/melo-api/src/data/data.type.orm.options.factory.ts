@@ -14,17 +14,17 @@ export class DataTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
     connectionName?: string
   ): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
     return {
-      database: this.dataConfigService.typeOrmDatabase,
+      database: this.dataConfigService.typeormDatabase,
       entities: [DataCacheEntity, DataSiteEntity],
-      host: this.dataConfigService.typeOrmHost,
-      logger: new DataTypeOrmLogger(this.dataConfigService.typeOrmLogging),
-      logging: this.dataConfigService.typeOrmLogging,
+      host: this.dataConfigService.typeormHost,
+      logger: new DataTypeOrmLogger(this.dataConfigService.typeormLogging),
+      logging: this.dataConfigService.typeormLogging,
       name: connectionName,
-      password: this.dataConfigService.typeOrmPassword,
-      port: this.dataConfigService.typeOrmPort,
-      synchronize: this.dataConfigService.typeOrmSynchronize,
+      password: this.dataConfigService.typeormPassword,
+      port: this.dataConfigService.typeormPort,
+      synchronize: this.dataConfigService.typeormSynchronize,
       type: "mysql",
-      username: this.dataConfigService.typeOrmUsername,
+      username: this.dataConfigService.typeormUsername,
     };
   }
 }

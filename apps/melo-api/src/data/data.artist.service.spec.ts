@@ -6,9 +6,8 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   SongResDto,
 } from "@melo/common";
@@ -20,7 +19,7 @@ import { DataTransformServiceInterface } from "./data.transform.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 
 describe("DataArtistService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -53,10 +52,6 @@ describe("DataArtistService", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const artistPagination: DataPaginationResDto<ArtistResDto> = {
-    results: [artist],
-    total: 1,
-  } as DataPaginationResDto<ArtistResDto>;
   // TODO: interface ?
   const elasticArtistRes = {
     body: {
@@ -135,7 +130,7 @@ describe("DataArtistService", () => {
 
   it("get should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -144,27 +139,27 @@ describe("DataArtistService", () => {
 
   it("getByIds should equal list of artists", async () => {
     const dto: ArtistGetByIdsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       ids: [0],
     };
-    expect(await service.getByIds(dto)).toEqual(artistPagination);
+    expect(await service.getByIds(dto)).toEqual([artist]);
   });
 
   it("trending should equal list of artists", async () => {
     const dto: ArtistTrendingReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await service.trending(dto)).toEqual(artistPagination);
+    expect(await service.trending(dto)).toEqual([artist]);
   });
 
   it("trendingGenre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       genre: "",
     };
-    expect(await service.trendingGenre(dto)).toEqual(artistPagination);
+    expect(await service.trendingGenre(dto)).toEqual([artist]);
   });
 });

@@ -5,7 +5,9 @@ import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 describe("AppHttpCacheInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest.fn().mockImplementation(() => ({ path: "" })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      path: "",
+    })),
     getResponse: jest.fn(),
   };
   const executionContext: ExecutionContext = {

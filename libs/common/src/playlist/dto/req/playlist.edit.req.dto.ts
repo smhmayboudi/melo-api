@@ -6,7 +6,7 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { PlaylistConfigReqDto } from "./playlist.config.req.dto";
 import { Type } from "class-transformer";
@@ -14,7 +14,7 @@ import { Type } from "class-transformer";
 export class PlaylistEditReqDto {
   constructor(
     config: PlaylistConfigReqDto,
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     dataConfigImage: DataConfigImageReqDto,
     id: string,
     isPublic?: boolean,
@@ -22,7 +22,7 @@ export class PlaylistEditReqDto {
     title?: string
   ) {
     this.config = config;
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.dataConfigImage = dataConfigImage;
     this.id = id;
     this.isPublic = isPublic;
@@ -38,7 +38,7 @@ export class PlaylistEditReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)

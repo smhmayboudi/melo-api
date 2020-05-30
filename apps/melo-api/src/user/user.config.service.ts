@@ -1,7 +1,15 @@
+import {
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+  USER,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
-import { USER } from "@melo/common";
 import { UserConfigServiceInterface } from "./user.config.service.interface";
 import ms from "ms";
 
@@ -14,28 +22,28 @@ export class UserConfigService implements UserConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${USER}.cacheHost`,
+      `${USER}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${USER}.cacheMax`,
+      `${USER}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${USER}.cachePort`,
+      `${USER}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${USER}.cacheStore`,
+      `${USER}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,7 +51,7 @@ export class UserConfigService implements UserConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${USER}.cacheTTL`,
+        `${USER}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );

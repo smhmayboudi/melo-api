@@ -1,7 +1,6 @@
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import {
   DataArtistType,
-  DataPaginationResDto,
   EmotionEmotionsResDto,
   SongResDto,
 } from "@melo/common";
@@ -17,8 +16,14 @@ describe("EmotionLikeInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "1" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      user: {
+        sub: "1",
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -49,15 +54,8 @@ describe("EmotionLikeInterceptor", () => {
     emotions: [""],
     song,
   };
-  const emotionPagination: DataPaginationResDto<EmotionEmotionsResDto> = {
-    results: [emotion],
-    total: 1,
-  } as DataPaginationResDto<EmotionEmotionsResDto>;
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(emotionPagination)),
-  };
 
-  const appSongMock: AppSongServiceInterface = {
+  const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
     localize: (): Promise<SongResDto> => Promise.resolve(song),
@@ -67,7 +65,7 @@ describe("EmotionLikeInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppSongService, useValue: appSongMock }],
+      providers: [{ provide: AppSongService, useValue: appSongServiceMock }],
     }).compile();
     service = module.get<AppSongService>(AppSongService);
   });
@@ -76,22 +74,21 @@ describe("EmotionLikeInterceptor", () => {
     expect(new EmotionLikeInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called data", () => {
-    new EmotionLikeInterceptor(service)
-      .intercept(executionContext, callHandler)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
   it("intercept should be called sub: 0", () => {
     const httpArgumentsHostUserSubZero: HttpArgumentsHost = {
       ...httpArgumentsHost,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        user: {
+          sub: "0",
+        },
+      })),
     };
     const executionContextSubZero: ExecutionContext = {
       ...executionContext,
       switchToHttp: () => httpArgumentsHostUserSubZero,
+    };
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of("")),
     };
     new EmotionLikeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
@@ -101,22 +98,22 @@ describe("EmotionLikeInterceptor", () => {
   });
 
   it("intercept should be called data: single emotion", () => {
-    const callHandlerAlbum: CallHandler = {
+    const callHandler: CallHandler = {
       handle: jest.fn(() => of(emotion)),
     };
     new EmotionLikeInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
   it("intercept should be called data: list of emotions", () => {
-    const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(emotionPagination)),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([emotion])),
     };
     new EmotionLikeInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

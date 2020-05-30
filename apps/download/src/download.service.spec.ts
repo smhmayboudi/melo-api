@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DownloadConfigReqDto,
   DownloadOrderByType,
   DownloadSongParamReqDto,
@@ -11,18 +10,18 @@ import {
   SONG_SERVICE,
   SongResDto,
 } from "@melo/common";
-import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { DownloadService } from "./download.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { of } from "rxjs";
 
 describe("DownloadService", () => {
   const config: DownloadConfigReqDto = {
     indexName: "",
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -69,18 +68,21 @@ describe("DownloadService", () => {
   const downloadElasticsearch = {
     body: {
       hits: {
-        hits: [{ _source: { date: downloadedAt, song_id: 0, user_id: 0 } }],
+        hits: [
+          {
+            _source: {
+              date: downloadedAt,
+              song_id: 0,
+              user_id: 0,
+            },
+          },
+        ],
       },
     },
   };
-  const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
-    results: [downloadSong],
-    total: 1,
-  } as DataPaginationResDto<DownloadSongResDto>;
-
   // TODO: interface ?
-  const clientProxyMock = {
-    send: (): Observable<SongResDto> => of(song),
+  const songClientProxyMock = {
+    send: () => of(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -92,9 +94,9 @@ describe("DownloadService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: SONG_SERVICE, useValue: clientProxyMock },
         DownloadService,
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();
     service = module.get<DownloadService>(DownloadService);
@@ -114,12 +116,12 @@ describe("DownloadService", () => {
         ...paramDto,
         ...queryDto,
         config,
-        dataConfigElasticSearch,
+        dataConfigElasticsearch,
         dataConfigImage,
         orderBy: DownloadOrderByType.asc,
         sub: 1,
       })
-    ).toEqual(downloadSongPagination);
+    ).toEqual([downloadSong]);
   });
 
   it("downloadedSongs should return an array of songId and dates 2", async () => {
@@ -136,11 +138,11 @@ describe("DownloadService", () => {
         ...paramDto,
         ...queryDto,
         config,
-        dataConfigElasticSearch,
+        dataConfigElasticsearch,
         dataConfigImage,
         orderBy: DownloadOrderByType.asc,
         sub: 1,
       })
-    ).toEqual(downloadSongPagination);
+    ).toEqual([downloadSong]);
   });
 });

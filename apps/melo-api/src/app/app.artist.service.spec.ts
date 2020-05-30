@@ -4,13 +4,12 @@ import {
   AppArtistFollowsReqDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
+  RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
-  RelationMultiHasResDto,
-  RelationType,
+  RelationResDto,
   SearchResDto,
   SongResDto,
 } from "@melo/common";
@@ -63,19 +62,27 @@ describe("AppArtistService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
+  };
+  const from: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.user,
+  };
+  const relationMultiHas: RelationResDto = {
+    from,
+    to: {
+      id: 0,
+      type: RelationEntityType.user,
+    },
+    type: RelationEdgeType.follows,
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -88,33 +95,13 @@ describe("AppArtistService", () => {
     encodeSong: (): unknown => song,
   };
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<DataPaginationResDto<RelationEntityReqDto>> =>
-      Promise.resolve({
-        results: [
-          {
-            id: 0,
-            type: RelationEntityType.album,
-          },
-        ],
-        total: 1,
-      } as DataPaginationResDto<RelationEntityReqDto>),
-    has: (): Promise<boolean> => Promise.resolve(true),
-    multiHas: (): Promise<RelationMultiHasResDto[]> =>
-      Promise.resolve([
-        {
-          from: {
-            id: 0,
-            type: RelationEntityType.album,
-          },
-          relation: RelationType.dislikedSongs,
-          to: {
-            id: 1,
-            type: RelationEntityType.album,
-          },
-        },
-      ]),
-    remove: (): Promise<boolean> => Promise.resolve(true),
-    set: (): Promise<boolean> => Promise.resolve(true),
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
+    has: (): Promise<RelationResDto | undefined> =>
+      Promise.resolve(relationMultiHas),
+    multiHas: (): Promise<RelationResDto[]> =>
+      Promise.resolve([relationMultiHas]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
   };
 
   let service: AppArtistService;
@@ -134,7 +121,7 @@ describe("AppArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  it("follow should be equal to an artist sub:", async () => {
+  it("follow should be equal to an artist sub: 1", async () => {
     const dto: AppArtistFollowReqDto = {
       artist,
       sub: 1,
@@ -153,7 +140,7 @@ describe("AppArtistService", () => {
     expect(await service.follows(dto)).toEqual([]);
   });
 
-  it("follows should be equal to an artist sub:", async () => {
+  it("follows should be equal to an artist sub: 1", async () => {
     const dto: AppArtistFollowsReqDto = {
       artists: [artist],
       sub: 1,
@@ -161,7 +148,7 @@ describe("AppArtistService", () => {
     expect(await service.follows(dto)).toEqual([
       {
         ...artist,
-        following: false,
+        following: true,
       },
     ]);
   });

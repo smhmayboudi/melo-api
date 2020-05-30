@@ -1,5 +1,5 @@
+import { MessagePattern, Payload } from "@nestjs/microservices";
 import {
-  DataPaginationResDto,
   SONG_SERVICE_ARTIST_SONGS,
   SONG_SERVICE_ARTIST_SONGS_TOP,
   SONG_SERVICE_GENRE,
@@ -36,7 +36,6 @@ import {
   SongTopWeekReqDto,
   SongUnlikeReqDto,
 } from "@melo/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { Controller } from "@nestjs/common";
 import { SongService } from "./song.service";
@@ -46,23 +45,19 @@ export class SongController {
   constructor(private readonly songService: SongService) {}
 
   @MessagePattern(SONG_SERVICE_ARTIST_SONGS)
-  artistSongs(
-    @Payload() dto: SongArtistSongsReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  artistSongs(@Payload() dto: SongArtistSongsReqDto): Promise<SongResDto[]> {
     return this.songService.artistSongs(dto);
   }
 
   @MessagePattern(SONG_SERVICE_ARTIST_SONGS_TOP)
   artistSongsTop(
     @Payload() dto: SongArtistSongsTopReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  ): Promise<SongResDto[]> {
     return this.songService.artistSongsTop(dto);
   }
 
   @MessagePattern(SONG_SERVICE_GENRE)
-  genre(
-    @Payload() dto: SongSongGenresReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  genre(@Payload() dto: SongSongGenresReqDto): Promise<SongResDto[]> {
     return this.songService.genre(dto);
   }
 
@@ -72,9 +67,7 @@ export class SongController {
   }
 
   @MessagePattern(SONG_SERVICE_LANGUAGE)
-  language(
-    @Payload() dto: SongLanguageReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  language(@Payload() dto: SongLanguageReqDto): Promise<SongResDto[]> {
     return this.songService.language(dto);
   }
 
@@ -84,37 +77,27 @@ export class SongController {
   }
 
   @MessagePattern(SONG_SERVICE_LIKED)
-  liked(
-    @Payload() dto: SongLikedReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  liked(@Payload() dto: SongLikedReqDto): Promise<SongResDto[]> {
     return this.songService.liked(dto);
   }
 
   @MessagePattern(SONG_SERVICE_MOOD)
-  mood(
-    @Payload() dto: SongMoodReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  mood(@Payload() dto: SongMoodReqDto): Promise<SongResDto[]> {
     return this.songService.mood(dto);
   }
 
   @MessagePattern(SONG_SERVICE_NEW_PODCAST)
-  newPodcast(
-    @Payload() dto: SongNewPodcastReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  newPodcast(@Payload() dto: SongNewPodcastReqDto): Promise<SongResDto[]> {
     return this.songService.newPodcast(dto);
   }
 
   @MessagePattern(SONG_SERVICE_NEW_SONG)
-  newSong(
-    @Payload() dto: SongNewReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  newSong(@Payload() dto: SongNewReqDto): Promise<SongResDto[]> {
     return this.songService.newSong(dto);
   }
 
   @MessagePattern(SONG_SERVICE_PODCAST)
-  podcast(
-    @Payload() dto: SongPodcastGenresReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  podcast(@Payload() dto: SongPodcastGenresReqDto): Promise<SongResDto[]> {
     return this.songService.podcast(dto);
   }
 
@@ -124,28 +107,22 @@ export class SongController {
   }
 
   @MessagePattern(SONG_SERVICE_SIMILAR)
-  similar(
-    @Payload() dto: SongSimilarReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  similar(@Payload() dto: SongSimilarReqDto): Promise<SongResDto[]> {
     return this.songService.similar(dto);
   }
 
   @MessagePattern(SONG_SERVICE_SLIDER)
-  slider(dto: SongSliderReqDto): Promise<DataPaginationResDto<SongResDto>> {
+  slider(dto: SongSliderReqDto): Promise<SongResDto[]> {
     return this.songService.slider(dto);
   }
 
   @MessagePattern(SONG_SERVICE_TOP_DAY)
-  topDay(
-    @Payload() dto: SongTopDayReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  topDay(@Payload() dto: SongTopDayReqDto): Promise<SongResDto[]> {
     return this.songService.topDay(dto);
   }
 
   @MessagePattern(SONG_SERVICE_TOP_WEEK)
-  topWeek(
-    @Payload() dto: SongTopWeekReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  topWeek(@Payload() dto: SongTopWeekReqDto): Promise<SongResDto[]> {
     return this.songService.topWeek(dto);
   }
 

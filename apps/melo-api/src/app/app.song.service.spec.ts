@@ -5,13 +5,12 @@ import {
   AppSongLocalizeReqDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
+  RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
-  RelationMultiHasResDto,
-  RelationType,
+  RelationResDto,
   SearchResDto,
   SongResDto,
 } from "@melo/common";
@@ -64,19 +63,27 @@ describe("AppSongService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
+  };
+  const from: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.user,
+  };
+  const relationMultiHas: RelationResDto = {
+    from,
+    to: {
+      id: 0,
+      type: RelationEntityType.user,
+    },
+    type: RelationEdgeType.follows,
   };
 
   let service: AppSongService;
@@ -92,33 +99,13 @@ describe("AppSongService", () => {
   };
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<DataPaginationResDto<RelationEntityReqDto>> =>
-      Promise.resolve({
-        results: [
-          {
-            id: 0,
-            type: RelationEntityType.album,
-          },
-        ],
-        total: 1,
-      } as DataPaginationResDto<RelationEntityReqDto>),
-    has: (): Promise<boolean> => Promise.resolve(true),
-    multiHas: (): Promise<RelationMultiHasResDto[]> =>
-      Promise.resolve([
-        {
-          from: {
-            id: 0,
-            type: RelationEntityType.album,
-          },
-          relation: RelationType.dislikedSongs,
-          to: {
-            id: 1,
-            type: RelationEntityType.album,
-          },
-        },
-      ]),
-    remove: (): Promise<boolean> => Promise.resolve(true),
-    set: (): Promise<boolean> => Promise.resolve(true),
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
+    has: (): Promise<RelationResDto | undefined> =>
+      Promise.resolve(relationMultiHas),
+    multiHas: (): Promise<RelationResDto[]> =>
+      Promise.resolve([relationMultiHas]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
   };
 
   beforeEach(async () => {
@@ -136,20 +123,28 @@ describe("AppSongService", () => {
     expect(service).toBeDefined();
   });
 
-  it("like should be equal to a song sub:", async () => {
+  it("like should be equal to a song sub: 1", async () => {
     const dto: AppSongLikeReqDto = {
       song,
       sub: 1,
     };
-    expect(await service.like(dto)).toEqual({ ...song, liked: true });
+    expect(await service.like(dto)).toEqual({
+      ...song,
+      liked: true,
+    });
   });
 
-  it("likes should be equal to a song sub:", async () => {
+  it("likes should be equal to a song sub: 1", async () => {
     const dto: AppSongLikesReqDto = {
       songs: [song],
       sub: 1,
     };
-    expect(await service.likes(dto)).toEqual([{ ...song, liked: false }]);
+    expect(await service.likes(dto)).toEqual([
+      {
+        ...song,
+        liked: true,
+      },
+    ]);
   });
 
   it("localize should be equal to a song localized: false", async () => {

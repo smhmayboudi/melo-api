@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
@@ -46,7 +45,8 @@ describe("AppHashIdService", () => {
     releaseDate,
     title: "",
   };
-  const songEncoded: unknown = {
+  // TODO: interface ?
+  const songEncoded = {
     ...song,
     album: {
       artists: [artistEncoded],
@@ -63,26 +63,18 @@ describe("AppHashIdService", () => {
     ],
     id: "SHY",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
-  const songPaginationEncoded: unknown = {
-    results: [songEncoded],
-    total: 1,
-  };
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const albumEncoded: unknown = {
     ...album,
     artists: [artistEncoded],
     id: "SHY",
-    songs: songPaginationEncoded,
+    songs: [songEncoded],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -94,13 +86,13 @@ describe("AppHashIdService", () => {
     },
     isPublic: false,
     releaseDate,
-    songs: songPagination,
+    songs: [song],
     title: "",
     tracksCount: 0,
   };
   const playlistEncoded: unknown = {
     ...playlist,
-    songs: songPaginationEncoded,
+    songs: [songEncoded],
   };
   const searchFieldsUndefined: SearchResDto = {
     type: DataSearchType.album,
@@ -153,13 +145,13 @@ describe("AppHashIdService", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
 
   let service: AppHashIdService;
@@ -194,12 +186,16 @@ describe("AppHashIdService", () => {
 
   it("encodeAlbum should be equal to an array of albums arist, id undefined", () => {
     expect(
-      service.encodeAlbum({ ...album, artists: undefined, id: undefined })
+      service.encodeAlbum({
+        ...album,
+        artists: undefined,
+        id: undefined,
+      })
     ).toEqual({
       ...album,
       artists: undefined,
       id: undefined,
-      songs: songPaginationEncoded,
+      songs: [songEncoded],
     });
   });
 
@@ -212,7 +208,12 @@ describe("AppHashIdService", () => {
   });
 
   it("encodeSong should be equal to a list of songs album undefined", () => {
-    expect(service.encodeSong({ ...song, album: undefined })).toEqual({
+    expect(
+      service.encodeSong({
+        ...song,
+        album: undefined,
+      })
+    ).toEqual({
       ...song,
       album: undefined,
       artists: [
@@ -231,7 +232,12 @@ describe("AppHashIdService", () => {
   });
 
   it("encodePlaylist should be equal to a list of playlists songs undefined", () => {
-    expect(service.encodePlaylist({ ...playlist, songs: undefined })).toEqual({
+    expect(
+      service.encodePlaylist({
+        ...playlist,
+        songs: undefined,
+      })
+    ).toEqual({
       ...playlist,
       songs: undefined,
     });

@@ -1,4 +1,12 @@
-import { ACTION } from "@melo/common";
+import {
+  ACTION,
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+} from "@melo/common";
+
 import { ActionConfigServiceInterface } from "./action.config.service.interface";
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
@@ -14,28 +22,28 @@ export class ActionConfigService implements ActionConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${ACTION}.cacheHost`,
+      `${ACTION}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${ACTION}.cacheMax`,
+      `${ACTION}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${ACTION}.cachePort`,
+      `${ACTION}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${ACTION}.cacheStore`,
+      `${ACTION}.${CACHE_STORE}`,
       this.appConfigService.cacheHost
     );
   }
@@ -43,7 +51,7 @@ export class ActionConfigService implements ActionConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${ACTION}.cacheTTL`,
+        `${ACTION}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );

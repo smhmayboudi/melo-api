@@ -50,13 +50,15 @@ describe("ConstController", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    staticImagePaths: { pop: "/asset/pop.jpg" },
+    staticImagePaths: {
+      pop: "/asset/pop.jpg",
+    },
   };
   const constServiceMock: ConstServiceInterface = {
     images: (): Promise<ConstImagesResDto> => Promise.resolve(image),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -70,13 +72,13 @@ describe("ConstController", () => {
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
 
   let controller: ConstController;

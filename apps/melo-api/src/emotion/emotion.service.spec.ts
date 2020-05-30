@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   EmotionConfigReqDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
@@ -20,7 +19,7 @@ describe("EmotionService", () => {
     indexName: "",
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -59,23 +58,23 @@ describe("EmotionService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
-  const emotion: EmotionEmotionsResDto = {
+  const emotions: EmotionEmotionsResDto = {
     emotions: [""],
     song,
   };
-  const emotionPagination: DataPaginationResDto<EmotionEmotionsResDto> = {
-    results: [emotion],
-    total: 1,
-  } as DataPaginationResDto<EmotionEmotionsResDto>;
   // TODO: interface?
   const emotionElasticsearch = {
     body: {
       hits: {
-        hits: [{ _source: { emotions: [""], song_id: 0, user_id: 0 } }],
+        hits: [
+          {
+            _source: {
+              emotions: [""],
+              song_id: 0,
+              user_id: 0,
+            },
+          },
+        ],
       },
     },
   };
@@ -85,35 +84,22 @@ describe("EmotionService", () => {
     search: (): any => Promise.resolve(emotionElasticsearch),
   };
   const songServiceMock: SongServiceInterface = {
-    artistSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongsTop: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    genre: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
     get: (): Promise<SongResDto> => Promise.resolve(song),
-    language: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
     like: (): Promise<SongResDto> => Promise.resolve(song),
-    liked: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newPodcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newSong: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    podcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    liked: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
     sendTelegram: (): Promise<void> => Promise.resolve(undefined),
-    similar: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    slider: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topDay: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topWeek: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
     unlike: (): Promise<SongResDto> => Promise.resolve(song),
   };
 
@@ -133,13 +119,13 @@ describe("EmotionService", () => {
   it("emotions should return a list of emotions", async () => {
     const dto: EmotionEmotionsReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       emotions: [""],
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.emotions(dto)).toEqual(emotionPagination);
+    expect(await service.emotions(dto)).toEqual([emotions]);
   });
 });

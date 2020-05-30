@@ -1,5 +1,14 @@
+import {
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+  CONST,
+  STATIC_IMAGE_PATHS,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
-import { CONST } from "@melo/common";
 import { ConfigService } from "@nestjs/config";
 import { ConstConfigServiceInterface } from "./const.config.service.interface";
 import { Injectable } from "@nestjs/common";
@@ -14,28 +23,28 @@ export class ConstConfigService implements ConstConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${CONST}.cacheHost`,
+      `${CONST}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${CONST}.cacheMax`,
+      `${CONST}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${CONST}.cachePort`,
+      `${CONST}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${CONST}.cacheStore`,
+      `${CONST}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,7 +52,7 @@ export class ConstConfigService implements ConstConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${CONST}.cacheTTL`,
+        `${CONST}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );
@@ -51,7 +60,10 @@ export class ConstConfigService implements ConstConfigServiceInterface {
 
   get staticImagePaths(): { [key: string]: string } {
     return JSON.parse(
-      this.configService.get<string>(`${CONST}.staticImagePaths`, '{"":""}')
+      this.configService.get<string>(
+        `${CONST}.${STATIC_IMAGE_PATHS}`,
+        '{"":""}'
+      )
     );
   }
 }

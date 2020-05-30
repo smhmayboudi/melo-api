@@ -6,7 +6,7 @@ import { DownloadElasticsearchOptionsFactory } from "./download.elasticsearch.op
 
 describe("DownloadElasticsearchOptionsFactory", () => {
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
   };

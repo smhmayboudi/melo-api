@@ -1,6 +1,5 @@
 import {
   DOWNLOAD_SERVICE_DOWNLOADED_SONGS,
-  DataPaginationResDto,
   DownloadSongReqDto,
   DownloadSongResDto,
 } from "@melo/common";
@@ -16,7 +15,7 @@ export class DownloadController {
   @MessagePattern(DOWNLOAD_SERVICE_DOWNLOADED_SONGS)
   downloadedSongs(
     @Payload() dto: DownloadSongReqDto
-  ): Promise<DataPaginationResDto<DownloadSongResDto>> {
+  ): Promise<DownloadSongResDto[]> {
     return this.downloadService.downloadedSongs(dto);
   }
 }

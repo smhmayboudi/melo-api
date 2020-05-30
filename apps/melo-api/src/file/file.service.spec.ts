@@ -11,6 +11,16 @@ import { FileService } from "./file.service";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import nock from "nock";
 
+jest.mock("aws-sdk").fn(() => ({
+  upload: () =>
+    Promise.resolve({
+      Bucket: "",
+      ETag: "",
+      Key: "",
+    }),
+}));
+nock("http://misc.127.0.0.1:9000").put(/\/*/).reply(200);
+
 describe("FileService", () => {
   const config: FileConfigReqDto = {
     s3AccessKeyId: "minioadmin",
@@ -39,12 +49,6 @@ describe("FileService", () => {
     owner_user_id: 0,
     size: 0,
   };
-  // TODO: interface ?
-  const managedUpload = {
-    Bucket: "",
-    ETag: "",
-    Key: "",
-  };
 
   const fileEntityRepositoryMock: FileEntityRepositoryInterface = {
     save: <FileEntity>(): Promise<FileEntity> =>
@@ -64,13 +68,9 @@ describe("FileService", () => {
       ],
     }).compile();
     service = module.get<FileService>(FileService);
-    jest.mock("aws-sdk").fn(() => ({
-      upload: (): Promise<unknown> => Promise.resolve(managedUpload),
-    }));
   }, 40000);
 
   it("uploadImage should be equal to a file upload image", async () => {
-    nock("http://misc.127.0.0.1:9000").put(/\/*/).reply(200);
     const dto: FileUploadImageReqDto = {
       bufferBase64:
         "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAn/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKpgA//Z",
@@ -84,8 +84,6 @@ describe("FileService", () => {
     };
     expect(await service.uploadImage(dto)).toEqual(fileUploadImage);
   });
-
-  it.todo("uploadImage should throw an error dto undefined");
 
   it("should be defined", () => {
     expect(service).toBeDefined();
@@ -108,5 +106,5 @@ describe("FileService", () => {
     return expect(service.uploadImage(dto)).rejects.toThrowError();
   });
 
-  it.todo("uploadImage should throw an error extension undefined");
+  it.todo("uploadImage should throw an error with extension undefined");
 });

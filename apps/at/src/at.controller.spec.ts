@@ -9,7 +9,6 @@ import {
   AtValidateByTokenReqDto,
   AtValidateReqDto,
 } from "@melo/common";
-import { DeleteResult, UpdateResult } from "typeorm";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AtController } from "./at.controller";
@@ -26,22 +25,15 @@ describe("AtController", () => {
     token: "",
     user_id: 0,
   };
-  const deleteResult: DeleteResult = {
-    raw: "",
-  };
-  const updateResult: UpdateResult = {
-    generatedMaps: [{}],
-    raw: "",
-  };
 
   const atServiceMock: AtServiceInterface = {
-    delete: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
-    deleteByToken: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
+    delete: (): Promise<AtResDto | undefined> => Promise.resolve(at),
+    deleteByToken: (): Promise<AtResDto | undefined> => Promise.resolve(at),
     find: (): Promise<AtResDto[]> => Promise.resolve([at]),
     findOne: (): Promise<AtResDto | undefined> => Promise.resolve(at),
     findOneByToken: (): Promise<AtResDto | undefined> => Promise.resolve(at),
     save: (): Promise<AtResDto> => Promise.resolve(at),
-    update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
+    update: (): Promise<AtResDto | undefined> => Promise.resolve(at),
     validate: (): Promise<AtResDto | undefined> => Promise.resolve(at),
     validateByToken: (): Promise<AtResDto | undefined> => Promise.resolve(at),
   };
@@ -62,12 +54,12 @@ describe("AtController", () => {
 
   it("delete should be equal to an at", async () => {
     const dto: AtDeleteReqDto = { id: 0 };
-    expect(await controller.delete(dto)).toEqual(deleteResult);
+    expect(await controller.delete(dto)).toEqual(at);
   });
 
   it("deleteByToken should be equal to an at", async () => {
     const dto: AtDeleteByTokenReqDto = { token: "0" };
-    expect(await controller.deleteByToken(dto)).toEqual(deleteResult);
+    expect(await controller.deleteByToken(dto)).toEqual(at);
   });
 
   it("find should be equal to an ...", async () => {
@@ -91,7 +83,7 @@ describe("AtController", () => {
 
   it("update should be equal to an at", async () => {
     const dto: AtUpdateReqDto = at;
-    expect(await controller.update(dto)).toEqual(updateResult);
+    expect(await controller.update(dto)).toEqual(at);
   });
 
   it("validate should be equal to an at", async () => {

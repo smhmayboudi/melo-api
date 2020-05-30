@@ -1,5 +1,5 @@
+import { MessagePattern, Payload } from "@nestjs/microservices";
 import {
-  DataPaginationResDto,
   SEARCH_SERVICE_MOOD,
   SEARCH_SERVICE_QUERY,
   SearchMoodReqDto,
@@ -7,7 +7,6 @@ import {
   SearchResDto,
   SongResDto,
 } from "@melo/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { Controller } from "@nestjs/common";
 import { SearchService } from "./search.service";
@@ -17,16 +16,12 @@ export class SearchController {
   constructor(private readonly searchService: SearchService) {}
 
   @MessagePattern(SEARCH_SERVICE_QUERY)
-  query(
-    @Payload() dto: SearchQueryReqDto
-  ): Promise<DataPaginationResDto<SearchResDto>> {
+  query(@Payload() dto: SearchQueryReqDto): Promise<SearchResDto[]> {
     return this.searchService.query(dto);
   }
 
   @MessagePattern(SEARCH_SERVICE_MOOD)
-  mood(
-    @Payload() dto: SearchMoodReqDto
-  ): Promise<DataPaginationResDto<SongResDto>> {
+  mood(@Payload() dto: SearchMoodReqDto): Promise<SongResDto[]> {
     return this.searchService.mood(dto);
   }
 }

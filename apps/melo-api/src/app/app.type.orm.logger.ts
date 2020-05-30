@@ -16,6 +16,14 @@ export class AppTypeOrmLogger implements typeorm.Logger {
     }`;
   }
 
+  private stringifyParams(parameters: unknown[]): unknown {
+    try {
+      return JSON.stringify(parameters);
+    } catch (error) {
+      return parameters;
+    }
+  }
+
   constructor(
     options?:
       | boolean
@@ -120,14 +128,6 @@ export class AppTypeOrmLogger implements typeorm.Logger {
         )
           Logger.warn(message, "AppTypeOrmLogger");
         break;
-    }
-  }
-
-  stringifyParams(parameters: unknown[]): unknown {
-    try {
-      return JSON.stringify(parameters);
-    } catch (error) {
-      return parameters;
     }
   }
 }

@@ -51,8 +51,8 @@ describe("RtService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: RtEntityRepository, useValue: rtEntityRepositoryMock },
         RtService,
+        { provide: RtEntityRepository, useValue: rtEntityRepositoryMock },
       ],
     }).compile();
     service = module.get<RtService>(RtService);

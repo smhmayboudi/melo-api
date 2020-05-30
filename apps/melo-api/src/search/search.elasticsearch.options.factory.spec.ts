@@ -11,7 +11,7 @@ describe("SearchElasticsearchOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
     scriptScore: "",

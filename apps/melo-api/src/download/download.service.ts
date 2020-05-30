@@ -1,9 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
-import {
-  DataPaginationResDto,
-  DownloadSongReqDto,
-  DownloadSongResDto,
-} from "@melo/common";
+import { DownloadSongReqDto, DownloadSongResDto } from "@melo/common";
 
 import { DownloadServiceInterface } from "./download.service.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
@@ -24,7 +20,7 @@ export class DownloadService implements DownloadServiceInterface {
   @PromMethodCounter
   async downloadedSongs(
     dto: DownloadSongReqDto
-  ): Promise<DataPaginationResDto<DownloadSongResDto>> {
+  ): Promise<DownloadSongResDto[]> {
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
         _source: ["song_id", "date"],
@@ -40,20 +36,26 @@ export class DownloadService implements DownloadServiceInterface {
                 bool: {
                   must: [
                     {
-                      match: { song_unique_name: dto.filter },
+                      match: {
+                        song_unique_name: dto.filter,
+                      },
                     },
                     {
-                      term: { user_id: dto.sub },
+                      term: {
+                        user_id: dto.sub,
+                      },
                     },
                   ],
                 },
               },
         size: Math.min(dto.config.maxSize, dto.size),
-        sort: { date: dto.orderBy },
+        sort: {
+          date: dto.orderBy,
+        },
       },
       index: dto.config.indexName,
     });
-    const results = (await Promise.all(
+    return (await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => ({
         downloadedAt: value._source.date,
         song: await this.songService.get({
@@ -62,9 +64,5 @@ export class DownloadService implements DownloadServiceInterface {
         }),
       }))
     )) as DownloadSongResDto[];
-    return {
-      results,
-      total: elasticSearchRes.body.hits.hits.length,
-    } as DataPaginationResDto<DownloadSongResDto>;
   }
 }

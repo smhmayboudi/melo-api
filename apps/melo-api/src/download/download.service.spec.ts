@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DownloadConfigReqDto,
   DownloadOrderByType,
   DownloadSongReqDto,
@@ -21,7 +20,7 @@ describe("DownloadService", () => {
     indexName: "",
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -60,10 +59,6 @@ describe("DownloadService", () => {
     releaseDate: downloadedAt,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const downloadSong: DownloadSongResDto = {
     downloadedAt,
     song,
@@ -72,45 +67,35 @@ describe("DownloadService", () => {
   const downloadElasticsearch = {
     body: {
       hits: {
-        hits: [{ _source: { date: downloadedAt, song_id: 0, user_id: 0 } }],
+        hits: [
+          {
+            _source: {
+              date: downloadedAt,
+              song_id: 0,
+              user_id: 0,
+            },
+          },
+        ],
       },
     },
   };
-  const downloadSongPagination: DataPaginationResDto<DownloadSongResDto> = {
-    results: [downloadSong],
-    total: 1,
-  } as DataPaginationResDto<DownloadSongResDto>;
-
   const songServiceMock: SongServiceInterface = {
-    artistSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongsTop: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    genre: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
     get: (): Promise<SongResDto> => Promise.resolve(song),
-    language: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
     like: (): Promise<SongResDto> => Promise.resolve(song),
-    liked: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newPodcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newSong: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    podcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    liked: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
     sendTelegram: (): Promise<void> => Promise.resolve(undefined),
-    similar: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    slider: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topDay: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topWeek: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
     unlike: (): Promise<SongResDto> => Promise.resolve(song),
   };
   // TODO: interface ?
@@ -134,7 +119,7 @@ describe("DownloadService", () => {
   it("downloadedSongs should return an array of songId and dates", async () => {
     const dto: DownloadSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       filter: "",
       from: 0,
@@ -142,13 +127,13 @@ describe("DownloadService", () => {
       size: 0,
       sub: 1,
     };
-    expect(await service.downloadedSongs(dto)).toEqual(downloadSongPagination);
+    expect(await service.downloadedSongs(dto)).toEqual([downloadSong]);
   });
 
   it("downloadedSongs should return an array of songId and dates 2", async () => {
     const dto: DownloadSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       filter: undefined,
       from: 0,
@@ -156,6 +141,6 @@ describe("DownloadService", () => {
       size: 0,
       sub: 1,
     };
-    expect(await service.downloadedSongs(dto)).toEqual(downloadSongPagination);
+    expect(await service.downloadedSongs(dto)).toEqual([downloadSong]);
   });
 });

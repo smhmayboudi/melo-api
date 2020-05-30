@@ -12,7 +12,7 @@ export class SongHttpOptionsFactory implements HttpModuleOptionsFactory {
 
   createHttpOptions(): Promise<HttpModuleOptions> | HttpModuleOptions {
     return {
-      timeout: this.songConfigService.timeout,
+      timeout: this.songConfigService.sendTimeout,
     };
   }
 }

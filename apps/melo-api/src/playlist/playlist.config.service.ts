@@ -1,7 +1,17 @@
+import {
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+  IMAGE_PATH,
+  IMAGE_PATH_DEFAULT_PLAYLIST,
+  PLAYLIST,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
-import { PLAYLIST } from "@melo/common";
 import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 import ms from "ms";
 
@@ -14,28 +24,28 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${PLAYLIST}.cacheHost`,
+      `${PLAYLIST}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${PLAYLIST}.cacheMax`,
+      `${PLAYLIST}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${PLAYLIST}.cachePort`,
+      `${PLAYLIST}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${PLAYLIST}.cacheStore`,
+      `${PLAYLIST}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,19 +53,19 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${PLAYLIST}.cacheTTL`,
+        `${PLAYLIST}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );
   }
 
   get imagePath(): string {
-    return this.configService.get<string>(`${PLAYLIST}.imagePath`, "");
+    return this.configService.get<string>(`${PLAYLIST}.${IMAGE_PATH}`, "");
   }
 
   get imagePathDefaultPlaylist(): string {
     return this.configService.get<string>(
-      `${PLAYLIST}.imagePathDefaultPlaylist`,
+      `${PLAYLIST}.${IMAGE_PATH_DEFAULT_PLAYLIST}`,
       ""
     );
   }

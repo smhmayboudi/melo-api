@@ -48,8 +48,8 @@ describe("AtService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: AtEntityRepository, useValue: atEntityRepositoryMock },
         AtService,
+        { provide: AtEntityRepository, useValue: atEntityRepositoryMock },
       ],
     }).compile();
     service = module.get<AtService>(AtService);
@@ -63,14 +63,14 @@ describe("AtService", () => {
     const dto: AtDeleteReqDto = {
       id: 0,
     };
-    expect(await service.delete(dto)).toEqual(deleteResult);
+    expect(await service.delete(dto)).toEqual(atEntity);
   });
 
   it("deleteByToken should be equal to delete result", async () => {
     const dto: AtDeleteByTokenReqDto = {
       token: "",
     };
-    expect(await service.deleteByToken(dto)).toEqual(deleteResult);
+    expect(await service.deleteByToken(dto)).toEqual(atEntity);
   });
 
   it("find sholud equal to array of at", async () => {
@@ -98,7 +98,7 @@ describe("AtService", () => {
 
   it("update should be equal to update result", async () => {
     const dto: AtUpdateReqDto = atEntity;
-    expect(await service.update(dto)).toEqual(updateResult);
+    expect(await service.update(dto)).toEqual(atEntity);
   });
 
   it("validateByToken should be equal to an at", async () => {

@@ -84,4 +84,8 @@ describe("FileController", () => {
     };
     expect(await controller.uploadImage(0, dto)).toEqual(fileUploadImage);
   });
+
+  it.todo(
+    "uploadImage should throw an error with dto === undefined || dto.buffer === undefined"
+  );
 });

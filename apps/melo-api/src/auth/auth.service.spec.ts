@@ -18,6 +18,8 @@ import { JwtService } from "@nestjs/jwt";
 import { RtService } from "../rt/rt.service";
 import { RtServiceInterface } from "../rt/rt.service.interface";
 
+jest.mock("crypto-random-string", () => jest.fn(() => "1"));
+
 describe("AuthService", () => {
   const config: AuthConfigReqDto = {
     expiresIn: 0,
@@ -81,7 +83,6 @@ describe("AuthService", () => {
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);
-    jest.mock("crypto-random-string").fn(() => "");
   });
 
   it("should be defined", () => {
@@ -97,6 +98,31 @@ describe("AuthService", () => {
     });
   });
 
+  it("accessToken should throw an error", async () => {
+    const jwksServiceMock: JwksServiceInterface = {
+      findOne: (): Promise<JwksResDto | undefined> =>
+        Promise.resolve(jwksEntity),
+      getOneRandom: (): Promise<JwksResDto | undefined> =>
+        Promise.resolve(undefined),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        { provide: AuthConfigService, useValue: authConfigServiceMock },
+        { provide: JwksService, useValue: jwksServiceMock },
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: RtService, useValue: rtServiceMock },
+      ],
+    }).compile();
+    service = module.get<AuthService>(AuthService);
+
+    const dto: AuthAccessTokenReqDto = {
+      sub: 1,
+    };
+    return expect(service.accessToken(dto)).rejects.toThrowError();
+  });
+
   it("deleteByToken should be equal to a token", async () => {
     const dto: AuthDeleteByTokenReqDto = {
       token: "",
@@ -107,11 +133,50 @@ describe("AuthService", () => {
   it("refreshToken should be equal to a token", async () => {
     const dto: AuthRefreshTokenReqDto = {
       config,
+      rt: "0",
       sub: 1,
     };
     expect(await service.refreshToken(dto)).toEqual({
       at: "0",
-      rt: undefined,
+      rt: "0",
     });
+  });
+
+  it("refreshToken should be equal to a token 2", async () => {
+    const dto: AuthRefreshTokenReqDto = {
+      config,
+      rt: "",
+      sub: 1,
+    };
+    expect(await service.refreshToken(dto)).toEqual({
+      at: "0",
+      rt: "1",
+    });
+  });
+
+  it("refreshToken should throw an error", async () => {
+    const jwksServiceMock: JwksServiceInterface = {
+      findOne: (): Promise<JwksResDto | undefined> =>
+        Promise.resolve(jwksEntity),
+      getOneRandom: (): Promise<JwksResDto | undefined> =>
+        Promise.resolve(undefined),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        { provide: AuthConfigService, useValue: authConfigServiceMock },
+        { provide: JwksService, useValue: jwksServiceMock },
+        { provide: JwtService, useValue: jwtServiceMock },
+        { provide: RtService, useValue: rtServiceMock },
+      ],
+    }).compile();
+    service = module.get<AuthService>(AuthService);
+
+    const dto: AuthRefreshTokenReqDto = {
+      config,
+      sub: 1,
+    };
+    return expect(service.refreshToken(dto)).rejects.toThrowError();
   });
 });

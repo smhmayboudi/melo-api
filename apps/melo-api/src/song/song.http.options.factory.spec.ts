@@ -12,8 +12,8 @@ describe("SongHttpOptionsFactory", () => {
     cacheStore: "",
     cacheTTL: 0,
     maxSize: 0,
-    timeout: 0,
-    url: "",
+    sendTimeout: 0,
+    sendUrl: "",
   };
 
   let service: SongConfigService;

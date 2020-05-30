@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
@@ -22,10 +21,18 @@ describe("SongHashIdInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      body: { artistId: 0, id: 0 },
-      params: { artistId: 0, id: 0 },
+      body: {
+        artistId: 0,
+        id: 0,
+      },
+      params: {
+        artistId: 0,
+        id: 0,
+      },
     })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -63,16 +70,12 @@ describe("SongHashIdInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -89,9 +92,6 @@ describe("SongHashIdInterceptor", () => {
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
-  };
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(song)),
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -119,21 +119,20 @@ describe("SongHashIdInterceptor", () => {
     expect(new SongHashIdInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
-    new SongHashIdInterceptor(service)
-      .intercept(executionContext, callHandler)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
-  it("intercept should be called 2", async () => {
+  it("intercept should be called undefined", async () => {
     const httpArgumentsHost: HttpArgumentsHost = {
       getNext: jest.fn(),
-      getRequest: jest
-        .fn()
-        .mockImplementation(() => ({ body: { idx: 0 }, params: { idx: 0 } })),
-      getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        body: {
+          idx: 0,
+        },
+        params: {
+          idx: 0,
+        },
+      })),
+      getResponse: jest.fn().mockImplementation(() => ({
+        statusCode: 200,
+      })),
     };
     const executionContext: ExecutionContext = {
       getArgByIndex: jest.fn(),
@@ -144,6 +143,9 @@ describe("SongHashIdInterceptor", () => {
       switchToHttp: () => httpArgumentsHost,
       switchToRpc: jest.fn(),
       switchToWs: jest.fn(),
+    };
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(song)),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -161,6 +163,9 @@ describe("SongHashIdInterceptor", () => {
   });
 
   it("intercept should be called data: single song", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(song)),
+    };
     new SongHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
@@ -169,11 +174,11 @@ describe("SongHashIdInterceptor", () => {
   });
 
   it("intercept should be called data: list of songs", () => {
-    const callHandlerSong: CallHandler = {
-      handle: jest.fn(() => of(songPagination)),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([song])),
     };
     new SongHashIdInterceptor(service)
-      .intercept(executionContext, callHandlerSong)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

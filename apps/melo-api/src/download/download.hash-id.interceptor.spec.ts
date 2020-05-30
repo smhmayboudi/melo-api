@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   DownloadSongResDto,
   PlaylistResDto,
@@ -22,10 +21,17 @@ describe("DownloadHashIdInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest
-      .fn()
-      .mockImplementation(() => ({ body: { id: 0 }, params: { id: 0 } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      body: {
+        id: 0,
+      },
+      params: {
+        id: 0,
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -63,24 +69,16 @@ describe("DownloadHashIdInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
-  const download: DownloadSongResDto = {
+  const downloadSong: DownloadSongResDto = {
     downloadedAt: releaseDate,
     song,
   };
-  const downloadPagination: DataPaginationResDto<DownloadSongResDto> = {
-    results: [download],
-    total: 1,
-  } as DataPaginationResDto<DownloadSongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -97,9 +95,6 @@ describe("DownloadHashIdInterceptor", () => {
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
-  };
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(downloadPagination)),
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -127,7 +122,10 @@ describe("DownloadHashIdInterceptor", () => {
     expect(new DownloadHashIdInterceptor(servce)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
+  it("intercept should be called data: single download", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(downloadSong)),
+    };
     new DownloadHashIdInterceptor(servce)
       .intercept(executionContext, callHandler)
       .subscribe();
@@ -135,7 +133,10 @@ describe("DownloadHashIdInterceptor", () => {
     expect(callHandler.handle).toHaveBeenCalled();
   });
 
-  it("intercept should be called data: list of artists", () => {
+  it("intercept should be called data: list of downloads", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([downloadSong])),
+    };
     new DownloadHashIdInterceptor(servce)
       .intercept(executionContext, callHandler)
       .subscribe();

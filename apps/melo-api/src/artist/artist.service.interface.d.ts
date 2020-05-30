@@ -6,20 +6,13 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 
 export interface ArtistServiceInterface {
   follow(dto: ArtistFollowReqDto): Promise<ArtistResDto>;
-  following(
-    dto: ArtistFollowingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>>;
+  following(dto: ArtistFollowingReqDto): Promise<ArtistResDto[]>;
   profile(dto: ArtistGetReqDto): Promise<ArtistResDto>;
-  trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>>;
-  trendingGenre(
-    dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>>;
+  trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]>;
+  trendingGenre(dto: ArtistTrendingGenreReqDto): Promise<ArtistResDto[]>;
   unfollow(dto: ArtistUnfollowReqDto): Promise<ArtistResDto>;
 }

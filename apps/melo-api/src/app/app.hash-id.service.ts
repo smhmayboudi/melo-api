@@ -65,10 +65,7 @@ export class AppHashIdService implements AppHashIdServiceInterface {
       songs:
         dto.songs === undefined
           ? undefined
-          : {
-              results: dto.songs.results.map((value) => this.encodeSong(value)),
-              total: dto.songs.total,
-            },
+          : dto.songs.map((value) => this.encodeSong(value)),
     };
   }
 
@@ -91,10 +88,7 @@ export class AppHashIdService implements AppHashIdServiceInterface {
       songs:
         dto.songs === undefined
           ? undefined
-          : {
-              results: dto.songs.results.map((value) => this.encodeSong(value)),
-              total: dto.songs.total,
-            },
+          : dto.songs.map((value) => this.encodeSong(value)),
     };
   }
 

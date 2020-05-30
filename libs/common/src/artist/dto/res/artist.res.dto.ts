@@ -12,7 +12,6 @@ import { AlbumResDto } from "../../../album/dto/res/album.res.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { DataArtistType } from "../../../data/data.artist.type";
 import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
-import { DataPaginationResDto } from "../../../data/dto/res/data.pagination.res.dto";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
@@ -21,11 +20,11 @@ export class ArtistResDto {
     followersCount: number,
     id: number,
     type: DataArtistType,
-    albums?: DataPaginationResDto<AlbumResDto>,
+    albums?: AlbumResDto[],
     following?: boolean,
     fullName?: string,
     image?: DataImageResDto,
-    songs?: DataPaginationResDto<SongResDto>,
+    songs?: SongResDto[],
     sumSongsDownloadsCount?: number,
     tags?: string[]
   ) {
@@ -67,7 +66,7 @@ export class ArtistResDto {
   })
   @IsOptional()
   @ValidateNested()
-  readonly albums?: DataPaginationResDto<AlbumResDto>;
+  readonly albums?: AlbumResDto[];
 
   @ApiProperty({
     description: "The following",
@@ -98,7 +97,7 @@ export class ArtistResDto {
   })
   @IsOptional()
   @ValidateNested()
-  readonly songs?: DataPaginationResDto<SongResDto>;
+  readonly songs?: SongResDto[];
 
   @ApiProperty({
     description: "The sum downloads of songs count",

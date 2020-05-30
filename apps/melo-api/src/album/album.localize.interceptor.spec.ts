@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
@@ -18,8 +17,14 @@ describe("AlbumLocalizeInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      user: {
+        sub: "0",
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -51,33 +56,18 @@ describe("AlbumLocalizeInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songLocalized: SongResDto = {
-    ...song,
-    localized: true,
-  };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
-  const songPaginationLocalized: DataPaginationResDto<SongResDto> = {
-    results: [songLocalized],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
+  // const songLocalized: SongResDto = {
+  //   ...song,
+  //   localized: true,
+  // };
   const album: AlbumResDto = {
     artists: [artist],
     name: "",
     releaseDate,
-    songs: songPagination,
-  };
-  const albumPagination: DataPaginationResDto<AlbumResDto> = {
-    results: [album],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(album)),
+    songs: [song],
   };
 
-  const appSongMock: AppSongServiceInterface = {
+  const AppSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
     localize: (): Promise<SongResDto> => Promise.resolve(song),
@@ -87,7 +77,7 @@ describe("AlbumLocalizeInterceptor", () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{ provide: AppSongService, useValue: appSongMock }],
+      providers: [{ provide: AppSongService, useValue: AppSongServiceMock }],
     }).compile();
     service = module.get<AppSongService>(AppSongService);
   });
@@ -96,22 +86,21 @@ describe("AlbumLocalizeInterceptor", () => {
     expect(new AlbumLocalizeInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
-    new AlbumLocalizeInterceptor(service)
-      .intercept(executionContext, callHandler)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
   it("intercept should be called sub not 0", () => {
     const httpArgumentsHostUserSubZero: HttpArgumentsHost = {
       ...httpArgumentsHost,
-      getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "1" } })),
+      getRequest: jest.fn().mockImplementation(() => ({
+        user: {
+          sub: "1",
+        },
+      })),
     };
     const executionContextSubZero: ExecutionContext = {
       ...executionContext,
       switchToHttp: () => httpArgumentsHostUserSubZero,
+    };
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of("")),
     };
     new AlbumLocalizeInterceptor(service)
       .intercept(executionContextSubZero, callHandler)
@@ -121,44 +110,38 @@ describe("AlbumLocalizeInterceptor", () => {
   });
 
   it("intercept should be called data: single album", () => {
-    const callHandlerAlbum: CallHandler = {
+    const callHandler: CallHandler = {
       handle: jest.fn(() => of(album)),
     };
     new AlbumLocalizeInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
-      .subscribe();
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-  });
-
-  it("intercept should be called song: localized", () => {
-    const callHandlerAlbumLocalized: CallHandler = {
-      handle: jest.fn(() => of({ ...album, songs: songPaginationLocalized })),
-    };
-    new AlbumLocalizeInterceptor(service)
-      .intercept(executionContext, callHandlerAlbumLocalized)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
   it("intercept should be called song: undefined", () => {
-    const callHandlerAlbumLocalized: CallHandler = {
-      handle: jest.fn(() => of({ ...album, songs: undefined })),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() =>
+        of({
+          ...album,
+          songs: undefined,
+        })
+      ),
     };
     new AlbumLocalizeInterceptor(service)
-      .intercept(executionContext, callHandlerAlbumLocalized)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
   it("intercept should be called data: list of albums", () => {
-    const callHandlerAlbum: CallHandler = {
-      handle: jest.fn(() => of(albumPagination)),
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([album])),
     };
     new AlbumLocalizeInterceptor(service)
-      .intercept(executionContext, callHandlerAlbum)
+      .intercept(executionContext, callHandler)
       .subscribe();
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();

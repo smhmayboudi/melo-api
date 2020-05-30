@@ -1,26 +1,25 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   EmotionConfigReqDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
   SONG_SERVICE,
   SongResDto,
 } from "@melo/common";
-import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { EmotionService } from "./emotion.service";
+import { of } from "rxjs";
 
 describe("EmotionService", () => {
   const config: EmotionConfigReqDto = {
     indexName: "",
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -63,22 +62,26 @@ describe("EmotionService", () => {
     emotions: [""],
     song,
   };
-  const emotionPagination: DataPaginationResDto<EmotionEmotionsResDto> = {
-    results: [emotion],
-    total: 1,
-  } as DataPaginationResDto<EmotionEmotionsResDto>;
   // TODO: interface?
   const emotionElasticsearch = {
     body: {
       hits: {
-        hits: [{ _source: { emotions: [""], song_id: 0, user_id: 0 } }],
+        hits: [
+          {
+            _source: {
+              emotions: [""],
+              song_id: 0,
+              user_id: 0,
+            },
+          },
+        ],
       },
     },
   };
 
   // TODO: interface ?
-  const clientProxyMock = {
-    send: (): Observable<SongResDto> => of(song),
+  const songClientProxyMock = {
+    send: () => of(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -90,9 +93,9 @@ describe("EmotionService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: SONG_SERVICE, useValue: clientProxyMock },
         EmotionService,
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();
     service = module.get<EmotionService>(EmotionService);
@@ -101,13 +104,13 @@ describe("EmotionService", () => {
   it("emotions should return a list of emotions", async () => {
     const dto: EmotionEmotionsReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       emotions: [""],
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.emotions(dto)).toEqual(emotionPagination);
+    expect(await service.emotions(dto)).toEqual([emotion]);
   });
 });

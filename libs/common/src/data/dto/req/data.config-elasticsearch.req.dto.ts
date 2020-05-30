@@ -2,7 +2,7 @@ import { IsNumber, IsString } from "class-validator";
 
 import { ApiHideProperty } from "@nestjs/swagger";
 
-export class DataConfigElasticSearchReqDto {
+export class DataConfigElasticsearchReqDto {
   constructor(
     imagePath: string,
     imagePathDefaultAlbum: string,

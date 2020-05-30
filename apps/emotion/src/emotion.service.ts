@@ -1,6 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  DataPaginationResDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
   SONG_SERVICE,
@@ -26,9 +25,7 @@ export class EmotionService implements EmotionServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async emotions(
-    dto: EmotionEmotionsReqDto
-  ): Promise<DataPaginationResDto<EmotionEmotionsResDto>> {
+  async emotions(dto: EmotionEmotionsReqDto): Promise<EmotionEmotionsResDto[]> {
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
         _source: ["song_id", "emotions"],
@@ -42,7 +39,9 @@ export class EmotionService implements EmotionServiceInterface {
                 },
               },
               ...dto.emotions.map((value) => ({
-                term: { emotions: value },
+                term: {
+                  emotions: value,
+                },
               })),
             ],
           },
@@ -51,7 +50,7 @@ export class EmotionService implements EmotionServiceInterface {
       },
       index: dto.config.indexName,
     });
-    const results = (await Promise.all(
+    return (await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => ({
         emotions: value._source.emotions,
         song: await this.clientProxy
@@ -62,9 +61,5 @@ export class EmotionService implements EmotionServiceInterface {
           .toPromise(),
       }))
     )) as EmotionEmotionsResDto[];
-    return {
-      results,
-      total: elasticSearchRes.body.hits.hits.length,
-    } as DataPaginationResDto<EmotionEmotionsResDto>;
   }
 }

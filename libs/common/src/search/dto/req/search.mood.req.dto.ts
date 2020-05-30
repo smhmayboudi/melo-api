@@ -1,7 +1,7 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import { IsNumberString, IsOptional, ValidateNested } from "class-validator";
 
-import { DataConfigElasticSearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
 import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { SearchConfigReqDto } from "./search.config.req.dto";
 import { Type } from "class-transformer";
@@ -9,7 +9,7 @@ import { Type } from "class-transformer";
 export class SearchMoodReqDto {
   constructor(
     config: SearchConfigReqDto,
-    dataConfigElasticSearch: DataConfigElasticSearchReqDto,
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     from: number,
     size: number,
     classy?: number,
@@ -19,7 +19,7 @@ export class SearchMoodReqDto {
     romantic?: number
   ) {
     this.config = config;
-    this.dataConfigElasticSearch = dataConfigElasticSearch;
+    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.from = from;
     this.size = size;
     this.classy = classy;
@@ -37,7 +37,7 @@ export class SearchMoodReqDto {
   @ApiHideProperty()
   @Type(() => DataConfigImageReqDto)
   @ValidateNested()
-  readonly dataConfigElasticSearch: DataConfigElasticSearchReqDto;
+  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiProperty({
     description: "Starting point index",

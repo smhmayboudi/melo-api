@@ -14,8 +14,8 @@ describe("SongConfigService", () => {
     cacheStore: "",
     cacheTTL: 0,
     maxSize: 0,
-    timeout: 0,
-    url: "",
+    sendTimeout: 0,
+    sendUrl: "",
   };
   // TODO: interface ?
   const configServiceMock = {
@@ -70,10 +70,10 @@ describe("SongConfigService", () => {
   });
 
   it("timeout should be equal to a value", () => {
-    expect(service.timeout).toEqual(0);
+    expect(service.sendTimeout).toEqual(0);
   });
 
   it("url should be equal to a value", () => {
-    expect(service.url).toEqual("");
+    expect(service.sendUrl).toEqual("");
   });
 });

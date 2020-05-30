@@ -7,14 +7,18 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
+  DATA_ARTIST_SERVICE_GET,
   DATA_SERVICE,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   RELATION_SERVICE,
+  RELATION_SERVICE_GET,
+  RELATION_SERVICE_REMOVE,
+  RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
+  RelationResDto,
 } from "@melo/common";
 import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -25,7 +29,7 @@ describe("ArtistService", () => {
   const config: ArtistConfigReqDto = {
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -54,31 +58,36 @@ describe("ArtistService", () => {
     type: DataArtistType.prime,
   };
   const artistFollow: ArtistFollowReqDto = {
-    dataConfigElasticSearch,
+    dataConfigElasticsearch,
     dataConfigImage,
     id: 0,
     sub: 1,
   };
-  const artistPagination: DataPaginationResDto<ArtistResDto> = {
-    results: [artist],
-    total: 1,
-  } as DataPaginationResDto<ArtistResDto>;
-  const relation: RelationEntityReqDto = {
+  const from: RelationEntityReqDto = {
     id: 0,
-    type: RelationEntityType.album,
+    type: RelationEntityType.user,
   };
-  const relationPagination: DataPaginationResDto<RelationEntityReqDto> = {
-    results: [relation],
-    total: 1,
-  } as DataPaginationResDto<RelationEntityReqDto>;
-
-  // TOOD: interface ?
-  const clientProxyDataMock = {
-    send: (): Observable<ArtistResDto> => of(artist),
+  const relationMultiHas: RelationResDto = {
+    from,
+    to: {
+      id: 0,
+      type: RelationEntityType.user,
+    },
+    type: RelationEdgeType.follows,
   };
   // TOOD: interface ?
-  const clientProxyRelationMock = {
-    send: (): Observable<ArtistFollowReqDto> => of(artistFollow),
+  const dataClientProxyMock = {
+    send: (token: string) =>
+      token === DATA_ARTIST_SERVICE_GET ? of(artist) : of([artist]),
+  };
+  // TOOD: interface ?
+  const relationClientProxyMock = {
+    send: (token: string) =>
+      token === RELATION_SERVICE_GET
+        ? of([relationMultiHas])
+        : token === RELATION_SERVICE_REMOVE
+        ? of(true)
+        : of(artistFollow),
   };
 
   let service: ArtistService;
@@ -87,8 +96,8 @@ describe("ArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
       ],
     }).compile();
     service = module.get<ArtistService>(ArtistService);
@@ -98,9 +107,9 @@ describe("ArtistService", () => {
     expect(service).toBeDefined();
   });
 
-  it("follows should be equal to an artist", async () => {
+  it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,
@@ -114,123 +123,45 @@ describe("ArtistService", () => {
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
     expect(await service.profile(dto)).toEqual(artist);
   });
 
-  it("following should equal list of artists 2", async () => {
-    // TOOD: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<DataPaginationResDto<ArtistResDto>> =>
-        of(artistPagination),
-    };
-    // TOOD: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<DataPaginationResDto<RelationEntityReqDto>> =>
-        of(relationPagination),
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-      ],
-    }).compile();
-    service = module.get<ArtistService>(ArtistService);
-
+  it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.following(dto)).toEqual(artistPagination);
+    expect(await service.following(dto)).toEqual([artist]);
   });
 
   it("trending should equal list of artists", async () => {
-    // TOOD: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<DataPaginationResDto<ArtistResDto>> =>
-        of(artistPagination),
-    };
-    // TOOD: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<DataPaginationResDto<RelationEntityReqDto>> =>
-        of(relationPagination),
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-      ],
-    }).compile();
-    service = module.get<ArtistService>(ArtistService);
-
     const dto: ArtistTrendingReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await service.trending(dto)).toEqual(artistPagination);
+    expect(await service.trending(dto)).toEqual([artist]);
   });
 
   it("trendingGenre should equal list of artists", async () => {
-    // TOOD: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<DataPaginationResDto<ArtistResDto>> =>
-        of(artistPagination),
-    };
-    // TOOD: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<DataPaginationResDto<RelationEntityReqDto>> =>
-        of(relationPagination),
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-      ],
-    }).compile();
-    service = module.get<ArtistService>(ArtistService);
-
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       genre: "",
     };
-    expect(await service.trendingGenre(dto)).toEqual(artistPagination);
+    expect(await service.trendingGenre(dto)).toEqual([artist]);
   });
 
   it("unfollow should be equal to an artist", async () => {
-    // TOOD: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<ArtistResDto> => of(artist),
-    };
-    // TOOD: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<boolean> => of(true),
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
-      ],
-    }).compile();
-    service = module.get<ArtistService>(ArtistService);
-
     const dto: ArtistUnfollowReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,
@@ -238,41 +169,29 @@ describe("ArtistService", () => {
     expect(await service.unfollow(dto)).toEqual(artist);
   });
 
-  it("following should equal list of artists 4", async () => {
+  it("following should equal list of artists 2", async () => {
     // TOOD: interface ?
-    const clientProxyDataMock = {
-      send: (): Observable<DataPaginationResDto<ArtistResDto>> =>
-        of(artistPagination),
-    };
-    // TOOD: interface ?
-    const clientProxyRelationMock = {
-      send: (): Observable<DataPaginationResDto<RelationEntityReqDto>> =>
-        of({
-          results: [] as RelationEntityReqDto[],
-          total: 0,
-        } as DataPaginationResDto<RelationEntityReqDto>),
+    const relationClientProxyMock = {
+      send: (): Observable<RelationResDto[]> => of([]),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: DATA_SERVICE, useValue: clientProxyDataMock },
-        { provide: RELATION_SERVICE, useValue: clientProxyRelationMock },
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
       ],
     }).compile();
     service = module.get<ArtistService>(ArtistService);
 
     const dto: ArtistFollowingReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.following(dto)).toEqual({
-      results: [] as ArtistResDto[],
-      total: 0,
-    } as DataPaginationResDto<ArtistResDto>);
+    expect(await service.following(dto)).toEqual([]);
   });
 });

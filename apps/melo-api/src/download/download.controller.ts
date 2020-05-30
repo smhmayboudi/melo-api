@@ -11,9 +11,8 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DownloadConfigReqDto,
   DownloadOrderByType,
   DownloadSongParamReqDto,
@@ -46,7 +45,7 @@ export class DownloadController {
     indexName: this.downloadConfigService.indexName,
     maxSize: this.downloadConfigService.maxSize,
   };
-  private dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: this.dataConfigService.imagePath,
     imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
     imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
@@ -77,12 +76,12 @@ export class DownloadController {
     @Param("orderBy", DownloadOrderByPipe) orderBy: DownloadOrderByType,
     @Param() paramDto: DownloadSongParamReqDto,
     @Query() queryDto: DownloadSongQueryReqDto
-  ): Promise<DataPaginationResDto<DownloadSongResDto>> {
+  ): Promise<DownloadSongResDto[]> {
     return this.downloadService.downloadedSongs({
       ...paramDto,
       ...queryDto,
       config: this.config,
-      dataConfigElasticSearch: this.dataConfigElasticSearch,
+      dataConfigElasticsearch: this.dataConfigElasticsearch,
       dataConfigImage: this.dataConfigImage,
       orderBy,
       sub,

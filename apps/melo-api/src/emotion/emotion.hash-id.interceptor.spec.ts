@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   EmotionEmotionsResDto,
   PlaylistResDto,
@@ -22,10 +21,17 @@ describe("EmotionHashIdInterceptor", () => {
   const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest
-      .fn()
-      .mockImplementation(() => ({ body: { id: 0 }, params: { id: 0 } })),
-    getResponse: jest.fn().mockImplementation(() => ({ statusCode: 200 })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      body: {
+        id: 0,
+      },
+      params: {
+        id: 0,
+      },
+    })),
+    getResponse: jest.fn().mockImplementation(() => ({
+      statusCode: 200,
+    })),
   };
   const executionContext: ExecutionContext = {
     getArgByIndex: jest.fn(),
@@ -63,24 +69,16 @@ describe("EmotionHashIdInterceptor", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const emotion: EmotionEmotionsResDto = {
     emotions: [""],
     song,
   };
-  const emotionPagination: DataPaginationResDto<EmotionEmotionsResDto> = {
-    results: [emotion],
-    total: 1,
-  } as DataPaginationResDto<EmotionEmotionsResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     id: 0,
     name: "",
     releaseDate,
-    songs: songPagination,
+    songs: [song],
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -97,9 +95,6 @@ describe("EmotionHashIdInterceptor", () => {
   };
   const search: SearchResDto = {
     type: DataSearchType.album,
-  };
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of(emotionPagination)),
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -127,7 +122,10 @@ describe("EmotionHashIdInterceptor", () => {
     expect(new EmotionHashIdInterceptor(service)).toBeDefined();
   });
 
-  it("intercept should be called", () => {
+  it("intercept should be called data: single emotion", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of(emotion)),
+    };
     new EmotionHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();
@@ -135,7 +133,10 @@ describe("EmotionHashIdInterceptor", () => {
     expect(callHandler.handle).toHaveBeenCalled();
   });
 
-  it("intercept should be called data: list of artists", () => {
+  it("intercept should be called data: list of emotions", () => {
+    const callHandler: CallHandler = {
+      handle: jest.fn(() => of([emotion])),
+    };
     new EmotionHashIdInterceptor(service)
       .intercept(executionContext, callHandler)
       .subscribe();

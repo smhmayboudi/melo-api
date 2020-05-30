@@ -10,7 +10,11 @@ import { of } from "rxjs";
 describe("ApmInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
-    getRequest: jest.fn().mockImplementation(() => ({ user: { sub: "0" } })),
+    getRequest: jest.fn().mockImplementation(() => ({
+      user: {
+        sub: "0",
+      },
+    })),
     getResponse: jest.fn(),
   };
   const executionContext: ExecutionContext = {

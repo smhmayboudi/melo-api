@@ -13,17 +13,16 @@ import {
   DATA_ARTIST_SERVICE_TRENDING,
   DATA_ARTIST_SERVICE_TRENDING_GENRE,
   DATA_SERVICE,
-  DataPaginationResDto,
   RELATION_SERVICE,
   RELATION_SERVICE_GET,
   RELATION_SERVICE_REMOVE,
   RELATION_SERVICE_SET,
-  RelationEntityReqDto,
+  RelationEdgeType,
   RelationEntityType,
   RelationGetReqDto,
   RelationRemoveReqDto,
+  RelationResDto,
   RelationSetReqDto,
-  RelationType,
 } from "@melo/common";
 import { Inject, Injectable } from "@nestjs/common";
 
@@ -44,17 +43,17 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async follow(dto: ArtistFollowReqDto): Promise<ArtistResDto> {
     await this.clientProxyRelation
-      .send<ArtistFollowReqDto, RelationSetReqDto>(RELATION_SERVICE_SET, {
+      .send<RelationResDto, RelationSetReqDto>(RELATION_SERVICE_SET, {
         createdAt: new Date(),
         from: {
           id: dto.sub,
           type: RelationEntityType.user,
         },
-        relationType: RelationType.follows,
         to: {
           id: dto.id,
           type: RelationEntityType.artist,
         },
+        type: RelationEdgeType.follows,
       })
       .toPromise();
     const artist = await this.clientProxyData
@@ -70,35 +69,27 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async following(
-    dto: ArtistFollowingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
-    const relation = await this.clientProxyRelation
-      .send<DataPaginationResDto<RelationEntityReqDto>, RelationGetReqDto>(
-        RELATION_SERVICE_GET,
-        {
-          from: dto.from,
-          fromEntityDto: {
-            id: dto.sub,
-            type: RelationEntityType.following,
-          },
-          relationType: RelationType.follows,
-          size: Math.min(dto.config.maxSize, dto.size),
-        }
-      )
+  async following(dto: ArtistFollowingReqDto): Promise<ArtistResDto[]> {
+    const relations = await this.clientProxyRelation
+      .send<RelationResDto[], RelationGetReqDto>(RELATION_SERVICE_GET, {
+        entity: {
+          id: dto.sub,
+          type: RelationEntityType.user,
+        },
+        from: dto.from,
+        size: Math.min(dto.config.maxSize, dto.size),
+        type: RelationEdgeType.follows,
+      })
       .toPromise();
-    if (relation.results.length === 0) {
-      return {
-        results: [] as ArtistResDto[],
-        total: 0,
-      } as DataPaginationResDto<ArtistResDto>;
+    if (relations.length === 0) {
+      return [];
     }
     return this.clientProxyData
-      .send<DataPaginationResDto<ArtistResDto>, ArtistGetByIdsReqDto>(
+      .send<ArtistResDto[], ArtistGetByIdsReqDto>(
         DATA_ARTIST_SERVICE_GET_BY_IDS,
         {
           ...dto,
-          ids: relation.results.map((value) => value.id),
+          ids: relations.map((value) => value.to.id),
         }
       )
       .toPromise();
@@ -116,11 +107,9 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  async trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
     return this.clientProxyData
-      .send<DataPaginationResDto<ArtistResDto>, ArtistTrendingReqDto>(
+      .send<ArtistResDto[], ArtistTrendingReqDto>(
         DATA_ARTIST_SERVICE_TRENDING,
         dto
       )
@@ -130,11 +119,9 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trendingGenre(
-    dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  async trendingGenre(dto: ArtistTrendingGenreReqDto): Promise<ArtistResDto[]> {
     return this.clientProxyData
-      .send<DataPaginationResDto<ArtistResDto>, ArtistTrendingGenreReqDto>(
+      .send<ArtistResDto[], ArtistTrendingGenreReqDto>(
         DATA_ARTIST_SERVICE_TRENDING_GENRE,
         dto
       )
@@ -146,16 +133,16 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async unfollow(dto: ArtistUnfollowReqDto): Promise<ArtistResDto> {
     await this.clientProxyRelation
-      .send<boolean, RelationRemoveReqDto>(RELATION_SERVICE_REMOVE, {
+      .send<RelationResDto, RelationRemoveReqDto>(RELATION_SERVICE_REMOVE, {
         from: {
           id: dto.sub,
           type: RelationEntityType.user,
         },
-        relationType: RelationType.unfollows,
         to: {
           id: dto.id,
           type: RelationEntityType.artist,
         },
+        type: RelationEdgeType.follows,
       })
       .toPromise();
     return this.clientProxyData

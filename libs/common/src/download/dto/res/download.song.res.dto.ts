@@ -5,18 +5,10 @@ import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
 export class DownloadSongResDto {
-  constructor(song: SongResDto, downloadedAt: Date) {
-    this.song = song;
+  constructor(downloadedAt: Date, song: SongResDto) {
     this.downloadedAt = downloadedAt;
+    this.song = song;
   }
-
-  @ApiProperty({
-    description: "The song",
-    example: "0",
-  })
-  @Type(() => SongResDto)
-  @ValidateNested()
-  readonly song: SongResDto;
 
   @ApiProperty({
     description: "The date of download",
@@ -25,4 +17,12 @@ export class DownloadSongResDto {
   @IsDate()
   @Type(() => Date)
   readonly downloadedAt: Date;
+
+  @ApiProperty({
+    description: "The song",
+    example: "0",
+  })
+  @Type(() => SongResDto)
+  @ValidateNested()
+  readonly song: SongResDto;
 }

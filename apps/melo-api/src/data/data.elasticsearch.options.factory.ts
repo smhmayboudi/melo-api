@@ -15,7 +15,7 @@ export class DataElasticsearchOptionsFactory
     | Promise<ElasticsearchModuleOptions>
     | ElasticsearchModuleOptions {
     return {
-      node: this.dataConfigService.elasticNode,
+      node: this.dataConfigService.elasticsearchNode,
     };
   }
 }

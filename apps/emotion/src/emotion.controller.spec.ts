@@ -1,8 +1,7 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   EmotionConfigReqDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
@@ -19,7 +18,7 @@ describe("EmotionController", () => {
     indexName: "",
     maxSize: 0,
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -62,14 +61,9 @@ describe("EmotionController", () => {
     emotions: [""],
     song,
   };
-  const emotionPagination: DataPaginationResDto<EmotionEmotionsResDto> = {
-    results: [emotion],
-    total: 1,
-  } as DataPaginationResDto<EmotionEmotionsResDto>;
-
   const emotionServiceMock: EmotionServiceInterface = {
-    emotions: (): Promise<DataPaginationResDto<EmotionEmotionsResDto>> =>
-      Promise.resolve(emotionPagination),
+    emotions: (): Promise<EmotionEmotionsResDto[]> =>
+      Promise.resolve([emotion]),
   };
 
   let controller: EmotionController;
@@ -85,13 +79,13 @@ describe("EmotionController", () => {
   it("emotions should return a list of emotions", async () => {
     const dto: EmotionEmotionsReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       emotions: [""],
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await controller.emotions(dto)).toEqual(emotionPagination);
+    expect(await controller.emotions(dto)).toEqual([emotion]);
   });
 });

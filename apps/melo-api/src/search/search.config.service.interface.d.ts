@@ -4,7 +4,7 @@ export interface SearchConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
-  elasticNode: string;
+  elasticsearchNode: string;
   indexName: string;
   maxSize: number;
   scriptScore: string;

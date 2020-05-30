@@ -4,48 +4,48 @@ import { ApiHideProperty } from "@nestjs/swagger";
 
 export class DataConfigTypeOrmReqDto {
   constructor(
-    typeOrmDatabase: string,
-    typeOrmHost: string,
-    typeOrmLogging: boolean,
-    typeOrmPassword: string,
-    typeOrmPort: number,
-    typeOrmSynchronize: boolean,
-    typeOrmUsername: string
+    typeormDatabase: string,
+    typeormHost: string,
+    typeormLogging: boolean,
+    typeormPassword: string,
+    typeormPort: number,
+    typeormSynchronize: boolean,
+    typeormUsername: string
   ) {
-    this.typeOrmDatabase = typeOrmDatabase;
-    this.typeOrmHost = typeOrmHost;
-    this.typeOrmLogging = typeOrmLogging;
-    this.typeOrmPassword = typeOrmPassword;
-    this.typeOrmPort = typeOrmPort;
-    this.typeOrmSynchronize = typeOrmSynchronize;
-    this.typeOrmUsername = typeOrmUsername;
+    this.typeormDatabase = typeormDatabase;
+    this.typeormHost = typeormHost;
+    this.typeormLogging = typeormLogging;
+    this.typeormPassword = typeormPassword;
+    this.typeormPort = typeormPort;
+    this.typeormSynchronize = typeormSynchronize;
+    this.typeormUsername = typeormUsername;
   }
 
   @ApiHideProperty()
   @IsString()
-  readonly typeOrmDatabase: string;
+  readonly typeormDatabase: string;
 
   @ApiHideProperty()
   @IsString()
-  readonly typeOrmHost: string;
+  readonly typeormHost: string;
 
   @ApiHideProperty()
   @IsBoolean()
-  readonly typeOrmLogging: boolean;
+  readonly typeormLogging: boolean;
 
   @ApiHideProperty()
   @IsString()
-  readonly typeOrmPassword: string;
+  readonly typeormPassword: string;
 
   @ApiHideProperty()
   @IsNumberString()
-  readonly typeOrmPort: number;
+  readonly typeormPort: number;
 
   @ApiHideProperty()
   @IsBoolean()
-  readonly typeOrmSynchronize: boolean;
+  readonly typeormSynchronize: boolean;
 
   @ApiHideProperty()
   @IsString()
-  readonly typeOrmUsername: string;
+  readonly typeormUsername: string;
 }

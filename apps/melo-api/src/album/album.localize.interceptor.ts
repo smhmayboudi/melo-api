@@ -2,8 +2,6 @@ import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   AlbumResDto,
   AuthJwtPayloadReqDto,
-  DataPaginationResDto,
-  SongResDto,
 } from "@melo/common";
 import {
   CallHandler,
@@ -26,21 +24,18 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
     songs:
       dto.songs === undefined
         ? undefined
-        : ({
-            results: await Promise.all(
-              dto.songs.results.map(
-                async (value) =>
-                  await this.appSongService.localize({ song: value })
-              )
-            ),
-            total: dto.songs.total,
-          } as DataPaginationResDto<SongResDto>),
+        : await Promise.all(
+            dto.songs.map(
+              async (value) =>
+                await this.appSongService.localize({ song: value })
+            )
+          ),
   });
 
   intercept(
     context: ExecutionContext,
     next: CallHandler
-  ): Observable<DataPaginationResDto<AlbumResDto> | AlbumResDto> {
+  ): Observable<AlbumResDto[] | AlbumResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
@@ -49,13 +44,10 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
       map((data) => {
         if (request.user.sub !== APP_REQUEST_USER_SUB_ANONYMOUS_ID) {
           return data;
-        } else if (data.total === undefined) {
+        } else if (data.length === undefined) {
           return this.transform(data);
         } else {
-          return {
-            results: data.results.map((value) => this.transform(value)),
-            total: data.total,
-          };
+          return data.map((value) => this.transform(value));
         }
       })
     );

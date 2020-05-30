@@ -1,5 +1,4 @@
 import {
-  DataPaginationResDto,
   SearchMoodReqDto,
   SearchQueryReqDto,
   SearchResDto,
@@ -7,6 +6,6 @@ import {
 } from "@melo/common";
 
 export interface SearchServiceInterface {
-  mood(dto: SearchMoodReqDto): Promise<DataPaginationResDto<SongResDto>>;
-  query(dto: SearchQueryReqDto): Promise<DataPaginationResDto<SearchResDto>>;
+  mood(dto: SearchMoodReqDto): Promise<SongResDto[]>;
+  query(dto: SearchQueryReqDto): Promise<SearchResDto[]>;
 }

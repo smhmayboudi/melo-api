@@ -1,5 +1,11 @@
+import {
+  DOWNLOAD,
+  ELASTICSEARCH_NODE,
+  INDEX_NAME,
+  MAX_SIZE,
+} from "@melo/common";
+
 import { ConfigService } from "@nestjs/config";
-import { DOWNLOAD } from "@melo/common";
 import { DownloadConfigServiceInterface } from "./download.config.service.interface";
 import { Injectable } from "@nestjs/common";
 
@@ -7,15 +13,18 @@ import { Injectable } from "@nestjs/common";
 export class DownloadConfigService implements DownloadConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
 
-  get elasticNode(): string {
-    return this.configService.get<string>(`${DOWNLOAD}.elasticNode`, "");
+  get elasticsearchNode(): string {
+    return this.configService.get<string>(
+      `${DOWNLOAD}.${ELASTICSEARCH_NODE}`,
+      ""
+    );
   }
 
   get indexName(): string {
-    return this.configService.get<string>(`${DOWNLOAD}.index`, "");
+    return this.configService.get<string>(`${DOWNLOAD}.${INDEX_NAME}`, "");
   }
 
   get maxSize(): number {
-    return this.configService.get<number>(`${DOWNLOAD}.maxSize`, 0);
+    return this.configService.get<number>(`${DOWNLOAD}.${MAX_SIZE}`, 0);
   }
 }

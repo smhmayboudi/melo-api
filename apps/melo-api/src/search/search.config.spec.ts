@@ -3,15 +3,15 @@ import config from "./search.config";
 describe("SearchConfig", () => {
   it("should be equal to an object", () => {
     expect(config()).toStrictEqual({
-      cacheHost: undefined,
-      cacheMax: undefined,
-      cachePort: undefined,
-      cacheStore: undefined,
-      cacheTTL: undefined,
-      elasticNode: undefined,
-      indexName: undefined,
-      maxSize: undefined,
-      scriptScore: undefined,
+      CACHE_HOST: undefined,
+      CACHE_MAX: undefined,
+      CACHE_PORT: undefined,
+      CACHE_STORE: undefined,
+      CACHE_TTL: undefined,
+      ELASTICSEARCH_NODE: undefined,
+      INDEX_NAME: undefined,
+      MAX_SIZE: undefined,
+      SCRIPT_SCORE: undefined,
     });
   });
 });

@@ -56,9 +56,9 @@ $ docker pull dgraph/dgraph
 $ docker pull minio/minio
 $ docker pull mongo
 $ docker pull mysql:5.6
-$ docker pull node:12.16.3
-$ docker pull node:12.16.3-alpine
-$ docker pull node:12.16.3-slim
+$ docker pull node:12.17.0
+$ docker pull node:12.17.0-alpine
+$ docker pull node:12.17.0-slim
 $ docker pull redis
 
 # test

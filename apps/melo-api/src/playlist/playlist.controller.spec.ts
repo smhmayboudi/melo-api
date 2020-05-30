@@ -2,9 +2,8 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   DataSearchType,
   PlaylistAddSongReqDto,
   PlaylistConfigReqDto,
@@ -38,7 +37,7 @@ describe("PlaylistController", () => {
     imagePath: "",
     imagePathDefaultPlaylist: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -84,10 +83,6 @@ describe("PlaylistController", () => {
     title: "",
     tracksCount: 0,
   };
-  const playlistPagination: DataPaginationResDto<PlaylistResDto> = {
-    results: [playlist],
-    total: 1,
-  } as DataPaginationResDto<PlaylistResDto>;
   const song: SongResDto = {
     artists: [
       {
@@ -116,13 +111,13 @@ describe("PlaylistController", () => {
     encodeSearch: (): unknown => search,
     encodeSong: (): unknown => song,
   };
-  const appSongMock: AppSongServiceInterface = {
+  const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
     localize: (): Promise<SongResDto> => Promise.resolve(song),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -136,13 +131,13 @@ describe("PlaylistController", () => {
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
   const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
     cacheHost: "",
@@ -159,11 +154,9 @@ describe("PlaylistController", () => {
     delete: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     edit: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     get: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    my: (): Promise<DataPaginationResDto<PlaylistResDto>> =>
-      Promise.resolve(playlistPagination),
+    my: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
     removeSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    top: (): Promise<DataPaginationResDto<PlaylistResDto>> =>
-      Promise.resolve(playlistPagination),
+    top: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
   };
 
   let controller: PlaylistController;
@@ -173,7 +166,7 @@ describe("PlaylistController", () => {
       controllers: [PlaylistController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppSongService, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongServiceMock },
         { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
@@ -189,7 +182,7 @@ describe("PlaylistController", () => {
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
@@ -200,7 +193,7 @@ describe("PlaylistController", () => {
   it("create should be equal to a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       sub: 1,
       title: "",
@@ -211,7 +204,7 @@ describe("PlaylistController", () => {
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: "",
       sub: 1,
@@ -222,7 +215,7 @@ describe("PlaylistController", () => {
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: "",
     };
@@ -232,7 +225,7 @@ describe("PlaylistController", () => {
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: "",
     };
@@ -242,19 +235,19 @@ describe("PlaylistController", () => {
   it("my should be equal to a list of playlists", async () => {
     const dto: PlaylistMyReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await controller.my(dto, 0)).toEqual(playlistPagination);
+    expect(await controller.my(dto, 0)).toEqual([playlist]);
   });
 
   it("removeSong should be equal to a playlist", async () => {
     const dto: PlaylistRemoveSongReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
@@ -265,11 +258,11 @@ describe("PlaylistController", () => {
   it("top should be equal to a list of playlists", async () => {
     const dto: PlaylistTopReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await controller.top(dto)).toEqual(playlistPagination);
+    expect(await controller.top(dto)).toEqual([playlist]);
   });
 });

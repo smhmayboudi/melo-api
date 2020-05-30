@@ -19,7 +19,6 @@ import { PlaylistService } from "./playlist.service";
         transport: Transport.REDIS,
       },
     ]),
-
     MongooseModule.forFeature([{ name: PLAYLIST, schema: PlaylistSchema }]),
   ],
   providers: [PlaylistService],

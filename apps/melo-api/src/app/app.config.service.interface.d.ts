@@ -32,11 +32,11 @@ export interface AppConfigServiceInterface {
   sentryEnviroment: string;
   sentryLogLevel: LogLevel;
   sentryRelease: string;
-  typeOrmDatabase: string;
-  typeOrmHost: string;
-  typeOrmLogging: boolean;
-  typeOrmPassword: string;
-  typeOrmPort: number;
-  typeOrmSynchronize: boolean;
-  typeOrmUsername: string;
+  typeormDatabase: string;
+  typeormHost: string;
+  typeormLogging: boolean;
+  typeormPassword: string;
+  typeormPort: number;
+  typeormSynchronize: boolean;
+  typeormUsername: string;
 }

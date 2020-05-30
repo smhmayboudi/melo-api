@@ -1,5 +1,4 @@
 import {
-  DataPaginationResDto,
   PlaylistAddSongReqDto,
   PlaylistCreateReqDto,
   PlaylistDeleteReqDto,
@@ -17,7 +16,7 @@ export interface PlaylistServiceInterface {
   delete(dto: PlaylistDeleteReqDto): Promise<PlaylistResDto>;
   edit(dto: PlaylistEditReqDto): Promise<PlaylistResDto>;
   get(dto: PlaylistGetReqDto): Promise<PlaylistResDto>;
-  my(dto: PlaylistMyReqDto): Promise<DataPaginationResDto<PlaylistResDto>>;
+  my(dto: PlaylistMyReqDto): Promise<PlaylistResDto[]>;
   removeSong(dto: PlaylistRemoveSongReqDto): Promise<PlaylistResDto>;
-  top(dto: PlaylistTopReqDto): Promise<DataPaginationResDto<PlaylistResDto>>;
+  top(dto: PlaylistTopReqDto): Promise<PlaylistResDto[]>;
 }

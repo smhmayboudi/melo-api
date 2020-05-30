@@ -1,12 +1,11 @@
 import {
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
+  RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
-  RelationMultiHasResDto,
-  RelationType,
+  RelationResDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
   SongConfigReqDto,
@@ -40,8 +39,6 @@ import { DataSongServiceInterface } from "../data/data.song.service.interface";
 import { HttpService } from "@nestjs/common";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
-import { SongConfigService } from "./song.config.service";
-import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongService } from "./song.service";
 import { UserService } from "../user/user.service";
 import { UserServiceInterface } from "../user/user.service.interface";
@@ -49,9 +46,9 @@ import { UserServiceInterface } from "../user/user.service.interface";
 describe("SongService", () => {
   const config: SongConfigReqDto = {
     maxSize: 0,
-    url: "",
+    sendUrl: "",
   };
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -90,50 +87,44 @@ describe("SongService", () => {
     releaseDate,
     title: "",
   };
-  const songPagination: DataPaginationResDto<SongResDto> = {
-    results: [song],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const user: UserResDto = {
     id: 0,
     telegram_id: 0,
   };
+  const from: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.user,
+  };
+  const relationMultiHas: RelationResDto = {
+    from,
+    to: {
+      id: 0,
+      type: RelationEntityType.user,
+    },
+    type: RelationEdgeType.follows,
+  };
 
-  const appSongMock: AppSongServiceInterface = {
+  const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
     localize: (): Promise<SongResDto> => Promise.resolve(song),
   };
   const dataSongServiceMock: DataSongServiceInterface = {
-    albumSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongs: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    artistSongsTop: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    genre: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
     get: (): Promise<SongResDto> => Promise.resolve(song),
-    getByIds: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    language: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    mood: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newPodcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    newSong: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    podcast: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    similar: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    slider: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topDay: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
-    topWeek: (): Promise<DataPaginationResDto<SongResDto>> =>
-      Promise.resolve(songPagination),
+    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -147,43 +138,13 @@ describe("SongService", () => {
       }),
   };
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<DataPaginationResDto<RelationEntityReqDto>> =>
-      Promise.resolve({
-        results: [
-          {
-            id: 0,
-            type: RelationEntityType.album,
-          },
-        ],
-        total: 1,
-      } as DataPaginationResDto<RelationEntityReqDto>),
-    has: (): Promise<boolean> => Promise.resolve(true),
-    multiHas: (): Promise<RelationMultiHasResDto[]> =>
-      Promise.resolve([
-        {
-          from: {
-            id: 0,
-            type: RelationEntityType.album,
-          },
-          relation: RelationType.dislikedSongs,
-          to: {
-            id: 1,
-            type: RelationEntityType.album,
-          },
-        },
-      ]),
-    remove: (): Promise<boolean> => Promise.resolve(true),
-    set: (): Promise<boolean> => Promise.resolve(true),
-  };
-  const songConfigServiceMock: SongConfigServiceInterface = {
-    cacheHost: "",
-    cacheMax: 0,
-    cachePort: 0,
-    cacheStore: "",
-    cacheTTL: 0,
-    maxSize: 0,
-    timeout: 0,
-    url: "",
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
+    has: (): Promise<RelationResDto | undefined> =>
+      Promise.resolve(relationMultiHas),
+    multiHas: (): Promise<RelationResDto[]> =>
+      Promise.resolve([relationMultiHas]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
   };
   const userServiceMock: UserServiceInterface = {
     edit: (): Promise<UserResDto> => Promise.resolve(user),
@@ -202,7 +163,7 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppSongService, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
@@ -218,29 +179,29 @@ describe("SongService", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.artistSongs(dto)).toEqual(songPagination);
+    expect(await service.artistSongs(dto)).toEqual([song]);
   });
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsTopReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.artistSongsTop(dto)).toEqual(songPagination);
+    expect(await service.artistSongsTop(dto)).toEqual([song]);
   });
 
   it("get should be equal to a songs", async () => {
     const dto: SongGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -249,91 +210,94 @@ describe("SongService", () => {
 
   it("genre should be equal to a list of songs", async () => {
     const dto: SongSongGenresReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [""],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.genre(dto)).toEqual(songPagination);
+    expect(await service.genre(dto)).toEqual([song]);
   });
 
   it("language should be equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       language: "",
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.language(dto)).toEqual(songPagination);
+    expect(await service.language(dto)).toEqual([song]);
   });
 
   it("likes should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,
     };
-    expect(await service.like(dto)).toEqual({ ...song, liked: true });
+    expect(await service.like(dto)).toEqual({
+      ...song,
+      liked: true,
+    });
   });
 
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.liked(dto)).toEqual(songPagination);
+    expect(await service.liked(dto)).toEqual([song]);
   });
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       mood: "",
       size: 0,
     };
-    expect(await service.mood(dto)).toEqual(songPagination);
+    expect(await service.mood(dto)).toEqual([song]);
   });
 
   it("new should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.newSong(dto)).toEqual(songPagination);
+    expect(await service.newSong(dto)).toEqual([song]);
   });
 
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: SongNewPodcastReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.newPodcast(dto)).toEqual(songPagination);
+    expect(await service.newPodcast(dto)).toEqual([song]);
   });
 
   it("podcast should be equal to a list of songs", async () => {
     const dto: SongPodcastGenresReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       genres: [""],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
-    expect(await service.podcast(dto)).toEqual(songPagination);
+    expect(await service.podcast(dto)).toEqual([song]);
   });
 
   it("sendTelegram should be undefined", async () => {
@@ -347,74 +311,69 @@ describe("SongService", () => {
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.similar(dto)).toEqual(songPagination);
+    expect(await service.similar(dto)).toEqual([song]);
   });
 
   it("slider should be equal to a list of songs", async () => {
     const dto: SongSliderReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await service.slider(dto)).toEqual(songPagination);
+    expect(await service.slider(dto)).toEqual([song]);
   });
 
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.topDay(dto)).toEqual(songPagination);
+    expect(await service.topDay(dto)).toEqual([song]);
   });
 
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
     };
-    expect(await service.topWeek(dto)).toEqual(songPagination);
+    expect(await service.topWeek(dto)).toEqual([song]);
   });
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
       sub: 1,
     };
-    expect(await service.unlike(dto)).toEqual({ ...song, liked: false });
+    expect(await service.unlike(dto)).toEqual({
+      ...song,
+      liked: false,
+    });
   });
 
   it("liked should be equal to an empty list", async () => {
-    const relationServiceMockEmptyGet: RelationServiceInterface = {
+    const relationServiceMockGet: RelationServiceInterface = {
       ...relationServiceMock,
-      get: (): Promise<DataPaginationResDto<RelationEntityReqDto>> =>
-        Promise.resolve({
-          results: [] as RelationEntityReqDto[],
-          total: 0,
-        } as DataPaginationResDto<RelationEntityReqDto>),
+      get: (): Promise<RelationResDto[]> => Promise.resolve([]),
     };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppSongService, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
-        { provide: RelationService, useValue: relationServiceMockEmptyGet },
-        {
-          provide: SongConfigService,
-          useValue: songConfigServiceMock,
-        },
+        { provide: RelationService, useValue: relationServiceMockGet },
         { provide: UserService, useValue: userServiceMock },
       ],
     }).compile();
@@ -422,17 +381,17 @@ describe("SongService", () => {
 
     const dto: SongLikedReqDto = {
       config,
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
     };
-    expect(await service.liked(dto)).toEqual({ results: [], total: 0 });
+    expect(await service.liked(dto)).toEqual([]);
   });
 
   it("sendTelegram should throw exception", async () => {
-    const userServiceMockFindOneByIdUndefined: UserServiceInterface = {
+    const userServiceMockFindOne: UserServiceInterface = {
       ...userServiceMock,
       findOne: (): Promise<UserResDto | undefined> =>
         Promise.resolve(undefined),
@@ -441,13 +400,13 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: AppSongService, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongServiceMock },
         { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RelationService, useValue: relationServiceMock },
         {
           provide: UserService,
-          useValue: userServiceMockFindOneByIdUndefined,
+          useValue: userServiceMockFindOne,
         },
       ],
     }).compile();

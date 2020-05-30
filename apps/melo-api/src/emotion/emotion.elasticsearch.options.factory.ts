@@ -15,7 +15,7 @@ export class EmotionElasticsearchOptionsFactory
     | Promise<ElasticsearchModuleOptions>
     | ElasticsearchModuleOptions {
     return {
-      node: this.emotionConfigService.elasticNode,
+      node: this.emotionConfigService.elasticsearchNode,
     };
   }
 }

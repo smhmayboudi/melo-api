@@ -3,9 +3,9 @@ import { IsNumber, IsString } from "class-validator";
 import { ApiHideProperty } from "@nestjs/swagger";
 
 export class SongConfigReqDto {
-  constructor(maxSize: number, url: string) {
+  constructor(maxSize: number, sendUrl: string) {
     this.maxSize = maxSize;
-    this.url = url;
+    this.sendUrl = sendUrl;
   }
 
   @ApiHideProperty()
@@ -14,5 +14,5 @@ export class SongConfigReqDto {
 
   @ApiHideProperty()
   @IsString()
-  readonly url: string;
+  readonly sendUrl: string;
 }

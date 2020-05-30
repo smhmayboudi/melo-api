@@ -5,9 +5,8 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -16,7 +15,7 @@ import { DataArtistService } from "./data.artist.service";
 import { DataArtistServiceInterface } from "./data.artist.service.interface";
 
 describe("DataArtistController", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -44,19 +43,11 @@ describe("DataArtistController", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const artistPagination: DataPaginationResDto<ArtistResDto> = {
-    results: [artist],
-    total: 1,
-  } as DataPaginationResDto<ArtistResDto>;
-
   const dataArtistServiceMock: DataArtistServiceInterface = {
     get: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    getByIds: (): Promise<DataPaginationResDto<ArtistResDto>> =>
-      Promise.resolve(artistPagination),
-    trending: (): Promise<DataPaginationResDto<ArtistResDto>> =>
-      Promise.resolve(artistPagination),
-    trendingGenre: (): Promise<DataPaginationResDto<ArtistResDto>> =>
-      Promise.resolve(artistPagination),
+    getByIds: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    trending: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    trendingGenre: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
   };
 
   let controller: DataArtistController;
@@ -77,7 +68,7 @@ describe("DataArtistController", () => {
 
   it("get should equal list of artists", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -86,7 +77,7 @@ describe("DataArtistController", () => {
 
   it("get should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };
@@ -95,27 +86,27 @@ describe("DataArtistController", () => {
 
   it("getByIds should equal list of artists", async () => {
     const dto: ArtistGetByIdsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       ids: [0],
     };
-    expect(await controller.getByIds(dto)).toEqual(artistPagination);
+    expect(await controller.getByIds(dto)).toEqual([artist]);
   });
 
   it("trending should equal list of artists", async () => {
     const dto: ArtistTrendingReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
     };
-    expect(await controller.trending(dto)).toEqual(artistPagination);
+    expect(await controller.trending(dto)).toEqual([artist]);
   });
 
   it("trendingGenre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       genre: "",
     };
-    expect(await controller.trendingGenre(dto)).toEqual(artistPagination);
+    expect(await controller.trendingGenre(dto)).toEqual([artist]);
   });
 });

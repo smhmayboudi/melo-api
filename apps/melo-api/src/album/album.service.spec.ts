@@ -5,9 +5,8 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataConfigElasticSearchReqDto,
+  DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataPaginationResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -19,7 +18,7 @@ import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 
 describe("AlbumService", () => {
-  const dataConfigElasticSearch: DataConfigElasticSearchReqDto = {
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
     imagePathDefaultArtist: "",
@@ -48,7 +47,7 @@ describe("AlbumService", () => {
     id: 0,
     type: DataArtistType.prime,
   };
-  const like: SongResDto = {
+  const song: SongResDto = {
     artists: [artist],
     audio: {
       high: {
@@ -62,35 +61,27 @@ describe("AlbumService", () => {
     releaseDate,
     title: "",
   };
-  const likePagination: DataPaginationResDto<SongResDto> = {
-    results: [like],
-    total: 1,
-  } as DataPaginationResDto<SongResDto>;
   const album: AlbumResDto = {
     artists: [artist],
     name: "",
     releaseDate,
-    songs: likePagination,
+    songs: [song],
   };
-  const albumPagination: DataPaginationResDto<AlbumResDto> = {
-    results: [album],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
-  const albumPaginationArtistsUndefined: DataPaginationResDto<AlbumResDto> = {
-    results: [{ ...album, artists: undefined }],
-    total: 1,
-  } as DataPaginationResDto<AlbumResDto>;
+  const albumsArtistsUndefined: AlbumResDto[] = [
+    {
+      ...album,
+      artists: undefined,
+    },
+  ];
 
-  const appArtistMock: AppArtistServiceInterface = {
+  const appArtistServiceMock: AppArtistServiceInterface = {
     follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
     follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
-    albums: (): Promise<DataPaginationResDto<AlbumResDto>> =>
-      Promise.resolve(albumPagination),
+    albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
     get: (): Promise<AlbumResDto> => Promise.resolve(album),
-    latest: (): Promise<DataPaginationResDto<AlbumResDto>> =>
-      Promise.resolve(albumPagination),
+    latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
   };
 
   let service: AlbumService;
@@ -100,7 +91,7 @@ describe("AlbumService", () => {
       const module: TestingModule = await Test.createTestingModule({
         providers: [
           AlbumService,
-          { provide: AppArtistService, useValue: appArtistMock },
+          { provide: AppArtistService, useValue: appArtistServiceMock },
           { provide: DataAlbumService, useValue: dataAlbumServiceMock },
         ],
       }).compile();
@@ -113,18 +104,18 @@ describe("AlbumService", () => {
 
     it("albums should equal list of artists", async () => {
       const dto: AlbumArtistsReqDto = {
-        dataConfigElasticSearch,
+        dataConfigElasticsearch,
         dataConfigImage,
         from: 0,
         id: 0,
         size: 0,
       };
-      expect(await service.albums(dto)).toEqual(albumPagination);
+      expect(await service.albums(dto)).toEqual([album]);
     });
 
     it("get should be equal to an artist", async () => {
       const dto: AlbumGetReqDto = {
-        dataConfigElasticSearch,
+        dataConfigElasticsearch,
         dataConfigImage,
         id: 0,
       };
@@ -133,29 +124,26 @@ describe("AlbumService", () => {
 
     it("latest should equal list of albums", async () => {
       const dto: AlbumLatestReqDto = {
-        dataConfigElasticSearch,
+        dataConfigElasticsearch,
         dataConfigImage,
         from: 0,
         language: "",
         size: 0,
       };
-      expect(await service.latest(dto)).toEqual(albumPagination);
+      expect(await service.latest(dto)).toEqual([album]);
     });
   });
 
   it("albums should equal list of albums artists undefined", async () => {
     const dataAlbumServiceMockAlbums: DataAlbumServiceInterface = {
       ...dataAlbumServiceMock,
-      albums: (): Promise<DataPaginationResDto<AlbumResDto>> =>
-        Promise.resolve({
-          results: [
-            {
-              ...album,
-              artists: undefined,
-            },
-          ],
-          total: 1,
-        } as DataPaginationResDto<AlbumResDto>),
+      albums: (): Promise<AlbumResDto[]> =>
+        Promise.resolve([
+          {
+            ...album,
+            artists: undefined,
+          },
+        ]),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -163,7 +151,7 @@ describe("AlbumService", () => {
         AlbumService,
         {
           provide: AppArtistService,
-          useValue: appArtistMock,
+          useValue: appArtistServiceMock,
         },
         {
           provide: DataAlbumService,
@@ -174,16 +162,16 @@ describe("AlbumService", () => {
     service = module.get<AlbumService>(AlbumService);
 
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
     };
-    expect(await service.albums(dto)).toEqual(albumPaginationArtistsUndefined);
+    expect(await service.albums(dto)).toEqual(albumsArtistsUndefined);
   });
 
-  it("get should handle songs undefnied", async () => {
+  it("get should handle [song] undefnied", async () => {
     const albumSongsUndefined: AlbumResDto = {
       ...album,
       songs: undefined,
@@ -200,7 +188,7 @@ describe("AlbumService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AlbumService,
-        { provide: AppArtistService, useValue: appArtistMock },
+        { provide: AppArtistService, useValue: appArtistServiceMock },
         {
           provide: DataAlbumService,
           useValue: dataAlbumServiceMockGet,
@@ -210,7 +198,7 @@ describe("AlbumService", () => {
     service = module.get<AlbumService>(AlbumService);
 
     const dto: AlbumGetReqDto = {
-      dataConfigElasticSearch,
+      dataConfigElasticsearch,
       dataConfigImage,
       id: 0,
     };

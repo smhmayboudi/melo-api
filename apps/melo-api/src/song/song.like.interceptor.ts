@@ -1,7 +1,6 @@
 import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   AuthJwtPayloadReqDto,
-  DataPaginationResDto,
   SongResDto,
 } from "@melo/common";
 import {
@@ -23,7 +22,7 @@ export class SongLikeInterceptor implements NestInterceptor {
   intercept(
     context: ExecutionContext,
     next: CallHandler
-  ): Observable<DataPaginationResDto<SongResDto> | SongResDto> {
+  ): Observable<SongResDto[] | SongResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
       express.Request & { user: AuthJwtPayloadReqDto }
@@ -35,19 +34,16 @@ export class SongLikeInterceptor implements NestInterceptor {
         } else if (data === undefined) {
           // because of sendTelegram service which is void
           return data;
-        } else if (data.total === undefined) {
+        } else if (data.length === undefined) {
           return await this.appSongService.like({
             song: data,
             sub: parseInt(request.user.sub, 10),
           });
         } else {
-          return {
-            results: await this.appSongService.likes({
-              songs: data.results,
-              sub: parseInt(request.user.sub, 10),
-            }),
-            total: data.total,
-          };
+          return await this.appSongService.likes({
+            songs: data,
+            sub: parseInt(request.user.sub, 10),
+          });
         }
       })
     );

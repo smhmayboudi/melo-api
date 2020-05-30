@@ -1,13 +1,13 @@
 import {
   AlbumResDto,
   ArtistResDto,
-  DataElasticSearchArtistResDto,
-  DataElasticSearchSearchResDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   SongResDto,
 } from "@melo/common";
 
 export interface DataTransformServiceInterface {
-  album(dto: DataElasticSearchSearchResDto): Promise<AlbumResDto>;
-  artist(dto: DataElasticSearchArtistResDto): Promise<ArtistResDto>;
-  song(dto: DataElasticSearchSearchResDto): Promise<SongResDto>;
+  album(dto: DataElasticsearchSearchResDto): Promise<AlbumResDto>;
+  artist(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto>;
+  song(dto: DataElasticsearchSearchResDto): Promise<SongResDto>;
 }

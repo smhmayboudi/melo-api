@@ -2,7 +2,7 @@ import { DataImageTypeSize } from "@melo/common";
 import { SignatureSize } from "imgproxy/dist/types";
 
 export interface DataConfigServiceInterface {
-  elasticNode: string;
+  elasticsearchNode: string;
   imageBaseUrl: string;
   imageEncode: boolean;
   imageKey: string;
@@ -14,13 +14,13 @@ export interface DataConfigServiceInterface {
   imageSignatureSize: SignatureSize;
   imageTypeSize: DataImageTypeSize[];
   indexName: string;
-  mp3Endpoint: string;
   maxSize: number;
-  typeOrmDatabase: string;
-  typeOrmHost: string;
-  typeOrmLogging: boolean;
-  typeOrmPassword: string;
-  typeOrmPort: number;
-  typeOrmSynchronize: boolean;
-  typeOrmUsername: string;
+  mp3Endpoint: string;
+  typeormDatabase: string;
+  typeormHost: string;
+  typeormLogging: boolean;
+  typeormPassword: string;
+  typeormPort: number;
+  typeormSynchronize: boolean;
+  typeormUsername: string;
 }

@@ -18,13 +18,15 @@ export class EmotionHashIdInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<unknown> {
     return next.handle().pipe(
-      map((data) => ({
-        results: data.results.map((value) => ({
-          ...value,
-          song: this.appHashIdService.encodeSong(value.song),
-        })),
-        total: data.total,
-      }))
+      map((data) => {
+        if (data.length === undefined) {
+          return this.appHashIdService.encodeSong(data.song);
+        } else {
+          return data.map((value) =>
+            this.appHashIdService.encodeSong(value.song)
+          );
+        }
+      })
     );
   }
 }

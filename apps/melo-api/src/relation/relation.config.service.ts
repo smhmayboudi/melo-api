@@ -1,7 +1,15 @@
+import {
+  CACHE_HOST,
+  CACHE_MAX,
+  CACHE_PORT,
+  CACHE_STORE,
+  CACHE_TTL,
+  RELATION,
+} from "@melo/common";
+
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
-import { RELATION } from "@melo/common";
 import { RelationConfigServiceInterface } from "./relation.config.service.interface";
 import ms from "ms";
 
@@ -14,28 +22,28 @@ export class RelationConfigService implements RelationConfigServiceInterface {
 
   get cacheHost(): string {
     return this.configService.get<string>(
-      `${RELATION}.cacheHost`,
+      `${RELATION}.${CACHE_HOST}`,
       this.appConfigService.cacheHost
     );
   }
 
   get cacheMax(): number {
     return this.configService.get<number>(
-      `${RELATION}.cacheMax`,
+      `${RELATION}.${CACHE_MAX}`,
       this.appConfigService.cacheMax
     );
   }
 
   get cachePort(): number {
     return this.configService.get<number>(
-      `${RELATION}.cachePort`,
+      `${RELATION}.${CACHE_PORT}`,
       this.appConfigService.cachePort
     );
   }
 
   get cacheStore(): string {
     return this.configService.get<string>(
-      `${RELATION}.cacheStore`,
+      `${RELATION}.${CACHE_STORE}`,
       this.appConfigService.cacheStore
     );
   }
@@ -43,7 +51,7 @@ export class RelationConfigService implements RelationConfigServiceInterface {
   get cacheTTL(): number {
     return ms(
       this.configService.get<string>(
-        `${RELATION}.cacheTTL`,
+        `${RELATION}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
     );

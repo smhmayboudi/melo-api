@@ -2,7 +2,6 @@ import {
   AlbumResDto,
   ArtistResDto,
   DataArtistType,
-  DataPaginationResDto,
   DataSearchType,
   EmotionEmotionsParamReqDto,
   EmotionEmotionsQueryReqDto,
@@ -55,10 +54,6 @@ describe("EmotionController", () => {
     emotions: [""],
     song,
   };
-  const emotionPagination: DataPaginationResDto<EmotionEmotionsResDto> = {
-    results: [emotion],
-    total: 1,
-  } as DataPaginationResDto<EmotionEmotionsResDto>;
   const playlist: PlaylistResDto = {
     followersCount: 0,
     id: "",
@@ -85,13 +80,13 @@ describe("EmotionController", () => {
     encodeSearch: (): unknown => search,
     encodeSong: (): unknown => song,
   };
-  const appSongMock: AppSongServiceInterface = {
+  const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
     localize: (): Promise<SongResDto> => Promise.resolve(song),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
     imageKey: "",
@@ -105,22 +100,22 @@ describe("EmotionController", () => {
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
-    typeOrmDatabase: "",
-    typeOrmHost: "",
-    typeOrmLogging: true,
-    typeOrmPassword: "",
-    typeOrmPort: 0,
-    typeOrmSynchronize: true,
-    typeOrmUsername: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
   };
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
-    elasticNode: "",
+    elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
   };
   const emotionServiceMock: EmotionServiceInterface = {
-    emotions: (): Promise<DataPaginationResDto<EmotionEmotionsResDto>> =>
-      Promise.resolve(emotionPagination),
+    emotions: (): Promise<EmotionEmotionsResDto[]> =>
+      Promise.resolve([emotion]),
   };
 
   let controller: EmotionController;
@@ -130,7 +125,7 @@ describe("EmotionController", () => {
       controllers: [EmotionController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: AppSongService, useValue: appSongMock },
+        { provide: AppSongService, useValue: appSongServiceMock },
         { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: EmotionConfigService, useValue: emotionConfigServiceMock },
         { provide: EmotionService, useValue: emotionServiceMock },
@@ -147,8 +142,6 @@ describe("EmotionController", () => {
     const queryDto: EmotionEmotionsQueryReqDto = {
       emotions: [""],
     };
-    expect(await controller.emotions(paramDto, queryDto, 0)).toEqual(
-      emotionPagination
-    );
+    expect(await controller.emotions(paramDto, queryDto, 0)).toEqual([emotion]);
   });
 });

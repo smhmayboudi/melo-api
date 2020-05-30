@@ -5,7 +5,6 @@ import {
   ArtistResDto,
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
-  DataPaginationResDto,
   DataSearchType,
 } from "@melo/common";
 
@@ -29,7 +28,9 @@ export class DataArtistService implements DataArtistServiceInterface {
   async get(dto: ArtistGetReqDto): Promise<ArtistResDto> {
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
-        _source: { excludes: ["tags"] },
+        _source: {
+          excludes: ["tags"],
+        },
         from: 0,
         query: {
           bool: {
@@ -49,26 +50,26 @@ export class DataArtistService implements DataArtistServiceInterface {
         },
         size: 1,
       },
-      index: dto.dataConfigElasticSearch.indexName,
+      index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
     return this.dataTransformService.artist({
       ...elasticSearchRes.body.hits.hits[0]._source,
-      imagePath: dto.dataConfigElasticSearch.imagePath,
+      imagePath: dto.dataConfigElasticsearch.imagePath,
       imagePathDefaultArtist:
-        dto.dataConfigElasticSearch.imagePathDefaultArtist,
+        dto.dataConfigElasticsearch.imagePathDefaultArtist,
     });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async getByIds(
-    dto: ArtistGetByIdsReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
+  async getByIds(dto: ArtistGetByIdsReqDto): Promise<ArtistResDto[]> {
     const elasticSearchRes = await this.elasticsearchService.search({
       body: {
-        _source: { excludes: ["tags"] },
+        _source: {
+          excludes: ["tags"],
+        },
         query: {
           bool: {
             must: [
@@ -85,45 +86,43 @@ export class DataArtistService implements DataArtistServiceInterface {
             ],
           },
         },
-        size: dto.dataConfigElasticSearch.maxSize,
+        size: dto.dataConfigElasticsearch.maxSize,
       },
-      index: dto.dataConfigElasticSearch.indexName,
+      index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
-    const results = (await Promise.all(
+    return (await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => {
         return await this.dataTransformService.artist({
           ...value._source.artists[0],
-          imagePath: dto.dataConfigElasticSearch.imagePath,
+          imagePath: dto.dataConfigElasticsearch.imagePath,
           imagePathDefaultArtist:
-            dto.dataConfigElasticSearch.imagePathDefaultArtist,
+            dto.dataConfigElasticsearch.imagePathDefaultArtist,
           tags: value._source.tags,
         });
       })
     )) as ArtistResDto[];
-    return {
-      results,
-      total: elasticSearchRes.body.hits.hits.length,
-    } as DataPaginationResDto<ArtistResDto>;
   }
 
   // TODO: implement
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trending(
-    dto: ArtistTrendingReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
-    return this.getByIds({ ...dto, ids: [498] }); //189978
+  async trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
+    return this.getByIds({
+      ...dto,
+      ids: [498],
+    }); //189978
   }
 
   // TODO: implement
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async trendingGenre(
-    dto: ArtistTrendingGenreReqDto
-  ): Promise<DataPaginationResDto<ArtistResDto>> {
-    return this.getByIds({ ...dto, ids: [498] }); //189978
+  async trendingGenre(dto: ArtistTrendingGenreReqDto): Promise<ArtistResDto[]> {
+    return this.getByIds({
+      ...dto,
+      ids: [498],
+    }); //189978
   }
 }

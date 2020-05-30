@@ -5,10 +5,10 @@ import {
   DataConfigImageReqDto,
   DataImageResDto,
 } from "@melo/common";
-import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { ConstService } from "./const.service";
+import { of } from "rxjs";
 
 describe("ConstService", () => {
   const config: ConstConfigReqDto = {
@@ -37,8 +37,8 @@ describe("ConstService", () => {
   };
 
   // TODO: interface ?
-  const clientProxyMock = {
-    send: (): Observable<DataImageResDto> => of(image),
+  const dataClientProxyMock = {
+    send: () => of(image),
   };
 
   let service: ConstService;
@@ -46,8 +46,8 @@ describe("ConstService", () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: DATA_SERVICE, useValue: clientProxyMock },
         ConstService,
+        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
       ],
     }).compile();
     service = module.get<ConstService>(ConstService);
