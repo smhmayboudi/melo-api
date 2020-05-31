@@ -3,19 +3,25 @@ import {
   ArtistResDto,
   DataElasticsearchArtistResDto,
   DataElasticsearchSearchResDto,
+  PlaylistResDto,
   SongResDto,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 
 import { DataImageService } from "./data.image.service";
+import { DataSongService } from "./data.song.service";
 import { DataTransformServiceInterface } from "./data.transform.interface";
 import { Injectable } from "@nestjs/common";
+import { PlaylistModelReqDto } from "@melo/common/playlist/dto/req/playlist.model.req.dto";
 import { PromMethodCounter } from "@melo/prom";
 import lodash from "lodash";
 
 @Injectable()
 export class DataTransformService implements DataTransformServiceInterface {
-  constructor(private readonly dataImageService: DataImageService) {}
+  constructor(
+    private readonly dataImageService: DataImageService,
+    private readonly dataSongService: DataSongService
+  ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
@@ -76,6 +82,39 @@ export class DataTransformService implements DataTransformServiceInterface {
       sumSongsDownloadsCount,
       tags,
       type: dto.type,
+    };
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  async playlist(dto: PlaylistModelReqDto): Promise<PlaylistResDto> {
+    const uri =
+      dto.photo_id === undefined
+        ? dto.config.imagePathDefaultPlaylist
+        : lodash.template(dto.config.imagePath)({
+            id: dto.photo_id,
+          });
+    const image = await this.dataImageService.generateUrl({
+      ...dto,
+      uri,
+    });
+    const songs =
+      dto.songs_ids.length === 0
+        ? undefined
+        : await this.dataSongService.getByIds({
+            ...dto,
+            ids: dto.songs_ids.map((value) => value),
+          });
+    return {
+      followersCount: dto.followers_count,
+      id: dto._id,
+      image,
+      isPublic: dto.isPublic,
+      releaseDate: dto.release_date,
+      songs,
+      title: dto.title,
+      tracksCount: dto.tracks_count,
     };
   }
 

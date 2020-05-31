@@ -35,7 +35,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           const id = JSON.parse(
             Buffer.from(rawJwtToken.split(".")[0], "base64").toString("ascii")
           ).kid;
-          const jwks = await jwksService.findOne({ id });
+          const jwks = await jwksService.findOne({
+            id,
+          });
           if (jwks === undefined) {
             done(new Error("jwt.strategy secretOrKeyProvider failed."), null);
           } else {
@@ -50,11 +52,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(dto: AuthJwtPayloadReqDto): Promise<AuthStrategyResDto> {
     const sub = parseInt(dto.sub, 10);
-    const rt = await this.rtService.validate({ sub });
+    const rt = await this.rtService.validate({
+      sub,
+    });
     if (rt === undefined) {
       throw new UnauthorizedException();
     }
-    const at = await this.atService.validateByToken({ token: dto.jti });
+    const at = await this.atService.validateByToken({
+      token: dto.jti,
+    });
     if (
       at !== undefined &&
       this.authConfigService.jwtAccessTokenExpiresCount - 1 < at.count
@@ -76,6 +82,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         user_id: sub,
       });
     }
-    return Promise.resolve({ sub: dto.sub });
+    return Promise.resolve({
+      sub: dto.sub,
+    });
   }
 }

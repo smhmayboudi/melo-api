@@ -64,6 +64,8 @@ describe("ConstConfigService", () => {
   });
 
   it("staticImagePaths should be equal to a value", () => {
-    expect(service.staticImagePaths).toEqual({ "": "" });
+    expect(service.staticImagePaths).toEqual({
+      "": "",
+    });
   });
 });

@@ -91,17 +91,17 @@ export class DataArtistService implements DataArtistServiceInterface {
       index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
-    return (await Promise.all(
-      elasticSearchRes.body.hits.hits.map(async (value) => {
-        return await this.dataTransformService.artist({
+    return Promise.all(
+      elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataTransformService.artist({
           ...value._source.artists[0],
           imagePath: dto.dataConfigElasticsearch.imagePath,
           imagePathDefaultArtist:
             dto.dataConfigElasticsearch.imagePathDefaultArtist,
           tags: value._source.tags,
-        });
-      })
-    )) as ArtistResDto[];
+        })
+      )
+    );
   }
 
   // TODO: implement

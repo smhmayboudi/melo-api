@@ -30,7 +30,9 @@ export const PromInstanceCounter = beforeInstance((meta) => {
     labelNames: ["service"],
     name: "app_object_instances_total",
   });
-  counterMetric.inc({ service: meta.target.constructor.name });
+  counterMetric.inc({
+    service: meta.target.constructor.name,
+  });
 });
 
 export const PromMethodCounter = beforeMethod((meta) => {

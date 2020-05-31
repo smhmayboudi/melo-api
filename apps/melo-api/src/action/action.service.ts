@@ -14,14 +14,14 @@ import { PromMethodCounter } from "@melo/prom";
 // @PromInstanceCounter
 export class ActionService implements ActionServiceInterface {
   constructor(
-    @Inject(ACTION_SERVICE) private readonly clientProxy: ClientProxy
+    @Inject(ACTION_SERVICE) private readonly actionClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   bulk(dto: ActionBulkReqDto): Promise<ActionBulkReqDto> {
-    return this.clientProxy
+    return this.actionClientProxy
       .send<ActionBulkReqDto, ActionBulkReqDto>(ACTION_SERVICE_BULK, dto)
       .toPromise();
   }

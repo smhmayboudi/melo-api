@@ -18,7 +18,7 @@ import { PromMethodCounter } from "@melo/prom";
 // @PromInstanceCounter
 export class EmotionService implements EmotionServiceInterface {
   constructor(
-    @Inject(SONG_SERVICE) private readonly clientProxy: ClientProxy,
+    @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -50,16 +50,16 @@ export class EmotionService implements EmotionServiceInterface {
       },
       index: dto.config.indexName,
     });
-    return (await Promise.all(
+    return await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => ({
         emotions: value._source.emotions,
-        song: await this.clientProxy
+        song: await this.songClientProxy
           .send<SongResDto, SongGetReqDto>(SONG_SERVICE_GET, {
             ...dto,
             id: value._source.song_Id,
           })
           .toPromise(),
       }))
-    )) as EmotionEmotionsResDto[];
+    );
   }
 }

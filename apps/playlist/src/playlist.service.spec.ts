@@ -1,5 +1,4 @@
 import {
-  DATA_CONST_SERVICE_GENERATE_URL,
   DATA_SERVICE,
   DataArtistType,
   DataConfigElasticsearchReqDto,
@@ -104,8 +103,11 @@ describe("PlaylistService", () => {
   };
 
   const dataClientProxyMock = {
-    send: (token: string) =>
-      token === DATA_CONST_SERVICE_GENERATE_URL ? of(image) : of([song]),
+    send: (_token: string, dto: any) => {
+      // console.log(dto.songs_ids.length);
+
+      return dto.songs_ids.length === 0 ? of(playlistPure) : of(playlist);
+    },
   };
   // TODO: interface ?
   const playlistModelMock = {
@@ -198,7 +200,10 @@ describe("PlaylistService", () => {
 
   it("create should be equal to a playlist", async () => {
     const playlistModelMockCreate = jest.fn().mockImplementation(() => ({
-      save: () => dbPlaylist,
+      save: () => ({
+        ...dbPlaylist,
+        songs_ids: [],
+      }),
     }));
 
     const module: TestingModule = await Test.createTestingModule({
@@ -228,7 +233,7 @@ describe("PlaylistService", () => {
       id: playlistId,
       sub: 1,
     };
-    expect(await service.delete(dto)).toEqual(playlistPure);
+    expect(await service.delete(dto)).toEqual(playlist);
   });
 
   it("delete should be equal to a playlist 2", async () => {
@@ -355,7 +360,10 @@ describe("PlaylistService", () => {
       dataConfigImage,
       id: playlistId,
     };
-    expect(await service.edit(dto)).toEqual({ ...playlist, songs: undefined });
+    expect(await service.edit(dto)).toEqual({
+      ...playlist,
+      songs: undefined,
+    });
   });
 
   it("get should be equal to a playlist", async () => {

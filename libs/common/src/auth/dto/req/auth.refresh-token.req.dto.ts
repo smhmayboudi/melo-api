@@ -50,5 +50,8 @@ export class AuthRefreshTokenReqDto {
     example: "00000000-0000-0000-0000-000000000000",
   })
   @IsUUID()
-  readonly rt?: string = cryptoRandomString({ length: 256, type: "base64" });
+  readonly rt?: string = cryptoRandomString({
+    length: 256,
+    type: "base64",
+  });
 }

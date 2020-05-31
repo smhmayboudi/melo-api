@@ -8,6 +8,7 @@ import {
   DataElasticsearchSearchResDto,
   DataImageResDto,
   DataSearchType,
+  PlaylistResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -15,6 +16,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { DataTransformController } from "./data.transform.controller";
 import { DataTransformService } from "./data.transform.service";
 import { DataTransformServiceInterface } from "./data.transform.service.interface";
+import { PlaylistModelReqDto } from "@melo/common/playlist/dto/req/playlist.model.req.dto";
 
 describe("DataTransformController", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -106,6 +108,25 @@ describe("DataTransformController", () => {
     type: DataSearchType.album,
     unique_name: "",
   };
+  const playlistId = "000000000000000000000000";
+  const playlistModel: PlaylistModelReqDto = {
+    _id: playlistId,
+    config: {
+      imagePath: "",
+      imagePathDefaultPlaylist: "",
+    },
+    dataConfigElasticsearch,
+    dataConfigImage,
+    downloads_count: 0,
+    followers_count: 0,
+    isPublic: false,
+    owner_user_id: 0,
+    photo_id: "0",
+    release_date: releaseDate,
+    songs_ids: [0],
+    title: "",
+    tracks_count: 0,
+  };
   const songElastic: DataElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
@@ -154,10 +175,20 @@ describe("DataTransformController", () => {
     tags: [""],
     title: "",
   };
-
+  const playlist: PlaylistResDto = {
+    followersCount: 0,
+    id: playlistId,
+    image,
+    isPublic: false,
+    releaseDate,
+    songs: [song],
+    title: "",
+    tracksCount: 1,
+  };
   const dataTransformServiceMock: DataTransformServiceInterface = {
     album: (): Promise<AlbumResDto> => Promise.resolve(album),
     artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
+    playlist: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     song: (): Promise<SongResDto> => Promise.resolve(song),
   };
 
@@ -185,6 +216,11 @@ describe("DataTransformController", () => {
   it("artist should be equal to a ArtistResDto", async () => {
     const dto: DataElasticsearchArtistResDto = artistElastic;
     expect(await controller.artist(dto)).toEqual(artist);
+  });
+
+  it("playlist should be equal to a ArtistResDto", async () => {
+    const dto: PlaylistModelReqDto = playlistModel;
+    expect(await controller.playlist(dto)).toEqual(playlist);
   });
 
   it("song should be equal to a ArtistResDto", async () => {

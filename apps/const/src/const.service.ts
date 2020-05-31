@@ -17,7 +17,7 @@ import { PromMethodCounter } from "@melo/prom";
 // @PromInstanceCounter
 export class ConstService implements ConstServiceInterface {
   constructor(
-    @Inject(DATA_SERVICE) private readonly clientProxy: ClientProxy
+    @Inject(DATA_SERVICE) private readonly dataClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
@@ -28,7 +28,7 @@ export class ConstService implements ConstServiceInterface {
     // eslint-disable-next-line functional/no-loop-statement
     for (const image in dto.config.staticImagePaths) {
       // eslint-disable-next-line functional/immutable-data
-      images[image] = await this.clientProxy
+      images[image] = await this.dataClientProxy
         .send<DataImageResDto, DataImageReqDto>(
           DATA_CONST_SERVICE_GENERATE_URL,
           {

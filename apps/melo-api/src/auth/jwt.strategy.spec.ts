@@ -243,7 +243,9 @@ describe("JwtStrategy", () => {
         jwksService,
         rtService
       ).validate(dto)
-    ).toEqual({ sub: "" });
+    ).toEqual({
+      sub: "",
+    });
   });
 
   it.todo("if (jwksEntity === undefined)");

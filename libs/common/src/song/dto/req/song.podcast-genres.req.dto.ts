@@ -53,7 +53,9 @@ export class SongPodcastGenresReqDto {
     type: String,
   })
   @IsArray()
-  @IsString({ each: true })
+  @IsString({
+    each: true,
+  })
   readonly genres: string[];
 
   @ApiHideProperty()

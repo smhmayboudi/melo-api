@@ -27,7 +27,7 @@ import moment from "moment";
 // @PromInstanceCounter
 export class SearchService implements SearchServiceInterface {
   constructor(
-    @Inject(DATA_SERVICE) private readonly clientProxy: ClientProxy,
+    @Inject(DATA_SERVICE) private readonly dataClientProxy: ClientProxy,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -260,7 +260,7 @@ export class SearchService implements SearchServiceInterface {
         .map(async (value) => {
           switch (value.type) {
             case DataSearchType.album: {
-              const album = await this.clientProxy
+              const album = await this.dataClientProxy
                 .send<AlbumResDto, DataElasticsearchSearchResDto>(
                   DATA_TRANSFORM_SERVICE_ALBUM,
                   {
@@ -275,7 +275,7 @@ export class SearchService implements SearchServiceInterface {
               };
             }
             case DataSearchType.artist: {
-              const artist = await this.clientProxy
+              const artist = await this.dataClientProxy
                 .send<ArtistResDto, DataElasticsearchArtistResDto>(
                   DATA_TRANSFORM_SERVICE_ARTIST,
                   {
@@ -290,7 +290,7 @@ export class SearchService implements SearchServiceInterface {
               };
             }
             default: {
-              const song = await this.clientProxy
+              const song = await this.dataClientProxy
                 .send<SongResDto, DataElasticsearchSearchResDto>(
                   DATA_TRANSFORM_SERVICE_SONG,
                   {
@@ -411,19 +411,18 @@ export class SearchService implements SearchServiceInterface {
       },
       index: dto.config.indexName,
     });
-    return (await Promise.all(
-      elasticSearchRes.body.hits.hits.map(
-        async (value) =>
-          await this.clientProxy
-            .send<SongResDto, DataElasticsearchSearchResDto>(
-              DATA_TRANSFORM_SERVICE_SONG,
-              {
-                ...dto,
-                ...value._source,
-              }
-            )
-            .toPromise()
+    return Promise.all(
+      elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataClientProxy
+          .send<SongResDto, DataElasticsearchSearchResDto>(
+            DATA_TRANSFORM_SERVICE_SONG,
+            {
+              ...dto,
+              ...value._source,
+            }
+          )
+          .toPromise()
       )
-    )) as SongResDto[];
+    );
   }
 }

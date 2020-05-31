@@ -60,17 +60,16 @@ export class DataAlbumService implements DataAlbumServiceInterface {
       index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
-    return (await Promise.all(
-      elasticSearchRes.body.hits.hits.map(
-        async (value) =>
-          await this.dataTransformService.album({
-            ...value._source,
-            imagePath: dto.dataConfigElasticsearch.imagePath,
-            imagePathDefaultAlbum:
-              dto.dataConfigElasticsearch.imagePathDefaultAlbum,
-          })
+    return Promise.all(
+      elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataTransformService.album({
+          ...value._source,
+          imagePath: dto.dataConfigElasticsearch.imagePath,
+          imagePathDefaultAlbum:
+            dto.dataConfigElasticsearch.imagePathDefaultAlbum,
+        })
       )
-    )) as AlbumResDto[];
+    );
   }
 
   @ApmAfterMethod
@@ -139,16 +138,15 @@ export class DataAlbumService implements DataAlbumServiceInterface {
       index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
-    return (await Promise.all(
-      elasticSearchRes.body.hits.hits.map(
-        async (value) =>
-          await this.dataTransformService.album({
-            ...value._source,
-            imagePath: dto.dataConfigElasticsearch.imagePath,
-            imagePathDefaultAlbum:
-              dto.dataConfigElasticsearch.imagePathDefaultAlbum,
-          })
+    return Promise.all(
+      elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataTransformService.album({
+          ...value._source,
+          imagePath: dto.dataConfigElasticsearch.imagePath,
+          imagePathDefaultAlbum:
+            dto.dataConfigElasticsearch.imagePathDefaultAlbum,
+        })
       )
-    )) as AlbumResDto[];
+    );
   }
 }

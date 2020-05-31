@@ -18,7 +18,7 @@ import { PromMethodCounter } from "@melo/prom";
 // @PromInstanceCounter
 export class DownloadService implements DownloadServiceInterface {
   constructor(
-    @Inject(SONG_SERVICE) private readonly clientProxy: ClientProxy,
+    @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -62,16 +62,16 @@ export class DownloadService implements DownloadServiceInterface {
       },
       index: dto.config.indexName,
     });
-    return (await Promise.all(
+    return await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => ({
         downloadedAt: value._source.date,
-        song: await this.clientProxy
+        song: await this.songClientProxy
           .send<SongResDto, SongGetReqDto>(SONG_SERVICE_GET, {
             ...dto,
             id: value._source.song_id,
           })
           .toPromise(),
       }))
-    )) as DownloadSongResDto[];
+    );
   }
 }

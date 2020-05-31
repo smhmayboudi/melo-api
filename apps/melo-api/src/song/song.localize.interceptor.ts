@@ -32,10 +32,14 @@ export class SongLocalizeInterceptor implements NestInterceptor {
         if (request.user.sub !== APP_REQUEST_USER_SUB_ANONYMOUS_ID) {
           return data;
         } else if (data.length === undefined) {
-          return this.appSongService.localize({ song: data });
+          return this.appSongService.localize({
+            song: data,
+          });
         } else {
           return data.map((value) =>
-            this.appSongService.localize({ song: value })
+            this.appSongService.localize({
+              song: value,
+            })
           );
         }
       })

@@ -55,7 +55,7 @@ export class DownloadService implements DownloadServiceInterface {
       },
       index: dto.config.indexName,
     });
-    return (await Promise.all(
+    return await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => ({
         downloadedAt: value._source.date,
         song: await this.songService.get({
@@ -63,6 +63,6 @@ export class DownloadService implements DownloadServiceInterface {
           id: value._source.song_id,
         }),
       }))
-    )) as DownloadSongResDto[];
+    );
   }
 }

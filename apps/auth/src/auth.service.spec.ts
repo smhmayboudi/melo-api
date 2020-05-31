@@ -31,7 +31,12 @@ describe("AuthService", () => {
 
   // TODO: interface ?
   const jwksClientProxyMock = {
-    send: () => of({ id: "", private_key: "", public_key: "" }),
+    send: () =>
+      of({
+        id: "",
+        private_key: "",
+        public_key: "",
+      }),
   };
   // TODO: interface ?
   const rtClientProxyMock = {

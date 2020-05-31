@@ -27,7 +27,9 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
         : await Promise.all(
             dto.songs.map(
               async (value) =>
-                await this.appSongService.localize({ song: value })
+                await this.appSongService.localize({
+                  song: value,
+                })
             )
           ),
   });

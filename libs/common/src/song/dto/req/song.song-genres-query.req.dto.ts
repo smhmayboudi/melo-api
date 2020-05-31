@@ -14,6 +14,8 @@ export class SongSongGenresQueryReqDto {
     type: String,
   })
   @IsArray()
-  @IsString({ each: true })
+  @IsString({
+    each: true,
+  })
   readonly genres: string[];
 }

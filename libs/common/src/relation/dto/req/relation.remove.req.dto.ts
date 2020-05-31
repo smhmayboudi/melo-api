@@ -19,7 +19,9 @@ export class RelationRemoveReqDto {
   @ApiProperty({
     description: "The entity",
   })
-  @Exclude({ toPlainOnly: true })
+  @Exclude({
+    toPlainOnly: true,
+  })
   @Type(() => RelationEntityReqDto)
   @ValidateNested()
   readonly from: RelationEntityReqDto;
@@ -27,7 +29,9 @@ export class RelationRemoveReqDto {
   @ApiProperty({
     description: "The entity",
   })
-  @Exclude({ toPlainOnly: true })
+  @Exclude({
+    toPlainOnly: true,
+  })
   @Type(() => RelationEntityReqDto)
   @ValidateNested()
   readonly to: RelationEntityReqDto;

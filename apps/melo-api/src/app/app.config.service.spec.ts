@@ -111,7 +111,9 @@ describe("AppConfigService", () => {
   });
 
   it("promDefaultLabels should be equal to a value", () => {
-    expect(service.promDefaultLabels).toEqual({ "": "" });
+    expect(service.promDefaultLabels).toEqual({
+      "": "",
+    });
   });
 
   it("promDefaultMetricsEnabled should be equal to a value", () => {

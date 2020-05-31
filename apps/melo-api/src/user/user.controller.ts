@@ -48,6 +48,8 @@ export class UserController {
   async get(
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<UserResDto | undefined> {
-    return this.userService.get({ sub });
+    return this.userService.get({
+      sub,
+    });
   }
 }

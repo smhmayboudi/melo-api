@@ -79,7 +79,12 @@ export class AuthService implements AuthServiceInterface {
     );
     const now = dto.now || new Date();
     const exp = moment(now).add(dto.config.expiresIn, "ms").toDate();
-    const rt = dto.rt || cryptoRandomString({ length: 256, type: "base64" });
+    const rt =
+      dto.rt ||
+      cryptoRandomString({
+        length: 256,
+        type: "base64",
+      });
     await this.rtService.save({
       created_at: now,
       description: "",

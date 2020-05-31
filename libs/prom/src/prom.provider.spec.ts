@@ -18,7 +18,10 @@ describe("PromProvider", () => {
   it("getOrCreateCounterProvider should be instance of counter", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateCounterProvider({ help: "counter", name: "counter" }),
+        getOrCreateCounterProvider({
+          help: "counter",
+          name: "counter",
+        }),
         { provide: getTokenRegistry(), useValue: register },
       ],
     }).compile();
@@ -28,7 +31,10 @@ describe("PromProvider", () => {
   it("getOrCreateGaugeProvider should be instance of gauge", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateGaugeProvider({ help: "gauge", name: "gauge" }),
+        getOrCreateGaugeProvider({
+          help: "gauge",
+          name: "gauge",
+        }),
         { provide: getTokenRegistry(), useValue: register },
       ],
     }).compile();
@@ -38,7 +44,10 @@ describe("PromProvider", () => {
   it("getOrCreateHistogramProvider should be instance of gauge", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateHistogramProvider({ help: "histogram", name: "histogram" }),
+        getOrCreateHistogramProvider({
+          help: "histogram",
+          name: "histogram",
+        }),
         { provide: getTokenRegistry(), useValue: register },
       ],
     }).compile();
@@ -50,7 +59,10 @@ describe("PromProvider", () => {
   it("getOrCreateSummaryProvider should be instance of gauge", async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        getOrCreateSummaryProvider({ help: "summary", name: "summary" }),
+        getOrCreateSummaryProvider({
+          help: "summary",
+          name: "summary",
+        }),
         { provide: getTokenRegistry(), useValue: register },
       ],
     }).compile();

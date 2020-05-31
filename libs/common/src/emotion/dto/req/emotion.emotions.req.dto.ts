@@ -53,7 +53,9 @@ export class EmotionEmotionsReqDto {
     type: String,
   })
   @IsArray()
-  @IsString({ each: true })
+  @IsString({
+    each: true,
+  })
   readonly emotions: string[];
 
   @ApiProperty({

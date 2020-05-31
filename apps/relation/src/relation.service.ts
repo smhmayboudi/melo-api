@@ -123,7 +123,7 @@ export class RelationService implements RelationServiceInterface {
             }
           | undefined;
         if (result === undefined || result[dto.type] === undefined) {
-          return [] as RelationResDto[];
+          return [];
         }
         return result[dto.type].map((value2) => {
           const [type, id] = value2.id.split(RELATION_TYPE_ID_SEPARATOR);

@@ -14,6 +14,8 @@ import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataImageService } from "./data.image.service";
 import { DataImageServiceInterface } from "./data.image.service.interface";
+import { DataSongService } from "./data.song.service";
+import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataTransformService } from "./data.transform.service";
 
 describe("DataTransformService", () => {
@@ -140,6 +142,23 @@ describe("DataTransformService", () => {
   const dataImageServiceMock: DataImageServiceInterface = {
     generateUrl: (): Promise<DataImageResDto> => Promise.resolve(image),
   };
+  const dataSongServiceMock: DataSongServiceInterface = {
+    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    get: (): Promise<SongResDto> => Promise.resolve(song),
+    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
+  };
 
   let service: DataTransformService;
 
@@ -148,6 +167,7 @@ describe("DataTransformService", () => {
       providers: [
         DataTransformService,
         { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
       ],
     }).compile();
     service = module.get<DataTransformService>(DataTransformService);
@@ -214,7 +234,11 @@ describe("DataTransformService", () => {
 
   it("song should be equal to a song 3", async () => {
     expect(
-      await service.song({ ...songElastic, has_cover: true, localize: true })
+      await service.song({
+        ...songElastic,
+        has_cover: true,
+        localize: true,
+      })
     ).toEqual({
       ...song,
       localized: true,

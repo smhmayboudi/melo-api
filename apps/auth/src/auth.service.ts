@@ -102,7 +102,12 @@ export class AuthService implements AuthServiceInterface {
     );
     const now = dto.now || new Date();
     const exp = moment(now).add(dto.config.expiresIn, "ms").toDate();
-    const rt = dto.rt || cryptoRandomString({ length: 256, type: "base64" });
+    const rt =
+      dto.rt ||
+      cryptoRandomString({
+        length: 256,
+        type: "base64",
+      });
     await this.clientProxyRt
       .send<RtResDto, RtSaveReqDto>(RT_SERVICE_SAVE, {
         created_at: now,

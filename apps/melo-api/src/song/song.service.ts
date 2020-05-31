@@ -152,7 +152,9 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async sendTelegram(dto: SongSendTelegramReqDto): Promise<void> {
-    const user = await this.userService.findOne({ id: dto.sub });
+    const user = await this.userService.findOne({
+      id: dto.sub,
+    });
     if (user === undefined || user.telegram_id === undefined) {
       throw new BadRequestException();
     }

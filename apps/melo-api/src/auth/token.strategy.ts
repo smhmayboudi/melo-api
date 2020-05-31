@@ -20,7 +20,9 @@ export class TokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(token: string): Promise<AuthStrategyResDto> {
-    const rt = await this.rtService.validateByToken({ token });
+    const rt = await this.rtService.validateByToken({
+      token,
+    });
     if (rt === undefined || rt.expire_at < new Date()) {
       throw new UnauthorizedException();
     }

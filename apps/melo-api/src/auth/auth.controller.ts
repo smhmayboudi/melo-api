@@ -53,7 +53,9 @@ export class AuthController {
   @Delete("logout")
   @UseGuards(AuthGuard("token"))
   async logout(@Headers("token") token: string): Promise<RtResDto | undefined> {
-    return this.authService.deleteByToken({ token });
+    return this.authService.deleteByToken({
+      token,
+    });
   }
 
   @ApiBearerAuth("telegram")
@@ -76,6 +78,8 @@ export class AuthController {
   async token(
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<AuthAccessTokenResDto> {
-    return this.authService.accessToken({ sub });
+    return this.authService.accessToken({
+      sub,
+    });
   }
 }

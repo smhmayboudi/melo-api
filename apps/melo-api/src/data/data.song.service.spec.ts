@@ -5,7 +5,9 @@ import {
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
+  DataImageResDto,
   DataSearchType,
+  PlaylistResDto,
   SongAlbumReqDto,
   SongArtistSongsTopReqDto,
   SongArtistsReqDto,
@@ -59,6 +61,12 @@ describe("DataSongService", () => {
     ],
   };
   const releaseDate = new Date();
+  const image: DataImageResDto = {
+    cover: {
+      url:
+        "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+    },
+  };
   const song: SongResDto = {
     artists: [
       {
@@ -73,6 +81,16 @@ describe("DataSongService", () => {
     localized: false,
     releaseDate,
     title: "",
+  };
+  const playlist: PlaylistResDto = {
+    followersCount: 0,
+    id: "000000000000000000000000",
+    image,
+    isPublic: false,
+    releaseDate,
+    songs: [song],
+    title: "",
+    tracksCount: 1,
   };
   const artist: ArtistResDto = {
     followersCount: 0,
@@ -163,6 +181,7 @@ describe("DataSongService", () => {
   const dataTransformServiceMock: DataTransformServiceInterface = {
     album: (): Promise<AlbumResDto> => Promise.resolve(album),
     artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
+    playlist: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     song: (): Promise<SongResDto> => Promise.resolve(song),
   };
   // TODO: interface ?

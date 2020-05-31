@@ -10,7 +10,14 @@ describe("SentryUtil", () => {
   });
 
   it("getOrCreateSentryInstance should be instance of a sentry with debug true", () => {
-    expect(getOrCreateSentryInstance({ debug: true }, true)).toBeDefined();
+    expect(
+      getOrCreateSentryInstance(
+        {
+          debug: true,
+        },
+        true
+      )
+    ).toBeDefined();
   });
 
   it("getOrCreateSentryInstance should be instance of same sentry with debug true", () => {

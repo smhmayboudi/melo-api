@@ -42,6 +42,8 @@ describe("DgraphUtil", () => {
   });
 
   it("makeDefaultOptions should be equal to an option with option undefined", () => {
-    expect(makeDefaultOptions()).toEqual({ stubs: [] });
+    expect(makeDefaultOptions()).toEqual({
+      stubs: [],
+    });
   });
 });

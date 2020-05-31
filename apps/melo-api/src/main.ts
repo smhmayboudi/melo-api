@@ -19,9 +19,17 @@ async function bootstrap(): Promise<void> {
     logger: ["log", "error", "warn", "debug", "verbose"],
   });
   const appConfigService = app.get(AppConfigService);
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(
+    bodyParser.urlencoded({
+      extended: false,
+    })
+  );
   app.use(cookieParser());
-  // app.use(csurf({ cookie: true }));
+  // app.use(
+  //   csurf({
+  //     cookie: true,
+  //   })
+  // );
   app.use(helmet());
   app.use(
     rateLimit({

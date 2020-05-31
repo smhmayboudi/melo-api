@@ -19,14 +19,14 @@ import { PromMethodCounter } from "@melo/prom";
 // @PromInstanceCounter
 export class AlbumService implements AlbumServiceInterface {
   constructor(
-    @Inject(DATA_SERVICE) private readonly clientProxy: ClientProxy
+    @Inject(DATA_SERVICE) private readonly dataClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async albums(dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
-    return this.clientProxy
+    return this.dataClientProxy
       .send<AlbumResDto[], AlbumArtistsReqDto>(DATA_ALBUM_SERVICE_ALBUMS, {
         ...dto,
       })
@@ -37,7 +37,7 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async get(dto: AlbumGetReqDto): Promise<AlbumResDto> {
-    return this.clientProxy
+    return this.dataClientProxy
       .send<AlbumResDto, AlbumGetReqDto>(DATA_ALBUM_SERVICE_GET, dto)
       .toPromise();
   }
@@ -46,7 +46,7 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async latest(dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
-    return this.clientProxy
+    return this.dataClientProxy
       .send<AlbumResDto[], AlbumLatestReqDto>(DATA_ALBUM_SERVICE_LATEST, dto)
       .toPromise();
   }

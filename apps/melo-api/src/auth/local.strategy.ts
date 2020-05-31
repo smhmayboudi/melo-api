@@ -21,7 +21,9 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     username: string,
     _password: string
   ): Promise<AuthStrategyResDto> {
-    const user = await this.userService.findOneByUsername({ username });
+    const user = await this.userService.findOneByUsername({
+      username,
+    });
     if (user === undefined) {
       throw new UnauthorizedException();
     }

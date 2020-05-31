@@ -52,7 +52,9 @@ export class DataSongService implements DataSongServiceInterface {
   ): Promise<SongResDto[]> {
     const dataCache = await this.dataCacheEntityRepository
       .createQueryBuilder()
-      .where({ name: query })
+      .where({
+        name: query,
+      })
       .orderBy("id DESC")
       .limit(1)
       .getOne();
@@ -77,15 +79,14 @@ export class DataSongService implements DataSongServiceInterface {
     dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     elasticSearchRes: ApiResponse<Record<string, any>, unknown>
   ): Promise<SongResDto[]> {
-    return await Promise.all(
-      elasticSearchRes.body.hits.hits.map(
-        async (value) =>
-          await this.dataTransformService.song({
-            ...value._source,
-            imagePath: dataConfigElasticsearch.imagePath,
-            imagePathDefaultSong: dataConfigElasticsearch.imagePathDefaultSong,
-            mp3Endpoint: dataConfigElasticsearch.mp3Endpoint,
-          })
+    return Promise.all(
+      elasticSearchRes.body.hits.hits.map((value) =>
+        this.dataTransformService.song({
+          ...value._source,
+          imagePath: dataConfigElasticsearch.imagePath,
+          imagePathDefaultSong: dataConfigElasticsearch.imagePathDefaultSong,
+          mp3Endpoint: dataConfigElasticsearch.mp3Endpoint,
+        })
       )
     );
   }

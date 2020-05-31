@@ -389,13 +389,13 @@ export class SearchService implements SearchServiceInterface {
       },
       index: dto.config.indexName,
     });
-    return (await Promise.all(
+    return Promise.all(
       elasticSearchRes.body.hits.hits.map((value) =>
         this.dataTransformService.song({
           ...dto,
           ...value._source,
         })
       )
-    )) as SongResDto[];
+    );
   }
 }

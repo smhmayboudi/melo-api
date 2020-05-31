@@ -62,6 +62,8 @@ describe("ConstService", () => {
       config,
       dataConfigImage,
     };
-    expect(await service.images(dto)).toEqual({ pop: image });
+    expect(await service.images(dto)).toEqual({
+      pop: image,
+    });
   });
 });

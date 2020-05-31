@@ -7,6 +7,8 @@ import {
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
+  DataImageResDto,
+  PlaylistResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -50,6 +52,12 @@ describe("DataAlbumService", () => {
     id: 0,
     type: DataArtistType.prime,
   };
+  const image: DataImageResDto = {
+    cover: {
+      url:
+        "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+    },
+  };
   const song: SongResDto = {
     artists: [
       {
@@ -64,6 +72,16 @@ describe("DataAlbumService", () => {
     localized: false,
     releaseDate,
     title: "",
+  };
+  const playlist: PlaylistResDto = {
+    followersCount: 0,
+    id: "000000000000000000000000",
+    image,
+    isPublic: false,
+    releaseDate,
+    songs: [song],
+    title: "",
+    tracksCount: 1,
   };
   const album: AlbumResDto = {
     name: "",
@@ -151,6 +169,7 @@ describe("DataAlbumService", () => {
   const dataTransformServiceMock: DataTransformServiceInterface = {
     album: (): Promise<AlbumResDto> => Promise.resolve(album),
     artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
+    playlist: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     song: (): Promise<SongResDto> => Promise.resolve(song),
   };
   // TODO: interface ?

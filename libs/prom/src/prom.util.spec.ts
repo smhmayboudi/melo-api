@@ -18,31 +18,46 @@ import {
 describe("PromUtil", () => {
   it("getOrCreateCounter should be instance of a counter metric", () => {
     expect(
-      getOrCreateCounter({ help: "counter", name: "counter" })
+      getOrCreateCounter({
+        help: "counter",
+        name: "counter",
+      })
     ).toBeInstanceOf(Counter);
   });
 
   it("getOrCreateCounter should be instance of same counter metric", () => {
     expect(
-      getOrCreateCounter({ help: "counter", name: "counter" })
+      getOrCreateCounter({
+        help: "counter",
+        name: "counter",
+      })
     ).toBeInstanceOf(Counter);
   });
 
   it("getOrCreateGauge should be instance of a gauge metric", () => {
-    expect(getOrCreateGauge({ help: "gauge", name: "gauge" })).toBeInstanceOf(
-      Gauge
-    );
+    expect(
+      getOrCreateGauge({
+        help: "gauge",
+        name: "gauge",
+      })
+    ).toBeInstanceOf(Gauge);
   });
 
   it("getOrCreateHistogram should be instance of a histogram metric", () => {
     expect(
-      getOrCreateHistogram({ help: "histogram", name: "histogram" })
+      getOrCreateHistogram({
+        help: "histogram",
+        name: "histogram",
+      })
     ).toBeInstanceOf(Histogram);
   });
 
   it("getOrCreateSummary should be instance of a summary metric", () => {
     expect(
-      getOrCreateSummary({ help: "summary", name: "summary" })
+      getOrCreateSummary({
+        help: "summary",
+        name: "summary",
+      })
     ).toBeInstanceOf(Summary);
   });
 

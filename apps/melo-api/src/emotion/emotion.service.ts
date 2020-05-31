@@ -43,7 +43,7 @@ export class EmotionService implements EmotionServiceInterface {
       },
       index: dto.config.indexName,
     });
-    return (await Promise.all(
+    return await Promise.all(
       elasticSearchRes.body.hits.hits.map(async (value) => ({
         emotions: value._source.emotions,
         song: await this.songService.get({
@@ -51,6 +51,6 @@ export class EmotionService implements EmotionServiceInterface {
           id: value._source.song_Id,
         }),
       }))
-    )) as EmotionEmotionsResDto[];
+    );
   }
 }
