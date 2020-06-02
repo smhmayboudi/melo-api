@@ -1,17 +1,22 @@
 import {
   ARTIST_SERVICE_FOLLOW,
   ARTIST_SERVICE_FOLLOWING,
+  ARTIST_SERVICE_GET,
+  ARTIST_SERVICE_GET_BY_IDS,
   ARTIST_SERVICE_PROFILE,
+  ARTIST_SERVICE_TRANSFORM,
   ARTIST_SERVICE_TRENDING,
   ARTIST_SERVICE_TRENDING_GENRE,
   ARTIST_SERVICE_UNFOLLOW,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
+  ArtistGetByIdsReqDto,
   ArtistGetReqDto,
   ArtistResDto,
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
+  DataElasticsearchArtistResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -32,9 +37,24 @@ export class ArtistController {
     return this.artistService.following(dto);
   }
 
+  @MessagePattern(ARTIST_SERVICE_GET)
+  get(@Payload() dto: ArtistGetReqDto): Promise<ArtistResDto> {
+    return this.artistService.get(dto);
+  }
+
+  @MessagePattern(ARTIST_SERVICE_GET_BY_IDS)
+  getByIds(@Payload() dto: ArtistGetByIdsReqDto): Promise<ArtistResDto[]> {
+    return this.artistService.getByIds(dto);
+  }
+
   @MessagePattern(ARTIST_SERVICE_PROFILE)
   profile(@Payload() dto: ArtistGetReqDto): Promise<ArtistResDto> {
     return this.artistService.profile(dto);
+  }
+
+  @MessagePattern(ARTIST_SERVICE_TRANSFORM)
+  transform(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto> {
+    return this.artistService.transform(dto);
   }
 
   @MessagePattern(ARTIST_SERVICE_TRENDING)

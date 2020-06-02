@@ -1,6 +1,7 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { DownloadSongReqDto, DownloadSongResDto } from "@melo/common";
 
+import { DataElasticsearchDownloadResDto } from "@melo/common/data/dto/res/data.elasticsearch-download.res.dto";
 import { DownloadServiceInterface } from "./download.service.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Injectable } from "@nestjs/common";
@@ -21,7 +22,10 @@ export class DownloadService implements DownloadServiceInterface {
   async downloadedSongs(
     dto: DownloadSongReqDto
   ): Promise<DownloadSongResDto[]> {
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: [{ _source: DataElasticsearchDownloadResDto }] }>,
+      any
+    >({
       body: {
         _source: ["song_id", "date"],
         from: dto.from,
@@ -56,13 +60,16 @@ export class DownloadService implements DownloadServiceInterface {
       index: dto.config.indexName,
     });
     return await Promise.all(
-      elasticSearchRes.body.hits.hits.map(async (value) => ({
-        downloadedAt: value._source.date,
-        song: await this.songService.get({
+      elasticsearchSearch.body.hits.hits.map(async (value) => {
+        const song = await this.songService.get({
           ...dto,
           id: value._source.song_id,
-        }),
-      }))
+        });
+        return {
+          downloadedAt: value._source.date,
+          song,
+        };
+      })
     );
   }
 }

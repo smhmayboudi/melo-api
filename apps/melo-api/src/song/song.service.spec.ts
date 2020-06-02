@@ -1,4 +1,7 @@
 import {
+  AlbumResDto,
+  ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
@@ -8,7 +11,9 @@ import {
   RelationResDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
+  SongAudioResDto,
   SongConfigReqDto,
+  SongGenreReqDto,
   SongGetReqDto,
   SongLanguageReqDto,
   SongLikeReqDto,
@@ -17,12 +22,11 @@ import {
   SongNewPodcastReqDto,
   SongNewReqDto,
   SongOrderByType,
-  SongPodcastGenresReqDto,
+  SongPodcastReqDto,
   SongResDto,
   SongSendTelegramReqDto,
   SongSimilarReqDto,
   SongSliderReqDto,
-  SongSongGenresReqDto,
   SongTopDayReqDto,
   SongTopWeekReqDto,
   SongUnlikeReqDto,
@@ -62,29 +66,61 @@ describe("SongService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
   const releaseDate = new Date();
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
     id: 0,
-    localized: false,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
     releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
     title: "",
   };
   const user: UserResDto = {
@@ -95,12 +131,13 @@ describe("SongService", () => {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
+  const to: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
     from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
+    to,
     type: RelationEdgeType.follows,
   };
 
@@ -138,13 +175,11 @@ describe("SongService", () => {
       }),
   };
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
-    has: (): Promise<RelationResDto | undefined> =>
-      Promise.resolve(relationMultiHas),
-    multiHas: (): Promise<RelationResDto[]> =>
-      Promise.resolve([relationMultiHas]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
-    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
+    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
+    set: (): Promise<RelationResDto> => Promise.resolve(relation),
   };
   const userServiceMock: UserServiceInterface = {
     edit: (): Promise<UserResDto> => Promise.resolve(user),
@@ -209,7 +244,7 @@ describe("SongService", () => {
   });
 
   it("genre should be equal to a list of songs", async () => {
-    const dto: SongSongGenresReqDto = {
+    const dto: SongGenreReqDto = {
       dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
@@ -289,7 +324,7 @@ describe("SongService", () => {
   });
 
   it("podcast should be equal to a list of songs", async () => {
-    const dto: SongPodcastGenresReqDto = {
+    const dto: SongPodcastReqDto = {
       dataConfigElasticsearch,
       dataConfigImage,
       from: 0,

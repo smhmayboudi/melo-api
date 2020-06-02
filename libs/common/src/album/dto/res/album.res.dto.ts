@@ -9,7 +9,7 @@ import {
 
 import { ApiProperty } from "@nestjs/swagger";
 import { ArtistResDto } from "../../../artist/dto/res/artist.res.dto";
-import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
+import { ConstImageResDto } from "../../../const/dto/res/const.image.res.dto";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
@@ -20,7 +20,7 @@ export class AlbumResDto {
     artists?: ArtistResDto[],
     downloadCount?: number,
     id?: number,
-    image?: DataImageResDto,
+    image?: ConstImageResDto,
     songs?: SongResDto[],
     tags?: string[],
     tracksCount?: number
@@ -84,9 +84,9 @@ export class AlbumResDto {
     description: "The image",
   })
   @IsOptional()
-  @Type(() => DataImageResDto)
+  @Type(() => ConstImageResDto)
   @ValidateNested()
-  readonly image?: DataImageResDto;
+  readonly image?: ConstImageResDto;
 
   @ApiProperty({
     description: "The image",

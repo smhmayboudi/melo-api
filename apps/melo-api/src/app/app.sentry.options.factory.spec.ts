@@ -27,7 +27,9 @@ describe("AppSentryOptionsFactory", () => {
     mangooseRetryDelay: 0,
     mangooseUri: "",
     port: 0,
-    promDefaultLabels: { "": "" },
+    promDefaultLabels: {
+      "": "",
+    },
     promDefaultMetricsEnabled: true,
     promPath: "",
     promPrefix: "",

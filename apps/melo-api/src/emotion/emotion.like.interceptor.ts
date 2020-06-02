@@ -22,13 +22,16 @@ export class EmotionLikeInterceptor implements NestInterceptor {
   transform = async (
     dto: EmotionEmotionsResDto,
     sub: string
-  ): Promise<EmotionEmotionsResDto> => ({
-    ...dto,
-    song: await this.appSongService.like({
+  ): Promise<EmotionEmotionsResDto> => {
+    const song = await this.appSongService.like({
       song: dto.song,
       sub: parseInt(sub, 10),
-    }),
-  });
+    });
+    return {
+      ...dto,
+      song,
+    };
+  };
 
   intercept(
     context: ExecutionContext,

@@ -27,7 +27,9 @@ describe("AppPromOptionsFactory", () => {
     mangooseRetryDelay: 0,
     mangooseUri: "",
     port: 0,
-    promDefaultLabels: { "": "" },
+    promDefaultLabels: {
+      "": "",
+    },
     promDefaultMetricsEnabled: true,
     promPath: "",
     promPrefix: "",
@@ -64,7 +66,9 @@ describe("AppPromOptionsFactory", () => {
 
   it("createPromOptions should be equal to a value", () => {
     expect(new AppPromOptionsFactory(service).createPromOptions()).toEqual({
-      defaultLabels: { "": "" },
+      defaultLabels: {
+        "": "",
+      },
       defaultMetrics: {
         config: {
           prefix: "",

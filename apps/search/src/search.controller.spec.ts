@@ -36,12 +36,12 @@ describe("SearchController", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
@@ -54,7 +54,7 @@ describe("SearchController", () => {
       {
         followersCount: 0,
         id: 0,
-        type: DataArtistType.feat,
+        type: DataArtistType.prime,
       },
     ],
     audio: {},

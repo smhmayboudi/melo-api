@@ -1,9 +1,21 @@
+import {
+  ALBUM_SERVICE,
+  ARTIST_SERVICE,
+  CONST_SERVICE,
+  RELATION_SERVICE,
+  SONG_TYPEORM,
+  USER_SERVICE,
+} from "@melo/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { DATA_SERVICE, RELATION_SERVICE, USER_SERVICE } from "@melo/common";
 import { HttpModule, Module } from "@nestjs/common";
 
+import { ElasticsearchModule } from "@nestjs/elasticsearch";
+import { SongCacheEntityRepository } from "./song.cache.entity.repository";
 import { SongController } from "./song.controller";
 import { SongService } from "./song.service";
+import { SongSiteEntityRepository } from "./song.site.entity.repository";
+import { SongTypeOrmOptionsFactory } from "./song.type.orm.options.factory";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import ms from "ms";
 
 @Module({
@@ -11,9 +23,23 @@ import ms from "ms";
   imports: [
     ClientsModule.register([
       {
-        name: DATA_SERVICE,
+        name: ALBUM_SERVICE,
         options: {
-          url: process.env.DATA_SERVICE_URL,
+          url: process.env.ALBUM_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+      {
+        name: ARTIST_SERVICE,
+        options: {
+          url: process.env.ARTIST_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+      {
+        name: CONST_SERVICE,
+        options: {
+          url: process.env.ARTIST_SERVICE_URL,
         },
         transport: Transport.REDIS,
       },
@@ -35,6 +61,19 @@ import ms from "ms";
     HttpModule.register({
       timeout: ms(process.env.SONG_SEND_TIMEOUT || "0"),
     }),
+    ElasticsearchModule.register({
+      node: process.env.SONG_ELASTICSEARCH_NODE,
+    }),
+    TypeOrmModule.forRootAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [SongModule],
+      name: SONG_TYPEORM,
+      useClass: SongTypeOrmOptionsFactory,
+    }),
+    TypeOrmModule.forFeature(
+      [SongCacheEntityRepository, SongSiteEntityRepository],
+      SONG_TYPEORM
+    ),
   ],
   providers: [SongService],
 })

@@ -5,6 +5,7 @@ import {
   RelationEntityType,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
+  SongGenreReqDto,
   SongGetReqDto,
   SongLanguageReqDto,
   SongLikeReqDto,
@@ -12,12 +13,11 @@ import {
   SongMoodReqDto,
   SongNewPodcastReqDto,
   SongNewReqDto,
-  SongPodcastGenresReqDto,
+  SongPodcastReqDto,
   SongResDto,
   SongSendTelegramReqDto,
   SongSimilarReqDto,
   SongSliderReqDto,
-  SongSongGenresReqDto,
   SongTopDayReqDto,
   SongTopWeekReqDto,
   SongUnlikeReqDto,
@@ -57,7 +57,7 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async genre(dto: SongSongGenresReqDto): Promise<SongResDto[]> {
+  async genre(dto: SongGenreReqDto): Promise<SongResDto[]> {
     return this.dataSongService.genre(dto);
   }
 
@@ -144,7 +144,7 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async podcast(dto: SongPodcastGenresReqDto): Promise<SongResDto[]> {
+  async podcast(dto: SongPodcastReqDto): Promise<SongResDto[]> {
     return this.dataSongService.podcast(dto);
   }
 

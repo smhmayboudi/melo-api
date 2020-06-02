@@ -9,11 +9,11 @@ import {
   RelationResDto,
   RelationSetReqDto,
 } from "@melo/common";
+import { Test, TestingModule } from "@nestjs/testing";
 
 import { RelationController } from "./relation.controller";
 import { RelationService } from "./relation.service";
 import { RelationServiceInterface } from "./relation.service.interface";
-import { Test } from "@nestjs/testing";
 
 describe("RelationController", () => {
   const date = new Date();
@@ -21,29 +21,32 @@ describe("RelationController", () => {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
+  const to: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
     from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
+    to,
     type: RelationEdgeType.follows,
+  };
+  const entity: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.user,
   };
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
-    has: (): Promise<RelationResDto | undefined> =>
-      Promise.resolve(relationMultiHas),
-    multiHas: (): Promise<RelationResDto[]> =>
-      Promise.resolve([relationMultiHas]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
-    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
+    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
+    set: (): Promise<RelationResDto> => Promise.resolve(relation),
   };
 
   let controller: RelationController;
 
   beforeEach(async () => {
-    const module = await Test.createTestingModule({
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [RelationController],
       providers: [
         {
@@ -61,27 +64,18 @@ describe("RelationController", () => {
 
   it("get should equal to a relation", async () => {
     const dto: RelationGetReqDto = {
-      entity: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      entity,
       from: 0,
       size: 0,
       type: RelationEdgeType.follows,
     };
-    expect(await controller.get(dto)).toEqual([relationMultiHas]);
+    expect(await controller.get(dto)).toEqual([relation]);
   });
 
   it("has should equal to a relation", async () => {
     const dto: RelationHasReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
     expect(await controller.has(dto)).toEqual(dto);
@@ -89,57 +83,29 @@ describe("RelationController", () => {
 
   it("multiHas should equal to a relation", async () => {
     const dto: RelationMultiHasReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      tos: [
-        {
-          id: 0,
-          type: RelationEntityType.user,
-        },
-      ],
+      from,
+      tos: [entity],
       type: RelationEdgeType.follows,
     };
-    expect(await controller.multiHas(dto)).toEqual([relationMultiHas]);
+    expect(await controller.multiHas(dto)).toEqual([relation]);
   });
 
   it("remove should equal to a relation", async () => {
     const dto: RelationRemoveReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
-    expect(await controller.remove(dto)).toEqual({
-      from: dto.from,
-      to: dto.to,
-      type: dto.type,
-    });
+    expect(await controller.remove(dto)).toEqual(relation);
   });
 
   it("set should equal to a relation", async () => {
     const dto: RelationSetReqDto = {
       createdAt: date,
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
-    expect(await controller.set(dto)).toEqual({
-      from: dto.from,
-      to: dto.to,
-      type: dto.type,
-    });
+    expect(await controller.set(dto)).toEqual(relation);
   });
 });

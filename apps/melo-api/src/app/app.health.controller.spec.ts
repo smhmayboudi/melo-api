@@ -215,13 +215,14 @@ describe("AppHealthController", () => {
   // TODO: interface ?
   const healthCheckServiceMock = {
     check: async (indicatorFunctions: any[]): Promise<HealthCheckResult> => {
-      let indicator;
-      await Promise.all(
-        indicatorFunctions.map(async (value) => {
-          const value2 = await value();
-          indicator = { ...indicator, ...value2 };
-        })
-      );
+      const indicator = (
+        await Promise.all(
+          indicatorFunctions.map(async (value) => await value())
+        )
+      ).reduceRight((previousValue, currentValue) => ({
+        ...previousValue,
+        ...currentValue,
+      }));
       return Promise.resolve({
         details: indicator,
         error: {},

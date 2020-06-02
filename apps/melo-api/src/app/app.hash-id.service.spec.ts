@@ -1,10 +1,12 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -15,101 +17,102 @@ import { AppHashIdService } from "./app.hash-id.service";
 
 describe("AppHashIdService", () => {
   const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
-  };
-  const artistEncoded: unknown = {
-    ...artist,
-    id: "SHY",
-  };
-  const song: SongResDto = {
-    album: {
-      artists: [artist],
-      id: 0,
-      name: "",
-      releaseDate,
-    },
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
-  };
-  // TODO: interface ?
-  const songEncoded = {
-    ...song,
-    album: {
-      artists: [artistEncoded],
-      id: "SHY",
-      name: "",
-      releaseDate,
-    },
-    artists: [
-      {
-        followersCount: 0,
-        id: "SHY",
-        type: DataArtistType.feat,
-      },
-    ],
-    id: "SHY",
   };
   const album: AlbumResDto = {
     artists: [artist],
+    downloadCount: 0,
     id: 0,
+    image,
     name: "",
     releaseDate,
-    songs: [song],
+    tags: [""],
+    tracksCount: 0,
   };
-  const albumEncoded: unknown = {
-    ...album,
-    artists: [artistEncoded],
-    id: "SHY",
-    songs: [songEncoded],
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
+    title: "",
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
-    id: "SHY",
-    image: {
-      "": {
-        url: "",
-      },
-    },
+    id: "000000000000000000000000",
+    image,
     isPublic: false,
     releaseDate,
     songs: [song],
     title: "",
-    tracksCount: 0,
-  };
-  const playlistEncoded: unknown = {
-    ...playlist,
-    songs: [songEncoded],
-  };
-  const searchFieldsUndefined: SearchResDto = {
-    type: DataSearchType.album,
+    tracksCount: 1,
   };
   const search: SearchResDto = {
     album: album,
-    artist: artist,
-    playlist: playlist,
-    song: song,
     type: DataSearchType.album,
   };
-  const searchEncoded: unknown = {
-    album: albumEncoded,
-    artist: artistEncoded,
-    playlist: playlistEncoded,
-    song: songEncoded,
+  const searchUndefined: SearchResDto = {
+    album: undefined,
+    artist: undefined,
+    playlist: undefined,
+    song: undefined,
     type: DataSearchType.album,
+  };
+  // TODO: interface ?
+  const artistEncoded = {
+    ...artist,
+    id: "SHY",
+  };
+  // TODO: interface ?
+  const albumEncoded = {
+    ...album,
+    artists: [artistEncoded],
+    id: "SHY",
+    // songs: [songEncoded],
+  };
+  // TODO: interface ?
+  const songEncoded = {
+    ...song,
+    album: albumEncoded,
+    artists: [artistEncoded],
+    id: "SHY",
+  };
+  // TODO: interface ?
+  const playlistEncoded = {
+    ...playlist,
+    songs: [songEncoded],
+  };
+  // TODO: interface ?
+  const searchEncoded = {
+    ...search,
+    album: albumEncoded,
   };
 
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -134,7 +137,9 @@ describe("AppHashIdService", () => {
     mangooseRetryDelay: 0,
     mangooseUri: "",
     port: 0,
-    promDefaultLabels: { "": "" },
+    promDefaultLabels: {
+      "": "",
+    },
     promDefaultMetricsEnabled: true,
     promPath: "",
     promPrefix: "",
@@ -171,56 +176,58 @@ describe("AppHashIdService", () => {
   });
 
   it("decode should return a value", () => {
-    expect(service.decode("SHY")).toEqual(0);
+    const hash = "SHY";
+    expect(service.decode(hash)).toEqual(0);
   });
 
   it("encode should return a value", () => {
-    expect(service.encode(0)).toEqual("SHY");
+    const id = 0;
+    expect(service.encode(id)).toEqual("SHY");
   });
 
   it.todo("encoded === ''");
 
   it("encodeAlbum should be equal to an array of albums", () => {
-    expect(service.encodeAlbum(album)).toEqual(albumEncoded);
+    const dto: AlbumResDto = album;
+    expect(service.encodeAlbum(dto)).toEqual(albumEncoded);
   });
 
   it("encodeAlbum should be equal to an array of albums arist, id undefined", () => {
-    expect(
-      service.encodeAlbum({
-        ...album,
-        artists: undefined,
-        id: undefined,
-      })
-    ).toEqual({
+    const dto: AlbumResDto = {
       ...album,
       artists: undefined,
       id: undefined,
-      songs: [songEncoded],
+    };
+    expect(service.encodeAlbum(dto)).toEqual({
+      ...album,
+      artists: undefined,
+      id: undefined,
+      songs: undefined,
     });
   });
 
   it("encodeArtist should be equal to an array of artists", () => {
-    expect(service.encodeArtist(artist)).toEqual(artistEncoded);
+    const dto: ArtistResDto = artist;
+    expect(service.encodeArtist(dto)).toEqual(artistEncoded);
   });
 
   it("encodeSong should be equal to a list of songs", () => {
-    expect(service.encodeSong(song)).toEqual(songEncoded);
+    const dto: SongResDto = song;
+    expect(service.encodeSong(dto)).toEqual(songEncoded);
   });
 
   it("encodeSong should be equal to a list of songs album undefined", () => {
-    expect(
-      service.encodeSong({
-        ...song,
-        album: undefined,
-      })
-    ).toEqual({
+    const dto: SongResDto = {
+      ...song,
+      album: undefined,
+    };
+    expect(service.encodeSong(dto)).toEqual({
       ...song,
       album: undefined,
       artists: [
         {
-          followersCount: 0,
+          ...artist,
           id: "SHY",
-          type: DataArtistType.feat,
         },
       ],
       id: "SHY",
@@ -228,28 +235,28 @@ describe("AppHashIdService", () => {
   });
 
   it("encodePlaylist should be equal to a list of playlists", () => {
-    expect(service.encodePlaylist(playlist)).toEqual(playlistEncoded);
+    const dto: PlaylistResDto = playlist;
+    expect(service.encodePlaylist(dto)).toEqual(playlistEncoded);
   });
 
   it("encodePlaylist should be equal to a list of playlists songs undefined", () => {
-    expect(
-      service.encodePlaylist({
-        ...playlist,
-        songs: undefined,
-      })
-    ).toEqual({
+    const dto: PlaylistResDto = {
+      ...playlist,
+      songs: undefined,
+    };
+    expect(service.encodePlaylist(dto)).toEqual({
       ...playlist,
       songs: undefined,
     });
   });
 
   it("encodeSearchshould be equal to a list of searches", () => {
-    expect(service.encodeSearch(search)).toEqual(searchEncoded);
+    const dto: SearchResDto = search;
+    expect(service.encodeSearch(dto)).toEqual(searchEncoded);
   });
 
   it("encodeSearchshould be equal to a list of searches fields undefined", () => {
-    expect(service.encodeSearch(searchFieldsUndefined)).toEqual(
-      searchFieldsUndefined
-    );
+    const dto: SearchResDto = searchUndefined;
+    expect(service.encodeSearch(dto)).toEqual(searchUndefined);
   });
 });

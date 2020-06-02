@@ -1,4 +1,6 @@
 import {
+  ARTIST_SERVICE,
+  ARTIST_SERVICE_GET,
   ArtistConfigReqDto,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
@@ -7,11 +9,14 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DATA_ARTIST_SERVICE_GET,
-  DATA_SERVICE,
+  CONST_SERVICE,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
+  DataSearchType,
   RELATION_SERVICE,
   RELATION_SERVICE_GET,
   RELATION_SERVICE_REMOVE,
@@ -24,6 +29,7 @@ import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { ArtistService } from "./artist.service";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 
 describe("ArtistService", () => {
   const config: ArtistConfigReqDto = {
@@ -43,18 +49,113 @@ describe("ArtistService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
+  const artistElastic: DataElasticsearchArtistResDto = {
+    available: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    followers_count: 0,
+    full_name: "",
+    has_cover: false,
+    id: 0,
+    popular: false,
+    sum_downloads_count: 1,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
+    type: DataArtistType.prime,
+  };
+  const releaseDate = new Date();
+  const searchElastic: DataElasticsearchSearchResDto = {
+    album: "",
+    album_downloads_count: 0,
+    album_id: 0,
+    album_tracks_count: 0,
+    artist_followers_count: 0,
+    artist_full_name: "",
+    artist_id: 0,
+    artist_sum_downloads_count: 1,
+    artists: [artistElastic],
+    copyright: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    downloads_count: 0,
+    duration: 0,
+    has_cover: false,
+    has_video: false,
+    id: 0,
+    localize: false,
+    lyrics: "",
+    max_audio_rate: 0,
+    release_date: releaseDate,
+    suggested: 0,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
+    title: "",
+    type: DataSearchType.album,
+    unique_name: "",
+  };
+  // TODO: interface ?
+  const elasticGetRes = {
+    body: {
+      _source: {
+        ...searchElastic,
+        moods: {
+          classy: 0,
+        },
+      },
+    },
+  };
+  // TODO: interface ?
+  const elasticSearchRes = {
+    body: {
+      hits: {
+        hits: [
+          {
+            _source: searchElastic,
+          },
+        ],
+      },
+    },
+  };
+  // TODO: interface ?
+  const elasticArtistRes = {
+    body: {
+      hits: {
+        hits: [
+          {
+            _source: artistElastic,
+          },
+        ],
+      },
+    },
+  };
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
   };
   const artistFollow: ArtistFollowReqDto = {
@@ -67,24 +168,37 @@ describe("ArtistService", () => {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
+  const to: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
     from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
+    to,
     type: RelationEdgeType.follows,
   };
   // TOOD: interface ?
-  const dataClientProxyMock = {
+  const artistClientProxyMock = {
     send: (token: string) =>
-      token === DATA_ARTIST_SERVICE_GET ? of(artist) : of([artist]),
+      token === ARTIST_SERVICE_GET ? of(artist) : of([artist]),
+  };
+  // TODO: interface ?
+  const constClientProxyMock = {
+    send: () => of(image),
+  };
+  // TODO: interface ?
+  const elasticsearchServiceMock = {
+    get: () => Promise.resolve(elasticGetRes),
+    search: (hits) =>
+      hits.body.size === 1
+        ? Promise.resolve(elasticArtistRes)
+        : Promise.resolve(elasticSearchRes),
   };
   // TOOD: interface ?
   const relationClientProxyMock = {
     send: (token: string) =>
       token === RELATION_SERVICE_GET
-        ? of([relationMultiHas])
+        ? of([relation])
         : token === RELATION_SERVICE_REMOVE
         ? of(true)
         : of(artistFollow),
@@ -96,7 +210,9 @@ describe("ArtistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
       ],
     }).compile();
@@ -142,6 +258,65 @@ describe("ArtistService", () => {
     expect(await service.following(dto)).toEqual([artist]);
   });
 
+  it("following should equal list of artists 2", async () => {
+    // TOOD: interface ?
+    const relationClientProxyMock = {
+      send: (): Observable<RelationResDto[]> => of([]),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        ArtistService,
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+      ],
+    }).compile();
+    service = module.get<ArtistService>(ArtistService);
+
+    const dto: ArtistFollowingReqDto = {
+      config,
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      size: 0,
+      sub: 1,
+    };
+    expect(await service.following(dto)).toEqual([]);
+  });
+
+  it("get should be equal to an artist", async () => {
+    const dto: ArtistGetReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      id: 0,
+    };
+    expect(await service.get(dto)).toEqual({
+      ...artist,
+      image,
+    });
+  });
+
+  it("transform should be equal to an artist", async () => {
+    expect(await service.transform(artistElastic)).toEqual(artist);
+  });
+
+  it("transform should be equal to an artist 2", async () => {
+    expect(
+      await service.transform({
+        ...artistElastic,
+        has_cover: true,
+        sum_downloads_count: 0,
+        tags: undefined,
+      })
+    ).toEqual({
+      ...artist,
+      sumSongsDownloadsCount: undefined,
+      tags: undefined,
+    });
+  });
+
   it("trending should equal list of artists", async () => {
     const dto: ArtistTrendingReqDto = {
       dataConfigElasticsearch,
@@ -167,31 +342,5 @@ describe("ArtistService", () => {
       sub: 1,
     };
     expect(await service.unfollow(dto)).toEqual(artist);
-  });
-
-  it("following should equal list of artists 2", async () => {
-    // TOOD: interface ?
-    const relationClientProxyMock = {
-      send: (): Observable<RelationResDto[]> => of([]),
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
-        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
-      ],
-    }).compile();
-    service = module.get<ArtistService>(ArtistService);
-
-    const dto: ArtistFollowingReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
-      from: 0,
-      size: 0,
-      sub: 1,
-    };
-    expect(await service.following(dto)).toEqual([]);
   });
 });

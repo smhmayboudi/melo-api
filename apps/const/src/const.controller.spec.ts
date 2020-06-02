@@ -1,5 +1,7 @@
 import {
   ConstConfigReqDto,
+  ConstImageReqDto,
+  ConstImageResDto,
   ConstImagesReqDto,
   ConstImagesResDto,
   DataConfigImageReqDto,
@@ -21,27 +23,28 @@ describe("ConstController", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
-
-  // TODO: interface ?
-  const image = {
-    pop: {
-      cover: {
-        url: "/asset/pop.jpg",
-      },
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
     },
+  };
+  const images: ConstImagesResDto = {
+    pop: image,
   };
 
   const constServiceMock: ConstServiceInterface = {
-    images: (): Promise<ConstImagesResDto> => Promise.resolve(image),
+    image: (): Promise<ConstImageResDto> => Promise.resolve(image),
+    images: (): Promise<ConstImagesResDto> => Promise.resolve(images),
   };
 
   let controller: ConstController;
@@ -58,11 +61,19 @@ describe("ConstController", () => {
     expect(controller).toBeDefined();
   });
 
-  it("images should be equal to an image", async () => {
+  it("image should be equal to images", async () => {
+    const dto: ConstImageReqDto = {
+      dataConfigImage,
+      uri: "/asset/pop.jpg",
+    };
+    expect(await controller.image(dto)).toEqual(image);
+  });
+
+  it("images should be equal to images", async () => {
     const dto: ConstImagesReqDto = {
       config,
       dataConfigImage,
     };
-    expect(await controller.images(dto)).toEqual(image);
+    expect(await controller.images(dto)).toEqual(images);
   });
 });

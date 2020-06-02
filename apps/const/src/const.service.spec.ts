@@ -1,14 +1,12 @@
 import {
   ConstConfigReqDto,
+  ConstImageResDto,
   ConstImagesReqDto,
-  DATA_SERVICE,
   DataConfigImageReqDto,
-  DataImageResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { ConstService } from "./const.service";
-import { of } from "rxjs";
 
 describe("ConstService", () => {
   const config: ConstConfigReqDto = {
@@ -21,34 +19,27 @@ describe("ConstService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
-  const image: DataImageResDto = {
-    pop: {
-      url: "/asset/pop.jpg",
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
     },
-  };
-
-  // TODO: interface ?
-  const dataClientProxyMock = {
-    send: () => of(image),
   };
 
   let service: ConstService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        ConstService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
-      ],
+      providers: [ConstService],
     }).compile();
     service = module.get<ConstService>(ConstService);
   });
@@ -57,7 +48,7 @@ describe("ConstService", () => {
     expect(service).toBeDefined();
   });
 
-  it("images should be equal to an image", async () => {
+  it("images should be equal to images", async () => {
     const dto: ConstImagesReqDto = {
       config,
       dataConfigImage,

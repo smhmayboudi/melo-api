@@ -4,12 +4,14 @@ import {
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
   DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -23,10 +25,10 @@ import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
 import { AppSongServiceInterface } from "../app/app.song.service.interface";
-import { DataAlbumService } from "../../../data/src/data.album.service";
-import { DataAlbumServiceInterface } from "../../../data/src/data.album.service.interface";
-import { DataConfigService } from "../../../data/src/data.config.service";
-import { DataConfigServiceInterface } from "../../../data/src/data.config.service.interface";
+import { DataAlbumService } from "../data/data.album.service";
+import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
+import { DataConfigService } from "../data/data.config.service";
+import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 
 describe("AlbumController", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -43,74 +45,95 @@ describe("AlbumController", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
   const releaseDate = new Date();
-  const album: AlbumResDto = {
-    name: "",
-    releaseDate,
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
   };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
   };
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
     id: 0,
-    localized: false,
+    image,
+    name: "",
     releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
     title: "",
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
-    id: "",
-    image: {
-      "": {
-        url: "",
-      },
-    },
+    id: "000000000000000000000000",
+    image,
     isPublic: false,
     releaseDate,
+    songs: [song],
     title: "",
-    tracksCount: 0,
+    tracksCount: 1,
   };
   const search: SearchResDto = {
+    album: album,
     type: DataSearchType.album,
   };
 
-  const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-  };
   const albumServiceMock: AlbumServiceInterface = {
     albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
     get: (): Promise<AlbumResDto> => Promise.resolve(album),
     latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
   };
+  const appArtistServiceMock: AppArtistServiceInterface = {
+    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
+    follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+  };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
-    encodeAlbum: (): unknown => album,
-    encodeArtist: (): unknown => artist,
-    encodePlaylist: (): unknown => playlist,
-    encodeSearch: (): unknown => search,
-    encodeSong: (): unknown => song,
+    encodeAlbum: () => album,
+    encodeArtist: () => artist,
+    encodePlaylist: () => playlist,
+    encodeSearch: () => search,
+    encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
@@ -133,7 +156,13 @@ describe("AlbumController", () => {
     imagePathDefaultSong: "",
     imageSalt: "",
     imageSignatureSize: 32,
-    imageTypeSize: [{ height: 1024, name: "cover", width: 1024 }],
+    imageTypeSize: [
+      {
+        height: 1024,
+        name: "cover",
+        width: 1024,
+      },
+    ],
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",

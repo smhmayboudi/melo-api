@@ -28,7 +28,10 @@ export class SearchService implements SearchServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async query(dto: SearchQueryReqDto): Promise<SearchResDto[]> {
-    const elasticSuggestRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      any
+    >({
       body: {
         query: {
           match: {
@@ -40,13 +43,13 @@ export class SearchService implements SearchServiceInterface {
       index: dto.config.suggestIndex,
     });
     const suggestKeys =
-      elasticSuggestRes.body.hits.hits.length === 0
+      elasticsearchSearch.body.hits.hits.length === 0
         ? []
         : lodash.uniqBy(
             [
               lodash.orderBy(
                 lodash.groupBy(
-                  elasticSuggestRes.body.hits.hits
+                  elasticsearchSearch.body.hits.hits
                     .map((value) => value._source)
                     .slice(0, 10),
                   "key"
@@ -56,7 +59,7 @@ export class SearchService implements SearchServiceInterface {
               )[0][0].key,
               lodash.orderBy(
                 lodash.groupBy(
-                  elasticSuggestRes.body.hits.hits.map(
+                  elasticsearchSearch.body.hits.hits.map(
                     (value) => value._source
                   ),
                   "key"
@@ -67,17 +70,8 @@ export class SearchService implements SearchServiceInterface {
             ],
             (value) => value
           );
-    const suggest = await this.elasticsearchService.search<
-      Record<
-        string,
-        {
-          hits: [
-            {
-              _source: DataElasticsearchSearchResDto;
-            }
-          ];
-        }
-      >,
+    const elasticsearchSearchSuggest = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -119,7 +113,10 @@ export class SearchService implements SearchServiceInterface {
       "lyrics_search.ngram",
       "lyrics_search^2",
     ];
-    const normal = await this.elasticsearchService.search({
+    const elasticsearchSearchNormal = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      any
+    >({
       body: {
         _source: [
           "album",
@@ -218,11 +215,11 @@ export class SearchService implements SearchServiceInterface {
       },
       index: dto.config.indexName,
     });
-    let mixed = suggest.body.hits.hits.map((value) => ({
+    let mixed = elasticsearchSearchSuggest.body.hits.hits.map((value) => ({
       ...value._source,
       suggested: 1,
-    }));
-    normal.body.hits.hits.forEach((value) => {
+    })) as DataElasticsearchSearchResDto[];
+    elasticsearchSearchNormal.body.hits.hits.forEach((value) => {
       const isMixed = !mixed
         .map(
           (value2) =>
@@ -336,7 +333,10 @@ export class SearchService implements SearchServiceInterface {
         downloads_count: "desc",
       },
     ];
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      any
+    >({
       body: {
         _source: [
           "album_id",
@@ -390,7 +390,7 @@ export class SearchService implements SearchServiceInterface {
       index: dto.config.indexName,
     });
     return Promise.all(
-      elasticSearchRes.body.hits.hits.map((value) =>
+      elasticsearchSearch.body.hits.hits.map((value) =>
         this.dataTransformService.song({
           ...dto,
           ...value._source,

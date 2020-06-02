@@ -3,6 +3,7 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
+  DataElasticsearchSearchResDto,
   DataSearchType,
   DataSortByType,
 } from "@melo/common";
@@ -28,7 +29,10 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async albums(dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      any
+    >({
       body: {
         _source: {
           excludes: ["tags"],
@@ -61,12 +65,11 @@ export class DataAlbumService implements DataAlbumServiceInterface {
       type: DataSearchType.music,
     });
     return Promise.all(
-      elasticSearchRes.body.hits.hits.map((value) =>
+      elasticsearchSearch.body.hits.hits.map((value) =>
         this.dataTransformService.album({
           ...value._source,
-          imagePath: dto.dataConfigElasticsearch.imagePath,
-          imagePathDefaultAlbum:
-            dto.dataConfigElasticsearch.imagePathDefaultAlbum,
+          dataConfigElasticsearch: dto.dataConfigElasticsearch,
+          dataConfigImage: dto.dataConfigImage,
         })
       )
     );
@@ -76,15 +79,18 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async get(dto: AlbumGetReqDto): Promise<AlbumResDto> {
-    const elasticSearchRes = await this.elasticsearchService.get({
+    const elasticsearchGet = await this.elasticsearchService.get<
+      Record<string, DataElasticsearchSearchResDto>,
+      any
+    >({
       id: `album-${dto.id}`,
       index: dto.dataConfigElasticsearch.indexName,
       type: DataSearchType.music,
     });
     const album = await this.dataTransformService.album({
-      ...elasticSearchRes.body.hits.hits[0]._source,
-      imagePath: dto.dataConfigElasticsearch.imagePath,
-      imagePathDefaultAlbum: dto.dataConfigElasticsearch.imagePathDefaultAlbum,
+      ...elasticsearchGet.body._source,
+      dataConfigElasticsearch: dto.dataConfigElasticsearch,
+      dataConfigImage: dto.dataConfigImage,
     });
     const songs = await this.dataSongService.albumSongs(dto);
     return {
@@ -97,7 +103,10 @@ export class DataAlbumService implements DataAlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async latest(dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      any
+    >({
       body: {
         _source: {
           excludes: ["tags"],
@@ -139,12 +148,11 @@ export class DataAlbumService implements DataAlbumServiceInterface {
       type: DataSearchType.music,
     });
     return Promise.all(
-      elasticSearchRes.body.hits.hits.map((value) =>
+      elasticsearchSearch.body.hits.hits.map((value) =>
         this.dataTransformService.album({
           ...value._source,
-          imagePath: dto.dataConfigElasticsearch.imagePath,
-          imagePathDefaultAlbum:
-            dto.dataConfigElasticsearch.imagePathDefaultAlbum,
+          dataConfigElasticsearch: dto.dataConfigElasticsearch,
+          dataConfigImage: dto.dataConfigImage,
         })
       )
     );

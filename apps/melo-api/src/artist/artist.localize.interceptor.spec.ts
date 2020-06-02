@@ -41,7 +41,7 @@ describe("ArtistLocalizeInterceptor", () => {
       {
         followersCount: 0,
         id: 0,
-        type: DataArtistType.feat,
+        type: DataArtistType.prime,
       },
     ],
     audio: {},
@@ -155,7 +155,7 @@ describe("ArtistLocalizeInterceptor", () => {
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
-  it("intercept should be called albums [song] undefined", () => {
+  it("intercept should be called albums songs undefined", () => {
     const callHandler: CallHandler = {
       handle: jest.fn(() =>
         of({

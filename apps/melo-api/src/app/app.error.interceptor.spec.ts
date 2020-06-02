@@ -8,6 +8,9 @@ import { AppErrorInterceptor } from "./app.error.interceptor";
 import { of } from "rxjs";
 
 describe("AppErrorInterceptor", () => {
+  const callHandler: CallHandler = {
+    handle: jest.fn(() => of(undefined)),
+  };
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
@@ -27,9 +30,6 @@ describe("AppErrorInterceptor", () => {
     switchToHttp: () => httpArgumentsHost,
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
-  };
-  const callHandler: CallHandler = {
-    handle: jest.fn(() => of("")),
   };
 
   it("should be defined", () => {

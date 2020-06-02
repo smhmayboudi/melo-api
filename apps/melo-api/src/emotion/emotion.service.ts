@@ -1,6 +1,7 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { EmotionEmotionsReqDto, EmotionEmotionsResDto } from "@melo/common";
 
+import { DataElasticsearchEmotionsResDto } from "@melo/common/data/dto/res/data.elasticsearch-emotions.res.dto";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { EmotionServiceInterface } from "./emotion.service.interface";
 import { Injectable } from "@nestjs/common";
@@ -19,7 +20,10 @@ export class EmotionService implements EmotionServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async emotions(dto: EmotionEmotionsReqDto): Promise<EmotionEmotionsResDto[]> {
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: [{ _source: DataElasticsearchEmotionsResDto }] }>,
+      any
+    >({
       body: {
         _source: ["song_id", "emotions"],
         from: dto.from,
@@ -44,13 +48,16 @@ export class EmotionService implements EmotionServiceInterface {
       index: dto.config.indexName,
     });
     return await Promise.all(
-      elasticSearchRes.body.hits.hits.map(async (value) => ({
-        emotions: value._source.emotions,
-        song: await this.songService.get({
+      elasticsearchSearch.body.hits.hits.map(async (value) => {
+        const song = await this.songService.get({
           ...dto,
-          id: value._source.song_Id,
-        }),
-      }))
+          id: value._source.song_id,
+        });
+        return {
+          emotions: value._source.emotions,
+          song,
+        };
+      })
     );
   }
 }

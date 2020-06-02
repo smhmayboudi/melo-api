@@ -19,6 +19,7 @@ describe("SearchConfigService", () => {
     scriptScore: "",
     suggestIndex: "",
   };
+
   // TODO: interface ?
   const configServiceMock = {
     get: (_propertyPath: string, defaultValue: any): any => defaultValue,

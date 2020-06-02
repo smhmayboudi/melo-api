@@ -1,10 +1,10 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataImageResDto,
   PLAYLIST,
   PlaylistAddSongReqDto,
   PlaylistConfigReqDto,
@@ -16,21 +16,51 @@ import {
   PlaylistRemoveSongReqDto,
   PlaylistResDto,
   PlaylistTopReqDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
-import { DataTransformService } from "../data/data.transform.service";
-import { DataTransformServiceInterface } from "../data/data.transform.interface";
+import { DataImageService } from "../data/data.image.service";
+import { DataImageServiceInterface } from "../data/data.image.service.interface";
+import { DataSongService } from "../data/data.song.service";
+import { DataSongServiceInterface } from "../data/data.song.service.interface";
 import { PlaylistService } from "./playlist.service";
 import { getModelToken } from "@nestjs/mongoose";
 
 describe("PlaylistService", () => {
+  const config: PlaylistConfigReqDto = {
+    imagePath: "",
+    imagePathDefaultPlaylist: "",
+  };
+  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
+    imagePath: "",
+    imagePathDefaultAlbum: "",
+    imagePathDefaultArtist: "",
+    imagePathDefaultSong: "",
+    indexName: "",
+    maxSize: 0,
+    mp3Endpoint: "",
+  };
+  const dataConfigImage: DataConfigImageReqDto = {
+    imageBaseUrl: "",
+    imageEncode: true,
+    imageKey: "",
+    imageSalt: "",
+    imageSignatureSize: 32,
+    imageTypeSize: [
+      {
+        height: 1024,
+        name: "cover",
+        width: 1024,
+      },
+    ],
+  };
   const releaseDate = new Date();
-  const image: DataImageResDto = {
+  const image: ConstImageResDto = {
     cover: {
       url:
-        "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
     },
   };
   const artist: ArtistResDto = {
@@ -52,52 +82,31 @@ describe("PlaylistService", () => {
     tags: [""],
     tracksCount: 0,
   };
-  const config: PlaylistConfigReqDto = {
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
   };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 1,
-    imageTypeSize: [
-      {
-        height: 0,
-        name: "",
-        width: 0,
-      },
-    ],
-  };
-  const playlistId = "000000000000000000000000";
   const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
     duration: 0,
+    hasVideo: false,
     id: 0,
+    image,
     localized: false,
+    lyrics: "",
     releaseDate,
+    tags: [""],
     title: "",
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
-    id: playlistId,
+    id: "000000000000000000000000",
     image,
     isPublic: false,
     releaseDate,
@@ -105,6 +114,7 @@ describe("PlaylistService", () => {
     title: "",
     tracksCount: 1,
   };
+  const playlistId = "000000000000000000000000";
   const playlistPure: PlaylistResDto = {
     ...playlist,
     songs: undefined,
@@ -122,14 +132,26 @@ describe("PlaylistService", () => {
     title: "",
     tracks_count: 1,
   };
-  const dataTransformServiceMock: DataTransformServiceInterface = {
-    album: (): Promise<AlbumResDto> => Promise.resolve(album),
-    artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    playlist: (dto: any): Promise<PlaylistResDto> =>
-      dto.songs_ids.length === 0
-        ? Promise.resolve(playlistPure)
-        : Promise.resolve(playlist),
-    song: (): Promise<SongResDto> => Promise.resolve(song),
+
+  const dataImageServiceMock: DataImageServiceInterface = {
+    generateUrl: (): Promise<ConstImageResDto> => Promise.resolve(image),
+  };
+  const dataSongServiceMock: DataSongServiceInterface = {
+    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    get: (): Promise<SongResDto> => Promise.resolve(song),
+    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
   };
   // TODO: interface ?
   const playlistModelMock = {
@@ -170,7 +192,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         { provide: getModelToken(PLAYLIST), useValue: playlistModelMock },
       ],
     }).compile();
@@ -201,7 +224,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -227,14 +251,13 @@ describe("PlaylistService", () => {
         songs_ids: [],
       }),
     }));
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
-        {
-          provide: getModelToken(PLAYLIST),
-          useValue: playlistModelMockCreate,
-        },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
+        { provide: getModelToken(PLAYLIST), useValue: playlistModelMockCreate },
       ],
     }).compile();
     const service = module.get<PlaylistService>(PlaylistService);
@@ -257,7 +280,7 @@ describe("PlaylistService", () => {
       id: playlistId,
       sub: 1,
     };
-    expect(await service.delete(dto)).toEqual(playlist);
+    expect(await service.delete(dto)).toEqual(playlistPure);
   });
 
   it("delete should be equal to a playlist 2", async () => {
@@ -269,7 +292,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindOne,
@@ -289,7 +313,7 @@ describe("PlaylistService", () => {
   });
 
   it("delete should be equal to a playlist 3", async () => {
-    const playlistModelMockDeleOne = {
+    const playlistModelMockDeleteOne = {
       ...playlistModelMock,
       deleteOne: () => ({
         deletedCount: undefined,
@@ -298,11 +322,12 @@ describe("PlaylistService", () => {
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
         PlaylistService,
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
-          useValue: playlistModelMockDeleOne,
+          useValue: playlistModelMockDeleteOne,
         },
       ],
     }).compile();
@@ -337,7 +362,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -346,11 +372,12 @@ describe("PlaylistService", () => {
     }).compile();
     service = module.get<PlaylistService>(PlaylistService);
 
-    const dto: PlaylistEditReqDto = {
+    const dto: PlaylistDeleteReqDto = {
       config,
       dataConfigElasticsearch,
       dataConfigImage,
       id: playlistId,
+      sub: 1,
     };
     return expect(service.edit(dto)).rejects.toThrowError();
   });
@@ -369,7 +396,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -377,7 +405,6 @@ describe("PlaylistService", () => {
       ],
     }).compile();
     service = module.get<PlaylistService>(PlaylistService);
-
     const dto: PlaylistEditReqDto = {
       config,
       dataConfigElasticsearch,
@@ -409,7 +436,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -450,7 +478,7 @@ describe("PlaylistService", () => {
     expect(await service.removeSong(dto)).toEqual(playlist);
   });
 
-  it("remove should be equal to a playlist 2", async () => {
+  it("removeSong should be equal to a playlist 2", async () => {
     const playlistModelMockFindById = {
       ...playlistModelMock,
       findById: () => null,
@@ -459,7 +487,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DataTransformService, useValue: dataTransformServiceMock },
+        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: DataSongService, useValue: dataSongServiceMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,

@@ -1,4 +1,4 @@
-import { DataConfigImageReqDto, DataImageReqDto } from "@melo/common";
+import { ConstImageReqDto, DataConfigImageReqDto } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataImageService } from "./data.image.service";
@@ -9,12 +9,12 @@ describe("ImageService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
@@ -33,13 +33,14 @@ describe("ImageService", () => {
   });
 
   it("all should be equal to a data image", async () => {
-    const dto: DataImageReqDto = {
+    const dto: ConstImageReqDto = {
       dataConfigImage,
-      uri: "",
+      uri: "/asset/pop.jpg",
     };
     expect(await service.generateUrl(dto)).toEqual({
-      "": {
-        url: "DA/rs:fill:0:0:1/dpr:1/",
+      cover: {
+        url:
+          "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
       },
     });
   });

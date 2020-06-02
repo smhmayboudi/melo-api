@@ -1,13 +1,16 @@
 import {
+  ALBUM_SERVICE,
+  ARTIST_SERVICE,
   AlbumResDto,
   ArtistResDto,
-  DATA_SERVICE,
-  DATA_TRANSFORM_SERVICE_ALBUM,
-  DATA_TRANSFORM_SERVICE_ARTIST,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   DataSearchType,
+  SONG_SERVICE,
   SearchConfigReqDto,
   SearchMoodReqDto,
   SearchQueryReqDto,
@@ -26,6 +29,7 @@ describe("SearchService", () => {
     scriptScore: "",
     suggestIndex: "",
   };
+  const releaseDate = new Date();
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
     imagePath: "",
     imagePathDefaultAlbum: "",
@@ -40,43 +44,33 @@ describe("SearchService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
-  const releaseDate = new Date();
-  const album: AlbumResDto = {
-    downloadCount: 0,
-    name: "",
-    releaseDate,
-  };
-  const artist: ArtistResDto = {
-    followersCount: 0,
+  const artistElastic: DataElasticsearchArtistResDto = {
+    available: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    followers_count: 0,
+    full_name: "",
+    has_cover: false,
     id: 0,
+    popular: false,
+    sum_downloads_count: 1,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
     type: DataArtistType.prime,
   };
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
-  };
-  // TODO: interface ?
-  const _source = {
+  const searchElastic: DataElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
     album_id: 0,
@@ -85,8 +79,10 @@ describe("SearchService", () => {
     artist_full_name: "",
     artist_id: 0,
     artist_sum_downloads_count: 1,
-    artists: [],
+    artists: [artistElastic],
     copyright: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
     downloads_count: 0,
     duration: 0,
     has_cover: false,
@@ -107,30 +103,80 @@ describe("SearchService", () => {
     unique_name: "",
   };
   // TODO: interface ?
+  const elasticGetRes = {
+    body: {
+      _source: {
+        ...searchElastic,
+        moods: {
+          classy: 0,
+        },
+      },
+    },
+  };
+  // TODO: interface ?
   const elasticSearchRes = {
     body: {
       hits: {
         hits: [
           {
-            _source,
+            _source: searchElastic,
           },
         ],
       },
     },
   };
+  const album: AlbumResDto = {
+    downloadCount: 0,
+    name: "",
+    releaseDate,
+  };
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const song: SongResDto = {
+    artists: [
+      {
+        followersCount: 0,
+        id: 0,
+        type: DataArtistType.prime,
+      },
+    ],
+    audio: {},
+    duration: 0,
+    id: 0,
+    localized: false,
+    releaseDate,
+    title: "",
+  };
 
   // TODO: interface ?
-  const dataClientProxyMock = {
-    send: (token: string) =>
-      token === DATA_TRANSFORM_SERVICE_ALBUM
-        ? of(album)
-        : token === DATA_TRANSFORM_SERVICE_ARTIST
-        ? of(artist)
-        : of(song),
+  const albumClientProxyMock = {
+    send: () => of(album),
+  };
+  // TODO: interface ?
+  const artistClientProxyMock = {
+    send: () => of(artist),
+  };
+  // TODO: interface ?
+  const songClientProxyMock = {
+    send: () => of(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
-    search: (): Promise<any> => Promise.resolve(elasticSearchRes),
+    get: () => Promise.resolve(elasticGetRes),
+    search: () => Promise.resolve(elasticSearchRes),
   };
 
   let service: SearchService;
@@ -139,8 +185,10 @@ describe("SearchService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SearchService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);
@@ -169,8 +217,10 @@ describe("SearchService", () => {
   });
 
   it("query should be equal to an empty list 2", async () => {
-    const elasticsearchServiceMock = {
-      search: (): Promise<any> =>
+    // TODO: interface ?
+    const elasticsearchServiceMockSearch = {
+      ...elasticsearchServiceMock,
+      search: () =>
         Promise.resolve({
           body: {
             hits: {
@@ -183,8 +233,13 @@ describe("SearchService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SearchService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
-        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        {
+          provide: ElasticsearchService,
+          useValue: elasticsearchServiceMockSearch,
+        },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);
@@ -201,7 +256,8 @@ describe("SearchService", () => {
   });
 
   it("query should be equal to an empty list 3", async () => {
-    const elasticsearchServiceMock = {
+    // TODO: interface ?
+    const elasticsearchServiceMockSearch = {
       search: (query: any): Promise<any> =>
         Promise.resolve(
           query.body.from === undefined
@@ -211,7 +267,7 @@ describe("SearchService", () => {
                     hits: [
                       {
                         _source: {
-                          ..._source,
+                          ...searchElastic,
                           id: 0,
                           type: DataSearchType.album,
                         },
@@ -226,7 +282,7 @@ describe("SearchService", () => {
                     hits: [
                       {
                         _source: {
-                          ..._source,
+                          ...searchElastic,
                           id: 1,
                           type: DataSearchType.artist,
                         },
@@ -241,8 +297,13 @@ describe("SearchService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SearchService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
-        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        {
+          provide: ElasticsearchService,
+          useValue: elasticsearchServiceMockSearch,
+        },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);
@@ -270,36 +331,38 @@ describe("SearchService", () => {
   });
 
   it("query should be equal to an empty list 4", async () => {
-    const elasticsearchServiceMock = {
-      search: (): Promise<any> =>
+    // TODO: interface ?
+    const elasticsearchServiceMockSearch = {
+      ...elasticsearchServiceMock,
+      search: () =>
         Promise.resolve({
           body: {
             hits: {
               hits: [
                 {
                   _source: {
-                    ..._source,
+                    ...searchElastic,
                     id: 0,
                     type: DataSearchType.album,
                   },
                 },
                 {
                   _source: {
-                    ..._source,
+                    ...searchElastic,
                     id: 1,
                     type: DataSearchType.artist,
                   },
                 },
                 {
                   _source: {
-                    ..._source,
+                    ...searchElastic,
                     id: 2,
                     type: DataSearchType.podcast,
                   },
                 },
                 {
                   _source: {
-                    ..._source,
+                    ...searchElastic,
                     id: 3,
                     type: DataSearchType.song,
                   },
@@ -313,8 +376,13 @@ describe("SearchService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SearchService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
-        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        {
+          provide: ElasticsearchService,
+          useValue: elasticsearchServiceMockSearch,
+        },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);

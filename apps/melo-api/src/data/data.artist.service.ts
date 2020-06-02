@@ -5,6 +5,8 @@ import {
   ArtistResDto,
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
   DataSearchType,
 } from "@melo/common";
 
@@ -26,7 +28,10 @@ export class DataArtistService implements DataArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async get(dto: ArtistGetReqDto): Promise<ArtistResDto> {
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchArtistResDto }[] }>,
+      any
+    >({
       body: {
         _source: {
           excludes: ["tags"],
@@ -54,10 +59,9 @@ export class DataArtistService implements DataArtistServiceInterface {
       type: DataSearchType.music,
     });
     return this.dataTransformService.artist({
-      ...elasticSearchRes.body.hits.hits[0]._source,
-      imagePath: dto.dataConfigElasticsearch.imagePath,
-      imagePathDefaultArtist:
-        dto.dataConfigElasticsearch.imagePathDefaultArtist,
+      ...elasticsearchSearch.body.hits.hits[0]._source,
+      dataConfigElasticsearch: dto.dataConfigElasticsearch,
+      dataConfigImage: dto.dataConfigImage,
     });
   }
 
@@ -65,7 +69,10 @@ export class DataArtistService implements DataArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async getByIds(dto: ArtistGetByIdsReqDto): Promise<ArtistResDto[]> {
-    const elasticSearchRes = await this.elasticsearchService.search({
+    const elasticsearchSearch = await this.elasticsearchService.search<
+      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      any
+    >({
       body: {
         _source: {
           excludes: ["tags"],
@@ -92,12 +99,11 @@ export class DataArtistService implements DataArtistServiceInterface {
       type: DataSearchType.music,
     });
     return Promise.all(
-      elasticSearchRes.body.hits.hits.map((value) =>
+      elasticsearchSearch.body.hits.hits.map((value) =>
         this.dataTransformService.artist({
           ...value._source.artists[0],
-          imagePath: dto.dataConfigElasticsearch.imagePath,
-          imagePathDefaultArtist:
-            dto.dataConfigElasticsearch.imagePathDefaultArtist,
+          dataConfigElasticsearch: dto.dataConfigElasticsearch,
+          dataConfigImage: dto.dataConfigImage,
           tags: value._source.tags,
         })
       )

@@ -1,5 +1,5 @@
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { DATA_SERVICE, PLAYLIST } from "@melo/common";
+import { PLAYLIST, SONG_SERVICE } from "@melo/common";
 
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
@@ -12,9 +12,9 @@ import { PlaylistService } from "./playlist.service";
   imports: [
     ClientsModule.register([
       {
-        name: DATA_SERVICE,
+        name: SONG_SERVICE,
         options: {
-          url: process.env.DATA_SERVICE_URL,
+          url: process.env.SONG_SERVICE_URL,
         },
         transport: Transport.REDIS,
       },

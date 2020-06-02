@@ -1,5 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
-import { Mutation, Request, Txn } from "dgraph-js";
+import { Mutation, Request } from "dgraph-js";
 import {
   RELATION_TYPE_ID_SEPARATOR,
   RelationEntityReqDto,
@@ -21,6 +21,9 @@ import { RelationServiceInterface } from "./relation.service.interface";
 export class RelationService implements RelationServiceInterface {
   private key(dto: RelationEntityReqDto): string {
     return `${dto.type}${RELATION_TYPE_ID_SEPARATOR}${dto.id}`;
+  }
+  private name(dto: RelationEntityReqDto): string {
+    return dto.name === undefined ? this.key(dto) : dto.name;
   }
 
   constructor(private readonly dgraphService: DgraphService) {}
@@ -145,10 +148,10 @@ export class RelationService implements RelationServiceInterface {
   async remove(dto: RelationRemoveReqDto): Promise<RelationResDto> {
     const dtoFromId = this.key(dto.from);
     const dtoToId = this.key(dto.to);
-    const mutation: Mutation = new Mutation();
+    const mutation = new Mutation();
     const quads = [`uid(From) <${dto.type}> uid(To) .`];
-    const request: Request = new Request();
-    const txn: Txn = this.dgraphService.client.newTxn();
+    const request = new Request();
+    const txn = this.dgraphService.client.newTxn();
     request.setQuery(`
       query {
         var(func: eq(id, "${dtoFromId}")) {
@@ -176,18 +179,16 @@ export class RelationService implements RelationServiceInterface {
   async set(dto: RelationSetReqDto): Promise<RelationResDto> {
     const dtoFromId = this.key(dto.from);
     const dtoToId = this.key(dto.to);
-    const mutation: Mutation = new Mutation();
+    const mutation = new Mutation();
     const quads: string[] = [
       `uid(From) <id> "${dtoFromId}" .`,
-      `uid(From) <name> "${
-        dto.from.name === undefined ? dtoFromId : dto.from.name
-      }" .`,
+      `uid(From) <name> "${this.name(dto.from)}" .`,
       `uid(To) <id> "${dtoToId}" .`,
-      `uid(To) <name> "${dto.to.name === undefined ? dtoToId : dto.to.name}" .`,
+      `uid(To) <name> "${this.name(dto.to)}" .`,
       `uid(From) <${dto.type}> uid(To) (date=${dto.createdAt.toISOString()}) .`,
     ];
-    const request: Request = new Request();
-    const txn: Txn = this.dgraphService.client.newTxn();
+    const request = new Request();
+    const txn = this.dgraphService.client.newTxn();
     mutation.setSetNquads(quads.join("\n"));
     request.setQuery(`
     query {

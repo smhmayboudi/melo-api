@@ -19,6 +19,7 @@ describe("AppUser", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
+
   it("should be defined", () => {
     expect(AppUser()).toBeDefined();
   });

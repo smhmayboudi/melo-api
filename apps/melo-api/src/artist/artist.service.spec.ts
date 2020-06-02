@@ -7,6 +7,7 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
@@ -43,30 +44,41 @@ describe("ArtistService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
   };
   const from: RelationEntityReqDto = {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
+  const to: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
     from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
+    to,
     type: RelationEdgeType.follows,
   };
 
@@ -81,13 +93,11 @@ describe("ArtistService", () => {
     trendingGenre: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
   };
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
-    has: (): Promise<RelationResDto | undefined> =>
-      Promise.resolve(relationMultiHas),
-    multiHas: (): Promise<RelationResDto[]> =>
-      Promise.resolve([relationMultiHas]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
-    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
+    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
+    set: (): Promise<RelationResDto> => Promise.resolve(relation),
   };
 
   let service: ArtistService;
@@ -133,6 +143,8 @@ describe("ArtistService", () => {
     };
     expect(await service.following(dto)).toEqual([artist]);
   });
+
+  it.todo("following should equal list of artists 2");
 
   it("following should equal an empty list", async () => {
     const relationServiceMockGet: RelationServiceInterface = {

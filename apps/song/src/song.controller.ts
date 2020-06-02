@@ -1,9 +1,11 @@
-import { MessagePattern, Payload } from "@nestjs/microservices";
 import {
+  DataElasticsearchSearchResDto,
+  SONG_SERVICE_ALBUM_SONGS,
   SONG_SERVICE_ARTIST_SONGS,
   SONG_SERVICE_ARTIST_SONGS_TOP,
   SONG_SERVICE_GENRE,
   SONG_SERVICE_GET,
+  SONG_SERVICE_GET_BY_IDS,
   SONG_SERVICE_LANGUAGE,
   SONG_SERVICE_LIKE,
   SONG_SERVICE_LIKED,
@@ -16,9 +18,13 @@ import {
   SONG_SERVICE_SLIDER,
   SONG_SERVICE_TOP_DAY,
   SONG_SERVICE_TOP_WEEK,
+  SONG_SERVICE_TRANSFORM,
   SONG_SERVICE_UNLIKE,
+  SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
+  SongGenreReqDto,
+  SongGetByIdsReqDto,
   SongGetReqDto,
   SongLanguageReqDto,
   SongLikeReqDto,
@@ -26,16 +32,16 @@ import {
   SongMoodReqDto,
   SongNewPodcastReqDto,
   SongNewReqDto,
-  SongPodcastGenresReqDto,
+  SongPodcastReqDto,
   SongResDto,
   SongSendTelegramReqDto,
   SongSimilarReqDto,
   SongSliderReqDto,
-  SongSongGenresReqDto,
   SongTopDayReqDto,
   SongTopWeekReqDto,
   SongUnlikeReqDto,
 } from "@melo/common";
+import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { Controller } from "@nestjs/common";
 import { SongService } from "./song.service";
@@ -43,6 +49,11 @@ import { SongService } from "./song.service";
 @Controller()
 export class SongController {
   constructor(private readonly songService: SongService) {}
+
+  @MessagePattern(SONG_SERVICE_ALBUM_SONGS)
+  albumSongs(@Payload() dto: SongAlbumSongsReqDto): Promise<SongResDto[]> {
+    return this.songService.albumSongs(dto);
+  }
 
   @MessagePattern(SONG_SERVICE_ARTIST_SONGS)
   artistSongs(@Payload() dto: SongArtistSongsReqDto): Promise<SongResDto[]> {
@@ -57,13 +68,18 @@ export class SongController {
   }
 
   @MessagePattern(SONG_SERVICE_GENRE)
-  genre(@Payload() dto: SongSongGenresReqDto): Promise<SongResDto[]> {
+  genre(@Payload() dto: SongGenreReqDto): Promise<SongResDto[]> {
     return this.songService.genre(dto);
   }
 
   @MessagePattern(SONG_SERVICE_GET)
   get(@Payload() dto: SongGetReqDto): Promise<SongResDto> {
     return this.songService.get(dto);
+  }
+
+  @MessagePattern(SONG_SERVICE_GET_BY_IDS)
+  getByIds(@Payload() dto: SongGetByIdsReqDto): Promise<SongResDto[]> {
+    return this.songService.getByIds(dto);
   }
 
   @MessagePattern(SONG_SERVICE_LANGUAGE)
@@ -97,7 +113,7 @@ export class SongController {
   }
 
   @MessagePattern(SONG_SERVICE_PODCAST)
-  podcast(@Payload() dto: SongPodcastGenresReqDto): Promise<SongResDto[]> {
+  podcast(@Payload() dto: SongPodcastReqDto): Promise<SongResDto[]> {
     return this.songService.podcast(dto);
   }
 
@@ -124,6 +140,11 @@ export class SongController {
   @MessagePattern(SONG_SERVICE_TOP_WEEK)
   topWeek(@Payload() dto: SongTopWeekReqDto): Promise<SongResDto[]> {
     return this.songService.topWeek(dto);
+  }
+
+  @MessagePattern(SONG_SERVICE_TRANSFORM)
+  transform(dto: DataElasticsearchSearchResDto): Promise<SongResDto> {
+    return this.songService.transform(dto);
   }
 
   @MessagePattern(SONG_SERVICE_UNLIKE)

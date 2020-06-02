@@ -15,6 +15,7 @@ describe("ConstConfigService", () => {
     cacheTTL: 0,
     staticImagePaths: { "": "" },
   };
+
   // TODO: interface ?
   const configServiceMock = {
     get: (_propertyPath: string, defaultValue: any): any => defaultValue,

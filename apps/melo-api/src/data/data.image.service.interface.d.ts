@@ -1,5 +1,5 @@
-import { DataImageReqDto, DataImageResDto } from "@melo/common";
+import { ConstImageReqDto, ConstImageResDto } from "@melo/common";
 
 export interface DataImageServiceInterface {
-  generateUrl(dto: DataImageReqDto): Promise<DataImageResDto>;
+  generateUrl(dto: ConstImageReqDto): Promise<ConstImageResDto>;
 }

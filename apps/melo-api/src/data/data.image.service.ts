@@ -1,5 +1,5 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
-import { DataImageReqDto, DataImageResDto } from "@melo/common";
+import { ConstImageReqDto, ConstImageResDto } from "@melo/common";
 
 import { DataImageServiceInterface } from "./data.image.service.interface";
 import Imgproxy from "imgproxy";
@@ -12,7 +12,7 @@ export class DataImageService implements DataImageServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async generateUrl(dto: DataImageReqDto): Promise<DataImageResDto> {
+  async generateUrl(dto: ConstImageReqDto): Promise<ConstImageResDto> {
     const imgproxy = new Imgproxy({
       baseUrl: dto.dataConfigImage.imageBaseUrl,
       encode: dto.dataConfigImage.imageEncode,

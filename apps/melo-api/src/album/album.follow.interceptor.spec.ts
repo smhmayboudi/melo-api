@@ -1,8 +1,8 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
-  SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -14,7 +14,6 @@ import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { of } from "rxjs";
 
 describe("AlbumFollowInterceptor", () => {
-  const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
@@ -36,32 +35,33 @@ describe("AlbumFollowInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
+  const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
-  };
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
   };
   const album: AlbumResDto = {
     artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
     name: "",
     releaseDate,
-    songs: [song],
+    tags: [""],
+    tracksCount: 0,
   };
+
   const appArtistServiceMock: AppArtistServiceInterface = {
     follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
     follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),

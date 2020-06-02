@@ -19,16 +19,19 @@ import { flatMap } from "rxjs/operators";
 export class AlbumFollowInterceptor implements NestInterceptor {
   constructor(private readonly appArtistService: AppArtistService) {}
 
-  transform = async (dto: AlbumResDto, sub: string): Promise<AlbumResDto> => ({
-    ...dto,
-    artists:
+  transform = async (dto: AlbumResDto, sub: string): Promise<AlbumResDto> => {
+    const artists =
       dto.artists === undefined
         ? undefined
         : await this.appArtistService.follows({
             artists: dto.artists,
             sub: parseInt(sub, 10),
-          }),
-  });
+          });
+    return {
+      ...dto,
+      artists,
+    };
+  };
 
   intercept(
     context: ExecutionContext,

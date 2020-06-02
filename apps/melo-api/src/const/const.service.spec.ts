@@ -1,8 +1,8 @@
 import {
   ConstConfigReqDto,
+  ConstImageResDto,
   ConstImagesReqDto,
   DataConfigImageReqDto,
-  DataImageResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -21,24 +21,24 @@ describe("ConstService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
-  // TODO: interface ?
-  const image = {
-    pop: {
-      url: "/asset/pop.jpg",
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
     },
   };
 
   const dataImageServiceMock: DataImageServiceInterface = {
-    generateUrl: (): Promise<DataImageResDto> => Promise.resolve(image),
+    generateUrl: (): Promise<ConstImageResDto> => Promise.resolve(image),
   };
 
   let service: ConstService;

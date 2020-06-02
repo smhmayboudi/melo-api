@@ -1,7 +1,9 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
@@ -14,7 +16,6 @@ import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { of } from "rxjs";
 
 describe("AlbumLikeInterceptor", () => {
-  const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
@@ -36,32 +37,55 @@ describe("AlbumLikeInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
+  const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
-  };
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
   };
   const album: AlbumResDto = {
     artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
     name: "",
     releaseDate,
-    songs: [song],
+    tags: [""],
+    tracksCount: 0,
   };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
+    title: "",
+  };
+
   const appSongServiceMock: AppSongServiceInterface = {
     like: (): Promise<SongResDto> => Promise.resolve(song),
     likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
@@ -106,12 +130,7 @@ describe("AlbumLikeInterceptor", () => {
 
   it("intercept should be called song: undefined", () => {
     const callHandler: CallHandler = {
-      handle: jest.fn(() =>
-        of({
-          ...album,
-          songs: undefined,
-        })
-      ),
+      handle: jest.fn(() => of(album)),
     };
     new AlbumLikeInterceptor(service)
       .intercept(executionContext, callHandler)
@@ -122,7 +141,12 @@ describe("AlbumLikeInterceptor", () => {
 
   it("intercept should be called data: single album", () => {
     const callHandler: CallHandler = {
-      handle: jest.fn(() => of(album)),
+      handle: jest.fn(() =>
+        of({
+          ...album,
+          songs: [song],
+        })
+      ),
     };
     new AlbumLikeInterceptor(service)
       .intercept(executionContext, callHandler)

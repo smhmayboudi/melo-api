@@ -1,9 +1,5 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import {
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-} from "@melo/common";
-import {
   IsArray,
   IsBoolean,
   IsDate,
@@ -12,6 +8,8 @@ import {
   ValidateNested,
 } from "class-validator";
 
+import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
+import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
 import { PlaylistConfigReqDto } from ".";
 import { Type } from "class-transformer";
 

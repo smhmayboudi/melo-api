@@ -1,11 +1,13 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataSearchType,
   EmotionEmotionsResDto,
   PlaylistResDto,
   SearchResDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
@@ -18,7 +20,6 @@ import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { of } from "rxjs";
 
 describe("EmotionHashIdInterceptor", () => {
-  const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
@@ -43,68 +44,81 @@ describe("EmotionHashIdInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
+  const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
   };
-  const song: SongResDto = {
-    album: {
-      artists: [artist],
-      id: 0,
-      name: "",
-      releaseDate,
-    },
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
     id: 0,
-    localized: false,
+    image,
+    name: "",
     releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
     title: "",
+  };
+  const playlist: PlaylistResDto = {
+    followersCount: 0,
+    id: "000000000000000000000000",
+    image,
+    isPublic: false,
+    releaseDate,
+    songs: [song],
+    title: "",
+    tracksCount: 1,
+  };
+  const search: SearchResDto = {
+    album: album,
+    type: DataSearchType.album,
   };
   const emotion: EmotionEmotionsResDto = {
     emotions: [""],
     song,
   };
-  const album: AlbumResDto = {
-    artists: [artist],
-    id: 0,
-    name: "",
-    releaseDate,
-    songs: [song],
-  };
-  const playlist: PlaylistResDto = {
-    followersCount: 0,
-    id: "",
-    image: {
-      "": {
-        url: "",
-      },
-    },
-    isPublic: false,
-    releaseDate,
-    title: "",
-    tracksCount: 0,
-  };
-  const search: SearchResDto = {
-    type: DataSearchType.album,
-  };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
-    encodeAlbum: (): unknown => album,
-    encodeArtist: (): unknown => artist,
-    encodePlaylist: (): unknown => playlist,
-    encodeSearch: (): unknown => search,
-    encodeSong: (): unknown => song,
+    encodeAlbum: () => album,
+    encodeArtist: () => artist,
+    encodePlaylist: () => playlist,
+    encodeSearch: () => search,
+    encodeSong: () => song,
   };
 
   let service: AppHashIdService;

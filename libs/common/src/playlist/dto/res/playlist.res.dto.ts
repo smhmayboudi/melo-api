@@ -8,7 +8,7 @@ import {
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
+import { ConstImageResDto } from "../../../const/dto/res/const.image.res.dto";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
@@ -16,20 +16,20 @@ export class PlaylistResDto {
   constructor(
     followersCount: number,
     id: string,
-    image: DataImageResDto,
     isPublic: boolean,
     releaseDate: Date,
     title: string,
     tracksCount: number,
+    image?: ConstImageResDto,
     songs?: SongResDto[]
   ) {
     this.followersCount = followersCount;
     this.id = id;
-    this.image = image;
     this.isPublic = isPublic;
     this.releaseDate = releaseDate;
     this.title = title;
     this.tracksCount = tracksCount;
+    this.image = image;
     this.songs = songs;
   }
 
@@ -42,18 +42,10 @@ export class PlaylistResDto {
 
   @ApiProperty({
     description: "The identification",
-    example: "0",
+    example: "000000000000000000000000",
   })
   @IsString()
   readonly id: string;
-
-  @ApiProperty({
-    description: "The cover",
-    example: "http://www.google.com",
-  })
-  @Type(() => DataImageResDto)
-  @ValidateNested()
-  readonly image: DataImageResDto;
 
   @ApiProperty({
     description: "Is it public?",
@@ -83,6 +75,14 @@ export class PlaylistResDto {
   })
   @IsNumberString()
   readonly tracksCount: number;
+
+  @ApiProperty({
+    description: "The image",
+  })
+  @IsOptional()
+  @Type(() => ConstImageResDto)
+  @ValidateNested()
+  readonly image?: ConstImageResDto;
 
   @ApiProperty({
     description: "The songs",

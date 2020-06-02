@@ -13,12 +13,12 @@ describe("FileConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    s3AccessKeyId: "",
-    s3Bucket: "",
-    s3Endpoint: "",
-    s3ForcePathStyle: true,
-    s3SecretAccessKey: "",
-    s3SslEnabled: true,
+    s3AccessKeyId: "minioadmin",
+    s3Bucket: "misc",
+    s3Endpoint: "127.0.0.1:9000",
+    s3ForcePathStyle: false,
+    s3SecretAccessKey: "minioadmin",
+    s3SslEnabled: false,
   };
 
   // TODO: interface ?

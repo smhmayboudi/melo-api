@@ -22,13 +22,16 @@ export class DownloadLikeInterceptor implements NestInterceptor {
   transform = async (
     dto: DownloadSongResDto,
     sub: string
-  ): Promise<DownloadSongResDto> => ({
-    ...dto,
-    song: await this.appSongService.like({
+  ): Promise<DownloadSongResDto> => {
+    const song = await this.appSongService.like({
       song: dto.song,
       sub: parseInt(sub, 10),
-    }),
-  });
+    });
+    return {
+      ...dto,
+      song,
+    };
+  };
 
   intercept(
     context: ExecutionContext,

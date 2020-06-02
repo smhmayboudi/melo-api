@@ -4,6 +4,7 @@ import {
   AppSongLikesReqDto,
   AppSongLocalizeReqDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataSearchType,
   PlaylistResDto,
@@ -12,6 +13,7 @@ import {
   RelationEntityType,
   RelationResDto,
   SearchResDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -24,65 +26,78 @@ import { RelationServiceInterface } from "../relation/relation.service.interface
 
 describe("AppSongService", () => {
   const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
-  };
-  const playlist: PlaylistResDto = {
-    followersCount: 0,
-    id: "",
-    image: {
-      "": {
-        url: "",
-      },
-    },
-    isPublic: false,
-    releaseDate,
-    title: "",
-    tracksCount: 0,
-  };
-  const song: SongResDto = {
-    album: {
-      artists: [artist],
-      id: 0,
-      name: "",
-      releaseDate,
-    },
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
   };
   const album: AlbumResDto = {
     artists: [artist],
+    downloadCount: 0,
     id: 0,
+    image,
     name: "",
     releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
+    title: "",
+  };
+  const playlist: PlaylistResDto = {
+    followersCount: 0,
+    id: "000000000000000000000000",
+    image,
+    isPublic: false,
+    releaseDate,
     songs: [song],
+    title: "",
+    tracksCount: 1,
   };
   const search: SearchResDto = {
+    album: album,
     type: DataSearchType.album,
   };
   const from: RelationEntityReqDto = {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
+  const to: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
     from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
+    to,
     type: RelationEdgeType.follows,
   };
 
@@ -91,21 +106,19 @@ describe("AppSongService", () => {
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
-    encodeAlbum: (): unknown => album,
-    encodeArtist: (): unknown => artist,
-    encodePlaylist: (): unknown => playlist,
-    encodeSearch: (): unknown => search,
-    encodeSong: (): unknown => song,
+    encodeAlbum: () => album,
+    encodeArtist: () => artist,
+    encodePlaylist: () => playlist,
+    encodeSearch: () => search,
+    encodeSong: () => song,
   };
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relationMultiHas]),
-    has: (): Promise<RelationResDto | undefined> =>
-      Promise.resolve(relationMultiHas),
-    multiHas: (): Promise<RelationResDto[]> =>
-      Promise.resolve([relationMultiHas]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
-    set: (): Promise<RelationResDto> => Promise.resolve(relationMultiHas),
+    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
+    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
+    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
+    set: (): Promise<RelationResDto> => Promise.resolve(relation),
   };
 
   beforeEach(async () => {

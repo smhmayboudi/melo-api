@@ -34,7 +34,9 @@ export class FileService implements FileServiceInterface {
       buffer: Buffer.from(dto.bufferBase64, "base64"),
     };
     const mmmagic = new Magic(MAGIC_MIME_TYPE);
-    const mimeType: string = await (mmmagic as any).detectAsync(newDto.buffer);
+    const mimeType = (await (mmmagic as any).detectAsync(
+      newDto.buffer
+    )) as string;
     if (mimeType !== mime.lookup("jpg")) {
       throw new BadRequestException();
     }

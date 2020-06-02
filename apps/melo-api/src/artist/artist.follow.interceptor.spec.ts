@@ -1,4 +1,4 @@
-import { ArtistResDto, DataArtistType } from "@melo/common";
+import { ArtistResDto, ConstImageResDto, DataArtistType } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -30,11 +30,22 @@ describe("ArtistFollowInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
   };
+
   const appArtistServiceMock: AppArtistServiceInterface = {
     follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
     follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),

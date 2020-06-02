@@ -4,6 +4,7 @@ export * from "./playlist.create.req.dto";
 export * from "./playlist.delete.req.dto";
 export * from "./playlist.edit.req.dto";
 export * from "./playlist.get.req.dto";
+export * from "./playlist.model.req.dto";
 export * from "./playlist.my.req.dto";
 export * from "./playlist.remove-song.req.dto";
 export * from "./playlist.top.req.dto";

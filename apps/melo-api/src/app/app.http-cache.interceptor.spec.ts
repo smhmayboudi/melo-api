@@ -20,6 +20,7 @@ describe("AppHttpCacheInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
+
   it("should be defined", () => {
     expect(new AppHttpCacheInterceptor(new Map(), {})).toBeDefined();
   });

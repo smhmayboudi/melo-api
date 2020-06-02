@@ -1,10 +1,13 @@
-import { CallHandler, ExecutionContext } from "@nestjs/common";
 import {
+  AlbumResDto,
+  ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
-  DataImageResDto,
   PlaylistResDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
+import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppSongService } from "../app/app.song.service";
@@ -14,7 +17,6 @@ import { PlaylistLocalizeInterceptor } from "./playlist.localize.interceptor";
 import { of } from "rxjs";
 
 describe("PlaylistLocalizeInterceptor", () => {
-  const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
@@ -36,40 +38,63 @@ describe("PlaylistLocalizeInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
-  };
-  const songLocalized: SongResDto = {
-    ...song,
-    localized: true,
-  };
-  const image: DataImageResDto = {
+  const releaseDate = new Date();
+  const image: ConstImageResDto = {
     cover: {
       url:
-        "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
     },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
+    releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
+    title: "",
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
-    id: "",
+    id: "000000000000000000000000",
     image,
     isPublic: false,
     releaseDate,
     songs: [song],
     title: "",
-    tracksCount: 0,
+    tracksCount: 1,
   };
 
   const appSongServiceMock: AppSongServiceInterface = {
@@ -130,7 +155,12 @@ describe("PlaylistLocalizeInterceptor", () => {
       handle: jest.fn(() =>
         of({
           ...playlist,
-          songs: [songLocalized],
+          songs: [
+            {
+              ...song,
+              localized: true,
+            },
+          ],
         })
       ),
     };

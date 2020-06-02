@@ -129,15 +129,6 @@
         "tsConfigPath": "apps/const/tsconfig.app.json"
       }
     },
-    "data": {
-      "type": "application",
-      "root": "apps/data",
-      "entryFile": "main",
-      "sourceRoot": "apps/data/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/data/tsconfig.app.json"
-      }
-    },
     "download": {
       "type": "application",
       "root": "apps/download",

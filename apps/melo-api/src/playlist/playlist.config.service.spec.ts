@@ -16,6 +16,7 @@ describe("PlaylistConfigService", () => {
     imagePath: "",
     imagePathDefaultPlaylist: "",
   };
+
   // TODO: interface ?
   const configServiceMock = {
     get: (_propertyPath: string, defaultValue: any): any => defaultValue,

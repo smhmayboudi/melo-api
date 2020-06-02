@@ -20,13 +20,18 @@ describe("RelationService", () => {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
+  const to: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
     from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
+    to,
     type: RelationEdgeType.follows,
+  };
+  const entity: RelationEntityReqDto = {
+    id: 0,
+    type: RelationEntityType.user,
   };
 
   let service: RelationService;
@@ -34,8 +39,9 @@ describe("RelationService", () => {
   // TODO: interface ?
   const dgraphServiceMock = {
     client: {
-      newTxn: (): any => ({
-        queryWithVars: (): any =>
+      newTxn: () => ({
+        doRequest: () => Promise.resolve(undefined),
+        queryWithVars: () =>
           Promise.resolve({
             getJson: () => undefined,
           }),
@@ -59,10 +65,7 @@ describe("RelationService", () => {
 
   it("get should throw an error with result undefined", async () => {
     const dto: RelationGetReqDto = {
-      entity: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      entity,
       from: 0,
       size: 0,
       type: RelationEdgeType.follows,
@@ -74,8 +77,8 @@ describe("RelationService", () => {
     // TODO: interface ?
     const dgraphServiceMock = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 relates: [undefined],
@@ -94,10 +97,7 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationGetReqDto = {
-      entity: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      entity,
       from: 0,
       size: 0,
       type: RelationEdgeType.follows,
@@ -109,8 +109,8 @@ describe("RelationService", () => {
     // TODO: interface ?
     const dgraphServiceMock = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 relates: [
@@ -133,10 +133,7 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationGetReqDto = {
-      entity: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      entity,
       from: 0,
       size: 0,
       type: RelationEdgeType.follows,
@@ -148,8 +145,8 @@ describe("RelationService", () => {
     // TODO: interface ?
     const dgraphServiceMock = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 relates: [
@@ -157,7 +154,7 @@ describe("RelationService", () => {
                     count: 1,
                     follows: [
                       {
-                        id: `${from.type}_${from.id}`,
+                        id: `${to.type}_${to.id}`,
                       },
                     ],
                   },
@@ -177,23 +174,20 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationGetReqDto = {
-      entity: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      entity,
       from: 0,
       size: 0,
       type: RelationEdgeType.follows,
     };
-    expect(await service.get(dto)).toEqual([relationMultiHas]);
+    expect(await service.get(dto)).toEqual([relation]);
   });
 
   it("has should be equal to a value", async () => {
     // TODO: interface ?
     const dgraphServiceMocK = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 hasRelate: [
@@ -221,14 +215,8 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationHasReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
     expect(await service.has(dto)).toEqual(dto);
@@ -238,8 +226,8 @@ describe("RelationService", () => {
     // TODO: interface ?
     const dgraphServiceMocK = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 hasRelate: [{}],
@@ -258,14 +246,8 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationHasReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
     expect(await service.has(dto)).toBeUndefined();
@@ -275,8 +257,8 @@ describe("RelationService", () => {
     // TODO: interface ?
     const dgraphServiceMock = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 hasRelate: [undefined],
@@ -295,16 +277,8 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationMultiHasReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      tos: [
-        {
-          id: 0,
-          type: RelationEntityType.user,
-        },
-      ],
+      from,
+      tos: [entity],
       type: RelationEdgeType.follows,
     };
     expect(await service.multiHas(dto)).toEqual([]);
@@ -314,8 +288,8 @@ describe("RelationService", () => {
     // TODO: interface ?
     const dgraphServiceMock = {
       client: {
-        newTxn: (): any => ({
-          queryWithVars: (): any =>
+        newTxn: () => ({
+          queryWithVars: () =>
             Promise.resolve({
               getJson: () => ({
                 hasRelate: [
@@ -323,7 +297,7 @@ describe("RelationService", () => {
                     count: 1,
                     follows: [
                       {
-                        id: `${from.type}_${from.id}`,
+                        id: `${to.type}_${to.id}`,
                       },
                     ],
                   },
@@ -343,169 +317,64 @@ describe("RelationService", () => {
     service = module.get<RelationService>(RelationService);
 
     const dto: RelationMultiHasReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      tos: [
-        {
-          id: 0,
-          type: RelationEntityType.user,
-        },
-      ],
+      from,
+      tos: [entity],
       type: RelationEdgeType.follows,
     };
-    expect(await service.multiHas(dto)).toEqual([relationMultiHas]);
+    expect(await service.multiHas(dto)).toEqual([relation]);
   });
 
   it("remove should be equal to a value", async () => {
-    // TODO: interface ?
-    const dgraphServiceMock = {
-      client: {
-        newTxn: (): any => ({
-          doRequest: (): any => Promise.resolve(undefined),
-        }),
-      },
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        RelationService,
-        { provide: DgraphService, useValue: dgraphServiceMock },
-      ],
-    }).compile();
-    service = module.get<RelationService>(RelationService);
-
     const dto: RelationRemoveReqDto = {
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
-    expect(await service.remove(dto)).toEqual({
-      from: dto.from,
-      to: dto.to,
-      type: dto.type,
-    });
+    expect(await service.remove(dto)).toEqual(relation);
   });
 
   it("remove should be equal to a value 2", async () => {
-    // TODO: interface ?
-    const dgraphServiceMock = {
-      client: {
-        newTxn: (): any => ({
-          doRequest: (): any => Promise.resolve(undefined),
-        }),
-      },
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        RelationService,
-        { provide: DgraphService, useValue: dgraphServiceMock },
-      ],
-    }).compile();
-
-    service = module.get<RelationService>(RelationService);
-
     const dto: RelationRemoveReqDto = {
-      from: {
-        id: 0,
-        name: "",
-        type: RelationEntityType.album,
-      },
-      to: {
-        id: 0,
-        name: "",
-        type: RelationEntityType.album,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
-    expect(await service.remove(dto)).toEqual({
-      from: dto.from,
-      to: dto.to,
-      type: dto.type,
-    });
+    expect(await service.remove(dto)).toEqual(relation);
   });
 
   it("set should be equal to a value", async () => {
-    // TODO: interface ?
-    const dgraphServiceMock = {
-      client: {
-        newTxn: (): any => ({
-          doRequest: (): any => Promise.resolve(undefined),
-        }),
-      },
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        RelationService,
-        { provide: DgraphService, useValue: dgraphServiceMock },
-      ],
-    }).compile();
-    service = module.get<RelationService>(RelationService);
-
     const dto: RelationSetReqDto = {
       createdAt: date,
-      from: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: 0,
-        type: RelationEntityType.user,
-      },
+      from,
+      to,
       type: RelationEdgeType.follows,
     };
-    expect(await service.set(dto)).toEqual({
-      from: dto.from,
-      to: dto.to,
-      type: dto.type,
-    });
+    expect(await service.set(dto)).toEqual(relation);
   });
 
   it("set should be equal to a value 2", async () => {
-    // TODO: interface ?
-    const dgraphServiceMock = {
-      client: {
-        newTxn: (): any => ({
-          doRequest: (): any => Promise.resolve(undefined),
-        }),
-      },
-    };
-
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        RelationService,
-        { provide: DgraphService, useValue: dgraphServiceMock },
-      ],
-    }).compile();
-    service = module.get<RelationService>(RelationService);
-
     const dto: RelationSetReqDto = {
       createdAt: date,
       from: {
-        id: 0,
+        ...from,
         name: "",
-        type: RelationEntityType.album,
       },
       to: {
-        id: 0,
+        ...to,
         name: "",
-        type: RelationEntityType.album,
       },
       type: RelationEdgeType.follows,
     };
     expect(await service.set(dto)).toEqual({
-      from: dto.from,
-      to: dto.to,
-      type: dto.type,
+      from: {
+        ...from,
+        name: "",
+      },
+      to: {
+        ...to,
+        name: "",
+      },
+      type: RelationEdgeType.follows,
     });
   });
 });

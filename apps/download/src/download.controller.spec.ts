@@ -1,4 +1,7 @@
 import {
+  AlbumResDto,
+  ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
@@ -6,6 +9,7 @@ import {
   DownloadOrderByType,
   DownloadSongReqDto,
   DownloadSongResDto,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -33,35 +37,68 @@ describe("DownloadController", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
   const releaseDate = new Date();
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
     id: 0,
-    localized: false,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
     releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
     title: "",
   };
   const downloadSong: DownloadSongResDto = {
     downloadedAt: releaseDate,
     song,
   };
+
   const downloadServiceMock: DownloadServiceInterface = {
     downloadedSongs: (): Promise<DownloadSongResDto[]> =>
       Promise.resolve([downloadSong]),

@@ -1,6 +1,6 @@
-import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
+import { ConstImageResDto } from "../../../const/dto/res/const.image.res.dto";
 
 export class ConstImagesResDto {
   // TODO: readonly
-  [key: string]: DataImageResDto;
+  [key: string]: ConstImageResDto;
 }

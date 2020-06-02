@@ -247,8 +247,4 @@ describe("JwtStrategy", () => {
       sub: "",
     });
   });
-
-  it.todo("if (jwksEntity === undefined)");
-  it.todo("else");
-  it.todo("catch (error)");
 });

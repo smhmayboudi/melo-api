@@ -4,11 +4,14 @@ import {
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataImageResDto,
-  PlaylistResDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
+  DataSearchType,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -37,57 +40,136 @@ describe("DataAlbumService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
-  const releaseDate = new Date();
-  const artist: ArtistResDto = {
-    followersCount: 0,
+  const artistElastic: DataElasticsearchArtistResDto = {
+    available: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    followers_count: 0,
+    full_name: "",
+    has_cover: false,
     id: 0,
+    popular: false,
+    sum_downloads_count: 1,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
     type: DataArtistType.prime,
   };
-  const image: DataImageResDto = {
+  const releaseDate = new Date();
+  const searchElastic: DataElasticsearchSearchResDto = {
+    album: "",
+    album_downloads_count: 0,
+    album_id: 0,
+    album_tracks_count: 0,
+    artist_followers_count: 0,
+    artist_full_name: "",
+    artist_id: 0,
+    artist_sum_downloads_count: 1,
+    artists: [artistElastic],
+    copyright: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    downloads_count: 0,
+    duration: 0,
+    has_cover: false,
+    has_video: false,
+    id: 0,
+    localize: false,
+    lyrics: "",
+    max_audio_rate: 0,
+    release_date: releaseDate,
+    suggested: 0,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
+    title: "",
+    type: DataSearchType.album,
+    unique_name: "",
+  };
+  // TODO: interface ?
+  const elasticGetRes = {
+    body: {
+      _source: {
+        ...searchElastic,
+        moods: {
+          classy: 0,
+        },
+      },
+    },
+  };
+  // TODO: interface ?
+  const elasticSearchRes = {
+    body: {
+      hits: {
+        hits: [
+          {
+            _source: searchElastic,
+          },
+        ],
+      },
+    },
+  };
+  const image: ConstImageResDto = {
     cover: {
       url:
-        "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
+    releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
     },
   };
   const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
     duration: 0,
+    hasVideo: false,
     id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
-  };
-  const playlist: PlaylistResDto = {
-    followersCount: 0,
-    id: "000000000000000000000000",
     image,
-    isPublic: false,
+    localized: false,
+    lyrics: "",
     releaseDate,
-    songs: [song],
+    tags: [""],
     title: "",
-    tracksCount: 1,
   };
-  const album: AlbumResDto = {
-    name: "",
-    releaseDate,
-    songs: [song],
-  };
+
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
     imageBaseUrl: "",
@@ -117,38 +199,6 @@ describe("DataAlbumService", () => {
     typeormSynchronize: true,
     typeormUsername: "",
   };
-  // TODO: interface ?
-  const elasticSearchRes = {
-    body: {
-      hits: {
-        hits: [
-          {
-            _source: {
-              album: "",
-              artist_followers_count: 0,
-              artist_full_name: "",
-              artist_id: 0,
-              artists: [
-                {
-                  available: false,
-                  followers_count: 0,
-                  full_name: "",
-                  has_cover: false,
-                  id: 0,
-                  popular: false,
-                  sum_downloads_count: 0,
-                  type: DataArtistType,
-                },
-              ],
-              duration: 0,
-              max_audio_rate: 0,
-              release_date: releaseDate,
-            },
-          },
-        ],
-      },
-    },
-  };
   const dataSongServiceMock: DataSongServiceInterface = {
     albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
     artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
@@ -169,13 +219,12 @@ describe("DataAlbumService", () => {
   const dataTransformServiceMock: DataTransformServiceInterface = {
     album: (): Promise<AlbumResDto> => Promise.resolve(album),
     artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    playlist: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
     song: (): Promise<SongResDto> => Promise.resolve(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
-    get: (): Promise<any> => Promise.resolve(elasticSearchRes),
-    search: (): Promise<any> => Promise.resolve(elasticSearchRes),
+    get: () => Promise.resolve(elasticGetRes),
+    search: () => Promise.resolve(elasticSearchRes),
   };
 
   let service: DataAlbumService;
@@ -199,7 +248,10 @@ describe("DataAlbumService", () => {
       dataConfigImage,
       id: 0,
     };
-    expect(await service.get(dto)).toEqual(album);
+    expect(await service.get(dto)).toEqual({
+      ...album,
+      songs: [song],
+    });
   });
 
   it("albums should equal list of albums", async () => {

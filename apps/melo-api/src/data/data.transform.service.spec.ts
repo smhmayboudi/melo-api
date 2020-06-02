@@ -1,13 +1,14 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
   DataElasticsearchArtistResDto,
   DataElasticsearchSearchResDto,
-  DataImageResDto,
   DataSearchType,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -17,8 +18,6 @@ import { DataImageServiceInterface } from "./data.image.service.interface";
 import { DataSongService } from "./data.song.service";
 import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataTransformService } from "./data.transform.service";
-
-"apps/data/src/data.song.service";
 
 describe("DataTransformService", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -35,39 +34,14 @@ describe("DataTransformService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
-  };
-  const releaseDate = new Date();
-  const image: DataImageResDto = {
-    "": {
-      url: "",
-    },
-  };
-  const artist: ArtistResDto = {
-    followersCount: 0,
-    fullName: "",
-    id: 0,
-    image,
-    sumSongsDownloadsCount: 1,
-    tags: [""],
-    type: DataArtistType.prime,
-  };
-  const album: AlbumResDto = {
-    artists: [artist],
-    downloadCount: 0,
-    id: 0,
-    image,
-    name: "",
-    releaseDate,
-    tags: [""],
-    tracksCount: 0,
   };
   const artistElastic: DataElasticsearchArtistResDto = {
     available: false,
@@ -86,6 +60,7 @@ describe("DataTransformService", () => {
     ],
     type: DataArtistType.prime,
   };
+  const releaseDate = new Date();
   const searchElastic: DataElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
@@ -118,15 +93,41 @@ describe("DataTransformService", () => {
     type: DataSearchType.album,
     unique_name: "",
   };
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
+    releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
   const song: SongResDto = {
     album,
     artists: [artist],
-    audio: {
-      medium: {
-        fingerprint: "",
-        url: "-0.mp3",
-      },
-    },
+    audio,
     copyrighted: false,
     downloadCount: 0,
     duration: 0,
@@ -141,10 +142,11 @@ describe("DataTransformService", () => {
   };
 
   const dataImageServiceMock: DataImageServiceInterface = {
-    generateUrl: (): Promise<DataImageResDto> =>
+    generateUrl: (): Promise<ConstImageResDto> =>
       Promise.resolve({
-        "": {
-          url: "",
+        cover: {
+          url:
+            "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
         },
       }),
   };
@@ -218,10 +220,6 @@ describe("DataTransformService", () => {
     });
   });
 
-  it("song should be equal to a song", async () => {
-    expect(await service.song(searchElastic)).toEqual(song);
-  });
-
   it("song should be equal to a song 2", async () => {
     expect(
       await service.song({
@@ -232,7 +230,10 @@ describe("DataTransformService", () => {
       })
     ).toEqual({
       ...song,
-      album: { ...album, tags: undefined },
+      album: {
+        ...album,
+        tags: undefined,
+      },
       tags: undefined,
     });
   });
@@ -243,9 +244,21 @@ describe("DataTransformService", () => {
         ...searchElastic,
         has_cover: true,
         localize: true,
+        max_audio_rate: 320,
       })
     ).toEqual({
       ...song,
+      audio: {
+        ...audio,
+        high: {
+          fingerprint: "",
+          url: "-320.mp3",
+        },
+        medium: {
+          ...audio.medium,
+          url: "-128.mp3",
+        },
+      },
       localized: true,
     });
   });

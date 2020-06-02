@@ -111,7 +111,7 @@ describe("PromUtil", () => {
     expect(
       makeDefaultOptions({
         defaultLabels: {
-          test: "test",
+          "": "",
         },
         defaultMetrics: {
           config: {
@@ -126,7 +126,7 @@ describe("PromUtil", () => {
       })
     ).toEqual({
       defaultLabels: {
-        test: "test",
+        "": "",
       },
       defaultMetrics: {
         config: {

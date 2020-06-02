@@ -38,6 +38,7 @@ export class DataElasticsearchSearchResDto {
     downloads_count?: number,
     has_cover?: boolean,
     has_video?: boolean,
+    key?: string,
     localize?: boolean,
     lyrics?: string,
     suggested?: number,
@@ -65,6 +66,7 @@ export class DataElasticsearchSearchResDto {
     this.downloads_count = downloads_count;
     this.has_cover = has_cover;
     this.has_video = has_video;
+    this.key = key;
     this.localize = localize;
     this.lyrics = lyrics;
     this.suggested = suggested;
@@ -227,6 +229,14 @@ export class DataElasticsearchSearchResDto {
   @IsOptional()
   @IsBoolean()
   readonly has_video?: boolean;
+
+  @ApiProperty({
+    description: "the key",
+    example: "abcdef",
+  })
+  @IsOptional()
+  @IsString()
+  readonly key?: string;
 
   @ApiProperty({
     description: "song localized",

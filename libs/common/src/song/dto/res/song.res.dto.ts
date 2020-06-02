@@ -11,7 +11,7 @@ import {
 import { AlbumResDto } from "../../../album/dto/res/album.res.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { ArtistResDto } from "../../../artist/dto/res/artist.res.dto";
-import { DataImageResDto } from "../../../data/dto/res/data.image.res.dto";
+import { ConstImageResDto } from "../../../const/dto/res/const.image.res.dto";
 import { SongAudioResDto } from "./song.audio.res.dto";
 import { Type } from "class-transformer";
 
@@ -28,7 +28,7 @@ export class SongResDto {
     copyrighted?: boolean,
     downloadCount?: number,
     hasVideo?: boolean,
-    image?: DataImageResDto,
+    image?: ConstImageResDto,
     likeCount?: number,
     liked?: boolean,
     lyrics?: string,
@@ -144,9 +144,9 @@ export class SongResDto {
     description: "The image",
   })
   @IsOptional()
-  @Type(() => DataImageResDto)
+  @Type(() => ConstImageResDto)
   @ValidateNested()
-  readonly image?: DataImageResDto;
+  readonly image?: ConstImageResDto;
 
   @ApiProperty({
     description: "The count of like",

@@ -1,6 +1,6 @@
+import { ALBUM_SERVICE, ARTIST_SERVICE, SONG_SERVICE } from "@melo/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
-import { DATA_SERVICE } from "@melo/common";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { Module } from "@nestjs/common";
 import { SearchController } from "./search.controller";
@@ -11,9 +11,23 @@ import { SearchService } from "./search.service";
   imports: [
     ClientsModule.register([
       {
-        name: DATA_SERVICE,
+        name: ALBUM_SERVICE,
         options: {
-          url: process.env.DATA_SERVICE_URL,
+          url: process.env.ALBUM_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+      {
+        name: ARTIST_SERVICE,
+        options: {
+          url: process.env.ARTIST_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+      {
+        name: SONG_SERVICE,
+        options: {
+          url: process.env.SONG_SERVICE_URL,
         },
         transport: Transport.REDIS,
       },

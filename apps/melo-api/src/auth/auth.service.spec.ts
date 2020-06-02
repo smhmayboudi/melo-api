@@ -99,9 +99,8 @@ describe("AuthService", () => {
   });
 
   it("accessToken should throw an error", async () => {
-    const jwksServiceMock: JwksServiceInterface = {
-      findOne: (): Promise<JwksResDto | undefined> =>
-        Promise.resolve(jwksEntity),
+    const jwksServiceMockGetOneRandom: JwksServiceInterface = {
+      ...jwksServiceMock,
       getOneRandom: (): Promise<JwksResDto | undefined> =>
         Promise.resolve(undefined),
     };
@@ -110,7 +109,7 @@ describe("AuthService", () => {
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: JwksService, useValue: jwksServiceMock },
+        { provide: JwksService, useValue: jwksServiceMockGetOneRandom },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: RtService, useValue: rtServiceMock },
       ],
@@ -155,9 +154,8 @@ describe("AuthService", () => {
   });
 
   it("refreshToken should throw an error", async () => {
-    const jwksServiceMock: JwksServiceInterface = {
-      findOne: (): Promise<JwksResDto | undefined> =>
-        Promise.resolve(jwksEntity),
+    const jwksServiceMockGetOneRandom: JwksServiceInterface = {
+      ...jwksServiceMock,
       getOneRandom: (): Promise<JwksResDto | undefined> =>
         Promise.resolve(undefined),
     };
@@ -166,7 +164,7 @@ describe("AuthService", () => {
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: JwksService, useValue: jwksServiceMock },
+        { provide: JwksService, useValue: jwksServiceMockGetOneRandom },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: RtService, useValue: rtServiceMock },
       ],

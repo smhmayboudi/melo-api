@@ -1,7 +1,7 @@
 import {
-  SongAlbumReqDto,
+  SongAlbumSongsReqDto,
+  SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
-  SongArtistsReqDto,
   SongGenreReqDto,
   SongGetByIdsReqDto,
   SongGetReqDto,
@@ -18,8 +18,8 @@ import {
 } from "@melo/common";
 
 export interface DataSongServiceInterface {
-  albumSongs(dto: SongAlbumReqDto): Promise<SongResDto[]>;
-  artistSongs(dto: SongArtistsReqDto): Promise<SongResDto[]>;
+  albumSongs(dto: SongAlbumSongsReqDto): Promise<SongResDto[]>;
+  artistSongs(dto: SongArtistSongsReqDto): Promise<SongResDto[]>;
   artistSongsTop(dto: SongArtistSongsTopReqDto): Promise<SongResDto[]>;
   genre(dto: SongGenreReqDto): Promise<SongResDto[]>;
   get(dto: SongGetReqDto): Promise<SongResDto>;

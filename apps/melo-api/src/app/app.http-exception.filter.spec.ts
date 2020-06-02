@@ -13,8 +13,8 @@ describe("HttpExceptionFilter", () => {
       },
     })),
     getResponse: jest.fn().mockImplementation(() => ({
-      status: (): unknown => ({
-        json: (): unknown => ({}),
+      status: () => ({
+        json: () => ({}),
       }),
     })),
   };

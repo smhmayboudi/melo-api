@@ -22,16 +22,19 @@ export class PlaylistLikeInterceptor implements NestInterceptor {
   transform = async (
     dto: PlaylistResDto,
     sub: string
-  ): Promise<PlaylistResDto> => ({
-    ...dto,
-    songs:
+  ): Promise<PlaylistResDto> => {
+    const songs =
       dto.songs === undefined
         ? undefined
         : await this.appSongService.likes({
             songs: dto.songs,
             sub: parseInt(sub, 10),
-          }),
-  });
+          });
+    return {
+      ...dto,
+      songs,
+    };
+  };
 
   intercept(
     context: ExecutionContext,

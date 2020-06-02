@@ -1,4 +1,11 @@
-import { ArtistResDto, DataArtistType, SongResDto } from "@melo/common";
+import {
+  AlbumResDto,
+  ArtistResDto,
+  ConstImageResDto,
+  DataArtistType,
+  SongAudioResDto,
+  SongResDto,
+} from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -9,7 +16,6 @@ import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { of } from "rxjs";
 
 describe("ArtistLikeInterceptor", () => {
-  const releaseDate = new Date();
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
@@ -31,26 +37,53 @@ describe("ArtistLikeInterceptor", () => {
     switchToRpc: jest.fn(),
     switchToWs: jest.fn(),
   };
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
-    id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
+  const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
   };
   const artist: ArtistResDto = {
     followersCount: 0,
+    fullName: "",
     id: 0,
-    songs: [song],
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
     type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
+    releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
+    title: "",
   };
 
   const appSongServiceMock: AppSongServiceInterface = {
@@ -95,7 +128,7 @@ describe("ArtistLikeInterceptor", () => {
     expect(httpArgumentsHostUserSubZero.getRequest).toHaveBeenCalled();
   });
 
-  it("intercept should be called data: single artist", () => {
+  it("intercept should be called songs: undefined", () => {
     const callHandler: CallHandler = {
       handle: jest.fn(() => of(artist)),
     };
@@ -106,14 +139,9 @@ describe("ArtistLikeInterceptor", () => {
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
   });
 
-  it("intercept should be called songs undefined", () => {
+  it("intercept should be called data: single artist", () => {
     const callHandler: CallHandler = {
-      handle: jest.fn(() =>
-        of({
-          ...artist,
-          songs: undefined,
-        })
-      ),
+      handle: jest.fn(() => of({ ...artist, songs: [song] })),
     };
     new ArtistLikeInterceptor(service)
       .intercept(executionContext, callHandler)

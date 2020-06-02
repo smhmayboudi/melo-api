@@ -3,8 +3,14 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
+  ArtistResDto,
+  ConstImageResDto,
+  DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
+  DataSearchType,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
 
@@ -27,24 +33,47 @@ describe("AlbumController", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
   const releaseDate = new Date();
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
   const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
     name: "",
     releaseDate,
+    tags: [""],
+    tracksCount: 0,
   };
+
   const albumServiceMock: AlbumServiceInterface = {
     albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
     get: (): Promise<AlbumResDto> => Promise.resolve(album),
     latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
+    transform: (): Promise<AlbumResDto> => Promise.resolve(album),
   };
 
   let controller: AlbumController;
@@ -90,5 +119,57 @@ describe("AlbumController", () => {
       size: 0,
     };
     expect(await controller.latest(dto)).toEqual([album]);
+  });
+
+  it("transform should be equal to a DataAlbumResDto", async () => {
+    const artistElastic: DataElasticsearchArtistResDto = {
+      available: false,
+      dataConfigElasticsearch,
+      dataConfigImage,
+      followers_count: 0,
+      full_name: "",
+      has_cover: false,
+      id: 0,
+      popular: false,
+      sum_downloads_count: 1,
+      tags: [
+        {
+          tag: "",
+        },
+      ],
+      type: DataArtistType.prime,
+    };
+    const dto: DataElasticsearchSearchResDto = {
+      album: "",
+      album_downloads_count: 0,
+      album_id: 0,
+      album_tracks_count: 0,
+      artist_followers_count: 0,
+      artist_full_name: "",
+      artist_id: 0,
+      artist_sum_downloads_count: 1,
+      artists: [artistElastic],
+      copyright: false,
+      dataConfigElasticsearch,
+      dataConfigImage,
+      downloads_count: 0,
+      duration: 0,
+      has_cover: false,
+      has_video: false,
+      id: 0,
+      localize: false,
+      lyrics: "",
+      max_audio_rate: 0,
+      release_date: releaseDate,
+      tags: [
+        {
+          tag: "",
+        },
+      ],
+      title: "",
+      type: DataSearchType.album,
+      unique_name: "",
+    };
+    expect(await controller.transform(dto)).toEqual(album);
   });
 });

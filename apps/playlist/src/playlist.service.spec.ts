@@ -1,9 +1,11 @@
 import {
-  DATA_SERVICE,
+  AlbumResDto,
+  ArtistResDto,
+  CONST_SERVICE,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
-  DataImageResDto,
   PLAYLIST,
   PlaylistAddSongReqDto,
   PlaylistConfigReqDto,
@@ -15,6 +17,8 @@ import {
   PlaylistRemoveSongReqDto,
   PlaylistResDto,
   PlaylistTopReqDto,
+  SONG_SERVICE,
+  SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 import { Test, TestingModule } from "@nestjs/testing";
@@ -42,41 +46,66 @@ describe("PlaylistService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
   };
   const releaseDate = new Date();
-  const playlistId = "000000000000000000000000";
-  const image: DataImageResDto = {
+  const image: ConstImageResDto = {
     cover: {
       url:
-        "3jr-WvcF601FGlXVSkFCJIJ7A4J2z4rtTcTK_UXHi58/rs:fill:1024:1024:1/dpr:1/",
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
+    releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
     },
   };
   const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
     duration: 0,
+    hasVideo: false,
     id: 0,
+    image,
     localized: false,
+    lyrics: "",
     releaseDate,
+    tags: [""],
     title: "",
   };
   const playlist: PlaylistResDto = {
     followersCount: 0,
-    id: playlistId,
+    id: "000000000000000000000000",
     image,
     isPublic: false,
     releaseDate,
@@ -84,6 +113,7 @@ describe("PlaylistService", () => {
     title: "",
     tracksCount: 1,
   };
+  const playlistId = "000000000000000000000000";
   const playlistPure: PlaylistResDto = {
     ...playlist,
     songs: undefined,
@@ -102,12 +132,13 @@ describe("PlaylistService", () => {
     tracks_count: 1,
   };
 
-  const dataClientProxyMock = {
-    send: (_token: string, dto: any) => {
-      // console.log(dto.songs_ids.length);
-
-      return dto.songs_ids.length === 0 ? of(playlistPure) : of(playlist);
-    },
+  // TODO: interface ?
+  const constClientProxyMock = {
+    send: () => of(image),
+  };
+  // TODO: interface ?
+  const songClientProxyMock = {
+    send: () => of([song]),
   };
   // TODO: interface ?
   const playlistModelMock = {
@@ -148,7 +179,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         { provide: getModelToken(PLAYLIST), useValue: playlistModelMock },
       ],
     }).compile();
@@ -179,7 +211,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -209,7 +242,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         { provide: getModelToken(PLAYLIST), useValue: playlistModelMockCreate },
       ],
     }).compile();
@@ -233,7 +267,7 @@ describe("PlaylistService", () => {
       id: playlistId,
       sub: 1,
     };
-    expect(await service.delete(dto)).toEqual(playlist);
+    expect(await service.delete(dto)).toEqual(playlistPure);
   });
 
   it("delete should be equal to a playlist 2", async () => {
@@ -245,7 +279,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindOne,
@@ -275,7 +310,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockDeleteOne,
@@ -313,7 +349,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -346,7 +383,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -385,7 +423,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,
@@ -435,7 +474,8 @@ describe("PlaylistService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         PlaylistService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
           useValue: playlistModelMockFindById,

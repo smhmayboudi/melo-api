@@ -1,17 +1,29 @@
 import {
-  DATA_SERVICE,
-  DATA_SONG_SERVICE_GET,
+  ALBUM_SERVICE,
+  ARTIST_SERVICE,
+  AlbumResDto,
+  ArtistResDto,
+  CONST_SERVICE,
+  ConstImageResDto,
   DataArtistType,
   DataConfigElasticsearchReqDto,
   DataConfigImageReqDto,
+  DataElasticsearchArtistResDto,
+  DataElasticsearchSearchResDto,
+  DataSearchType,
   RELATION_SERVICE,
   RELATION_SERVICE_GET,
   RelationEdgeType,
   RelationEntityReqDto,
   RelationEntityType,
   RelationResDto,
+  SONG_TYPEORM,
+  SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
+  SongAudioResDto,
   SongConfigReqDto,
+  SongGenreReqDto,
+  SongGetByIdsReqDto,
   SongGetReqDto,
   SongLanguageReqDto,
   SongLikeReqDto,
@@ -20,12 +32,11 @@ import {
   SongNewPodcastReqDto,
   SongNewReqDto,
   SongOrderByType,
-  SongPodcastGenresReqDto,
+  SongPodcastReqDto,
   SongResDto,
   SongSendTelegramReqDto,
   SongSimilarReqDto,
   SongSliderReqDto,
-  SongSongGenresReqDto,
   SongTopDayReqDto,
   SongTopWeekReqDto,
   SongUnlikeReqDto,
@@ -36,8 +47,12 @@ import { Observable, of } from "rxjs";
 import { Test, TestingModule } from "@nestjs/testing";
 
 import { AxiosResponse } from "axios";
+import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { HttpService } from "@nestjs/common";
+import { SongCacheEntity } from "./song.cache.entity";
 import { SongService } from "./song.service";
+import { SongSiteEntity } from "./song.site.entity";
+import { getRepositoryToken } from "@nestjs/typeorm";
 
 describe("SongService", () => {
   const config: SongConfigReqDto = {
@@ -58,57 +73,185 @@ describe("SongService", () => {
     imageEncode: true,
     imageKey: "",
     imageSalt: "",
-    imageSignatureSize: 1,
+    imageSignatureSize: 32,
     imageTypeSize: [
       {
-        height: 0,
-        name: "",
-        width: 0,
+        height: 1024,
+        name: "cover",
+        width: 1024,
       },
     ],
+  };
+  const artistElastic: DataElasticsearchArtistResDto = {
+    available: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    followers_count: 0,
+    full_name: "",
+    has_cover: false,
+    id: 0,
+    popular: false,
+    sum_downloads_count: 1,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
+    type: DataArtistType.prime,
+  };
+  const releaseDate = new Date();
+  const searchElastic: DataElasticsearchSearchResDto = {
+    album: "",
+    album_downloads_count: 0,
+    album_id: 0,
+    album_tracks_count: 0,
+    artist_followers_count: 0,
+    artist_full_name: "",
+    artist_id: 0,
+    artist_sum_downloads_count: 1,
+    artists: [artistElastic],
+    copyright: false,
+    dataConfigElasticsearch,
+    dataConfigImage,
+    downloads_count: 0,
+    duration: 0,
+    has_cover: false,
+    has_video: false,
+    id: 0,
+    localize: false,
+    lyrics: "",
+    max_audio_rate: 0,
+    release_date: releaseDate,
+    suggested: 0,
+    tags: [
+      {
+        tag: "",
+      },
+    ],
+    title: "",
+    type: DataSearchType.album,
+    unique_name: "",
+  };
+  // TODO: interface ?
+  const elasticGetRes = {
+    body: {
+      _source: {
+        ...searchElastic,
+        moods: {
+          classy: 0,
+        },
+      },
+    },
+  };
+  // TODO: interface ?
+  const elasticSearchRes = {
+    body: {
+      hits: {
+        hits: [
+          {
+            _source: searchElastic,
+          },
+        ],
+      },
+    },
+  };
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    },
+  };
+  const artist: ArtistResDto = {
+    followersCount: 0,
+    fullName: "",
+    id: 0,
+    image,
+    sumSongsDownloadsCount: 1,
+    tags: [""],
+    type: DataArtistType.prime,
+  };
+  const album: AlbumResDto = {
+    artists: [artist],
+    downloadCount: 0,
+    id: 0,
+    image,
+    name: "",
+    releaseDate,
+    tags: [""],
+    tracksCount: 0,
+  };
+  const audio: SongAudioResDto = {
+    medium: {
+      fingerprint: "",
+      url: "-0.mp3",
+    },
+  };
+  const song: SongResDto = {
+    album,
+    artists: [artist],
+    audio,
+    copyrighted: false,
+    downloadCount: 0,
+    duration: 0,
+    hasVideo: false,
+    id: 0,
+    image,
+    localized: false,
+    lyrics: "",
+    releaseDate,
+    tags: [""],
+    title: "",
   };
   const from: RelationEntityReqDto = {
     id: 0,
     type: RelationEntityType.user,
   };
-  const relationMultiHas: RelationResDto = {
-    from,
-    to: {
-      id: 0,
-      type: RelationEntityType.user,
-    },
-    type: RelationEdgeType.follows,
-  };
-  const releaseDate = new Date();
-  const song: SongResDto = {
-    artists: [
-      {
-        followersCount: 0,
-        id: 0,
-        type: DataArtistType.feat,
-      },
-    ],
-    audio: {},
-    duration: 0,
+  const to: RelationEntityReqDto = {
     id: 0,
-    localized: false,
-    releaseDate,
-    title: "",
+    type: RelationEntityType.album,
+  };
+  const relation: RelationResDto = {
+    from,
+    to,
+    type: RelationEdgeType.follows,
   };
   const user: UserResDto = {
     id: 0,
     telegram_id: 0,
   };
+  const dataCache: SongCacheEntity = {
+    date: releaseDate,
+    id: 0,
+    name: "",
+    result: `[{ "id": 0, "type": "${DataSearchType.song}" }]`,
+  };
+  const songSite: SongSiteEntity = {
+    created_at: releaseDate,
+    song_id: 0,
+  };
 
   // TODO: interface ?
-  const dataClientProxyMock = {
-    send: (token: string) =>
-      token === DATA_SONG_SERVICE_GET ? of(song) : of([song]),
+  const albumClientProxyMock = {
+    send: () => of(album),
+  };
+  // TODO: interface ?
+  const artistClientProxyMock = {
+    send: () => of(artist),
+  };
+  // TODO: interface ?
+  const constClientProxyMock = {
+    send: () =>
+      of({
+        cover: {
+          url:
+            "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        },
+      }),
   };
   // TODO: interface ?
   const relationClientProxyMock = {
     send: (token: string) =>
-      token === RELATION_SERVICE_GET ? of([relationMultiHas]) : of(true),
+      token === RELATION_SERVICE_GET ? of([relation]) : of(true),
   };
   // TODO: interface ?
   const userClientProxyMock = {
@@ -125,6 +268,31 @@ describe("SongService", () => {
         statusText: "",
       }),
   };
+  // TODO: interface ?
+  const songCacheEntityRepositoryMock = {
+    createQueryBuilder: (): any => ({
+      where: (): any => ({
+        orderBy: (): any => ({
+          limit: (): any => ({
+            getOne: (): Promise<SongCacheEntity> => Promise.resolve(dataCache),
+          }),
+        }),
+      }),
+    }),
+  };
+  // TODO: interface ?
+  const songSiteEntityRepositoryMock = {
+    createQueryBuilder: (): any => ({
+      orderBy: (): any => ({
+        getMany: (): Promise<SongSiteEntity[]> => Promise.resolve([songSite]),
+      }),
+    }),
+  };
+  // TODO: interface ?
+  const elasticsearchServiceMock = {
+    get: () => Promise.resolve(elasticGetRes),
+    search: () => Promise.resolve(elasticSearchRes),
+  };
 
   let service: SongService;
 
@@ -132,10 +300,21 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
+        {
+          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          useValue: songCacheEntityRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          useValue: songSiteEntityRepositoryMock,
+        },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
@@ -143,6 +322,15 @@ describe("SongService", () => {
 
   it("should be defined", () => {
     expect(service).toBeDefined();
+  });
+
+  it("albumSongs should be equal to a list of songs", async () => {
+    const dto: SongAlbumSongsReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      id: 0,
+    };
+    expect(await service.albumSongs(dto)).toEqual([song]);
   });
 
   it("artistSongs should be equal to a list of songs", async () => {
@@ -167,13 +355,25 @@ describe("SongService", () => {
     expect(await service.artistSongsTop(dto)).toEqual([song]);
   });
 
-  it("genre should be equal to a list of songs", async () => {
-    const dto: SongSongGenresReqDto = {
+  it("genre should be equal to a list of songs, genre all", async () => {
+    const dto: SongGenreReqDto = {
       dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
-      genres: [""],
+      genres: ["all"],
       orderBy: SongOrderByType.downloads,
+      size: 0,
+    };
+    expect(await service.genre(dto)).toEqual([song]);
+  });
+
+  it("genre should be equal to a list of songs", async () => {
+    const dto: SongGenreReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      genres: [],
+      orderBy: SongOrderByType.release,
       size: 0,
     };
     expect(await service.genre(dto)).toEqual([song]);
@@ -186,6 +386,15 @@ describe("SongService", () => {
       id: 0,
     };
     expect(await service.get(dto)).toEqual(song);
+  });
+
+  it("getByIds should be equal to a list of songs", async () => {
+    const dto: SongGetByIdsReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      ids: [],
+    };
+    expect(await service.getByIds(dto)).toEqual([song]);
   });
 
   it("language should be equal to a list of songs", async () => {
@@ -234,10 +443,21 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
+        {
+          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          useValue: songCacheEntityRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          useValue: songSiteEntityRepositoryMock,
+        },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
@@ -269,9 +489,54 @@ describe("SongService", () => {
       dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
-      size: 0,
+      size: 1,
     };
     expect(await service.newPodcast(dto)).toEqual([song]);
+  });
+
+  it("newPodcast should be equal to a list of songs 2", async () => {
+    // TODO: interface ?
+    const songCacheEntityRepositoryMock = {
+      createQueryBuilder: (): any => ({
+        where: (): any => ({
+          orderBy: (): any => ({
+            limit: (): any => ({
+              getOne: () => Promise.resolve(undefined),
+            }),
+          }),
+        }),
+      }),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SongService,
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: HttpService, useValue: httpServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
+        {
+          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          useValue: songCacheEntityRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          useValue: songSiteEntityRepositoryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SongService>(SongService);
+
+    const dto: SongNewPodcastReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      size: 0,
+    };
+    expect(await service.newPodcast(dto)).toEqual([]);
   });
 
   it("newSong should be equal to a list of songs", async () => {
@@ -285,11 +550,23 @@ describe("SongService", () => {
   });
 
   it("podcast should be equal to a list of songs", async () => {
-    const dto: SongPodcastGenresReqDto = {
+    const dto: SongPodcastReqDto = {
       dataConfigElasticsearch,
       dataConfigImage,
       from: 0,
-      genres: [""],
+      genres: [],
+      orderBy: SongOrderByType.downloads,
+      size: 0,
+    };
+    expect(await service.podcast(dto)).toEqual([song]);
+  });
+
+  it("podcast should be equal to a list of songs genres all", async () => {
+    const dto: SongPodcastReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      genres: ["all"],
       orderBy: SongOrderByType.downloads,
       size: 0,
     };
@@ -317,10 +594,21 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
+        {
+          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          useValue: songCacheEntityRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          useValue: songSiteEntityRepositoryMock,
+        },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
@@ -341,10 +629,21 @@ describe("SongService", () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SongService,
-        { provide: DATA_SERVICE, useValue: dataClientProxyMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
+        {
+          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          useValue: songCacheEntityRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          useValue: songSiteEntityRepositoryMock,
+        },
       ],
     }).compile();
     service = module.get<SongService>(SongService);
@@ -366,6 +665,53 @@ describe("SongService", () => {
       size: 0,
     };
     expect(await service.similar(dto)).toEqual([song]);
+  });
+
+  it("similar should be equal to a list of songs 2", async () => {
+    // TODO: interface ?
+    const elasticGetRes = {
+      body: {
+        _source: searchElastic,
+      },
+    };
+    // TODO: interface ?
+    const elasticsearchServiceMockGet = {
+      ...elasticsearchServiceMock,
+      get: () => Promise.resolve(elasticGetRes),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        SongService,
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        {
+          provide: ElasticsearchService,
+          useValue: elasticsearchServiceMockGet,
+        },
+        { provide: HttpService, useValue: httpServiceMock },
+        { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
+        {
+          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          useValue: songCacheEntityRepositoryMock,
+        },
+        {
+          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          useValue: songSiteEntityRepositoryMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SongService>(SongService);
+    const dto: SongSimilarReqDto = {
+      dataConfigElasticsearch,
+      dataConfigImage,
+      from: 0,
+      id: 0,
+      size: 0,
+    };
+    expect(await service.similar(dto)).toEqual([]);
   });
 
   it("slider should be equal to a list of songs", async () => {
@@ -394,6 +740,49 @@ describe("SongService", () => {
       size: 0,
     };
     expect(await service.topWeek(dto)).toEqual([song]);
+  });
+
+  it("transform should be equal to a song 2", async () => {
+    expect(
+      await service.transform({
+        ...searchElastic,
+        localize: undefined,
+        tags: undefined,
+        title: undefined,
+      })
+    ).toEqual({
+      ...song,
+      album: {
+        ...album,
+        tags: [""],
+      },
+      tags: undefined,
+    });
+  });
+
+  it("transform should be equal to a song 3", async () => {
+    expect(
+      await service.transform({
+        ...searchElastic,
+        has_cover: true,
+        localize: true,
+        max_audio_rate: 320,
+      })
+    ).toEqual({
+      ...song,
+      audio: {
+        ...audio,
+        high: {
+          fingerprint: "",
+          url: "-320.mp3",
+        },
+        medium: {
+          ...audio.medium,
+          url: "-128.mp3",
+        },
+      },
+      localized: true,
+    });
   });
 
   it("unlike should be equal to a songs", async () => {
