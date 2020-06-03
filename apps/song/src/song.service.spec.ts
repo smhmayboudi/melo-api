@@ -17,7 +17,6 @@ import {
   RelationEntityReqDto,
   RelationEntityType,
   RelationResDto,
-  SONG_TYPEORM,
   SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongAudioResDto,
@@ -308,11 +307,11 @@ describe("SongService", () => {
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
-          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongCacheEntity),
           useValue: songCacheEntityRepositoryMock,
         },
         {
-          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongSiteEntity),
           useValue: songSiteEntityRepositoryMock,
         },
       ],
@@ -451,11 +450,11 @@ describe("SongService", () => {
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
-          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongCacheEntity),
           useValue: songCacheEntityRepositoryMock,
         },
         {
-          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongSiteEntity),
           useValue: songSiteEntityRepositoryMock,
         },
       ],
@@ -519,11 +518,11 @@ describe("SongService", () => {
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
-          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongCacheEntity),
           useValue: songCacheEntityRepositoryMock,
         },
         {
-          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongSiteEntity),
           useValue: songSiteEntityRepositoryMock,
         },
       ],
@@ -602,11 +601,11 @@ describe("SongService", () => {
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
-          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongCacheEntity),
           useValue: songCacheEntityRepositoryMock,
         },
         {
-          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongSiteEntity),
           useValue: songSiteEntityRepositoryMock,
         },
       ],
@@ -637,11 +636,11 @@ describe("SongService", () => {
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
-          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongCacheEntity),
           useValue: songCacheEntityRepositoryMock,
         },
         {
-          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongSiteEntity),
           useValue: songSiteEntityRepositoryMock,
         },
       ],
@@ -694,11 +693,11 @@ describe("SongService", () => {
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
-          provide: getRepositoryToken(SongCacheEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongCacheEntity),
           useValue: songCacheEntityRepositoryMock,
         },
         {
-          provide: getRepositoryToken(SongSiteEntity, SONG_TYPEORM),
+          provide: getRepositoryToken(SongSiteEntity),
           useValue: songSiteEntityRepositoryMock,
         },
       ],

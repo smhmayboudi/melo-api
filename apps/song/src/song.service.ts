@@ -27,7 +27,6 @@ import {
   RelationRemoveReqDto,
   RelationResDto,
   RelationSetReqDto,
-  SONG_TYPEORM,
   SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
@@ -133,9 +132,9 @@ export class SongService implements SongServiceInterface {
     @Inject(RELATION_SERVICE) private readonly relationClientProxy: ClientProxy,
     private readonly elasticsearchService: ElasticsearchService,
     private readonly httpService: HttpService,
-    @InjectRepository(SongCacheEntity, SONG_TYPEORM)
+    @InjectRepository(SongCacheEntity)
     private readonly songCacheEntityRepository: SongCacheEntityRepository,
-    @InjectRepository(SongSiteEntity, SONG_TYPEORM)
+    @InjectRepository(SongSiteEntity)
     private readonly songSiteEntityRepository: SongSiteEntityRepository,
     @Inject(USER_SERVICE) private readonly userClientProxy: ClientProxy
   ) {}

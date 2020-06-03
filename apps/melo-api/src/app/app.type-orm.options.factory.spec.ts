@@ -1,7 +1,8 @@
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
-import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
+import { AppTypeOrmOptionsFactory } from "./app.type-orm.options.factory";
 import { AtEntity } from "../at/at.entity";
+import { CommonTypeOrmLogger } from "@melo/common";
 import { FileEntity } from "../file/file.entity";
 import { JwksEntity } from "../jwks/jwks.entity";
 import { RtEntity } from "../rt/rt.entity";
@@ -75,9 +76,7 @@ describe("AppTypeOrmOptionsFactory", () => {
       database: "",
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
       host: "",
-      logger: {
-        options: true,
-      },
+      logger: new CommonTypeOrmLogger(true),
       logging: true,
       password: "",
       port: 0,

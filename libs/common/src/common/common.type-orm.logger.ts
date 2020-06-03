@@ -1,7 +1,7 @@
 import { Logger } from "@nestjs/common";
 import typeorm from "typeorm";
 
-export class AppTypeOrmLogger implements typeorm.Logger {
+export class CommonTypeOrmLogger implements typeorm.Logger {
   private readonly options?:
     | boolean
     | "all"

@@ -1,13 +1,13 @@
-import { DataCacheEntity } from "./data.cache.entity";
-import { DataConfigService } from "./data.config.service";
-import { DataConfigServiceInterface } from "./data.config.service.interface";
-import { DataSiteEntity } from "./data.site.entity";
-import { DataTypeOrmLogger } from "./data.type.orm.logger";
-import { DataTypeOrmOptionsFactory } from "./data.type.orm.options.factory";
+import { CommonTypeOrmLogger } from "@melo/common";
+import { SongCacheEntity } from "./song.cache.entity";
+import { SongConfigService } from "./song.config.service";
+import { SongConfigServiceInterface } from "./song.config.service.interface";
+import { SongSiteEntity } from "./song.site.entity";
+import { SongTypeOrmOptionsFactory } from "./song.type-orm.options.factory";
 import { Test } from "@nestjs/testing";
 
-describe("DataTypeOrmOptionsFactory", () => {
-  const dataConfigServiceMock: DataConfigServiceInterface = {
+describe("SongTypeOrmOptionsFactory", () => {
+  const songConfigServiceMock: SongConfigServiceInterface = {
     elasticsearchNode: "",
     imageBaseUrl: "",
     imageEncode: true,
@@ -37,32 +37,32 @@ describe("DataTypeOrmOptionsFactory", () => {
     typeormUsername: "",
   };
 
-  let service: DataConfigService;
+  let service: SongConfigService;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
         {
-          provide: DataConfigService,
-          useValue: dataConfigServiceMock,
+          provide: SongConfigService,
+          useValue: songConfigServiceMock,
         },
       ],
     }).compile();
-    service = module.get<DataConfigService>(DataConfigService);
+    service = module.get<SongConfigService>(SongConfigService);
   });
 
   it("should be defined", () => {
-    expect(new DataTypeOrmOptionsFactory(service)).toBeDefined();
+    expect(new SongTypeOrmOptionsFactory(service)).toBeDefined();
   });
 
   it("createSentryOptions should be equal to a value", () => {
     expect(
-      new DataTypeOrmOptionsFactory(service).createTypeOrmOptions()
+      new SongTypeOrmOptionsFactory(service).createTypeOrmOptions()
     ).toEqual({
       database: "",
-      entities: [DataCacheEntity, DataSiteEntity],
+      entities: [SongCacheEntity, SongSiteEntity],
       host: "",
-      logger: new DataTypeOrmLogger(true),
+      logger: new CommonTypeOrmLogger(true),
       logging: true,
       password: "",
       port: 0,

@@ -3,7 +3,6 @@ import {
   ARTIST_SERVICE,
   CONST_SERVICE,
   RELATION_SERVICE,
-  SONG_TYPEORM,
   USER_SERVICE,
 } from "@melo/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
@@ -14,7 +13,7 @@ import { SongCacheEntityRepository } from "./song.cache.entity.repository";
 import { SongController } from "./song.controller";
 import { SongService } from "./song.service";
 import { SongSiteEntityRepository } from "./song.site.entity.repository";
-import { SongTypeOrmOptionsFactory } from "./song.type.orm.options.factory";
+import { SongTypeOrmOptionsFactory } from "./song.type-orm.options.factory";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import ms from "ms";
 
@@ -64,16 +63,15 @@ import ms from "ms";
     ElasticsearchModule.register({
       node: process.env.SONG_ELASTICSEARCH_NODE,
     }),
+    TypeOrmModule.forFeature([
+      SongCacheEntityRepository,
+      SongSiteEntityRepository,
+    ]),
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [SongModule],
-      name: SONG_TYPEORM,
       useClass: SongTypeOrmOptionsFactory,
     }),
-    TypeOrmModule.forFeature(
-      [SongCacheEntityRepository, SongSiteEntityRepository],
-      SONG_TYPEORM
-    ),
   ],
   providers: [SongService],
 })

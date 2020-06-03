@@ -1,8 +1,8 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 
 import { AppConfigService } from "./app.config.service";
-import { AppTypeOrmLogger } from "./app.type.orm.logger";
 import { AtEntity } from "../at/at.entity";
+import { CommonTypeOrmLogger } from "@melo/common";
 import { FileEntity } from "../file/file.entity";
 import { Injectable } from "@nestjs/common";
 import { JwksEntity } from "../jwks/jwks.entity";
@@ -20,7 +20,7 @@ export class AppTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       database: this.appConfigService.typeormDatabase,
       entities: [FileEntity, JwksEntity, AtEntity, RtEntity, UserEntity],
       host: this.appConfigService.typeormHost,
-      logger: new AppTypeOrmLogger(this.appConfigService.typeormLogging),
+      logger: new CommonTypeOrmLogger(this.appConfigService.typeormLogging),
       logging: this.appConfigService.typeormLogging,
       name: connectionName,
       password: this.appConfigService.typeormPassword,

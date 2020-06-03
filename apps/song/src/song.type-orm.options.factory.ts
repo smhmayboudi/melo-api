@@ -1,10 +1,10 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 
+import { CommonTypeOrmLogger } from "@melo/common";
 import { Injectable } from "@nestjs/common";
 import { SongCacheEntity } from "./song.cache.entity";
 import { SongConfigService } from "./song.config.service";
 import { SongSiteEntity } from "./song.site.entity";
-import { SongTypeOrmLogger } from "./song.type.orm.logger";
 
 @Injectable()
 export class SongTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
@@ -17,7 +17,7 @@ export class SongTypeOrmOptionsFactory implements TypeOrmOptionsFactory {
       database: this.songConfigService.typeormDatabase,
       entities: [SongCacheEntity, SongSiteEntity],
       host: this.songConfigService.typeormHost,
-      logger: new SongTypeOrmLogger(this.songConfigService.typeormLogging),
+      logger: new CommonTypeOrmLogger(this.songConfigService.typeormLogging),
       logging: this.songConfigService.typeormLogging,
       name: connectionName,
       password: this.songConfigService.typeormPassword,
