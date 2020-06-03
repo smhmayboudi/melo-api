@@ -9,9 +9,9 @@ import {
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { DataArtistType } from "../../data.artist.type";
-import { DataConfigElasticsearchReqDto } from "../req/data.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../req/data.config-image.req.dto";
+import { DataArtistType } from "../../../artist/artist.type";
+import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
+import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
 import { Type } from "class-transformer";
 
 export class DataElasticsearchArtistResDto {

@@ -7,8 +7,8 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/";
-import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
+import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
 import { SongOrderByType } from "../../../song/song.order-by.type";
 import { Type } from "class-transformer";
 

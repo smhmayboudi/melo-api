@@ -1,7 +1,7 @@
 import { IsArray, IsBoolean, IsString, ValidateNested } from "class-validator";
 
 import { ApiHideProperty } from "@nestjs/swagger";
-import { DataImageTypeSize } from "../../data.image-type-size";
+import { DataImageTypeSize } from "../../common.image-type-size";
 import { SignatureSize } from "imgproxy/dist/types";
 import { Type } from "class-transformer";
 

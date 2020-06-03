@@ -1,13 +1,12 @@
 import {
   UserEditReqDto,
+  UserFindOneByTelegramIdReqDto,
+  UserFindOneByUsernameReqDto,
   UserFindOneReqDto,
   UserGetReqDto,
   UserResDto,
   UserSaveReqDto,
 } from "@melo/common";
-
-import { UserFindOneByTelegramIdReqDto } from "@melo/common/user/dto/req/user.find-one-by-telegram-id.req.dto";
-import { UserFindOneByUsernameReqDto } from "@melo/common/user/dto/req/user.find-one-by-username.req.dto";
 
 export interface UserServiceInterface {
   edit(dto: UserEditReqDto): Promise<UserResDto>;

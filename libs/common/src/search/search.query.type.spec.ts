@@ -1,6 +1,6 @@
-import { DataQueryType } from "./data.query.type";
+import { DataQueryType } from "./search.query.type";
 
-describe("DataQueryType", () => {
+describe("SearchQueryType", () => {
   it("should be equal to data order by type", () => {
     expect(DataQueryType).toStrictEqual({
       new: "new",

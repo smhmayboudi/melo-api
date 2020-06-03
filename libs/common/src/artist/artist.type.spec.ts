@@ -1,6 +1,6 @@
-import { DataArtistType } from "./data.artist.type";
+import { DataArtistType } from "./artist.type";
 
-describe("DataArtistType", () => {
+describe("ArtistType", () => {
   it("should be equal to data artist type", () => {
     expect(DataArtistType).toStrictEqual({
       feat: "feat",

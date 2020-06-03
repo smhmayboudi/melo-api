@@ -1,5 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
+  DataElasticsearchEmotionsResDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
   SONG_SERVICE,
@@ -10,7 +11,7 @@ import {
 import { Inject, Injectable } from "@nestjs/common";
 
 import { ClientProxy } from "@nestjs/microservices";
-import { DataElasticsearchEmotionsResDto } from "@melo/common/data/dto/res/data.elasticsearch-emotions.res.dto";
+
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { EmotionServiceInterface } from "./emotion.service.interface";
 import { PromMethodCounter } from "@melo/prom";

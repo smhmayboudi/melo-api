@@ -1,6 +1,6 @@
 import { ApiHideProperty } from "@nestjs/swagger";
-import { DataConfigElasticsearchReqDto } from "../../../data/dto/req/data.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
+import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
+import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
 import { Type } from "class-transformer";
 import { ValidateNested } from "class-validator";
 

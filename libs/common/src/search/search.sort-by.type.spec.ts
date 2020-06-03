@@ -1,6 +1,6 @@
-import { DataSortByType } from "./data.sort-by.type";
+import { DataSortByType } from "./search.sort-by.type";
 
-describe("DataSortByType", () => {
+describe("SearchSortByType", () => {
   it("should be equal to data order by type", () => {
     expect(DataSortByType).toStrictEqual({
       asc: "ASC",

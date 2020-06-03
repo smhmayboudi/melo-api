@@ -11,7 +11,7 @@ import {
 import { AlbumResDto } from "../../../album/dto/res/album.res.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { ConstImageResDto } from "../../../const/dto/res/const.image.res.dto";
-import { DataArtistType } from "../../../data/data.artist.type";
+import { DataArtistType } from "../../artist.type";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 

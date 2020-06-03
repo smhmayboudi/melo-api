@@ -10,10 +10,10 @@ import {
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { DataConfigElasticsearchReqDto } from "../req/data.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../req/data.config-image.req.dto";
-import { DataElasticsearchArtistResDto } from "./data.elasticsearch-artist.res.dto";
-import { DataSearchType } from "../../data.search.type";
+import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
+import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
+import { DataElasticsearchArtistResDto } from "./search.elasticsearch-artist.res.dto";
+import { DataSearchType } from "../../search.type";
 import { Type } from "class-transformer";
 
 export class DataElasticsearchSearchResDto {

@@ -1,5 +1,6 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
+  DataElasticsearchDownloadResDto,
   DownloadSongReqDto,
   DownloadSongResDto,
   SONG_SERVICE,
@@ -10,7 +11,7 @@ import {
 import { Inject, Injectable } from "@nestjs/common";
 
 import { ClientProxy } from "@nestjs/microservices";
-import { DataElasticsearchDownloadResDto } from "@melo/common/data/dto/res/data.elasticsearch-download.res.dto";
+
 import { DownloadServiceInterface } from "./download.service.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { PromMethodCounter } from "@melo/prom";

@@ -1,7 +1,7 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
 import { IsString, ValidateNested } from "class-validator";
 
-import { DataConfigImageReqDto } from "../../../data/dto/req/data.config-image.req.dto";
+import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
 import { Type } from "class-transformer";
 
 export class ConstImageReqDto {
