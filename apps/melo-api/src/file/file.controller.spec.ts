@@ -3,13 +3,13 @@ import {
   FileUploadImageReqDto,
   FileUploadImageResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
 import { FileController } from "./file.controller";
 import { FileService } from "./file.service";
 import { FileServiceInterface } from "./file.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("FileController", () => {
   const config: FileConfigReqDto = {
@@ -43,14 +43,13 @@ describe("FileController", () => {
     s3SslEnabled: false,
   };
   const fileServiceMock: FileServiceInterface = {
-    uploadImage: (): Promise<FileUploadImageResDto> =>
-      Promise.resolve(fileUploadImage),
+    uploadImage: () => Promise.resolve(fileUploadImage),
   };
 
   let controller: FileController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [FileController],
       providers: [
         {

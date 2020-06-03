@@ -15,12 +15,12 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DownloadService } from "./download.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { SongService } from "../song/song.service";
 import { SongServiceInterface } from "../song/song.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("DownloadService", () => {
   const config: DownloadConfigReqDto = {
@@ -181,23 +181,23 @@ describe("DownloadService", () => {
   };
 
   const songServiceMock: SongServiceInterface = {
-    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    get: (): Promise<SongResDto> => Promise.resolve(song),
-    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    liked: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    sendTelegram: (): Promise<void> => Promise.resolve(undefined),
-    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    unlike: (): Promise<SongResDto> => Promise.resolve(song),
+    artistSongs: () => Promise.resolve([song]),
+    artistSongsTop: () => Promise.resolve([song]),
+    genre: () => Promise.resolve([song]),
+    get: () => Promise.resolve(song),
+    language: () => Promise.resolve([song]),
+    like: () => Promise.resolve(song),
+    liked: () => Promise.resolve([song]),
+    mood: () => Promise.resolve([song]),
+    newPodcast: () => Promise.resolve([song]),
+    newSong: () => Promise.resolve([song]),
+    podcast: () => Promise.resolve([song]),
+    sendTelegram: () => Promise.resolve(undefined),
+    similar: () => Promise.resolve([song]),
+    slider: () => Promise.resolve([song]),
+    topDay: () => Promise.resolve([song]),
+    topWeek: () => Promise.resolve([song]),
+    unlike: () => Promise.resolve(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -208,7 +208,7 @@ describe("DownloadService", () => {
   let service: DownloadService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DownloadService,
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },

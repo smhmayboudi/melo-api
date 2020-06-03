@@ -1,11 +1,10 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { SongCacheEntity } from "./song.cache.entity";
 import { SongConfigService } from "./song.config.service";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongSiteEntity } from "./song.site.entity";
 import { SongTypeOrmLogger } from "./song.type.orm.logger";
 import { SongTypeOrmOptionsFactory } from "./song.type.orm.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("SongTypeOrmOptionsFactory", () => {
   const songConfigServiceMock: SongConfigServiceInterface = {
@@ -41,7 +40,7 @@ describe("SongTypeOrmOptionsFactory", () => {
   let service: SongConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: SongConfigService,

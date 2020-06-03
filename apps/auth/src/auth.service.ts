@@ -32,8 +32,8 @@ import { v4 as uuidv4 } from "uuid";
 // @PromInstanceCounter
 export class AuthService implements AuthServiceInterface {
   constructor(
-    @Inject(JWKS_SERVICE) private readonly clientProxyJwks: ClientProxy,
-    @Inject(RT_SERVICE) private readonly clientProxyRt: ClientProxy,
+    @Inject(JWKS_SERVICE) private readonly jwksClientProxy: ClientProxy,
+    @Inject(RT_SERVICE) private readonly rtClientProxy: ClientProxy,
     private readonly jwtService: JwtService
   ) {}
 
@@ -43,7 +43,7 @@ export class AuthService implements AuthServiceInterface {
   async accessToken(
     dto: AuthAccessTokenReqDto
   ): Promise<AuthAccessTokenResDto> {
-    const jwks = await this.clientProxyJwks
+    const jwks = await this.jwksClientProxy
       .send<JwksResDto | undefined, void>(
         JWKS_SERVICE_GET_ONE_RANDOM,
         undefined
@@ -69,7 +69,7 @@ export class AuthService implements AuthServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   deleteByToken(dto: AuthDeleteByTokenReqDto): Promise<RtResDto | undefined> {
-    return this.clientProxyRt
+    return this.rtClientProxy
       .send<RtResDto | undefined, AuthDeleteByTokenReqDto>(
         RT_SERVICE_DELETE_BY_TOKEN,
         dto
@@ -83,7 +83,7 @@ export class AuthService implements AuthServiceInterface {
   async refreshToken(
     dto: AuthRefreshTokenReqDto
   ): Promise<AuthRefreshTokenResDto> {
-    const jwks = await this.clientProxyJwks
+    const jwks = await this.jwksClientProxy
       .send<JwksResDto | undefined, void>(
         JWKS_SERVICE_GET_ONE_RANDOM,
         undefined
@@ -108,7 +108,7 @@ export class AuthService implements AuthServiceInterface {
         length: 256,
         type: "base64",
       });
-    await this.clientProxyRt
+    await this.rtClientProxy
       .send<RtResDto, RtSaveReqDto>(RT_SERVICE_SAVE, {
         created_at: now,
         description: "",

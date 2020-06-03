@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumConfigServiceInterface } from "./album.config.service.interface";
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
+import { Test } from "@nestjs/testing";
 
 describe("AlbumConfigService", () => {
   // TODO: interface ?
@@ -22,7 +21,7 @@ describe("AlbumConfigService", () => {
   let service: AlbumConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AlbumConfigService,
         {

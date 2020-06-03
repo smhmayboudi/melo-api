@@ -10,12 +10,12 @@ import {
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { SearchHashIdInterceptor } from "./search.hash-id.interceptor";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("SearchHashIdInterceptor", () => {
@@ -116,7 +116,7 @@ describe("SearchHashIdInterceptor", () => {
   let service: AppHashIdService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
       ],

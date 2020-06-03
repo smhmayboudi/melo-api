@@ -4,10 +4,10 @@ import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { SentryInterceptor } from "./sentry.interceptor";
 import { SentryModuleOptions } from "./sentry.module.interface";
+import { Test } from "@nestjs/testing";
 
 describe("SentryInterceptor", () => {
   // TODO: interface ?
@@ -20,7 +20,7 @@ describe("SentryInterceptor", () => {
   let options: SentryModuleOptions;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: SENTRY_INSTANCE_TOKEN,

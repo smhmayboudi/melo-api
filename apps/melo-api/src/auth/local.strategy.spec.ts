@@ -1,6 +1,5 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { LocalStrategy } from "./local.strategy";
+import { Test } from "@nestjs/testing";
 import { UserResDto } from "@melo/common";
 import { UserService } from "../user/user.service";
 import { UserServiceInterface } from "../user/user.service.interface";
@@ -12,20 +11,19 @@ describe("LocalStrategy", () => {
   };
 
   const userServiceMock: UserServiceInterface = {
-    edit: (): Promise<UserResDto> => Promise.resolve(user),
-    find: (): Promise<UserResDto[]> => Promise.resolve([user]),
-    findOne: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByTelegramId: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByUsername: (): Promise<UserResDto | undefined> =>
-      Promise.resolve(user),
-    get: (): Promise<UserResDto> => Promise.resolve(user),
-    save: (): Promise<UserResDto> => Promise.resolve(user),
+    edit: () => Promise.resolve(user),
+    find: () => Promise.resolve([user]),
+    findOne: () => Promise.resolve(user),
+    findOneByTelegramId: () => Promise.resolve(user),
+    findOneByUsername: () => Promise.resolve(user),
+    get: () => Promise.resolve(user),
+    save: () => Promise.resolve(user),
   };
 
   let service: UserService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [{ provide: UserService, useValue: userServiceMock }],
     }).compile();
     service = module.get<UserService>(UserService);
@@ -44,11 +42,10 @@ describe("LocalStrategy", () => {
   it("validate should throw an error", async () => {
     const userServiceMockFindOneByUsernam: UserServiceInterface = {
       ...userServiceMock,
-      findOneByUsername: (): Promise<UserResDto | undefined> =>
-        Promise.resolve(undefined),
+      findOneByUsername: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: UserService,

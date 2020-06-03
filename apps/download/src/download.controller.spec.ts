@@ -12,11 +12,11 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DownloadController } from "./download.controller";
 import { DownloadService } from "./download.service";
 import { DownloadServiceInterface } from "./download.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("DownloadController", () => {
   const config: DownloadConfigReqDto = {
@@ -100,14 +100,13 @@ describe("DownloadController", () => {
   };
 
   const downloadServiceMock: DownloadServiceInterface = {
-    downloadedSongs: (): Promise<DownloadSongResDto[]> =>
-      Promise.resolve([downloadSong]),
+    downloadedSongs: () => Promise.resolve([downloadSong]),
   };
 
   let controller: DownloadController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [DownloadController],
       providers: [{ provide: DownloadService, useValue: downloadServiceMock }],
     }).compile();

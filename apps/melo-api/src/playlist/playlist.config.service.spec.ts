@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("PlaylistConfigService", () => {
   // TODO: interface ?
@@ -25,7 +24,7 @@ describe("PlaylistConfigService", () => {
   let service: PlaylistConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistConfigService,
         {

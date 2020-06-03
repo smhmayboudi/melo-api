@@ -12,11 +12,11 @@ import {
   DataElasticsearchSearchResDto,
   DataSearchType,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AlbumController", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -70,16 +70,16 @@ describe("AlbumController", () => {
   };
 
   const albumServiceMock: AlbumServiceInterface = {
-    albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
-    get: (): Promise<AlbumResDto> => Promise.resolve(album),
-    latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
-    transform: (): Promise<AlbumResDto> => Promise.resolve(album),
+    albums: () => Promise.resolve([album]),
+    get: () => Promise.resolve(album),
+    latest: () => Promise.resolve([album]),
+    transform: () => Promise.resolve(album),
   };
 
   let controller: AlbumController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [AlbumController],
       providers: [{ provide: AlbumService, useValue: albumServiceMock }],
     }).compile();

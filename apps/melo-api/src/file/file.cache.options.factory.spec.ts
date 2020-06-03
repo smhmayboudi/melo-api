@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("FileCacheOptionsFactory", () => {
   const fileConfigServiceMock: FileConfigServiceInterface = {
@@ -22,32 +21,30 @@ describe("FileCacheOptionsFactory", () => {
 
   let service: FileConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: FileConfigService,
-            useValue: fileConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<FileConfigService>(FileConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: FileConfigService,
+          useValue: fileConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<FileConfigService>(FileConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new FileCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new FileCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new FileCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new FileCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: FileConfigService,

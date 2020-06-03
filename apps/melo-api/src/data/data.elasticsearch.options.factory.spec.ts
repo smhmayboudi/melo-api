@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { DataConfigService } from "../data/data.config.service";
 import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 import { DataElasticsearchOptionsFactory } from "./data.elasticsearch.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("DataElasticsearchOptionsFactory", () => {
   const dataConfigServiceMock: DataConfigServiceInterface = {
@@ -38,7 +37,7 @@ describe("DataElasticsearchOptionsFactory", () => {
   let service: DataConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: DataConfigService,

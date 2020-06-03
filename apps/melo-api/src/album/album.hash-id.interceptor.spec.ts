@@ -10,12 +10,12 @@ import {
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumHashIdInterceptor } from "./album.hash-id.interceptor";
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("AlbumHashIdInterceptor", () => {
@@ -145,7 +145,7 @@ describe("AlbumHashIdInterceptor", () => {
   let service: AppHashIdService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
       ],
@@ -186,7 +186,7 @@ describe("AlbumHashIdInterceptor", () => {
       switchToWs: jest.fn(),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
       ],

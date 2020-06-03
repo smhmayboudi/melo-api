@@ -26,10 +26,10 @@ import {
   RelationResDto,
 } from "@melo/common";
 import { Observable, of } from "rxjs";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ArtistService } from "./artist.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Test } from "@nestjs/testing";
 
 describe("ArtistService", () => {
   const config: ArtistConfigReqDto = {
@@ -190,9 +190,9 @@ describe("ArtistService", () => {
   const elasticsearchServiceMock = {
     get: () => Promise.resolve(elasticGetRes),
     search: (hits) =>
-      hits.body.size === 1
-        ? Promise.resolve(elasticArtistRes)
-        : Promise.resolve(elasticSearchRes),
+      hits.body.from === undefined
+        ? Promise.resolve(elasticSearchRes)
+        : Promise.resolve(elasticArtistRes),
   };
   // TOOD: interface ?
   const relationClientProxyMock = {
@@ -207,7 +207,7 @@ describe("ArtistService", () => {
   let service: ArtistService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ArtistService,
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
@@ -264,7 +264,7 @@ describe("ArtistService", () => {
       send: (): Observable<RelationResDto[]> => of([]),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ArtistService,
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
@@ -299,18 +299,18 @@ describe("ArtistService", () => {
   });
 
   it("transform should be equal to an artist", async () => {
-    expect(await service.transform(artistElastic)).toEqual(artist);
+    const dto: DataElasticsearchArtistResDto = artistElastic;
+    expect(await service.transform(dto)).toEqual(artist);
   });
 
   it("transform should be equal to an artist 2", async () => {
-    expect(
-      await service.transform({
-        ...artistElastic,
-        has_cover: true,
-        sum_downloads_count: 0,
-        tags: undefined,
-      })
-    ).toEqual({
+    const dto: DataElasticsearchArtistResDto = {
+      ...artistElastic,
+      has_cover: true,
+      sum_downloads_count: 0,
+      tags: undefined,
+    };
+    expect(await service.transform(dto)).toEqual({
       ...artist,
       sumSongsDownloadsCount: undefined,
       tags: undefined,

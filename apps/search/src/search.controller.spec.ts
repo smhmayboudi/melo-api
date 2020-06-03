@@ -9,11 +9,11 @@ import {
   SearchResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { SearchController } from "./search.controller";
 import { SearchService } from "./search.service";
 import { SearchServiceInterface } from "./search.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("SearchController", () => {
   const config: SearchConfigReqDto = {
@@ -65,14 +65,14 @@ describe("SearchController", () => {
     title: "",
   };
   const searchServiceMock: SearchServiceInterface = {
-    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    query: (): Promise<SearchResDto[]> => Promise.resolve([search]),
+    mood: () => Promise.resolve([song]),
+    query: () => Promise.resolve([search]),
   };
 
   let controller: SearchController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [SearchController],
       providers: [{ provide: SearchService, useValue: searchServiceMock }],
     }).compile();

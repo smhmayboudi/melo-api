@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { RtConfigService } from "./rt.config.service";
 import { RtConfigServiceInterface } from "./rt.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("RtConfigService", () => {
   // TODO: interface ?
@@ -22,7 +21,7 @@ describe("RtConfigService", () => {
   let service: RtConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RtConfigService,
         {

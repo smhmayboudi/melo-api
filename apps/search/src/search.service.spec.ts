@@ -16,10 +16,10 @@ import {
   SearchQueryReqDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { SearchService } from "./search.service";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("SearchService", () => {
@@ -182,7 +182,7 @@ describe("SearchService", () => {
   let service: SearchService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -230,7 +230,7 @@ describe("SearchService", () => {
         }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -258,6 +258,7 @@ describe("SearchService", () => {
   it("query should be equal to an empty list 3", async () => {
     // TODO: interface ?
     const elasticsearchServiceMockSearch = {
+      ...elasticsearchServiceMock,
       search: (query: any): Promise<any> =>
         Promise.resolve(
           query.body.from === undefined
@@ -294,7 +295,7 @@ describe("SearchService", () => {
         ),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -373,7 +374,7 @@ describe("SearchService", () => {
         }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },

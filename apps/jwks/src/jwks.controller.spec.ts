@@ -1,10 +1,9 @@
-import { JwksFindOneReqDto, JwksResDto } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { JwksController } from "./jwks.controller";
 import { JwksEntity } from "./jwks.entity";
+import { JwksFindOneReqDto } from "@melo/common";
 import { JwksService } from "./jwks.service";
 import { JwksServiceInterface } from "./jwks.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("JwksController", () => {
   const jwksEntity: JwksEntity = {
@@ -14,15 +13,14 @@ describe("JwksController", () => {
   };
 
   const jwksServiceMock: JwksServiceInterface = {
-    findOne: (): Promise<JwksResDto | undefined> => Promise.resolve(jwksEntity),
-    getOneRandom: (): Promise<JwksResDto | undefined> =>
-      Promise.resolve(jwksEntity),
+    findOne: () => Promise.resolve(jwksEntity),
+    getOneRandom: () => Promise.resolve(jwksEntity),
   };
 
   let controller: JwksController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [JwksController],
       providers: [
         {

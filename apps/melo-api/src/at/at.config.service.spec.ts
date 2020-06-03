@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppConfigService } from "../app/app.config.service";
 import { AtConfigService } from "./at.config.service";
 import { AtConfigServiceInterface } from "./at.config.service.interface";
 import { ConfigService } from "@nestjs/config";
+import { Test } from "@nestjs/testing";
 
 describe("AtConfigService", () => {
   // TODO: interface ?
@@ -22,7 +21,7 @@ describe("AtConfigService", () => {
   let service: AtConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AtConfigService,
         {

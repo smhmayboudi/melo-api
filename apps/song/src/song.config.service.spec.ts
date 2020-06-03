@@ -1,7 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { ConfigService } from "@nestjs/config";
 import { SongConfigService } from "./song.config.service";
+import { Test } from "@nestjs/testing";
 
 describe("SongConfigService", () => {
   // TODO: interface ?
@@ -12,7 +11,7 @@ describe("SongConfigService", () => {
   let service: SongConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: ConfigService,

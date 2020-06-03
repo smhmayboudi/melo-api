@@ -14,11 +14,11 @@ import {
   DataConfigImageReqDto,
   DataElasticsearchArtistResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ArtistController } from "./artist.controller";
 import { ArtistService } from "./artist.service";
 import { ArtistServiceInterface } from "./artist.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ArtistController", () => {
   const config: ArtistConfigReqDto = {
@@ -64,21 +64,21 @@ describe("ArtistController", () => {
   };
 
   const artistServiceMock: ArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    following: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    get: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    getByIds: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    profile: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    transform: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    trending: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    trendingGenre: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    unfollow: (): Promise<ArtistResDto> => Promise.resolve(artist),
+    follow: () => Promise.resolve(artist),
+    following: () => Promise.resolve([artist]),
+    get: () => Promise.resolve(artist),
+    getByIds: () => Promise.resolve([artist]),
+    profile: () => Promise.resolve(artist),
+    transform: () => Promise.resolve(artist),
+    trending: () => Promise.resolve([artist]),
+    trendingGenre: () => Promise.resolve([artist]),
+    unfollow: () => Promise.resolve(artist),
   };
 
   let controller: ArtistController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [ArtistController],
       providers: [{ provide: ArtistService, useValue: artistServiceMock }],
     }).compile();

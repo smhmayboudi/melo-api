@@ -1,11 +1,11 @@
 import { ArtistResDto, ConstImageResDto, DataArtistType } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppArtistService } from "../app/app.artist.service";
 import { AppArtistServiceInterface } from "../app/app.artist.service.interface";
 import { ArtistFollowInterceptor } from "./artist.follow.interceptor";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("ArtistFollowInterceptor", () => {
@@ -47,14 +47,14 @@ describe("ArtistFollowInterceptor", () => {
   };
 
   const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    follow: () => Promise.resolve(artist),
+    follows: () => Promise.resolve([artist]),
   };
 
   let service: AppArtistService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppArtistService, useValue: appArtistServiceMock },
       ],

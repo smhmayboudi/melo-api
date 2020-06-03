@@ -19,13 +19,13 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataImageService } from "../data/data.image.service";
 import { DataImageServiceInterface } from "../data/data.image.service.interface";
 import { DataSongService } from "../data/data.song.service";
 import { DataSongServiceInterface } from "../data/data.song.service.interface";
 import { PlaylistService } from "./playlist.service";
+import { Test } from "@nestjs/testing";
 import { getModelToken } from "@nestjs/mongoose";
 
 describe("PlaylistService", () => {
@@ -134,24 +134,24 @@ describe("PlaylistService", () => {
   };
 
   const dataImageServiceMock: DataImageServiceInterface = {
-    generateUrl: (): Promise<ConstImageResDto> => Promise.resolve(image),
+    generateUrl: () => Promise.resolve(image),
   };
   const dataSongServiceMock: DataSongServiceInterface = {
-    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    get: (): Promise<SongResDto> => Promise.resolve(song),
-    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    albumSongs: () => Promise.resolve([song]),
+    artistSongs: () => Promise.resolve([song]),
+    artistSongsTop: () => Promise.resolve([song]),
+    genre: () => Promise.resolve([song]),
+    get: () => Promise.resolve(song),
+    getByIds: () => Promise.resolve([song]),
+    language: () => Promise.resolve([song]),
+    mood: () => Promise.resolve([song]),
+    newPodcast: () => Promise.resolve([song]),
+    newSong: () => Promise.resolve([song]),
+    podcast: () => Promise.resolve([song]),
+    similar: () => Promise.resolve([song]),
+    slider: () => Promise.resolve([song]),
+    topDay: () => Promise.resolve([song]),
+    topWeek: () => Promise.resolve([song]),
   };
   // TODO: interface ?
   const playlistModelMock = {
@@ -189,7 +189,7 @@ describe("PlaylistService", () => {
   let service: PlaylistService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -221,7 +221,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -252,7 +252,7 @@ describe("PlaylistService", () => {
       }),
     }));
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -289,7 +289,7 @@ describe("PlaylistService", () => {
       findOne: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -320,7 +320,7 @@ describe("PlaylistService", () => {
       }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -359,7 +359,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -393,7 +393,7 @@ describe("PlaylistService", () => {
       }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -433,7 +433,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },
@@ -484,7 +484,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: DataImageService, useValue: dataImageServiceMock },

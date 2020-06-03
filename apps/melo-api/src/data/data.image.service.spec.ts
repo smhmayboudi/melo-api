@@ -1,7 +1,7 @@
 import { ConstImageReqDto, DataConfigImageReqDto } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataImageService } from "./data.image.service";
+import { Test } from "@nestjs/testing";
 
 describe("ImageService", () => {
   const dataConfigImage: DataConfigImageReqDto = {
@@ -22,7 +22,7 @@ describe("ImageService", () => {
   let service: DataImageService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [DataImageService],
     }).compile();
     service = module.get<DataImageService>(DataImageService);

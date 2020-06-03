@@ -21,9 +21,9 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { PlaylistService } from "./playlist.service";
+import { Test } from "@nestjs/testing";
 import { getModelToken } from "@nestjs/mongoose";
 import { of } from "rxjs";
 
@@ -176,7 +176,7 @@ describe("PlaylistService", () => {
   let service: PlaylistService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -208,7 +208,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -239,7 +239,7 @@ describe("PlaylistService", () => {
       }),
     }));
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -276,7 +276,7 @@ describe("PlaylistService", () => {
       findOne: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -307,7 +307,7 @@ describe("PlaylistService", () => {
       }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -346,7 +346,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -380,7 +380,7 @@ describe("PlaylistService", () => {
       }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -420,7 +420,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
@@ -471,7 +471,7 @@ describe("PlaylistService", () => {
       findById: () => null,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },

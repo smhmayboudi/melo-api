@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("AppPromOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -52,7 +51,7 @@ describe("AppPromOptionsFactory", () => {
   let service: AppConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: appConfigServiceMock },
       ],

@@ -20,7 +20,6 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
@@ -33,6 +32,7 @@ import { PlaylistConfigServiceInterface } from "./playlist.config.service.interf
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistService } from "./playlist.service";
 import { PlaylistServiceInterface } from "./playlist.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("PlaylistController", () => {
   const config: PlaylistConfigReqDto = {
@@ -135,9 +135,9 @@ describe("PlaylistController", () => {
     encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
@@ -178,20 +178,20 @@ describe("PlaylistController", () => {
     imagePathDefaultPlaylist: "",
   };
   const playlistServiceMock: PlaylistServiceInterface = {
-    addSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    create: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    delete: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    edit: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    get: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    my: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
-    removeSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    top: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
+    addSong: () => Promise.resolve(playlist),
+    create: () => Promise.resolve(playlist),
+    delete: () => Promise.resolve(playlist),
+    edit: () => Promise.resolve(playlist),
+    get: () => Promise.resolve(playlist),
+    my: () => Promise.resolve([playlist]),
+    removeSong: () => Promise.resolve(playlist),
+    top: () => Promise.resolve([playlist]),
   };
 
   let controller: PlaylistController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [PlaylistController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },

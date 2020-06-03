@@ -44,7 +44,6 @@ import {
   UserResDto,
 } from "@melo/common";
 import { Observable, of } from "rxjs";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AxiosResponse } from "axios";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
@@ -52,6 +51,7 @@ import { HttpService } from "@nestjs/common";
 import { SongCacheEntity } from "./song.cache.entity";
 import { SongService } from "./song.service";
 import { SongSiteEntity } from "./song.site.entity";
+import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 describe("SongService", () => {
@@ -270,11 +270,11 @@ describe("SongService", () => {
   };
   // TODO: interface ?
   const songCacheEntityRepositoryMock = {
-    createQueryBuilder: (): any => ({
-      where: (): any => ({
-        orderBy: (): any => ({
-          limit: (): any => ({
-            getOne: (): Promise<SongCacheEntity> => Promise.resolve(dataCache),
+    createQueryBuilder: () => ({
+      where: () => ({
+        orderBy: () => ({
+          limit: () => ({
+            getOne: () => Promise.resolve(dataCache),
           }),
         }),
       }),
@@ -282,9 +282,9 @@ describe("SongService", () => {
   };
   // TODO: interface ?
   const songSiteEntityRepositoryMock = {
-    createQueryBuilder: (): any => ({
-      orderBy: (): any => ({
-        getMany: (): Promise<SongSiteEntity[]> => Promise.resolve([songSite]),
+    createQueryBuilder: () => ({
+      orderBy: () => ({
+        getMany: () => Promise.resolve([songSite]),
       }),
     }),
   };
@@ -297,7 +297,7 @@ describe("SongService", () => {
   let service: SongService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -440,7 +440,7 @@ describe("SongService", () => {
       send: (): Observable<RelationResDto[]> => of([]),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -497,10 +497,10 @@ describe("SongService", () => {
   it("newPodcast should be equal to a list of songs 2", async () => {
     // TODO: interface ?
     const songCacheEntityRepositoryMock = {
-      createQueryBuilder: (): any => ({
-        where: (): any => ({
-          orderBy: (): any => ({
-            limit: (): any => ({
+      createQueryBuilder: () => ({
+        where: () => ({
+          orderBy: () => ({
+            limit: () => ({
               getOne: () => Promise.resolve(undefined),
             }),
           }),
@@ -508,7 +508,7 @@ describe("SongService", () => {
       }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -591,7 +591,7 @@ describe("SongService", () => {
           telegram_id: undefined,
         }),
     };
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -626,7 +626,7 @@ describe("SongService", () => {
     const userClientProxyMock = {
       send: () => of(undefined),
     };
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
@@ -680,7 +680,7 @@ describe("SongService", () => {
       get: () => Promise.resolve(elasticGetRes),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },

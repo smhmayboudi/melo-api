@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppConfigService } from "../app/app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksConfigServiceInterface } from "./jwks.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("JwksConfigService", () => {
   // TODO: interface ?
@@ -22,7 +21,7 @@ describe("JwksConfigService", () => {
   let service: JwksConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         JwksConfigService,
         {

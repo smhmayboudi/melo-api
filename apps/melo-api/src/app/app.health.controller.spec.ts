@@ -3,7 +3,6 @@ import {
   HealthCheckService,
   HealthIndicatorResult,
 } from "@nestjs/terminus";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ActionHealthIndicator } from "../action/action.health.indicator";
 import { AlbumHealthIndicator } from "../album/album.health.indicator";
@@ -22,6 +21,7 @@ import { RelationHealthIndicator } from "../relation/relation.health.indicator";
 import { RtHealthIndicator } from "../rt/rt.health.indicator";
 import { SearchHealthIndicator } from "../search/search.health.indicator";
 import { SongHealthIndicator } from "../song/song.health.indicator";
+import { Test } from "@nestjs/testing";
 import { UserHealthIndicator } from "../user/user.health.indicator";
 
 describe("AppHealthController", () => {
@@ -149,68 +149,52 @@ describe("AppHealthController", () => {
   let controller: AppHealthController;
 
   const actionHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(actionHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(actionHealthIndicatorResult),
   };
   const albumHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(albumHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(albumHealthIndicatorResult),
   };
   const appHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(appHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(appHealthIndicatorResult),
   };
   const artistHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(artistHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(artistHealthIndicatorResult),
   };
   const atHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(atHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(atHealthIndicatorResult),
   };
   const authHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(authHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(authHealthIndicatorResult),
   };
   const constHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(constHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(constHealthIndicatorResult),
   };
   const dataHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(dataHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(dataHealthIndicatorResult),
   };
   const fileHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(fileHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(fileHealthIndicatorResult),
   };
   const jwksHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(jwksHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(jwksHealthIndicatorResult),
   };
   const playlistHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(playlistHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(playlistHealthIndicatorResult),
   };
   const relationHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(relationHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(relationHealthIndicatorResult),
   };
   const rtHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(rtHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(rtHealthIndicatorResult),
   };
   const searchHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(searchHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(searchHealthIndicatorResult),
   };
   const songHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(songHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(songHealthIndicatorResult),
   };
   const userHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: (): Promise<HealthIndicatorResult> =>
-      Promise.resolve(userHealthIndicatorResult),
+    isHealthy: () => Promise.resolve(userHealthIndicatorResult),
   };
   // TODO: interface ?
   const healthCheckServiceMock = {
@@ -233,7 +217,7 @@ describe("AppHealthController", () => {
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [AppHealthController],
       providers: [
         { provide: ActionHealthIndicator, useValue: actionHealthIndicatorMock },

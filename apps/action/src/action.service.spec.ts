@@ -1,7 +1,7 @@
 import { ActionBulkReqDto, ActionType } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ActionService } from "./action.service";
+import { Test } from "@nestjs/testing";
 
 describe("ActionService", () => {
   const datetime = new Date().toString();
@@ -13,7 +13,7 @@ describe("ActionService", () => {
   let service: ActionService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [ActionService],
     }).compile();
     service = module.get<ActionService>(ActionService);

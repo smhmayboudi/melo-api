@@ -15,10 +15,10 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { EmotionService } from "./emotion.service";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("EmotionService", () => {
@@ -191,7 +191,7 @@ describe("EmotionService", () => {
   let service: EmotionService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         EmotionService,
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },

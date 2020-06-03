@@ -16,13 +16,13 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "./app.hash-id.service";
 import { AppHashIdServiceInterface } from "./app.hash-id.service.interface";
 import { AppSongService } from "./app.song.service";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AppSongService", () => {
   const releaseDate = new Date();
@@ -114,15 +114,15 @@ describe("AppSongService", () => {
   };
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
-    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
-    set: (): Promise<RelationResDto> => Promise.resolve(relation),
+    get: () => Promise.resolve([relation]),
+    has: () => Promise.resolve(relation),
+    multiHas: () => Promise.resolve([relation]),
+    remove: () => Promise.resolve(relation),
+    set: () => Promise.resolve(relation),
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AppSongService,
         { provide: AppHashIdService, useValue: appHashIdServiceMock },

@@ -1,7 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { SENTRY_INSTANCE_TOKEN } from "./sentry.constant";
 import { SentryService } from "./sentry.service";
+import { Test } from "@nestjs/testing";
 
 describe("SentryService", () => {
   // TODO: interface ?
@@ -12,7 +11,7 @@ describe("SentryService", () => {
   let service: SentryService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SentryService,
         {
@@ -66,7 +65,7 @@ describe("SentryService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SentryService,
         {
@@ -88,7 +87,7 @@ describe("SentryService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SentryService,
         {
@@ -110,7 +109,7 @@ describe("SentryService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SentryService,
         {
@@ -132,7 +131,7 @@ describe("SentryService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SentryService,
         {
@@ -154,7 +153,7 @@ describe("SentryService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SentryService,
         {

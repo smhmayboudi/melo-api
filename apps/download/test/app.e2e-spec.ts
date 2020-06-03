@@ -1,12 +1,11 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { DownloadModule } from "./../src/download.module";
+import { Test } from "@nestjs/testing";
 
 describe("download (e2e)", () => {
   let app;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    const moduleFixture = await Test.createTestingModule({
       imports: [DownloadModule],
     }).compile();
     app = moduleFixture.createNestApplication();

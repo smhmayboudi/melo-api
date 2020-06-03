@@ -1,7 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { PROM_REGISTRY_DEFAULT } from "./prom.constant";
 import { PromController } from "./prom.controller";
+import { Test } from "@nestjs/testing";
 
 describe("PromController", () => {
   let controller: PromController;
@@ -12,7 +11,7 @@ describe("PromController", () => {
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [PromController],
       providers: [{ provide: PROM_REGISTRY_DEFAULT, useValue: registryMock }],
     }).compile();

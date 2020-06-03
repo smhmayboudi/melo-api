@@ -5,12 +5,12 @@ import {
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppSongService } from "../app/app.song.service";
 import { AppSongServiceInterface } from "../app/app.song.service.interface";
 import { ArtistLocalizeInterceptor } from "./artist.localize.interceptor";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("ArtistLocalizeInterceptor", () => {
@@ -71,15 +71,15 @@ describe("ArtistLocalizeInterceptor", () => {
   };
 
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
 
   let service: AppSongService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [{ provide: AppSongService, useValue: appSongServiceMock }],
     }).compile();
     service = module.get<AppSongService>(AppSongService);

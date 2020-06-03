@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { ArtistCacheOptionsFactory } from "./artist.cache.options.factory";
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistConfigServiceInterface } from "./artist.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ArtistCacheOptionsFactory", () => {
   const artistConfigServiceMock: ArtistConfigServiceInterface = {
@@ -17,32 +16,30 @@ describe("ArtistCacheOptionsFactory", () => {
 
   let service: ArtistConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: ArtistConfigService,
-            useValue: artistConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<ArtistConfigService>(ArtistConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: ArtistConfigService,
+          useValue: artistConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<ArtistConfigService>(ArtistConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new ArtistCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new ArtistCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new ArtistCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new ArtistCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: ArtistConfigService,

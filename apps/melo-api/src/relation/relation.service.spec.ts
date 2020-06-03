@@ -9,10 +9,10 @@ import {
   RelationResDto,
   RelationSetReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DgraphService } from "@melo/dgraph";
 import { RelationService } from "./relation.service";
+import { Test } from "@nestjs/testing";
 
 describe("RelationService", () => {
   const date = new Date();
@@ -50,7 +50,7 @@ describe("RelationService", () => {
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMock },
@@ -88,7 +88,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMock },
@@ -124,7 +124,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMock },
@@ -165,7 +165,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMock },
@@ -206,7 +206,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMocK },
@@ -237,7 +237,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMocK },
@@ -268,7 +268,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMock },
@@ -308,7 +308,7 @@ describe("RelationService", () => {
       },
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RelationService,
         { provide: DgraphService, useValue: dgraphServiceMock },

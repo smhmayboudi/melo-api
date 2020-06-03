@@ -13,7 +13,6 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
@@ -26,6 +25,7 @@ import { DownloadConfigServiceInterface } from "./download.config.service.interf
 import { DownloadController } from "./download.controller";
 import { DownloadService } from "./download.service";
 import { DownloadServiceInterface } from "./download.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("DownloadController", () => {
   const releaseDate = new Date();
@@ -105,9 +105,9 @@ describe("DownloadController", () => {
     encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const downloadConfigServiceMock: DownloadConfigServiceInterface = {
     elasticsearchNode: "",
@@ -144,14 +144,13 @@ describe("DownloadController", () => {
     typeormUsername: "",
   };
   const downloadServiceMock: DownloadServiceInterface = {
-    downloadedSongs: (): Promise<DownloadSongResDto[]> =>
-      Promise.resolve([downloadSong]),
+    downloadedSongs: () => Promise.resolve([downloadSong]),
   };
 
   let controller: DownloadController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [DownloadController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },

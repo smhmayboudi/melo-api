@@ -4,11 +4,11 @@ import {
   ConstImagesReqDto,
   DataConfigImageReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ConstService } from "./const.service";
 import { DataImageService } from "../data/data.image.service";
 import { DataImageServiceInterface } from "../data/data.image.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ConstService", () => {
   const config: ConstConfigReqDto = {
@@ -38,13 +38,13 @@ describe("ConstService", () => {
   };
 
   const dataImageServiceMock: DataImageServiceInterface = {
-    generateUrl: (): Promise<ConstImageResDto> => Promise.resolve(image),
+    generateUrl: () => Promise.resolve(image),
   };
 
   let service: ConstService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ConstService,
         { provide: DataImageService, useValue: dataImageServiceMock },

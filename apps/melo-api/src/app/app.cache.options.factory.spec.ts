@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AppCacheOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -52,32 +51,30 @@ describe("AppCacheOptionsFactory", () => {
 
   let service: AppConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: AppConfigService,
-            useValue: appConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<AppConfigService>(AppConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: AppConfigService,
+          useValue: appConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<AppConfigService>(AppConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new AppCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new AppCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new AppCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new AppCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: AppConfigService,

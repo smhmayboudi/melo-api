@@ -1,9 +1,9 @@
 import { ActionBulkReqDto, ActionType } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ActionController } from "./action.controller";
 import { ActionService } from "./action.service";
 import { ActionServiceInterface } from "./action.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ActionController", () => {
   const datetime = new Date().toString();
@@ -13,13 +13,13 @@ describe("ActionController", () => {
   };
 
   const actionServiceMock: ActionServiceInterface = {
-    bulk: (): Promise<ActionBulkReqDto> => Promise.resolve(action),
+    bulk: () => Promise.resolve(action),
   };
 
   let controller: ActionController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [ActionController],
       providers: [{ provide: ActionService, useValue: actionServiceMock }],
     }).compile();

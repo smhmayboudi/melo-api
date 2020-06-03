@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { AppConfigService } from "./app.config.service";
 import { ConfigService } from "@nestjs/config";
 import { LogLevel } from "@sentry/types";
+import { Test } from "@nestjs/testing";
 
 describe("AppConfigService", () => {
   // TODO: interface ?
@@ -14,7 +13,7 @@ describe("AppConfigService", () => {
   let service: AppConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AppConfigService,
         {
@@ -158,7 +157,7 @@ describe("AppConfigService", () => {
       get: (_propertyPath: string, _defaultValue: any): any => 2,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AppConfigService,
         {
@@ -177,7 +176,7 @@ describe("AppConfigService", () => {
       get: (_propertyPath: string, _defaultValue: any): any => 3,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AppConfigService,
         {
@@ -196,7 +195,7 @@ describe("AppConfigService", () => {
       get: (_propertyPath: string, _defaultValue: any): any => 4,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AppConfigService,
         {

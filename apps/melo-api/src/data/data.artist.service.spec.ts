@@ -15,12 +15,12 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataArtistService } from "./data.artist.service";
 import { DataTransformService } from "./data.transform.service";
 import { DataTransformServiceInterface } from "./data.transform.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Test } from "@nestjs/testing";
 
 describe("DataArtistService", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -168,9 +168,9 @@ describe("DataArtistService", () => {
   };
 
   const dataTransformServiceMock: DataTransformServiceInterface = {
-    album: (): Promise<AlbumResDto> => Promise.resolve(album),
-    artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    song: (): Promise<SongResDto> => Promise.resolve(song),
+    album: () => Promise.resolve(album),
+    artist: () => Promise.resolve(artist),
+    song: () => Promise.resolve(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -181,7 +181,7 @@ describe("DataArtistService", () => {
   let service: DataArtistService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DataArtistService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },

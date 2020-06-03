@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { RelationCacheOptionsFactory } from "./relation.cache.options.factory";
 import { RelationConfigService } from "./relation.config.service";
 import { RelationConfigServiceInterface } from "./relation.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("RelationCacheOptionsFactory", () => {
   const relationConfigServiceMock: RelationConfigServiceInterface = {
@@ -16,32 +15,30 @@ describe("RelationCacheOptionsFactory", () => {
 
   let service: RelationConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: RelationConfigService,
-            useValue: relationConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<RelationConfigService>(RelationConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: RelationConfigService,
+          useValue: relationConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<RelationConfigService>(RelationConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new RelationCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new RelationCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new RelationCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new RelationCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: RelationConfigService,

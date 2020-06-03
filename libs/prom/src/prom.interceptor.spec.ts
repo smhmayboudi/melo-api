@@ -7,13 +7,13 @@ import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS,
 } from "./prom.constant";
-import { Test, TestingModule } from "@nestjs/testing";
 import { getTokenConfiguration, getTokenCounter } from "./prom.util";
 
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { Counter } from "prom-client";
 import { PromInterceptor } from "./prom.interceptor";
 import { PromModuleOptions } from "./prom.module.interface";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("PromInterceptor", () => {
@@ -53,7 +53,7 @@ describe("PromInterceptor", () => {
   let options: PromModuleOptions;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
@@ -97,7 +97,7 @@ describe("PromInterceptor", () => {
       ignorePaths: [""],
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),
@@ -134,7 +134,7 @@ describe("PromInterceptor", () => {
       ignorePaths: ["/test"],
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: getTokenCounter(PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL),

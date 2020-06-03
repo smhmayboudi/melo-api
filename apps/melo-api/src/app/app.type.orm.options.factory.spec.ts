@@ -1,5 +1,3 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { AppTypeOrmOptionsFactory } from "./app.type.orm.options.factory";
@@ -7,6 +5,7 @@ import { AtEntity } from "../at/at.entity";
 import { FileEntity } from "../file/file.entity";
 import { JwksEntity } from "../jwks/jwks.entity";
 import { RtEntity } from "../rt/rt.entity";
+import { Test } from "@nestjs/testing";
 import { UserEntity } from "../user/user.entity";
 
 describe("AppTypeOrmOptionsFactory", () => {
@@ -57,7 +56,7 @@ describe("AppTypeOrmOptionsFactory", () => {
   let service: AppConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: appConfigServiceMock },
       ],

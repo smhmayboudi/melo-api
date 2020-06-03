@@ -1,6 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import { UserEditReqDto, UserResDto } from "@melo/common";
 
+import { Test } from "@nestjs/testing";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
 import { UserServiceInterface } from "./user.service.interface";
@@ -12,20 +12,19 @@ describe("UserController", () => {
   };
 
   const userServiceMock: UserServiceInterface = {
-    edit: (): Promise<UserResDto> => Promise.resolve(user),
-    find: (): Promise<UserResDto[]> => Promise.resolve([user]),
-    findOne: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByTelegramId: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByUsername: (): Promise<UserResDto | undefined> =>
-      Promise.resolve(user),
-    get: (): Promise<UserResDto> => Promise.resolve(user),
-    save: (): Promise<UserResDto> => Promise.resolve(user),
+    edit: () => Promise.resolve(user),
+    find: () => Promise.resolve([user]),
+    findOne: () => Promise.resolve(user),
+    findOneByTelegramId: () => Promise.resolve(user),
+    findOneByUsername: () => Promise.resolve(user),
+    get: () => Promise.resolve(user),
+    save: () => Promise.resolve(user),
   };
 
   let controller: UserController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [UserController],
       providers: [{ provide: UserService, useValue: userServiceMock }],
     }).compile();

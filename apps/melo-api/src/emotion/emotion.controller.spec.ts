@@ -12,7 +12,6 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
@@ -25,6 +24,7 @@ import { EmotionConfigServiceInterface } from "./emotion.config.service.interfac
 import { EmotionController } from "./emotion.controller";
 import { EmotionService } from "./emotion.service";
 import { EmotionServiceInterface } from "./emotion.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("EmotionController", () => {
   const releaseDate = new Date();
@@ -104,9 +104,9 @@ describe("EmotionController", () => {
     encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
@@ -143,14 +143,13 @@ describe("EmotionController", () => {
     maxSize: 0,
   };
   const emotionServiceMock: EmotionServiceInterface = {
-    emotions: (): Promise<EmotionEmotionsResDto[]> =>
-      Promise.resolve([emotion]),
+    emotions: () => Promise.resolve([emotion]),
   };
 
   let controller: EmotionController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [EmotionController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },

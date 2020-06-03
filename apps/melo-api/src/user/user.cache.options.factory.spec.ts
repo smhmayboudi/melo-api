@@ -1,6 +1,5 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
+import { Test } from "@nestjs/testing";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import { UserConfigService } from "./user.config.service";
 import { UserConfigServiceInterface } from "./user.config.service.interface";
@@ -16,32 +15,30 @@ describe("UserCacheOptionsFactory", () => {
 
   let service: UserConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: UserConfigService,
-            useValue: userConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<UserConfigService>(UserConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: UserConfigService,
+          useValue: userConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<UserConfigService>(UserConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new UserCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new UserCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new UserCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new UserCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: UserConfigService,

@@ -1,10 +1,9 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { JwksEntity } from "./jwks.entity";
 import { JwksEntityRepository } from "./jwks.entity.repository";
 import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.interface";
 import { JwksFindOneReqDto } from "@melo/common";
 import { JwksService } from "./jwks.service";
+import { Test } from "@nestjs/testing";
 
 describe("JwksService", () => {
   const jwksEntity: JwksEntity = {
@@ -14,15 +13,14 @@ describe("JwksService", () => {
   };
 
   const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {
-    findOne: (): Promise<JwksEntity | undefined> => Promise.resolve(jwksEntity),
-    getOneRandom: (): Promise<JwksEntity | undefined> =>
-      Promise.resolve(jwksEntity),
+    findOne: () => Promise.resolve(jwksEntity),
+    getOneRandom: () => Promise.resolve(jwksEntity),
   };
 
   let service: JwksService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         JwksService,
         { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock },

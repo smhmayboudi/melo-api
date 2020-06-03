@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumConfigServiceInterface } from "./album.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AlbumCacheOptionsFactory", () => {
   const albumConfigServiceMock: AlbumConfigServiceInterface = {
@@ -16,32 +15,30 @@ describe("AlbumCacheOptionsFactory", () => {
 
   let service: AlbumConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: AlbumConfigService,
-            useValue: albumConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<AlbumConfigService>(AlbumConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: AlbumConfigService,
+          useValue: albumConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<AlbumConfigService>(AlbumConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new AlbumCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new AlbumCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new AlbumCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new AlbumCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: AlbumConfigService,

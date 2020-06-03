@@ -1,7 +1,6 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { DGRAPH_INSTANCE_TOKEN } from "./dgraph.constant";
 import { DgraphService } from "./dgraph.service";
+import { Test } from "@nestjs/testing";
 
 describe("DgraphService", () => {
   // TODO: interface ?
@@ -12,7 +11,7 @@ describe("DgraphService", () => {
   let service: DgraphService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DgraphService,
         {

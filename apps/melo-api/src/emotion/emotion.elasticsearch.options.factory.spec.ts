@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionConfigServiceInterface } from "./emotion.config.service.interface";
 import { EmotionElasticsearchOptionsFactory } from "./emotion.elasticsearch.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("EmotionElasticsearchOptionsFactory", () => {
   const emotionConfigServiceMock: EmotionConfigServiceInterface = {
@@ -14,7 +13,7 @@ describe("EmotionElasticsearchOptionsFactory", () => {
   let service: EmotionConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: EmotionConfigService,

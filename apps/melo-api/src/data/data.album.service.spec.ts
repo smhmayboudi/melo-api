@@ -14,7 +14,6 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataAlbumService } from "./data.album.service";
 import { DataConfigService } from "./data.config.service";
@@ -24,6 +23,7 @@ import { DataSongServiceInterface } from "./data.song.service.interface";
 import { DataTransformService } from "./data.transform.service";
 import { DataTransformServiceInterface } from "./data.transform.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Test } from "@nestjs/testing";
 
 describe("DataAlbumService", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -200,26 +200,26 @@ describe("DataAlbumService", () => {
     typeormUsername: "",
   };
   const dataSongServiceMock: DataSongServiceInterface = {
-    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    get: (): Promise<SongResDto> => Promise.resolve(song),
-    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    albumSongs: () => Promise.resolve([song]),
+    artistSongs: () => Promise.resolve([song]),
+    artistSongsTop: () => Promise.resolve([song]),
+    genre: () => Promise.resolve([song]),
+    get: () => Promise.resolve(song),
+    getByIds: () => Promise.resolve([song]),
+    language: () => Promise.resolve([song]),
+    mood: () => Promise.resolve([song]),
+    newPodcast: () => Promise.resolve([song]),
+    newSong: () => Promise.resolve([song]),
+    podcast: () => Promise.resolve([song]),
+    similar: () => Promise.resolve([song]),
+    slider: () => Promise.resolve([song]),
+    topDay: () => Promise.resolve([song]),
+    topWeek: () => Promise.resolve([song]),
   };
   const dataTransformServiceMock: DataTransformServiceInterface = {
-    album: (): Promise<AlbumResDto> => Promise.resolve(album),
-    artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    song: (): Promise<SongResDto> => Promise.resolve(song),
+    album: () => Promise.resolve(album),
+    artist: () => Promise.resolve(artist),
+    song: () => Promise.resolve(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -230,7 +230,7 @@ describe("DataAlbumService", () => {
   let service: DataAlbumService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DataAlbumService,
         { provide: DataConfigService, useValue: dataConfigServiceMock },

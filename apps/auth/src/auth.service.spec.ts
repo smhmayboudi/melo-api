@@ -7,10 +7,10 @@ import {
   RT_SERVICE,
   RtResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AuthService } from "./auth.service";
 import { JwtService } from "@nestjs/jwt";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 jest.mock("crypto-random-string", () => jest.fn(() => "1"));
@@ -50,7 +50,7 @@ describe("AuthService", () => {
   let service: AuthService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
@@ -80,7 +80,7 @@ describe("AuthService", () => {
       send: () => of(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
@@ -133,7 +133,7 @@ describe("AuthService", () => {
       send: () => of(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },

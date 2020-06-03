@@ -3,19 +3,18 @@ import {
   AtDeleteReqDto,
   AtFindOneByTokenReqDto,
   AtFindOneReqDto,
-  AtResDto,
   AtSaveReqDto,
   AtUpdateReqDto,
   AtValidateByTokenReqDto,
   AtValidateReqDto,
 } from "@melo/common";
 import { DeleteResult, UpdateResult } from "typeorm";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AtEntity } from "./at.entity";
 import { AtEntityRepository } from "./at.entity.repository";
 import { AtEntityRepositoryInterface } from "./at.entity.repository.interface";
 import { AtService } from "./at.service";
+import { Test } from "@nestjs/testing";
 
 describe("AtService", () => {
   const date = new Date();
@@ -36,18 +35,18 @@ describe("AtService", () => {
   };
 
   const atEntityRepositoryMock: AtEntityRepositoryInterface = {
-    delete: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
-    find: (): Promise<AtEntity[]> => Promise.resolve([atEntity]),
-    findOne: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
+    delete: () => Promise.resolve(deleteResult),
+    find: () => Promise.resolve([atEntity]),
+    findOne: () => Promise.resolve(atEntity),
     save: <AtEntity>(): Promise<AtEntity> =>
       (Promise.resolve(atEntity) as unknown) as Promise<AtEntity>,
-    update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
+    update: () => Promise.resolve(updateResult),
   };
 
   let service: AtService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AtService,
         { provide: AtEntityRepository, useValue: atEntityRepositoryMock },

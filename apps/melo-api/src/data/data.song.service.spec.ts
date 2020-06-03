@@ -28,7 +28,6 @@ import {
   SongTopDayReqDto,
   SongTopWeekReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataCacheEntity } from "./data.cache.entity";
 import { DataSiteEntity } from "./data.site.entity";
@@ -36,6 +35,7 @@ import { DataSongService } from "./data.song.service";
 import { DataTransformService } from "./data.transform.service";
 import { DataTransformServiceInterface } from "./data.transform.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 
 describe("DataSongService", () => {
@@ -195,11 +195,11 @@ describe("DataSongService", () => {
 
   // TODO: interface ?
   const dataCacheEntityRepositoryMock = {
-    createQueryBuilder: (): any => ({
-      where: (): any => ({
-        orderBy: (): any => ({
-          limit: (): any => ({
-            getOne: (): Promise<DataCacheEntity> => Promise.resolve(dataCache),
+    createQueryBuilder: () => ({
+      where: () => ({
+        orderBy: () => ({
+          limit: () => ({
+            getOne: () => Promise.resolve(dataCache),
           }),
         }),
       }),
@@ -207,16 +207,16 @@ describe("DataSongService", () => {
   };
   // TODO: interface ?
   const dataSiteEntityRepositoryMock = {
-    createQueryBuilder: (): any => ({
-      orderBy: (): any => ({
-        getMany: (): Promise<DataSiteEntity[]> => Promise.resolve([dataSite]),
+    createQueryBuilder: () => ({
+      orderBy: () => ({
+        getMany: () => Promise.resolve([dataSite]),
       }),
     }),
   };
   const dataTransformServiceMock: DataTransformServiceInterface = {
-    album: (): Promise<AlbumResDto> => Promise.resolve(album),
-    artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    song: (): Promise<SongResDto> => Promise.resolve(song),
+    album: () => Promise.resolve(album),
+    artist: () => Promise.resolve(artist),
+    song: () => Promise.resolve(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -227,7 +227,7 @@ describe("DataSongService", () => {
   let service: DataSongService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DataSongService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },
@@ -366,10 +366,10 @@ describe("DataSongService", () => {
   it("newPodcast should be equal to a list of songs 2", async () => {
     // TODO: interface ?
     const dataCacheEntityRepositoryMock = {
-      createQueryBuilder: (): any => ({
-        where: (): any => ({
-          orderBy: (): any => ({
-            limit: (): any => ({
+      createQueryBuilder: () => ({
+        where: () => ({
+          orderBy: () => ({
+            limit: () => ({
               getOne: () => Promise.resolve(undefined),
             }),
           }),
@@ -377,7 +377,7 @@ describe("DataSongService", () => {
       }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DataSongService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },
@@ -461,7 +461,7 @@ describe("DataSongService", () => {
       get: () => Promise.resolve(elasticGetRes),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         DataSongService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },

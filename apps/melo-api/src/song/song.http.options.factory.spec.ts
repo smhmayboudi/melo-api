@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { SongConfigService } from "./song.config.service";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongHttpOptionsFactory } from "./song.http.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("SongHttpOptionsFactory", () => {
   const songConfigServiceMock: SongConfigServiceInterface = {
@@ -19,7 +18,7 @@ describe("SongHttpOptionsFactory", () => {
   let service: SongConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: SongConfigService,

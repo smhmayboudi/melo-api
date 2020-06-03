@@ -1,12 +1,11 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { PlaylistModule } from "./../src/playlist.module";
+import { Test } from "@nestjs/testing";
 
 describe("playlist (e2e)", () => {
   let app;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
+    const moduleFixture = await Test.createTestingModule({
       imports: [PlaylistModule],
     }).compile();
     app = moduleFixture.createNestApplication();

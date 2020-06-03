@@ -1,12 +1,10 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
 import { JwksEntity } from "../jwks/jwks.entity";
-import { JwksResDto } from "@melo/common";
 import { JwksService } from "../jwks/jwks.service";
 import { JwksServiceInterface } from "../jwks/jwks.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AuthJwtOptionsFactory", () => {
   const jwks: JwksEntity = {
@@ -24,15 +22,15 @@ describe("AuthJwtOptionsFactory", () => {
     telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
-    findOne: (): Promise<JwksResDto | undefined> => Promise.resolve(jwks),
-    getOneRandom: (): Promise<JwksResDto | undefined> => Promise.resolve(jwks),
+    findOne: () => Promise.resolve(jwks),
+    getOneRandom: () => Promise.resolve(jwks),
   };
 
   let authConfigService: AuthConfigService;
   let jwksService: JwksService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JwksService, useValue: jwksServiceMock },
@@ -67,11 +65,10 @@ describe("AuthJwtOptionsFactory", () => {
   it("createJwtOptions should be equal to an option with jwks undefined", async () => {
     const jwksServiceMockGetOneRandom: JwksServiceInterface = {
       ...jwksServiceMock,
-      getOneRandom: (): Promise<JwksResDto | undefined> =>
-        Promise.resolve(undefined),
+      getOneRandom: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },
         {

@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import { SearchConfigService } from "./search.config.service";
 import { SearchConfigServiceInterface } from "./search.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("SearchCacheOptionsFactory", () => {
   const searchConfigServiceMock: SearchConfigServiceInterface = {
@@ -21,32 +20,30 @@ describe("SearchCacheOptionsFactory", () => {
 
   let service: SearchConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: SearchConfigService,
-            useValue: searchConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<SearchConfigService>(SearchConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: SearchConfigService,
+          useValue: searchConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<SearchConfigService>(SearchConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new SearchCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new SearchCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new SearchCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new SearchCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: SearchConfigService,

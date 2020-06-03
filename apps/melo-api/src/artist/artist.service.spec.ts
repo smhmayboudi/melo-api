@@ -16,7 +16,6 @@ import {
   RelationEntityType,
   RelationResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppArtistService } from "../app/app.artist.service";
 import { AppArtistServiceInterface } from "../app/app.artist.service.interface";
@@ -25,6 +24,7 @@ import { DataArtistService } from "../data/data.artist.service";
 import { DataArtistServiceInterface } from "../data/data.artist.service.interface";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ArtistService", () => {
   const config: ArtistConfigReqDto = {
@@ -83,27 +83,27 @@ describe("ArtistService", () => {
   };
 
   const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    follow: () => Promise.resolve(artist),
+    follows: () => Promise.resolve([artist]),
   };
   const dataArtistServiceMock: DataArtistServiceInterface = {
-    get: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    getByIds: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    trending: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    trendingGenre: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    get: () => Promise.resolve(artist),
+    getByIds: () => Promise.resolve([artist]),
+    trending: () => Promise.resolve([artist]),
+    trendingGenre: () => Promise.resolve([artist]),
   };
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
-    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
-    set: (): Promise<RelationResDto> => Promise.resolve(relation),
+    get: () => Promise.resolve([relation]),
+    has: () => Promise.resolve(relation),
+    multiHas: () => Promise.resolve([relation]),
+    remove: () => Promise.resolve(relation),
+    set: () => Promise.resolve(relation),
   };
 
   let service: ArtistService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ArtistService,
         { provide: AppArtistService, useValue: appArtistServiceMock },
@@ -149,10 +149,10 @@ describe("ArtistService", () => {
   it("following should equal an empty list", async () => {
     const relationServiceMockGet: RelationServiceInterface = {
       ...relationServiceMock,
-      get: (): Promise<RelationResDto[]> => Promise.resolve([]),
+      get: () => Promise.resolve([]),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ArtistService,
         { provide: AppArtistService, useValue: appArtistServiceMock },

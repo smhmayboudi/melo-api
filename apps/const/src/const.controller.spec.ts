@@ -6,11 +6,11 @@ import {
   ConstImagesResDto,
   DataConfigImageReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ConstController } from "./const.controller";
 import { ConstService } from "./const.service";
 import { ConstServiceInterface } from "./const.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ConstController", () => {
   const config: ConstConfigReqDto = {
@@ -43,14 +43,14 @@ describe("ConstController", () => {
   };
 
   const constServiceMock: ConstServiceInterface = {
-    image: (): Promise<ConstImageResDto> => Promise.resolve(image),
-    images: (): Promise<ConstImagesResDto> => Promise.resolve(images),
+    image: () => Promise.resolve(image),
+    images: () => Promise.resolve(images),
   };
 
   let controller: ConstController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [ConstController],
       providers: [{ provide: ConstService, useValue: constServiceMock }],
     }).compile();

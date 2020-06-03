@@ -31,7 +31,6 @@ import {
   SongTopWeekReqDto,
   SongUnlikeReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
@@ -44,6 +43,7 @@ import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongController } from "./song.controller";
 import { SongService } from "./song.service";
 import { SongServiceInterface } from "./song.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("SongController", () => {
   const config: SongConfigReqDto = {
@@ -146,9 +146,9 @@ describe("SongController", () => {
     encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
@@ -190,29 +190,29 @@ describe("SongController", () => {
     sendUrl: "",
   };
   const songServiceMock: SongServiceInterface = {
-    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    get: (): Promise<SongResDto> => Promise.resolve(song),
-    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    liked: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    sendTelegram: (): Promise<void> => Promise.resolve(undefined),
-    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    unlike: (): Promise<SongResDto> => Promise.resolve(song),
+    artistSongs: () => Promise.resolve([song]),
+    artistSongsTop: () => Promise.resolve([song]),
+    genre: () => Promise.resolve([song]),
+    get: () => Promise.resolve(song),
+    language: () => Promise.resolve([song]),
+    like: () => Promise.resolve(song),
+    liked: () => Promise.resolve([song]),
+    mood: () => Promise.resolve([song]),
+    newPodcast: () => Promise.resolve([song]),
+    newSong: () => Promise.resolve([song]),
+    podcast: () => Promise.resolve([song]),
+    sendTelegram: () => Promise.resolve(undefined),
+    similar: () => Promise.resolve([song]),
+    slider: () => Promise.resolve([song]),
+    topDay: () => Promise.resolve([song]),
+    topWeek: () => Promise.resolve([song]),
+    unlike: () => Promise.resolve(song),
   };
 
   let controller: SongController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [SongController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },

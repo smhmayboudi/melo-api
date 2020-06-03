@@ -17,10 +17,10 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumService } from "./album.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("AlbumService", () => {
@@ -189,7 +189,7 @@ describe("AlbumService", () => {
   let service: AlbumService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AlbumService,
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
@@ -258,13 +258,12 @@ describe("AlbumService", () => {
   });
 
   it("transform should be equal to an album 2", async () => {
-    expect(
-      await service.transform({
-        ...searchElastic,
-        tags: undefined,
-        unique_name: undefined,
-      })
-    ).toEqual({
+    const dto: DataElasticsearchSearchResDto = {
+      ...searchElastic,
+      tags: undefined,
+      unique_name: undefined,
+    };
+    expect(await service.transform(dto)).toEqual({
       ...album,
       tags: undefined,
     });

@@ -1,5 +1,4 @@
 import { Counter, Gauge, Histogram, Summary, register } from "prom-client";
-import { Test, TestingModule } from "@nestjs/testing";
 import {
   getOrCreateCounterProvider,
   getOrCreateGaugeProvider,
@@ -14,9 +13,11 @@ import {
   getTokenSummary,
 } from "./prom.util";
 
+import { Test } from "@nestjs/testing";
+
 describe("PromProvider", () => {
   it("getOrCreateCounterProvider should be instance of counter", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         getOrCreateCounterProvider({
           help: "counter",
@@ -29,7 +30,7 @@ describe("PromProvider", () => {
   });
 
   it("getOrCreateGaugeProvider should be instance of gauge", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         getOrCreateGaugeProvider({
           help: "gauge",
@@ -42,7 +43,7 @@ describe("PromProvider", () => {
   });
 
   it("getOrCreateHistogramProvider should be instance of gauge", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         getOrCreateHistogramProvider({
           help: "histogram",
@@ -57,7 +58,7 @@ describe("PromProvider", () => {
   });
 
   it("getOrCreateSummaryProvider should be instance of gauge", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         getOrCreateSummaryProvider({
           help: "summary",

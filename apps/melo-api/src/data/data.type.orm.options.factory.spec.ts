@@ -1,11 +1,10 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { DataCacheEntity } from "./data.cache.entity";
 import { DataConfigService } from "./data.config.service";
 import { DataConfigServiceInterface } from "./data.config.service.interface";
 import { DataSiteEntity } from "./data.site.entity";
 import { DataTypeOrmLogger } from "./data.type.orm.logger";
 import { DataTypeOrmOptionsFactory } from "./data.type.orm.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("DataTypeOrmOptionsFactory", () => {
   const dataConfigServiceMock: DataConfigServiceInterface = {
@@ -41,7 +40,7 @@ describe("DataTypeOrmOptionsFactory", () => {
   let service: DataConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: DataConfigService,

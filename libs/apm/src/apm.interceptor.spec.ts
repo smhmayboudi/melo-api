@@ -1,10 +1,10 @@
 import { CallHandler, HttpArgumentsHost } from "@nestjs/common/interfaces";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ApmInterceptor } from "./apm.interceptor";
 import { ApmService } from "./apm.service";
 import { ApmServiceInterface } from "./apm.service.interface";
 import { ExecutionContext } from "@nestjs/common";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("ApmInterceptor", () => {
@@ -72,7 +72,7 @@ describe("ApmInterceptor", () => {
   let service: ApmService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [{ provide: ApmService, useValue: ampServiceMock }],
     }).compile();
     service = module.get<ApmService>(ApmService);

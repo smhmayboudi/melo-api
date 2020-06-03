@@ -18,7 +18,6 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppArtistService } from "../app/app.artist.service";
 import { AppArtistServiceInterface } from "../app/app.artist.service.interface";
@@ -33,6 +32,7 @@ import { ArtistService } from "./artist.service";
 import { ArtistServiceInterface } from "./artist.service.interface";
 import { DataConfigService } from "../data/data.config.service";
 import { DataConfigServiceInterface } from "../data/data.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ArtistController", () => {
   const config: ArtistConfigReqDto = {
@@ -125,8 +125,8 @@ describe("ArtistController", () => {
   };
 
   const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    follow: () => Promise.resolve(artist),
+    follows: () => Promise.resolve([artist]),
   };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -138,9 +138,9 @@ describe("ArtistController", () => {
     encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const artistConfigServiceMock: ArtistConfigServiceInterface = {
     cacheHost: "",
@@ -151,12 +151,12 @@ describe("ArtistController", () => {
     maxSize: 0,
   };
   const artistServiceMock: ArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    following: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    profile: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    trending: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    trendingGenre: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
-    unfollow: (): Promise<ArtistResDto> => Promise.resolve(artist),
+    follow: () => Promise.resolve(artist),
+    following: () => Promise.resolve([artist]),
+    profile: () => Promise.resolve(artist),
+    trending: () => Promise.resolve([artist]),
+    trendingGenre: () => Promise.resolve([artist]),
+    unfollow: () => Promise.resolve(artist),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
@@ -191,7 +191,7 @@ describe("ArtistController", () => {
   let controller: ArtistController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [ArtistController],
       providers: [
         { provide: AppArtistService, useValue: appArtistServiceMock },

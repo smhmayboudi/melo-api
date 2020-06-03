@@ -14,12 +14,12 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { DataTransformService } from "../data/data.transform.service";
 import { DataTransformServiceInterface } from "../data/data.transform.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { SearchService } from "./search.service";
+import { Test } from "@nestjs/testing";
 
 describe("SearchService", () => {
   const config: SearchConfigReqDto = {
@@ -173,9 +173,9 @@ describe("SearchService", () => {
   };
 
   const dataTransformServiceMock: DataTransformServiceInterface = {
-    album: (): Promise<AlbumResDto> => Promise.resolve(album),
-    artist: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    song: (): Promise<SongResDto> => Promise.resolve(song),
+    album: () => Promise.resolve(album),
+    artist: () => Promise.resolve(artist),
+    song: () => Promise.resolve(song),
   };
   // TODO: interface ?
   const elasticsearchServiceMock = {
@@ -186,7 +186,7 @@ describe("SearchService", () => {
   let service: SearchService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },
@@ -232,7 +232,7 @@ describe("SearchService", () => {
         }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },
@@ -295,7 +295,7 @@ describe("SearchService", () => {
         ),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },
@@ -372,7 +372,7 @@ describe("SearchService", () => {
         }),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SearchService,
         { provide: DataTransformService, useValue: dataTransformServiceMock },

@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { RtResDto } from "@melo/common";
 import { RtService } from "../rt/rt.service";
 import { RtServiceInterface } from "../rt/rt.service.interface";
+import { Test } from "@nestjs/testing";
 import { TokenStrategy } from "./token.strategy";
 
 describe("TokenStrategy", () => {
@@ -18,22 +17,22 @@ describe("TokenStrategy", () => {
   };
 
   const rtServiceMock: RtServiceInterface = {
-    block: (): Promise<RtResDto> => Promise.resolve(rt),
-    blockByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    delete: (): Promise<RtResDto> => Promise.resolve(rt),
-    deleteByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    find: (): Promise<RtResDto[]> => Promise.resolve([rt]),
-    findOne: (): Promise<RtResDto> => Promise.resolve(rt),
-    findOneByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    save: (): Promise<RtResDto> => Promise.resolve(rt),
-    validate: (): Promise<RtResDto> => Promise.resolve(rt),
-    validateByToken: (): Promise<RtResDto> => Promise.resolve(rt),
+    block: () => Promise.resolve(rt),
+    blockByToken: () => Promise.resolve(rt),
+    delete: () => Promise.resolve(rt),
+    deleteByToken: () => Promise.resolve(rt),
+    find: () => Promise.resolve([rt]),
+    findOne: () => Promise.resolve(rt),
+    findOneByToken: () => Promise.resolve(rt),
+    save: () => Promise.resolve(rt),
+    validate: () => Promise.resolve(rt),
+    validateByToken: () => Promise.resolve(rt),
   };
 
   let service: RtService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: RtService,
@@ -57,11 +56,10 @@ describe("TokenStrategy", () => {
   it("validate should throw an error", async () => {
     const rtServiceMockValidateByToken: RtServiceInterface = {
       ...rtServiceMock,
-      validateByToken: (): Promise<RtResDto | undefined> =>
-        Promise.resolve(undefined),
+      validateByToken: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: RtService,

@@ -1,15 +1,10 @@
-import {
-  AuthAccessTokenResDto,
-  AuthRefreshTokenResDto,
-  RtResDto,
-} from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { AuthServiceInterface } from "./auth.service.interface";
+import { RtResDto } from "@melo/common";
+import { Test } from "@nestjs/testing";
 
 describe("AuthController", () => {
   const date = new Date();
@@ -32,12 +27,12 @@ describe("AuthController", () => {
     telegramQueryExpiration: 0,
   };
   const authServiceMock: AuthServiceInterface = {
-    accessToken: (): Promise<AuthAccessTokenResDto> =>
+    accessToken: () =>
       Promise.resolve({
         at: "",
       }),
-    deleteByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    refreshToken: (): Promise<AuthRefreshTokenResDto> =>
+    deleteByToken: () => Promise.resolve(rt),
+    refreshToken: () =>
       Promise.resolve({
         at: "",
         rt: "",
@@ -47,7 +42,7 @@ describe("AuthController", () => {
   let controller: AuthController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },

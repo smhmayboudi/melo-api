@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APM_INSTANCE_TOKEN } from "./apm.constant";
 import { ApmService } from "./apm.service";
 import { ApmServiceInterface } from "./apm.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ApmService", () => {
   const ampServiceMock: ApmServiceInterface = {
@@ -46,7 +45,7 @@ describe("ApmService", () => {
   let service: ApmService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ApmService,
         { provide: APM_INSTANCE_TOKEN, useValue: ampServiceMock },

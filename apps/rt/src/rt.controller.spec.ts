@@ -10,11 +10,11 @@ import {
   RtValidateByTokenReqDto,
   RtValidateReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { RtController } from "./rt.controller";
 import { RtService } from "./rt.service";
 import { RtServiceInterface } from "./rt.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("RtController", () => {
   const date = new Date();
@@ -29,22 +29,22 @@ describe("RtController", () => {
   };
 
   const atServiceMock: RtServiceInterface = {
-    block: (): Promise<RtResDto> => Promise.resolve(rt),
-    blockByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    delete: (): Promise<RtResDto> => Promise.resolve(rt),
-    deleteByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    find: (): Promise<RtResDto[]> => Promise.resolve([rt]),
-    findOne: (): Promise<RtResDto> => Promise.resolve(rt),
-    findOneByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    save: (): Promise<RtResDto> => Promise.resolve(rt),
-    validate: (): Promise<RtResDto> => Promise.resolve(rt),
-    validateByToken: (): Promise<RtResDto> => Promise.resolve(rt),
+    block: () => Promise.resolve(rt),
+    blockByToken: () => Promise.resolve(rt),
+    delete: () => Promise.resolve(rt),
+    deleteByToken: () => Promise.resolve(rt),
+    find: () => Promise.resolve([rt]),
+    findOne: () => Promise.resolve(rt),
+    findOneByToken: () => Promise.resolve(rt),
+    save: () => Promise.resolve(rt),
+    validate: () => Promise.resolve(rt),
+    validateByToken: () => Promise.resolve(rt),
   };
 
   let controller: RtController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [RtController],
       providers: [{ provide: RtService, useValue: atServiceMock }],
     }).compile();

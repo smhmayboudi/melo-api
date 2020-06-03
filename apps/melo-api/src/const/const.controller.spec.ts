@@ -5,7 +5,6 @@ import {
   ConstImagesResDto,
   DataConfigImageReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ConstConfigService } from "./const.config.service";
 import { ConstConfigServiceInterface } from "./const.config.service.interface";
@@ -14,6 +13,7 @@ import { ConstService } from "./const.service";
 import { ConstServiceInterface } from "./const.service.interface";
 import { DataConfigService } from "../data/data.config.service";
 import { DataConfigServiceInterface } from "../data/data.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ConstController", () => {
   const config: ConstConfigReqDto = {
@@ -57,7 +57,7 @@ describe("ConstController", () => {
     },
   };
   const constServiceMock: ConstServiceInterface = {
-    images: (): Promise<ConstImagesResDto> => Promise.resolve(images),
+    images: () => Promise.resolve(images),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
@@ -92,7 +92,7 @@ describe("ConstController", () => {
   let controller: ConstController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [ConstController],
       providers: [
         { provide: ConstConfigService, useValue: constConfigServiceMock },

@@ -3,10 +3,8 @@ import {
   AuthConfigReqDto,
   AuthDeleteByTokenReqDto,
   AuthRefreshTokenReqDto,
-  JwksResDto,
   RtResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
@@ -17,6 +15,7 @@ import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 import { JwtService } from "@nestjs/jwt";
 import { RtService } from "../rt/rt.service";
 import { RtServiceInterface } from "../rt/rt.service.interface";
+import { Test } from "@nestjs/testing";
 
 jest.mock("crypto-random-string", () => jest.fn(() => "1"));
 
@@ -51,29 +50,28 @@ describe("AuthService", () => {
     telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
-    findOne: (): Promise<JwksResDto | undefined> => Promise.resolve(jwksEntity),
-    getOneRandom: (): Promise<JwksResDto | undefined> =>
-      Promise.resolve(jwksEntity),
+    findOne: () => Promise.resolve(jwksEntity),
+    getOneRandom: () => Promise.resolve(jwksEntity),
   };
   // TODO: interface ?
   const jwtServiceMock = {
     sign: (): string => "0",
   };
   const rtServiceMock: RtServiceInterface = {
-    block: (): Promise<RtResDto> => Promise.resolve(rt),
-    blockByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    delete: (): Promise<RtResDto> => Promise.resolve(rt),
-    deleteByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    find: (): Promise<RtResDto[]> => Promise.resolve([rt]),
-    findOne: (): Promise<RtResDto> => Promise.resolve(rt),
-    findOneByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    save: (): Promise<RtResDto> => Promise.resolve(rt),
-    validate: (): Promise<RtResDto> => Promise.resolve(rt),
-    validateByToken: (): Promise<RtResDto> => Promise.resolve(rt),
+    block: () => Promise.resolve(rt),
+    blockByToken: () => Promise.resolve(rt),
+    delete: () => Promise.resolve(rt),
+    deleteByToken: () => Promise.resolve(rt),
+    find: () => Promise.resolve([rt]),
+    findOne: () => Promise.resolve(rt),
+    findOneByToken: () => Promise.resolve(rt),
+    save: () => Promise.resolve(rt),
+    validate: () => Promise.resolve(rt),
+    validateByToken: () => Promise.resolve(rt),
   };
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
@@ -101,11 +99,10 @@ describe("AuthService", () => {
   it("accessToken should throw an error", async () => {
     const jwksServiceMockGetOneRandom: JwksServiceInterface = {
       ...jwksServiceMock,
-      getOneRandom: (): Promise<JwksResDto | undefined> =>
-        Promise.resolve(undefined),
+      getOneRandom: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
@@ -156,11 +153,10 @@ describe("AuthService", () => {
   it("refreshToken should throw an error", async () => {
     const jwksServiceMockGetOneRandom: JwksServiceInterface = {
       ...jwksServiceMock,
-      getOneRandom: (): Promise<JwksResDto | undefined> =>
-        Promise.resolve(undefined),
+      getOneRandom: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },

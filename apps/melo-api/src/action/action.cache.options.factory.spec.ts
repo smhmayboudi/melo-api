@@ -1,9 +1,8 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { APP_CACHE_STORE_NONE } from "@melo/common";
 import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import { ActionConfigService } from "./action.config.service";
 import { ActionConfigServiceInterface } from "./action.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("ActionCacheOptionsFactory", () => {
   const actionConfigServiceMock: ActionConfigServiceInterface = {
@@ -16,32 +15,30 @@ describe("ActionCacheOptionsFactory", () => {
 
   let service: ActionConfigService;
 
-  describe("cacheStore", () => {
-    beforeEach(async () => {
-      const module: TestingModule = await Test.createTestingModule({
-        providers: [
-          {
-            provide: ActionConfigService,
-            useValue: actionConfigServiceMock,
-          },
-        ],
-      }).compile();
-      service = module.get<ActionConfigService>(ActionConfigService);
-    });
+  beforeEach(async () => {
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: ActionConfigService,
+          useValue: actionConfigServiceMock,
+        },
+      ],
+    }).compile();
+    service = module.get<ActionConfigService>(ActionConfigService);
+  });
 
-    it("should be defined", () => {
-      expect(new ActionCacheOptionsFactory(service)).toBeDefined();
-    });
+  it("should be defined", () => {
+    expect(new ActionCacheOptionsFactory(service)).toBeDefined();
+  });
 
-    it("createCacheOptions should be equal to an option", () => {
-      expect(
-        new ActionCacheOptionsFactory(service).createCacheOptions()
-      ).toBeDefined();
-    });
+  it("createCacheOptions should be equal to an option", () => {
+    expect(
+      new ActionCacheOptionsFactory(service).createCacheOptions()
+    ).toBeDefined();
   });
 
   it("createCacheOptions should be equal to an option with store none", async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: ActionConfigService,

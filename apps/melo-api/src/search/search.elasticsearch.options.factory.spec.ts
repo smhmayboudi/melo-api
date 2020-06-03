@@ -1,8 +1,7 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import { SearchConfigService } from "./search.config.service";
 import { SearchConfigServiceInterface } from "./search.config.service.interface";
 import { SearchElasticsearchOptionsFactory } from "./search.elasticsearch.options.factory";
+import { Test } from "@nestjs/testing";
 
 describe("SearchElasticsearchOptionsFactory", () => {
   const searchConfigServiceMock: SearchConfigServiceInterface = {
@@ -21,7 +20,7 @@ describe("SearchElasticsearchOptionsFactory", () => {
   let service: SearchConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: SearchConfigService,

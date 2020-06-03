@@ -1,10 +1,4 @@
-import {
-  AtResDto,
-  AuthJwtPayloadReqDto,
-  JwksResDto,
-  RtResDto,
-} from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
+import { AuthJwtPayloadReqDto, RtResDto } from "@melo/common";
 
 import { AtEntity } from "../at/at.entity";
 import { AtService } from "../at/at.service";
@@ -17,6 +11,7 @@ import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 import { JwtStrategy } from "./jwt.strategy";
 import { RtService } from "../rt/rt.service";
 import { RtServiceInterface } from "../rt/rt.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("JwtStrategy", () => {
   const date = new Date();
@@ -44,18 +39,15 @@ describe("JwtStrategy", () => {
   };
 
   const atServiceMock: AtServiceInterface = {
-    delete: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
-    deleteByToken: (): Promise<AtResDto | undefined> =>
-      Promise.resolve(atEntity),
-    find: (): Promise<AtResDto[]> => Promise.resolve([atEntity]),
-    findOne: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
-    findOneByToken: (): Promise<AtResDto | undefined> =>
-      Promise.resolve(atEntity),
-    save: (): Promise<AtResDto> => Promise.resolve(atEntity),
-    update: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
-    validate: (): Promise<AtResDto | undefined> => Promise.resolve(atEntity),
-    validateByToken: (): Promise<AtResDto | undefined> =>
-      Promise.resolve(atEntity),
+    delete: () => Promise.resolve(atEntity),
+    deleteByToken: () => Promise.resolve(atEntity),
+    find: () => Promise.resolve([atEntity]),
+    findOne: () => Promise.resolve(atEntity),
+    findOneByToken: () => Promise.resolve(atEntity),
+    save: () => Promise.resolve(atEntity),
+    update: () => Promise.resolve(atEntity),
+    validate: () => Promise.resolve(atEntity),
+    validateByToken: () => Promise.resolve(atEntity),
   };
   const authConfigServiceMock: AuthConfigServiceInterface = {
     jwtAccessTokenExpiresCount: 1,
@@ -66,21 +58,20 @@ describe("JwtStrategy", () => {
     telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
-    findOne: (): Promise<JwksResDto | undefined> => Promise.resolve(jwksEntity),
-    getOneRandom: (): Promise<JwksResDto | undefined> =>
-      Promise.resolve(jwksEntity),
+    findOne: () => Promise.resolve(jwksEntity),
+    getOneRandom: () => Promise.resolve(jwksEntity),
   };
   const rtServiceMock: RtServiceInterface = {
-    block: (): Promise<RtResDto> => Promise.resolve(rt),
-    blockByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    delete: (): Promise<RtResDto> => Promise.resolve(rt),
-    deleteByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    find: (): Promise<RtResDto[]> => Promise.resolve([rt]),
-    findOne: (): Promise<RtResDto> => Promise.resolve(rt),
-    findOneByToken: (): Promise<RtResDto> => Promise.resolve(rt),
-    save: (): Promise<RtResDto> => Promise.resolve(rt),
-    validate: (): Promise<RtResDto> => Promise.resolve(rt),
-    validateByToken: (): Promise<RtResDto> => Promise.resolve(rt),
+    block: () => Promise.resolve(rt),
+    blockByToken: () => Promise.resolve(rt),
+    delete: () => Promise.resolve(rt),
+    deleteByToken: () => Promise.resolve(rt),
+    find: () => Promise.resolve([rt]),
+    findOne: () => Promise.resolve(rt),
+    findOneByToken: () => Promise.resolve(rt),
+    save: () => Promise.resolve(rt),
+    validate: () => Promise.resolve(rt),
+    validateByToken: () => Promise.resolve(rt),
   };
 
   let atService: AtService;
@@ -89,7 +80,7 @@ describe("JwtStrategy", () => {
   let rtService: RtService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AtService, useValue: atServiceMock },
         { provide: AuthConfigService, useValue: authConfigServiceMock },
@@ -131,10 +122,10 @@ describe("JwtStrategy", () => {
   it("validate should throw an error", async () => {
     const rtServiceMockValidate: RtServiceInterface = {
       ...rtServiceMock,
-      validate: (): Promise<RtResDto | undefined> => Promise.resolve(undefined),
+      validate: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AtService, useValue: atServiceMock },
         { provide: AuthConfigService, useValue: authConfigServiceMock },
@@ -169,7 +160,7 @@ describe("JwtStrategy", () => {
       jwtAccessTokenExpiresCount: 0,
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: AtService,
@@ -207,11 +198,10 @@ describe("JwtStrategy", () => {
   it("validate should throw an error 3", async () => {
     const atServiceMockValidateByToken: AtServiceInterface = {
       ...atServiceMock,
-      validateByToken: (): Promise<AtResDto | undefined> =>
-        Promise.resolve(undefined),
+      validateByToken: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: AtService,

@@ -1,10 +1,9 @@
-import { Test, TestingModule } from "@nestjs/testing";
-
 import AppApmLogger from "./app.apm.logger";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { LogLevel } from "@melo/apm";
+import { Test } from "@nestjs/testing";
 
 describe("AppApmOptionsFactory", () => {
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -54,7 +53,7 @@ describe("AppApmOptionsFactory", () => {
   let service: AppConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: AppConfigService,

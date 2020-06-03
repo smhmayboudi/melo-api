@@ -9,11 +9,11 @@ import {
   AtValidateByTokenReqDto,
   AtValidateReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AtController } from "./at.controller";
 import { AtService } from "./at.service";
 import { AtServiceInterface } from "./at.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AtController", () => {
   const date = new Date();
@@ -27,21 +27,21 @@ describe("AtController", () => {
   };
 
   const atServiceMock: AtServiceInterface = {
-    delete: (): Promise<AtResDto | undefined> => Promise.resolve(at),
-    deleteByToken: (): Promise<AtResDto | undefined> => Promise.resolve(at),
-    find: (): Promise<AtResDto[]> => Promise.resolve([at]),
-    findOne: (): Promise<AtResDto | undefined> => Promise.resolve(at),
-    findOneByToken: (): Promise<AtResDto | undefined> => Promise.resolve(at),
-    save: (): Promise<AtResDto> => Promise.resolve(at),
-    update: (): Promise<AtResDto | undefined> => Promise.resolve(at),
-    validate: (): Promise<AtResDto | undefined> => Promise.resolve(at),
-    validateByToken: (): Promise<AtResDto | undefined> => Promise.resolve(at),
+    delete: () => Promise.resolve(at),
+    deleteByToken: () => Promise.resolve(at),
+    find: () => Promise.resolve([at]),
+    findOne: () => Promise.resolve(at),
+    findOneByToken: () => Promise.resolve(at),
+    save: () => Promise.resolve(at),
+    update: () => Promise.resolve(at),
+    validate: () => Promise.resolve(at),
+    validateByToken: () => Promise.resolve(at),
   };
 
   let controller: AtController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [AtController],
       providers: [{ provide: AtService, useValue: atServiceMock }],
     }).compile();

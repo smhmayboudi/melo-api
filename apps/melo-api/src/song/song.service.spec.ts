@@ -33,7 +33,6 @@ import {
   UserResDto,
 } from "@melo/common";
 import { Observable, of } from "rxjs";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppSongService } from "../app/app.song.service";
 import { AppSongServiceInterface } from "../app/app.song.service.interface";
@@ -44,6 +43,7 @@ import { HttpService } from "@nestjs/common";
 import { RelationService } from "../relation/relation.service";
 import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { SongService } from "./song.service";
+import { Test } from "@nestjs/testing";
 import { UserService } from "../user/user.service";
 import { UserServiceInterface } from "../user/user.service.interface";
 
@@ -142,26 +142,26 @@ describe("SongService", () => {
   };
 
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const dataSongServiceMock: DataSongServiceInterface = {
-    albumSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongs: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    artistSongsTop: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    genre: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    get: (): Promise<SongResDto> => Promise.resolve(song),
-    getByIds: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    language: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    mood: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newPodcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    newSong: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    podcast: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    similar: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    slider: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topDay: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    topWeek: (): Promise<SongResDto[]> => Promise.resolve([song]),
+    albumSongs: () => Promise.resolve([song]),
+    artistSongs: () => Promise.resolve([song]),
+    artistSongsTop: () => Promise.resolve([song]),
+    genre: () => Promise.resolve([song]),
+    get: () => Promise.resolve(song),
+    getByIds: () => Promise.resolve([song]),
+    language: () => Promise.resolve([song]),
+    mood: () => Promise.resolve([song]),
+    newPodcast: () => Promise.resolve([song]),
+    newSong: () => Promise.resolve([song]),
+    podcast: () => Promise.resolve([song]),
+    similar: () => Promise.resolve([song]),
+    slider: () => Promise.resolve([song]),
+    topDay: () => Promise.resolve([song]),
+    topWeek: () => Promise.resolve([song]),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -175,27 +175,26 @@ describe("SongService", () => {
       }),
   };
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
-    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
-    set: (): Promise<RelationResDto> => Promise.resolve(relation),
+    get: () => Promise.resolve([relation]),
+    has: () => Promise.resolve(relation),
+    multiHas: () => Promise.resolve([relation]),
+    remove: () => Promise.resolve(relation),
+    set: () => Promise.resolve(relation),
   };
   const userServiceMock: UserServiceInterface = {
-    edit: (): Promise<UserResDto> => Promise.resolve(user),
-    find: (): Promise<UserResDto[]> => Promise.resolve([user]),
-    findOne: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByTelegramId: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByUsername: (): Promise<UserResDto | undefined> =>
-      Promise.resolve(user),
-    get: (): Promise<UserResDto> => Promise.resolve(user),
-    save: (): Promise<UserResDto> => Promise.resolve(user),
+    edit: () => Promise.resolve(user),
+    find: () => Promise.resolve([user]),
+    findOne: () => Promise.resolve(user),
+    findOneByTelegramId: () => Promise.resolve(user),
+    findOneByUsername: () => Promise.resolve(user),
+    get: () => Promise.resolve(user),
+    save: () => Promise.resolve(user),
   };
 
   let service: SongService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: AppSongService, useValue: appSongServiceMock },
@@ -399,10 +398,10 @@ describe("SongService", () => {
   it("liked should be equal to an empty list", async () => {
     const relationServiceMockGet: RelationServiceInterface = {
       ...relationServiceMock,
-      get: (): Promise<RelationResDto[]> => Promise.resolve([]),
+      get: () => Promise.resolve([]),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: AppSongService, useValue: appSongServiceMock },
@@ -428,11 +427,10 @@ describe("SongService", () => {
   it("sendTelegram should throw exception", async () => {
     const userServiceMockFindOne: UserServiceInterface = {
       ...userServiceMock,
-      findOne: (): Promise<UserResDto | undefined> =>
-        Promise.resolve(undefined),
+      findOne: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         SongService,
         { provide: AppSongService, useValue: appSongServiceMock },

@@ -1,7 +1,7 @@
 import { ACTION_SERVICE, ActionBulkReqDto, ActionType } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ActionService } from "./action.service";
+import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("ActionService", () => {
@@ -19,7 +19,7 @@ describe("ActionService", () => {
   let service: ActionService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         ActionService,
         {

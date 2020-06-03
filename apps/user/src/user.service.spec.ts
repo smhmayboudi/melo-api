@@ -1,4 +1,3 @@
-import { Test, TestingModule } from "@nestjs/testing";
 import {
   UserEditReqDto,
   UserFindOneByTelegramIdReqDto,
@@ -9,7 +8,7 @@ import {
   UserSaveReqDto,
 } from "@melo/common";
 
-import { UserEntity } from "./user.entity";
+import { Test } from "@nestjs/testing";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserEntityRepositoryInterface } from "./user.entity.repository.interface";
 import { UserService } from "./user.service";
@@ -20,8 +19,8 @@ describe("UserService", () => {
   };
 
   const userEntityRepositoryMock: UserEntityRepositoryInterface = {
-    find: (): Promise<UserEntity[]> => Promise.resolve([userEntity]),
-    findOne: (): Promise<UserEntity | undefined> => Promise.resolve(userEntity),
+    find: () => Promise.resolve([userEntity]),
+    findOne: () => Promise.resolve(userEntity),
     save: <UserEntity>(): Promise<UserEntity> =>
       (Promise.resolve(userEntity) as unknown) as Promise<UserEntity>,
   };
@@ -29,7 +28,7 @@ describe("UserService", () => {
   let service: UserService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         UserService,
         { provide: UserEntityRepository, useValue: userEntityRepositoryMock },

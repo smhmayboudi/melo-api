@@ -14,7 +14,6 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
@@ -29,6 +28,7 @@ import { DataAlbumService } from "../data/data.album.service";
 import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 import { DataConfigService } from "../data/data.config.service";
 import { DataConfigServiceInterface } from "../data/data.config.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("AlbumController", () => {
   const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
@@ -118,13 +118,13 @@ describe("AlbumController", () => {
   };
 
   const albumServiceMock: AlbumServiceInterface = {
-    albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
-    get: (): Promise<AlbumResDto> => Promise.resolve(album),
-    latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
+    albums: () => Promise.resolve([album]),
+    get: () => Promise.resolve(album),
+    latest: () => Promise.resolve([album]),
   };
   const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: (): Promise<ArtistResDto> => Promise.resolve(artist),
-    follows: (): Promise<ArtistResDto[]> => Promise.resolve([artist]),
+    follow: () => Promise.resolve(artist),
+    follows: () => Promise.resolve([artist]),
   };
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -136,14 +136,14 @@ describe("AlbumController", () => {
     encodeSong: () => song,
   };
   const appSongServiceMock: AppSongServiceInterface = {
-    like: (): Promise<SongResDto> => Promise.resolve(song),
-    likes: (): Promise<SongResDto[]> => Promise.resolve([song]),
-    localize: (): Promise<SongResDto> => Promise.resolve(song),
+    like: () => Promise.resolve(song),
+    likes: () => Promise.resolve([song]),
+    localize: () => Promise.resolve(song),
   };
   const dataAlbumServiceMock: DataAlbumServiceInterface = {
-    albums: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
-    get: (): Promise<AlbumResDto> => Promise.resolve(album),
-    latest: (): Promise<AlbumResDto[]> => Promise.resolve([album]),
+    albums: () => Promise.resolve([album]),
+    get: () => Promise.resolve(album),
+    latest: () => Promise.resolve([album]),
   };
   const dataConfigServiceMock: DataConfigServiceInterface = {
     elasticsearchNode: "",
@@ -178,7 +178,7 @@ describe("AlbumController", () => {
   let controller: AlbumController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [AlbumController],
       providers: [
         { provide: AlbumService, useValue: albumServiceMock },

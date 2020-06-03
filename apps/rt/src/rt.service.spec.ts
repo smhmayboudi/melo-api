@@ -11,12 +11,11 @@ import {
   RtValidateByTokenReqDto,
   RtValidateReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
-import { RtEntity } from "./rt.entity";
 import { RtEntityRepository } from "./rt.entity.repository";
 import { RtEntityRepositoryInterface } from "./rt.entity.repository.interface";
 import { RtService } from "./rt.service";
+import { Test } from "@nestjs/testing";
 
 describe("RtService", () => {
   const date = new Date();
@@ -38,18 +37,18 @@ describe("RtService", () => {
   };
 
   const rtEntityRepositoryMock: RtEntityRepositoryInterface = {
-    delete: (): Promise<DeleteResult> => Promise.resolve(deleteResult),
-    find: (): Promise<RtEntity[]> => Promise.resolve([rtEntity]),
-    findOne: (): Promise<RtEntity | undefined> => Promise.resolve(rtEntity),
+    delete: () => Promise.resolve(deleteResult),
+    find: () => Promise.resolve([rtEntity]),
+    findOne: () => Promise.resolve(rtEntity),
     save: <RtEntity>(): Promise<RtEntity> =>
       (Promise.resolve(rtEntity) as unknown) as Promise<RtEntity>,
-    update: (): Promise<UpdateResult> => Promise.resolve(updateResult),
+    update: () => Promise.resolve(updateResult),
   };
 
   let service: RtService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         RtService,
         { provide: RtEntityRepository, useValue: rtEntityRepositoryMock },

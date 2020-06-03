@@ -1,9 +1,9 @@
 import { AuthTelegramPayloadReqDto, UserResDto } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { TelegramStrategy } from "./telegram.strategy";
+import { Test } from "@nestjs/testing";
 import { UserService } from "../user/user.service";
 import { UserServiceInterface } from "../user/user.service.interface";
 
@@ -22,21 +22,20 @@ describe("TelegramStrategy", () => {
     telegramQueryExpiration: 0,
   };
   const userServiceMock: UserServiceInterface = {
-    edit: (): Promise<UserResDto> => Promise.resolve(user),
-    find: (): Promise<UserResDto[]> => Promise.resolve([user]),
-    findOne: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByTelegramId: (): Promise<UserResDto> => Promise.resolve(user),
-    findOneByUsername: (): Promise<UserResDto | undefined> =>
-      Promise.resolve(user),
-    get: (): Promise<UserResDto> => Promise.resolve(user),
-    save: (): Promise<UserResDto> => Promise.resolve(user),
+    edit: () => Promise.resolve(user),
+    find: () => Promise.resolve([user]),
+    findOne: () => Promise.resolve(user),
+    findOneByTelegramId: () => Promise.resolve(user),
+    findOneByUsername: () => Promise.resolve(user),
+    get: () => Promise.resolve(user),
+    save: () => Promise.resolve(user),
   };
 
   let authConfigService: AuthConfigService;
   let userService: UserService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: UserService, useValue: userServiceMock },
@@ -70,11 +69,10 @@ describe("TelegramStrategy", () => {
   it("validate should be equal to a token", async () => {
     const userServiceMockFindOneByTelegramId: UserServiceInterface = {
       ...userServiceMock,
-      findOneByTelegramId: (): Promise<UserResDto | undefined> =>
-        Promise.resolve(undefined),
+      findOneByTelegramId: () => Promise.resolve(undefined),
     };
 
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AuthConfigService, useValue: authConfigServiceMock },
         {

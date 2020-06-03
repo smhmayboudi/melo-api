@@ -3,11 +3,11 @@ import {
   FileUploadImageReqDto,
   FileUploadImageResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { FileEntity } from "./file.entity";
 import { FileEntityRepositoryInterface } from "./file.entity.repository.interface";
 import { FileService } from "./file.service";
+import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import nock from "nock";
 
@@ -58,7 +58,7 @@ describe("FileService", () => {
   let service: FileService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         {
           provide: getRepositoryToken(FileEntity),

@@ -9,11 +9,11 @@ import {
   RelationResDto,
   RelationSetReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { RelationController } from "./relation.controller";
 import { RelationService } from "./relation.service";
 import { RelationServiceInterface } from "./relation.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("RelationController", () => {
   const date = new Date();
@@ -36,17 +36,17 @@ describe("RelationController", () => {
   };
 
   const relationServiceMock: RelationServiceInterface = {
-    get: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    has: (): Promise<RelationResDto | undefined> => Promise.resolve(relation),
-    multiHas: (): Promise<RelationResDto[]> => Promise.resolve([relation]),
-    remove: (): Promise<RelationResDto> => Promise.resolve(relation),
-    set: (): Promise<RelationResDto> => Promise.resolve(relation),
+    get: () => Promise.resolve([relation]),
+    has: () => Promise.resolve(relation),
+    multiHas: () => Promise.resolve([relation]),
+    remove: () => Promise.resolve(relation),
+    set: () => Promise.resolve(relation),
   };
 
   let controller: RelationController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [RelationController],
       providers: [
         {

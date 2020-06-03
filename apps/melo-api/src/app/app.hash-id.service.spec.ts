@@ -9,11 +9,11 @@ import {
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
 import { AppHashIdService } from "./app.hash-id.service";
+import { Test } from "@nestjs/testing";
 
 describe("AppHashIdService", () => {
   const releaseDate = new Date();
@@ -162,7 +162,7 @@ describe("AppHashIdService", () => {
   let service: AppHashIdService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [
         { provide: AppConfigService, useValue: appConfigServiceMock },
         AppHashIdService,

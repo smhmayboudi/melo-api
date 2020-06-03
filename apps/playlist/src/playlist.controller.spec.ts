@@ -12,11 +12,11 @@ import {
   PlaylistResDto,
   PlaylistTopReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistService } from "./playlist.service";
 import { PlaylistServiceInterface } from "./playlist.service.interface";
+import { Test } from "@nestjs/testing";
 
 describe("PlaylistController", () => {
   const config: PlaylistConfigReqDto = {
@@ -62,20 +62,20 @@ describe("PlaylistController", () => {
     tracksCount: 0,
   };
   const playlistServiceMock: PlaylistServiceInterface = {
-    addSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    create: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    delete: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    edit: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    get: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    my: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
-    removeSong: (): Promise<PlaylistResDto> => Promise.resolve(playlist),
-    top: (): Promise<PlaylistResDto[]> => Promise.resolve([playlist]),
+    addSong: () => Promise.resolve(playlist),
+    create: () => Promise.resolve(playlist),
+    delete: () => Promise.resolve(playlist),
+    edit: () => Promise.resolve(playlist),
+    get: () => Promise.resolve(playlist),
+    my: () => Promise.resolve([playlist]),
+    removeSong: () => Promise.resolve(playlist),
+    top: () => Promise.resolve([playlist]),
   };
 
   let controller: PlaylistController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       controllers: [PlaylistController],
       providers: [{ provide: PlaylistService, useValue: playlistServiceMock }],
     }).compile();

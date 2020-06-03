@@ -4,9 +4,9 @@ import {
   ConstImagesReqDto,
   DataConfigImageReqDto,
 } from "@melo/common";
-import { Test, TestingModule } from "@nestjs/testing";
 
 import { ConstService } from "./const.service";
+import { Test } from "@nestjs/testing";
 
 describe("ConstService", () => {
   const config: ConstConfigReqDto = {
@@ -38,7 +38,7 @@ describe("ConstService", () => {
   let service: ConstService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       providers: [ConstService],
     }).compile();
     service = module.get<ConstService>(ConstService);
