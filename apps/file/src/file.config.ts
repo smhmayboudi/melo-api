@@ -2,6 +2,12 @@ import { FILE } from "@melo/common";
 import { registerAs } from "@nestjs/config";
 
 export default registerAs(FILE, () => ({
+  S3_ACCESS_KEY_ID: process.env.FILE_S3_ACCESS_KEY_ID,
+  S3_BUCKET: process.env.FILE_S3_BUCKET,
+  S3_ENDPOINT: process.env.FILE_S3_ENDPOINT,
+  S3_FORCE_PATH_STYLE: process.env.FILE_S3_FORCE_PATH_STYLE,
+  S3_SECRET_ACCESS_KEY: process.env.FILE_S3_SECRET_ACCESS_KEY,
+  S3_SSL_ENABLED: process.env.FILE_S3_SSL_ENABLED,
   TYPEORM_DATABASE: process.env.FILE_TYPEORM_DATABASE,
   TYPEORM_HOST: process.env.FILE_TYPEORM_HOST,
   TYPEORM_LOGGING: process.env.FILE_TYPEORM_LOGGING,

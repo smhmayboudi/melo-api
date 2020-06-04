@@ -31,6 +31,7 @@ import {
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Inject, Injectable } from "@nestjs/common";
 
+import { ArtistConfigService } from "./artist.config.service";
 import { ArtistServiceInterface } from "./artist.service.interface";
 import { ClientProxy } from "@nestjs/microservices";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
@@ -44,6 +45,7 @@ export class ArtistService implements ArtistServiceInterface {
     @Inject(ARTIST_SERVICE) private readonly artistClientProxy: ClientProxy,
     @Inject(CONST_SERVICE) private readonly constClientProxy: ClientProxy,
     @Inject(RELATION_SERVICE) private readonly relationClientProxy: ClientProxy,
+    private readonly artistConfigService: ArtistConfigService,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -86,7 +88,7 @@ export class ArtistService implements ArtistServiceInterface {
           type: RelationEntityType.user,
         },
         from: dto.from,
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.artistConfigService.maxSize, dto.size),
         type: RelationEdgeType.follows,
       })
       .toPromise();
@@ -132,14 +134,10 @@ export class ArtistService implements ArtistServiceInterface {
         },
         size: 1,
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.artistConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transform({
-      ...elasticsearchSearch.body.hits.hits[0]._source,
-      dataConfigElasticsearch: dto.dataConfigElasticsearch,
-      dataConfigImage: dto.dataConfigImage,
-    });
+    return this.transform(elasticsearchSearch.body.hits.hits[0]._source);
   }
 
   @ApmAfterMethod
@@ -170,19 +168,14 @@ export class ArtistService implements ArtistServiceInterface {
             ],
           },
         },
-        size: dto.dataConfigElasticsearch.maxSize,
+        size: this.artistConfigService.maxSize,
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.artistConfigService.indexName,
       type: DataSearchType.music,
     });
     return Promise.all(
       elasticsearchSearch.body.hits.hits.map((value) =>
-        this.transform({
-          ...value._source.artists[0],
-          dataConfigElasticsearch: dto.dataConfigElasticsearch,
-          dataConfigImage: dto.dataConfigImage,
-          tags: value._source.tags,
-        })
+        this.transform(value._source.artists[0])
       )
     );
   }
@@ -201,8 +194,8 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async transform(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto> {
     const uri = !dto.has_cover
-      ? dto.dataConfigElasticsearch.imagePathDefaultArtist
-      : lodash.template(dto.dataConfigElasticsearch.imagePath)({
+      ? this.artistConfigService.imagePathDefaultArtist
+      : lodash.template(this.artistConfigService.imagePath)({
           id: `artist-${dto.full_name
             .toLowerCase()
             .replace(/ /g, "-")

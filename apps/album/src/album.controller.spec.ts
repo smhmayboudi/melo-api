@@ -13,6 +13,8 @@ import {
   DataSearchType,
 } from "@melo/common";
 
+import { AlbumConfigService } from "./album.config.service";
+import { AlbumConfigServiceInterface } from "./album.config.service.interface";
 import { AlbumController } from "./album.controller";
 import { AlbumService } from "./album.service";
 import { AlbumServiceInterface } from "./album.service.interface";
@@ -69,6 +71,13 @@ describe("AlbumController", () => {
     tracksCount: 0,
   };
 
+  const albumConfigServiceMock: AlbumConfigServiceInterface = {
+    elasticsearchNode: "",
+    imagePath: "",
+    imagePathDefaultAlbum: "",
+    indexName: "",
+    maxSize: 0,
+  };
   const albumServiceMock: AlbumServiceInterface = {
     albums: () => Promise.resolve([album]),
     get: () => Promise.resolve(album),
@@ -81,7 +90,10 @@ describe("AlbumController", () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       controllers: [AlbumController],
-      providers: [{ provide: AlbumService, useValue: albumServiceMock }],
+      providers: [
+        { provide: AlbumConfigService, useValue: albumConfigServiceMock },
+        { provide: AlbumService, useValue: albumServiceMock },
+      ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);
   });

@@ -27,6 +27,8 @@ import {
 } from "@melo/common";
 import { Observable, of } from "rxjs";
 
+import { ArtistConfigService } from "./artist.config.service";
+import { ArtistConfigServiceInterface } from "./artist.config.service.interface";
 import { ArtistService } from "./artist.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Test } from "@nestjs/testing";
@@ -182,6 +184,12 @@ describe("ArtistService", () => {
     send: (token: string) =>
       token === ARTIST_SERVICE_GET ? of(artist) : of([artist]),
   };
+  const artistConfigServiceMock: ArtistConfigServiceInterface = {
+    imagePath: "",
+    imagePathDefaultArtist: "",
+    indexName: "",
+    maxSize: 0,
+  };
   // TODO: interface ?
   const constClientProxyMock = {
     send: () => of(image),
@@ -211,6 +219,7 @@ describe("ArtistService", () => {
       providers: [
         ArtistService,
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: ArtistConfigService, useValue: artistConfigServiceMock },
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
@@ -268,6 +277,7 @@ describe("ArtistService", () => {
       providers: [
         ArtistService,
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: ArtistConfigService, useValue: artistConfigServiceMock },
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },

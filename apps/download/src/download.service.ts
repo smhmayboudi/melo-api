@@ -12,6 +12,7 @@ import { Inject, Injectable } from "@nestjs/common";
 
 import { ClientProxy } from "@nestjs/microservices";
 
+import { DownloadConfigService } from "./download.config.service";
 import { DownloadServiceInterface } from "./download.service.interface";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { PromMethodCounter } from "@melo/prom";
@@ -21,6 +22,7 @@ import { PromMethodCounter } from "@melo/prom";
 export class DownloadService implements DownloadServiceInterface {
   constructor(
     @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
+    private readonly downloadConfigService: DownloadConfigService,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -60,12 +62,12 @@ export class DownloadService implements DownloadServiceInterface {
                   ],
                 },
               },
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.downloadConfigService.maxSize, dto.size),
         sort: {
           date: dto.orderBy,
         },
       },
-      index: dto.config.indexName,
+      index: this.downloadConfigService.indexName,
     });
     return await Promise.all(
       elasticsearchSearch.body.hits.hits.map(async (value) => {

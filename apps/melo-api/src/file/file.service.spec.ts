@@ -14,7 +14,7 @@ import nock from "nock";
 jest.mock("aws-sdk").fn(() => ({
   upload: () =>
     Promise.resolve({
-      Bucket: "",
+      Bucket: "misc",
       ETag: "",
       Key: "",
     }),

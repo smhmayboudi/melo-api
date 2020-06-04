@@ -32,6 +32,7 @@ import { Model, Types } from "mongoose";
 
 import { ClientProxy } from "@nestjs/microservices";
 import { InjectModel } from "@nestjs/mongoose";
+import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistInterface } from "./playlist.module.interface";
 import { PlaylistServiceInterface } from "./playlist.service.interface";
 import { PromMethodCounter } from "@melo/prom";
@@ -49,8 +50,8 @@ export class PlaylistService implements PlaylistServiceInterface {
   ): Promise<ConstImageResDto> {
     const uri =
       playlist.photo_id === undefined
-        ? dto.config.imagePathDefaultPlaylist
-        : lodash.template(dto.config.imagePath)({
+        ? this.playlistConfigService.imagePathDefaultPlaylist
+        : lodash.template(this.playlistConfigService.imagePath)({
             id: playlist.photo_id,
           });
     return this.constClientProxy
@@ -81,6 +82,7 @@ export class PlaylistService implements PlaylistServiceInterface {
   constructor(
     @Inject(CONST_SERVICE) private readonly constClientProxy: ClientProxy,
     @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
+    private readonly playlistConfigService: PlaylistConfigService,
     @InjectModel(PLAYLIST)
     private readonly playlistModel: Model<PlaylistInterface>
   ) {}

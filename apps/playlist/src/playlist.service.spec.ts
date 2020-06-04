@@ -22,6 +22,8 @@ import {
   SongResDto,
 } from "@melo/common";
 
+import { PlaylistConfigService } from "./playlist.config.service";
+import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 import { PlaylistService } from "./playlist.service";
 import { Test } from "@nestjs/testing";
 import { getModelToken } from "@nestjs/mongoose";
@@ -140,6 +142,10 @@ describe("PlaylistService", () => {
   const songClientProxyMock = {
     send: () => of([song]),
   };
+  const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
+    imagePath: "",
+    imagePathDefaultPlaylist: "",
+  };
   // TODO: interface ?
   const playlistModelMock = {
     deleteOne: () => ({
@@ -180,6 +186,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         { provide: getModelToken(PLAYLIST), useValue: playlistModelMock },
       ],
@@ -212,6 +219,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
@@ -243,6 +251,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         { provide: getModelToken(PLAYLIST), useValue: playlistModelMockCreate },
       ],
@@ -280,6 +289,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
@@ -311,6 +321,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
@@ -350,6 +361,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
@@ -384,6 +396,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
@@ -424,6 +437,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),
@@ -475,6 +489,7 @@ describe("PlaylistService", () => {
       providers: [
         PlaylistService,
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
+        { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
         {
           provide: getModelToken(PLAYLIST),

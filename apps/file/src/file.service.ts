@@ -2,6 +2,7 @@ import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { FileUploadImageReqDto, FileUploadImageResDto } from "@melo/common";
 import { MAGIC_MIME_TYPE, Magic } from "mmmagic";
+import { FileConfigService } from "./file.config.service";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepository } from "./file.entity.repository";
 import { FileServiceInterface } from "./file.service.interface";
@@ -16,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 // @PromInstanceCounter
 export class FileService implements FileServiceInterface {
   constructor(
+    private readonly fileConfigService: FileConfigService,
     @InjectRepository(FileEntity)
     private readonly fileEntityRepository: FileEntityRepository
   ) {
@@ -45,16 +47,16 @@ export class FileService implements FileServiceInterface {
       throw new BadRequestException();
     }
     const s3 = new aws.S3({
-      accessKeyId: newDto.config.s3AccessKeyId,
-      endpoint: newDto.config.s3Endpoint,
-      s3ForcePathStyle: newDto.config.s3ForcePathStyle,
-      secretAccessKey: newDto.config.s3SecretAccessKey,
-      sslEnabled: newDto.config.s3SslEnabled,
+      accessKeyId: this.fileConfigService.s3AccessKeyId,
+      endpoint: this.fileConfigService.s3Endpoint,
+      s3ForcePathStyle: this.fileConfigService.s3ForcePathStyle,
+      secretAccessKey: this.fileConfigService.s3SecretAccessKey,
+      sslEnabled: this.fileConfigService.s3SslEnabled,
     });
     const managedUpload = await s3
       .upload({
         Body: newDto.buffer,
-        Bucket: newDto.config.s3Bucket,
+        Bucket: this.fileConfigService.s3Bucket,
         ContentType: mimeType,
         Key: `${uuidv4()}.${extension}`,
       })

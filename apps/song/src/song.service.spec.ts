@@ -48,6 +48,8 @@ import { AxiosResponse } from "axios";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { HttpService } from "@nestjs/common";
 import { SongCacheEntity } from "./song.cache.entity";
+import { SongConfigService } from "./song.config.service";
+import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongService } from "./song.service";
 import { SongSiteEntity } from "./song.site.entity";
 import { Test } from "@nestjs/testing";
@@ -248,13 +250,9 @@ describe("SongService", () => {
       }),
   };
   // TODO: interface ?
-  const relationClientProxyMock = {
-    send: (token: string) =>
-      token === RELATION_SERVICE_GET ? of([relation]) : of(true),
-  };
-  // TODO: interface ?
-  const userClientProxyMock = {
-    send: () => of(user),
+  const elasticsearchServiceMock = {
+    get: () => Promise.resolve(elasticGetRes),
+    search: () => Promise.resolve(elasticSearchRes),
   };
   // TODO: interface ?
   const httpServiceMock = {
@@ -266,6 +264,32 @@ describe("SongService", () => {
         status: 200,
         statusText: "",
       }),
+  };
+  // TODO: interface ?
+  const relationClientProxyMock = {
+    send: (token: string) =>
+      token === RELATION_SERVICE_GET ? of([relation]) : of(true),
+  };
+  const songConfigServiceMock: SongConfigServiceInterface = {
+    elasticsearchNode: "",
+    imagePath: "",
+    imagePathDefaultSong: "",
+    indexName: "",
+    maxSize: 0,
+    mp3Endpoint: "",
+    sendTimeout: 0,
+    sendUrl: "",
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
+  };
+  // TODO: interface ?
+  const userClientProxyMock = {
+    send: () => of(user),
   };
   // TODO: interface ?
   const songCacheEntityRepositoryMock = {
@@ -287,11 +311,6 @@ describe("SongService", () => {
       }),
     }),
   };
-  // TODO: interface ?
-  const elasticsearchServiceMock = {
-    get: () => Promise.resolve(elasticGetRes),
-    search: () => Promise.resolve(elasticSearchRes),
-  };
 
   let service: SongService;
 
@@ -305,6 +324,7 @@ describe("SongService", () => {
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: SongConfigService, useValue: songConfigServiceMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
           provide: getRepositoryToken(SongCacheEntity),
@@ -448,6 +468,7 @@ describe("SongService", () => {
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: SongConfigService, useValue: songConfigServiceMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
           provide: getRepositoryToken(SongCacheEntity),
@@ -516,6 +537,7 @@ describe("SongService", () => {
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: SongConfigService, useValue: songConfigServiceMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
           provide: getRepositoryToken(SongCacheEntity),
@@ -599,6 +621,7 @@ describe("SongService", () => {
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: SongConfigService, useValue: songConfigServiceMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
           provide: getRepositoryToken(SongCacheEntity),
@@ -634,6 +657,7 @@ describe("SongService", () => {
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: SongConfigService, useValue: songConfigServiceMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
           provide: getRepositoryToken(SongCacheEntity),
@@ -691,6 +715,7 @@ describe("SongService", () => {
         },
         { provide: HttpService, useValue: httpServiceMock },
         { provide: RELATION_SERVICE, useValue: relationClientProxyMock },
+        { provide: SongConfigService, useValue: songConfigServiceMock },
         { provide: USER_SERVICE, useValue: userClientProxyMock },
         {
           provide: getRepositoryToken(SongCacheEntity),

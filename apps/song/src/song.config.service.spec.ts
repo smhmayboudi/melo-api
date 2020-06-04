@@ -31,50 +31,12 @@ describe("SongConfigService", () => {
     expect(service.elasticsearchNode).toEqual("");
   });
 
-  it("imageBaseUrl should return value", () => {
-    expect(service.imageBaseUrl).toEqual("");
-  });
-
-  it("imageEncode should be equal to a value", () => {
-    expect(service.imageEncode).toEqual(true);
-  });
-
-  it("imageKey should be equal to a value", () => {
-    expect(service.imageKey).toEqual("");
-  });
-
   it("imagePath should return value", () => {
     expect(service.imagePath).toEqual("");
   });
 
-  it("imagePathDefaultAlbum should return value", () => {
-    expect(service.imagePathDefaultAlbum).toEqual("");
-  });
-
-  it("imagePathDefaultArtist should return value", () => {
-    expect(service.imagePathDefaultArtist).toEqual("");
-  });
-
   it("imagePathDefaultSong should return value", () => {
     expect(service.imagePathDefaultSong).toEqual("");
-  });
-
-  it("imageSalt should be equal to a value", () => {
-    expect(service.imageSalt).toEqual("");
-  });
-
-  it("imageSignatureSize should be equal to a value", () => {
-    expect(service.imageSignatureSize).toEqual(1);
-  });
-
-  it("imageTypeSize should be equal to a value", () => {
-    expect(service.imageTypeSize).toEqual([
-      {
-        height: 0,
-        name: "",
-        width: 0,
-      },
-    ]);
   });
 
   it("index should return value", () => {
@@ -87,6 +49,14 @@ describe("SongConfigService", () => {
 
   it("mp3Endpoint should return value", () => {
     expect(service.mp3Endpoint).toEqual("");
+  });
+
+  it("sendUrl should return value", () => {
+    expect(service.sendUrl).toEqual("");
+  });
+
+  it("sendTimeout should return value", () => {
+    expect(service.sendTimeout).toEqual(0);
   });
 
   it("typeormDatabase should be equal to a value", () => {

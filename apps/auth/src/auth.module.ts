@@ -1,9 +1,12 @@
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { JWKS_SERVICE, RT_SERVICE } from "@melo/common";
 
+import { AuthConfigService } from "./auth.config.service";
 import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
+import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
+import config from "./auth.config";
 
 @Module({
   controllers: [AuthController],
@@ -24,7 +27,8 @@ import { Module } from "@nestjs/common";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forFeature(config),
   ],
-  providers: [AuthService],
+  providers: [AuthConfigService, AuthService],
 })
 export class AuthModule {}

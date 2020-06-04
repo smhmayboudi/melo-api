@@ -8,14 +8,16 @@ import {
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { HttpModule, Module } from "@nestjs/common";
 
+import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { SongCacheEntityRepository } from "./song.cache.entity.repository";
 import { SongController } from "./song.controller";
+import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
 import { SongSiteEntityRepository } from "./song.site.entity.repository";
 import { SongTypeOrmOptionsFactory } from "./song.type-orm.options.factory";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import ms from "ms";
+import config from "./song.config";
 
 @Module({
   controllers: [SongController],
@@ -38,7 +40,7 @@ import ms from "ms";
       {
         name: CONST_SERVICE,
         options: {
-          url: process.env.ARTIST_SERVICE_URL,
+          url: process.env.CONST_SERVICE_URL,
         },
         transport: Transport.REDIS,
       },
@@ -57,11 +59,14 @@ import ms from "ms";
         transport: Transport.REDIS,
       },
     ]),
-    HttpModule.register({
-      timeout: ms(process.env.SONG_SEND_TIMEOUT || "0"),
-    }),
+    ConfigModule.forFeature(config),
     ElasticsearchModule.register({
       node: process.env.SONG_ELASTICSEARCH_NODE,
+    }),
+    HttpModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [SongModule],
+      useClass: SongHttpOptionsFactory,
     }),
     TypeOrmModule.forFeature([
       SongCacheEntityRepository,

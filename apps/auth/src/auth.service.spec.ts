@@ -8,6 +8,8 @@ import {
   RtResDto,
 } from "@melo/common";
 
+import { AuthConfigService } from "./auth.config.service";
+import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthService } from "./auth.service";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
@@ -30,6 +32,10 @@ describe("AuthService", () => {
   };
 
   // TODO: interface ?
+  const authConfigServiceMock: AuthConfigServiceInterface = {
+    jwtRefreshTokenExpiresIn: 0,
+  };
+  // TODO: interface ?
   const jwksClientProxyMock = {
     send: () =>
       of({
@@ -39,12 +45,12 @@ describe("AuthService", () => {
       }),
   };
   // TODO: interface ?
-  const rtClientProxyMock = {
-    send: () => of(rt),
-  };
-  // TODO: interface ?
   const jwtServiceMock = {
     sign: (): string => "0",
+  };
+  // TODO: interface ?
+  const rtClientProxyMock = {
+    send: () => of(rt),
   };
 
   let service: AuthService;
@@ -53,6 +59,7 @@ describe("AuthService", () => {
     const module = await Test.createTestingModule({
       providers: [
         AuthService,
+        { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: RT_SERVICE, useValue: rtClientProxyMock },
@@ -83,6 +90,7 @@ describe("AuthService", () => {
     const module = await Test.createTestingModule({
       providers: [
         AuthService,
+        { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: RT_SERVICE, useValue: rtClientProxyMock },
@@ -136,6 +144,7 @@ describe("AuthService", () => {
     const module = await Test.createTestingModule({
       providers: [
         AuthService,
+        { provide: AuthConfigService, useValue: authConfigServiceMock },
         { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
         { provide: JwtService, useValue: jwtServiceMock },
         { provide: RT_SERVICE, useValue: rtClientProxyMock },

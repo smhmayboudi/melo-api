@@ -1,19 +1,12 @@
 import {
-  DataImageTypeSize,
   ELASTICSEARCH_NODE,
-  IMAGE_BASE_URL,
-  IMAGE_ENCODE,
-  IMAGE_KEY,
   IMAGE_PATH,
-  IMAGE_PATH_DEFAULT_ALBUM,
-  IMAGE_PATH_DEFAULT_ARTIST,
   IMAGE_PATH_DEFAULT_SONG,
-  IMAGE_SALT,
-  IMAGE_SIGNATURE_SIZE,
-  IMAGE_TYPE_SIZE,
   INDEX_NAME,
   MAX_SIZE,
   MP3_ENDPOINT,
+  SEND_TIMEOUT,
+  SEND_URL,
   SONG,
   TYPEORM_DATABASE,
   TYPEORM_HOST,
@@ -26,7 +19,6 @@ import {
 
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
-import { SignatureSize } from "imgproxy/dist/types";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
 
 @Injectable()
@@ -37,60 +29,14 @@ export class SongConfigService implements SongConfigServiceInterface {
     return this.configService.get<string>(`${SONG}.${ELASTICSEARCH_NODE}`, "");
   }
 
-  get imageBaseUrl(): string {
-    return this.configService.get<string>(`${SONG}.${IMAGE_BASE_URL}`, "");
-  }
-
-  get imageEncode(): boolean {
-    return this.configService.get<boolean>(`${SONG}.${IMAGE_ENCODE}`, true);
-  }
-
   get imagePath(): string {
     return this.configService.get<string>(`${SONG}.${IMAGE_PATH}`, "");
-  }
-
-  get imagePathDefaultAlbum(): string {
-    return this.configService.get<string>(
-      `${SONG}.${IMAGE_PATH_DEFAULT_ALBUM}`,
-      ""
-    );
-  }
-
-  get imagePathDefaultArtist(): string {
-    return this.configService.get<string>(
-      `${SONG}.${IMAGE_PATH_DEFAULT_ARTIST}`,
-      ""
-    );
   }
 
   get imagePathDefaultSong(): string {
     return this.configService.get<string>(
       `${SONG}.${IMAGE_PATH_DEFAULT_SONG}`,
       ""
-    );
-  }
-
-  get imageTypeSize(): DataImageTypeSize[] {
-    return JSON.parse(
-      this.configService.get<string>(
-        `${SONG}.${IMAGE_TYPE_SIZE}`,
-        '[{"height":0,"name":"","width":0}]'
-      )
-    ) as DataImageTypeSize[];
-  }
-
-  get imageKey(): string {
-    return this.configService.get<string>(`${SONG}.${IMAGE_KEY}`, "");
-  }
-
-  get imageSalt(): string {
-    return this.configService.get<string>(`${SONG}.${IMAGE_SALT}`, "");
-  }
-
-  get imageSignatureSize(): SignatureSize {
-    return this.configService.get<SignatureSize>(
-      `${SONG}.${IMAGE_SIGNATURE_SIZE}`,
-      1
     );
   }
 
@@ -104,6 +50,13 @@ export class SongConfigService implements SongConfigServiceInterface {
 
   get mp3Endpoint(): string {
     return this.configService.get<string>(`${SONG}.${MP3_ENDPOINT}`, "");
+  }
+
+  get sendTimeout(): number {
+    return this.configService.get<number>(`${SONG}.${SEND_TIMEOUT}`, 0);
+  }
+  get sendUrl(): string {
+    return this.configService.get<string>(`${SONG}.${SEND_URL}`, "");
   }
 
   get typeormDatabase(): string {

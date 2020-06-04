@@ -67,6 +67,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { PromMethodCounter } from "@melo/prom";
 import { SongCacheEntity } from "./song.cache.entity";
 import { SongCacheEntityRepository } from "./song.cache.entity.repository";
+import { SongConfigService } from "./song.config.service";
 import { SongServiceInterface } from "./song.service.interface";
 import { SongSiteEntity } from "./song.site.entity";
 import { SongSiteEntityRepository } from "./song.site.entity.repository";
@@ -79,17 +80,17 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async query(
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
-    from: number,
-    query: DataQueryType,
-    size: number
-  ): Promise<SongResDto[]> {
+  async query(dto: {
+    dataConfigElasticsearch: DataConfigElasticsearchReqDto;
+    dataConfigImage: DataConfigImageReqDto;
+    from: number;
+    query: DataQueryType;
+    size: number;
+  }): Promise<SongResDto[]> {
     const dataCache = await this.songCacheEntityRepository
       .createQueryBuilder()
       .where({
-        name: query,
+        name: dto.query,
       })
       .orderBy("id DESC")
       .limit(1)
@@ -98,12 +99,12 @@ export class SongService implements SongServiceInterface {
       return [];
     }
     return this.getByIds({
-      dataConfigElasticsearch,
-      dataConfigImage,
+      dataConfigElasticsearch: dto.dataConfigElasticsearch,
+      dataConfigImage: dto.dataConfigImage,
       ids: JSON.parse(dataCache.result)
         .filter((value) => value.type === DataSearchType.song)
         .map((value) => value.id)
-        .slice(from, from + size)
+        .slice(dto.from, dto.from + dto.size)
         .map((value) => value.id),
     });
   }
@@ -112,16 +113,10 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async transformLocal(
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     elasticsearchSearch: { _source: DataElasticsearchSearchResDto }[]
   ): Promise<SongResDto[]> {
     return Promise.all(
-      elasticsearchSearch.map((value) =>
-        this.transform({
-          ...value._source,
-          dataConfigElasticsearch,
-        })
-      )
+      elasticsearchSearch.map((value) => this.transform(value._source))
     );
   }
 
@@ -134,6 +129,7 @@ export class SongService implements SongServiceInterface {
     private readonly httpService: HttpService,
     @InjectRepository(SongCacheEntity)
     private readonly songCacheEntityRepository: SongCacheEntityRepository,
+    private readonly songConfigService: SongConfigService,
     @InjectRepository(SongSiteEntity)
     private readonly songSiteEntityRepository: SongSiteEntityRepository,
     @Inject(USER_SERVICE) private readonly userClientProxy: ClientProxy
@@ -170,20 +166,17 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: dto.dataConfigElasticsearch.maxSize,
+        size: this.songConfigService.maxSize,
         sort: [
           {
             track: DataSortByType.asc,
           },
         ],
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -217,20 +210,17 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: [
           {
             release_date: DataSortByType.desc,
           },
         ],
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -264,20 +254,17 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: [
           {
             downloads_count: DataSortByType.desc,
           },
         ],
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -313,20 +300,17 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: {
           [dto.orderBy === SongOrderByType.release
             ? "release_date"
             : "downloads_count"]: DataSortByType.desc,
         },
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -338,11 +322,11 @@ export class SongService implements SongServiceInterface {
       any
     >({
       id: `song-${dto.id}`,
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
     return (
-      await this.transformLocal(dto.dataConfigElasticsearch, [
+      await this.transformLocal([
         {
           _source: elasticsearchGet.body._source,
         },
@@ -383,15 +367,12 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: dto.dataConfigElasticsearch.maxSize,
+        size: this.songConfigService.maxSize,
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -425,16 +406,13 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: { [dto.orderBy]: DataSortByType.desc },
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -473,7 +451,7 @@ export class SongService implements SongServiceInterface {
           type: RelationEntityType.user,
         },
         from: dto.from,
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         type: RelationEdgeType.likedSongs,
       })
       .toPromise();
@@ -519,46 +497,41 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: {
           [`emotions.${dto.mood}`]: {
             order: DataSortByType.desc,
           },
         },
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async newPodcast(dto: SongNewPodcastReqDto): Promise<SongResDto[]> {
-    return this.query(
-      dto.dataConfigElasticsearch,
-      dto.dataConfigImage,
-      dto.from,
-      DataQueryType.podcast,
-      dto.size
-    );
+    return this.query({
+      ...dto,
+      from: dto.from,
+      query: DataQueryType.podcast,
+      size: dto.size,
+    });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async newSong(dto: SongNewReqDto): Promise<SongResDto[]> {
-    return this.query(
-      dto.dataConfigElasticsearch,
-      dto.dataConfigImage,
-      dto.from,
-      DataQueryType.new,
-      dto.size
-    );
+    return this.query({
+      ...dto,
+      from: dto.from,
+      query: DataQueryType.new,
+      size: dto.size,
+    });
   }
 
   @ApmAfterMethod
@@ -594,16 +567,13 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: { [dto.orderBy]: DataSortByType.desc },
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -619,7 +589,7 @@ export class SongService implements SongServiceInterface {
       throw new BadRequestException();
     }
     await this.httpService
-      .post<number>(dto.config.sendUrl, {
+      .post<number>(this.songConfigService.sendUrl, {
         callback_query: {
           data: `1:${dto.id},high,0`,
           from: {
@@ -654,7 +624,7 @@ export class SongService implements SongServiceInterface {
       any
     >({
       id: `song-${dto.id}`,
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
     if (elasticsearchGet.body._source.moods === undefined) {
@@ -728,16 +698,13 @@ export class SongService implements SongServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.songConfigService.maxSize, dto.size),
         sort,
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.songConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -758,26 +725,24 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async topDay(dto: SongTopDayReqDto): Promise<SongResDto[]> {
-    return this.query(
-      dto.dataConfigElasticsearch,
-      dto.dataConfigImage,
-      dto.from,
-      DataQueryType.topDay,
-      dto.size
-    );
+    return this.query({
+      ...dto,
+      from: dto.from,
+      query: DataQueryType.topDay,
+      size: dto.size,
+    });
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async topWeek(dto: SongTopWeekReqDto): Promise<SongResDto[]> {
-    return this.query(
-      dto.dataConfigElasticsearch,
-      dto.dataConfigImage,
-      dto.from,
-      DataQueryType.topWeek,
-      dto.size
-    );
+    return this.query({
+      ...dto,
+      from: dto.from,
+      query: DataQueryType.topWeek,
+      size: dto.size,
+    });
   }
 
   @ApmAfterMethod
@@ -806,23 +771,23 @@ export class SongService implements SongServiceInterface {
         ? {
             high: {
               fingerprint: "",
-              url: `${dto.dataConfigElasticsearch.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
+              url: `${this.songConfigService.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
             },
             medium: {
               fingerprint: "",
-              url: `${dto.dataConfigElasticsearch.mp3Endpoint}${dto.unique_name}-128.mp3`,
+              url: `${this.songConfigService.mp3Endpoint}${dto.unique_name}-128.mp3`,
             },
           }
         : {
             medium: {
               fingerprint: "",
-              url: `${dto.dataConfigElasticsearch.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
+              url: `${this.songConfigService.mp3Endpoint}${dto.unique_name}-${dto.max_audio_rate}.mp3`,
             },
           };
     const uri =
       !dto.has_cover || dto.unique_name === undefined
-        ? dto.dataConfigElasticsearch.imagePathDefaultSong
-        : lodash.template(dto.dataConfigElasticsearch.imagePath)({
+        ? this.songConfigService.imagePathDefaultSong
+        : lodash.template(this.songConfigService.imagePath)({
             id: dto.unique_name,
           });
     const image = await this.constClientProxy

@@ -1,13 +1,17 @@
+import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
 import { UserService } from "./user.service";
 import { UserTypeOrmOptionsFactory } from "./user.type-orm.options.factory";
+import config from "./user.config";
 
 @Module({
   controllers: [UserController],
   imports: [
+    ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([UserEntityRepository]),
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -15,6 +19,6 @@ import { UserTypeOrmOptionsFactory } from "./user.type-orm.options.factory";
       useClass: UserTypeOrmOptionsFactory,
     }),
   ],
-  providers: [UserService],
+  providers: [UserConfigService, UserService],
 })
 export class UserModule {}

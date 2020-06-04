@@ -1,9 +1,12 @@
+import { AtConfigService } from "./at.config.service";
 import { AtController } from "./at.controller";
 import { AtEntityRepository } from "./at.entity.repository";
 import { AtService } from "./at.service";
 import { AtTypeOrmOptionsFactory } from "./at.type-orm.options.factory";
+import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import config from "./at.config";
 
 @Module({
   controllers: [AtController],
@@ -14,7 +17,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       imports: [AtModule],
       useClass: AtTypeOrmOptionsFactory,
     }),
+    ConfigModule.forFeature(config),
   ],
-  providers: [AtService],
+  providers: [AtConfigService, AtService],
 })
 export class AtModule {}

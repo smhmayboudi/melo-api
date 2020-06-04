@@ -9,25 +9,13 @@ import { Test } from "@nestjs/testing";
 describe("SongTypeOrmOptionsFactory", () => {
   const songConfigServiceMock: SongConfigServiceInterface = {
     elasticsearchNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
     imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
     imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
     indexName: "",
     maxSize: 0,
     mp3Endpoint: "",
+    sendTimeout: 0,
+    sendUrl: "",
     typeormDatabase: "",
     typeormHost: "",
     typeormLogging: true,

@@ -18,6 +18,8 @@ import {
   SongResDto,
 } from "@melo/common";
 
+import { AlbumConfigService } from "./album.config.service";
+import { AlbumConfigServiceInterface } from "./album.config.service.interface";
 import { AlbumService } from "./album.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Test } from "@nestjs/testing";
@@ -172,6 +174,13 @@ describe("AlbumService", () => {
   const artistClientProxyMock = {
     send: () => of(artist),
   };
+  const albumConfigServiceMock: AlbumConfigServiceInterface = {
+    elasticsearchNode: "",
+    imagePath: "",
+    imagePathDefaultAlbum: "",
+    indexName: "",
+    maxSize: 0,
+  };
   // TODO: interface ?
   const constClientProxyMock = {
     send: () => of(image),
@@ -193,6 +202,7 @@ describe("AlbumService", () => {
       providers: [
         AlbumService,
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
+        { provide: AlbumConfigService, useValue: albumConfigServiceMock },
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },

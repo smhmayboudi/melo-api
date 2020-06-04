@@ -4,6 +4,8 @@ import {
   FileUploadImageResDto,
 } from "@melo/common";
 
+import { FileConfigService } from "./file.config.service";
+import { FileConfigServiceInterface } from "./file.config.service.interface";
 import { FileEntity } from "./file.entity";
 import { FileEntityRepositoryInterface } from "./file.entity.repository.interface";
 import { FileService } from "./file.service";
@@ -14,7 +16,7 @@ import nock from "nock";
 jest.mock("aws-sdk").fn(() => ({
   upload: () =>
     Promise.resolve({
-      Bucket: "",
+      Bucket: "misc",
       ETag: "",
       Key: "",
     }),
@@ -50,6 +52,21 @@ describe("FileService", () => {
     size: 0,
   };
 
+  const fileConfigServiceMock: FileConfigServiceInterface = {
+    s3AccessKeyId: "minioadmin",
+    s3Bucket: "misc",
+    s3Endpoint: "127.0.0.1:9000",
+    s3ForcePathStyle: false,
+    s3SecretAccessKey: "minioadmin",
+    s3SslEnabled: false,
+    typeormDatabase: "",
+    typeormHost: "",
+    typeormLogging: true,
+    typeormPassword: "",
+    typeormPort: 0,
+    typeormSynchronize: true,
+    typeormUsername: "",
+  };
   const fileEntityRepositoryMock: FileEntityRepositoryInterface = {
     save: <FileEntity>(): Promise<FileEntity> =>
       (Promise.resolve(fileEntity) as unknown) as Promise<FileEntity>,
@@ -60,11 +77,15 @@ describe("FileService", () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
+        FileService,
+        {
+          provide: FileConfigService,
+          useValue: fileConfigServiceMock,
+        },
         {
           provide: getRepositoryToken(FileEntity),
           useValue: fileEntityRepositoryMock,
         },
-        FileService,
       ],
     }).compile();
     service = module.get<FileService>(FileService);

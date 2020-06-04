@@ -13,6 +13,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionServiceInterface } from "./emotion.service.interface";
 import { PromMethodCounter } from "@melo/prom";
 
@@ -21,6 +22,7 @@ import { PromMethodCounter } from "@melo/prom";
 export class EmotionService implements EmotionServiceInterface {
   constructor(
     @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
+    private readonly emotionConfigService: EmotionConfigService,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -51,9 +53,9 @@ export class EmotionService implements EmotionServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.emotionConfigService.maxSize, dto.size),
       },
-      index: dto.config.indexName,
+      index: this.emotionConfigService.indexName,
     });
     return await Promise.all(
       elasticsearchSearch.body.hits.hits.map(async (value) => {

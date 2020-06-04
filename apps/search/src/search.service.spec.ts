@@ -18,6 +18,8 @@ import {
 } from "@melo/common";
 
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { SearchConfigService } from "./search.config.service";
+import { SearchConfigServiceInterface } from "./search.config.service.interface";
 import { SearchService } from "./search.service";
 import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
@@ -170,13 +172,20 @@ describe("SearchService", () => {
     send: () => of(artist),
   };
   // TODO: interface ?
-  const songClientProxyMock = {
-    send: () => of(song),
-  };
-  // TODO: interface ?
   const elasticsearchServiceMock = {
     get: () => Promise.resolve(elasticGetRes),
     search: () => Promise.resolve(elasticSearchRes),
+  };
+  // TODO: interface ?
+  const songClientProxyMock = {
+    send: () => of(song),
+  };
+  const searchConfigServiceMock: SearchConfigServiceInterface = {
+    elasticsearchNode: "",
+    indexName: "",
+    maxSize: 0,
+    scriptScore: "",
+    suggestIndex: "",
   };
 
   let service: SearchService;
@@ -189,6 +198,7 @@ describe("SearchService", () => {
         { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
+        { provide: SearchConfigService, useValue: searchConfigServiceMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);
@@ -240,6 +250,7 @@ describe("SearchService", () => {
           useValue: elasticsearchServiceMockSearch,
         },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
+        { provide: SearchConfigService, useValue: searchConfigServiceMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);
@@ -305,6 +316,7 @@ describe("SearchService", () => {
           useValue: elasticsearchServiceMockSearch,
         },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
+        { provide: SearchConfigService, useValue: searchConfigServiceMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);
@@ -384,6 +396,7 @@ describe("SearchService", () => {
           useValue: elasticsearchServiceMockSearch,
         },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
+        { provide: SearchConfigService, useValue: searchConfigServiceMock },
       ],
     }).compile();
     service = module.get<SearchService>(SearchService);

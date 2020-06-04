@@ -18,6 +18,8 @@ import {
   SongResDto,
 } from "@melo/common";
 
+import { DownloadConfigService } from "./download.config.service";
+import { DownloadConfigServiceInterface } from "./download.config.service.interface";
 import { DownloadService } from "./download.service";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Test } from "@nestjs/testing";
@@ -185,6 +187,12 @@ describe("DownloadService", () => {
     send: () => of(song),
   };
   // TODO: interface ?
+  const downloadConfigServiceMock: DownloadConfigServiceInterface = {
+    elasticsearchNode: "",
+    indexName: "",
+    maxSize: 0,
+  };
+  // TODO: interface ?
   const elasticsearchServiceMock = {
     get: () => Promise.resolve(elasticGetRes),
     search: () => Promise.resolve(downloadElasticsearch),
@@ -196,6 +204,7 @@ describe("DownloadService", () => {
     const module = await Test.createTestingModule({
       providers: [
         DownloadService,
+        { provide: DownloadConfigService, useValue: downloadConfigServiceMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],

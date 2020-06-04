@@ -20,6 +20,7 @@ import {
   InternalServerErrorException,
 } from "@nestjs/common";
 
+import { AuthConfigService } from "./auth.config.service";
 import { AuthServiceInterface } from "./auth.service.interface";
 import { ClientProxy } from "@nestjs/microservices";
 import { JwtService } from "@nestjs/jwt";
@@ -34,6 +35,7 @@ export class AuthService implements AuthServiceInterface {
   constructor(
     @Inject(JWKS_SERVICE) private readonly jwksClientProxy: ClientProxy,
     @Inject(RT_SERVICE) private readonly rtClientProxy: ClientProxy,
+    private readonly authConfigService: AuthConfigService,
     private readonly jwtService: JwtService
   ) {}
 
@@ -101,7 +103,9 @@ export class AuthService implements AuthServiceInterface {
       }
     );
     const now = dto.now || new Date();
-    const exp = moment(now).add(dto.config.expiresIn, "ms").toDate();
+    const exp = moment(now)
+      .add(this.authConfigService.jwtRefreshTokenExpiresIn, "ms")
+      .toDate();
     const rt =
       dto.rt ||
       cryptoRandomString({

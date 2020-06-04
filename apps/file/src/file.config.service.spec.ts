@@ -27,6 +27,30 @@ describe("FileConfigService", () => {
     expect(service).toBeDefined();
   });
 
+  it("s3AccessKeyId should be equal to a value", () => {
+    expect(service.s3AccessKeyId).toEqual("");
+  });
+
+  it("s3Bucket should be equal to a value", () => {
+    expect(service.s3Bucket).toEqual("");
+  });
+
+  it("s3Endpoint should be equal to a value", () => {
+    expect(service.s3Endpoint).toEqual("");
+  });
+
+  it("s3ForcePathStyle should be equal to a value", () => {
+    expect(service.s3ForcePathStyle).toEqual(true);
+  });
+
+  it("s3SecretAccessKey should be equal to a value", () => {
+    expect(service.s3SecretAccessKey).toEqual("");
+  });
+
+  it("s3SslEnabled should be equal to a value", () => {
+    expect(service.s3SslEnabled).toEqual(true);
+  });
+
   it("typeormDatabase should be equal to a value", () => {
     expect(service.typeormDatabase).toEqual("");
   });

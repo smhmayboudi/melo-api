@@ -14,7 +14,7 @@ async function bootstrap(): Promise<void> {
           process.env.ALBUM_SERVICE_RETRY_ATTEMPTS || "10",
           10
         ),
-        retryDelay: ms(process.env.ACTION_SERVICE_RETRY_DELAY || "0"),
+        retryDelay: ms(process.env.ALBUM_SERVICE_RETRY_DELAY || "0"),
         url: process.env.ALBUM_SERVICE_URL,
       },
       transport: Transport.REDIS,

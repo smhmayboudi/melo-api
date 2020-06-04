@@ -17,6 +17,8 @@ import {
 } from "@melo/common";
 
 import { ElasticsearchService } from "@nestjs/elasticsearch";
+import { EmotionConfigService } from "./emotion.config.service";
+import { EmotionConfigServiceInterface } from "./emotion.config.service.interface";
 import { EmotionService } from "./emotion.service";
 import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
@@ -187,6 +189,12 @@ describe("EmotionService", () => {
     get: () => Promise.resolve(elasticGetRes),
     search: () => Promise.resolve(emotionElasticsearch),
   };
+  // TODO: interface ?
+  const emotionConfigServiceMock: EmotionConfigServiceInterface = {
+    elasticsearchNode: "",
+    indexName: "",
+    maxSize: 0,
+  };
 
   let service: EmotionService;
 
@@ -195,6 +203,7 @@ describe("EmotionService", () => {
       providers: [
         EmotionService,
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
+        { provide: EmotionConfigService, useValue: emotionConfigServiceMock },
         { provide: SONG_SERVICE, useValue: songClientProxyMock },
       ],
     }).compile();

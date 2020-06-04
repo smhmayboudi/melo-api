@@ -10,7 +10,6 @@ import {
   CONST_SERVICE_IMAGE,
   ConstImageReqDto,
   ConstImageResDto,
-  DataConfigElasticsearchReqDto,
   DataElasticsearchArtistResDto,
   DataElasticsearchSearchResDto,
   DataSearchType,
@@ -23,6 +22,7 @@ import {
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Inject, Injectable } from "@nestjs/common";
 
+import { AlbumConfigService } from "./album.config.service";
 import { AlbumServiceInterface } from "./album.service.interface";
 import { ClientProxy } from "@nestjs/microservices";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
@@ -36,16 +36,10 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async transformLocal(
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     elasticSearchRes: { _source: DataElasticsearchSearchResDto }[]
   ): Promise<AlbumResDto[]> {
     return Promise.all(
-      elasticSearchRes.map((value) =>
-        this.transform({
-          ...value._source,
-          dataConfigElasticsearch,
-        })
-      )
+      elasticSearchRes.map((value) => this.transform(value._source))
     );
   }
 
@@ -53,6 +47,7 @@ export class AlbumService implements AlbumServiceInterface {
     @Inject(ARTIST_SERVICE) private readonly artistClientProxy: ClientProxy,
     @Inject(CONST_SERVICE) private readonly constClientProxy: ClientProxy,
     @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
+    private readonly albumConfigService: AlbumConfigService,
     private readonly elasticsearchService: ElasticsearchService
   ) {}
 
@@ -85,20 +80,17 @@ export class AlbumService implements AlbumServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.albumConfigService.maxSize, dto.size),
         sort: [
           {
             release_date: DataSortByType.desc,
           },
         ],
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.albumConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -110,14 +102,10 @@ export class AlbumService implements AlbumServiceInterface {
       any
     >({
       id: `album-${dto.id}`,
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.albumConfigService.indexName,
       type: DataSearchType.music,
     });
-    const album = await this.transform({
-      ...elasticsearchGet.body._source,
-      dataConfigElasticsearch: dto.dataConfigElasticsearch,
-      dataConfigImage: dto.dataConfigImage,
-    });
+    const album = await this.transform(elasticsearchGet.body._source);
     const songs = await this.songClientProxy
       .send<SongResDto[], SongAlbumSongsReqDto>(SONG_SERVICE_ALBUM_SONGS, dto)
       .toPromise();
@@ -165,20 +153,17 @@ export class AlbumService implements AlbumServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.dataConfigElasticsearch.maxSize, dto.size),
+        size: Math.min(this.albumConfigService.maxSize, dto.size),
         sort: [
           {
             release_date: DataSortByType.desc,
           },
         ],
       },
-      index: dto.dataConfigElasticsearch.indexName,
+      index: this.albumConfigService.indexName,
       type: DataSearchType.music,
     });
-    return this.transformLocal(
-      dto.dataConfigElasticsearch,
-      elasticsearchSearch.body.hits.hits
-    );
+    return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
 
   @ApmAfterMethod
@@ -198,8 +183,8 @@ export class AlbumService implements AlbumServiceInterface {
     );
     const uri =
       dto.unique_name === undefined
-        ? dto.dataConfigElasticsearch.imagePathDefaultAlbum
-        : lodash.template(dto.dataConfigElasticsearch.imagePath)({
+        ? this.albumConfigService.imagePathDefaultAlbum
+        : lodash.template(this.albumConfigService.imagePath)({
             id: dto.unique_name,
           });
     const image = await this.constClientProxy

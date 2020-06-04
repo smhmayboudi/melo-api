@@ -21,6 +21,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { PromMethodCounter } from "@melo/prom";
+import { SearchConfigService } from "./search.config.service";
 import { SearchServiceInterface } from "./search.service.interface";
 import lodash from "lodash";
 import moment from "moment";
@@ -32,7 +33,8 @@ export class SearchService implements SearchServiceInterface {
     @Inject(ALBUM_SERVICE) private readonly albumClientProxy: ClientProxy,
     @Inject(ARTIST_SERVICE) private readonly artistClientProxy: ClientProxy,
     @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
-    private readonly elasticsearchService: ElasticsearchService
+    private readonly elasticsearchService: ElasticsearchService,
+    private readonly searchConfigService: SearchConfigService
   ) {}
 
   @ApmAfterMethod
@@ -49,9 +51,9 @@ export class SearchService implements SearchServiceInterface {
             query: dto.query,
           },
         },
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.searchConfigService.maxSize, dto.size),
       },
-      index: dto.config.suggestIndex,
+      index: this.searchConfigService.suggestIndex,
     });
     const suggestKeys =
       elasticsearchSearch.body.hits.hits.length === 0
@@ -116,7 +118,7 @@ export class SearchService implements SearchServiceInterface {
           },
         },
       },
-      index: dto.config.indexName,
+      index: this.searchConfigService.indexName,
     });
     const fields = [
       "all.ngram",
@@ -218,13 +220,13 @@ export class SearchService implements SearchServiceInterface {
               },
             },
             script_score: {
-              script: dto.config.scriptScore,
+              script: this.searchConfigService.scriptScore,
             },
           },
         },
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.searchConfigService.maxSize, dto.size),
       },
-      index: dto.config.indexName,
+      index: this.searchConfigService.indexName,
     });
     let mixed = elasticsearchSearchSuggest.body.hits.hits.map((value) => ({
       ...value._source,
@@ -410,10 +412,10 @@ export class SearchService implements SearchServiceInterface {
             ],
           },
         },
-        size: Math.min(dto.config.maxSize, dto.size),
+        size: Math.min(this.searchConfigService.maxSize, dto.size),
         sort,
       },
-      index: dto.config.indexName,
+      index: this.searchConfigService.indexName,
     });
     return Promise.all(
       elasticsearchSearch.body.hits.hits.map((value) =>
