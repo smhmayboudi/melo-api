@@ -3,6 +3,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumController } from "./album.controller";
+import { AlbumElasticsearchOptionsFactory } from "./album.elasticsearch.options.factory";
 import { AlbumService } from "./album.service";
 import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
@@ -36,8 +37,10 @@ import config from "./album.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    ElasticsearchModule.register({
-      node: process.env.ALBUM_ELASTICSEARCH_NODE,
+    ElasticsearchModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [AlbumModule],
+      useClass: AlbumElasticsearchOptionsFactory,
     }),
   ],
   providers: [AlbumConfigService, AlbumService],

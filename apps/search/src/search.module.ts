@@ -5,6 +5,7 @@ import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { Module } from "@nestjs/common";
 import { SearchController } from "./search.controller";
+import { SearchElasticsearchOptionsFactory } from "./search.elasticsearch.options.factory";
 import { SearchService } from "./search.service";
 import config from "./search.config";
 
@@ -35,8 +36,10 @@ import config from "./search.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    ElasticsearchModule.register({
-      node: process.env.SEARCH_ELASTICSEARCH_NODE,
+    ElasticsearchModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [SearchModule],
+      useClass: SearchElasticsearchOptionsFactory,
     }),
   ],
   providers: [SearchService],

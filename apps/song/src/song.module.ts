@@ -12,6 +12,7 @@ import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { SongCacheEntityRepository } from "./song.cache.entity.repository";
 import { SongController } from "./song.controller";
+import { SongElasticsearchOptionsFactory } from "./song.elasticsearch.options.factory";
 import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
 import { SongSiteEntityRepository } from "./song.site.entity.repository";
@@ -60,8 +61,10 @@ import config from "./song.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    ElasticsearchModule.register({
-      node: process.env.SONG_ELASTICSEARCH_NODE,
+    ElasticsearchModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [SongModule],
+      useClass: SongElasticsearchOptionsFactory,
     }),
     HttpModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

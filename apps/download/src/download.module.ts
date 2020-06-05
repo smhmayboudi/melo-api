@@ -3,6 +3,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 import { ConfigModule } from "@nestjs/config";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadController } from "./download.controller";
+import { DownloadElasticsearchOptionsFactory } from "./download.elasticsearch.options.factory";
 import { DownloadService } from "./download.service";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { Module } from "@nestjs/common";
@@ -22,8 +23,10 @@ import config from "./download.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    ElasticsearchModule.register({
-      node: process.env.DOWNLOAD_ELASTICSEARCH_NODE,
+    ElasticsearchModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [DownloadModule],
+      useClass: DownloadElasticsearchOptionsFactory,
     }),
   ],
   providers: [DownloadConfigService, DownloadService],
