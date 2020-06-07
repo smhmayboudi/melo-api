@@ -1,32 +1,11 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsNumberString, ValidateNested } from "class-validator";
-
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { Type } from "class-transformer";
+import { IsNumber, IsNumberString } from "class-validator";
 
 export class SongUnlikeReqDto {
-  constructor(
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
-    id: number,
-    sub: number
-  ) {
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
+  constructor(id: number, sub: number) {
     this.id = id;
     this.sub = sub;
   }
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "The identification",

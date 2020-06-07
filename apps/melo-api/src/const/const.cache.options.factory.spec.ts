@@ -11,7 +11,6 @@ describe("ConstCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    staticImagePaths: {},
   };
 
   let service: ConstConfigService;

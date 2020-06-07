@@ -13,10 +13,7 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
   PlaylistAddSongReqDto,
-  PlaylistConfigReqDto,
   PlaylistCreateReqDto,
   PlaylistDeleteReqDto,
   PlaylistEditReqDto,
@@ -29,8 +26,6 @@ import {
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { DataConfigService } from "../data/data.config.service";
-import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistHashIdInterceptor } from "./playlist.hash-id.interceptor";
 import { PlaylistLikeInterceptor } from "./playlist.like.interceptor";
 import { PlaylistLocalizeInterceptor } from "./playlist.localize.interceptor";
@@ -52,34 +47,7 @@ import { PlaylistService } from "./playlist.service";
   })
 )
 export class PlaylistController {
-  private config: PlaylistConfigReqDto = {
-    imagePath: this.playlistConfigService.imagePath,
-    imagePathDefaultPlaylist: this.playlistConfigService
-      .imagePathDefaultPlaylist,
-  };
-  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: this.dataConfigService.imagePath,
-    imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
-    imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
-    imagePathDefaultSong: this.dataConfigService.imagePathDefaultSong,
-    indexName: this.dataConfigService.indexName,
-    maxSize: this.dataConfigService.maxSize,
-    mp3Endpoint: this.dataConfigService.mp3Endpoint,
-  };
-  private dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: this.dataConfigService.imageBaseUrl,
-    imageEncode: this.dataConfigService.imageEncode,
-    imageKey: this.dataConfigService.imageKey,
-    imageSalt: this.dataConfigService.imageSalt,
-    imageSignatureSize: this.dataConfigService.imageSignatureSize,
-    imageTypeSize: this.dataConfigService.imageTypeSize,
-  };
-
-  constructor(
-    private readonly dataConfigService: DataConfigService,
-    private readonly playlistConfigService: PlaylistConfigService,
-    private readonly playlistService: PlaylistService
-  ) {}
+  constructor(private readonly playlistService: PlaylistService) {}
 
   @ApiParam({
     name: "songId",
@@ -88,12 +56,7 @@ export class PlaylistController {
   @Post("addSong")
   @UseGuards(AuthGuard("jwt"))
   async addSong(@Body() dto: PlaylistAddSongReqDto): Promise<PlaylistResDto> {
-    return this.playlistService.addSong({
-      ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.playlistService.addSong(dto);
   }
 
   @Post("create")
@@ -104,9 +67,6 @@ export class PlaylistController {
   ): Promise<PlaylistResDto> {
     return this.playlistService.create({
       ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       sub,
     });
   }
@@ -119,9 +79,6 @@ export class PlaylistController {
   ): Promise<PlaylistResDto> {
     return this.playlistService.delete({
       ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       sub,
     });
   }
@@ -129,23 +86,13 @@ export class PlaylistController {
   @Post("edit")
   @UseGuards(AuthGuard("jwt"))
   async edit(@Body() dto: PlaylistEditReqDto): Promise<PlaylistResDto> {
-    return this.playlistService.edit({
-      ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.playlistService.edit(dto);
   }
 
   @Get("byId/:id")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async get(@Param() dto: PlaylistGetReqDto): Promise<PlaylistResDto> {
-    return this.playlistService.get({
-      ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.playlistService.get(dto);
   }
 
   @Get("my/:from/:size")
@@ -156,9 +103,6 @@ export class PlaylistController {
   ): Promise<PlaylistResDto[]> {
     return this.playlistService.my({
       ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
 
       sub,
     });
@@ -173,22 +117,12 @@ export class PlaylistController {
   async removeSong(
     @Param() dto: PlaylistRemoveSongReqDto
   ): Promise<PlaylistResDto> {
-    return this.playlistService.removeSong({
-      ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.playlistService.removeSong(dto);
   }
 
   @Get("top/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async top(@Param() dto: PlaylistTopReqDto): Promise<PlaylistResDto[]> {
-    return this.playlistService.top({
-      ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.playlistService.top(dto);
   }
 }

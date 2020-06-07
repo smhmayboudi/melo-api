@@ -12,9 +12,6 @@ describe("SongConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    maxSize: 0,
-    sendTimeout: 0,
-    sendUrl: "",
   };
 
   // TODO: interface ?
@@ -63,17 +60,5 @@ describe("SongConfigService", () => {
 
   it("cacheTTL should be equal to a value", () => {
     expect(service.cacheTTL).toEqual(0);
-  });
-
-  it("maxSize should be equal to a value", () => {
-    expect(service.maxSize).toEqual(0);
-  });
-
-  it("timeout should be equal to a value", () => {
-    expect(service.sendTimeout).toEqual(0);
-  });
-
-  it("url should be equal to a value", () => {
-    expect(service.sendUrl).toEqual("");
   });
 });

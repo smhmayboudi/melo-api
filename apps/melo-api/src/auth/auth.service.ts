@@ -1,5 +1,8 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
+  AUTH_SERVICE,
+  AUTH_SERVICE_LOGIN,
+  AUTH_SERVICE_LOGOUT,
+  AUTH_SERVICE_TOKEN,
   AuthAccessTokenReqDto,
   AuthAccessTokenResDto,
   AuthDeleteByTokenReqDto,
@@ -7,24 +10,18 @@ import {
   AuthRefreshTokenResDto,
   RtResDto,
 } from "@melo/common";
-import { Injectable, InternalServerErrorException } from "@nestjs/common";
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
+import { Inject, Injectable } from "@nestjs/common";
 
 import { AuthServiceInterface } from "./auth.service.interface";
-import { JwksService } from "../jwks/jwks.service";
-import { JwtService } from "@nestjs/jwt";
+import { ClientProxy } from "@nestjs/microservices";
 import { PromMethodCounter } from "@melo/prom";
-import { RtService } from "../rt/rt.service";
-import cryptoRandomString from "crypto-random-string";
-import moment from "moment";
-import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 // @PromInstanceCounter
 export class AuthService implements AuthServiceInterface {
   constructor(
-    private readonly jwksService: JwksService,
-    private readonly jwtService: JwtService,
-    private readonly rtService: RtService
+    @Inject(AUTH_SERVICE) private readonly authClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
@@ -33,21 +30,12 @@ export class AuthService implements AuthServiceInterface {
   async accessToken(
     dto: AuthAccessTokenReqDto
   ): Promise<AuthAccessTokenResDto> {
-    const jwks = await this.jwksService.getOneRandom();
-    if (jwks === undefined) {
-      throw new InternalServerErrorException();
-    }
-    const at = this.jwtService.sign(
-      {},
-      {
-        jwtid: uuidv4(),
-        keyid: jwks.id,
-        subject: dto.sub.toString(),
-      }
-    );
-    return {
-      at,
-    };
+    return this.authClientProxy
+      .send<AuthAccessTokenResDto, AuthAccessTokenReqDto>(
+        AUTH_SERVICE_TOKEN,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
@@ -56,7 +44,12 @@ export class AuthService implements AuthServiceInterface {
   async deleteByToken(
     dto: AuthDeleteByTokenReqDto
   ): Promise<RtResDto | undefined> {
-    return this.rtService.deleteByToken(dto);
+    return this.authClientProxy
+      .send<RtResDto | undefined, AuthDeleteByTokenReqDto>(
+        AUTH_SERVICE_LOGOUT,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
@@ -65,38 +58,11 @@ export class AuthService implements AuthServiceInterface {
   async refreshToken(
     dto: AuthRefreshTokenReqDto
   ): Promise<AuthRefreshTokenResDto> {
-    const jwks = await this.jwksService.getOneRandom();
-    if (jwks === undefined) {
-      throw new InternalServerErrorException();
-    }
-    const at = this.jwtService.sign(
-      {},
-      {
-        jwtid: dto.jwtid,
-        keyid: jwks.id,
-        subject: dto.sub.toString(),
-      }
-    );
-    const now = dto.now || new Date();
-    const exp = moment(now).add(dto.config.expiresIn, "ms").toDate();
-    const rt =
-      dto.rt ||
-      cryptoRandomString({
-        length: 256,
-        type: "base64",
-      });
-    await this.rtService.save({
-      created_at: now,
-      description: "",
-      expire_at: exp,
-      id: 0,
-      is_blocked: false,
-      token: rt,
-      user_id: dto.sub,
-    });
-    return {
-      at,
-      rt,
-    };
+    return this.authClientProxy
+      .send<AuthRefreshTokenResDto, AuthRefreshTokenReqDto>(
+        AUTH_SERVICE_LOGIN,
+        dto
+      )
+      .toPromise();
   }
 }

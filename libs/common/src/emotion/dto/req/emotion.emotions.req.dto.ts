@@ -1,50 +1,13 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import {
-  IsArray,
-  IsNumber,
-  IsNumberString,
-  IsString,
-  ValidateNested,
-} from "class-validator";
-
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { EmotionConfigReqDto } from "./emotion.config.req.dto";
-import { Type } from "class-transformer";
+import { IsArray, IsNumber, IsNumberString, IsString } from "class-validator";
 
 export class EmotionEmotionsReqDto {
-  constructor(
-    config: EmotionConfigReqDto,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
-    emotions: string[],
-    from: number,
-    size: number,
-    sub: number
-  ) {
-    this.config = config;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
+  constructor(emotions: string[], from: number, size: number, sub: number) {
     this.emotions = emotions;
     this.from = from;
     this.size = size;
     this.sub = sub;
   }
-
-  @ApiHideProperty()
-  @Type(() => EmotionConfigReqDto)
-  @ValidateNested()
-  readonly config: EmotionConfigReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "The emotions",

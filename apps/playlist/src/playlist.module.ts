@@ -6,6 +6,7 @@ import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
+import { PlaylistMongooseOptionsFactory } from "./playlist.mongoose.options.factory";
 import { PlaylistSchema } from "./playlist.schema";
 import { PlaylistService } from "./playlist.service";
 import config from "./playlist.config";
@@ -24,6 +25,11 @@ import config from "./playlist.config";
       },
     ]),
     MongooseModule.forFeature([{ name: PLAYLIST, schema: PlaylistSchema }]),
+    MongooseModule.forRootAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [PlaylistModule],
+      useClass: PlaylistMongooseOptionsFactory,
+    }),
   ],
   providers: [PlaylistConfigService, PlaylistService],
 })

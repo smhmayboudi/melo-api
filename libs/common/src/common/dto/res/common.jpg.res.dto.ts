@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class DataJpgResDto {
+export class CommonJpgResDto {
   constructor(url: string) {
     this.url = url;
   }

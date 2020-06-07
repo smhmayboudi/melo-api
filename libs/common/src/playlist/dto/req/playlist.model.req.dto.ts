@@ -8,17 +8,9 @@ import {
   ValidateNested,
 } from "class-validator";
 
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { PlaylistConfigReqDto } from ".";
-import { Type } from "class-transformer";
-
 export class PlaylistModelReqDto {
   constructor(
     _id: string,
-    config: PlaylistConfigReqDto,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
     downloads_count: number,
     followers_count: number,
     isPublic: boolean,
@@ -30,9 +22,6 @@ export class PlaylistModelReqDto {
     tracks_count: number
   ) {
     this._id = _id;
-    this.config = config;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
     this.downloads_count = downloads_count;
     this.followers_count = followers_count;
     this.isPublic = isPublic;
@@ -46,21 +35,6 @@ export class PlaylistModelReqDto {
   @ApiHideProperty()
   @IsString()
   readonly _id: string;
-
-  @ApiHideProperty()
-  @Type(() => PlaylistConfigReqDto)
-  @ValidateNested()
-  readonly config: PlaylistConfigReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "The download counts",

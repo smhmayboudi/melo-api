@@ -1,20 +1,19 @@
-import { JwksEntity } from "./jwks.entity";
-import { JwksEntityRepository } from "./jwks.entity.repository";
-import { JwksEntityRepositoryInterface } from "./jwks.entity.repository.interface";
-import { JwksFindOneReqDto } from "@melo/common";
+import { JWKS_SERVICE, JwksFindOneReqDto, JwksResDto } from "@melo/common";
+
 import { JwksService } from "./jwks.service";
 import { Test } from "@nestjs/testing";
+import { of } from "rxjs";
 
 describe("JwksService", () => {
-  const jwksEntity: JwksEntity = {
+  const jwks: JwksResDto = {
     id: "",
     private_key: "",
     public_key: "",
   };
 
-  const jwksEntityRepositoryMock: JwksEntityRepositoryInterface = {
-    findOne: () => Promise.resolve(jwksEntity),
-    getOneRandom: () => Promise.resolve(jwksEntity),
+  // TODO: interface ?
+  const jwksClientProxyMock = {
+    send: () => of(jwks),
   };
 
   let service: JwksService;
@@ -23,7 +22,7 @@ describe("JwksService", () => {
     const module = await Test.createTestingModule({
       providers: [
         JwksService,
-        { provide: JwksEntityRepository, useValue: jwksEntityRepositoryMock },
+        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
       ],
     }).compile();
     service = module.get<JwksService>(JwksService);
@@ -37,10 +36,10 @@ describe("JwksService", () => {
     const dto: JwksFindOneReqDto = {
       id: "",
     };
-    expect(await service.findOne(dto)).toEqual(jwksEntity);
+    expect(await service.findOne(dto)).toEqual(jwks);
   });
 
   it("getOneRandom should be equal to an jwksEntity", async () => {
-    expect(await service.getOneRandom()).toEqual(jwksEntity);
+    expect(await service.getOneRandom()).toEqual(jwks);
   });
 });

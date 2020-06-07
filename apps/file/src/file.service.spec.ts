@@ -1,8 +1,4 @@
-import {
-  FileConfigReqDto,
-  FileUploadImageReqDto,
-  FileUploadImageResDto,
-} from "@melo/common";
+import { FileUploadImageReqDto, FileUploadImageResDto } from "@melo/common";
 
 import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
@@ -24,14 +20,6 @@ jest.mock("aws-sdk").fn(() => ({
 nock("http://misc.127.0.0.1:9000").put(/\/*/).reply(200);
 
 describe("FileService", () => {
-  const config: FileConfigReqDto = {
-    s3AccessKeyId: "minioadmin",
-    s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
-    s3ForcePathStyle: false,
-    s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false,
-  };
   const date = new Date();
   const mimeType = "image/jpeg";
   const fileUploadImage: FileUploadImageResDto = {
@@ -95,7 +83,6 @@ describe("FileService", () => {
     const dto: FileUploadImageReqDto = {
       bufferBase64:
         "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/2wBDAQMDAwQDBAgEBAgQCwkLEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAn/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKpgA//Z",
-      config,
       encoding: "",
       fieldname: "",
       mimeType,
@@ -116,7 +103,6 @@ describe("FileService", () => {
         "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
       ),
       bufferBase64: "",
-      config,
       encoding: "",
       fieldname: "",
       mimeType,

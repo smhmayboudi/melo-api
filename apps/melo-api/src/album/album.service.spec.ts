@@ -1,53 +1,25 @@
 import {
+  ALBUM_SERVICE,
+  ALBUM_SERVICE_GET,
   AlbumArtistsReqDto,
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  SongAudioResDto,
-  SongResDto,
 } from "@melo/common";
 
 import { AlbumService } from "./album.service";
-import { AppArtistService } from "../app/app.artist.service";
-import { AppArtistServiceInterface } from "../app/app.artist.service.interface";
-import { DataAlbumService } from "../data/data.album.service";
-import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
 import { Test } from "@nestjs/testing";
+import { of } from "rxjs";
 
 describe("AlbumService", () => {
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -57,7 +29,7 @@ describe("AlbumService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -69,37 +41,11 @@ describe("AlbumService", () => {
     tags: [""],
     tracksCount: 0,
   };
-  const audio: SongAudioResDto = {
-    medium: {
-      fingerprint: "",
-      url: "-0.mp3",
-    },
-  };
-  const song: SongResDto = {
-    album,
-    artists: [artist],
-    audio,
-    copyrighted: false,
-    downloadCount: 0,
-    duration: 0,
-    hasVideo: false,
-    id: 0,
-    image,
-    localized: false,
-    lyrics: "",
-    releaseDate,
-    tags: [""],
-    title: "",
-  };
 
-  const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: () => Promise.resolve(artist),
-    follows: () => Promise.resolve([artist]),
-  };
-  const dataAlbumServiceMock: DataAlbumServiceInterface = {
-    albums: () => Promise.resolve([album]),
-    get: () => Promise.resolve({ ...album, songs: [song] }),
-    latest: () => Promise.resolve([album]),
+  // TODO: interface ?
+  const albumClientProxyMock = {
+    send: (token: string) =>
+      token === ALBUM_SERVICE_GET ? of(album) : of([album]),
   };
 
   let service: AlbumService;
@@ -108,8 +54,7 @@ describe("AlbumService", () => {
     const module = await Test.createTestingModule({
       providers: [
         AlbumService,
-        { provide: AppArtistService, useValue: appArtistServiceMock },
-        { provide: DataAlbumService, useValue: dataAlbumServiceMock },
+        { provide: ALBUM_SERVICE, useValue: albumClientProxyMock },
       ],
     }).compile();
     service = module.get<AlbumService>(AlbumService);
@@ -119,10 +64,8 @@ describe("AlbumService", () => {
     expect(service).toBeDefined();
   });
 
-  it("albums should equal list of artists", async () => {
+  it("albums should equal list of albums", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -130,61 +73,19 @@ describe("AlbumService", () => {
     expect(await service.albums(dto)).toEqual([album]);
   });
 
-  it("get should be equal to an artist", async () => {
+  it("get should be equal to an album", async () => {
     const dto: AlbumGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
-    expect(await service.get(dto)).toEqual({
-      ...album,
-      songs: [song],
-    });
-  });
-
-  it("get should handle songs undefined", async () => {
-    const dataAlbumServiceMockGet: DataAlbumServiceInterface = {
-      ...dataAlbumServiceMock,
-      get: () =>
-        Promise.resolve({
-          ...album,
-          songs: undefined,
-        }),
-    };
-
-    const module = await Test.createTestingModule({
-      providers: [
-        AlbumService,
-        { provide: AppArtistService, useValue: appArtistServiceMock },
-        {
-          provide: DataAlbumService,
-          useValue: dataAlbumServiceMockGet,
-        },
-      ],
-    }).compile();
-    service = module.get<AlbumService>(AlbumService);
-
-    const dto: AlbumGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-      id: 0,
-    };
-    expect(await service.get(dto)).toEqual({
-      ...album,
-      songs: undefined,
-    });
+    expect(await service.get(dto)).toEqual(album);
   });
 
   it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "",
       size: 0,
     };
     expect(await service.latest(dto)).toEqual([album]);
   });
-
-  it.todo("latest should equal list of albums 2");
 });

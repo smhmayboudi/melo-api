@@ -13,11 +13,8 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
-  SongConfigReqDto,
   SongGetReqDto,
   SongLanguageReqDto,
   SongLikeReqDto,
@@ -42,8 +39,6 @@ import {
 import { AppOrderByPipe } from "../app/app.order-by.pipe";
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { DataConfigService } from "../data/data.config.service";
-import { SongConfigService } from "./song.config.service";
 import { SongHashIdInterceptor } from "./song.hash-id.interceptor";
 import { SongLikeInterceptor } from "./song.like.interceptor";
 import { SongLocalizeInterceptor } from "./song.localize.interceptor";
@@ -65,33 +60,7 @@ import { SongService } from "./song.service";
   })
 )
 export class SongController {
-  private config: SongConfigReqDto = {
-    maxSize: this.songConfigService.maxSize,
-    sendUrl: this.songConfigService.sendUrl,
-  };
-  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: this.dataConfigService.imagePath,
-    imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
-    imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
-    imagePathDefaultSong: this.dataConfigService.imagePathDefaultSong,
-    indexName: this.dataConfigService.indexName,
-    maxSize: this.dataConfigService.maxSize,
-    mp3Endpoint: this.dataConfigService.mp3Endpoint,
-  };
-  private dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: this.dataConfigService.imageBaseUrl,
-    imageEncode: this.dataConfigService.imageEncode,
-    imageKey: this.dataConfigService.imageKey,
-    imageSalt: this.dataConfigService.imageSalt,
-    imageSignatureSize: this.dataConfigService.imageSignatureSize,
-    imageTypeSize: this.dataConfigService.imageTypeSize,
-  };
-
-  constructor(
-    private readonly dataConfigService: DataConfigService,
-    private readonly songConfigService: SongConfigService,
-    private readonly songService: SongService
-  ) {}
+  constructor(private readonly songService: SongService) {}
 
   @ApiParam({
     example: "abcdef",
@@ -103,11 +72,7 @@ export class SongController {
   async artistSongs(
     @Param() dto: SongArtistSongsReqDto
   ): Promise<SongResDto[]> {
-    return this.songService.artistSongs({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.artistSongs(dto);
   }
 
   @ApiParam({
@@ -120,11 +85,7 @@ export class SongController {
   async artistSongsTop(
     @Param() dto: SongArtistSongsTopReqDto
   ): Promise<SongResDto[]> {
-    return this.songService.artistSongsTop({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.artistSongsTop(dto);
   }
 
   @ApiParam({
@@ -141,8 +102,6 @@ export class SongController {
     return this.songService.genre({
       ...paramDto,
       ...queryDto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       orderBy,
     });
   }
@@ -154,11 +113,7 @@ export class SongController {
   @Get("byId/:id")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async get(@Param() dto: SongGetReqDto): Promise<SongResDto> {
-    return this.songService.get({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.get(dto);
   }
 
   @ApiParam({
@@ -173,8 +128,6 @@ export class SongController {
   ): Promise<SongResDto[]> {
     return this.songService.language({
       ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       orderBy,
     });
   }
@@ -187,8 +140,6 @@ export class SongController {
   ): Promise<SongResDto> {
     return this.songService.like({
       ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       sub,
     });
   }
@@ -201,9 +152,6 @@ export class SongController {
   ): Promise<SongResDto[]> {
     return this.songService.liked({
       ...dto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       sub,
     });
   }
@@ -211,31 +159,19 @@ export class SongController {
   @Get("mood/:mood/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async mood(@Param() dto: SongMoodReqDto): Promise<SongResDto[]> {
-    return this.songService.mood({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.mood(dto);
   }
 
   @Get("new/podcast/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newPodcast(@Param() dto: SongNewPodcastReqDto): Promise<SongResDto[]> {
-    return this.songService.newPodcast({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.newPodcast(dto);
   }
 
   @Get("new/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async newSong(@Param() dto: SongNewReqDto): Promise<SongResDto[]> {
-    return this.songService.newSong({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.newSong(dto);
   }
 
   @ApiParam({
@@ -252,8 +188,6 @@ export class SongController {
     return this.songService.podcast({
       ...paramDto,
       ...queryDto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       orderBy,
     });
   }
@@ -266,7 +200,6 @@ export class SongController {
   ): Promise<void> {
     return this.songService.sendTelegram({
       ...dto,
-      config: this.config,
       sub,
     });
   }
@@ -284,31 +217,19 @@ export class SongController {
   @Get("slider")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async slider(dto: SongSliderReqDto): Promise<SongResDto[]> {
-    return this.songService.slider({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.slider(dto);
   }
 
   @Get("top/day/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topDay(@Param() dto: SongTopDayReqDto): Promise<SongResDto[]> {
-    return this.songService.topDay({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.topDay(dto);
   }
 
   @Get("top/week/:from/:size")
   @UseGuards(AuthGuard(["jwt", "anonymId"]))
   async topWeek(@Param() dto: SongTopWeekReqDto): Promise<SongResDto[]> {
-    return this.songService.topWeek({
-      ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
-    });
+    return this.songService.topWeek(dto);
   }
 
   @Post("unlike")
@@ -319,8 +240,6 @@ export class SongController {
   ): Promise<SongResDto> {
     return this.songService.unlike({
       ...dto,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       sub,
     });
   }

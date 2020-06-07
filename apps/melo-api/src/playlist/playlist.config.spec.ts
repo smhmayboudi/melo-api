@@ -8,8 +8,6 @@ describe("PlaylistConfig", () => {
       CACHE_PORT: undefined,
       CACHE_STORE: undefined,
       CACHE_TTL: undefined,
-      IMAGE_PATH: undefined,
-      IMAGE_PATH_DEFAULT_PLAYLIST: undefined,
     });
   });
 });

@@ -8,10 +8,6 @@ describe("SearchConfig", () => {
       CACHE_PORT: undefined,
       CACHE_STORE: undefined,
       CACHE_TTL: undefined,
-      ELASTICSEARCH_NODE: undefined,
-      INDEX_NAME: undefined,
-      MAX_SIZE: undefined,
-      SCRIPT_SCORE: undefined,
     });
   });
 });

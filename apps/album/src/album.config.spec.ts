@@ -5,7 +5,7 @@ describe("AlbumConfig", () => {
     expect(config()).toStrictEqual({
       ELASTICSEARCH_NODE: undefined,
       IMAGE_PATH: undefined,
-      IMAGE_PATH_DEFAULT_ALBUM: undefined,
+      IMAGE_PATH_DEFAULT: undefined,
       INDEX_NAME: undefined,
       MAX_SIZE: undefined,
     });

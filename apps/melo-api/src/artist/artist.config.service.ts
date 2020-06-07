@@ -5,7 +5,6 @@ import {
   CACHE_PORT,
   CACHE_STORE,
   CACHE_TTL,
-  MAX_SIZE,
 } from "@melo/common";
 
 import { AppConfigService } from "../app/app.config.service";
@@ -56,9 +55,5 @@ export class ArtistConfigService implements ArtistConfigServiceInterface {
         ms(this.appConfigService.cacheTTL)
       )
     );
-  }
-
-  get maxSize(): number {
-    return this.configService.get<number>(`${ARTIST}.${MAX_SIZE}`, 0);
   }
 }

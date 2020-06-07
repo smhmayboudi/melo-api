@@ -7,7 +7,4 @@ export default registerAs(SONG, () => ({
   CACHE_PORT: process.env.SONG_CACHE_PORT,
   CACHE_STORE: process.env.SONG_CACHE_STORE,
   CACHE_TTL: process.env.SONG_CACHE_TTL,
-  MAX_SIZE: process.env.SONG_MAX_SIZE,
-  SEND_TIMEOUT: process.env.SONG_SEND_TIMEOUT,
-  SEND_URL: process.env.SONG_SEND_URL,
 }));

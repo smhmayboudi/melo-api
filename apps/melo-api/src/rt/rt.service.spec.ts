@@ -1,8 +1,8 @@
-import { DeleteResult, UpdateResult } from "typeorm";
 import {
+  RT_SERVICE,
+  RT_SERVICE_FIND,
   RtBlockByTokenReqDto,
   RtBlockReqDto,
-  RtDeleteByTokenReqDto,
   RtDeleteReqDto,
   RtFindOneByTokenReqDto,
   RtFindOneReqDto,
@@ -12,14 +12,13 @@ import {
   RtValidateReqDto,
 } from "@melo/common";
 
-import { RtEntityRepository } from "./rt.entity.repository";
-import { RtEntityRepositoryInterface } from "./rt.entity.repository.interface";
 import { RtService } from "./rt.service";
 import { Test } from "@nestjs/testing";
+import { of } from "rxjs";
 
 describe("RtService", () => {
   const date = new Date();
-  const rtEntity: RtResDto = {
+  const rt: RtResDto = {
     created_at: date,
     description: "",
     expire_at: date,
@@ -28,21 +27,10 @@ describe("RtService", () => {
     token: "",
     user_id: 0,
   };
-  const deleteResult: DeleteResult = {
-    raw: "",
-  };
-  const updateResult: UpdateResult = {
-    generatedMaps: [{}],
-    raw: "",
-  };
 
-  const rtEntityRepositoryMock: RtEntityRepositoryInterface = {
-    delete: () => Promise.resolve(deleteResult),
-    find: () => Promise.resolve([rtEntity]),
-    findOne: () => Promise.resolve(rtEntity),
-    save: <RtEntity>(): Promise<RtEntity> =>
-      (Promise.resolve(rtEntity) as unknown) as Promise<RtEntity>,
-    update: () => Promise.resolve(updateResult),
+  // TODO: interface ?
+  const rtClientProxyMock = {
+    send: (token: string) => (token === RT_SERVICE_FIND ? of([rt]) : of(rt)),
   };
 
   let service: RtService;
@@ -50,8 +38,8 @@ describe("RtService", () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        { provide: RtEntityRepository, useValue: rtEntityRepositoryMock },
         RtService,
+        { provide: RT_SERVICE, useValue: rtClientProxyMock },
       ],
     }).compile();
     service = module.get<RtService>(RtService);
@@ -61,70 +49,63 @@ describe("RtService", () => {
     expect(service).toBeDefined();
   });
 
-  it("block should be equal to an RT entity", async () => {
+  it("block should be equal to an rt", async () => {
     const dto: RtBlockReqDto = {
       description: "",
       id: 0,
     };
-    expect(await service.block(dto)).toEqual(rtEntity);
+    expect(await service.block(dto)).toEqual(rt);
   });
 
-  it("blockByToken should be equal to an RT entity", async () => {
+  it("blockByToken should be equal to an rt", async () => {
     const dto: RtBlockByTokenReqDto = {
       description: "",
       token: "",
     };
-    expect(await service.blockByToken(dto)).toEqual(rtEntity);
+    expect(await service.blockByToken(dto)).toEqual(rt);
   });
 
-  it("delete should be equal to an RT entity", async () => {
+  it("delete should be equal to an rt", async () => {
     const dto: RtDeleteReqDto = {
       id: 0,
     };
-    expect(await service.delete(dto)).toEqual(rtEntity);
-  });
-
-  it("deleteByToken should be undefined", async () => {
-    const dto: RtDeleteByTokenReqDto = {
-      token: "",
-    };
-    expect(await service.deleteByToken(dto)).toEqual(rtEntity);
+    expect(await service.delete(dto)).toEqual(rt);
   });
 
   it("find should be equal to an array of RT entities", async () => {
-    expect(await service.find()).toEqual([rtEntity]);
+    expect(await service.find()).toEqual([rt]);
   });
 
-  it("findOne should be equal to an RT entity", async () => {
+  it("findOne should be equal to an rt", async () => {
     const dto: RtFindOneReqDto = {
       id: 0,
     };
-    expect(await service.findOne(dto)).toEqual(rtEntity);
+    expect(await service.findOne(dto)).toEqual(rt);
   });
 
-  it("findOneByToken should be equal to an RT entity", async () => {
+  it("findOneByToken should be equal to an rt", async () => {
     const dto: RtFindOneByTokenReqDto = {
       token: "",
     };
-    expect(await service.findOneByToken(dto)).toEqual(rtEntity);
+    expect(await service.findOneByToken(dto)).toEqual(rt);
   });
 
   it("save should be equal to an array of RT entities", async () => {
-    const dto: RtSaveReqDto = rtEntity;
-    expect(await service.save(dto)).toEqual(rtEntity);
+    const dto: RtSaveReqDto = rt;
+    expect(await service.save(dto)).toEqual(rt);
   });
 
-  it("validate should be equal to an RT entity", async () => {
+  it("validate should be equal to an rt", async () => {
     const dto: RtValidateReqDto = {
-      sub: 0,
+      sub: 1,
     };
-    expect(await service.validate(dto)).toEqual(rtEntity);
+    expect(await service.validate(dto)).toEqual(rt);
   });
 
-  it("validateByToken should be equal to an RT entity", async () => {
+  it("validateByToken should be equal to an rt", async () => {
     const dto: RtValidateByTokenReqDto = {
       token: "",
     };
-    expect(await service.validateByToken(dto)).toEqual(rtEntity);
+    expect(await service.validateByToken(dto)).toEqual(rt);
   });
 });

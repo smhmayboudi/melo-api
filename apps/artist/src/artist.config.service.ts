@@ -1,7 +1,7 @@
 import {
   ARTIST,
   IMAGE_PATH,
-  IMAGE_PATH_DEFAULT_ARTIST,
+  IMAGE_PATH_DEFAULT,
   INDEX_NAME,
   MAX_SIZE,
 } from "@melo/common";
@@ -20,7 +20,7 @@ export class ArtistConfigService implements ArtistConfigServiceInterface {
 
   get imagePathDefaultArtist(): string {
     return this.configService.get<string>(
-      `${ARTIST}.${IMAGE_PATH_DEFAULT_ARTIST}`,
+      `${ARTIST}.${IMAGE_PATH_DEFAULT}`,
       ""
     );
   }

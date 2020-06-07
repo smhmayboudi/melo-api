@@ -1,17 +1,14 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchType,
   SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongAudioResDto,
-  SongConfigReqDto,
   SongGenreReqDto,
   SongGetByIdsReqDto,
   SongGetReqDto,
@@ -38,38 +35,11 @@ import { SongServiceInterface } from "./song.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("SongController", () => {
-  const config: SongConfigReqDto = {
-    maxSize: 0,
-    sendUrl: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -79,7 +49,7 @@ describe("SongController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -153,8 +123,6 @@ describe("SongController", () => {
 
   it("albumSongs should be equal to a list of songs", async () => {
     const dto: SongAlbumSongsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await controller.albumSongs(dto)).toEqual([song]);
@@ -162,8 +130,6 @@ describe("SongController", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -173,8 +139,6 @@ describe("SongController", () => {
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -184,8 +148,6 @@ describe("SongController", () => {
 
   it("genre should be equal to a list of songs", async () => {
     const dto: SongGenreReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       genres: [""],
       orderBy: SongOrderByType.downloads,
@@ -196,8 +158,6 @@ describe("SongController", () => {
 
   it("get should be equal to a song", async () => {
     const dto: SongGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await controller.get(dto)).toEqual(song);
@@ -205,8 +165,6 @@ describe("SongController", () => {
 
   it("getByIds should be equal to a list of songs", async () => {
     const dto: SongGetByIdsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       ids: [],
     };
     expect(await controller.getByIds(dto)).toEqual([song]);
@@ -214,8 +172,6 @@ describe("SongController", () => {
 
   it("language should be equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "",
       orderBy: SongOrderByType.downloads,
@@ -226,8 +182,6 @@ describe("SongController", () => {
 
   it("likes should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };
@@ -236,9 +190,6 @@ describe("SongController", () => {
 
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -248,8 +199,6 @@ describe("SongController", () => {
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       mood: "",
       size: 0,
@@ -259,8 +208,6 @@ describe("SongController", () => {
 
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: SongNewPodcastReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -269,8 +216,6 @@ describe("SongController", () => {
 
   it("newSong should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -279,8 +224,6 @@ describe("SongController", () => {
 
   it("podcast should be equal to a list of songs", async () => {
     const dto: SongPodcastReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       genres: [""],
       orderBy: SongOrderByType.downloads,
@@ -291,7 +234,6 @@ describe("SongController", () => {
 
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
-      config,
       id: 0,
       sub: 1,
     };
@@ -300,8 +242,6 @@ describe("SongController", () => {
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -310,17 +250,12 @@ describe("SongController", () => {
   });
 
   it("slider should be equal to a list of songs", async () => {
-    const dto: SongSliderReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-    };
+    const dto: SongSliderReqDto = {};
     expect(await controller.slider(dto)).toEqual([song]);
   });
 
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -329,8 +264,6 @@ describe("SongController", () => {
 
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -338,10 +271,8 @@ describe("SongController", () => {
   });
 
   it("transform should be equal to a songs", async () => {
-    const artistElastic: DataElasticsearchArtistResDto = {
+    const artistElastic: SearchElasticsearchArtistResDto = {
       available: false,
-      dataConfigElasticsearch,
-      dataConfigImage,
       followers_count: 0,
       full_name: "",
       has_cover: false,
@@ -353,9 +284,9 @@ describe("SongController", () => {
           tag: "",
         },
       ],
-      type: DataArtistType.prime,
+      type: ArtistType.prime,
     };
-    const dto: DataElasticsearchSearchResDto = {
+    const dto: SearchElasticsearchSearchResDto = {
       album: "",
       album_downloads_count: 0,
       album_id: 0,
@@ -366,8 +297,6 @@ describe("SongController", () => {
       artist_sum_downloads_count: 1,
       artists: [artistElastic],
       copyright: false,
-      dataConfigElasticsearch,
-      dataConfigImage,
       downloads_count: 0,
       duration: 0,
       has_cover: false,
@@ -383,7 +312,7 @@ describe("SongController", () => {
         },
       ],
       title: "",
-      type: DataSearchType.album,
+      type: SearchType.album,
       unique_name: "",
     };
     expect(await controller.transform(dto)).toEqual(song);
@@ -391,8 +320,6 @@ describe("SongController", () => {
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };

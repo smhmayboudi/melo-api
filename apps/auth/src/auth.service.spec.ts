@@ -1,6 +1,5 @@
 import {
   AuthAccessTokenReqDto,
-  AuthConfigReqDto,
   AuthDeleteByTokenReqDto,
   AuthRefreshTokenReqDto,
   JWKS_SERVICE,
@@ -18,9 +17,6 @@ import { of } from "rxjs";
 jest.mock("crypto-random-string", () => jest.fn(() => "1"));
 
 describe("AuthService", () => {
-  const config: AuthConfigReqDto = {
-    expiresIn: 0,
-  };
   const rt: RtResDto = {
     created_at: new Date(100001),
     description: "",
@@ -113,7 +109,6 @@ describe("AuthService", () => {
 
   it("refreshToken should be equal to a token", async () => {
     const dto: AuthRefreshTokenReqDto = {
-      config,
       rt: "0",
       sub: 1,
     };
@@ -125,7 +120,6 @@ describe("AuthService", () => {
 
   it("refreshToken should be equal to a token 2", async () => {
     const dto: AuthRefreshTokenReqDto = {
-      config,
       rt: "",
       sub: 1,
     };
@@ -153,7 +147,6 @@ describe("AuthService", () => {
     service = module.get<AuthService>(AuthService);
 
     const dto: AuthRefreshTokenReqDto = {
-      config,
       sub: 1,
     };
     return expect(service.refreshToken(dto)).rejects.toThrowError();

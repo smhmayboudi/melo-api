@@ -11,9 +11,6 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  EmotionConfigReqDto,
   EmotionEmotionsParamReqDto,
   EmotionEmotionsQueryReqDto,
   EmotionEmotionsResDto,
@@ -21,8 +18,6 @@ import {
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { DataConfigService } from "../data/data.config.service";
-import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionHashIdInterceptor } from "./emotion.hash-id.interceptor";
 import { EmotionLikeInterceptor } from "./emotion.like.interceptor";
 import { EmotionService } from "./emotion.service";
@@ -39,33 +34,7 @@ import { EmotionService } from "./emotion.service";
   })
 )
 export class EmotionController {
-  private config: EmotionConfigReqDto = {
-    indexName: this.emotionConfigService.indexName,
-    maxSize: this.emotionConfigService.maxSize,
-  };
-  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: this.dataConfigService.imagePath,
-    imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
-    imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
-    imagePathDefaultSong: this.dataConfigService.imagePathDefaultSong,
-    indexName: this.dataConfigService.indexName,
-    maxSize: this.dataConfigService.maxSize,
-    mp3Endpoint: this.dataConfigService.mp3Endpoint,
-  };
-  private dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: this.dataConfigService.imageBaseUrl,
-    imageEncode: this.dataConfigService.imageEncode,
-    imageKey: this.dataConfigService.imageKey,
-    imageSalt: this.dataConfigService.imageSalt,
-    imageSignatureSize: this.dataConfigService.imageSignatureSize,
-    imageTypeSize: this.dataConfigService.imageTypeSize,
-  };
-
-  constructor(
-    private readonly dataConfigService: DataConfigService,
-    private readonly emotionConfigService: EmotionConfigService,
-    private readonly emotionService: EmotionService
-  ) {}
+  constructor(private readonly emotionService: EmotionService) {}
 
   @Get("/:from/:size")
   @UseGuards(AuthGuard("jwt"))
@@ -77,9 +46,6 @@ export class EmotionController {
     return this.emotionService.emotions({
       ...paramDto,
       ...queryDto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       sub,
     });
   }

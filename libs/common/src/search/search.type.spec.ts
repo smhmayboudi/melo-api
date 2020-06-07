@@ -1,8 +1,8 @@
-import { DataSearchType } from "./search.type";
+import { SearchType } from "./search.type";
 
 describe("SearchType", () => {
   it("should be equal to data search type", () => {
-    expect(DataSearchType).toStrictEqual({
+    expect(SearchType).toStrictEqual({
       album: "album",
       artist: "artist",
       music: "music",

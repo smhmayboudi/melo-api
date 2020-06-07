@@ -10,15 +10,10 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import {
-  FileConfigReqDto,
-  FileUploadImageReqDto,
-  FileUploadImageResDto,
-} from "@melo/common";
+import { FileUploadImageReqDto, FileUploadImageResDto } from "@melo/common";
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { FileConfigService } from "./file.config.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { FileService } from "./file.service";
 
@@ -33,19 +28,7 @@ import { FileService } from "./file.service";
   })
 )
 export class FileController {
-  private config: FileConfigReqDto = {
-    s3AccessKeyId: this.fileConfigService.s3AccessKeyId,
-    s3Bucket: this.fileConfigService.s3Bucket,
-    s3Endpoint: this.fileConfigService.s3Endpoint,
-    s3ForcePathStyle: this.fileConfigService.s3ForcePathStyle,
-    s3SecretAccessKey: this.fileConfigService.s3SecretAccessKey,
-    s3SslEnabled: this.fileConfigService.s3SslEnabled,
-  };
-
-  constructor(
-    private readonly fileConfigService: FileConfigService,
-    private readonly fileService: FileService
-  ) {}
+  constructor(private readonly fileService: FileService) {}
 
   @Post("upload/image")
   @UseGuards(AuthGuard("jwt"))
@@ -63,7 +46,6 @@ export class FileController {
     return this.fileService.uploadImage({
       ...newDto,
       bufferBase64: buffer.toString("base64"),
-      config: this.config,
       sub,
     });
   }

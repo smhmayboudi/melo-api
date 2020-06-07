@@ -14,7 +14,6 @@ import { ArtistHealthIndicator } from "../artist/artist.health.indicator";
 import { AtHealthIndicator } from "../at/at.health.indicator";
 import { AuthHealthIndicator } from "../auth/auth.health.indicator";
 import { ConstHealthIndicator } from "../const/const.health.indicator";
-import { DataHealthIndicator } from "../data/data.health.indicator";
 import { FileHealthIndicator } from "../file/file.health.indicator";
 import { JwksHealthIndicator } from "../jwks/jwks.health.indicator";
 import { PATH_METADATA } from "@nestjs/common/constants";
@@ -42,7 +41,6 @@ export class AppHealthController {
     private readonly atHealthIndicator: AtHealthIndicator,
     private readonly authHealthIndicator: AuthHealthIndicator,
     private readonly constHealthIndicator: ConstHealthIndicator,
-    private readonly dataHealthIndicator: DataHealthIndicator,
     private readonly fileHealthIndicator: FileHealthIndicator,
     private readonly healthCheckService: HealthCheckService,
     private readonly jwksHealthIndicator: JwksHealthIndicator,
@@ -74,8 +72,6 @@ export class AppHealthController {
         this.authHealthIndicator.isHealthy(),
       async (): Promise<HealthIndicatorResult> =>
         this.constHealthIndicator.isHealthy(),
-      async (): Promise<HealthIndicatorResult> =>
-        this.dataHealthIndicator.isHealthy(),
       async (): Promise<HealthIndicatorResult> =>
         this.fileHealthIndicator.isHealthy(),
       async (): Promise<HealthIndicatorResult> =>

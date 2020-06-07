@@ -4,13 +4,11 @@ import {
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -24,41 +22,14 @@ import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
 import { AppSongServiceInterface } from "../app/app.song.service.interface";
-import { DataAlbumService } from "../data/data.album.service";
-import { DataAlbumServiceInterface } from "../data/data.album.service.interface";
-import { DataConfigService } from "../data/data.config.service";
-import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("AlbumController", () => {
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -68,7 +39,7 @@ describe("AlbumController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -114,7 +85,7 @@ describe("AlbumController", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
 
   const albumServiceMock: AlbumServiceInterface = {
@@ -140,40 +111,6 @@ describe("AlbumController", () => {
     likes: () => Promise.resolve([song]),
     localize: () => Promise.resolve(song),
   };
-  const dataAlbumServiceMock: DataAlbumServiceInterface = {
-    albums: () => Promise.resolve([album]),
-    get: () => Promise.resolve(album),
-    latest: () => Promise.resolve([album]),
-  };
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticsearchNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
-  };
 
   let controller: AlbumController;
 
@@ -185,8 +122,6 @@ describe("AlbumController", () => {
         { provide: AppArtistService, useValue: appArtistServiceMock },
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: AppSongService, useValue: appSongServiceMock },
-        { provide: DataAlbumService, useValue: dataAlbumServiceMock },
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
       ],
     }).compile();
     controller = module.get<AlbumController>(AlbumController);
@@ -198,8 +133,6 @@ describe("AlbumController", () => {
 
   it("albums should equal list of albums", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -209,8 +142,6 @@ describe("AlbumController", () => {
 
   it("get should be equal to an album", async () => {
     const dto: AlbumGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await controller.get(dto)).toEqual(album);
@@ -218,8 +149,6 @@ describe("AlbumController", () => {
 
   it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "",
       size: 0,

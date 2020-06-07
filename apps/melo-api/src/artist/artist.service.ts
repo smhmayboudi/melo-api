@@ -1,5 +1,11 @@
-import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
+  ARTIST_SERVICE,
+  ARTIST_SERVICE_FOLLOW,
+  ARTIST_SERVICE_FOLLOWING,
+  ARTIST_SERVICE_PROFILE,
+  ARTIST_SERVICE_TRENDING,
+  ARTIST_SERVICE_TRENDING_GENRE,
+  ARTIST_SERVICE_UNFOLLOW,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
   ArtistGetReqDto,
@@ -7,111 +13,78 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  RelationEdgeType,
-  RelationEntityType,
 } from "@melo/common";
 
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
+import { Inject, Injectable } from "@nestjs/common";
 import { ArtistServiceInterface } from "./artist.service.interface";
-import { DataArtistService } from "../data/data.artist.service";
-import { Injectable } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
 import { PromMethodCounter } from "@melo/prom";
-import { RelationService } from "../relation/relation.service";
 
 @Injectable()
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    private readonly dataArtistService: DataArtistService,
-    private readonly relationService: RelationService
+    @Inject(ARTIST_SERVICE) private readonly artistClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async follow(dto: ArtistFollowReqDto): Promise<ArtistResDto> {
-    await this.relationService.set({
-      createdAt: new Date(),
-      from: {
-        id: dto.sub,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: dto.id,
-        type: RelationEntityType.artist,
-      },
-      type: RelationEdgeType.follows,
-    });
-    const artist = await this.dataArtistService.get(dto);
-    return {
-      ...artist,
-      followersCount: artist.followersCount + 1,
-      following: true,
-    };
+    return this.artistClientProxy
+      .send<ArtistResDto, ArtistFollowReqDto>(ARTIST_SERVICE_FOLLOW, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async following(dto: ArtistFollowingReqDto): Promise<ArtistResDto[]> {
-    const relations = await this.relationService.get({
-      entity: {
-        id: dto.sub,
-        type: RelationEntityType.user,
-      },
-      from: dto.from,
-      size: Math.min(dto.config.maxSize, dto.size),
-      type: RelationEdgeType.follows,
-    });
-    if (relations.length === 0) {
-      return [];
-    }
-    return this.dataArtistService.getByIds({
-      ...dto,
-      ids: relations.map((value) => value.to.id),
-    });
+    return this.artistClientProxy
+      .send<ArtistResDto[], ArtistFollowingReqDto>(
+        ARTIST_SERVICE_FOLLOWING,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async profile(dto: ArtistGetReqDto): Promise<ArtistResDto> {
-    return this.dataArtistService.get(dto);
+    return this.artistClientProxy
+      .send<ArtistResDto, ArtistGetReqDto>(ARTIST_SERVICE_PROFILE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]> {
-    return this.dataArtistService.trending(dto);
+    return this.artistClientProxy
+      .send<ArtistResDto[], ArtistTrendingReqDto>(ARTIST_SERVICE_TRENDING, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async trendingGenre(dto: ArtistTrendingGenreReqDto): Promise<ArtistResDto[]> {
-    return this.dataArtistService.trendingGenre(dto);
+    return this.artistClientProxy
+      .send<ArtistResDto[], ArtistTrendingGenreReqDto>(
+        ARTIST_SERVICE_TRENDING_GENRE,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async unfollow(dto: ArtistUnfollowReqDto): Promise<ArtistResDto> {
-    await this.relationService.remove({
-      from: {
-        id: dto.sub,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: dto.id,
-        type: RelationEntityType.artist,
-      },
-      type: RelationEdgeType.follows,
-    });
-    const artist = await this.dataArtistService.get(dto);
-    return {
-      ...artist,
-      followersCount: artist.followersCount - 1,
-      following: false,
-    };
+    return this.artistClientProxy
+      .send<ArtistResDto, ArtistUnfollowReqDto>(ARTIST_SERVICE_UNFOLLOW, dto)
+      .toPromise();
   }
 }

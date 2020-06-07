@@ -1,4 +1,4 @@
-export enum DataQueryType {
+export enum SearchQueryType {
   new = "new",
   podcast = "podcast",
   topDay = "top-day",

@@ -34,4 +34,16 @@ describe("PlaylistConfigService", () => {
   it("imagePathDefaultPlaylist should return value", () => {
     expect(service.imagePathDefaultPlaylist).toEqual("");
   });
+
+  it("mangooseRetryAttempts should be equal to a value", () => {
+    expect(service.mangooseRetryAttempts).toEqual(0);
+  });
+
+  it("mangooseRetryDelay should be equal to a value", () => {
+    expect(service.mangooseRetryDelay).toEqual(0);
+  });
+
+  it("mangooseUri should be equal to a value", () => {
+    expect(service.mangooseUri).toEqual("");
+  });
 });

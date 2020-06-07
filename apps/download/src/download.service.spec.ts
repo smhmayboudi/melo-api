@@ -1,19 +1,16 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
-  DownloadConfigReqDto,
   DownloadOrderByType,
   DownloadSongParamReqDto,
   DownloadSongQueryReqDto,
   DownloadSongResDto,
   SONG_SERVICE,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -26,37 +23,8 @@ import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("DownloadService", () => {
-  const config: DownloadConfigReqDto = {
-    indexName: "",
-    maxSize: 0,
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
-  const artistElastic: DataElasticsearchArtistResDto = {
+  const artistElastic: SearchElasticsearchArtistResDto = {
     available: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
     followers_count: 0,
     full_name: "",
     has_cover: false,
@@ -68,10 +36,10 @@ describe("DownloadService", () => {
         tag: "",
       },
     ],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const releaseDate = new Date();
-  const searchElastic: DataElasticsearchSearchResDto = {
+  const searchElastic: SearchElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
     album_id: 0,
@@ -82,8 +50,6 @@ describe("DownloadService", () => {
     artist_sum_downloads_count: 1,
     artists: [artistElastic],
     copyright: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
     downloads_count: 0,
     duration: 0,
     has_cover: false,
@@ -100,7 +66,7 @@ describe("DownloadService", () => {
       },
     ],
     title: "",
-    type: DataSearchType.album,
+    type: SearchType.album,
     unique_name: "",
   };
   // TODO: interface ?
@@ -133,7 +99,7 @@ describe("DownloadService", () => {
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -143,7 +109,7 @@ describe("DownloadService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -225,9 +191,6 @@ describe("DownloadService", () => {
       await service.downloadedSongs({
         ...paramDto,
         ...queryDto,
-        config,
-        dataConfigElasticsearch,
-        dataConfigImage,
         orderBy: DownloadOrderByType.asc,
         sub: 1,
       })
@@ -247,9 +210,6 @@ describe("DownloadService", () => {
       await service.downloadedSongs({
         ...paramDto,
         ...queryDto,
-        config,
-        dataConfigElasticsearch,
-        dataConfigImage,
         orderBy: DownloadOrderByType.asc,
         sub: 1,
       })

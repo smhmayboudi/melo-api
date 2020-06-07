@@ -1,4 +1,3 @@
-export * from "./artist.config.req.dto";
 export * from "./artist.follow.req.dto";
 export * from "./artist.following.req.dto";
 export * from "./artist.get-by-ids.req.dto";

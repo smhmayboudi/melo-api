@@ -1,44 +1,27 @@
 import {
-  ConstConfigReqDto,
+  CONST_SERVICE,
   ConstImageResDto,
   ConstImagesReqDto,
-  DataConfigImageReqDto,
+  ConstImagesResDto,
 } from "@melo/common";
 
 import { ConstService } from "./const.service";
-import { DataImageService } from "../data/data.image.service";
-import { DataImageServiceInterface } from "../data/data.image.service.interface";
 import { Test } from "@nestjs/testing";
+import { of } from "rxjs";
 
 describe("ConstService", () => {
-  const config: ConstConfigReqDto = {
-    staticImagePaths: {
-      pop: "/asset/pop.jpg",
-    },
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
+  const images: ConstImagesResDto = {
+    pop: image,
+  };
 
-  const dataImageServiceMock: DataImageServiceInterface = {
-    generateUrl: () => Promise.resolve(image),
+  const constClientProxyMock = {
+    send: () => of(images),
   };
 
   let service: ConstService;
@@ -47,7 +30,7 @@ describe("ConstService", () => {
     const module = await Test.createTestingModule({
       providers: [
         ConstService,
-        { provide: DataImageService, useValue: dataImageServiceMock },
+        { provide: CONST_SERVICE, useValue: constClientProxyMock },
       ],
     }).compile();
     service = module.get<ConstService>(ConstService);
@@ -58,10 +41,7 @@ describe("ConstService", () => {
   });
 
   it("images should be equal to an image", async () => {
-    const dto: ConstImagesReqDto = {
-      config,
-      dataConfigImage,
-    };
+    const dto: ConstImagesReqDto = {};
     expect(await service.images(dto)).toEqual({
       pop: image,
     });

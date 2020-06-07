@@ -1,8 +1,10 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { USER_SERVICE } from "@melo/common";
 import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
@@ -21,6 +23,15 @@ import config from "./user.config";
       imports: [UserModule],
       useClass: UserCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: USER_SERVICE,
+        options: {
+          url: process.env.USER_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([UserEntityRepository]),
   ],

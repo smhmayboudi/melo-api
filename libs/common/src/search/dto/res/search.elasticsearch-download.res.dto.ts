@@ -2,7 +2,7 @@ import { IsArray, IsDate, IsNumberString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class DataElasticsearchDownloadResDto {
+export class SearchElasticsearchDownloadResDto {
   constructor(date: Date, song_id: number) {
     this.date = date;
     this.song_id = song_id;

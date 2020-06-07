@@ -1,5 +1,4 @@
 export * from "./playlist.add-song.req.dto";
-export * from "./playlist.config.req.dto";
 export * from "./playlist.create.req.dto";
 export * from "./playlist.delete.req.dto";
 export * from "./playlist.edit.req.dto";

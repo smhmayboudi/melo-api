@@ -12,8 +12,6 @@ describe("PlaylistConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
   };
 
   // TODO: interface ?
@@ -62,13 +60,5 @@ describe("PlaylistConfigService", () => {
 
   it("cacheTTL should be equal to a value", () => {
     expect(service.cacheTTL).toEqual(0);
-  });
-
-  it("imagePath should be equal to a value", () => {
-    expect(service.imagePath).toEqual("");
-  });
-
-  it("imagePathDefaultPlaylist should be equal to a value", () => {
-    expect(service.imagePathDefaultPlaylist).toEqual("");
   });
 });

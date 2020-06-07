@@ -1,10 +1,10 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  DataElasticsearchEmotionsResDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
   SONG_SERVICE,
   SONG_SERVICE_GET,
+  SearchElasticsearchEmotionsResDto,
   SongGetReqDto,
   SongResDto,
 } from "@melo/common";
@@ -31,7 +31,10 @@ export class EmotionService implements EmotionServiceInterface {
   @PromMethodCounter
   async emotions(dto: EmotionEmotionsReqDto): Promise<EmotionEmotionsResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: [{ _source: DataElasticsearchEmotionsResDto }] }>,
+      Record<
+        string,
+        { hits: [{ _source: SearchElasticsearchEmotionsResDto }] }
+      >,
       any
     >({
       body: {

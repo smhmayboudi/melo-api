@@ -12,7 +12,6 @@ describe("ArtistConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    maxSize: 0,
   };
   // TODO: interface ?
   const configServiceMock = {
@@ -60,9 +59,5 @@ describe("ArtistConfigService", () => {
 
   it("cacheTTL should be equal to a value", () => {
     expect(service.cacheTTL).toEqual(0);
-  });
-
-  it("maxSize should be equal to a value", () => {
-    expect(service.maxSize).toEqual(0);
   });
 });

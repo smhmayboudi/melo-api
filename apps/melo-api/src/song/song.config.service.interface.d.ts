@@ -4,7 +4,4 @@ export interface SongConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
-  maxSize: number;
-  sendTimeout: number;
-  sendUrl: string;
 }

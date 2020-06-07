@@ -4,6 +4,4 @@ export interface PlaylistConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
-  imagePath: string;
-  imagePathDefaultPlaylist: string;
 }

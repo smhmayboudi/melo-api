@@ -5,14 +5,14 @@ import {
   ARTIST_SERVICE_TRANSFORM,
   AlbumResDto,
   ArtistResDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
   SONG_SERVICE,
   SONG_SERVICE_TRANSFORM,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
   SearchMoodReqDto,
   SearchQueryReqDto,
   SearchResDto,
+  SearchType,
   SongResDto,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
@@ -42,7 +42,7 @@ export class SearchService implements SearchServiceInterface {
   @PromMethodCounter
   async query(dto: SearchQueryReqDto): Promise<SearchResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -84,7 +84,7 @@ export class SearchService implements SearchServiceInterface {
             (value) => value
           );
     const elasticsearchSearchSuggest = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -127,7 +127,7 @@ export class SearchService implements SearchServiceInterface {
       "lyrics_search^2",
     ];
     const elasticsearchSearchNormal = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -186,7 +186,7 @@ export class SearchService implements SearchServiceInterface {
                         {
                           term: {
                             "type.keyword": {
-                              value: DataSearchType.artist,
+                              value: SearchType.artist,
                             },
                           },
                         },
@@ -231,7 +231,7 @@ export class SearchService implements SearchServiceInterface {
     let mixed = elasticsearchSearchSuggest.body.hits.hits.map((value) => ({
       ...value._source,
       suggested: 1,
-    })) as DataElasticsearchSearchResDto[];
+    })) as SearchElasticsearchSearchResDto[];
     elasticsearchSearchNormal.body.hits.hits.forEach((value) => {
       const isMixed = !mixed
         .map(
@@ -254,17 +254,17 @@ export class SearchService implements SearchServiceInterface {
       mixed
         .filter((value) =>
           [
-            DataSearchType.album,
-            DataSearchType.artist,
-            DataSearchType.podcast,
-            DataSearchType.song,
+            SearchType.album,
+            SearchType.artist,
+            SearchType.podcast,
+            SearchType.song,
           ].includes(value.type)
         )
         .map(async (value) => {
           switch (value.type) {
-            case DataSearchType.album: {
+            case SearchType.album: {
               const album = await this.albumClientProxy
-                .send<AlbumResDto, DataElasticsearchSearchResDto>(
+                .send<AlbumResDto, SearchElasticsearchSearchResDto>(
                   ALBUM_SERVICE_TRANSFORM,
                   {
                     ...dto,
@@ -277,9 +277,9 @@ export class SearchService implements SearchServiceInterface {
                 type: value.type,
               };
             }
-            case DataSearchType.artist: {
+            case SearchType.artist: {
               const artist = await this.artistClientProxy
-                .send<ArtistResDto, DataElasticsearchArtistResDto>(
+                .send<ArtistResDto, SearchElasticsearchArtistResDto>(
                   ARTIST_SERVICE_TRANSFORM,
                   {
                     ...dto,
@@ -294,7 +294,7 @@ export class SearchService implements SearchServiceInterface {
             }
             default: {
               const song = await this.songClientProxy
-                .send<SongResDto, DataElasticsearchSearchResDto>(
+                .send<SongResDto, SearchElasticsearchSearchResDto>(
                   SONG_SERVICE_TRANSFORM,
                   {
                     ...dto,
@@ -362,7 +362,7 @@ export class SearchService implements SearchServiceInterface {
       },
     ];
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -393,7 +393,7 @@ export class SearchService implements SearchServiceInterface {
               {
                 term: {
                   type: {
-                    value: DataSearchType.song,
+                    value: SearchType.song,
                   },
                 },
               },
@@ -420,7 +420,7 @@ export class SearchService implements SearchServiceInterface {
     return Promise.all(
       elasticsearchSearch.body.hits.hits.map((value) =>
         this.songClientProxy
-          .send<SongResDto, DataElasticsearchSearchResDto>(
+          .send<SongResDto, SearchElasticsearchSearchResDto>(
             SONG_SERVICE_TRANSFORM,
             {
               ...dto,

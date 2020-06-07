@@ -10,12 +10,12 @@ import {
   CONST_SERVICE_IMAGE,
   ConstImageReqDto,
   ConstImageResDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
-  DataSortByType,
   SONG_SERVICE,
   SONG_SERVICE_ALBUM_SONGS,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchSortByType,
+  SearchType,
   SongAlbumSongsReqDto,
   SongResDto,
 } from "@melo/common";
@@ -36,7 +36,7 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async transformLocal(
-    elasticSearchRes: { _source: DataElasticsearchSearchResDto }[]
+    elasticSearchRes: { _source: SearchElasticsearchSearchResDto }[]
   ): Promise<AlbumResDto[]> {
     return Promise.all(
       elasticSearchRes.map((value) => this.transform(value._source))
@@ -56,7 +56,7 @@ export class AlbumService implements AlbumServiceInterface {
   @PromMethodCounter
   async albums(dto: AlbumArtistsReqDto): Promise<AlbumResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -69,7 +69,7 @@ export class AlbumService implements AlbumServiceInterface {
             must: [
               {
                 match: {
-                  type: DataSearchType.album,
+                  type: SearchType.album,
                 },
               },
               {
@@ -83,12 +83,12 @@ export class AlbumService implements AlbumServiceInterface {
         size: Math.min(this.albumConfigService.maxSize, dto.size),
         sort: [
           {
-            release_date: DataSortByType.desc,
+            release_date: SearchSortByType.desc,
           },
         ],
       },
       index: this.albumConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -98,12 +98,12 @@ export class AlbumService implements AlbumServiceInterface {
   @PromMethodCounter
   async get(dto: AlbumGetReqDto): Promise<AlbumResDto> {
     const elasticsearchGet = await this.elasticsearchService.get<
-      Record<string, DataElasticsearchSearchResDto>,
+      Record<string, SearchElasticsearchSearchResDto>,
       any
     >({
       id: `album-${dto.id}`,
       index: this.albumConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     const album = await this.transform(elasticsearchGet.body._source);
     const songs = await this.songClientProxy
@@ -120,7 +120,7 @@ export class AlbumService implements AlbumServiceInterface {
   @PromMethodCounter
   async latest(dto: AlbumLatestReqDto): Promise<AlbumResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -133,7 +133,7 @@ export class AlbumService implements AlbumServiceInterface {
             must: [
               {
                 term: {
-                  "type.keyword": DataSearchType.album,
+                  "type.keyword": SearchType.album,
                 },
               },
               dto.language === "all"
@@ -156,12 +156,12 @@ export class AlbumService implements AlbumServiceInterface {
         size: Math.min(this.albumConfigService.maxSize, dto.size),
         sort: [
           {
-            release_date: DataSortByType.desc,
+            release_date: SearchSortByType.desc,
           },
         ],
       },
       index: this.albumConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -169,12 +169,12 @@ export class AlbumService implements AlbumServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async transform(dto: DataElasticsearchSearchResDto): Promise<AlbumResDto> {
+  async transform(dto: SearchElasticsearchSearchResDto): Promise<AlbumResDto> {
     const artists = await Promise.all(
       dto.artists.map(
         async (value) =>
           await this.artistClientProxy
-            .send<ArtistResDto, DataElasticsearchArtistResDto>(
+            .send<ArtistResDto, SearchElasticsearchArtistResDto>(
               ARTIST_SERVICE_TRANSFORM,
               value
             )

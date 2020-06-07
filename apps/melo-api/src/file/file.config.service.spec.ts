@@ -12,12 +12,6 @@ describe("FileConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    s3AccessKeyId: "minioadmin",
-    s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
-    s3ForcePathStyle: false,
-    s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false,
   };
 
   // TODO: interface ?
@@ -66,29 +60,5 @@ describe("FileConfigService", () => {
 
   it("cacheTTL should be equal to a value", () => {
     expect(service.cacheTTL).toEqual(0);
-  });
-
-  it("s3AccessKeyId should be equal to a value", () => {
-    expect(service.s3AccessKeyId).toEqual("");
-  });
-
-  it("s3Bucket should be equal to a value", () => {
-    expect(service.s3Bucket).toEqual("");
-  });
-
-  it("s3Endpoint should be equal to a value", () => {
-    expect(service.s3Endpoint).toEqual("");
-  });
-
-  it("s3ForcePathStyle should be equal to a value", () => {
-    expect(service.s3ForcePathStyle).toEqual(true);
-  });
-
-  it("s3SecretAccessKey should be equal to a value", () => {
-    expect(service.s3SecretAccessKey).toEqual("");
-  });
-
-  it("s3SslEnabled should be equal to a value", () => {
-    expect(service.s3SslEnabled).toEqual(true);
   });
 });

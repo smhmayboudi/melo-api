@@ -5,7 +5,6 @@ import {
   CACHE_STORE,
   CACHE_TTL,
   CONST,
-  STATIC_IMAGE_PATHS,
 } from "@melo/common";
 
 import { AppConfigService } from "../app/app.config.service";
@@ -54,15 +53,6 @@ export class ConstConfigService implements ConstConfigServiceInterface {
       this.configService.get<string>(
         `${CONST}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
-      )
-    );
-  }
-
-  get staticImagePaths(): { [key: string]: string } {
-    return JSON.parse(
-      this.configService.get<string>(
-        `${CONST}.${STATIC_IMAGE_PATHS}`,
-        '{"":""}'
       )
     );
   }

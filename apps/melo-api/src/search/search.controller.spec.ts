@@ -1,25 +1,20 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataSearchType,
   PlaylistResDto,
-  SearchConfigReqDto,
   SearchMoodParamReqDto,
   SearchMoodQueryReqDto,
   SearchQueryReqDto,
   SearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
-import { DataConfigService } from "../data/data.config.service";
-import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 import { SearchConfigService } from "./search.config.service";
 import { SearchConfigServiceInterface } from "./search.config.service.interface";
 import { SearchController } from "./search.controller";
@@ -28,40 +23,11 @@ import { SearchServiceInterface } from "./search.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("SearchController", () => {
-  const config: SearchConfigReqDto = {
-    indexName: "",
-    maxSize: 0,
-    scriptScore: "",
-    suggestIndex: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -71,7 +37,7 @@ describe("SearchController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -117,7 +83,7 @@ describe("SearchController", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -129,46 +95,12 @@ describe("SearchController", () => {
     encodeSearch: () => search,
     encodeSong: () => song,
   };
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticsearchNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
-  };
   const searchConfigServiceMock: SearchConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    elasticsearchNode: "",
-    indexName: "",
-    maxSize: 0,
-    scriptScore: "",
-    suggestIndex: "",
   };
   const searchServiceMock: SearchServiceInterface = {
     mood: () => Promise.resolve([song]),
@@ -182,7 +114,6 @@ describe("SearchController", () => {
       controllers: [SearchController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: SearchConfigService, useValue: searchConfigServiceMock },
         { provide: SearchService, useValue: searchServiceMock },
       ],
@@ -196,9 +127,6 @@ describe("SearchController", () => {
 
   it("query should be equal to a list of search results", async () => {
     const dto: SearchQueryReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       query: "0",
       size: 0,

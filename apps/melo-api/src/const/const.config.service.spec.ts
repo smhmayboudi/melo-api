@@ -12,7 +12,6 @@ describe("ConstConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    staticImagePaths: { "": "" },
   };
 
   // TODO: interface ?
@@ -61,11 +60,5 @@ describe("ConstConfigService", () => {
 
   it("cacheTTL should be equal to a value", () => {
     expect(service.cacheTTL).toEqual(0);
-  });
-
-  it("staticImagePaths should be equal to a value", () => {
-    expect(service.staticImagePaths).toEqual({
-      "": "",
-    });
   });
 });

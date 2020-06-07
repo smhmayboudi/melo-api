@@ -27,6 +27,36 @@ describe("ConstConfigService", () => {
     expect(service).toBeDefined();
   });
 
+  it("imageBaseUrl should return value", () => {
+    expect(service.imageBaseUrl).toEqual("");
+  });
+
+  it("imageEncode should be equal to a value", () => {
+    expect(service.imageEncode).toEqual(true);
+  });
+
+  it("imageTypeSize should be equal to a value", () => {
+    expect(service.imageTypeSize).toEqual([
+      {
+        height: 0,
+        name: "",
+        width: 0,
+      },
+    ]);
+  });
+
+  it("imageKey should be equal to a value", () => {
+    expect(service.imageKey).toEqual("");
+  });
+
+  it("imageSalt should be equal to a value", () => {
+    expect(service.imageSalt).toEqual("");
+  });
+
+  it("imageSignatureSize should be equal to a value", () => {
+    expect(service.imageSignatureSize).toEqual(1);
+  });
+
   it("staticImagePaths should be equal to a value", () => {
     expect(service.staticImagePaths).toEqual({
       "": "",

@@ -2,7 +2,7 @@ import { IsNumberString, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class DataImageTypeSize {
+export class CommonImageTypeSize {
   constructor(height: number, name: string, width: number) {
     this.height = height;
     this.name = name;

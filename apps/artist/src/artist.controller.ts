@@ -16,7 +16,7 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DataElasticsearchArtistResDto,
+  SearchElasticsearchArtistResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -53,7 +53,7 @@ export class ArtistController {
   }
 
   @MessagePattern(ARTIST_SERVICE_TRANSFORM)
-  transform(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto> {
+  transform(dto: SearchElasticsearchArtistResDto): Promise<ArtistResDto> {
     return this.artistService.transform(dto);
   }
 

@@ -5,7 +5,7 @@ describe("SongConfig", () => {
     expect(config()).toStrictEqual({
       ELASTICSEARCH_NODE: undefined,
       IMAGE_PATH: undefined,
-      IMAGE_PATH_DEFAULT_SONG: undefined,
+      IMAGE_PATH_DEFAULT: undefined,
       INDEX_NAME: undefined,
       MAX_SIZE: undefined,
       MP3_ENDPOINT: undefined,

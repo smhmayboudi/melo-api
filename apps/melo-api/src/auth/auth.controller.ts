@@ -16,7 +16,6 @@ import {
 } from "@nestjs/common";
 
 import { AppUser } from "../app/app.user.decorator";
-import { AuthConfigService } from "./auth.config.service";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "./auth.service";
 
@@ -30,10 +29,7 @@ import { AuthService } from "./auth.service";
   })
 )
 export class AuthController {
-  constructor(
-    private readonly authConfigService: AuthConfigService,
-    private readonly authService: AuthService
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @ApiBearerAuth("local")
   @Post("login")
@@ -42,9 +38,6 @@ export class AuthController {
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<AuthRefreshTokenResDto> {
     return this.authService.refreshToken({
-      config: {
-        expiresIn: this.authConfigService.jwtRefreshTokenExpiresIn,
-      },
       sub,
     });
   }
@@ -65,9 +58,6 @@ export class AuthController {
     @AppUser("sub", ParseIntPipe) sub: number
   ): Promise<AuthRefreshTokenResDto> {
     return this.authService.refreshToken({
-      config: {
-        expiresIn: this.authConfigService.jwtRefreshTokenExpiresIn,
-      },
       sub,
     });
   }

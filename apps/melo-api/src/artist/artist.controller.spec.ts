@@ -1,20 +1,17 @@
 import {
   AlbumResDto,
-  ArtistConfigReqDto,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
   ArtistGetReqDto,
   ArtistResDto,
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
+  ArtistType,
   ArtistUnfollowReqDto,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -30,42 +27,14 @@ import { ArtistConfigServiceInterface } from "./artist.config.service.interface"
 import { ArtistController } from "./artist.controller";
 import { ArtistService } from "./artist.service";
 import { ArtistServiceInterface } from "./artist.service.interface";
-import { DataConfigService } from "../data/data.config.service";
-import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("ArtistController", () => {
-  const config: ArtistConfigReqDto = {
-    maxSize: 0,
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -75,7 +44,7 @@ describe("ArtistController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -121,7 +90,7 @@ describe("ArtistController", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
 
   const appArtistServiceMock: AppArtistServiceInterface = {
@@ -148,7 +117,6 @@ describe("ArtistController", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    maxSize: 0,
   };
   const artistServiceMock: ArtistServiceInterface = {
     follow: () => Promise.resolve(artist),
@@ -157,35 +125,6 @@ describe("ArtistController", () => {
     trending: () => Promise.resolve([artist]),
     trendingGenre: () => Promise.resolve([artist]),
     unfollow: () => Promise.resolve(artist),
-  };
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticsearchNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
   };
 
   let controller: ArtistController;
@@ -199,7 +138,6 @@ describe("ArtistController", () => {
         { provide: AppSongService, useValue: appSongServiceMock },
         { provide: ArtistConfigService, useValue: artistConfigServiceMock },
         { provide: ArtistService, useValue: artistServiceMock },
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
       ],
     }).compile();
     controller = module.get<ArtistController>(ArtistController);
@@ -211,8 +149,6 @@ describe("ArtistController", () => {
 
   it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };
@@ -221,9 +157,6 @@ describe("ArtistController", () => {
 
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -233,25 +166,18 @@ describe("ArtistController", () => {
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await controller.profile(dto)).toEqual(artist);
   });
 
   it("trending should equal list of artists", async () => {
-    const dto: ArtistTrendingReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-    };
+    const dto: ArtistTrendingReqDto = {};
     expect(await controller.trending(dto)).toEqual([artist]);
   });
 
   it("trending/genre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       genre: "pop",
     };
     expect(await controller.trendingGenre(dto)).toEqual([artist]);
@@ -259,8 +185,6 @@ describe("ArtistController", () => {
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };

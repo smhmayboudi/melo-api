@@ -1,62 +1,28 @@
 import {
-  ArtistConfigReqDto,
+  ARTIST_SERVICE,
+  ARTIST_SERVICE_FOLLOW,
+  ARTIST_SERVICE_PROFILE,
+  ARTIST_SERVICE_UNFOLLOW,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
   ArtistGetReqDto,
   ArtistResDto,
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
+  ArtistType,
   ArtistUnfollowReqDto,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  RelationEdgeType,
-  RelationEntityReqDto,
-  RelationEntityType,
-  RelationResDto,
 } from "@melo/common";
 
-import { AppArtistService } from "../app/app.artist.service";
-import { AppArtistServiceInterface } from "../app/app.artist.service.interface";
 import { ArtistService } from "./artist.service";
-import { DataArtistService } from "../data/data.artist.service";
-import { DataArtistServiceInterface } from "../data/data.artist.service.interface";
-import { RelationService } from "../relation/relation.service";
-import { RelationServiceInterface } from "../relation/relation.service.interface";
 import { Test } from "@nestjs/testing";
+import { of } from "rxjs";
 
 describe("ArtistService", () => {
-  const config: ArtistConfigReqDto = {
-    maxSize: 0,
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -66,38 +32,19 @@ describe("ArtistService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
-  };
-  const from: RelationEntityReqDto = {
-    id: 0,
-    type: RelationEntityType.user,
-  };
-  const to: RelationEntityReqDto = {
-    id: 0,
-    type: RelationEntityType.album,
-  };
-  const relation: RelationResDto = {
-    from,
-    to,
-    type: RelationEdgeType.follows,
+    type: ArtistType.prime,
   };
 
-  const appArtistServiceMock: AppArtistServiceInterface = {
-    follow: () => Promise.resolve(artist),
-    follows: () => Promise.resolve([artist]),
-  };
-  const dataArtistServiceMock: DataArtistServiceInterface = {
-    get: () => Promise.resolve(artist),
-    getByIds: () => Promise.resolve([artist]),
-    trending: () => Promise.resolve([artist]),
-    trendingGenre: () => Promise.resolve([artist]),
-  };
-  const relationServiceMock: RelationServiceInterface = {
-    get: () => Promise.resolve([relation]),
-    has: () => Promise.resolve(relation),
-    multiHas: () => Promise.resolve([relation]),
-    remove: () => Promise.resolve(relation),
-    set: () => Promise.resolve(relation),
+  // TODO: interface ?
+  const artistClientProxyMock = {
+    send: (token: string) =>
+      token === ARTIST_SERVICE_FOLLOW
+        ? of(artist)
+        : token === ARTIST_SERVICE_PROFILE
+        ? of(artist)
+        : token === ARTIST_SERVICE_UNFOLLOW
+        ? of(artist)
+        : of([artist]),
   };
 
   let service: ArtistService;
@@ -106,9 +53,7 @@ describe("ArtistService", () => {
     const module = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: AppArtistService, useValue: appArtistServiceMock },
-        { provide: DataArtistService, useValue: dataArtistServiceMock },
-        { provide: RelationService, useValue: relationServiceMock },
+        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
       ],
     }).compile();
     service = module.get<ArtistService>(ArtistService);
@@ -120,23 +65,14 @@ describe("ArtistService", () => {
 
   it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };
-    expect(await service.follow(dto)).toEqual({
-      ...artist,
-      followersCount: 1,
-      following: true,
-    });
+    expect(await service.follow(dto)).toEqual(artist);
   });
 
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -144,72 +80,30 @@ describe("ArtistService", () => {
     expect(await service.following(dto)).toEqual([artist]);
   });
 
-  it.todo("following should equal list of artists 2");
-
-  it("following should equal an empty list", async () => {
-    const relationServiceMockGet: RelationServiceInterface = {
-      ...relationServiceMock,
-      get: () => Promise.resolve([]),
-    };
-
-    const module = await Test.createTestingModule({
-      providers: [
-        ArtistService,
-        { provide: AppArtistService, useValue: appArtistServiceMock },
-        { provide: DataArtistService, useValue: dataArtistServiceMock },
-        { provide: RelationService, useValue: relationServiceMockGet },
-      ],
-    }).compile();
-    service = module.get<ArtistService>(ArtistService);
-
-    const dto: ArtistFollowingReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
-      from: 0,
-      size: 0,
-      sub: 1,
-    };
-    expect(await service.following(dto)).toEqual([]);
-  });
-
   it("profile should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await service.profile(dto)).toEqual(artist);
   });
 
   it("trending should equal list of artists", async () => {
-    const dto: ArtistTrendingReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-    };
+    const dto: ArtistTrendingReqDto = {};
     expect(await service.trending(dto)).toEqual([artist]);
   });
 
-  it("trendingGenre should equal list of artists", async () => {
+  it("trending/genre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-      genre: "",
+      genre: "pop",
     };
     expect(await service.trendingGenre(dto)).toEqual([artist]);
   });
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };
-    expect(await service.unfollow(dto)).toEqual({
-      ...artist,
-      followersCount: -1,
-      following: false,
-    });
+    expect(await service.unfollow(dto)).toEqual(artist);
   });
 });

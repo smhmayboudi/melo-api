@@ -17,7 +17,6 @@ describe("AuthJwtOptionsFactory", () => {
     jwtAccessTokenExpiresCount: 0,
     jwtAccessTokenExpiresIn: 0,
     jwtAuhSchema: "",
-    jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
     telegramQueryExpiration: 0,
   };

@@ -45,7 +45,7 @@ describe("UserController", () => {
 
   it("edit should return a users", async () => {
     const dto: UserEditReqDto = {
-      sub: 0,
+      sub: 1,
     };
     expect(await controller.edit(dto, 0)).toEqual(user);
   });

@@ -7,5 +7,4 @@ export default registerAs(CONST, () => ({
   CACHE_PORT: process.env.CONST_CACHE_PORT,
   CACHE_STORE: process.env.CONST_CACHE_STORE,
   CACHE_TTL: process.env.CONST_CACHE_TTL,
-  STATIC_IMAGE_PATHS: process.env.CONST_STATIC_IMAGE_PATHS,
 }));

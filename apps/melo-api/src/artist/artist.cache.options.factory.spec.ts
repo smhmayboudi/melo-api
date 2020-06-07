@@ -11,7 +11,6 @@ describe("ArtistCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    maxSize: 0,
   };
 
   let service: ArtistConfigService;

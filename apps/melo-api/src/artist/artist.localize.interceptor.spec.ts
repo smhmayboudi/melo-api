@@ -1,7 +1,7 @@
 import {
   AlbumResDto,
   ArtistResDto,
-  DataArtistType,
+  ArtistType,
   SongResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
@@ -41,7 +41,7 @@ describe("ArtistLocalizeInterceptor", () => {
       {
         followersCount: 0,
         id: 0,
-        type: DataArtistType.prime,
+        type: ArtistType.prime,
       },
     ],
     audio: {},
@@ -67,7 +67,7 @@ describe("ArtistLocalizeInterceptor", () => {
     followersCount: 0,
     id: 0,
     songs: [song],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
 
   const appSongServiceMock: AppSongServiceInterface = {

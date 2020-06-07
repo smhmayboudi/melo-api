@@ -1,5 +1,17 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
+import { Inject, Injectable } from "@nestjs/common";
 import {
+  RT_SERVICE,
+  RT_SERVICE_BLOCK,
+  RT_SERVICE_BLOCK_BY_TOKEN,
+  RT_SERVICE_DELETE,
+  RT_SERVICE_DELETE_BY_TOKEN,
+  RT_SERVICE_FIND,
+  RT_SERVICE_FIND_ONE,
+  RT_SERVICE_FIND_ONE_BY_TOKEN,
+  RT_SERVICE_SAVE,
+  RT_SERVICE_VALIDATE,
+  RT_SERVICE_VALIDATE_BY_TOKEN,
   RtBlockByTokenReqDto,
   RtBlockReqDto,
   RtDeleteByTokenReqDto,
@@ -12,52 +24,45 @@ import {
   RtValidateReqDto,
 } from "@melo/common";
 
-import { InjectRepository } from "@nestjs/typeorm";
-import { Injectable } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
 import { PromMethodCounter } from "@melo/prom";
-import { RtEntity } from "./rt.entity";
-import { RtEntityRepository } from "./rt.entity.repository";
 import { RtServiceInterface } from "./rt.service.interface";
 
 @Injectable()
 // @PromInstanceCounter
 export class RtService implements RtServiceInterface {
   constructor(
-    @InjectRepository(RtEntity)
-    private readonly rtEntityRepository: RtEntityRepository
+    @Inject(RT_SERVICE) private readonly rtClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async block(dto: RtBlockReqDto): Promise<RtResDto | undefined> {
-    await this.rtEntityRepository.update(
-      { id: dto.id },
-      { description: dto.description, is_blocked: true }
-    );
-    return await this.findOne(dto);
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtBlockReqDto>(RT_SERVICE_BLOCK, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async blockByToken(dto: RtBlockByTokenReqDto): Promise<RtResDto | undefined> {
-    await this.rtEntityRepository.update(
-      { token: dto.token },
-      { description: dto.description, is_blocked: true }
-    );
-    return await this.findOneByToken(dto);
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtBlockByTokenReqDto>(
+        RT_SERVICE_BLOCK_BY_TOKEN,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async delete(dto: RtDeleteReqDto): Promise<RtResDto | undefined> {
-    const rt = await this.findOne(dto);
-    await this.rtEntityRepository.delete({
-      id: dto.id,
-    });
-    return rt;
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtDeleteReqDto>(RT_SERVICE_DELETE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
@@ -66,27 +71,28 @@ export class RtService implements RtServiceInterface {
   async deleteByToken(
     dto: RtDeleteByTokenReqDto
   ): Promise<RtResDto | undefined> {
-    const rt = await this.findOneByToken(dto);
-    await this.rtEntityRepository.delete({
-      token: dto.token,
-    });
-    return rt;
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtDeleteByTokenReqDto>(
+        RT_SERVICE_DELETE_BY_TOKEN,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async find(): Promise<RtResDto[]> {
-    return this.rtEntityRepository.find();
+    return this.rtClientProxy.send<RtResDto[]>(RT_SERVICE_FIND, {}).toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async findOne(dto: RtFindOneReqDto): Promise<RtResDto | undefined> {
-    return await this.rtEntityRepository.findOne({
-      id: dto.id,
-    });
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtFindOneReqDto>(RT_SERVICE_FIND_ONE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
@@ -95,26 +101,30 @@ export class RtService implements RtServiceInterface {
   async findOneByToken(
     dto: RtFindOneByTokenReqDto
   ): Promise<RtResDto | undefined> {
-    return await this.rtEntityRepository.findOne({
-      token: dto.token,
-    });
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtFindOneByTokenReqDto>(
+        RT_SERVICE_FIND_ONE_BY_TOKEN,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async save(dto: RtSaveReqDto): Promise<RtResDto> {
-    return this.rtEntityRepository.save(dto);
+    return this.rtClientProxy
+      .send<RtResDto, RtSaveReqDto>(RT_SERVICE_SAVE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async validate(dto: RtValidateReqDto): Promise<RtResDto | undefined> {
-    return await this.rtEntityRepository.findOne({
-      is_blocked: false,
-      user_id: dto.sub,
-    });
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtValidateReqDto>(RT_SERVICE_VALIDATE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
@@ -123,9 +133,11 @@ export class RtService implements RtServiceInterface {
   async validateByToken(
     dto: RtValidateByTokenReqDto
   ): Promise<RtResDto | undefined> {
-    return await this.rtEntityRepository.findOne({
-      is_blocked: false,
-      token: dto.token,
-    });
+    return this.rtClientProxy
+      .send<RtResDto | undefined, RtValidateByTokenReqDto>(
+        RT_SERVICE_VALIDATE_BY_TOKEN,
+        dto
+      )
+      .toPromise();
   }
 }

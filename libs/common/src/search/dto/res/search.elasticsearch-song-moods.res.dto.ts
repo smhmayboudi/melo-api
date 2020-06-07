@@ -2,7 +2,7 @@ import { IsNumber, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class DataElasticsearchSongMoodsResDto {
+export class SearchElasticsearchSongMoodsResDto {
   constructor(
     classy: number,
     energetic: number,

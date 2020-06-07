@@ -4,16 +4,13 @@ import {
   IsNumberString,
   IsOptional,
   IsString,
-  ValidateNested,
 } from "class-validator";
 
-import { FileConfigReqDto } from "./file.config.req.dto";
 import { Type } from "class-transformer";
 
 export class FileUploadImageReqDto {
   constructor(
     bufferBase64: string,
-    config: FileConfigReqDto,
     encoding: string,
     fieldname: string,
     mimeType: string,
@@ -23,7 +20,6 @@ export class FileUploadImageReqDto {
     buffer?: Buffer
   ) {
     this.bufferBase64 = bufferBase64;
-    this.config = config;
     this.encoding = encoding;
     this.fieldname = fieldname;
     this.mimeType = mimeType;
@@ -39,11 +35,6 @@ export class FileUploadImageReqDto {
   })
   @IsString()
   readonly bufferBase64: string;
-
-  @ApiHideProperty()
-  @Type(() => FileConfigReqDto)
-  @ValidateNested()
-  readonly config: FileConfigReqDto;
 
   @ApiProperty({
     description: "File encoding",

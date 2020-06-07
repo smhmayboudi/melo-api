@@ -1,8 +1,24 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
-import { BadRequestException, HttpService, Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import {
-  RelationEdgeType,
-  RelationEntityType,
+  SONG_SERVICE,
+  SONG_SERVICE_ALBUM_SONGS,
+  SONG_SERVICE_ARTIST_SONGS_TOP,
+  SONG_SERVICE_GENRE,
+  SONG_SERVICE_GET,
+  SONG_SERVICE_LANGUAGE,
+  SONG_SERVICE_LIKE,
+  SONG_SERVICE_LIKED,
+  SONG_SERVICE_MOOD,
+  SONG_SERVICE_NEW_PODCAST,
+  SONG_SERVICE_NEW_SONG,
+  SONG_SERVICE_PODCAST,
+  SONG_SERVICE_SEND_TELEGRAM,
+  SONG_SERVICE_SIMILAR,
+  SONG_SERVICE_SLIDER,
+  SONG_SERVICE_TOP_DAY,
+  SONG_SERVICE_TOP_WEEK,
+  SONG_SERVICE_UNLIKE,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
   SongGenreReqDto,
@@ -23,165 +39,125 @@ import {
   SongUnlikeReqDto,
 } from "@melo/common";
 
-import { DataSongService } from "../data/data.song.service";
+import { ClientProxy } from "@nestjs/microservices";
 import { PromMethodCounter } from "@melo/prom";
-import { RelationService } from "../relation/relation.service";
 import { SongServiceInterface } from "./song.service.interface";
-import { UserService } from "../user/user.service";
-import { map } from "rxjs/operators";
 
 @Injectable()
 // @PromInstanceCounter
 export class SongService implements SongServiceInterface {
   constructor(
-    private readonly dataSongService: DataSongService,
-    private readonly httpService: HttpService,
-    private readonly relationService: RelationService,
-    private readonly userService: UserService
+    @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async artistSongs(dto: SongArtistSongsReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.artistSongs(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongArtistSongsReqDto>(SONG_SERVICE_ALBUM_SONGS, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async artistSongsTop(dto: SongArtistSongsTopReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.artistSongsTop(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongArtistSongsTopReqDto>(
+        SONG_SERVICE_ARTIST_SONGS_TOP,
+        dto
+      )
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async genre(dto: SongGenreReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.genre(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongGenreReqDto>(SONG_SERVICE_GENRE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async get(dto: SongGetReqDto): Promise<SongResDto> {
-    return this.dataSongService.get(dto);
+    return this.songClientProxy
+      .send<SongResDto, SongGetReqDto>(SONG_SERVICE_GET, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async language(dto: SongLanguageReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.language(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongLanguageReqDto>(SONG_SERVICE_LANGUAGE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async like(dto: SongLikeReqDto): Promise<SongResDto> {
-    await this.relationService.set({
-      createdAt: new Date(),
-      from: {
-        id: dto.sub,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: dto.id,
-        type: RelationEntityType.song,
-      },
-      type: RelationEdgeType.likedSongs,
-    });
-    const song = await this.dataSongService.get(dto);
-    return {
-      ...song,
-      liked: true,
-    };
+    return this.songClientProxy
+      .send<SongResDto, SongLikeReqDto>(SONG_SERVICE_LIKE, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async liked(dto: SongLikedReqDto): Promise<SongResDto[]> {
-    const relations = await this.relationService.get({
-      entity: {
-        id: dto.sub,
-        type: RelationEntityType.user,
-      },
-      from: dto.from,
-      size: Math.min(dto.config.maxSize, dto.size),
-      type: RelationEdgeType.likedSongs,
-    });
-    if (relations.length === 0) {
-      return [];
-    }
-    return this.dataSongService.getByIds({
-      ...dto,
-      ids: relations.map((value) => value.to.id),
-    });
+    return this.songClientProxy
+      .send<SongResDto[], SongLikedReqDto>(SONG_SERVICE_LIKED, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async mood(dto: SongMoodReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.mood(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongMoodReqDto>(SONG_SERVICE_MOOD, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async newPodcast(dto: SongNewPodcastReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.newPodcast(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongNewPodcastReqDto>(SONG_SERVICE_NEW_PODCAST, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async newSong(dto: SongNewReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.newSong(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongNewReqDto>(SONG_SERVICE_NEW_SONG, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async podcast(dto: SongPodcastReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.podcast(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongPodcastReqDto>(SONG_SERVICE_PODCAST, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async sendTelegram(dto: SongSendTelegramReqDto): Promise<void> {
-    const user = await this.userService.findOne({
-      id: dto.sub,
-    });
-    if (user === undefined || user.telegram_id === undefined) {
-      throw new BadRequestException();
-    }
-    await this.httpService
-      .post<number>(dto.config.sendUrl, {
-        callback_query: {
-          data: `1:${dto.id},high,0`,
-          from: {
-            first_name: "",
-            id: user.telegram_id,
-            is_bot: false,
-            language_code: "fa",
-            user,
-          },
-          message: {
-            chat: {
-              first_name: "",
-              id: user.telegram_id,
-              type: "private",
-              user,
-            },
-            date: Math.round(new Date().getTime() / 1000),
-          },
-        },
-        update_id: 0,
-      })
-      .pipe(map((value) => value.data))
+    return this.songClientProxy
+      .send<void, SongSendTelegramReqDto>(SONG_SERVICE_SEND_TELEGRAM, dto)
       .toPromise();
   }
 
@@ -189,49 +165,44 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async similar(dto: SongSimilarReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.similar(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongSimilarReqDto>(SONG_SERVICE_SIMILAR, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async slider(dto: SongSliderReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.slider(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongSliderReqDto>(SONG_SERVICE_SLIDER, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async topDay(dto: SongTopDayReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.topDay(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongTopDayReqDto>(SONG_SERVICE_TOP_DAY, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async topWeek(dto: SongTopWeekReqDto): Promise<SongResDto[]> {
-    return this.dataSongService.topWeek(dto);
+    return this.songClientProxy
+      .send<SongResDto[], SongTopWeekReqDto>(SONG_SERVICE_TOP_WEEK, dto)
+      .toPromise();
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async unlike(dto: SongUnlikeReqDto): Promise<SongResDto> {
-    await this.relationService.remove({
-      from: {
-        id: dto.sub,
-        type: RelationEntityType.user,
-      },
-      to: {
-        id: dto.id,
-        type: RelationEntityType.song,
-      },
-      type: RelationEdgeType.likedSongs,
-    });
-    const song = await this.dataSongService.get(dto);
-    return {
-      ...song,
-      liked: false,
-    };
+    return this.songClientProxy
+      .send<SongResDto, SongUnlikeReqDto>(SONG_SERVICE_UNLIKE, dto)
+      .toPromise();
   }
 }

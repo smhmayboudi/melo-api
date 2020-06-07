@@ -1,22 +1,21 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  DataElasticsearchDownloadResDto,
+  DOWNLOAD_SERVICE,
+  DOWNLOAD_SERVICE_DOWNLOADED_SONGS,
   DownloadSongReqDto,
   DownloadSongResDto,
 } from "@melo/common";
 
+import { Inject, Injectable } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
 import { DownloadServiceInterface } from "./download.service.interface";
-import { ElasticsearchService } from "@nestjs/elasticsearch";
-import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "@melo/prom";
-import { SongService } from "../song/song.service";
 
 @Injectable()
 // @PromInstanceCounter
 export class DownloadService implements DownloadServiceInterface {
   constructor(
-    private readonly elasticsearchService: ElasticsearchService,
-    private readonly songService: SongService
+    @Inject(DOWNLOAD_SERVICE) private readonly downloadClientProxy: ClientProxy
   ) {}
 
   @ApmAfterMethod
@@ -25,54 +24,11 @@ export class DownloadService implements DownloadServiceInterface {
   async downloadedSongs(
     dto: DownloadSongReqDto
   ): Promise<DownloadSongResDto[]> {
-    const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: [{ _source: DataElasticsearchDownloadResDto }] }>,
-      any
-    >({
-      body: {
-        _source: ["song_id", "date"],
-        from: dto.from,
-        query:
-          dto.filter === undefined
-            ? {
-                term: {
-                  user_id: dto.sub,
-                },
-              }
-            : {
-                bool: {
-                  must: [
-                    {
-                      match: {
-                        song_unique_name: dto.filter,
-                      },
-                    },
-                    {
-                      term: {
-                        user_id: dto.sub,
-                      },
-                    },
-                  ],
-                },
-              },
-        size: Math.min(dto.config.maxSize, dto.size),
-        sort: {
-          date: dto.orderBy,
-        },
-      },
-      index: dto.config.indexName,
-    });
-    return await Promise.all(
-      elasticsearchSearch.body.hits.hits.map(async (value) => {
-        const song = await this.songService.get({
-          ...dto,
-          id: value._source.song_id,
-        });
-        return {
-          downloadedAt: value._source.date,
-          song,
-        };
-      })
-    );
+    return this.downloadClientProxy
+      .send<DownloadSongResDto[], DownloadSongReqDto>(
+        DOWNLOAD_SERVICE_DOWNLOADED_SONGS,
+        dto
+      )
+      .toPromise();
   }
 }

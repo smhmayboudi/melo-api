@@ -10,8 +10,8 @@ import {
 
 import { AlbumResDto } from "../../../album/dto/res/album.res.dto";
 import { ApiProperty } from "@nestjs/swagger";
+import { ArtistType } from "../../artist.type";
 import { ConstImageResDto } from "../../../const/dto/res/const.image.res.dto";
-import { DataArtistType } from "../../artist.type";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
@@ -19,7 +19,7 @@ export class ArtistResDto {
   constructor(
     followersCount: number,
     id: number,
-    type: DataArtistType,
+    type: ArtistType,
     albums?: AlbumResDto[],
     following?: boolean,
     fullName?: string,
@@ -56,10 +56,10 @@ export class ArtistResDto {
 
   @ApiProperty({
     description: "The artist type",
-    example: DataArtistType.prime,
+    example: ArtistType.prime,
   })
-  @IsEnum(DataArtistType)
-  readonly type: DataArtistType;
+  @IsEnum(ArtistType)
+  readonly type: ArtistType;
 
   @ApiProperty({
     description: "The albums",

@@ -11,11 +11,6 @@ describe("SearchCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    elasticsearchNode: "",
-    indexName: "",
-    maxSize: 0,
-    scriptScore: "",
-    suggestIndex: "",
   };
 
   let service: SearchConfigService;

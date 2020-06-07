@@ -1,28 +1,25 @@
 import {
+  USER_SERVICE,
+  USER_SERVICE_FIND,
   UserEditReqDto,
-  UserFindOneByTelegramIdReqDto,
-  UserFindOneByUsernameReqDto,
-  UserFindOneReqDto,
   UserGetReqDto,
-  UserSaveReqDto,
+  UserResDto,
 } from "@melo/common";
 
 import { Test } from "@nestjs/testing";
-import { UserEntity } from "./user.entity";
-import { UserEntityRepository } from "./user.entity.repository";
-import { UserEntityRepositoryInterface } from "./user.entity.repository.interface";
 import { UserService } from "./user.service";
+import { of } from "rxjs";
 
 describe("UserService", () => {
-  const userEntity: UserEntity = {
+  const user: UserResDto = {
     id: 0,
+    telegram_id: 0,
   };
 
-  const userEntityRepositoryMock: UserEntityRepositoryInterface = {
-    find: () => Promise.resolve([userEntity]),
-    findOne: () => Promise.resolve(userEntity),
-    save: <UserEntity>(): Promise<UserEntity> =>
-      (Promise.resolve(userEntity) as unknown) as Promise<UserEntity>,
+  // TODO: interface ?
+  const userClientProxyMock = {
+    send: (token: string) =>
+      token === USER_SERVICE_FIND ? of([user]) : of(user),
   };
 
   let service: UserService;
@@ -30,7 +27,7 @@ describe("UserService", () => {
   beforeEach(async () => {
     const module = await Test.createTestingModule({
       providers: [
-        { provide: UserEntityRepository, useValue: userEntityRepositoryMock },
+        { provide: USER_SERVICE, useValue: userClientProxyMock },
         UserService,
       ],
     }).compile();
@@ -41,50 +38,21 @@ describe("UserService", () => {
     expect(service).toBeDefined();
   });
 
-  it("edit should be equal to a users", async () => {
-    const dto: UserEditReqDto = {
-      sub: 0,
-    };
-    expect(await service.edit(dto)).toEqual(userEntity);
+  it("find should return an array of users", async () => {
+    expect(await service.find()).toEqual([user]);
   });
 
-  it("find should be equal to an array of users", async () => {
-    expect(await service.find()).toEqual([userEntity]);
-  });
-
-  it("findOne should be equal to a users", async () => {
-    const dto: UserFindOneReqDto = {
-      id: 0,
-    };
-    expect(await service.findOne(dto)).toEqual(userEntity);
-  });
-
-  it("findOneByTelegramId should be equal to a users", async () => {
-    const dto: UserFindOneByTelegramIdReqDto = {
-      telegramId: 0,
-    };
-    expect(await service.findOneByTelegramId(dto)).toEqual(userEntity);
-  });
-
-  it("findOneByUsername should be equal to a users", async () => {
-    const dto: UserFindOneByUsernameReqDto = {
-      username: "",
-    };
-    expect(await service.findOneByUsername(dto)).toEqual(userEntity);
-  });
-
-  it("get should be equal to a users", async () => {
+  it("get should return a users", async () => {
     const dto: UserGetReqDto = {
-      sub: 0,
+      sub: 1,
     };
-    expect(await service.get(dto)).toEqual(userEntity);
+    expect(await service.get(dto)).toEqual(user);
   });
 
-  it("save should be equal to a users", async () => {
-    const dto: UserSaveReqDto = {
-      id: 0,
-      telegramId: 0,
+  it("edit should return a users", async () => {
+    const dto: UserEditReqDto = {
+      sub: 1,
     };
-    expect(await service.save(dto)).toEqual(userEntity);
+    expect(await service.edit(dto)).toEqual(user);
   });
 });

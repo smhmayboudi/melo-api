@@ -10,11 +10,8 @@ import {
   CONST_SERVICE_IMAGE,
   ConstImageReqDto,
   ConstImageResDto,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
   PLAYLIST,
   PlaylistAddSongReqDto,
-  PlaylistConfigReqDto,
   PlaylistCreateReqDto,
   PlaylistDeleteReqDto,
   PlaylistEditReqDto,
@@ -42,10 +39,7 @@ import lodash from "lodash";
 // @PromInstanceCounter
 export class PlaylistService implements PlaylistServiceInterface {
   private image(
-    dto: {
-      config: PlaylistConfigReqDto;
-      dataConfigImage: DataConfigImageReqDto;
-    },
+    dto: {},
     playlist: PlaylistInterface
   ): Promise<ConstImageResDto> {
     const uri =
@@ -63,10 +57,7 @@ export class PlaylistService implements PlaylistServiceInterface {
   }
 
   private song(
-    dto: {
-      dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-      dataConfigImage: DataConfigImageReqDto;
-    },
+    dto: {},
     playlist: PlaylistInterface
   ): Promise<SongResDto[]> | undefined {
     return playlist.songs_ids.length === 0

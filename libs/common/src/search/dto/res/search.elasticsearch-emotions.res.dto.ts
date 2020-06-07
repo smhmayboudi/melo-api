@@ -2,7 +2,7 @@ import { IsArray, IsNumberString, IsString } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
 
-export class DataElasticsearchEmotionsResDto {
+export class SearchElasticsearchEmotionsResDto {
   constructor(emotions: string[], song_id: number) {
     this.emotions = emotions;
     this.song_id = song_id;

@@ -1,8 +1,4 @@
-import {
-  FileConfigReqDto,
-  FileUploadImageReqDto,
-  FileUploadImageResDto,
-} from "@melo/common";
+import { FileUploadImageReqDto, FileUploadImageResDto } from "@melo/common";
 
 import { FileController } from "./file.controller";
 import { FileService } from "./file.service";
@@ -10,14 +6,6 @@ import { FileServiceInterface } from "./file.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("FileController", () => {
-  const config: FileConfigReqDto = {
-    s3AccessKeyId: "minioadmin",
-    s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
-    s3ForcePathStyle: false,
-    s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false,
-  };
   const date = new Date();
   const fileUploadImage: FileUploadImageResDto = {
     createdAt: date,
@@ -54,7 +42,6 @@ describe("FileController", () => {
     const dto: FileUploadImageReqDto = {
       buffer: Buffer.from(""),
       bufferBase64: "",
-      config,
       encoding: "",
       fieldname: "",
       mimeType: "image/jpeg",

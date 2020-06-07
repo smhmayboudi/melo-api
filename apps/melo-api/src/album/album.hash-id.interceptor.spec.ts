@@ -1,11 +1,11 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -44,7 +44,7 @@ describe("AlbumHashIdInterceptor", () => {
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -54,7 +54,7 @@ describe("AlbumHashIdInterceptor", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -100,7 +100,7 @@ describe("AlbumHashIdInterceptor", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
   // TODO: interface ?
   const artistEncoded = {

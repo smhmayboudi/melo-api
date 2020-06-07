@@ -11,8 +11,6 @@ describe("PlaylistCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
   };
 
   let service: PlaylistConfigService;

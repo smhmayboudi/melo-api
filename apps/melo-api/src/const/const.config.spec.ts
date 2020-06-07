@@ -8,7 +8,6 @@ describe("ConstConfig", () => {
       CACHE_PORT: undefined,
       CACHE_STORE: undefined,
       CACHE_TTL: undefined,
-      STATIC_IMAGE_PATHS: undefined,
     });
   });
 });

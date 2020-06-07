@@ -1,11 +1,8 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  EmotionConfigReqDto,
   EmotionEmotionsReqDto,
   EmotionEmotionsResDto,
   SongAudioResDto,
@@ -18,38 +15,11 @@ import { EmotionServiceInterface } from "./emotion.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("EmotionController", () => {
-  const config: EmotionConfigReqDto = {
-    indexName: "",
-    maxSize: 0,
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -59,7 +29,7 @@ describe("EmotionController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -113,9 +83,6 @@ describe("EmotionController", () => {
 
   it("emotions should return a list of emotions", async () => {
     const dto: EmotionEmotionsReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       emotions: [""],
       from: 0,
       size: 0,

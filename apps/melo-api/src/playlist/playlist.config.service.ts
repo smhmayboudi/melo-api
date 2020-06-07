@@ -4,8 +4,6 @@ import {
   CACHE_PORT,
   CACHE_STORE,
   CACHE_TTL,
-  IMAGE_PATH,
-  IMAGE_PATH_DEFAULT_PLAYLIST,
   PLAYLIST,
 } from "@melo/common";
 
@@ -56,17 +54,6 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
         `${PLAYLIST}.${CACHE_TTL}`,
         ms(this.appConfigService.cacheTTL)
       )
-    );
-  }
-
-  get imagePath(): string {
-    return this.configService.get<string>(`${PLAYLIST}.${IMAGE_PATH}`, "");
-  }
-
-  get imagePathDefaultPlaylist(): string {
-    return this.configService.get<string>(
-      `${PLAYLIST}.${IMAGE_PATH_DEFAULT_PLAYLIST}`,
-      ""
     );
   }
 }

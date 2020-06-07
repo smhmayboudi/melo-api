@@ -5,15 +5,13 @@ import {
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   CONST_SERVICE,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
   SONG_SERVICE,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -26,33 +24,8 @@ import { Test } from "@nestjs/testing";
 import { of } from "rxjs";
 
 describe("AlbumService", () => {
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
-  const artistElastic: DataElasticsearchArtistResDto = {
+  const artistElastic: SearchElasticsearchArtistResDto = {
     available: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
     followers_count: 0,
     full_name: "",
     has_cover: false,
@@ -64,10 +37,10 @@ describe("AlbumService", () => {
         tag: "",
       },
     ],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const releaseDate = new Date();
-  const searchElastic: DataElasticsearchSearchResDto = {
+  const searchElastic: SearchElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
     album_id: 0,
@@ -78,8 +51,6 @@ describe("AlbumService", () => {
     artist_sum_downloads_count: 1,
     artists: [artistElastic],
     copyright: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
     downloads_count: 0,
     duration: 0,
     has_cover: false,
@@ -96,7 +67,7 @@ describe("AlbumService", () => {
       },
     ],
     title: "",
-    type: DataSearchType.album,
+    type: SearchType.album,
     unique_name: "",
   };
   // TODO: interface ?
@@ -125,7 +96,7 @@ describe("AlbumService", () => {
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -135,7 +106,7 @@ describe("AlbumService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -217,8 +188,6 @@ describe("AlbumService", () => {
 
   it("albums should equal list of artists", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -230,8 +199,6 @@ describe("AlbumService", () => {
 
   it("get should be equal to an artist", async () => {
     const dto: AlbumGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await service.get(dto)).toEqual({
@@ -242,8 +209,6 @@ describe("AlbumService", () => {
 
   it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "",
       size: 0,
@@ -253,8 +218,6 @@ describe("AlbumService", () => {
 
   it("latest should equal list of albums 2", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "all",
       size: 0,
@@ -263,12 +226,12 @@ describe("AlbumService", () => {
   });
 
   it("transform should be equal to an album", async () => {
-    const dto: DataElasticsearchSearchResDto = searchElastic;
+    const dto: SearchElasticsearchSearchResDto = searchElastic;
     expect(await service.transform(dto)).toEqual(album);
   });
 
   it("transform should be equal to an album 2", async () => {
-    const dto: DataElasticsearchSearchResDto = {
+    const dto: SearchElasticsearchSearchResDto = {
       ...searchElastic,
       tags: undefined,
       unique_name: undefined,

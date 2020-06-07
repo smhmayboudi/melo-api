@@ -69,14 +69,6 @@ describe("AppConfigService", () => {
     expect(service.cacheTTL).toEqual(0);
   });
 
-  it("dgraphAddress should be equal to a value", () => {
-    expect(service.dgraphAddress).toEqual("");
-  });
-
-  it("dgraphDebug should be equal to a value", () => {
-    expect(service.dgraphDebug).toEqual(true);
-  });
-
   it("hashIdAlphabet should be equal to a value", () => {
     expect(service.hashIdAlphabet).toEqual("");
   });
@@ -91,18 +83,6 @@ describe("AppConfigService", () => {
 
   it("hashIdSeps should be equal to a value", () => {
     expect(service.hashIdSeps).toEqual("");
-  });
-
-  it("mangooseRetryAttempts should be equal to a value", () => {
-    expect(service.mangooseRetryAttempts).toEqual(0);
-  });
-
-  it("mangooseRetryDelay should be equal to a value", () => {
-    expect(service.mangooseRetryDelay).toEqual(0);
-  });
-
-  it("mangooseUri should be equal to a value", () => {
-    expect(service.mangooseUri).toEqual("");
   });
 
   it("port should be equal to a value", () => {
@@ -210,33 +190,5 @@ describe("AppConfigService", () => {
 
   it("sentryRelease should be equal to a value", () => {
     expect(service.sentryRelease).toEqual("");
-  });
-
-  it("typeormDatabase should be equal to a value", () => {
-    expect(service.typeormDatabase).toEqual("");
-  });
-
-  it("typeormHost should be equal to a value", () => {
-    expect(service.typeormHost).toEqual("");
-  });
-
-  it("typeormLogging should be equal to a value", () => {
-    expect(service.typeormLogging).toEqual(true);
-  });
-
-  it("typeormPassword should be equal to a value", () => {
-    expect(service.typeormPassword).toEqual("");
-  });
-
-  it("typeormPort should be equal to a value", () => {
-    expect(service.typeormPort).toEqual(0);
-  });
-
-  it("typeormSynchronize should be equal to a value", () => {
-    expect(service.typeormSynchronize).toEqual(true);
-  });
-
-  it("typeormUsername should be equal to a value", () => {
-    expect(service.typeormUsername).toEqual("");
   });
 });

@@ -1,42 +1,13 @@
-import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import { IsNumberString, IsString, ValidateNested } from "class-validator";
+import { IsNumberString, IsString } from "class-validator";
 
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { SearchConfigReqDto } from "./search.config.req.dto";
-import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchQueryReqDto {
-  constructor(
-    config: SearchConfigReqDto,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
-    from: number,
-    query: string,
-    size: number
-  ) {
-    this.config = config;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
+  constructor(from: number, query: string, size: number) {
     this.from = from;
     this.query = query;
     this.size = size;
   }
-
-  @ApiHideProperty()
-  @Type(() => SearchConfigReqDto)
-  @ValidateNested()
-  readonly config: SearchConfigReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "Starting point index",

@@ -1,15 +1,9 @@
-import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import { IsNumberString, IsOptional, ValidateNested } from "class-validator";
+import { IsNumberString, IsOptional } from "class-validator";
 
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { SearchConfigReqDto } from "./search.config.req.dto";
-import { Type } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class SearchMoodReqDto {
   constructor(
-    config: SearchConfigReqDto,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
     from: number,
     size: number,
     classy?: number,
@@ -18,8 +12,6 @@ export class SearchMoodReqDto {
     happiness?: number,
     romantic?: number
   ) {
-    this.config = config;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
     this.from = from;
     this.size = size;
     this.classy = classy;
@@ -28,16 +20,6 @@ export class SearchMoodReqDto {
     this.happiness = happiness;
     this.romantic = romantic;
   }
-
-  @ApiHideProperty()
-  @Type(() => SearchConfigReqDto)
-  @ValidateNested()
-  readonly config: SearchConfigReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
 
   @ApiProperty({
     description: "Starting point index",

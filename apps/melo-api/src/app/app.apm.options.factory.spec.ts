@@ -17,16 +17,11 @@ describe("AppApmOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    dgraphAddress: "",
-    dgraphDebug: true,
     hashIdAlphabet:
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
     hashIdMinLength: 0,
     hashIdSalt: "cfhistuCFHISTU",
     hashIdSeps: "",
-    mangooseRetryAttempts: 0,
-    mangooseRetryDelay: 0,
-    mangooseUri: "",
     port: 0,
     promDefaultLabels: {
       "": "",
@@ -41,13 +36,6 @@ describe("AppApmOptionsFactory", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
   };
 
   let service: AppConfigService;

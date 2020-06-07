@@ -2,7 +2,7 @@ import {
   ALBUM,
   ELASTICSEARCH_NODE,
   IMAGE_PATH,
-  IMAGE_PATH_DEFAULT_ALBUM,
+  IMAGE_PATH_DEFAULT,
   INDEX_NAME,
   MAX_SIZE,
 } from "@melo/common";
@@ -24,10 +24,7 @@ export class AlbumConfigService implements AlbumConfigServiceInterface {
   }
 
   get imagePathDefaultAlbum(): string {
-    return this.configService.get<string>(
-      `${ALBUM}.${IMAGE_PATH_DEFAULT_ALBUM}`,
-      ""
-    );
+    return this.configService.get<string>(`${ALBUM}.${IMAGE_PATH_DEFAULT}`, "");
   }
 
   get indexName(): string {

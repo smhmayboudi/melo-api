@@ -4,7 +4,7 @@ describe("ArtistConfig", () => {
   it("should be defined", () => {
     expect(config()).toStrictEqual({
       IMAGE_PATH: undefined,
-      IMAGE_PATH_DEFAULT_ARTIST: undefined,
+      IMAGE_PATH_DEFAULT: undefined,
       INDEX_NAME: undefined,
       MAX_SIZE: undefined,
     });

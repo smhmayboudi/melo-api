@@ -1,14 +1,14 @@
-import { CacheModule, HttpModule, Module, forwardRef } from "@nestjs/common";
+import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
-import { DataModule } from "../data/data.module";
 import { RelationModule } from "../relation/relation.module";
+import { SONG_SERVICE } from "@melo/common";
 import { SongCacheOptionsFactory } from "./song.cache.options.factory";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongHealthIndicator } from "./song.health.indicator";
-import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
 import { UserModule } from "../user/user.module";
 import config from "./song.config";
@@ -23,13 +23,16 @@ import config from "./song.config";
       imports: [SongModule],
       useClass: SongCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: SONG_SERVICE,
+        options: {
+          url: process.env.SONG_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
-    DataModule,
-    HttpModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [SongModule],
-      useClass: SongHttpOptionsFactory,
-    }),
     RelationModule,
     UserModule,
   ],

@@ -1,22 +1,16 @@
 import {
   ARTIST_SERVICE,
   ARTIST_SERVICE_GET,
-  ArtistConfigReqDto,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
   ArtistGetReqDto,
   ArtistResDto,
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
+  ArtistType,
   ArtistUnfollowReqDto,
   CONST_SERVICE,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
   RELATION_SERVICE,
   RELATION_SERVICE_GET,
   RELATION_SERVICE_REMOVE,
@@ -24,6 +18,9 @@ import {
   RelationEntityReqDto,
   RelationEntityType,
   RelationResDto,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchType,
 } from "@melo/common";
 import { Observable, of } from "rxjs";
 
@@ -34,36 +31,8 @@ import { ElasticsearchService } from "@nestjs/elasticsearch";
 import { Test } from "@nestjs/testing";
 
 describe("ArtistService", () => {
-  const config: ArtistConfigReqDto = {
-    maxSize: 0,
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
-  const artistElastic: DataElasticsearchArtistResDto = {
+  const artistElastic: SearchElasticsearchArtistResDto = {
     available: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
     followers_count: 0,
     full_name: "",
     has_cover: false,
@@ -75,10 +44,10 @@ describe("ArtistService", () => {
         tag: "",
       },
     ],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const releaseDate = new Date();
-  const searchElastic: DataElasticsearchSearchResDto = {
+  const searchElastic: SearchElasticsearchSearchResDto = {
     album: "",
     album_downloads_count: 0,
     album_id: 0,
@@ -89,8 +58,6 @@ describe("ArtistService", () => {
     artist_sum_downloads_count: 1,
     artists: [artistElastic],
     copyright: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
     downloads_count: 0,
     duration: 0,
     has_cover: false,
@@ -107,7 +74,7 @@ describe("ArtistService", () => {
       },
     ],
     title: "",
-    type: DataSearchType.album,
+    type: SearchType.album,
     unique_name: "",
   };
   // TODO: interface ?
@@ -148,7 +115,7 @@ describe("ArtistService", () => {
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -158,11 +125,9 @@ describe("ArtistService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const artistFollow: ArtistFollowReqDto = {
-    dataConfigElasticsearch,
-    dataConfigImage,
     id: 0,
     sub: 1,
   };
@@ -234,8 +199,6 @@ describe("ArtistService", () => {
 
   it("follow should be equal to an artist", async () => {
     const dto: ArtistFollowReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };
@@ -248,8 +211,6 @@ describe("ArtistService", () => {
 
   it("profile should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await service.profile(dto)).toEqual(artist);
@@ -257,9 +218,6 @@ describe("ArtistService", () => {
 
   it("following should equal list of artists", async () => {
     const dto: ArtistFollowingReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -286,9 +244,6 @@ describe("ArtistService", () => {
     service = module.get<ArtistService>(ArtistService);
 
     const dto: ArtistFollowingReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -298,8 +253,6 @@ describe("ArtistService", () => {
 
   it("get should be equal to an artist", async () => {
     const dto: ArtistGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await service.get(dto)).toEqual({
@@ -309,12 +262,12 @@ describe("ArtistService", () => {
   });
 
   it("transform should be equal to an artist", async () => {
-    const dto: DataElasticsearchArtistResDto = artistElastic;
+    const dto: SearchElasticsearchArtistResDto = artistElastic;
     expect(await service.transform(dto)).toEqual(artist);
   });
 
   it("transform should be equal to an artist 2", async () => {
-    const dto: DataElasticsearchArtistResDto = {
+    const dto: SearchElasticsearchArtistResDto = {
       ...artistElastic,
       has_cover: true,
       sum_downloads_count: 0,
@@ -328,17 +281,12 @@ describe("ArtistService", () => {
   });
 
   it("trending should equal list of artists", async () => {
-    const dto: ArtistTrendingReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-    };
+    const dto: ArtistTrendingReqDto = {};
     expect(await service.trending(dto)).toEqual([artist]);
   });
 
   it("trendingGenre should equal list of artists", async () => {
     const dto: ArtistTrendingGenreReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       genre: "",
     };
     expect(await service.trendingGenre(dto)).toEqual([artist]);
@@ -346,8 +294,6 @@ describe("ArtistService", () => {
 
   it("unfollow should be equal to an artist", async () => {
     const dto: ArtistUnfollowReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };

@@ -11,9 +11,6 @@ describe("SongCacheOptionsFactory", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    maxSize: 0,
-    sendTimeout: 0,
-    sendUrl: "",
   };
 
   let service: SongConfigService;

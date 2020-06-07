@@ -1,5 +1,5 @@
+import { MessagePattern, Payload } from "@nestjs/microservices";
 import {
-  DataElasticsearchSearchResDto,
   SONG_SERVICE_ALBUM_SONGS,
   SONG_SERVICE_ARTIST_SONGS,
   SONG_SERVICE_ARTIST_SONGS_TOP,
@@ -20,6 +20,7 @@ import {
   SONG_SERVICE_TOP_WEEK,
   SONG_SERVICE_TRANSFORM,
   SONG_SERVICE_UNLIKE,
+  SearchElasticsearchSearchResDto,
   SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
@@ -41,7 +42,6 @@ import {
   SongTopWeekReqDto,
   SongUnlikeReqDto,
 } from "@melo/common";
-import { MessagePattern, Payload } from "@nestjs/microservices";
 
 import { Controller } from "@nestjs/common";
 import { SongService } from "./song.service";
@@ -143,7 +143,7 @@ export class SongController {
   }
 
   @MessagePattern(SONG_SERVICE_TRANSFORM)
-  transform(dto: DataElasticsearchSearchResDto): Promise<SongResDto> {
+  transform(dto: SearchElasticsearchSearchResDto): Promise<SongResDto> {
     return this.songService.transform(dto);
   }
 

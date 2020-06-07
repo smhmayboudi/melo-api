@@ -11,9 +11,6 @@ import {
   ValidationPipe,
 } from "@nestjs/common";
 import {
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DownloadConfigReqDto,
   DownloadOrderByType,
   DownloadSongParamReqDto,
   DownloadSongQueryReqDto,
@@ -22,8 +19,6 @@ import {
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { DataConfigService } from "../data/data.config.service";
-import { DownloadConfigService } from "./download.config.service";
 import { DownloadHashIdInterceptor } from "./download.hash-id.interceptor";
 import { DownloadLikeInterceptor } from "./download.like.interceptor";
 import { DownloadOrderByPipe } from "./download.order-by.pipe";
@@ -41,33 +36,7 @@ import { DownloadService } from "./download.service";
   })
 )
 export class DownloadController {
-  private config: DownloadConfigReqDto = {
-    indexName: this.downloadConfigService.indexName,
-    maxSize: this.downloadConfigService.maxSize,
-  };
-  private dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: this.dataConfigService.imagePath,
-    imagePathDefaultAlbum: this.dataConfigService.imagePathDefaultAlbum,
-    imagePathDefaultArtist: this.dataConfigService.imagePathDefaultArtist,
-    imagePathDefaultSong: this.dataConfigService.imagePathDefaultSong,
-    indexName: this.dataConfigService.indexName,
-    maxSize: this.dataConfigService.maxSize,
-    mp3Endpoint: this.dataConfigService.mp3Endpoint,
-  };
-  private dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: this.dataConfigService.imageBaseUrl,
-    imageEncode: this.dataConfigService.imageEncode,
-    imageKey: this.dataConfigService.imageKey,
-    imageSalt: this.dataConfigService.imageSalt,
-    imageSignatureSize: this.dataConfigService.imageSignatureSize,
-    imageTypeSize: this.dataConfigService.imageTypeSize,
-  };
-
-  constructor(
-    private readonly dataConfigService: DataConfigService,
-    private readonly downloadConfigService: DownloadConfigService,
-    private readonly downloadService: DownloadService
-  ) {}
+  constructor(private readonly downloadService: DownloadService) {}
 
   @Get("song/:orderBy/:from/:size")
   @UseGuards(AuthGuard("jwt"))
@@ -80,9 +49,6 @@ export class DownloadController {
     return this.downloadService.downloadedSongs({
       ...paramDto,
       ...queryDto,
-      config: this.config,
-      dataConfigElasticsearch: this.dataConfigElasticsearch,
-      dataConfigImage: this.dataConfigImage,
       orderBy,
       sub,
     });

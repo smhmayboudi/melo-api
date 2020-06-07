@@ -4,9 +4,6 @@ import {
   CACHE_PORT,
   CACHE_STORE,
   CACHE_TTL,
-  MAX_SIZE,
-  SEND_TIMEOUT,
-  SEND_URL,
   SONG,
 } from "@melo/common";
 
@@ -58,17 +55,5 @@ export class SongConfigService implements SongConfigServiceInterface {
         ms(this.appConfigService.cacheTTL)
       )
     );
-  }
-
-  get maxSize(): number {
-    return this.configService.get<number>(`${SONG}.${MAX_SIZE}`, 0);
-  }
-
-  get sendTimeout(): number {
-    return ms(this.configService.get<string>(`${SONG}.${SEND_TIMEOUT}`, "0"));
-  }
-
-  get sendUrl(): string {
-    return this.configService.get<string>(`${SONG}.${SEND_URL}`, "");
   }
 }

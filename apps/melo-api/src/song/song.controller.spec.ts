@@ -1,16 +1,13 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SearchType,
   SongArtistSongsReqDto,
   SongAudioResDto,
-  SongConfigReqDto,
   SongGetReqDto,
   SongLanguageReqDto,
   SongLikeReqDto,
@@ -36,8 +33,6 @@ import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
 import { AppSongServiceInterface } from "../app/app.song.service.interface";
-import { DataConfigService } from "../data/data.config.service";
-import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 import { SongConfigService } from "./song.config.service";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
 import { SongController } from "./song.controller";
@@ -46,38 +41,11 @@ import { SongServiceInterface } from "./song.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("SongController", () => {
-  const config: SongConfigReqDto = {
-    maxSize: 0,
-    sendUrl: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -87,7 +55,7 @@ describe("SongController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -133,7 +101,7 @@ describe("SongController", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -150,44 +118,12 @@ describe("SongController", () => {
     likes: () => Promise.resolve([song]),
     localize: () => Promise.resolve(song),
   };
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticsearchNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
-  };
   const songConfigServiceMock: SongConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    maxSize: 0,
-    sendTimeout: 0,
-    sendUrl: "",
   };
   const songServiceMock: SongServiceInterface = {
     artistSongs: () => Promise.resolve([song]),
@@ -216,7 +152,6 @@ describe("SongController", () => {
       controllers: [SongController],
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: SongService, useValue: songServiceMock },
         {
           provide: AppSongService,
@@ -237,8 +172,6 @@ describe("SongController", () => {
 
   it("artistSongs should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -248,8 +181,6 @@ describe("SongController", () => {
 
   it("artistSongsTop should be equal to a list of songs", async () => {
     const dto: SongArtistSongsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -259,8 +190,6 @@ describe("SongController", () => {
 
   it("get should be equal to a song", async () => {
     const dto: SongGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await controller.get(dto)).toEqual(song);
@@ -282,8 +211,6 @@ describe("SongController", () => {
 
   it("language should be equal to a list of songs", async () => {
     const dto: SongLanguageReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "",
       orderBy: SongOrderByType.downloads,
@@ -296,8 +223,6 @@ describe("SongController", () => {
 
   it("likes should be equal to a songs", async () => {
     const dto: SongLikeReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };
@@ -306,9 +231,6 @@ describe("SongController", () => {
 
   it("liked should be equal to a list of songs", async () => {
     const dto: SongLikedReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -318,8 +240,6 @@ describe("SongController", () => {
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SongMoodReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       mood: "",
       size: 0,
@@ -329,8 +249,6 @@ describe("SongController", () => {
 
   it("newPodcast should be equal to a list of songs", async () => {
     const dto: SongNewPodcastReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -339,8 +257,6 @@ describe("SongController", () => {
 
   it("newSong should be equal to a list of songs", async () => {
     const dto: SongNewReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -363,7 +279,6 @@ describe("SongController", () => {
 
   it("sendTelegram should be undefined", async () => {
     const dto: SongSendTelegramReqDto = {
-      config,
       id: 0,
       sub: 1,
     };
@@ -372,8 +287,6 @@ describe("SongController", () => {
 
   it("similar should be equal to a list of songs", async () => {
     const dto: SongSimilarReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -382,17 +295,12 @@ describe("SongController", () => {
   });
 
   it("slider should be equal to a list of songs", async () => {
-    const dto: SongSliderReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
-    };
+    const dto: SongSliderReqDto = {};
     expect(await controller.slider(dto)).toEqual([song]);
   });
 
   it("topDay should be equal to a list of songs", async () => {
     const dto: SongTopDayReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -401,8 +309,6 @@ describe("SongController", () => {
 
   it("topWeek should be equal to a list of songs", async () => {
     const dto: SongTopWeekReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };
@@ -411,8 +317,6 @@ describe("SongController", () => {
 
   it("unlike should be equal to a songs", async () => {
     const dto: SongUnlikeReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
       sub: 1,
     };

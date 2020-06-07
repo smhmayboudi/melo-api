@@ -5,32 +5,24 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  ValidateNested,
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { DataArtistType } from "../../../artist/artist.type";
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { Type } from "class-transformer";
+import { ArtistType } from "../../../artist/artist.type";
 
-export class DataElasticsearchArtistResDto {
+export class SearchElasticsearchArtistResDto {
   constructor(
     available: boolean,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
     followers_count: number,
     full_name: string,
     has_cover: boolean,
     id: number,
     popular: boolean,
     sum_downloads_count: number,
-    type: DataArtistType,
+    type: ArtistType,
     tags?: { tag: string }[]
   ) {
     this.available = available;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
     this.followers_count = followers_count;
     this.full_name = full_name;
     this.has_cover = has_cover;
@@ -46,22 +38,6 @@ export class DataElasticsearchArtistResDto {
   })
   @IsBoolean()
   readonly available: boolean;
-
-  @ApiProperty({
-    description: "the config",
-    type: DataConfigElasticsearchReqDto,
-  })
-  @Type(() => DataConfigElasticsearchReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiProperty({
-    description: "the image config",
-    type: DataConfigImageReqDto,
-  })
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "the follower count",
@@ -106,10 +82,10 @@ export class DataElasticsearchArtistResDto {
 
   @ApiProperty({
     description: "the artist type",
-    type: DataArtistType,
+    type: ArtistType,
   })
-  @IsEnum(DataArtistType)
-  readonly type: DataArtistType;
+  @IsEnum(ArtistType)
+  readonly type: ArtistType;
 
   @ApiProperty({
     description: "tags",

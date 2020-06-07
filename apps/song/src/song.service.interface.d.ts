@@ -1,5 +1,5 @@
 import {
-  DataElasticsearchSearchResDto,
+  SearchElasticsearchSearchResDto,
   SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
@@ -41,6 +41,6 @@ export interface SongServiceInterface {
   slider(dto: SongSliderReqDto): Promise<SongResDto[]>;
   topDay(dto: SongTopDayReqDto): Promise<SongResDto[]>;
   topWeek(dto: SongTopWeekReqDto): Promise<SongResDto[]>;
-  transform(dto: DataElasticsearchSearchResDto): Promise<SongResDto>;
+  transform(dto: SearchElasticsearchSearchResDto): Promise<SongResDto>;
   unlike(dto: SongUnlikeReqDto): Promise<SongResDto>;
 }

@@ -1,7 +1,7 @@
 import {
   ELASTICSEARCH_NODE,
   IMAGE_PATH,
-  IMAGE_PATH_DEFAULT_SONG,
+  IMAGE_PATH_DEFAULT,
   INDEX_NAME,
   MAX_SIZE,
   MP3_ENDPOINT,
@@ -34,10 +34,7 @@ export class SongConfigService implements SongConfigServiceInterface {
   }
 
   get imagePathDefaultSong(): string {
-    return this.configService.get<string>(
-      `${SONG}.${IMAGE_PATH_DEFAULT_SONG}`,
-      ""
-    );
+    return this.configService.get<string>(`${SONG}.${IMAGE_PATH_DEFAULT}`, "");
   }
 
   get indexName(): string {

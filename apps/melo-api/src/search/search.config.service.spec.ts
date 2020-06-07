@@ -12,11 +12,6 @@ describe("SearchConfigService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    elasticsearchNode: "",
-    indexName: "",
-    maxSize: 0,
-    scriptScore: "",
-    suggestIndex: "",
   };
 
   // TODO: interface ?
@@ -65,25 +60,5 @@ describe("SearchConfigService", () => {
 
   it("cacheTTL should be equal to a value", () => {
     expect(service.cacheTTL).toEqual(0);
-  });
-
-  it("elasticsearchNode should be equal to a value", () => {
-    expect(service.elasticsearchNode).toEqual("");
-  });
-
-  it("indexName should be equal to a value", () => {
-    expect(service.indexName).toEqual("");
-  });
-
-  it("maxSize should be equal to a value", () => {
-    expect(service.maxSize).toEqual(0);
-  });
-
-  it("scriptScore should be equal to a value", () => {
-    expect(service.scriptScore).toEqual("");
-  });
-
-  it("suggestIndex should be equal to a value", () => {
-    expect(service.suggestIndex).toEqual("");
   });
 });

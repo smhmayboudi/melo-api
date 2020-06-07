@@ -1,22 +1,21 @@
-import {
-  ConstConfigReqDto,
-  ConstImageResDto,
-  ConstImagesReqDto,
-  DataConfigImageReqDto,
-} from "@melo/common";
+import { ConstImageResDto, ConstImagesReqDto } from "@melo/common";
 
+import { ConstConfigService } from "./const.config.service";
+import { ConstConfigServiceInterface } from "./const.config.service.interface";
 import { ConstService } from "./const.service";
 import { Test } from "@nestjs/testing";
 
 describe("ConstService", () => {
-  const config: ConstConfigReqDto = {
-    staticImagePaths: {
-      pop: "/asset/pop.jpg",
+  const image: ConstImageResDto = {
+    cover: {
+      url:
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
-  const dataConfigImage: DataConfigImageReqDto = {
+
+  const constConfigServiceMock: ConstConfigServiceInterface = {
     imageBaseUrl: "",
-    imageEncode: true,
+    imageEncode: false,
     imageKey: "",
     imageSalt: "",
     imageSignatureSize: 32,
@@ -27,11 +26,8 @@ describe("ConstService", () => {
         width: 1024,
       },
     ],
-  };
-  const image: ConstImageResDto = {
-    cover: {
-      url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+    staticImagePaths: {
+      pop: "asset/pop.jpg",
     },
   };
 
@@ -39,7 +35,10 @@ describe("ConstService", () => {
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [ConstService],
+      providers: [
+        ConstService,
+        { provide: ConstConfigService, useValue: constConfigServiceMock },
+      ],
     }).compile();
     service = module.get<ConstService>(ConstService);
   });
@@ -49,10 +48,7 @@ describe("ConstService", () => {
   });
 
   it("images should be equal to images", async () => {
-    const dto: ConstImagesReqDto = {
-      config,
-      dataConfigImage,
-    };
+    const dto: ConstImagesReqDto = {};
     expect(await service.images(dto)).toEqual({
       pop: image,
     });

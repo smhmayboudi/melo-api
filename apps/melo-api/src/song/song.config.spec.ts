@@ -8,9 +8,6 @@ describe("SongConfig", () => {
       CACHE_PORT: undefined,
       CACHE_STORE: undefined,
       CACHE_TTL: undefined,
-      MAX_SIZE: undefined,
-      SEND_TIMEOUT: undefined,
-      SEND_URL: undefined,
     });
   });
 });

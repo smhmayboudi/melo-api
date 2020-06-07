@@ -1,6 +1,5 @@
 import {
   AuthAccessTokenReqDto,
-  AuthConfigReqDto,
   AuthDeleteByTokenReqDto,
   AuthRefreshTokenReqDto,
   RtResDto,
@@ -12,9 +11,6 @@ import { AuthServiceInterface } from "./auth.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("AuthController", () => {
-  const config: AuthConfigReqDto = {
-    expiresIn: 0,
-  };
   const date = new Date();
   const rt: RtResDto = {
     created_at: date,
@@ -54,7 +50,6 @@ describe("AuthController", () => {
 
   it("login should be equal to a token", async () => {
     const dto: AuthRefreshTokenReqDto = {
-      config,
       sub: 1,
     };
     expect(await controller.login(dto)).toEqual({
@@ -72,7 +67,6 @@ describe("AuthController", () => {
 
   it("telegramCallback should be equal to a token", async () => {
     const dto: AuthRefreshTokenReqDto = {
-      config,
       sub: 1,
     };
     expect(await controller.telegram(dto)).toEqual({

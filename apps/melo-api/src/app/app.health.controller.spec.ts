@@ -13,7 +13,6 @@ import { ArtistHealthIndicator } from "../artist/artist.health.indicator";
 import { AtHealthIndicator } from "../at/at.health.indicator";
 import { AuthHealthIndicator } from "../auth/auth.health.indicator";
 import { ConstHealthIndicator } from "../const/const.health.indicator";
-import { DataHealthIndicator } from "../data/data.health.indicator";
 import { FileHealthIndicator } from "../file/file.health.indicator";
 import { JwksHealthIndicator } from "../jwks/jwks.health.indicator";
 import { PlaylistHealthIndicator } from "../playlist/playlist.health.indicator";
@@ -57,11 +56,6 @@ describe("AppHealthController", () => {
   };
   const constHealthIndicatorResult: HealthIndicatorResult = {
     const: {
-      status: "up",
-    },
-  };
-  const dataHealthIndicatorResult: HealthIndicatorResult = {
-    data: {
       status: "up",
     },
   };
@@ -114,7 +108,6 @@ describe("AppHealthController", () => {
       ...atHealthIndicatorResult,
       ...authHealthIndicatorResult,
       ...constHealthIndicatorResult,
-      ...dataHealthIndicatorResult,
       ...fileHealthIndicatorResult,
       ...jwksHealthIndicatorResult,
       ...playlistHealthIndicatorResult,
@@ -133,7 +126,6 @@ describe("AppHealthController", () => {
       ...atHealthIndicatorResult,
       ...authHealthIndicatorResult,
       ...constHealthIndicatorResult,
-      ...dataHealthIndicatorResult,
       ...fileHealthIndicatorResult,
       ...jwksHealthIndicatorResult,
       ...playlistHealthIndicatorResult,
@@ -168,9 +160,6 @@ describe("AppHealthController", () => {
   };
   const constHealthIndicatorMock: AppHealthIndicatorInterface = {
     isHealthy: () => Promise.resolve(constHealthIndicatorResult),
-  };
-  const dataHealthIndicatorMock: AppHealthIndicatorInterface = {
-    isHealthy: () => Promise.resolve(dataHealthIndicatorResult),
   };
   const fileHealthIndicatorMock: AppHealthIndicatorInterface = {
     isHealthy: () => Promise.resolve(fileHealthIndicatorResult),
@@ -227,7 +216,6 @@ describe("AppHealthController", () => {
         { provide: AtHealthIndicator, useValue: atHealthIndicatorMock },
         { provide: AuthHealthIndicator, useValue: authHealthIndicatorMock },
         { provide: ConstHealthIndicator, useValue: constHealthIndicatorMock },
-        { provide: DataHealthIndicator, useValue: dataHealthIndicatorMock },
         { provide: FileHealthIndicator, useValue: fileHealthIndicatorMock },
         { provide: HealthCheckService, useValue: healthCheckServiceMock },
         { provide: JwksHealthIndicator, useValue: jwksHealthIndicatorMock },

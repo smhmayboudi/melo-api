@@ -1,8 +1,4 @@
-import {
-  FileConfigReqDto,
-  FileUploadImageReqDto,
-  FileUploadImageResDto,
-} from "@melo/common";
+import { FileUploadImageReqDto, FileUploadImageResDto } from "@melo/common";
 
 import { FileConfigService } from "./file.config.service";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
@@ -12,14 +8,6 @@ import { FileServiceInterface } from "./file.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("FileController", () => {
-  const config: FileConfigReqDto = {
-    s3AccessKeyId: "minioadmin",
-    s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
-    s3ForcePathStyle: false,
-    s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false,
-  };
   const date = new Date();
   const fileUploadImage: FileUploadImageResDto = {
     createdAt: date,
@@ -35,12 +23,6 @@ describe("FileController", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    s3AccessKeyId: "minioadmin",
-    s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
-    s3ForcePathStyle: false,
-    s3SecretAccessKey: "minioadmin",
-    s3SslEnabled: false,
   };
   const fileServiceMock: FileServiceInterface = {
     uploadImage: () => Promise.resolve(fileUploadImage),
@@ -73,7 +55,6 @@ describe("FileController", () => {
     const dto: FileUploadImageReqDto = {
       buffer: Buffer.from(""),
       bufferBase64: "",
-      config,
       encoding: "",
       fieldname: "",
       mimeType: "image/jpeg",

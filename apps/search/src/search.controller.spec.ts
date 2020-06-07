@@ -1,12 +1,9 @@
 import {
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataSearchType,
-  SearchConfigReqDto,
+  ArtistType,
   SearchMoodReqDto,
   SearchQueryReqDto,
   SearchResDto,
+  SearchType,
   SongResDto,
 } from "@melo/common";
 
@@ -16,45 +13,16 @@ import { SearchServiceInterface } from "./search.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("SearchController", () => {
-  const config: SearchConfigReqDto = {
-    indexName: "",
-    maxSize: 0,
-    scriptScore: "",
-    suggestIndex: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const search: SearchResDto = {
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
   const song: SongResDto = {
     artists: [
       {
         followersCount: 0,
         id: 0,
-        type: DataArtistType.prime,
+        type: ArtistType.prime,
       },
     ],
     audio: {},
@@ -85,9 +53,6 @@ describe("SearchController", () => {
 
   it("query should be equal to a list of search results", async () => {
     const dto: SearchQueryReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       query: "0",
       size: 0,
@@ -97,8 +62,6 @@ describe("SearchController", () => {
 
   it("mood should be equal to a list of songs", async () => {
     const dto: SearchMoodReqDto = {
-      config,
-      dataConfigElasticsearch,
       from: 0,
       size: 0,
     };

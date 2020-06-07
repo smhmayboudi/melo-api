@@ -1,10 +1,10 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { PLAYLIST, PLAYLIST_SERVICE } from "@melo/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
-import { DataModule } from "../data/data.module";
 import { MongooseModule } from "@nestjs/mongoose";
-import { PLAYLIST } from "@melo/common";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
@@ -23,8 +23,16 @@ import config from "./playlist.config";
       imports: [PlaylistModule],
       useClass: PlaylistCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: PLAYLIST_SERVICE,
+        options: {
+          url: process.env.PLAYLIST_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
-    DataModule,
     MongooseModule.forFeature([{ name: PLAYLIST, schema: PlaylistSchema }]),
   ],
   providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService],

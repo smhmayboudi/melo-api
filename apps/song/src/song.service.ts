@@ -9,14 +9,6 @@ import {
   CONST_SERVICE_IMAGE,
   ConstImageReqDto,
   ConstImageResDto,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataElasticsearchSongMoodsResDto,
-  DataQueryType,
-  DataSearchType,
-  DataSortByType,
   RELATION_SERVICE,
   RELATION_SERVICE_GET,
   RELATION_SERVICE_REMOVE,
@@ -27,6 +19,12 @@ import {
   RelationRemoveReqDto,
   RelationResDto,
   RelationSetReqDto,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchElasticsearchSongMoodsResDto,
+  SearchQueryType,
+  SearchSortByType,
+  SearchType,
   SongAlbumSongsReqDto,
   SongArtistSongsReqDto,
   SongArtistSongsTopReqDto,
@@ -81,13 +79,11 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async query(dto: {
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-    dataConfigImage: DataConfigImageReqDto;
     from: number;
-    query: DataQueryType;
+    query: SearchQueryType;
     size: number;
   }): Promise<SongResDto[]> {
-    const dataCache = await this.songCacheEntityRepository
+    const songCache = await this.songCacheEntityRepository
       .createQueryBuilder()
       .where({
         name: dto.query,
@@ -95,14 +91,12 @@ export class SongService implements SongServiceInterface {
       .orderBy("id DESC")
       .limit(1)
       .getOne();
-    if (dataCache === undefined) {
+    if (songCache === undefined) {
       return [];
     }
     return this.getByIds({
-      dataConfigElasticsearch: dto.dataConfigElasticsearch,
-      dataConfigImage: dto.dataConfigImage,
-      ids: JSON.parse(dataCache.result)
-        .filter((value) => value.type === DataSearchType.song)
+      ids: JSON.parse(songCache.result)
+        .filter((value) => value.type === SearchType.song)
         .map((value) => value.id)
         .slice(dto.from, dto.from + dto.size)
         .map((value) => value.id),
@@ -113,7 +107,7 @@ export class SongService implements SongServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async transformLocal(
-    elasticsearchSearch: { _source: DataElasticsearchSearchResDto }[]
+    elasticsearchSearch: { _source: SearchElasticsearchSearchResDto }[]
   ): Promise<SongResDto[]> {
     return Promise.all(
       elasticsearchSearch.map((value) => this.transform(value._source))
@@ -140,7 +134,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async albumSongs(dto: SongAlbumSongsReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -150,7 +144,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 match: {
-                  type: DataSearchType.song,
+                  type: SearchType.song,
                 },
               },
               {
@@ -169,12 +163,12 @@ export class SongService implements SongServiceInterface {
         size: this.songConfigService.maxSize,
         sort: [
           {
-            track: DataSortByType.asc,
+            track: SearchSortByType.asc,
           },
         ],
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -184,7 +178,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async artistSongs(dto: SongArtistSongsReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -194,7 +188,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 term: {
-                  type: DataSearchType.song,
+                  type: SearchType.song,
                 },
               },
               {
@@ -213,12 +207,12 @@ export class SongService implements SongServiceInterface {
         size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: [
           {
-            release_date: DataSortByType.desc,
+            release_date: SearchSortByType.desc,
           },
         ],
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -228,7 +222,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async artistSongsTop(dto: SongArtistSongsTopReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -238,7 +232,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 term: {
-                  type: DataSearchType.song,
+                  type: SearchType.song,
                 },
               },
               {
@@ -257,12 +251,12 @@ export class SongService implements SongServiceInterface {
         size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: [
           {
-            downloads_count: DataSortByType.desc,
+            downloads_count: SearchSortByType.desc,
           },
         ],
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -272,7 +266,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async genre(dto: SongGenreReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -282,7 +276,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 terms: {
-                  "type.keyword": [DataSearchType.song],
+                  "type.keyword": [SearchType.song],
                 },
               },
               {
@@ -304,11 +298,11 @@ export class SongService implements SongServiceInterface {
         sort: {
           [dto.orderBy === SongOrderByType.release
             ? "release_date"
-            : "downloads_count"]: DataSortByType.desc,
+            : "downloads_count"]: SearchSortByType.desc,
         },
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -318,12 +312,12 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async get(dto: SongGetReqDto): Promise<SongResDto> {
     const elasticsearchGet = await this.elasticsearchService.get<
-      Record<string, DataElasticsearchSearchResDto>,
+      Record<string, SearchElasticsearchSearchResDto>,
       any
     >({
       id: `song-${dto.id}`,
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return (
       await this.transformLocal([
@@ -339,7 +333,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async getByIds(dto: SongGetByIdsReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -351,7 +345,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 terms: {
-                  "type.keyword": [DataSearchType.podcast, DataSearchType.song],
+                  "type.keyword": [SearchType.podcast, SearchType.song],
                 },
               },
               {
@@ -370,7 +364,7 @@ export class SongService implements SongServiceInterface {
         size: this.songConfigService.maxSize,
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -380,7 +374,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async language(dto: SongLanguageReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -390,7 +384,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 terms: {
-                  "type.keyword": [DataSearchType.song],
+                  "type.keyword": [SearchType.song],
                 },
               },
               {
@@ -407,10 +401,10 @@ export class SongService implements SongServiceInterface {
           },
         },
         size: Math.min(this.songConfigService.maxSize, dto.size),
-        sort: { [dto.orderBy]: DataSortByType.desc },
+        sort: { [dto.orderBy]: SearchSortByType.desc },
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -469,7 +463,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async mood(dto: SongMoodReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -479,7 +473,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 terms: {
-                  "type.keyword": [DataSearchType.song],
+                  "type.keyword": [SearchType.song],
                 },
               },
               {
@@ -500,12 +494,12 @@ export class SongService implements SongServiceInterface {
         size: Math.min(this.songConfigService.maxSize, dto.size),
         sort: {
           [`emotions.${dto.mood}`]: {
-            order: DataSortByType.desc,
+            order: SearchSortByType.desc,
           },
         },
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -517,7 +511,7 @@ export class SongService implements SongServiceInterface {
     return this.query({
       ...dto,
       from: dto.from,
-      query: DataQueryType.podcast,
+      query: SearchQueryType.podcast,
       size: dto.size,
     });
   }
@@ -529,7 +523,7 @@ export class SongService implements SongServiceInterface {
     return this.query({
       ...dto,
       from: dto.from,
-      query: DataQueryType.new,
+      query: SearchQueryType.new,
       size: dto.size,
     });
   }
@@ -539,7 +533,7 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async podcast(dto: SongPodcastReqDto): Promise<SongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -549,7 +543,7 @@ export class SongService implements SongServiceInterface {
             must: [
               {
                 terms: {
-                  "type.keyword": [DataSearchType.podcast],
+                  "type.keyword": [SearchType.podcast],
                 },
               },
               {
@@ -568,10 +562,10 @@ export class SongService implements SongServiceInterface {
           },
         },
         size: Math.min(this.songConfigService.maxSize, dto.size),
-        sort: { [dto.orderBy]: DataSortByType.desc },
+        sort: { [dto.orderBy]: SearchSortByType.desc },
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -620,12 +614,12 @@ export class SongService implements SongServiceInterface {
   @PromMethodCounter
   async similar(dto: SongSimilarReqDto): Promise<SongResDto[]> {
     const elasticsearchGet = await this.elasticsearchService.get<
-      Record<string, { moods?: DataElasticsearchSongMoodsResDto }>,
+      Record<string, { moods?: SearchElasticsearchSongMoodsResDto }>,
       any
     >({
       id: `song-${dto.id}`,
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     if (elasticsearchGet.body._source.moods === undefined) {
       return [];
@@ -649,7 +643,7 @@ export class SongService implements SongServiceInterface {
       },
     }));
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -670,7 +664,7 @@ export class SongService implements SongServiceInterface {
               {
                 term: {
                   type: {
-                    value: DataSearchType.song,
+                    value: SearchType.song,
                   },
                 },
               },
@@ -702,7 +696,7 @@ export class SongService implements SongServiceInterface {
         sort,
       },
       index: this.songConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transformLocal(elasticsearchSearch.body.hits.hits);
   }
@@ -728,7 +722,7 @@ export class SongService implements SongServiceInterface {
     return this.query({
       ...dto,
       from: dto.from,
-      query: DataQueryType.topDay,
+      query: SearchQueryType.topDay,
       size: dto.size,
     });
   }
@@ -740,7 +734,7 @@ export class SongService implements SongServiceInterface {
     return this.query({
       ...dto,
       from: dto.from,
-      query: DataQueryType.topWeek,
+      query: SearchQueryType.topWeek,
       size: dto.size,
     });
   }
@@ -748,9 +742,9 @@ export class SongService implements SongServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async transform(dto: DataElasticsearchSearchResDto): Promise<SongResDto> {
+  async transform(dto: SearchElasticsearchSearchResDto): Promise<SongResDto> {
     const album = await this.albumClientProxy
-      .send<AlbumResDto, DataElasticsearchSearchResDto>(
+      .send<AlbumResDto, SearchElasticsearchSearchResDto>(
         ALBUM_SERVICE_TRANSFORM,
         dto
       )
@@ -759,7 +753,7 @@ export class SongService implements SongServiceInterface {
       dto.artists.map(
         async (value) =>
           await this.artistClientProxy
-            .send<ArtistResDto, DataElasticsearchArtistResDto>(
+            .send<ArtistResDto, SearchElasticsearchArtistResDto>(
               ARTIST_SERVICE_TRANSFORM,
               value
             )

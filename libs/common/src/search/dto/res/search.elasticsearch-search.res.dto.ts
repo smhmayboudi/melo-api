@@ -10,26 +10,22 @@ import {
 } from "class-validator";
 
 import { ApiProperty } from "@nestjs/swagger";
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { DataElasticsearchArtistResDto } from "./search.elasticsearch-artist.res.dto";
-import { DataSearchType } from "../../search.type";
+import { SearchElasticsearchArtistResDto } from "./search.elasticsearch-artist.res.dto";
+import { SearchType } from "../../search.type";
 import { Type } from "class-transformer";
 
-export class DataElasticsearchSearchResDto {
+export class SearchElasticsearchSearchResDto {
   constructor(
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
     album: string,
     artist_followers_count: number,
     artist_full_name: string,
     artist_id: number,
-    artists: DataElasticsearchArtistResDto[],
+    artists: SearchElasticsearchArtistResDto[],
     duration: number,
     id: number,
     max_audio_rate: number,
     release_date: Date,
-    type: DataSearchType,
+    type: SearchType,
     album_downloads_count?: number,
     album_id?: number,
     album_tracks_count?: number,
@@ -46,8 +42,6 @@ export class DataElasticsearchSearchResDto {
     title?: string,
     unique_name?: string
   ) {
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
     this.album = album;
     this.artist_followers_count = artist_followers_count;
     this.artist_full_name = artist_full_name;
@@ -74,23 +68,6 @@ export class DataElasticsearchSearchResDto {
     this.title = title;
     this.unique_name = unique_name;
   }
-
-  @ApiProperty({
-    description: "the config",
-    type: DataConfigElasticsearchReqDto,
-  })
-  @Type(() => DataConfigElasticsearchReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiProperty({
-    description: "the image config",
-    example: "",
-    type: DataConfigImageReqDto,
-  })
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "the album",
@@ -123,13 +100,13 @@ export class DataElasticsearchSearchResDto {
   @ApiProperty({
     description: "the artist",
     isArray: true,
-    type: DataElasticsearchArtistResDto,
+    type: SearchElasticsearchArtistResDto,
   })
-  @Type(() => DataElasticsearchArtistResDto)
+  @Type(() => SearchElasticsearchArtistResDto)
   @ValidateNested({
     each: true,
   })
-  readonly artists: DataElasticsearchArtistResDto[];
+  readonly artists: SearchElasticsearchArtistResDto[];
 
   @ApiProperty({
     description: "song duration",
@@ -161,10 +138,10 @@ export class DataElasticsearchSearchResDto {
 
   @ApiProperty({
     description: "the search type",
-    type: DataSearchType,
+    type: SearchType,
   })
-  @IsEnum(DataSearchType)
-  readonly type: DataSearchType;
+  @IsEnum(SearchType)
+  readonly type: SearchType;
 
   @ApiProperty({
     description: "the album download count",

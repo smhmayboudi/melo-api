@@ -6,6 +6,7 @@ import {
   ConstImagesResDto,
 } from "@melo/common";
 
+import { ConstConfigService } from "./const.config.service";
 import { ConstServiceInterface } from "./const.service.interface";
 import Imgproxy from "imgproxy";
 import { Injectable } from "@nestjs/common";
@@ -14,17 +15,18 @@ import { PromMethodCounter } from "@melo/prom";
 @Injectable()
 // @PromInstanceCounter
 export class ConstService implements ConstServiceInterface {
+  constructor(private readonly constConfigService: ConstConfigService) {}
   async image(dto: ConstImageReqDto): Promise<ConstImageResDto> {
     const imgproxy = new Imgproxy({
-      baseUrl: dto.dataConfigImage.imageBaseUrl,
-      encode: dto.dataConfigImage.imageEncode,
+      baseUrl: this.constConfigService.imageBaseUrl,
+      encode: this.constConfigService.imageEncode,
       insecure: false,
-      key: dto.dataConfigImage.imageKey,
-      salt: dto.dataConfigImage.imageSalt,
-      signatureSize: dto.dataConfigImage.imageSignatureSize,
+      key: this.constConfigService.imageKey,
+      salt: this.constConfigService.imageSalt,
+      signatureSize: this.constConfigService.imageSignatureSize,
     });
     const images: any = {};
-    dto.dataConfigImage.imageTypeSize.forEach((value) => {
+    this.constConfigService.imageTypeSize.forEach((value) => {
       // eslint-disable-next-line functional/immutable-data
       images[value.name] = {
         url: imgproxy
@@ -43,11 +45,11 @@ export class ConstService implements ConstServiceInterface {
   async images(dto: ConstImagesReqDto): Promise<ConstImagesResDto> {
     const images: ConstImagesResDto = {};
     // eslint-disable-next-line functional/no-loop-statement
-    for (const image in dto.config.staticImagePaths) {
+    for (const image in this.constConfigService.staticImagePaths) {
       // eslint-disable-next-line functional/immutable-data
       images[image] = await this.image({
         ...dto,
-        uri: dto.config.staticImagePaths[image],
+        uri: this.constConfigService.staticImagePaths[image],
       });
     }
     return images;

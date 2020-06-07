@@ -14,9 +14,6 @@ import {
   CONST_SERVICE_IMAGE,
   ConstImageReqDto,
   ConstImageResDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
   RELATION_SERVICE,
   RELATION_SERVICE_GET,
   RELATION_SERVICE_REMOVE,
@@ -27,6 +24,9 @@ import {
   RelationRemoveReqDto,
   RelationResDto,
   RelationSetReqDto,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchType,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Inject, Injectable } from "@nestjs/common";
@@ -108,7 +108,7 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async get(dto: ArtistGetReqDto): Promise<ArtistResDto> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchArtistResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchArtistResDto }[] }>,
       any
     >({
       body: {
@@ -121,7 +121,7 @@ export class ArtistService implements ArtistServiceInterface {
             must: [
               {
                 match: {
-                  type: DataSearchType.artist,
+                  type: SearchType.artist,
                 },
               },
               {
@@ -135,7 +135,7 @@ export class ArtistService implements ArtistServiceInterface {
         size: 1,
       },
       index: this.artistConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return this.transform(elasticsearchSearch.body.hits.hits[0]._source);
   }
@@ -145,7 +145,7 @@ export class ArtistService implements ArtistServiceInterface {
   @PromMethodCounter
   async getByIds(dto: ArtistGetByIdsReqDto): Promise<ArtistResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: { _source: DataElasticsearchSearchResDto }[] }>,
+      Record<string, { hits: { _source: SearchElasticsearchSearchResDto }[] }>,
       any
     >({
       body: {
@@ -157,7 +157,7 @@ export class ArtistService implements ArtistServiceInterface {
             must: [
               {
                 match: {
-                  type: DataSearchType.artist,
+                  type: SearchType.artist,
                 },
               },
               {
@@ -171,7 +171,7 @@ export class ArtistService implements ArtistServiceInterface {
         size: this.artistConfigService.maxSize,
       },
       index: this.artistConfigService.indexName,
-      type: DataSearchType.music,
+      type: SearchType.music,
     });
     return Promise.all(
       elasticsearchSearch.body.hits.hits.map((value) =>
@@ -192,7 +192,7 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async transform(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto> {
+  async transform(dto: SearchElasticsearchArtistResDto): Promise<ArtistResDto> {
     const uri = !dto.has_cover
       ? this.artistConfigService.imagePathDefaultArtist
       : lodash.template(this.artistConfigService.imagePath)({

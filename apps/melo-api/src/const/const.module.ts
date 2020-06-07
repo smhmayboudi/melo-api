@@ -1,6 +1,8 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { AppModule } from "../app/app.module";
+import { CONST_SERVICE } from "@melo/common";
 import { ConfigModule } from "@nestjs/config";
 import { ConstCacheOptionsFactory } from "./const.cache.options.factory";
 import { ConstConfigService } from "./const.config.service";
@@ -19,6 +21,15 @@ import config from "./const.config";
       imports: [ConstModule],
       useClass: ConstCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: CONST_SERVICE,
+        options: {
+          url: process.env.CONST_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
   ],
   providers: [ConstConfigService, ConstHealthIndicator, ConstService],

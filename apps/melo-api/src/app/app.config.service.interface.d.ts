@@ -11,15 +11,10 @@ export interface AppConfigServiceInterface {
   cachePort: number;
   cacheStore: string;
   cacheTTL: number;
-  dgraphAddress: string;
-  dgraphDebug: boolean;
   hashIdAlphabet: string;
   hashIdMinLength: number;
   hashIdSalt: string;
   hashIdSeps: string;
-  mangooseRetryAttempts: number;
-  mangooseRetryDelay: number;
-  mangooseUri: string;
   port: number;
   promDefaultLabels: Record<string, string>;
   promDefaultMetricsEnabled: boolean;
@@ -32,11 +27,4 @@ export interface AppConfigServiceInterface {
   sentryEnviroment: string;
   sentryLogLevel: LogLevel;
   sentryRelease: string;
-  typeormDatabase: string;
-  typeormHost: string;
-  typeormLogging: boolean;
-  typeormPassword: string;
-  typeormPort: number;
-  typeormSynchronize: boolean;
-  typeormUsername: string;
 }

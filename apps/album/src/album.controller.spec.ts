@@ -4,13 +4,11 @@ import {
   AlbumLatestReqDto,
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
+  SearchElasticsearchArtistResDto,
+  SearchElasticsearchSearchResDto,
+  SearchType,
 } from "@melo/common";
 
 import { AlbumConfigService } from "./album.config.service";
@@ -21,34 +19,11 @@ import { AlbumServiceInterface } from "./album.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("AlbumController", () => {
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -58,7 +33,7 @@ describe("AlbumController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -104,8 +79,6 @@ describe("AlbumController", () => {
 
   it("albums should equal list of albums", async () => {
     const dto: AlbumArtistsReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       id: 0,
       size: 0,
@@ -115,8 +88,6 @@ describe("AlbumController", () => {
 
   it("get should be equal to an album", async () => {
     const dto: AlbumGetReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: 0,
     };
     expect(await controller.get(dto)).toEqual(album);
@@ -124,8 +95,6 @@ describe("AlbumController", () => {
 
   it("latest should equal list of albums", async () => {
     const dto: AlbumLatestReqDto = {
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       language: "",
       size: 0,
@@ -133,11 +102,9 @@ describe("AlbumController", () => {
     expect(await controller.latest(dto)).toEqual([album]);
   });
 
-  it("transform should be equal to a DataAlbumResDto", async () => {
-    const artistElastic: DataElasticsearchArtistResDto = {
+  it("transform should be equal to a AlbumResDto", async () => {
+    const artistElastic: SearchElasticsearchArtistResDto = {
       available: false,
-      dataConfigElasticsearch,
-      dataConfigImage,
       followers_count: 0,
       full_name: "",
       has_cover: false,
@@ -149,9 +116,9 @@ describe("AlbumController", () => {
           tag: "",
         },
       ],
-      type: DataArtistType.prime,
+      type: ArtistType.prime,
     };
-    const dto: DataElasticsearchSearchResDto = {
+    const dto: SearchElasticsearchSearchResDto = {
       album: "",
       album_downloads_count: 0,
       album_id: 0,
@@ -162,8 +129,6 @@ describe("AlbumController", () => {
       artist_sum_downloads_count: 1,
       artists: [artistElastic],
       copyright: false,
-      dataConfigElasticsearch,
-      dataConfigImage,
       downloads_count: 0,
       duration: 0,
       has_cover: false,
@@ -179,7 +144,7 @@ describe("AlbumController", () => {
         },
       ],
       title: "",
-      type: DataSearchType.album,
+      type: SearchType.album,
       unique_name: "",
     };
     expect(await controller.transform(dto)).toEqual(album);

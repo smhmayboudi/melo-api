@@ -1,10 +1,10 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  DataElasticsearchDownloadResDto,
   DownloadSongReqDto,
   DownloadSongResDto,
   SONG_SERVICE,
   SONG_SERVICE_GET,
+  SearchElasticsearchDownloadResDto,
   SongGetReqDto,
   SongResDto,
 } from "@melo/common";
@@ -33,7 +33,10 @@ export class DownloadService implements DownloadServiceInterface {
     dto: DownloadSongReqDto
   ): Promise<DownloadSongResDto[]> {
     const elasticsearchSearch = await this.elasticsearchService.search<
-      Record<string, { hits: [{ _source: DataElasticsearchDownloadResDto }] }>,
+      Record<
+        string,
+        { hits: [{ _source: SearchElasticsearchDownloadResDto }] }
+      >,
       any
     >({
       body: {

@@ -11,15 +11,10 @@ import {
   CACHE_PORT,
   CACHE_STORE,
   CACHE_TTL,
-  DGRAPH_ADDRESS,
-  DGRAPH_DEBUG,
   HASH_ID_ALPHABET,
   HASH_ID_MIN_LENGTH,
   HASH_ID_SALT,
   HASH_ID_SEPS,
-  MANGOOSE_RETRY_ATTEMPTS,
-  MANGOOSE_RETRY_DELAY,
-  MANGOOSE_URI,
   PORT,
   PROM_DEFAULT_LABELS,
   PROM_DEFAULT_METRICS_ENABLED,
@@ -32,13 +27,6 @@ import {
   SENTRY_ENVIROMENT,
   SENTRY_LOG_LEVEL,
   SENTRY_RELEASE,
-  TYPEORM_DATABASE,
-  TYPEORM_HOST,
-  TYPEORM_LOGGING,
-  TYPEORM_PASSWORD,
-  TYPEORM_PORT,
-  TYPEORM_SYNCHRONIZE,
-  TYPEORM_USERNAME,
 } from "@melo/common";
 
 import { AppConfigServiceInterface } from "./app.config.service.interface";
@@ -94,14 +82,6 @@ export class AppConfigService implements AppConfigServiceInterface {
     return ms(this.configService.get<string>(`${APP}.${CACHE_TTL}`, "0"));
   }
 
-  get dgraphAddress(): string {
-    return this.configService.get<string>(`${APP}.${DGRAPH_ADDRESS}`, "");
-  }
-
-  get dgraphDebug(): boolean {
-    return this.configService.get<boolean>(`${APP}.${DGRAPH_DEBUG}`, true);
-  }
-
   get hashIdAlphabet(): string {
     return this.configService.get<string>(`${APP}.${HASH_ID_ALPHABET}`, "");
   }
@@ -116,23 +96,6 @@ export class AppConfigService implements AppConfigServiceInterface {
 
   get hashIdSeps(): string {
     return this.configService.get<string>(`${APP}.${HASH_ID_SEPS}`, "");
-  }
-
-  get mangooseRetryAttempts(): number {
-    return this.configService.get<number>(
-      `${APP}.${MANGOOSE_RETRY_ATTEMPTS}`,
-      0
-    );
-  }
-
-  get mangooseRetryDelay(): number {
-    return ms(
-      this.configService.get<string>(`${APP}.${MANGOOSE_RETRY_DELAY}`, "0")
-    );
-  }
-
-  get mangooseUri(): string {
-    return this.configService.get<string>(`${APP}.${MANGOOSE_URI}`, "");
   }
 
   get port(): number {
@@ -201,36 +164,5 @@ export class AppConfigService implements AppConfigServiceInterface {
 
   get sentryRelease(): string {
     return this.configService.get<string>(`${APP}.${SENTRY_RELEASE}`, "");
-  }
-
-  get typeormDatabase(): string {
-    return this.configService.get<string>(`${APP}.${TYPEORM_DATABASE}`, "");
-  }
-
-  get typeormHost(): string {
-    return this.configService.get<string>(`${APP}.${TYPEORM_HOST}`, "");
-  }
-
-  get typeormLogging(): boolean {
-    return this.configService.get<boolean>(`${APP}.${TYPEORM_LOGGING}`, true);
-  }
-
-  get typeormPassword(): string {
-    return this.configService.get<string>(`${APP}.${TYPEORM_PASSWORD}`, "");
-  }
-
-  get typeormPort(): number {
-    return this.configService.get<number>(`${APP}.${TYPEORM_PORT}`, 0);
-  }
-
-  get typeormSynchronize(): boolean {
-    return this.configService.get<boolean>(
-      `${APP}.${TYPEORM_SYNCHRONIZE}`,
-      true
-    );
-  }
-
-  get typeormUsername(): string {
-    return this.configService.get<string>(`${APP}.${TYPEORM_USERNAME}`, "");
   }
 }

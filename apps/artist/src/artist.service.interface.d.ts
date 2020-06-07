@@ -7,7 +7,7 @@ import {
   ArtistTrendingGenreReqDto,
   ArtistTrendingReqDto,
   ArtistUnfollowReqDto,
-  DataElasticsearchArtistResDto,
+  SearchElasticsearchArtistResDto,
 } from "@melo/common";
 
 export interface ArtistServiceInterface {
@@ -16,7 +16,7 @@ export interface ArtistServiceInterface {
   get(dto: ArtistGetReqDto): Promise<ArtistResDto>;
   getByIds(dto: ArtistGetByIdsReqDto): Promise<ArtistResDto[]>;
   profile(dto: ArtistGetReqDto): Promise<ArtistResDto>;
-  transform(dto: DataElasticsearchArtistResDto): Promise<ArtistResDto>;
+  transform(dto: SearchElasticsearchArtistResDto): Promise<ArtistResDto>;
   trending(dto: ArtistTrendingReqDto): Promise<ArtistResDto[]>;
   trendingGenre(dto: ArtistTrendingGenreReqDto): Promise<ArtistResDto[]>;
   unfollow(dto: ArtistUnfollowReqDto): Promise<ArtistResDto>;

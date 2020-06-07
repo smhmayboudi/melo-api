@@ -1,4 +1,4 @@
-export enum DataSearchType {
+export enum SearchType {
   album = "album",
   artist = "artist",
   music = "music",

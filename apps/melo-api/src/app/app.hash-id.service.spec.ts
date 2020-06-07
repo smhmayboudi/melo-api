@@ -1,11 +1,11 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataSearchType,
   PlaylistResDto,
   SearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -20,7 +20,7 @@ describe("AppHashIdService", () => {
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -30,7 +30,7 @@ describe("AppHashIdService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -76,14 +76,14 @@ describe("AppHashIdService", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
   const searchUndefined: SearchResDto = {
     album: undefined,
     artist: undefined,
     playlist: undefined,
     song: undefined,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
   // TODO: interface ?
   const artistEncoded = {
@@ -126,16 +126,11 @@ describe("AppHashIdService", () => {
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    dgraphAddress: "",
-    dgraphDebug: true,
     hashIdAlphabet:
       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
     hashIdMinLength: 0,
     hashIdSalt: "cfhistuCFHISTU",
     hashIdSeps: "",
-    mangooseRetryAttempts: 0,
-    mangooseRetryDelay: 0,
-    mangooseUri: "",
     port: 0,
     promDefaultLabels: {
       "": "",
@@ -150,13 +145,6 @@ describe("AppHashIdService", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
   };
 
   let service: AppHashIdService;

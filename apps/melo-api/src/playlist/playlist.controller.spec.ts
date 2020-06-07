@@ -1,13 +1,9 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataSearchType,
   PlaylistAddSongReqDto,
-  PlaylistConfigReqDto,
   PlaylistCreateReqDto,
   PlaylistDeleteReqDto,
   PlaylistEditReqDto,
@@ -17,6 +13,7 @@ import {
   PlaylistResDto,
   PlaylistTopReqDto,
   SearchResDto,
+  SearchType,
   SongAudioResDto,
   SongResDto,
 } from "@melo/common";
@@ -25,8 +22,6 @@ import { AppHashIdService } from "../app/app.hash-id.service";
 import { AppHashIdServiceInterface } from "../app/app.hash-id.service.interface";
 import { AppSongService } from "../app/app.song.service";
 import { AppSongServiceInterface } from "../app/app.song.service.interface";
-import { DataConfigService } from "../data/data.config.service";
-import { DataConfigServiceInterface } from "../data/data.config.service.interface";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistConfigServiceInterface } from "./playlist.config.service.interface";
 import { PlaylistController } from "./playlist.controller";
@@ -35,38 +30,11 @@ import { PlaylistServiceInterface } from "./playlist.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("PlaylistController", () => {
-  const config: PlaylistConfigReqDto = {
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -76,7 +44,7 @@ describe("PlaylistController", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -122,7 +90,7 @@ describe("PlaylistController", () => {
   };
   const search: SearchResDto = {
     album: album,
-    type: DataSearchType.album,
+    type: SearchType.album,
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
@@ -139,43 +107,12 @@ describe("PlaylistController", () => {
     likes: () => Promise.resolve([song]),
     localize: () => Promise.resolve(song),
   };
-  const dataConfigServiceMock: DataConfigServiceInterface = {
-    elasticsearchNode: "",
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-    typeormDatabase: "",
-    typeormHost: "",
-    typeormLogging: true,
-    typeormPassword: "",
-    typeormPort: 0,
-    typeormSynchronize: true,
-    typeormUsername: "",
-  };
   const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
     cacheHost: "",
     cacheMax: 0,
     cachePort: 0,
     cacheStore: "",
     cacheTTL: 0,
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
   };
   const playlistServiceMock: PlaylistServiceInterface = {
     addSong: () => Promise.resolve(playlist),
@@ -196,7 +133,6 @@ describe("PlaylistController", () => {
       providers: [
         { provide: AppHashIdService, useValue: appHashIdServiceMock },
         { provide: AppSongService, useValue: appSongServiceMock },
-        { provide: DataConfigService, useValue: dataConfigServiceMock },
         { provide: PlaylistConfigService, useValue: playlistConfigServiceMock },
         { provide: PlaylistService, useValue: playlistServiceMock },
       ],
@@ -210,9 +146,6 @@ describe("PlaylistController", () => {
 
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
     };
@@ -221,9 +154,6 @@ describe("PlaylistController", () => {
 
   it("create should be equal to a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       sub: 1,
       title: "",
     };
@@ -232,9 +162,6 @@ describe("PlaylistController", () => {
 
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: "",
       sub: 1,
     };
@@ -243,9 +170,6 @@ describe("PlaylistController", () => {
 
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: "",
     };
     expect(await controller.edit(dto)).toEqual(playlist);
@@ -253,9 +177,6 @@ describe("PlaylistController", () => {
 
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: "",
     };
     expect(await controller.get(dto)).toEqual(playlist);
@@ -263,9 +184,6 @@ describe("PlaylistController", () => {
 
   it("my should be equal to a list of playlists", async () => {
     const dto: PlaylistMyReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -275,9 +193,6 @@ describe("PlaylistController", () => {
 
   it("removeSong should be equal to a playlist", async () => {
     const dto: PlaylistRemoveSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
     };
@@ -286,9 +201,6 @@ describe("PlaylistController", () => {
 
   it("top should be equal to a list of playlists", async () => {
     const dto: PlaylistTopReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };

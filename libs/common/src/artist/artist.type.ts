@@ -1,4 +1,4 @@
-export enum DataArtistType {
+export enum ArtistType {
   feat = "feat",
   prime = "prime",
 }

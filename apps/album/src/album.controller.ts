@@ -7,7 +7,7 @@ import {
   AlbumGetReqDto,
   AlbumLatestReqDto,
   AlbumResDto,
-  DataElasticsearchSearchResDto,
+  SearchElasticsearchSearchResDto,
 } from "@melo/common";
 import { MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -34,7 +34,7 @@ export class AlbumController {
   }
 
   @MessagePattern(ALBUM_SERVICE_TRANSFORM)
-  transform(dto: DataElasticsearchSearchResDto): Promise<AlbumResDto> {
+  transform(dto: SearchElasticsearchSearchResDto): Promise<AlbumResDto> {
     return this.albumService.transform(dto);
   }
 }

@@ -1,5 +1,7 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
+import { AT_SERVICE } from "@melo/common";
 import { AppModule } from "../app/app.module";
 import { AtCacheOptionsFactory } from "./at.cache.options.factory";
 import { AtConfigService } from "./at.config.service";
@@ -19,6 +21,15 @@ import config from "./at.config";
       imports: [AtModule],
       useClass: AtCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: AT_SERVICE,
+        options: {
+          url: process.env.AT_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([AtEntityRepository]),
   ],

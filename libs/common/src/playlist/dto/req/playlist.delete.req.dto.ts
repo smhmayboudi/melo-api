@@ -1,40 +1,11 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsString, ValidateNested } from "class-validator";
-
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { PlaylistConfigReqDto } from "./playlist.config.req.dto";
-import { Type } from "class-transformer";
+import { IsNumber, IsString } from "class-validator";
 
 export class PlaylistDeleteReqDto {
-  constructor(
-    config: PlaylistConfigReqDto,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
-    id: string,
-    sub: number
-  ) {
-    this.config = config;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
+  constructor(id: string, sub: number) {
     this.id = id;
     this.sub = sub;
   }
-
-  @ApiHideProperty()
-  @Type(() => PlaylistConfigReqDto)
-  @ValidateNested()
-  readonly config: PlaylistConfigReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiProperty({
     description: "The identification",

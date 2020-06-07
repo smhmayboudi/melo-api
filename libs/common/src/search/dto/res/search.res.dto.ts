@@ -8,14 +8,14 @@ import {
 import { AlbumResDto } from "../../../album/dto/res/album.res.dto";
 import { ApiProperty } from "@nestjs/swagger";
 import { ArtistResDto } from "../../../artist/dto/res/artist.res.dto";
-import { DataSearchType } from "../../search.type";
 import { PlaylistResDto } from "../../../playlist/dto/res/playlist.res.dto";
+import { SearchType } from "../../search.type";
 import { SongResDto } from "../../../song/dto/res/song.res.dto";
 import { Type } from "class-transformer";
 
 export class SearchResDto {
   constructor(
-    type: DataSearchType,
+    type: SearchType,
     album?: AlbumResDto,
     artist?: ArtistResDto,
     playlist?: PlaylistResDto,
@@ -32,10 +32,10 @@ export class SearchResDto {
 
   @ApiProperty({
     description: "The type of search",
-    example: DataSearchType.album,
+    example: SearchType.album,
   })
-  @IsEnum(DataSearchType)
-  readonly type: DataSearchType;
+  @IsEnum(SearchType)
+  readonly type: SearchType;
 
   @ApiProperty({
     description: "The album",

@@ -1,7 +1,9 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
+import { RT_SERVICE } from "@melo/common";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import { RtConfigService } from "./rt.config.service";
 import { RtEntityRepository } from "./rt.entity.repository";
@@ -19,6 +21,15 @@ import config from "./rt.config";
       imports: [RtModule],
       useClass: RtCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: RT_SERVICE,
+        options: {
+          url: process.env.RT_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([RtEntityRepository]),
   ],

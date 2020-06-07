@@ -1,14 +1,9 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
-  DataElasticsearchArtistResDto,
-  DataElasticsearchSearchResDto,
-  DataSearchType,
-  DownloadConfigReqDto,
+  DOWNLOAD_SERVICE,
   DownloadOrderByType,
   DownloadSongReqDto,
   DownloadSongResDto,
@@ -17,45 +12,16 @@ import {
 } from "@melo/common";
 
 import { DownloadService } from "./download.service";
-import { ElasticsearchService } from "@nestjs/elasticsearch";
-import { SongService } from "../song/song.service";
-import { SongServiceInterface } from "../song/song.service.interface";
 import { Test } from "@nestjs/testing";
+import { of } from "rxjs";
 
 describe("DownloadService", () => {
-  const config: DownloadConfigReqDto = {
-    indexName: "",
-    maxSize: 0,
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const downloadedAt = new Date();
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -65,7 +31,7 @@ describe("DownloadService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -103,106 +69,10 @@ describe("DownloadService", () => {
     downloadedAt,
     song,
   };
-  const artistElastic: DataElasticsearchArtistResDto = {
-    available: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
-    followers_count: 0,
-    full_name: "",
-    has_cover: false,
-    id: 0,
-    popular: false,
-    sum_downloads_count: 1,
-    tags: [
-      {
-        tag: "",
-      },
-    ],
-    type: DataArtistType.prime,
-  };
-  const searchElastic: DataElasticsearchSearchResDto = {
-    album: "",
-    album_downloads_count: 0,
-    album_id: 0,
-    album_tracks_count: 0,
-    artist_followers_count: 0,
-    artist_full_name: "",
-    artist_id: 0,
-    artist_sum_downloads_count: 1,
-    artists: [artistElastic],
-    copyright: false,
-    dataConfigElasticsearch,
-    dataConfigImage,
-    downloads_count: 0,
-    duration: 0,
-    has_cover: false,
-    has_video: false,
-    id: 0,
-    localize: false,
-    lyrics: "",
-    max_audio_rate: 0,
-    release_date: releaseDate,
-    suggested: 0,
-    tags: [
-      {
-        tag: "",
-      },
-    ],
-    title: "",
-    type: DataSearchType.album,
-    unique_name: "",
-  };
-  // TODO: interface ?
-  const elasticGetRes = {
-    body: {
-      _source: {
-        ...searchElastic,
-        moods: {
-          classy: 0,
-        },
-      },
-    },
-  };
-  // TODO: interface?
-  const downloadElasticsearch = {
-    body: {
-      hits: {
-        hits: [
-          {
-            _source: {
-              date: downloadedAt,
-              song_id: 0,
-              user_id: 0,
-            },
-          },
-        ],
-      },
-    },
-  };
 
-  const songServiceMock: SongServiceInterface = {
-    artistSongs: () => Promise.resolve([song]),
-    artistSongsTop: () => Promise.resolve([song]),
-    genre: () => Promise.resolve([song]),
-    get: () => Promise.resolve(song),
-    language: () => Promise.resolve([song]),
-    like: () => Promise.resolve(song),
-    liked: () => Promise.resolve([song]),
-    mood: () => Promise.resolve([song]),
-    newPodcast: () => Promise.resolve([song]),
-    newSong: () => Promise.resolve([song]),
-    podcast: () => Promise.resolve([song]),
-    sendTelegram: () => Promise.resolve(undefined),
-    similar: () => Promise.resolve([song]),
-    slider: () => Promise.resolve([song]),
-    topDay: () => Promise.resolve([song]),
-    topWeek: () => Promise.resolve([song]),
-    unlike: () => Promise.resolve(song),
-  };
   // TODO: interface ?
-  const elasticsearchServiceMock = {
-    get: () => Promise.resolve(elasticGetRes),
-    search: () => Promise.resolve(downloadElasticsearch),
+  const downloadClientProxyMock = {
+    send: () => of([downloadSong]),
   };
 
   let service: DownloadService;
@@ -211,8 +81,7 @@ describe("DownloadService", () => {
     const module = await Test.createTestingModule({
       providers: [
         DownloadService,
-        { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
-        { provide: SongService, useValue: songServiceMock },
+        { provide: DOWNLOAD_SERVICE, useValue: downloadClientProxyMock },
       ],
     }).compile();
     service = module.get<DownloadService>(DownloadService);
@@ -220,24 +89,7 @@ describe("DownloadService", () => {
 
   it("downloadedSongs should return an array of songId and dates", async () => {
     const dto: DownloadSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       filter: "",
-      from: 0,
-      orderBy: DownloadOrderByType.asc,
-      size: 0,
-      sub: 1,
-    };
-    expect(await service.downloadedSongs(dto)).toEqual([downloadSong]);
-  });
-
-  it("downloadedSongs should return an array of songId and dates 2", async () => {
-    const dto: DownloadSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
-      filter: undefined,
       from: 0,
       orderBy: DownloadOrderByType.asc,
       size: 0,

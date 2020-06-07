@@ -1,29 +1,29 @@
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
-import { ConstImagesReqDto, ConstImagesResDto } from "@melo/common";
+import {
+  CONST_SERVICE,
+  CONST_SERVICE_IMAGES,
+  ConstImagesReqDto,
+  ConstImagesResDto,
+} from "@melo/common";
 
+import { Inject, Injectable } from "@nestjs/common";
+import { ClientProxy } from "@nestjs/microservices";
 import { ConstServiceInterface } from "./const.service.interface";
-import { DataImageService } from "../data/data.image.service";
-import { Injectable } from "@nestjs/common";
 import { PromMethodCounter } from "@melo/prom";
 
 @Injectable()
 // @PromInstanceCounter
 export class ConstService implements ConstServiceInterface {
-  constructor(private readonly dataImageService: DataImageService) {}
+  constructor(
+    @Inject(CONST_SERVICE) private readonly constClientProxy: ClientProxy
+  ) {}
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
   async images(dto: ConstImagesReqDto): Promise<ConstImagesResDto> {
-    const images: ConstImagesResDto = {};
-    // eslint-disable-next-line functional/no-loop-statement
-    for (const image in dto.config.staticImagePaths) {
-      // eslint-disable-next-line functional/immutable-data
-      images[image] = await this.dataImageService.generateUrl({
-        ...dto,
-        uri: dto.config.staticImagePaths[image],
-      });
-    }
-    return Promise.resolve(images);
+    return this.constClientProxy
+      .send<ConstImagesResDto, ConstImagesReqDto>(CONST_SERVICE_IMAGES, dto)
+      .toPromise();
   }
 }

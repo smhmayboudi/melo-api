@@ -1,7 +1,6 @@
 export * from "./song.album-songs.req.dto";
 export * from "./song.artist-songs-top.req.dto";
 export * from "./song.artist-songs.req.dto";
-export * from "./song.config.req.dto";
 export * from "./song.genre.req.dto";
 export * from "./song.get-by-ids.req.dto";
 export * from "./song.get.req.dto";

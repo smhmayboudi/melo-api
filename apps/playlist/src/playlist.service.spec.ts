@@ -1,14 +1,11 @@
 import {
   AlbumResDto,
   ArtistResDto,
+  ArtistType,
   CONST_SERVICE,
   ConstImageResDto,
-  DataArtistType,
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
   PLAYLIST,
   PlaylistAddSongReqDto,
-  PlaylistConfigReqDto,
   PlaylistCreateReqDto,
   PlaylistDeleteReqDto,
   PlaylistEditReqDto,
@@ -30,38 +27,11 @@ import { getModelToken } from "@nestjs/mongoose";
 import { of } from "rxjs";
 
 describe("PlaylistService", () => {
-  const config: PlaylistConfigReqDto = {
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const image: ConstImageResDto = {
     cover: {
       url:
-        "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+        "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
     },
   };
   const artist: ArtistResDto = {
@@ -71,7 +41,7 @@ describe("PlaylistService", () => {
     image,
     sumSongsDownloadsCount: 1,
     tags: [""],
-    type: DataArtistType.prime,
+    type: ArtistType.prime,
   };
   const album: AlbumResDto = {
     artists: [artist],
@@ -145,6 +115,9 @@ describe("PlaylistService", () => {
   const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
     imagePath: "",
     imagePathDefaultPlaylist: "",
+    mangooseRetryAttempts: 0,
+    mangooseRetryDelay: 0,
+    mangooseUri: "",
   };
   // TODO: interface ?
   const playlistModelMock = {
@@ -200,9 +173,6 @@ describe("PlaylistService", () => {
 
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId,
       songId: 0,
     };
@@ -230,9 +200,6 @@ describe("PlaylistService", () => {
     service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistAddSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId,
       songId: 0,
     };
@@ -259,9 +226,6 @@ describe("PlaylistService", () => {
     const service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistCreateReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       sub: 1,
       title: "",
     };
@@ -270,9 +234,6 @@ describe("PlaylistService", () => {
 
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
       sub: 1,
     };
@@ -300,9 +261,6 @@ describe("PlaylistService", () => {
     service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistDeleteReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
       sub: 1,
     };
@@ -332,9 +290,6 @@ describe("PlaylistService", () => {
     service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistDeleteReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
       sub: 1,
     };
@@ -343,9 +298,6 @@ describe("PlaylistService", () => {
 
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
     };
     expect(await service.edit(dto)).toEqual(playlist);
@@ -372,9 +324,6 @@ describe("PlaylistService", () => {
     service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistDeleteReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
       sub: 1,
     };
@@ -406,9 +355,6 @@ describe("PlaylistService", () => {
     }).compile();
     service = module.get<PlaylistService>(PlaylistService);
     const dto: PlaylistEditReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
     };
     expect(await service.edit(dto)).toEqual({
@@ -419,9 +365,6 @@ describe("PlaylistService", () => {
 
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
     };
     expect(await service.get(dto)).toEqual(playlist);
@@ -448,9 +391,6 @@ describe("PlaylistService", () => {
     service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistGetReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: playlistId,
     };
     return expect(service.get(dto)).rejects.toThrowError();
@@ -458,9 +398,6 @@ describe("PlaylistService", () => {
 
   it("my should be equal to a list of playlists", async () => {
     const dto: PlaylistMyReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -470,9 +407,6 @@ describe("PlaylistService", () => {
 
   it("removeSong should be equal to a playlist", async () => {
     const dto: PlaylistRemoveSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId,
       songId: 0,
     };
@@ -500,9 +434,6 @@ describe("PlaylistService", () => {
     service = module.get<PlaylistService>(PlaylistService);
 
     const dto: PlaylistRemoveSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId,
       songId: 0,
     };
@@ -511,9 +442,6 @@ describe("PlaylistService", () => {
 
   it("top should be equal to a list of playlists", async () => {
     const dto: PlaylistTopReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };

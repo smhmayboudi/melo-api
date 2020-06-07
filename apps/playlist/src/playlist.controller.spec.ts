@@ -1,8 +1,5 @@
 import {
-  DataConfigElasticsearchReqDto,
-  DataConfigImageReqDto,
   PlaylistAddSongReqDto,
-  PlaylistConfigReqDto,
   PlaylistCreateReqDto,
   PlaylistDeleteReqDto,
   PlaylistEditReqDto,
@@ -19,33 +16,6 @@ import { PlaylistServiceInterface } from "./playlist.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("PlaylistController", () => {
-  const config: PlaylistConfigReqDto = {
-    imagePath: "",
-    imagePathDefaultPlaylist: "",
-  };
-  const dataConfigElasticsearch: DataConfigElasticsearchReqDto = {
-    imagePath: "",
-    imagePathDefaultAlbum: "",
-    imagePathDefaultArtist: "",
-    imagePathDefaultSong: "",
-    indexName: "",
-    maxSize: 0,
-    mp3Endpoint: "",
-  };
-  const dataConfigImage: DataConfigImageReqDto = {
-    imageBaseUrl: "",
-    imageEncode: true,
-    imageKey: "",
-    imageSalt: "",
-    imageSignatureSize: 32,
-    imageTypeSize: [
-      {
-        height: 1024,
-        name: "cover",
-        width: 1024,
-      },
-    ],
-  };
   const releaseDate = new Date();
   const playlist: PlaylistResDto = {
     followersCount: 0,
@@ -53,7 +23,7 @@ describe("PlaylistController", () => {
     image: {
       cover: {
         url:
-          "Hc_ZS0sdjGuezepA_VM2iPDk4f2duSiHE42FzLqiIJM/rs:fill:1024:1024:1/dpr:1/L2Fzc2V0L3BvcC5qcGc",
+          "Cz6suIAYeF_rXp18UTsU4bHL-gaGsq2PpE2_dLMWj9s/rs:fill:1024:1024:1/dpr:1/plain/asset/pop.jpg",
       },
     },
     isPublic: false,
@@ -88,9 +58,6 @@ describe("PlaylistController", () => {
 
   it("addSong should be equal to a playlist", async () => {
     const dto: PlaylistAddSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
     };
@@ -99,9 +66,6 @@ describe("PlaylistController", () => {
 
   it("create should be equal to a playlist", async () => {
     const dto: PlaylistCreateReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       sub: 1,
       title: "",
     };
@@ -110,9 +74,6 @@ describe("PlaylistController", () => {
 
   it("delete should be equal to a playlist", async () => {
     const dto: PlaylistDeleteReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: "",
       sub: 1,
     };
@@ -121,9 +82,6 @@ describe("PlaylistController", () => {
 
   it("edit should be equal to a playlist", async () => {
     const dto: PlaylistEditReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: "",
     };
     expect(await controller.edit(dto)).toEqual(playlist);
@@ -131,9 +89,6 @@ describe("PlaylistController", () => {
 
   it("get should be equal to a playlist", async () => {
     const dto: PlaylistGetReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       id: "",
     };
     expect(await controller.get(dto)).toEqual(playlist);
@@ -141,9 +96,6 @@ describe("PlaylistController", () => {
 
   it("my should be equal to a list of playlists", async () => {
     const dto: PlaylistMyReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
       sub: 1,
@@ -153,9 +105,6 @@ describe("PlaylistController", () => {
 
   it("removeSong should be equal to a playlist", async () => {
     const dto: PlaylistRemoveSongReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       playlistId: "000000000000",
       songId: 0,
     };
@@ -164,9 +113,6 @@ describe("PlaylistController", () => {
 
   it("top should be equal to a list of playlists", async () => {
     const dto: PlaylistTopReqDto = {
-      config,
-      dataConfigElasticsearch,
-      dataConfigImage,
       from: 0,
       size: 0,
     };

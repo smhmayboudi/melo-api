@@ -1,7 +1,9 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
+import { FILE_SERVICE } from "@melo/common";
 import { FileCacheOptionsFactory } from "./file.cache.options.factory";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
@@ -23,6 +25,15 @@ import config from "./file.config";
       imports: [FileModule],
       useClass: FileCacheOptionsFactory,
     }),
+    ClientsModule.register([
+      {
+        name: FILE_SERVICE,
+        options: {
+          url: process.env.FILE_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+    ]),
     ConfigModule.forFeature(config),
     MulterModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

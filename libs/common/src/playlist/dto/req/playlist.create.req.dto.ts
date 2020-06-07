@@ -1,47 +1,12 @@
 import { ApiHideProperty, ApiProperty } from "@nestjs/swagger";
-import {
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from "class-validator";
-
-import { DataConfigElasticsearchReqDto } from "../../../common/dto/req/common.config-elasticsearch.req.dto";
-import { DataConfigImageReqDto } from "../../../common/dto/req/common.config-image.req.dto";
-import { PlaylistConfigReqDto } from "./playlist.config.req.dto";
-import { Type } from "class-transformer";
+import { IsNumber, IsOptional, IsString } from "class-validator";
 
 export class PlaylistCreateReqDto {
-  constructor(
-    config: PlaylistConfigReqDto,
-    dataConfigElasticsearch: DataConfigElasticsearchReqDto,
-    dataConfigImage: DataConfigImageReqDto,
-    sub: number,
-    title: string,
-    photoId?: string
-  ) {
-    this.config = config;
-    this.dataConfigElasticsearch = dataConfigElasticsearch;
-    this.dataConfigImage = dataConfigImage;
+  constructor(sub: number, title: string, photoId?: string) {
     this.sub = sub;
     this.title = title;
     this.photoId = photoId;
   }
-
-  @ApiHideProperty()
-  @Type(() => PlaylistConfigReqDto)
-  @ValidateNested()
-  readonly config: PlaylistConfigReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigElasticsearch: DataConfigElasticsearchReqDto;
-
-  @ApiHideProperty()
-  @Type(() => DataConfigImageReqDto)
-  @ValidateNested()
-  readonly dataConfigImage: DataConfigImageReqDto;
 
   @ApiHideProperty()
   @IsNumber()
