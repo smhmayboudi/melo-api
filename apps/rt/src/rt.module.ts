@@ -10,7 +10,9 @@ import config from "./rt.config";
 
 @Module({
   controllers: [RtController],
+  exports: [RtConfigService, RtService],
   imports: [
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([RtEntityRepository]),
     TypeOrmModule.forRootAsync({

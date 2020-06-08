@@ -9,6 +9,7 @@ import config from "./emotion.config";
 
 @Module({
   controllers: [EmotionController],
+  exports: [EmotionService],
   imports: [
     ClientsModule.register([
       {
@@ -19,6 +20,7 @@ import config from "./emotion.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
   ],
   providers: [EmotionService],

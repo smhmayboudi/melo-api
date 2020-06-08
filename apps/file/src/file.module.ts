@@ -12,7 +12,9 @@ import config from "./file.config";
 
 @Module({
   controllers: [FileController],
+  exports: [FileConfigService, FileService],
   imports: [
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     MulterModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

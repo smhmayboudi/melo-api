@@ -10,6 +10,7 @@ import config from "./at.config";
 
 @Module({
   controllers: [AtController],
+  exports: [AtConfigService, AtService],
   imports: [
     TypeOrmModule.forFeature([AtEntityRepository]),
     TypeOrmModule.forRootAsync({
@@ -17,6 +18,7 @@ import config from "./at.config";
       imports: [AtModule],
       useClass: AtTypeOrmOptionsFactory,
     }),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
   ],
   providers: [AtConfigService, AtService],

@@ -7,7 +7,8 @@ import config from "./const.config";
 
 @Module({
   controllers: [ConstController],
-  imports: [ConfigModule.forFeature(config)],
+  exports: [ConstConfigService, ConstService],
+  imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
   providers: [ConstConfigService, ConstService],
 })
 export class ConstModule {}

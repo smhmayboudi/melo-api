@@ -10,7 +10,9 @@ import config from "./user.config";
 
 @Module({
   controllers: [UserController],
+  exports: [UserConfigService, UserService],
   imports: [
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([UserEntityRepository]),
     TypeOrmModule.forRootAsync({

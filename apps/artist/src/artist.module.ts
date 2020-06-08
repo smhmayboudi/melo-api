@@ -12,6 +12,7 @@ import config from "./artist.config";
 
 @Module({
   controllers: [ArtistController],
+  exports: [ArtistConfigService, ArtistService],
   imports: [
     ClientsModule.register([
       {
@@ -36,6 +37,7 @@ import config from "./artist.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

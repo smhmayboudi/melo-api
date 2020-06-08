@@ -12,6 +12,7 @@ import config from "./download.config";
 
 @Module({
   controllers: [DownloadController],
+  exports: [DownloadConfigService, DownloadService],
   imports: [
     ClientsModule.register([
       {
@@ -22,6 +23,7 @@ import config from "./download.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

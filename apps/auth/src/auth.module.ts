@@ -10,6 +10,7 @@ import config from "./auth.config";
 
 @Module({
   controllers: [AuthController],
+  exports: [AuthConfigService, AuthService],
   imports: [
     ClientsModule.register([
       {
@@ -27,6 +28,7 @@ import config from "./auth.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
   ],
   providers: [AuthConfigService, AuthService],

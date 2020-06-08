@@ -12,6 +12,7 @@ import config from "./album.config";
 
 @Module({
   controllers: [AlbumController],
+  exports: [AlbumConfigService, AlbumService],
   imports: [
     ClientsModule.register([
       {
@@ -36,6 +37,7 @@ import config from "./album.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

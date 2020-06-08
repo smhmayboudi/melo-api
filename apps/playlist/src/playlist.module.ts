@@ -13,7 +13,9 @@ import config from "./playlist.config";
 
 @Module({
   controllers: [PlaylistController],
+  exports: [PlaylistConfigService, PlaylistService],
   imports: [
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     ClientsModule.register([
       {

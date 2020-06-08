@@ -10,7 +10,9 @@ import config from "./jwks.config";
 
 @Module({
   controllers: [JwksController],
+  exports: [JwksConfigService, JwksService],
   imports: [
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     TypeOrmModule.forFeature([JwksEntityRepository]),
     TypeOrmModule.forRootAsync({

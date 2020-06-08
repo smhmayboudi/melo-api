@@ -22,6 +22,7 @@ import config from "./song.config";
 
 @Module({
   controllers: [SongController],
+  exports: [SongService],
   imports: [
     ClientsModule.register([
       {
@@ -60,6 +61,7 @@ import config from "./song.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

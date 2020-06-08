@@ -11,6 +11,7 @@ import config from "./search.config";
 
 @Module({
   controllers: [SearchController],
+  exports: [SearchService],
   imports: [
     ClientsModule.register([
       {
@@ -35,6 +36,7 @@ import config from "./search.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
