@@ -150,6 +150,7 @@ describe("ArtistService", () => {
       token === ARTIST_SERVICE_GET ? of(artist) : of([artist]),
   };
   const artistConfigServiceMock: ArtistConfigServiceInterface = {
+    elasticsearchNode: "",
     imagePath: "",
     imagePathDefaultArtist: "",
     indexName: "",

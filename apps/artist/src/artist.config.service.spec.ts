@@ -27,6 +27,10 @@ describe("ArtistConfigService", () => {
     expect(service).toBeDefined();
   });
 
+  it("elasticsearchNode should return value", () => {
+    expect(service.elasticsearchNode).toEqual("");
+  });
+
   it("imagePath should return value", () => {
     expect(service.imagePath).toEqual("");
   });

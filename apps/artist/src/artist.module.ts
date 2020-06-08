@@ -3,8 +3,10 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
+import { ArtistElasticsearchOptionsFactory } from "./artist.elasticsearch.options.factory";
 import { ArtistService } from "./artist.service";
 import { ConfigModule } from "@nestjs/config";
+import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { Module } from "@nestjs/common";
 import config from "./artist.config";
 
@@ -35,6 +37,11 @@ import config from "./artist.config";
       },
     ]),
     ConfigModule.forFeature(config),
+    ElasticsearchModule.registerAsync({
+      // eslint-disable-next-line @typescript-eslint/no-use-before-define
+      imports: [ArtistModule],
+      useClass: ArtistElasticsearchOptionsFactory,
+    }),
   ],
   providers: [ArtistConfigService, ArtistService],
 })

@@ -1,5 +1,6 @@
 import {
   ARTIST,
+  ELASTICSEARCH_NODE,
   IMAGE_PATH,
   IMAGE_PATH_DEFAULT,
   INDEX_NAME,
@@ -13,6 +14,13 @@ import { Injectable } from "@nestjs/common";
 @Injectable()
 export class ArtistConfigService implements ArtistConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
+
+  get elasticsearchNode(): string {
+    return this.configService.get<string>(
+      `${ARTIST}.${ELASTICSEARCH_NODE}`,
+      ""
+    );
+  }
 
   get imagePath(): string {
     return this.configService.get<string>(`${ARTIST}.${IMAGE_PATH}`, "");
