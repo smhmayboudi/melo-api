@@ -1,0 +1,21 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: action
+build:
+  artifacts:
+  - image: melo/action
+    context: .
+    docker:
+      dockerfile: docker/development/action.Dockerfile
+    sync:
+      infer:
+        - "apps/action/**/*"
+        - "libs/**/*"
+deploy:
+  helm:
+    releases:
+    - name: melo
+      chartPath: k8s/action
+      artifactOverrides:
+        image: melo/action

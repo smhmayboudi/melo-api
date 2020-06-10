@@ -106,7 +106,7 @@
     "import/resolver": {
       "typescript": {
         "directory": [
-          "libs/*/tsconfig.app.json",
+          "apps/*/tsconfig.app.json",
           "libs/*/tsconfig.lib.json"
         ]
       }

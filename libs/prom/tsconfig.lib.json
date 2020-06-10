@@ -5,7 +5,7 @@
     "outDir": "../../dist/libs/prom"
   },
   "exclude": [
-    "**/*.spec.ts",
+    "**/*spec.ts",
     "coverage",
     "dist",
     "node_modules",
