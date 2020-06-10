@@ -1,20 +1,20 @@
+import { JwksFindOneReqDto, JwksResDto } from "@melo/common";
+
 import { JwksController } from "./jwks.controller";
-import { JwksEntity } from "./jwks.entity";
-import { JwksFindOneReqDto } from "@melo/common";
 import { JwksService } from "./jwks.service";
 import { JwksServiceInterface } from "./jwks.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("JwksController", () => {
-  const jwksEntity: JwksEntity = {
+  const jwks: JwksResDto = {
     id: "",
     private_key: "",
     public_key: "",
   };
 
   const jwksServiceMock: JwksServiceInterface = {
-    findOne: () => Promise.resolve(jwksEntity),
-    getOneRandom: () => Promise.resolve(jwksEntity),
+    findOne: () => Promise.resolve(jwks),
+    getOneRandom: () => Promise.resolve(jwks),
   };
 
   let controller: JwksController;
@@ -40,10 +40,10 @@ describe("JwksController", () => {
     const dto: JwksFindOneReqDto = {
       id: "",
     };
-    expect(await controller.findOne(dto)).toEqual(jwksEntity);
+    expect(await controller.findOne(dto)).toEqual(jwks);
   });
 
   it("getOneRandom should be equal to an jwksEntity", async () => {
-    expect(await controller.getOneRandom()).toEqual(jwksEntity);
+    expect(await controller.getOneRandom()).toEqual(jwks);
   });
 });

@@ -1,6 +1,7 @@
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { ConfigModule } from "@nestjs/config";
+import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionController } from "./emotion.controller";
 import { EmotionService } from "./emotion.service";
 import { Module } from "@nestjs/common";
@@ -9,7 +10,7 @@ import config from "./emotion.config";
 
 @Module({
   controllers: [EmotionController],
-  exports: [EmotionService],
+  exports: [EmotionConfigService, EmotionService],
   imports: [
     ClientsModule.register([
       {
@@ -23,6 +24,6 @@ import config from "./emotion.config";
     ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
   ],
-  providers: [EmotionService],
+  providers: [EmotionConfigService, EmotionService],
 })
 export class EmotionModule {}

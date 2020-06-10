@@ -11,6 +11,7 @@ import { HttpModule, Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { SongCacheEntityRepository } from "./song.cache.entity.repository";
+import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongElasticsearchOptionsFactory } from "./song.elasticsearch.options.factory";
 import { SongHttpOptionsFactory } from "./song.http.options.factory";
@@ -22,7 +23,7 @@ import config from "./song.config";
 
 @Module({
   controllers: [SongController],
-  exports: [SongService],
+  exports: [SongConfigService, SongService],
   imports: [
     ClientsModule.register([
       {
@@ -83,6 +84,6 @@ import config from "./song.config";
       useClass: SongTypeOrmOptionsFactory,
     }),
   ],
-  providers: [SongService],
+  providers: [SongConfigService, SongService],
 })
 export class SongModule {}

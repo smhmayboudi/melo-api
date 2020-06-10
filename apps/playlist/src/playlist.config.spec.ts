@@ -5,9 +5,9 @@ describe("PlaylistConfig", () => {
     expect(config()).toStrictEqual({
       IMAGE_PATH: undefined,
       IMAGE_PATH_DEFAULT: undefined,
-      MANGOOSE_RETRY_ATTEMPTS: undefined,
-      MANGOOSE_RETRY_DELAY: undefined,
-      MANGOOSE_URI: undefined,
+      MONGOOSE_RETRY_ATTEMPTS: undefined,
+      MONGOOSE_RETRY_DELAY: undefined,
+      MONGOOSE_URI: undefined,
     });
   });
 });

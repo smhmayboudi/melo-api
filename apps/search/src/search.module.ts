@@ -4,6 +4,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { Module } from "@nestjs/common";
+import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
 import { SearchElasticsearchOptionsFactory } from "./search.elasticsearch.options.factory";
 import { SearchService } from "./search.service";
@@ -11,7 +12,7 @@ import config from "./search.config";
 
 @Module({
   controllers: [SearchController],
-  exports: [SearchService],
+  exports: [SearchConfigService, SearchService],
   imports: [
     ClientsModule.register([
       {
@@ -44,6 +45,6 @@ import config from "./search.config";
       useClass: SearchElasticsearchOptionsFactory,
     }),
   ],
-  providers: [SearchService],
+  providers: [SearchConfigService, SearchService],
 })
 export class SearchModule {}

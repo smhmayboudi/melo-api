@@ -6,10 +6,8 @@ import { ConfigModule } from "@nestjs/config";
 import { RT_SERVICE } from "@melo/common";
 import { RtCacheOptionsFactory } from "./rt.cache.options.factory";
 import { RtConfigService } from "./rt.config.service";
-import { RtEntityRepository } from "./rt.entity.repository";
 import { RtHealthIndicator } from "./rt.health.indicator";
 import { RtService } from "./rt.service";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "./rt.config";
 
 @Module({
@@ -31,7 +29,6 @@ import config from "./rt.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    TypeOrmModule.forFeature([RtEntityRepository]),
   ],
   providers: [RtConfigService, RtHealthIndicator, RtService],
 })

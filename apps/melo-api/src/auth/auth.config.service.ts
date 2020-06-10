@@ -3,6 +3,7 @@ import {
   JWT_ACCESS_TOKEN_EXPIRES_COUNT,
   JWT_ACCESS_TOKEN_EXPIRES_IN,
   JWT_AUTH_SCHEMA,
+  JWT_REFRESH_TOKEN_EXPIRES_IN,
   TELEGRAM_BOT_TOKEN,
   TELEGRAM_QUERY_EXPIRATION,
 } from "@melo/common";
@@ -34,6 +35,15 @@ export class AuthConfigService implements AuthConfigServiceInterface {
 
   get jwtAuhSchema(): string {
     return this.configService.get<string>(`${AUTH}.${JWT_AUTH_SCHEMA}`, "");
+  }
+
+  get jwtRefreshTokenExpiresIn(): number {
+    return ms(
+      this.configService.get<string>(
+        `${AUTH}.${JWT_REFRESH_TOKEN_EXPIRES_IN}`,
+        "0"
+      )
+    );
   }
 
   get telegramBotToken(): string {

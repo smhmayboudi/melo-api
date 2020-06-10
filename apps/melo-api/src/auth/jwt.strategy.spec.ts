@@ -1,11 +1,14 @@
-import { AuthJwtPayloadReqDto, RtResDto } from "@melo/common";
+import {
+  AtResDto,
+  AuthJwtPayloadReqDto,
+  JwksResDto,
+  RtResDto,
+} from "@melo/common";
 
-import { AtEntity } from "../at/at.entity";
 import { AtService } from "../at/at.service";
 import { AtServiceInterface } from "../at/at.service.interface";
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
-import { JwksEntity } from "../jwks/jwks.entity";
 import { JwksService } from "../jwks/jwks.service";
 import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 import { JwtStrategy } from "./jwt.strategy";
@@ -15,7 +18,7 @@ import { Test } from "@nestjs/testing";
 
 describe("JwtStrategy", () => {
   const date = new Date();
-  const atEntity: AtEntity = {
+  const at: AtResDto = {
     count: 0,
     created_at: date,
     expire_at: new Date(Date.now() + 1000),
@@ -23,7 +26,7 @@ describe("JwtStrategy", () => {
     token: "",
     user_id: 0,
   };
-  const jwksEntity: JwksEntity = {
+  const jwks: JwksResDto = {
     id: "",
     private_key: "",
     public_key: "",
@@ -39,26 +42,27 @@ describe("JwtStrategy", () => {
   };
 
   const atServiceMock: AtServiceInterface = {
-    delete: () => Promise.resolve(atEntity),
-    deleteByToken: () => Promise.resolve(atEntity),
-    find: () => Promise.resolve([atEntity]),
-    findOne: () => Promise.resolve(atEntity),
-    findOneByToken: () => Promise.resolve(atEntity),
-    save: () => Promise.resolve(atEntity),
-    update: () => Promise.resolve(atEntity),
-    validate: () => Promise.resolve(atEntity),
-    validateByToken: () => Promise.resolve(atEntity),
+    delete: () => Promise.resolve(at),
+    deleteByToken: () => Promise.resolve(at),
+    find: () => Promise.resolve([at]),
+    findOne: () => Promise.resolve(at),
+    findOneByToken: () => Promise.resolve(at),
+    save: () => Promise.resolve(at),
+    update: () => Promise.resolve(at),
+    validate: () => Promise.resolve(at),
+    validateByToken: () => Promise.resolve(at),
   };
   const authConfigServiceMock: AuthConfigServiceInterface = {
-    jwtAccessTokenExpiresCount: 1,
+    jwtAccessTokenExpiresCount: 0,
     jwtAccessTokenExpiresIn: 0,
     jwtAuhSchema: "",
+    jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
     telegramQueryExpiration: 0,
   };
   const jwksServiceMock: JwksServiceInterface = {
-    findOne: () => Promise.resolve(jwksEntity),
-    getOneRandom: () => Promise.resolve(jwksEntity),
+    findOne: () => Promise.resolve(jwks),
+    getOneRandom: () => Promise.resolve(jwks),
   };
   const rtServiceMock: RtServiceInterface = {
     block: () => Promise.resolve(rt),
@@ -100,6 +104,30 @@ describe("JwtStrategy", () => {
   });
 
   it("validate should be equal to an auth strategy", async () => {
+    const authConfigServiceMockJwtAccessTokenExpiresCount: AuthConfigServiceInterface = {
+      ...authConfigServiceMock,
+      jwtAccessTokenExpiresCount: 1,
+    };
+
+    const module = await Test.createTestingModule({
+      providers: [
+        {
+          provide: AtService,
+          useValue: atServiceMock,
+        },
+        {
+          provide: AuthConfigService,
+          useValue: authConfigServiceMockJwtAccessTokenExpiresCount,
+        },
+        { provide: JwksService, useValue: jwksServiceMock },
+        { provide: RtService, useValue: rtServiceMock },
+      ],
+    }).compile();
+    atService = module.get<AtService>(AtService);
+    authConfigService = module.get<AuthConfigService>(AuthConfigService);
+    jwksService = module.get<JwksService>(JwksService);
+    rtService = module.get<RtService>(RtService);
+
     const dto: AuthJwtPayloadReqDto = {
       exp: 0,
       iat: 0,
@@ -154,30 +182,6 @@ describe("JwtStrategy", () => {
   });
 
   it("validate should throw an error 2", async () => {
-    const authConfigServiceMockJwtAccessTokenExpiresCount: AuthConfigServiceInterface = {
-      ...authConfigServiceMock,
-      jwtAccessTokenExpiresCount: 0,
-    };
-
-    const module = await Test.createTestingModule({
-      providers: [
-        {
-          provide: AtService,
-          useValue: atServiceMock,
-        },
-        {
-          provide: AuthConfigService,
-          useValue: authConfigServiceMockJwtAccessTokenExpiresCount,
-        },
-        { provide: JwksService, useValue: jwksServiceMock },
-        { provide: RtService, useValue: rtServiceMock },
-      ],
-    }).compile();
-    atService = module.get<AtService>(AtService);
-    authConfigService = module.get<AuthConfigService>(AuthConfigService);
-    jwksService = module.get<JwksService>(JwksService);
-    rtService = module.get<RtService>(RtService);
-
     const dto: AuthJwtPayloadReqDto = {
       exp: 0,
       iat: 0,

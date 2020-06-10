@@ -1,13 +1,13 @@
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthJwtOptionsFactory } from "./auth.jwt.options.factory";
-import { JwksEntity } from "../jwks/jwks.entity";
+import { JwksResDto } from "@melo/common";
 import { JwksService } from "../jwks/jwks.service";
 import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 import { Test } from "@nestjs/testing";
 
 describe("AuthJwtOptionsFactory", () => {
-  const jwks: JwksEntity = {
+  const jwks: JwksResDto = {
     id: "",
     private_key: "",
     public_key: "",
@@ -17,6 +17,7 @@ describe("AuthJwtOptionsFactory", () => {
     jwtAccessTokenExpiresCount: 0,
     jwtAccessTokenExpiresIn: 0,
     jwtAuhSchema: "",
+    jwtRefreshTokenExpiresIn: 0,
     telegramBotToken: "000000000:00000000000000000000000000000000000",
     telegramQueryExpiration: 0,
   };

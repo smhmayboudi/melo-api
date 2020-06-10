@@ -1,7 +1,7 @@
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { JWKS_SERVICE, RT_SERVICE } from "@melo/common";
 import { Module, forwardRef } from "@nestjs/common";
 
-import { AUTH_SERVICE } from "@melo/common";
 import { AnonymUUIDStrategy } from "./anonym-uuid.strategy";
 import { AppModule } from "../app/app.module";
 import { AtModule } from "../at/at.module";
@@ -32,9 +32,16 @@ import config from "./auth.config";
     ConfigModule.forFeature(config),
     ClientsModule.register([
       {
-        name: AUTH_SERVICE,
+        name: JWKS_SERVICE,
         options: {
-          url: process.env.AUTH_SERVICE_URL,
+          url: process.env.JWKS_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
+      {
+        name: RT_SERVICE,
+        options: {
+          url: process.env.RT_SERVICE_URL,
         },
         transport: Transport.REDIS,
       },

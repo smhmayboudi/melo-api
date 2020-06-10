@@ -115,9 +115,9 @@ describe("PlaylistService", () => {
   const playlistConfigServiceMock: PlaylistConfigServiceInterface = {
     imagePath: "",
     imagePathDefaultPlaylist: "",
-    mangooseRetryAttempts: 0,
-    mangooseRetryDelay: 0,
-    mangooseUri: "",
+    mongooseRetryAttempts: 0,
+    mongooseRetryDelay: 0,
+    mongooseUri: "",
   };
   // TODO: interface ?
   const playlistModelMock = {

@@ -1,15 +1,13 @@
 import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { PLAYLIST, PLAYLIST_SERVICE } from "@melo/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
-import { MongooseModule } from "@nestjs/mongoose";
+import { PLAYLIST_SERVICE } from "@melo/common";
 import { PlaylistCacheOptionsFactory } from "./playlist.cache.options.factory";
 import { PlaylistConfigService } from "./playlist.config.service";
 import { PlaylistController } from "./playlist.controller";
 import { PlaylistHealthIndicator } from "./playlist.health.indicator";
-import { PlaylistSchema } from "./playlist.schema";
 import { PlaylistService } from "./playlist.service";
 import config from "./playlist.config";
 
@@ -33,7 +31,6 @@ import config from "./playlist.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    MongooseModule.forFeature([{ name: PLAYLIST, schema: PlaylistSchema }]),
   ],
   providers: [PlaylistConfigService, PlaylistHealthIndicator, PlaylistService],
 })

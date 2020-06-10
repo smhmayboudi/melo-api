@@ -1,27 +1,42 @@
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  AUTH_SERVICE,
-  AUTH_SERVICE_LOGIN,
-  AUTH_SERVICE_LOGOUT,
-  AUTH_SERVICE_TOKEN,
   AuthAccessTokenReqDto,
   AuthAccessTokenResDto,
   AuthDeleteByTokenReqDto,
   AuthRefreshTokenReqDto,
   AuthRefreshTokenResDto,
+  JWKS_SERVICE,
+  JWKS_SERVICE_GET_ONE_RANDOM,
+  JwksResDto,
+  RT_SERVICE,
+  RT_SERVICE_DELETE_BY_TOKEN,
+  RT_SERVICE_SAVE,
   RtResDto,
+  RtSaveReqDto,
 } from "@melo/common";
-import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
-import { Inject, Injectable } from "@nestjs/common";
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+} from "@nestjs/common";
 
+import { AuthConfigService } from "./auth.config.service";
 import { AuthServiceInterface } from "./auth.service.interface";
 import { ClientProxy } from "@nestjs/microservices";
+import { JwtService } from "@nestjs/jwt";
 import { PromMethodCounter } from "@melo/prom";
+import cryptoRandomString from "crypto-random-string";
+import moment from "moment";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 // @PromInstanceCounter
 export class AuthService implements AuthServiceInterface {
   constructor(
-    @Inject(AUTH_SERVICE) private readonly authClientProxy: ClientProxy
+    @Inject(JWKS_SERVICE) private readonly jwksClientProxy: ClientProxy,
+    @Inject(RT_SERVICE) private readonly rtClientProxy: ClientProxy,
+    private readonly authConfigService: AuthConfigService,
+    private readonly jwtService: JwtService
   ) {}
 
   @ApmAfterMethod
@@ -30,23 +45,35 @@ export class AuthService implements AuthServiceInterface {
   async accessToken(
     dto: AuthAccessTokenReqDto
   ): Promise<AuthAccessTokenResDto> {
-    return this.authClientProxy
-      .send<AuthAccessTokenResDto, AuthAccessTokenReqDto>(
-        AUTH_SERVICE_TOKEN,
-        dto
+    const jwks = await this.jwksClientProxy
+      .send<JwksResDto | undefined, void>(
+        JWKS_SERVICE_GET_ONE_RANDOM,
+        undefined
       )
       .toPromise();
+    if (jwks === undefined) {
+      throw new InternalServerErrorException();
+    }
+    const at = this.jwtService.sign(
+      {},
+      {
+        jwtid: uuidv4(),
+        keyid: jwks.id,
+        subject: dto.sub.toString(),
+      }
+    );
+    return {
+      at,
+    };
   }
 
   @ApmAfterMethod
   @ApmBeforeMethod
   @PromMethodCounter
-  async deleteByToken(
-    dto: AuthDeleteByTokenReqDto
-  ): Promise<RtResDto | undefined> {
-    return this.authClientProxy
+  deleteByToken(dto: AuthDeleteByTokenReqDto): Promise<RtResDto | undefined> {
+    return this.rtClientProxy
       .send<RtResDto | undefined, AuthDeleteByTokenReqDto>(
-        AUTH_SERVICE_LOGOUT,
+        RT_SERVICE_DELETE_BY_TOKEN,
         dto
       )
       .toPromise();
@@ -58,11 +85,47 @@ export class AuthService implements AuthServiceInterface {
   async refreshToken(
     dto: AuthRefreshTokenReqDto
   ): Promise<AuthRefreshTokenResDto> {
-    return this.authClientProxy
-      .send<AuthRefreshTokenResDto, AuthRefreshTokenReqDto>(
-        AUTH_SERVICE_LOGIN,
-        dto
+    const jwks = await this.jwksClientProxy
+      .send<JwksResDto | undefined, void>(
+        JWKS_SERVICE_GET_ONE_RANDOM,
+        undefined
       )
       .toPromise();
+    if (jwks === undefined) {
+      throw new InternalServerErrorException();
+    }
+    const at = this.jwtService.sign(
+      {},
+      {
+        jwtid: dto.jwtid,
+        keyid: jwks.id,
+        subject: dto.sub.toString(),
+      }
+    );
+    const now = dto.now || new Date();
+    const exp = moment(now)
+      .add(this.authConfigService.jwtRefreshTokenExpiresIn, "ms")
+      .toDate();
+    const rt =
+      dto.rt ||
+      cryptoRandomString({
+        length: 256,
+        type: "base64",
+      });
+    await this.rtClientProxy
+      .send<RtResDto, RtSaveReqDto>(RT_SERVICE_SAVE, {
+        created_at: now,
+        description: "",
+        expire_at: exp,
+        id: 0,
+        is_blocked: false,
+        token: rt,
+        user_id: dto.sub,
+      })
+      .toPromise();
+    return {
+      at,
+      rt,
+    };
   }
 }

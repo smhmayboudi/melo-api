@@ -14,9 +14,9 @@ export class PlaylistMongooseOptionsFactory implements MongooseOptionsFactory {
     | Promise<MongooseModuleOptions>
     | MongooseModuleOptions {
     return {
-      retryAttempts: this.playlistConfigService.mangooseRetryAttempts,
-      retryDelay: this.playlistConfigService.mangooseRetryDelay,
-      uri: this.playlistConfigService.mangooseUri,
+      retryAttempts: this.playlistConfigService.mongooseRetryAttempts,
+      retryDelay: this.playlistConfigService.mongooseRetryDelay,
+      uri: this.playlistConfigService.mongooseUri,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };

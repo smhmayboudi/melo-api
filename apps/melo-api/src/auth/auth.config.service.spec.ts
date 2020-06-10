@@ -5,12 +5,12 @@ import { ConfigService } from "@nestjs/config";
 import { Test } from "@nestjs/testing";
 
 describe("AuthConfigService", () => {
-  // TODO: interface ?
   const appConfigServiceMock: AuthConfigServiceInterface = {
     jwtAccessTokenExpiresCount: 0,
     jwtAccessTokenExpiresIn: 0,
     jwtAuhSchema: "",
-    telegramBotToken: "",
+    jwtRefreshTokenExpiresIn: 0,
+    telegramBotToken: "000000000:00000000000000000000000000000000000",
     telegramQueryExpiration: 0,
   };
   // TODO: interface ?
@@ -51,6 +51,10 @@ describe("AuthConfigService", () => {
 
   it("jwtAuhSchema cacheHost should be equal to a value", () => {
     expect(service.jwtAuhSchema).toEqual("");
+  });
+
+  it("jwtRefreshTokenExpiresIn should be equal to a value", () => {
+    expect(service.jwtRefreshTokenExpiresIn).toEqual(0);
   });
 
   it("telegramBotToken should be equal to a value", () => {

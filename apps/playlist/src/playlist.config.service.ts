@@ -1,9 +1,9 @@
 import {
   IMAGE_PATH,
   IMAGE_PATH_DEFAULT,
-  MANGOOSE_RETRY_ATTEMPTS,
-  MANGOOSE_RETRY_DELAY,
-  MANGOOSE_URI,
+  MONGOOSE_RETRY_ATTEMPTS,
+  MONGOOSE_RETRY_DELAY,
+  MONGOOSE_URI,
   PLAYLIST,
 } from "@melo/common";
 
@@ -27,20 +27,20 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
     );
   }
 
-  get mangooseRetryAttempts(): number {
+  get mongooseRetryAttempts(): number {
     return this.configService.get<number>(
-      `${PLAYLIST}.${MANGOOSE_RETRY_ATTEMPTS}`,
+      `${PLAYLIST}.${MONGOOSE_RETRY_ATTEMPTS}`,
       0
     );
   }
 
-  get mangooseRetryDelay(): number {
+  get mongooseRetryDelay(): number {
     return ms(
-      this.configService.get<string>(`${PLAYLIST}.${MANGOOSE_RETRY_DELAY}`, "0")
+      this.configService.get<string>(`${PLAYLIST}.${MONGOOSE_RETRY_DELAY}`, "0")
     );
   }
 
-  get mangooseUri(): string {
-    return this.configService.get<string>(`${PLAYLIST}.${MANGOOSE_URI}`, "");
+  get mongooseUri(): string {
+    return this.configService.get<string>(`${PLAYLIST}.${MONGOOSE_URI}`, "");
   }
 }
