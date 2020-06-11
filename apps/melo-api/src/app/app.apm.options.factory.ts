@@ -1,7 +1,6 @@
+import { APP_PATH_HEALTH, CommonLogger } from "@melo/common";
 import { ApmModuleOptions, ApmOptionsFactory, LogLevel } from "@melo/apm";
 
-import { APP_PATH_HEALTH } from "@melo/common";
-import AppApmLogger from "./app.apm.logger";
 import { AppConfigService } from "./app.config.service";
 import { Injectable } from "@nestjs/common";
 
@@ -16,7 +15,7 @@ export class AppApmOptionsFactory implements ApmOptionsFactory {
       ignoreUrls: [APP_PATH_HEALTH],
       logLevel: this.appConfigService.apmLogLevel as LogLevel,
       logUncaughtExceptions: true,
-      logger: AppApmLogger,
+      logger: CommonLogger,
       secretToken: this.appConfigService.apmSecretToken,
       serverUrl: this.appConfigService.apmServerUrl,
       serviceName: this.appConfigService.apmServiceName,

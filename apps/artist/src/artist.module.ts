@@ -4,6 +4,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 import { ArtistConfigService } from "./artist.config.service";
 import { ArtistController } from "./artist.controller";
 import { ArtistElasticsearchOptionsFactory } from "./artist.elasticsearch.options.factory";
+import { ArtistEventsGateway } from "./artist.events.gateway";
 import { ArtistService } from "./artist.service";
 import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
@@ -45,6 +46,6 @@ import config from "./artist.config";
       useClass: ArtistElasticsearchOptionsFactory,
     }),
   ],
-  providers: [ArtistConfigService, ArtistService],
+  providers: [ArtistConfigService, ArtistEventsGateway, ArtistService],
 })
 export class ArtistModule {}

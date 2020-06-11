@@ -1,3 +1,4 @@
+import { APP_SERVICE, AuthJwtPayloadReqDto } from "@melo/common";
 import {
   ArgumentsHost,
   Catch,
@@ -6,7 +7,6 @@ import {
   Logger,
 } from "@nestjs/common";
 
-import { AuthJwtPayloadReqDto } from "@melo/common";
 import express from "express";
 
 @Catch(HttpException)
@@ -23,8 +23,8 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
         path: request.path,
         user: request.user,
       })} => ${exception}`,
-      undefined,
-      "AppHttpExceptionFilter"
+      "AppHttpExceptionFilter",
+      APP_SERVICE
     );
     response.status(status).json({
       path: request.url,

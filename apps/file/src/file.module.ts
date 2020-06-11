@@ -2,6 +2,7 @@ import { ConfigModule } from "@nestjs/config";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
 import { FileEntityRepository } from "./file.entity.repository";
+import { FileEventsGateway } from "./file.events.gateway";
 import { FileMulterOptionsFactory } from "./file.multer.options.factory";
 import { FileService } from "./file.service";
 import { FileTypeOrmOptionsFactory } from "./file.type-orm.options.factory";
@@ -28,6 +29,6 @@ import config from "./file.config";
       useClass: FileTypeOrmOptionsFactory,
     }),
   ],
-  providers: [FileConfigService, FileService],
+  providers: [FileConfigService, FileEventsGateway, FileService],
 })
 export class FileModule {}

@@ -4,18 +4,20 @@ metadata:
   name: action
 build:
   artifacts:
-  - image: melo/action
-    context: .
-    docker:
-      dockerfile: docker/development/action.Dockerfile
-    sync:
-      infer:
-        - "apps/action/**/*"
-        - "libs/**/*"
+    - image: melo/action
+      context: .
+      docker:
+        dockerfile: docker/development/action.Dockerfile
+      sync:
+        infer:
+          - "apps/action/**/*"
+          - "libs/**/*"
 deploy:
   helm:
     releases:
-    - name: melo
-      chartPath: k8s/action
-      artifactOverrides:
-        image: melo/action
+      - name: melo
+        chartPath: k8s/action
+        artifactOverrides:
+          image: melo/action
+        namespace: melo
+        wait: true

@@ -4,6 +4,7 @@ import { Module } from "@nestjs/common";
 import { RelationConfigService } from "./relation.config.service";
 import { RelationController } from "./relation.controller";
 import { RelationDgraphOptionsFactory } from "./relation.dgraph.options.factory";
+import { RelationEventsGateway } from "./relation.events.gateway";
 import { RelationService } from "./relation.service";
 import config from "./relation.config";
 
@@ -19,6 +20,6 @@ import config from "./relation.config";
       useClass: RelationDgraphOptionsFactory,
     }),
   ],
-  providers: [RelationConfigService, RelationService],
+  providers: [RelationConfigService, RelationEventsGateway, RelationService],
 })
 export class RelationModule {}

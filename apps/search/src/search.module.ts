@@ -7,6 +7,7 @@ import { Module } from "@nestjs/common";
 import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
 import { SearchElasticsearchOptionsFactory } from "./search.elasticsearch.options.factory";
+import { SearchEventsGateway } from "./search.events.gateway";
 import { SearchService } from "./search.service";
 import config from "./search.config";
 
@@ -45,6 +46,6 @@ import config from "./search.config";
       useClass: SearchElasticsearchOptionsFactory,
     }),
   ],
-  providers: [SearchConfigService, SearchService],
+  providers: [SearchConfigService, SearchEventsGateway, SearchService],
 })
 export class SearchModule {}

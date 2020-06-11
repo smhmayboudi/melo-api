@@ -1,7 +1,7 @@
-import AppApmLogger from "./app.apm.logger";
 import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppConfigServiceInterface } from "./app.config.service.interface";
+import { CommonLogger } from "@melo/common";
 import { LogLevel } from "@melo/apm";
 import { Test } from "@nestjs/testing";
 
@@ -63,7 +63,7 @@ describe("AppApmOptionsFactory", () => {
       ignoreUrls: ["/health"],
       logLevel: "trace" as LogLevel,
       logUncaughtExceptions: true,
-      logger: AppApmLogger,
+      logger: CommonLogger,
       secretToken: "",
       serverUrl: "",
       serviceName: "",

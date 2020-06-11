@@ -1,6 +1,7 @@
 import { ConfigModule } from "@nestjs/config";
 import { ConstConfigService } from "./const.config.service";
 import { ConstController } from "./const.controller";
+import { ConstEventsGateway } from "./const.events.gateway";
 import { ConstService } from "./const.service";
 import { Module } from "@nestjs/common";
 import config from "./const.config";
@@ -9,6 +10,6 @@ import config from "./const.config";
   controllers: [ConstController],
   exports: [ConstConfigService, ConstService],
   imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
-  providers: [ConstConfigService, ConstService],
+  providers: [ConstConfigService, ConstEventsGateway, ConstService],
 })
 export class ConstModule {}

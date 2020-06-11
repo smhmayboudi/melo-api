@@ -4,6 +4,7 @@ import { ConfigModule } from "@nestjs/config";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadController } from "./download.controller";
 import { DownloadElasticsearchOptionsFactory } from "./download.elasticsearch.options.factory";
+import { DownloadEventsGateway } from "./download.events.gateway";
 import { DownloadService } from "./download.service";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
 import { Module } from "@nestjs/common";
@@ -31,6 +32,6 @@ import config from "./download.config";
       useClass: DownloadElasticsearchOptionsFactory,
     }),
   ],
-  providers: [DownloadConfigService, DownloadService],
+  providers: [DownloadConfigService, DownloadEventsGateway, DownloadService],
 })
 export class DownloadModule {}

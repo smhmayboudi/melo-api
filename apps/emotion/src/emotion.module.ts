@@ -3,6 +3,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 import { ConfigModule } from "@nestjs/config";
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionController } from "./emotion.controller";
+import { EmotionEventsGateway } from "./emotion.events.gateway";
 import { EmotionService } from "./emotion.service";
 import { Module } from "@nestjs/common";
 import { SONG_SERVICE } from "@melo/common";
@@ -24,6 +25,6 @@ import config from "./emotion.config";
     ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
   ],
-  providers: [EmotionConfigService, EmotionService],
+  providers: [EmotionConfigService, EmotionEventsGateway, EmotionService],
 })
 export class EmotionModule {}

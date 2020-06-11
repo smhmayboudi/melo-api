@@ -1,3 +1,4 @@
+import { APP_SERVICE, AuthJwtPayloadReqDto } from "@melo/common";
 import {
   CallHandler,
   ExecutionContext,
@@ -6,7 +7,6 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 
-import { AuthJwtPayloadReqDto } from "@melo/common";
 import { Observable } from "rxjs";
 import express from "express";
 import { tap } from "rxjs/operators";
@@ -25,8 +25,8 @@ export class AppErrorInterceptor implements NestInterceptor {
             path: request.path,
             user: request.user,
           })} => ${error}`,
-          undefined,
-          "AppErrorInterceptor"
+          "AppErrorInterceptor",
+          APP_SERVICE
         );
       })
     );

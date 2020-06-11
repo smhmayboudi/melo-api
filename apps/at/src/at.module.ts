@@ -1,6 +1,7 @@
 import { AtConfigService } from "./at.config.service";
 import { AtController } from "./at.controller";
 import { AtEntityRepository } from "./at.entity.repository";
+import { AtEventsGateway } from "./at.events.gateway";
 import { AtService } from "./at.service";
 import { AtTypeOrmOptionsFactory } from "./at.type-orm.options.factory";
 import { ConfigModule } from "@nestjs/config";
@@ -21,6 +22,6 @@ import config from "./at.config";
     ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
   ],
-  providers: [AtConfigService, AtService],
+  providers: [AtConfigService, AtEventsGateway, AtService],
 })
 export class AtModule {}

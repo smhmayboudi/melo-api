@@ -4,6 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserEntityRepository } from "./user.entity.repository";
+import { UserEventsGateway } from "./user.events.gateway";
 import { UserService } from "./user.service";
 import { UserTypeOrmOptionsFactory } from "./user.type-orm.options.factory";
 import config from "./user.config";
@@ -21,6 +22,6 @@ import config from "./user.config";
       useClass: UserTypeOrmOptionsFactory,
     }),
   ],
-  providers: [UserConfigService, UserService],
+  providers: [UserConfigService, UserEventsGateway, UserService],
 })
 export class UserModule {}

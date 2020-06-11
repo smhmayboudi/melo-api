@@ -1,3 +1,4 @@
+.env.docker
 data
 
 # Created by https://www.toptal.com/developers/gitignore/api/helm,linux,macos,node,visualstudiocode,windows

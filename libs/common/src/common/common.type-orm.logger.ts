@@ -1,3 +1,5 @@
+import { COMMON, COMMON_TYPEORM_LOGGER } from "./common.token";
+
 import { Logger } from "@nestjs/common";
 import typeorm from "typeorm";
 
@@ -44,7 +46,10 @@ export class CommonTypeOrmLogger implements typeorm.Logger {
       this.options === true ||
       (this.options instanceof Array && this.options.includes("query"))
     ) {
-      Logger.log(`query: ${this.query(query, parameters)}`, "AppTypeOrmLogger");
+      Logger.log(
+        `query: ${this.query(query, parameters)}`,
+        COMMON_TYPEORM_LOGGER
+      );
     }
   }
 
@@ -61,8 +66,8 @@ export class CommonTypeOrmLogger implements typeorm.Logger {
     ) {
       Logger.error(
         `query failed: ${this.query(query, parameters)}, with error: ${error}`,
-        undefined,
-        "AppTypeOrmLogger"
+        COMMON,
+        COMMON_TYPEORM_LOGGER
       );
     }
   }
@@ -78,7 +83,7 @@ export class CommonTypeOrmLogger implements typeorm.Logger {
         query,
         parameters
       )}, with execution time: ${time}`,
-      "AppTypeOrmLogger"
+      COMMON_TYPEORM_LOGGER
     );
   }
 
@@ -90,7 +95,7 @@ export class CommonTypeOrmLogger implements typeorm.Logger {
       this.options === "all" ||
       (this.options instanceof Array && this.options.includes("schema"))
     ) {
-      Logger.log(message, "AppTypeOrmLogger");
+      Logger.log(message, COMMON_TYPEORM_LOGGER);
     }
   }
 
@@ -98,7 +103,7 @@ export class CommonTypeOrmLogger implements typeorm.Logger {
     message: string,
     _queryRunner?: typeorm.QueryRunner | undefined
   ): void {
-    Logger.log(message, "AppTypeOrmLogger");
+    Logger.log(message, COMMON_TYPEORM_LOGGER);
   }
 
   log(
@@ -112,21 +117,21 @@ export class CommonTypeOrmLogger implements typeorm.Logger {
           this.options === "all" ||
           (this.options instanceof Array && this.options.includes("log"))
         )
-          Logger.log(message, "AppTypeOrmLogger");
+          Logger.log(message, COMMON_TYPEORM_LOGGER);
         break;
       case "info":
         if (
           this.options === "all" ||
           (this.options instanceof Array && this.options.includes("info"))
         )
-          Logger.log(`INFO: ${message}`, "AppTypeOrmLogger");
+          Logger.log(`INFO: ${message}`, COMMON_TYPEORM_LOGGER);
         break;
       case "warn":
         if (
           this.options === "all" ||
           (this.options instanceof Array && this.options.includes("warn"))
         )
-          Logger.warn(message, "AppTypeOrmLogger");
+          Logger.warn(message, COMMON_TYPEORM_LOGGER);
         break;
     }
   }

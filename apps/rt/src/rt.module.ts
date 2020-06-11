@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { RtConfigService } from "./rt.config.service";
 import { RtController } from "./rt.controller";
 import { RtEntityRepository } from "./rt.entity.repository";
+import { RtEventsGateway } from "./rt.events.gateway";
 import { RtService } from "./rt.service";
 import { RtTypeOrmOptionsFactory } from "./rt.type-orm.options.factory";
 import { TypeOrmModule } from "@nestjs/typeorm";
@@ -21,6 +22,6 @@ import config from "./rt.config";
       useClass: RtTypeOrmOptionsFactory,
     }),
   ],
-  providers: [RtConfigService, RtService],
+  providers: [RtConfigService, RtEventsGateway, RtService],
 })
 export class RtModule {}

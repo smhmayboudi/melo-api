@@ -4,6 +4,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumController } from "./album.controller";
 import { AlbumElasticsearchOptionsFactory } from "./album.elasticsearch.options.factory";
+import { AlbumEventsGateway } from "./album.events.gateway";
 import { AlbumService } from "./album.service";
 import { ConfigModule } from "@nestjs/config";
 import { ElasticsearchModule } from "@nestjs/elasticsearch";
@@ -45,6 +46,6 @@ import config from "./album.config";
       useClass: AlbumElasticsearchOptionsFactory,
     }),
   ],
-  providers: [AlbumConfigService, AlbumService],
+  providers: [AlbumConfigService, AlbumEventsGateway, AlbumService],
 })
 export class AlbumModule {}

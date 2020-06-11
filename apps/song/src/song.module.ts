@@ -14,6 +14,7 @@ import { SongCacheEntityRepository } from "./song.cache.entity.repository";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongElasticsearchOptionsFactory } from "./song.elasticsearch.options.factory";
+import { SongEventsGateway } from "./song.events.gateway";
 import { SongHttpOptionsFactory } from "./song.http.options.factory";
 import { SongService } from "./song.service";
 import { SongSiteEntityRepository } from "./song.site.entity.repository";
@@ -84,6 +85,6 @@ import config from "./song.config";
       useClass: SongTypeOrmOptionsFactory,
     }),
   ],
-  providers: [SongConfigService, SongService],
+  providers: [SongConfigService, SongEventsGateway, SongService],
 })
 export class SongModule {}

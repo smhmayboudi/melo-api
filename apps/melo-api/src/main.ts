@@ -2,6 +2,7 @@ import "source-map-support/register";
 
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
+import { APP_SERVICE } from "@melo/common";
 import { AppConfigService } from "./app/app.config.service";
 import { AppModule } from "./app/app.module";
 import { Logger } from "@nestjs/common";
@@ -82,7 +83,7 @@ async function bootstrap(): Promise<void> {
     explorer: false,
   });
   await app.listen(appConfigService.port, () => {
-    Logger.log("melo-api service is listening", "Service");
+    Logger.log("Nest application is listening", APP_SERVICE);
   });
 }
 bootstrap();

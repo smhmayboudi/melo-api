@@ -2,6 +2,7 @@ import { ConfigModule } from "@nestjs/config";
 import { JwksConfigService } from "./jwks.config.service";
 import { JwksController } from "./jwks.controller";
 import { JwksEntityRepository } from "./jwks.entity.repository";
+import { JwksEventsGateway } from "./jwks.events.gateway";
 import { JwksService } from "./jwks.service";
 import { JwksTypeOrmOptionsFactory } from "./jwks.type-orm.options.factory";
 import { Module } from "@nestjs/common";
@@ -21,6 +22,6 @@ import config from "./jwks.config";
       useClass: JwksTypeOrmOptionsFactory,
     }),
   ],
-  providers: [JwksConfigService, JwksService],
+  providers: [JwksConfigService, JwksEventsGateway, JwksService],
 })
 export class JwksModule {}
