@@ -38,8 +38,8 @@ import config from "./album.config";
         transport: Transport.REDIS,
       },
     ]),
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AlbumModule],

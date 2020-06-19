@@ -5,6 +5,10 @@ import {
   MONGOOSE_RETRY_DELAY,
   MONGOOSE_URI,
   PLAYLIST,
+  SERVICE_PORT,
+  SERVICE_RETRY_ATTEMPTS,
+  SERVICE_RETRY_DELAY,
+  SERVICE_URL,
 } from "@melo/common";
 
 import { ConfigService } from "@nestjs/config";
@@ -42,5 +46,26 @@ export class PlaylistConfigService implements PlaylistConfigServiceInterface {
 
   get mongooseUri(): string {
     return this.configService.get<string>(`${PLAYLIST}.${MONGOOSE_URI}`, "");
+  }
+
+  get servicePort(): number {
+    return this.configService.get<number>(`${PLAYLIST}.${SERVICE_PORT}`, 0);
+  }
+
+  get serviceRetryAttempts(): number {
+    return this.configService.get<number>(
+      `${PLAYLIST}.${SERVICE_RETRY_ATTEMPTS}`,
+      0
+    );
+  }
+
+  get serviceRetryDelay(): number {
+    return ms(
+      this.configService.get<string>(`${PLAYLIST}.${SERVICE_RETRY_DELAY}`, "0")
+    );
+  }
+
+  get serviceUrl(): string {
+    return this.configService.get<string>(`${PLAYLIST}.${SERVICE_URL}`, "");
   }
 }

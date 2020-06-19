@@ -1,7 +1,5 @@
+import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import {
-  ARTIST_SERVICE,
-  ARTIST_SERVICE_GET,
-  ARTIST_SERVICE_GET_BY_IDS,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
   ArtistGetByIdsReqDto,
@@ -28,7 +26,6 @@ import {
   SearchElasticsearchSearchResDto,
   SearchType,
 } from "@melo/common";
-import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { Inject, Injectable } from "@nestjs/common";
 
 import { ArtistConfigService } from "./artist.config.service";
@@ -42,7 +39,6 @@ import lodash from "lodash";
 // @PromInstanceCounter
 export class ArtistService implements ArtistServiceInterface {
   constructor(
-    @Inject(ARTIST_SERVICE) private readonly artistClientProxy: ClientProxy,
     @Inject(CONST_SERVICE) private readonly constClientProxy: ClientProxy,
     @Inject(RELATION_SERVICE) private readonly relationClientProxy: ClientProxy,
     private readonly artistConfigService: ArtistConfigService,
@@ -67,9 +63,7 @@ export class ArtistService implements ArtistServiceInterface {
         type: RelationEdgeType.follows,
       })
       .toPromise();
-    const artist = await this.artistClientProxy
-      .send<ArtistResDto, ArtistGetReqDto>(ARTIST_SERVICE_GET, dto)
-      .toPromise();
+    const artist = await this.get(dto);
     return {
       ...artist,
       followersCount: artist.followersCount + 1,
@@ -95,12 +89,10 @@ export class ArtistService implements ArtistServiceInterface {
     if (relations.length === 0) {
       return [];
     }
-    return this.artistClientProxy
-      .send<ArtistResDto[], ArtistGetByIdsReqDto>(ARTIST_SERVICE_GET_BY_IDS, {
-        ...dto,
-        ids: relations.map((value) => value.to.id),
-      })
-      .toPromise();
+    return this.getByIds({
+      ...dto,
+      ids: relations.map((value) => value.to.id),
+    });
   }
 
   @ApmAfterMethod
@@ -184,9 +176,7 @@ export class ArtistService implements ArtistServiceInterface {
   @ApmBeforeMethod
   @PromMethodCounter
   async profile(dto: ArtistGetReqDto): Promise<ArtistResDto> {
-    return this.artistClientProxy
-      .send<ArtistResDto, ArtistGetReqDto>(ARTIST_SERVICE_GET, dto)
-      .toPromise();
+    return this.get(dto);
   }
 
   @ApmAfterMethod
@@ -259,8 +249,6 @@ export class ArtistService implements ArtistServiceInterface {
         type: RelationEdgeType.follows,
       })
       .toPromise();
-    return this.artistClientProxy
-      .send<ArtistResDto, ArtistGetReqDto>(ARTIST_SERVICE_GET, dto)
-      .toPromise();
+    return this.get(dto);
   }
 }

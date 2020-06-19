@@ -13,8 +13,8 @@ import config from "./user.config";
   controllers: [UserController],
   exports: [UserConfigService, UserService],
   imports: [
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     TypeOrmModule.forFeature([UserEntityRepository]),
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

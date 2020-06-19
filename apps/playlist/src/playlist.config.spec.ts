@@ -8,6 +8,10 @@ describe("PlaylistConfig", () => {
       MONGOOSE_RETRY_ATTEMPTS: undefined,
       MONGOOSE_RETRY_DELAY: undefined,
       MONGOOSE_URI: undefined,
+      SERVICE_PORT: undefined,
+      SERVICE_RETRY_ATTEMPTS: undefined,
+      SERVICE_RETRY_DELAY: undefined,
+      SERVICE_URL: undefined,
     });
   });
 });

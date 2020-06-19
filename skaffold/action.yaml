@@ -1,0 +1,59 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: melo-action
+profiles:
+  - name: cluster
+    build:
+      artifacts:
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/action
+          kaniko:
+            dockerfile: docker/development/action.Dockerfile
+          sync:
+            infer:
+              - "apps/action/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      cluster:
+        namespace: melo
+        dockerConfig:
+          secretName: kaniko-secret
+        serviceAccount: kaniko-service-account
+        concurrency: 1
+  - name: local
+    build:
+      artifacts:
+        - image: melo/action
+          docker:
+            dockerfile: docker/development/action.Dockerfile
+          sync:
+            infer:
+              - "apps/action/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      local:
+        push: false
+        useBuildkit: true
+test:
+  - image: melo/action
+    structureTests:
+      - skaffold/structure-test/action/file-existence-test.yaml
+      - skaffold/structure-test/action/global-env-var.yaml
+deploy:
+  helm:
+    releases:
+      - name: melo
+        chartPath: k8s/action
+        artifactOverrides:
+          image: melo/action
+        namespace: melo
+        wait: true
+    flags:
+      install:
+        - --create-namespace
+      upgrade:
+        - --atomic

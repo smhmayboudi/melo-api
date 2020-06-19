@@ -1,0 +1,56 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: melo-album
+profiles:
+  - name: cluster
+    build:
+      artifacts:
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/album
+          kaniko:
+            dockerfile: docker/development/album.Dockerfile
+          sync:
+            infer:
+              - "apps/album/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      cluster:
+        namespace: melo
+        dockerConfig:
+          secretName: kaniko-secret
+        serviceAccount: kaniko-service-account
+  - name: local
+    build:
+      artifacts:
+        - image: melo/album
+          docker:
+            dockerfile: docker/development/album.Dockerfile
+          sync:
+            infer:
+              - "apps/album/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      local:
+        push: false
+        useBuildkit: true
+test:
+  - image: melo/album
+    structureTests:
+      - skaffold/structure-test/album/file-existence-test.yaml
+      - skaffold/structure-test/album/global-env-var.yaml
+deploy:
+  helm:
+    releases:
+      - name: melo
+        chartPath: k8s/album
+        artifactOverrides:
+          image: melo/album
+        namespace: melo
+        wait: true
+    flags:
+      install:
+        - --create-namespace
+      upgrade:
+        - --atomic

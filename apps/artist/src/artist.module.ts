@@ -1,4 +1,4 @@
-import { ARTIST_SERVICE, CONST_SERVICE, RELATION_SERVICE } from "@melo/common";
+import { CONST_SERVICE, RELATION_SERVICE } from "@melo/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { ArtistConfigService } from "./artist.config.service";
@@ -17,13 +17,6 @@ import config from "./artist.config";
   imports: [
     ClientsModule.register([
       {
-        name: ARTIST_SERVICE,
-        options: {
-          url: process.env.ARTIST_SERVICE_URL,
-        },
-        transport: Transport.REDIS,
-      },
-      {
         name: CONST_SERVICE,
         options: {
           url: process.env.CONST_SERVICE_URL,
@@ -38,8 +31,8 @@ import config from "./artist.config";
         transport: Transport.REDIS,
       },
     ]),
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     ElasticsearchModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [ArtistModule],

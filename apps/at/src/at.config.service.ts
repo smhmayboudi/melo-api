@@ -1,5 +1,9 @@
 import {
   AT,
+  SERVICE_PORT,
+  SERVICE_RETRY_ATTEMPTS,
+  SERVICE_RETRY_DELAY,
+  SERVICE_URL,
   TYPEORM_DATABASE,
   TYPEORM_HOST,
   TYPEORM_LOGGING,
@@ -12,10 +16,29 @@ import {
 import { AtConfigServiceInterface } from "./at.config.service.interface";
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
+import ms from "ms";
 
 @Injectable()
 export class AtConfigService implements AtConfigServiceInterface {
   constructor(private readonly configService: ConfigService) {}
+
+  get servicePort(): number {
+    return this.configService.get<number>(`${AT}.${SERVICE_PORT}`, 0);
+  }
+
+  get serviceRetryAttempts(): number {
+    return this.configService.get<number>(`${AT}.${SERVICE_RETRY_ATTEMPTS}`, 0);
+  }
+
+  get serviceRetryDelay(): number {
+    return ms(
+      this.configService.get<string>(`${AT}.${SERVICE_RETRY_DELAY}`, "0")
+    );
+  }
+
+  get serviceUrl(): string {
+    return this.configService.get<string>(`${AT}.${SERVICE_URL}`, "");
+  }
 
   get typeormDatabase(): string {
     return this.configService.get<string>(`${AT}.${TYPEORM_DATABASE}`, "");

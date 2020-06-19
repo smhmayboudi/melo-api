@@ -26,6 +26,10 @@ describe("ConstService", () => {
         width: 1024,
       },
     ],
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
     staticImagePaths: {
       pop: "asset/pop.jpg",
     },

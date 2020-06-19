@@ -1,4 +1,4 @@
-import { COMMON, COMMON_LOGGER } from "@melo/common";
+import { COMMON, COMMON_LOGGER } from "./common.token";
 
 import { Logger } from "@nestjs/common";
 import util from "util";

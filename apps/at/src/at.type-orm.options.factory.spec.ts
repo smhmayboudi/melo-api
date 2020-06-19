@@ -7,6 +7,10 @@ import { Test } from "@nestjs/testing";
 
 describe("AtTypeOrmOptionsFactory", () => {
   const atConfigServiceMock: AtConfigServiceInterface = {
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
     typeormDatabase: "",
     typeormHost: "",
     typeormLogging: true,

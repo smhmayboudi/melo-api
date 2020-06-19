@@ -52,6 +52,10 @@ describe("AlbumController", () => {
     imagePathDefaultAlbum: "",
     indexName: "",
     maxSize: 0,
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
   };
   const albumServiceMock: AlbumServiceInterface = {
     albums: () => Promise.resolve([album]),

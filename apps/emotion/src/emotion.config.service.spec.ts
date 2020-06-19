@@ -38,4 +38,20 @@ describe("EmotionConfigService", () => {
   it("maxSize should return a value", () => {
     expect(service.maxSize).toEqual(0);
   });
+
+  it("servicePort should be equal to a value", () => {
+    expect(service.servicePort).toEqual(0);
+  });
+
+  it("serviceRetryAttempts should be equal to a value", () => {
+    expect(service.serviceRetryAttempts).toEqual(0);
+  });
+
+  it("serviceRetryDelay should be equal to a value", () => {
+    expect(service.serviceRetryDelay).toEqual(0);
+  });
+
+  it("serviceUrl should be equal to a value", () => {
+    expect(service.serviceUrl).toEqual("");
+  });
 });

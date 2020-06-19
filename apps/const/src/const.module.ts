@@ -9,7 +9,7 @@ import config from "./const.config";
 @Module({
   controllers: [ConstController],
   exports: [ConstConfigService, ConstService],
-  imports: [ConfigModule.forRoot(), ConfigModule.forFeature(config)],
+  imports: [ConfigModule.forFeature(config), ConfigModule.forRoot()],
   providers: [ConstConfigService, ConstEventsGateway, ConstService],
 })
 export class ConstModule {}

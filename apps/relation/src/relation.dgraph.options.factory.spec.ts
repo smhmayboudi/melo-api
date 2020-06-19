@@ -7,6 +7,10 @@ describe("RelationDgraphOptionsFactory", () => {
   const relationConfigServiceMock: RelationConfigServiceInterface = {
     dgraphAddress: "",
     dgraphDebug: true,
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
   };
 
   let service: RelationConfigService;

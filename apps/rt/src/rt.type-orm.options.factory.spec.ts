@@ -7,6 +7,10 @@ import { Test } from "@nestjs/testing";
 
 describe("RtTypeOrmOptionsFactory", () => {
   const rtConfigServiceMock: RtConfigServiceInterface = {
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
     typeormDatabase: "",
     typeormHost: "",
     typeormLogging: true,

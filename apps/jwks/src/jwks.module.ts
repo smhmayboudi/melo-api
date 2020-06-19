@@ -13,8 +13,8 @@ import config from "./jwks.config";
   controllers: [JwksController],
   exports: [JwksConfigService, JwksService],
   imports: [
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     TypeOrmModule.forFeature([JwksEntityRepository]),
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

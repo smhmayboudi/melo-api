@@ -10,6 +10,10 @@ describe("PlaylistMongooseOptionsFactory", () => {
     mongooseRetryAttempts: 0,
     mongooseRetryDelay: 0,
     mongooseUri: "",
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
   };
 
   let service: PlaylistConfigService;

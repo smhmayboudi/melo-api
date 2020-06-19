@@ -1,4 +1,4 @@
-import { beforeInstance, beforeMethod } from "kaop-ts";
+import { MethodSignature, beforeInstance, beforeMethod } from "kaop-ts";
 import {
   getOrCreateCounter,
   getTokenCounter,
@@ -21,31 +21,35 @@ export const InjectHistogram = (name: string): ParameterDecorator =>
 export const InjectSummary = (name: string): ParameterDecorator =>
   Inject(getTokenSummary(name));
 
-export const PromInstanceCounter = beforeInstance((meta) => {
-  if (process.env.NODE_ENV === "test") {
-    return;
+export const PromInstanceCounter: MethodSignature<any, any> = beforeInstance(
+  (meta) => {
+    if (process.env.NODE_ENV === "test") {
+      return;
+    }
+    const counterMetric = getOrCreateCounter({
+      help: "app object instances total",
+      labelNames: ["service"],
+      name: "app_object_instances_total",
+    });
+    counterMetric.inc({
+      service: meta.target.constructor.name,
+    });
   }
-  const counterMetric = getOrCreateCounter({
-    help: "app object instances total",
-    labelNames: ["service"],
-    name: "app_object_instances_total",
-  });
-  counterMetric.inc({
-    service: meta.target.constructor.name,
-  });
-});
+);
 
-export const PromMethodCounter = beforeMethod((meta) => {
-  if (process.env.NODE_ENV === "test") {
-    return;
+export const PromMethodCounter: MethodSignature<any, any> = beforeMethod(
+  (meta) => {
+    if (process.env.NODE_ENV === "test") {
+      return;
+    }
+    const counterMetric = getOrCreateCounter({
+      help: "app method calls total",
+      labelNames: ["method", "service"],
+      name: "app_method_calls_total",
+    });
+    counterMetric.inc({
+      method: meta.method.name,
+      service: meta.target.constructor.name,
+    });
   }
-  const counterMetric = getOrCreateCounter({
-    help: "app method calls total",
-    labelNames: ["method", "service"],
-    name: "app_method_calls_total",
-  });
-  counterMetric.inc({
-    method: meta.method.name,
-    service: meta.target.constructor.name,
-  });
-});
+);

@@ -16,6 +16,13 @@ services:
     user: apm-server
     # volumes: 
     #   - ./data/apm-server.docker.yml:/usr/share/apm-server/apm-server.yml
+  dgraph:
+    image: dgraph/dgraph:v20.03.3
+    ports:
+      - 127.0.0.1:8080:8080
+    restart: always
+    volumes: 
+      - ./data/dgraph:/usr/share/dgraph/data
   elasticsearch:
     environment:
       - discovery.type=single-node
@@ -42,14 +49,14 @@ services:
     environment: 
       - MINIO_ACCESS_KEY=minioadmin
       - MINIO_SECRET_KEY=minioadmin
-    image: minio/minio
+    image: minio/minio:RELEASE.2020-06-12T00-06-19Z
     # ports:
     #   - 127.0.0.1:9000:9000
     restart: always
     volumes: 
       - ./data/minio:/data
   mongo:
-    image: mongo:latest
+    image: mongo:4.2.7
     # ports:
     #   - 127.0.0.1:27017:27017
     restart: always
@@ -58,15 +65,19 @@ services:
   mysql:
     environment:
       - MYSQL_ROOT_PASSWORD=testpassword
-    image: mysql:5.6
+    image: mysql:5.7.30
     # ports:
     #   - 127.0.0.1:3306:3306
     restart: always
     volumes:
       - ./data/mysql:/var/lib/mysql
+  redis:
+    image: redis:6.0.5
+    # ports:
+    #   - 127.0.0.1:6379:6379
+    restart: always
   action:
     build:
-      context: .
       dockerfile: docker/action.Dockerfile
     depends_on:
       # - apm-server
@@ -80,7 +91,6 @@ services:
     restart: always
   album:
     build:
-      context: .
       dockerfile: docker/album.Dockerfile
     depends_on:
       # - apm-server
@@ -96,7 +106,6 @@ services:
     restart: always
   artist:
     build:
-      context: .
       dockerfile: docker/artist.Dockerfile
     depends_on:
       # - apm-server
@@ -112,7 +121,6 @@ services:
     restart: always
   at:
     build:
-      context: .
       dockerfile: docker/at.Dockerfile
     depends_on:
       # - apm-server
@@ -128,7 +136,6 @@ services:
     restart: always
   auth:
     build:
-      context: .
       dockerfile: docker/auth.Dockerfile
     depends_on:
       # - apm-server
@@ -142,7 +149,6 @@ services:
     restart: always
   const:
     build:
-      context: .
       dockerfile: docker/const.Dockerfile
     depends_on:
       # - apm-server
@@ -156,7 +162,6 @@ services:
     restart: always
   download:
     build:
-      context: .
       dockerfile: docker/download.Dockerfile
     depends_on:
       # - apm-server
@@ -172,7 +177,6 @@ services:
     restart: always
   emotion:
     build:
-      context: .
       dockerfile: docker/emotion.Dockerfile
     depends_on:
       # - apm-server
@@ -188,7 +192,6 @@ services:
     restart: always
   file:
     build:
-      context: .
       dockerfile: docker/file.Dockerfile
     depends_on:
       # - apm-server
@@ -206,7 +209,6 @@ services:
     restart: always
   jwks:
     build:
-      context: .
       dockerfile: docker/jwks.Dockerfile
     depends_on:
       # - apm-server
@@ -222,7 +224,6 @@ services:
     restart: always
   melo-api:
     build:
-      context: .
       dockerfile: docker/melo-api.Dockerfile
     depends_on:
       - action
@@ -255,7 +256,6 @@ services:
     restart: always
   playlist:
     build:
-      context: .
       dockerfile: docker/playlist.Dockerfile
     depends_on:
       # - apm-server
@@ -271,7 +271,6 @@ services:
     restart: always
   relation:
     build:
-      context: .
       dockerfile: docker/relation.Dockerfile
     depends_on:
       # - apm-server
@@ -287,7 +286,6 @@ services:
     restart: always
   rt:
     build:
-      context: .
       dockerfile: docker/rt.Dockerfile
     depends_on:
       # - apm-server
@@ -303,7 +301,6 @@ services:
     restart: always
   search:
     build:
-      context: .
       dockerfile: docker/search.Dockerfile
     depends_on:
       # - apm-server
@@ -319,7 +316,6 @@ services:
     restart: always
   song:
     build:
-      context: .
       dockerfile: docker/song.Dockerfile
     depends_on:
       # - apm-server
@@ -335,7 +331,6 @@ services:
     restart: always
   user:
     build:
-      context: .
       dockerfile: docker/user.Dockerfile
     depends_on:
       # - apm-server
@@ -348,9 +343,4 @@ services:
       # - apm-server:apm-server
       - mysql:mysql
       - redis:redis
-    restart: always
-  redis:
-    image: redis:latest
-    # ports:
-    #   - 127.0.0.1:6379:6379
     restart: always

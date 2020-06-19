@@ -1,4 +1,4 @@
-.env.docker
+.env.docker-compose
 data
 
 # Created by https://www.toptal.com/developers/gitignore/api/helm,linux,macos,node,visualstudiocode,windows

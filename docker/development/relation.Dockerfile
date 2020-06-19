@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS relation.development
+FROM node:12.18.1 AS relation.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -11,5 +11,4 @@ RUN npm install \
     && npm fund \
     && npm audit fix --dry-run
 COPY ./apps/relation ./apps/relation
-RUN ./node_modules/.bin/nest build relation
-CMD ["node", "./dist/apps/relation/main.js"]
+CMD ["./node_modules/.bin/nest","start","relation","--watch"]

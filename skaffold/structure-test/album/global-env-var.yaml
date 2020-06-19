@@ -1,0 +1,5 @@
+schemaVersion: 2.0.0
+
+globalEnvVars:
+  - key: NODE_ENV
+    value: development

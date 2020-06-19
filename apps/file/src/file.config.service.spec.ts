@@ -51,6 +51,22 @@ describe("FileConfigService", () => {
     expect(service.s3SslEnabled).toEqual(true);
   });
 
+  it("servicePort should be equal to a value", () => {
+    expect(service.servicePort).toEqual(0);
+  });
+
+  it("serviceRetryAttempts should be equal to a value", () => {
+    expect(service.serviceRetryAttempts).toEqual(0);
+  });
+
+  it("serviceRetryDelay should be equal to a value", () => {
+    expect(service.serviceRetryDelay).toEqual(0);
+  });
+
+  it("serviceUrl should be equal to a value", () => {
+    expect(service.serviceUrl).toEqual("");
+  });
+
   it("typeormDatabase should be equal to a value", () => {
     expect(service.typeormDatabase).toEqual("");
   });

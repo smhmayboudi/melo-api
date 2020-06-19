@@ -6,6 +6,10 @@ import {
   S3_FORCE_PATH_STYLE,
   S3_SECRET_ACCESS_KEY,
   S3_SSL_ENABLED,
+  SERVICE_PORT,
+  SERVICE_RETRY_ATTEMPTS,
+  SERVICE_RETRY_DELAY,
+  SERVICE_URL,
   TYPEORM_DATABASE,
   TYPEORM_HOST,
   TYPEORM_LOGGING,
@@ -18,6 +22,7 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { FileConfigServiceInterface } from "./file.config.service.interface";
 import { Injectable } from "@nestjs/common";
+import ms from "ms";
 
 @Injectable()
 export class FileConfigService implements FileConfigServiceInterface {
@@ -47,6 +52,27 @@ export class FileConfigService implements FileConfigServiceInterface {
       `${FILE}.${S3_SECRET_ACCESS_KEY}`,
       ""
     );
+  }
+
+  get servicePort(): number {
+    return this.configService.get<number>(`${FILE}.${SERVICE_PORT}`, 0);
+  }
+
+  get serviceRetryAttempts(): number {
+    return this.configService.get<number>(
+      `${FILE}.${SERVICE_RETRY_ATTEMPTS}`,
+      0
+    );
+  }
+
+  get serviceRetryDelay(): number {
+    return ms(
+      this.configService.get<string>(`${FILE}.${SERVICE_RETRY_DELAY}`, "0")
+    );
+  }
+
+  get serviceUrl(): string {
+    return this.configService.get<string>(`${FILE}.${SERVICE_URL}`, "");
   }
 
   get s3SslEnabled(): boolean {

@@ -4,4 +4,8 @@ export interface AlbumConfigServiceInterface {
   imagePathDefaultAlbum: string;
   indexName: string;
   maxSize: number;
+  servicePort: number;
+  serviceRetryAttempts: number;
+  serviceRetryDelay: number;
+  serviceUrl: string;
 }

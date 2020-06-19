@@ -7,6 +7,10 @@ export interface SongConfigServiceInterface {
   mp3Endpoint: string;
   sendTimeout: number;
   sendUrl: string;
+  servicePort: number;
+  serviceRetryAttempts: number;
+  serviceRetryDelay: number;
+  serviceUrl: string;
   typeormDatabase: string;
   typeormHost: string;
   typeormLogging: boolean;

@@ -1,17 +1,345 @@
 apiVersion: skaffold/v2beta4
 kind: Config
 metadata:
-  name: action
-build:
-  artifacts:
-    - image: melo/action
-      context: .
-      docker:
-        dockerfile: docker/development/action.Dockerfile
-      sync:
-        infer:
-          - "apps/action/**/*"
-          - "libs/**/*"
+  name: melo
+profiles:
+  - name: cluster
+    build:
+      artifacts:
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/action
+          kaniko:
+            dockerfile: docker/development/action.Dockerfile
+          sync:
+            infer:
+              - "apps/action/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/album
+          kaniko:
+            dockerfile: docker/development/album.Dockerfile
+          sync:
+            infer:
+              - "apps/album/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/artist
+          kaniko:
+            dockerfile: docker/development/artist.Dockerfile
+          sync:
+            infer:
+              - "apps/artist/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/at
+          kaniko:
+            dockerfile: docker/development/at.Dockerfile
+          sync:
+            infer:
+              - "apps/at/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/const
+          kaniko:
+            dockerfile: docker/development/const.Dockerfile
+          sync:
+            infer:
+              - "apps/const/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/download
+          kaniko:
+            dockerfile: docker/development/download.Dockerfile
+          sync:
+            infer:
+              - "apps/download/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/emotion
+          kaniko:
+            dockerfile: docker/development/emotion.Dockerfile
+          sync:
+            infer:
+              - "apps/emotion/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/file
+          kaniko:
+            dockerfile: docker/development/file.Dockerfile
+          sync:
+            infer:
+              - "apps/file/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/jwks
+          kaniko:
+            dockerfile: docker/development/jwks.Dockerfile
+          sync:
+            infer:
+              - "apps/jwks/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/melo-api
+          kaniko:
+            dockerfile: docker/development/melo-api.Dockerfile
+          sync:
+            infer:
+              - "apps/melo-api/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/playlist
+          kaniko:
+            dockerfile: docker/development/playlist.Dockerfile
+          sync:
+            infer:
+              - "apps/playlist/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/relation
+          kaniko:
+            dockerfile: docker/development/relation.Dockerfile
+          sync:
+            infer:
+              - "apps/relation/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/rt
+          kaniko:
+            dockerfile: docker/development/rt.Dockerfile
+          sync:
+            infer:
+              - "apps/rt/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/search
+          kaniko:
+            dockerfile: docker/development/search.Dockerfile
+          sync:
+            infer:
+              - "apps/search/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/song
+          kaniko:
+            dockerfile: docker/development/song.Dockerfile
+          sync:
+            infer:
+              - "apps/song/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/user
+          kaniko:
+            dockerfile: docker/development/user.Dockerfile
+          sync:
+            infer:
+              - "apps/user/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      cluster:
+        namespace: melo
+        dockerConfig:
+          secretName: kaniko-secret
+        serviceAccount: kaniko-service-account
+  - name: local
+    build:
+      artifacts:
+        - image: melo/action
+          docker:
+            dockerfile: docker/development/action.Dockerfile
+          sync:
+            infer:
+              - "apps/action/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/album
+          docker:
+            dockerfile: docker/development/album.Dockerfile
+          sync:
+            infer:
+              - "apps/album/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/artist
+          docker:
+            dockerfile: docker/development/artist.Dockerfile
+          sync:
+            infer:
+              - "apps/artist/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/at
+          docker:
+            dockerfile: docker/development/at.Dockerfile
+          sync:
+            infer:
+              - "apps/at/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/const
+          docker:
+            dockerfile: docker/development/const.Dockerfile
+          sync:
+            infer:
+              - "apps/const/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/download
+          docker:
+            dockerfile: docker/development/download.Dockerfile
+          sync:
+            infer:
+              - "apps/download/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/emotion
+          docker:
+            dockerfile: docker/development/emotion.Dockerfile
+          sync:
+            infer:
+              - "apps/emotion/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/file
+          docker:
+            dockerfile: docker/development/file.Dockerfile
+          sync:
+            infer:
+              - "apps/file/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/jwks
+          docker:
+            dockerfile: docker/development/jwks.Dockerfile
+          sync:
+            infer:
+              - "apps/jwks/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/melo-api
+          docker:
+            dockerfile: docker/development/melo-api.Dockerfile
+          sync:
+            infer:
+              - "apps/melo-api/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/playlist
+          docker:
+            dockerfile: docker/development/playlist.Dockerfile
+          sync:
+            infer:
+              - "apps/playlist/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/relation
+          docker:
+            dockerfile: docker/development/relation.Dockerfile
+          sync:
+            infer:
+              - "apps/relation/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/rt
+          docker:
+            dockerfile: docker/development/rt.Dockerfile
+          sync:
+            infer:
+              - "apps/rt/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/search
+          docker:
+            dockerfile: docker/development/search.Dockerfile
+          sync:
+            infer:
+              - "apps/search/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/song
+          docker:
+            dockerfile: docker/development/song.Dockerfile
+          sync:
+            infer:
+              - "apps/song/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+        - image: melo/user
+          docker:
+            dockerfile: docker/development/user.Dockerfile
+          sync:
+            infer:
+              - "apps/user/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      local:
+        push: false
+        useBuildkit: true
+test:
+  - image: melo/action
+    structureTests:
+      - skaffold/structure-test/action/file-existence-test.yaml
+      - skaffold/structure-test/action/global-env-var.yaml
+  - image: melo/album
+    structureTests:
+      - skaffold/structure-test/album/file-existence-test.yaml
+      - skaffold/artist-test/album/global-env-var.yaml
+  - image: melo/album
+    structureTests:
+      - skaffold/structure-test/artist/file-existence-test.yaml
+      - skaffold/structure-test/artist/global-env-var.yaml
+  - image: melo/at
+    structureTests:
+      - skaffold/structure-test/at/file-existence-test.yaml
+      - skaffold/structure-test/at/global-env-var.yaml
+  - image: melo/const
+    structureTests:
+      - skaffold/structure-test/const/file-existence-test.yaml
+      - skaffold/structure-test/const/global-env-var.yaml
+  - image: melo/download
+    structureTests:
+      - skaffold/structure-test/download/file-existence-test.yaml
+      - skaffold/structure-test/download/global-env-var.yaml
+  - image: melo/emotion
+    structureTests:
+      - skaffold/structure-test/emotion/file-existence-test.yaml
+      - skaffold/structure-test/emotion/global-env-var.yaml
+  - image: melo/file
+    structureTests:
+      - skaffold/structure-test/file/file-existence-test.yaml
+      - skaffold/structure-test/file/global-env-var.yaml
+  - image: melo/jwks
+    structureTests:
+      - skaffold/structure-test/jwks/file-existence-test.yaml
+      - skaffold/structure-test/jwks/global-env-var.yaml
+  - image: melo/melo-api
+    structureTests:
+      - skaffold/structure-test/melo-api/file-existence-test.yaml
+      - skaffold/structure-test/melo-api/global-env-var.yaml
+  - image: melo/playlist
+    structureTests:
+      - skaffold/structure-test/playlist/file-existence-test.yaml
+      - skaffold/structure-test/playlist/global-env-var.yaml
+  - image: melo/relation
+    structureTests:
+      - skaffold/structure-test/relation/file-existence-test.yaml
+      - skaffold/structure-test/relation/global-env-var.yaml
+  - image: melo/rt
+    structureTests:
+      - skaffold/structure-test/rt/file-existence-test.yaml
+      - skaffold/structure-test/rt/global-env-var.yaml
+  - image: melo/search
+    structureTests:
+      - skaffold/structure-test/search/file-existence-test.yaml
+      - skaffold/structure-test/search/global-env-var.yaml
+  - image: melo/song
+    structureTests:
+      - skaffold/structure-test/song/file-existence-test.yaml
+      - skaffold/structure-test/song/global-env-var.yaml
+  - image: melo/user
+    structureTests:
+      - skaffold/structure-test/user/file-existence-test.yaml
+      - skaffold/structure-test/user/global-env-var.yaml
 deploy:
   helm:
     releases:
@@ -21,3 +349,98 @@ deploy:
           image: melo/action
         namespace: melo
         wait: true
+      - name: melo
+        chartPath: k8s/album
+        artifactOverrides:
+          image: melo/album
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/artist
+        artifactOverrides:
+          image: melo/artist
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/at
+        artifactOverrides:
+          image: melo/at
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/const
+        artifactOverrides:
+          image: melo/const
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/download
+        artifactOverrides:
+          image: melo/download
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/emotion
+        artifactOverrides:
+          image: melo/emotion
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/file
+        artifactOverrides:
+          image: melo/file
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/jwks
+        artifactOverrides:
+          image: melo/jwks
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/melo-api
+        artifactOverrides:
+          image: melo/melo-api
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/playlist
+        artifactOverrides:
+          image: melo/playlist
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/relation
+        artifactOverrides:
+          image: melo/relation
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/rt
+        artifactOverrides:
+          image: melo/rt
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/search
+        artifactOverrides:
+          image: melo/search
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/song
+        artifactOverrides:
+          image: melo/song
+        namespace: melo
+        wait: true
+      - name: melo
+        chartPath: k8s/user
+        artifactOverrides:
+          image: melo/user
+        namespace: melo
+        wait: true
+    flags:
+      install:
+        - --create-namespace
+      upgrade:
+        - --atomic

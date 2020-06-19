@@ -1,0 +1,56 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: melo-jwks
+profiles:
+  - name: cluster
+    build:
+      artifacts:
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/jwks
+          kaniko:
+            dockerfile: docker/development/jwks.Dockerfile
+          sync:
+            infer:
+              - "apps/jwks/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      cluster:
+        namespace: melo
+        dockerConfig:
+          secretName: kaniko-secret
+        serviceAccount: kaniko-service-account
+  - name: local
+    build:
+      artifacts:
+        - image: melo/jwks
+          docker:
+            dockerfile: docker/development/jwks.Dockerfile
+          sync:
+            infer:
+              - "apps/jwks/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      local:
+        push: false
+        useBuildkit: true
+test:
+  - image: melo/jwks
+    structureTests:
+      - skaffold/structure-test/jwks/file-existence-test.yaml
+      - skaffold/structure-test/jwks/global-env-var.yaml
+deploy:
+  helm:
+    releases:
+      - name: melo
+        chartPath: k8s/jwks
+        artifactOverrides:
+          image: melo/jwks
+        namespace: melo
+        wait: true
+    flags:
+      install:
+        - --create-namespace
+      upgrade:
+        - --atomic

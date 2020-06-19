@@ -2,14 +2,14 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/libs/common"
+    "outDir": "../../dist/libs/common",
   },
   "exclude": [
     "**/*spec.ts",
     "coverage",
     "dist",
     "node_modules",
-    "test",
+    "test"
   ],
   "include": [
     "src/**/*"

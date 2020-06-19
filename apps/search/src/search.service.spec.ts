@@ -149,6 +149,10 @@ describe("SearchService", () => {
     indexName: "",
     maxSize: 0,
     scriptScore: "",
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
     suggestIndex: "",
   };
 

@@ -5,10 +5,11 @@
     "outDir": "../../dist/apps/search"
   },
   "exclude": [
-    "node_modules",
+    "**/*spec.ts",
+    "coverage",
     "dist",
-    "test",
-    "**/*spec.ts"
+    "node_modules",
+    "test"
   ],
   "include": [
     "src/**/*"

@@ -1,6 +1,4 @@
 import {
-  ARTIST_SERVICE,
-  ARTIST_SERVICE_GET,
   ArtistFollowReqDto,
   ArtistFollowingReqDto,
   ArtistGetReqDto,
@@ -144,17 +142,17 @@ describe("ArtistService", () => {
     to,
     type: RelationEdgeType.follows,
   };
-  // TOOD: interface ?
-  const artistClientProxyMock = {
-    send: (token: string) =>
-      token === ARTIST_SERVICE_GET ? of(artist) : of([artist]),
-  };
+
   const artistConfigServiceMock: ArtistConfigServiceInterface = {
     elasticsearchNode: "",
     imagePath: "",
     imagePathDefaultArtist: "",
     indexName: "",
     maxSize: 0,
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
   };
   // TODO: interface ?
   const constClientProxyMock = {
@@ -184,7 +182,6 @@ describe("ArtistService", () => {
     const module = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
         { provide: ArtistConfigService, useValue: artistConfigServiceMock },
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },
@@ -235,7 +232,6 @@ describe("ArtistService", () => {
     const module = await Test.createTestingModule({
       providers: [
         ArtistService,
-        { provide: ARTIST_SERVICE, useValue: artistClientProxyMock },
         { provide: ArtistConfigService, useValue: artistConfigServiceMock },
         { provide: CONST_SERVICE, useValue: constClientProxyMock },
         { provide: ElasticsearchService, useValue: elasticsearchServiceMock },

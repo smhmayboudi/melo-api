@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS song.development
+FROM node:12.18.1 AS song.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -11,5 +11,4 @@ RUN npm install \
     && npm fund \
     && npm audit fix --dry-run
 COPY ./apps/song ./apps/song
-RUN ./node_modules/.bin/nest build song
-CMD ["node", "./dist/apps/song/main.js"]
+CMD ["./node_modules/.bin/nest","start","song","--watch"]

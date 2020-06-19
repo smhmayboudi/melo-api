@@ -7,6 +7,10 @@ import {
   MP3_ENDPOINT,
   SEND_TIMEOUT,
   SEND_URL,
+  SERVICE_PORT,
+  SERVICE_RETRY_ATTEMPTS,
+  SERVICE_RETRY_DELAY,
+  SERVICE_URL,
   SONG,
   TYPEORM_DATABASE,
   TYPEORM_HOST,
@@ -20,6 +24,7 @@ import {
 import { ConfigService } from "@nestjs/config";
 import { Injectable } from "@nestjs/common";
 import { SongConfigServiceInterface } from "./song.config.service.interface";
+import ms from "ms";
 
 @Injectable()
 export class SongConfigService implements SongConfigServiceInterface {
@@ -47,6 +52,26 @@ export class SongConfigService implements SongConfigServiceInterface {
 
   get mp3Endpoint(): string {
     return this.configService.get<string>(`${SONG}.${MP3_ENDPOINT}`, "");
+  }
+  get servicePort(): number {
+    return this.configService.get<number>(`${SONG}.${SERVICE_PORT}`, 0);
+  }
+
+  get serviceRetryAttempts(): number {
+    return this.configService.get<number>(
+      `${SONG}.${SERVICE_RETRY_ATTEMPTS}`,
+      0
+    );
+  }
+
+  get serviceRetryDelay(): number {
+    return ms(
+      this.configService.get<string>(`${SONG}.${SERVICE_RETRY_DELAY}`, "0")
+    );
+  }
+
+  get serviceUrl(): string {
+    return this.configService.get<string>(`${SONG}.${SERVICE_URL}`, "");
   }
 
   get sendTimeout(): number {

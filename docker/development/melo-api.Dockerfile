@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS melo-api.development
+FROM node:12.18.1 AS melo-api.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -12,4 +12,4 @@ RUN npm install \
     && npm audit fix --dry-run
 COPY ./apps/melo-api ./apps/melo-api
 RUN ./node_modules/.bin/nest build melo-api
-CMD ["./node_modules/.bin/nest", "start", "melo-api"]
+CMD ["./node_modules/.bin/nest","start","melo-api","--watch"]

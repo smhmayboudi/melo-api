@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS rt.development
+FROM node:12.18.1 AS rt.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -11,5 +11,4 @@ RUN npm install \
     && npm fund \
     && npm audit fix --dry-run
 COPY ./apps/rt ./apps/rt
-RUN ./node_modules/.bin/nest build rt
-CMD ["node", "./dist/apps/rt/main.js"]
+CMD ["./node_modules/.bin/nest","start","rt","--watch"]

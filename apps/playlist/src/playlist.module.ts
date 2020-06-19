@@ -16,8 +16,6 @@ import config from "./playlist.config";
   controllers: [PlaylistController],
   exports: [PlaylistConfigService, PlaylistService],
   imports: [
-    ConfigModule.forRoot(),
-    ConfigModule.forFeature(config),
     ClientsModule.register([
       {
         name: SONG_SERVICE,
@@ -27,6 +25,8 @@ import config from "./playlist.config";
         transport: Transport.REDIS,
       },
     ]),
+    ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     MongooseModule.forFeature([{ name: PLAYLIST, schema: PlaylistSchema }]),
     MongooseModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

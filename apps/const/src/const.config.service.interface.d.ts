@@ -8,5 +8,9 @@ export interface ConstConfigServiceInterface {
   imageSalt: string;
   imageSignatureSize: SignatureSize;
   imageTypeSize: CommonImageTypeSize[];
+  servicePort: number;
+  serviceRetryAttempts: number;
+  serviceRetryDelay: number;
+  serviceUrl: string;
   staticImagePaths: { [key: string]: string };
 }

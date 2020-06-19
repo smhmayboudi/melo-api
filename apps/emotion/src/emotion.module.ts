@@ -22,8 +22,8 @@ import config from "./emotion.config";
         transport: Transport.REDIS,
       },
     ]),
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
   ],
   providers: [EmotionConfigService, EmotionEventsGateway, EmotionService],
 })

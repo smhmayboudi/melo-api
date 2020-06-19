@@ -1,30 +1,28 @@
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 import { JWKS_SERVICE } from "@melo/common";
+import { JwksConfigService } from "./jwks.config.service";
 import { JwksModule } from "./jwks.module";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import ms from "ms";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(JwksModule, {
     logger: ["log", "error", "warn", "debug", "verbose"],
   });
+  const jwksConfigService = app.get(JwksConfigService);
   app.connectMicroservice<MicroserviceOptions>({
     options: {
-      retryAttempts: parseInt(
-        process.env.JWKS_SERVICE_RETRY_ATTEMPTS || "10",
-        10
-      ),
-      retryDelay: ms(process.env.JWKS_SERVICE_RETRY_DELAY || "0"),
-      url: process.env.JWKS_SERVICE_URL,
+      retryAttempts: jwksConfigService.serviceRetryAttempts,
+      retryDelay: jwksConfigService.serviceRetryDelay,
+      url: jwksConfigService.serviceUrl,
     },
     transport: Transport.REDIS,
   });
   app.startAllMicroservices(() => {
     Logger.log("Nest microservice is listening", JWKS_SERVICE);
   });
-  await app.listen(process.env.JWKS_PORT || 8080, () => {
+  await app.listen(jwksConfigService.servicePort, () => {
     Logger.log("Nest application is listening", JWKS_SERVICE);
   });
 }

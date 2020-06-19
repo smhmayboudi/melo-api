@@ -1,3 +1,11 @@
+<p align="center">
+  <a href="http://melobit.com/" target="blank"><img src="https://melobit.com/logo.svg" width="120" alt="Melobit Logo" /></a>
+</p>
+  <p align="center"><h1>MELO-API</h1></p>
+  <a href="https://gitlab.3re.ir/melobit/melo-api/-/commits/develop"><img alt="pipeline status" src="https://gitlab.3re.ir/melobit/melo-api/badges/develop/pipeline.svg" /></a>
+  <a href="https://gitlab.3re.ir/melobit/melo-api/-/commits/develop"><img alt="coverage report" src="https://gitlab.3re.ir/melobit/melo-api/badges/develop/coverage.svg" /></a>
+</p>
+
 # Description
 
 Api based on [Nest](https://github.com/nestjs/nest).
@@ -7,14 +15,22 @@ Api based on [Nest](https://github.com/nestjs/nest).
 ## dev
 ```Shell
 $ brew cask install docker
+$ brew cask install lens
 $ brew cask install virtualbox
 $ brew cask install visual-studio-code
+$ brew install container-structure-test
+$ brew install gnupg
 $ brew install helm
 $ brew install kind
 $ brew install kubernetes-cli
 $ brew install minikube
 $ brew install node@12
 $ brew install skaffold
+$ brew install zsh-syntax-highlighting
+```
+
+```Shell
+$ echo '{"debug":true,"experimental":false,"features":{"buildkit":true}}' > ~/.docker/daemon.json
 ```
 
 ## vscode extension
@@ -28,6 +44,7 @@ $ code --install-extension lunuan.kubernetes-templates
 $ code --install-extension ms-azuretools.vscode-docker
 $ code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
 $ code --install-extension pkief.material-icon-theme
+$ code --install-extension redhat.vscode-yaml
 $ code --install-extension streetsidesoftware.code-spell-checker
 $ code --install-extension tyriar.sort-lines
 ```
@@ -47,7 +64,7 @@ $ brew cask install skype
 # Enviroment
 
 * For using personal, duplicate [.env.sample](.env.sample), rename it to `.env` and fillout it.
-* For using docker, duplicate [.env.sample](.env.sample), rename it to `.env.docker` and fillout it.
+* For using docker-compose, duplicate [.env.sample](.env.sample), rename it to `.env.docker-compose` and fillout it.
 
 ```Shell
 # generate UUID
@@ -64,15 +81,23 @@ $ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
 
 ```Shell
 # need
-$ docker pull darthsim/imgproxy
-$ docker pull dgraph/dgraph
-$ docker pull minio/minio
-$ docker pull mongo
-$ docker pull mysql:5.6
-$ docker pull node:12.18.0
-$ docker pull node:12.18.0-alpine
-$ docker pull node:12.18.0-slim
-$ docker pull redis
+$ docker pull bitnami/elasticsearch:7.7.1
+$ docker pull bitnami/kibana:7.7.1
+$ docker pull bitnami/minio:2020.6.12
+$ docker pull bitnami/mongodb:4.2.8
+$ docker pull bitnami/mysql:5.7.30
+$ docker pull bitnami/redis:6.0.5
+$ docker pull darthsim/imgproxy:v2.13.1
+$ docker pull dgraph/dgraph:v20.03.3
+$ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.7.1
+$ docker pull docker.elastic.co/kibana/kibana:7.7.1
+$ docker pull minio/minio:RELEASE.2020-06-12T00-06-19Z
+$ docker pull mongo:4.2.7
+$ docker pull mysql:5.7.30
+$ docker pull node:12.18.1
+$ docker pull node:12.18.1-alpine
+$ docker pull node:12.18.1-slim
+$ docker pull redis:6.0.5
 
 # test
 $ docker plugin install docker.elastic.co/beats/elastic-logging-plugin:7.7.1
@@ -84,9 +109,7 @@ $ docker pull docker.elastic.co/beats/heartbeat:7.7.1
 $ docker pull docker.elastic.co/beats/journalbeat:7.7.1
 $ docker pull docker.elastic.co/beats/metricbeat:7.7.1
 $ docker pull docker.elastic.co/beats/packetbeat:7.7.1
-$ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.7.1
 $ docker pull docker.elastic.co/enterprise-search/enterprise-search:7.7.1
-$ docker pull docker.elastic.co/kibana/kibana:7.7.1
 $ docker pull docker.elastic.co/logstash/logstash:7.7.1
 ```
 
@@ -99,18 +122,11 @@ $ docker-compose -f docker-compose.development.yml up -d minio mongo mysql redis
 # stop daemon dependencies
 $ docker-compose -f docker-compose.development.yml stop minio mongo mysql redis
 
-# run api foreground
-$ docker-compose -f docker-compose.development.yml up node
-
 # run api background
-$ docker-compose -f docker-compose.development.yml up -d node
+$ docker-compose -f docker-compose.development.yml up -d melo-api
 
 # stop api background
-$ docker-compose -f docker-compose.development.yml stop node
-
-# show api background logs
-$ docker-compose -f docker-compose.development.yml logs node
-
+$ docker-compose -f docker-compose.development.yml stop melo-api
 ```
 
 ## Deployment

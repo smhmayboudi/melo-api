@@ -12,8 +12,8 @@ import config from "./relation.config";
   controllers: [RelationController],
   exports: [RelationConfigService, RelationService],
   imports: [
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     DgraphModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [RelationModule],

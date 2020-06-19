@@ -5,6 +5,10 @@ export interface FileConfigServiceInterface {
   s3ForcePathStyle: boolean;
   s3SecretAccessKey: string;
   s3SslEnabled: boolean;
+  servicePort: number;
+  serviceRetryAttempts: number;
+  serviceRetryDelay: number;
+  serviceUrl: string;
   typeormDatabase: string;
   typeormHost: string;
   typeormLogging: boolean;

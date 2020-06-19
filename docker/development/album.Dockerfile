@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS album.development
+FROM node:12.18.1 AS album.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -11,5 +11,4 @@ RUN npm install \
     && npm fund \
     && npm audit fix --dry-run
 COPY ./apps/album ./apps/album
-RUN ./node_modules/.bin/nest build album
-CMD ["node", "./dist/apps/album/main.js"]
+CMD ["./node_modules/.bin/nest","start","album","--watch"]

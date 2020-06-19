@@ -1,0 +1,56 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: melo-emotion
+profiles:
+  - name: cluster
+    build:
+      artifacts:
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/emotion
+          kaniko:
+            dockerfile: docker/development/emotion.Dockerfile
+          sync:
+            infer:
+              - "apps/emotion/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      cluster:
+        namespace: melo
+        dockerConfig:
+          secretName: kaniko-secret
+        serviceAccount: kaniko-service-account
+  - name: local
+    build:
+      artifacts:
+        - image: melo/emotion
+          docker:
+            dockerfile: docker/development/emotion.Dockerfile
+          sync:
+            infer:
+              - "apps/emotion/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      local:
+        push: false
+        useBuildkit: true
+test:
+  - image: melo/emotion
+    structureTests:
+      - skaffold/structure-test/emotion/file-existence-test.yaml
+      - skaffold/structure-test/emotion/global-env-var.yaml
+deploy:
+  helm:
+    releases:
+      - name: melo
+        chartPath: k8s/emotion
+        artifactOverrides:
+          image: melo/emotion
+        namespace: melo
+        wait: true
+    flags:
+      install:
+        - --create-namespace
+      upgrade:
+        - --atomic

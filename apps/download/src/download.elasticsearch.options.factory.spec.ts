@@ -8,6 +8,10 @@ describe("DownloadElasticsearchOptionsFactory", () => {
     elasticsearchNode: "",
     indexName: "",
     maxSize: 0,
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
   };
 
   let service: DownloadConfigService;

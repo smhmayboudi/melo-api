@@ -1,4 +1,8 @@
 export interface RtConfigServiceInterface {
+  servicePort: number;
+  serviceRetryAttempts: number;
+  serviceRetryDelay: number;
+  serviceUrl: string;
   typeormDatabase: string;
   typeormHost: string;
   typeormLogging: boolean;

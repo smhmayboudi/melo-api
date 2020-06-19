@@ -9,6 +9,10 @@ describe("ConstConfig", () => {
       IMAGE_SALT: undefined,
       IMAGE_SIGNATURE_SIZE: undefined,
       IMAGE_TYPE_SIZE: undefined,
+      SERVICE_PORT: undefined,
+      SERVICE_RETRY_ATTEMPTS: undefined,
+      SERVICE_RETRY_DELAY: undefined,
+      SERVICE_URL: undefined,
       STATIC_IMAGE_PATHS: undefined,
     });
   });

@@ -13,8 +13,8 @@ import config from "./rt.config";
   controllers: [RtController],
   exports: [RtConfigService, RtService],
   imports: [
-    ConfigModule.forRoot(),
     ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     TypeOrmModule.forFeature([RtEntityRepository]),
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define

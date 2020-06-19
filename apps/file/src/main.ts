@@ -1,30 +1,28 @@
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 import { FILE_SERVICE } from "@melo/common";
+import { FileConfigService } from "./file.config.service";
 import { FileModule } from "./file.module";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import ms from "ms";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(FileModule, {
     logger: ["log", "error", "warn", "debug", "verbose"],
   });
+  const fileConfigService = app.get(FileConfigService);
   app.connectMicroservice<MicroserviceOptions>({
     options: {
-      retryAttempts: parseInt(
-        process.env.FILE_SERVICE_RETRY_ATTEMPTS || "10",
-        10
-      ),
-      retryDelay: ms(process.env.FILE_SERVICE_RETRY_DELAY || "0"),
-      url: process.env.FILE_SERVICE_URL,
+      retryAttempts: fileConfigService.serviceRetryAttempts,
+      retryDelay: fileConfigService.serviceRetryDelay,
+      url: fileConfigService.serviceUrl,
     },
     transport: Transport.REDIS,
   });
   app.startAllMicroservices(() => {
     Logger.log("Nest microservice is listening", FILE_SERVICE);
   });
-  await app.listen(process.env.FILE_PORT || 8080, () => {
+  await app.listen(fileConfigService.servicePort, () => {
     Logger.log("Nest application is listening", FILE_SERVICE);
   });
 }

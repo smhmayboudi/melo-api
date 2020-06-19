@@ -22,8 +22,4 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   "sort-imports.ignore-type-defs": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "window.zoomLevel": 1,
-  "workbench.iconTheme": "material-icon-theme",
-  "workbench.startupEditor": "newUntitledFile",
 }

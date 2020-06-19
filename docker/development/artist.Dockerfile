@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS artist.development
+FROM node:12.18.1 AS artist.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -11,5 +11,4 @@ RUN npm install \
     && npm fund \
     && npm audit fix --dry-run
 COPY ./apps/artist ./apps/artist
-RUN ./node_modules/.bin/nest build artist
-CMD ["node", "./dist/apps/artist/main.js"]
+CMD ["./node_modules/.bin/nest","start","artist","--watch"]

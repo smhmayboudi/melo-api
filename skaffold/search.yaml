@@ -1,0 +1,56 @@
+apiVersion: skaffold/v2beta4
+kind: Config
+metadata:
+  name: melo-search
+profiles:
+  - name: cluster
+    build:
+      artifacts:
+        - image: gitlab-repo.3re.ir/melobit/melo-api/melo/search
+          kaniko:
+            dockerfile: docker/development/search.Dockerfile
+          sync:
+            infer:
+              - "apps/search/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      cluster:
+        namespace: melo
+        dockerConfig:
+          secretName: kaniko-secret
+        serviceAccount: kaniko-service-account
+  - name: local
+    build:
+      artifacts:
+        - image: melo/search
+          docker:
+            dockerfile: docker/development/search.Dockerfile
+          sync:
+            infer:
+              - "apps/search/**/*.*"
+              - "libs/**/*.*"
+              - "type/**/*.*"
+      tagPolicy:
+        sha256: {}
+      local:
+        push: false
+        useBuildkit: true
+test:
+  - image: melo/search
+    structureTests:
+      - skaffold/structure-test/search/file-existence-test.yaml
+      - skaffold/structure-test/search/global-env-var.yaml
+deploy:
+  helm:
+    releases:
+      - name: melo
+        chartPath: k8s/search
+        artifactOverrides:
+          image: melo/search
+        namespace: melo
+        wait: true
+    flags:
+      install:
+        - --create-namespace
+      upgrade:
+        - --atomic

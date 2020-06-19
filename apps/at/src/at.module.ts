@@ -13,14 +13,14 @@ import config from "./at.config";
   controllers: [AtController],
   exports: [AtConfigService, AtService],
   imports: [
+    ConfigModule.forFeature(config),
+    ConfigModule.forRoot(),
     TypeOrmModule.forFeature([AtEntityRepository]),
     TypeOrmModule.forRootAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
       imports: [AtModule],
       useClass: AtTypeOrmOptionsFactory,
     }),
-    ConfigModule.forRoot(),
-    ConfigModule.forFeature(config),
   ],
   providers: [AtConfigService, AtEventsGateway, AtService],
 })

@@ -4,4 +4,8 @@ export interface PlaylistConfigServiceInterface {
   mongooseRetryAttempts: number;
   mongooseRetryDelay: number;
   mongooseUri: string;
+  servicePort: number;
+  serviceRetryAttempts: number;
+  serviceRetryDelay: number;
+  serviceUrl: string;
 }

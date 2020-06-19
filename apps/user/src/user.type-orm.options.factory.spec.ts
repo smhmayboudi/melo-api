@@ -7,6 +7,10 @@ import { UserTypeOrmOptionsFactory } from "./user.type-orm.options.factory";
 
 describe("UserTypeOrmOptionsFactory", () => {
   const userConfigServiceMock: UserConfigServiceInterface = {
+    servicePort: 0,
+    serviceRetryAttempts: 0,
+    serviceRetryDelay: 0,
+    serviceUrl: "",
     typeormDatabase: "",
     typeormHost: "",
     typeormLogging: true,

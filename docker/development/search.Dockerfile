@@ -1,4 +1,4 @@
-FROM node:12.18.0 AS search.development
+FROM node:12.18.1 AS search.development
 WORKDIR /app
 COPY ./libs ./libs
 COPY ./type ./type
@@ -11,5 +11,4 @@ RUN npm install \
     && npm fund \
     && npm audit fix --dry-run
 COPY ./apps/search ./apps/search
-RUN ./node_modules/.bin/nest build search
-CMD ["node", "./dist/apps/search/main.js"]
+CMD ["./node_modules/.bin/nest","start","search","--watch"]
