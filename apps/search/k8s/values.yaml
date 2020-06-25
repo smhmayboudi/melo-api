@@ -1,0 +1,139 @@
+redis:
+  cluster:
+    enabled: false
+  fullnameOverride: melo-redis
+  networkPolicy:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
+  metrics:
+    enabled: false
+  podDisruptionBudget:
+    enabled: false
+  tls:
+    enabled: false
+  securityContext:
+    enabled: false
+  sentinel:
+    enabled: false
+  slave:
+    persistence:
+      enabled: false
+  sysctlImage:
+    enabled: false
+  volumePermissions:
+    enabled: false
+  usePassword: false
+
+elasticsearch:
+  coordinating:
+    replicas: 0
+    securityContext:
+      enabled: false
+  curator:
+    enabled: false
+    rbac:
+      enabled: false
+  data:
+    persistence:
+      enabled: false
+    securityContext:
+      enabled: false
+    replicas: 0
+  fullnameOverride: melo-elasticsearch
+  global:
+    kibanaEnabled: false
+  ingest:
+    enabled: false
+    replicas: 0
+    securityContext:
+      enabled: false
+  master:
+    persistence:
+      enabled: false
+    securityContext:
+      enabled: false
+    replicas: 1
+  metrics:
+    enabled: false
+    serviceMonitor:
+      enabled: false
+  sysctlImage:
+    enabled: false
+  volumePermissions:
+    enabled: false
+
+replicaCount: 1
+
+image:
+  repository: melo/search
+  pullPolicy: IfNotPresent
+  # tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #     - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations:
+    {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: localhost
+      paths:
+        - "/"
+  tls: []
+    # - secretName: chart-example-tls
+    #   hosts:
+    #     - chart-example.local
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+configmap:
+  volumeMounts:
+    mountPath: /app/.env
+    subPath: .env

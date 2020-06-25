@@ -2,16 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/libs/sentry",
+    "outDir": "../../dist/libs/sentry"
   },
-  "exclude": [
-    "**/*spec.ts",
-    "coverage",
-    "dist",
-    "node_modules",
-    "test"
-  ],
-  "include": [
-    "src/**/*"
-  ],
+  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
+  "include": ["src/**/*"]
 }

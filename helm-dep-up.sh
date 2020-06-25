@@ -1,9 +1,8 @@
 #!/bin/bash
 
-path=$1
-cd $path
+cd apps
 for folder in *; do
-  cd $folder
+  cd $folder/k8s
   if [ -e Chart.yaml ]; then
     for subDir in $(awk -F'repository: file://' '{print $2}' Chart.yaml); do
       echo "Updating charts in "$(pwd)"/"$subDir
@@ -16,5 +15,6 @@ for folder in *; do
     helm dep up "$(pwd)"
     echo
   fi
-  cd ..
+  cd ../..
 done
+cd ..

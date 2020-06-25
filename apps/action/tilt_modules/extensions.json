@@ -1,0 +1,16 @@
+{
+  "Extensions": [
+    {
+      "Name": "namespace",
+      "GitCommitHash": "b1c4d059bacd6591f91c44f368aeacf247482e66",
+      "ExtensionRegistry": "https://github.com/tilt-dev/tilt-extensions",
+      "TimeFetched": "2020-06-23T16:23:02.86937+04:30"
+    },
+    {
+      "Name": "restart_process",
+      "GitCommitHash": "b5c2d997953d0b6737ce66bf8beae67b937542f0",
+      "ExtensionRegistry": "https://github.com/tilt-dev/tilt-extensions",
+      "TimeFetched": "2020-06-25T09:35:43.97421+04:30"
+    }
+  ]
+}

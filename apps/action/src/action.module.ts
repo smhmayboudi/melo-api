@@ -7,8 +7,8 @@ import { Module } from "@nestjs/common";
 import config from "./action.config";
 
 @Module({
-  controllers: [ActionConfigService, ActionController],
-  exports: [ActionService],
+  controllers: [ActionController],
+  exports: [ActionConfigService, ActionService],
   imports: [ConfigModule.forFeature(config), ConfigModule.forRoot()],
   providers: [ActionConfigService, ActionEventsGateway, ActionService],
 })

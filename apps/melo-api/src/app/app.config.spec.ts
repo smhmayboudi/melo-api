@@ -17,7 +17,6 @@ describe("AppConfig", () => {
       HASH_ID_MIN_LENGTH: undefined,
       HASH_ID_SALT: undefined,
       HASH_ID_SEPS: undefined,
-      PORT: undefined,
       PROM_DEFAULT_LABELS: undefined,
       PROM_DEFAULT_METRICS_ENABLED: undefined,
       PROM_PATH: undefined,
@@ -29,6 +28,7 @@ describe("AppConfig", () => {
       SENTRY_ENVIROMENT: undefined,
       SENTRY_LOG_LEVEL: undefined,
       SENTRY_RELEASE: undefined,
+      SERVICE_PORT: undefined,
     });
   });
 });

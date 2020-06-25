@@ -1,0 +1,9 @@
+dependencies:
+- name: common
+  repository: file://../../common/k8s
+  version: 1.0.0
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.7.1
+digest: sha256:4121362634f892ab3d6ec3ae468758978ac18d208d1cbc3bd5cb1f3b51fcfc43
+generated: "2020-06-22T23:55:11.557992+04:30"

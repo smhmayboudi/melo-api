@@ -2,6 +2,7 @@ import { ARTIST } from "@melo/common";
 import { registerAs } from "@nestjs/config";
 
 export default registerAs(ARTIST, () => ({
+  ELASTICSEARCH_NODE: process.env.ARTIST_ELASTICSEARCH_NODE,
   IMAGE_PATH: process.env.ARTIST_IMAGE_PATH,
   IMAGE_PATH_DEFAULT: process.env.ARTIST_IMAGE_PATH_DEFAULT,
   INDEX_NAME: process.env.ARTIST_INDEX_NAME,

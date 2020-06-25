@@ -34,41 +34,17 @@
       "scripthost"
     ],
     "paths": {
-      "@melo/common": [
-        "libs/common/src"
-      ],
-      "@melo/common/*": [
-        "libs/common/src/*"
-      ],
-      "@melo/apm": [
-        "libs/apm/src"
-      ],
-      "@melo/apm/*": [
-        "libs/apm/src/*"
-      ],
-      "@melo/dgraph": [
-        "libs/dgraph/src"
-      ],
-      "@melo/dgraph/*": [
-        "libs/dgraph/src/*"
-      ],
-      "@melo/prom": [
-        "libs/prom/src"
-      ],
-      "@melo/prom/*": [
-        "libs/prom/src/*"
-      ],
-      "@melo/sentry": [
-        "libs/sentry/src"
-      ],
-      "@melo/sentry/*": [
-        "libs/sentry/src/*"
-      ]
+      "@melo/common": ["libs/common/src"],
+      "@melo/common/*": ["libs/common/src/*"],
+      "@melo/apm": ["libs/apm/src"],
+      "@melo/apm/*": ["libs/apm/src/*"],
+      "@melo/dgraph": ["libs/dgraph/src"],
+      "@melo/dgraph/*": ["libs/dgraph/src/*"],
+      "@melo/prom": ["libs/prom/src"],
+      "@melo/prom/*": ["libs/prom/src/*"],
+      "@melo/sentry": ["libs/sentry/src"],
+      "@melo/sentry/*": ["libs/sentry/src/*"]
     }
   },
-  "exclude": [
-    "coverage",
-    "dist",
-    "node_modules"
-  ]
+  "exclude": ["coverage", "dist", "node_modules"]
 }

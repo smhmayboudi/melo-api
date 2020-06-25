@@ -1,0 +1,12 @@
+dependencies:
+- name: common
+  repository: file://../../common/k8s
+  version: 1.0.0
+- name: mongodb
+  repository: https://charts.bitnami.com/bitnami
+  version: 7.14.6
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.7.1
+digest: sha256:55410e3cf77004ab3c979119da30ec9ebce517648a4c20626065d0f60a36c784
+generated: "2020-06-22T23:55:17.92995+04:30"

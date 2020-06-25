@@ -2,16 +2,8 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/libs/apm",
+    "outDir": "../../dist/libs/apm"
   },
-  "exclude": [
-    "**/*spec.ts",
-    "coverage",
-    "dist",
-    "node_modules",
-    "test"
-  ],
-  "include": [
-    "src/**/*"
-  ],
+  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
+  "include": ["src/**/*"]
 }

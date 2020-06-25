@@ -4,14 +4,6 @@
     "declaration": false,
     "outDir": "../../dist/apps/at"
   },
-  "exclude": [
-    "**/*spec.ts",
-    "coverage",
-    "dist",
-    "node_modules",
-    "test"
-  ],
-  "include": [
-    "src/**/*"
-  ],
+  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
+  "include": ["src/**/*"]
 }

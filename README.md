@@ -13,27 +13,118 @@ Api based on [Nest](https://github.com/nestjs/nest).
 # Tooling
 
 ## dev
+
+### base
+
 ```Shell
 $ brew cask install docker
-$ brew cask install lens
-$ brew cask install virtualbox
 $ brew cask install visual-studio-code
-$ brew install container-structure-test
 $ brew install gnupg
-$ brew install helm
-$ brew install kind
-$ brew install kubernetes-cli
-$ brew install minikube
 $ brew install node@12
-$ brew install skaffold
+$ brew install yarn
 $ brew install zsh-syntax-highlighting
 ```
 
+### console tweeks
+
 ```Shell
+$ echo 'export ZSH=/Users/{USERNAME}/.oh-my-zsh' > ~/.zshrc
+$ echo 'ZSH_THEME="robbyrussell"' >> ~/.zshrc
+$ echo 'plugins=(docker encode64 minikube npm ssh-agent)' >> ~/.zshrc
+$ echo 'export PATH="/usr/local/opt/node@12/bin:$PATH"' >> ~/.zshrc
+$ echo 'alias k=kubectl' >> ~/.zshrc
+$ echo 'complete -F __start_kubectl k' >> ~/.zshrc
+$ echo 'function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}' >> ~/.zshrc
+$ echo 'source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' >> ~/.zshrc
+```
+
+### tilt.dev
+
+```Shell
+$ brew tap tilt-dev/tap
+$ brew install tilt-dev/tap/tilt
+```
+
+### k8s cluster create
+
+```Shell
+# 1st WAY
+$ brew install kind
+$ ./kind-with-registry.sh
+
+# 2nd WAY
+$ Docker for Desktop
+
+# 3rd WAY
+$ brew install ubuntu/microk8s/microk8s
+$ microk8s install
+
+# 4th WAY
+$ brew cask install virtualbox
+$ brew install minikube
+$ minikube start
+
+# 5th WAY
+$ brew install k3d
+```
+
+### k8s cluster working
+
+```Shell
+$ brew install helm
+$ brew install kubectx
+$ brew install kubernetes-cli
+```
+
+### k8s cluster working with UI !?
+
+```Shell
+$ brew cask install lens
+$ brew cask install kui
+```
+
+### k8s cluster tweeks
+
+```Shell
+# docker buildkit
 $ echo '{"debug":true,"experimental":false,"features":{"buildkit":true}}' > ~/.docker/daemon.json
+
+# helm add repos
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# kubectl namespace melo
+$ kubectl create ns melo
+
+# kubectl context
+$ kubectx kind
+
+# kubectl namespace
+$ kubens melo
+```
+
+### ssh key
+
+```Shell
+$ ssh-keygen -t ed25519 -C "{EMAIL_ADDRESS}"
+$ ssh-keygen -t rsa -b 4096 -C "{EMAIL_ADDRESS}"
+$ cat ~/.ssh/id_rsa.pub
+```
+
+### gpg key
+
+```Shell
+$ gpg --full-generate-key
+$ gpg --list-secret-keys --keyid-format LONG {EMAIL_ADDRESS}
+$ gpg --armor --export {SEC_ID}
+$ git config --global commit.gpgsign true
+$ git config --global gpg.program gpg
+$ git config --global user.email "{EMAIL_ADDRESS}"
+$ git config --global user.name "{FIRST_NAME} {LAST_NAME}"
+$ git config --global user.signingkey {SEC_ID}
 ```
 
 ## vscode extension
+
 ```Shell
 $ code --install-extension amatiasq.sort-imports
 $ code --install-extension coenraads.bracket-pair-colorizer-2
@@ -50,6 +141,7 @@ $ code --install-extension tyriar.sort-lines
 ```
 
 ## tool
+
 ```Shell
 $ brew cask install beyond-compare
 $ brew cask install google-chrome
@@ -63,15 +155,15 @@ $ brew cask install skype
 
 # Enviroment
 
-* For using personal, duplicate [.env.sample](.env.sample), rename it to `.env` and fillout it.
-* For using docker-compose, duplicate [.env.sample](.env.sample), rename it to `.env.docker-compose` and fillout it.
+- For using personal, duplicate [.env.sample](.env.sample), rename it to `.env` and fillout it.
+- For using docker-compose, duplicate [.env.sample](.env.sample), rename it to `.env.docker-compose` and fillout it.
 
 ```Shell
 # generate UUID
 $ uuidgen
 
-# generate publiic & private keys
-$ ssh-keygen -t rsa -b 1024 -m PEM -f jwtKey.key
+# generate public & private keys
+$ ssh-keygen -t rsa -b 4096 -m PEM -f jwtKey.key
 $ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
 ```
 
@@ -80,63 +172,39 @@ $ openssl rsa -in jwtKey.key -pubout -outform PEM -out jwtKey.key.pub
 ## Pull
 
 ```Shell
-# need
 $ docker pull bitnami/elasticsearch:7.7.1
 $ docker pull bitnami/kibana:7.7.1
 $ docker pull bitnami/minio:2020.6.12
 $ docker pull bitnami/mongodb:4.2.8
-$ docker pull bitnami/mysql:5.7.30
+$ docker pull bitnami/mysql:5.7.25
 $ docker pull bitnami/redis:6.0.5
+$ docker pull busybox
 $ docker pull darthsim/imgproxy:v2.13.1
 $ docker pull dgraph/dgraph:v20.03.3
-$ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.7.1
-$ docker pull docker.elastic.co/kibana/kibana:7.7.1
-$ docker pull minio/minio:RELEASE.2020-06-12T00-06-19Z
-$ docker pull mongo:4.2.7
-$ docker pull mysql:5.7.30
 $ docker pull node:12.18.1
 $ docker pull node:12.18.1-alpine
 $ docker pull node:12.18.1-slim
-$ docker pull redis:6.0.5
-
-# test
-$ docker plugin install docker.elastic.co/beats/elastic-logging-plugin:7.7.1
-$ docker pull docker.elastic.co/apm/apm-server:7.7.1
-$ docker pull docker.elastic.co/app-search/app-search:7.6.2
-$ docker pull docker.elastic.co/beats/auditbeat:7.7.1
-$ docker pull docker.elastic.co/beats/filebeat:7.7.1
-$ docker pull docker.elastic.co/beats/heartbeat:7.7.1
-$ docker pull docker.elastic.co/beats/journalbeat:7.7.1
-$ docker pull docker.elastic.co/beats/metricbeat:7.7.1
-$ docker pull docker.elastic.co/beats/packetbeat:7.7.1
-$ docker pull docker.elastic.co/enterprise-search/enterprise-search:7.7.1
-$ docker pull docker.elastic.co/logstash/logstash:7.7.1
+$ docker pull registry:2.7.1
 ```
 
 ## Develpoment
 
+### tilt.dev
+
 ```Shell
-# run daemon dependencies
-$ docker-compose -f docker-compose.development.yml up -d minio mongo mysql redis
-
-# stop daemon dependencies
-$ docker-compose -f docker-compose.development.yml stop minio mongo mysql redis
-
-# run api background
-$ docker-compose -f docker-compose.development.yml up -d melo-api
-
-# stop api background
-$ docker-compose -f docker-compose.development.yml stop melo-api
+$ tilt ...
 ```
 
-## Deployment
+### docker.compose
 
 ```Shell
-# run all background
-$ docker-compose -f docker-compose.yml up
+# melo-api service
+$ docker-compose -f docker-compose/development/docker-compose.yml up melo-api -d
+$ docker-compose -f docker-compose/development/docker-compose.yml stop melo-api
 
-# stop all
-$ docker-compose -f docker-compose.yml stop
+# all services
+$ docker-compose -f docker-compose/docker-compose.yml up
+$ docker-compose -f docker-compose/docker-compose.yml stop
 ```
 
 # NPM
@@ -148,6 +216,7 @@ $ npm install
 ```
 
 ## Docker
+
 ```Shell
 # docker run all in deployment mode
 $ npm run docker-compose
@@ -163,11 +232,13 @@ $ npm run docker-compose:development:build
 ```
 
 ## Format
+
 ```Shell
 $ npm run format
 ```
 
 ## Lint
+
 ```Shell
 $ npm run lint
 
@@ -176,7 +247,9 @@ $ npm run lint -- --fix
 ```
 
 ## Migration
+
 It needs to generate migration files (`migration:create`, `migration:generate`).
+
 ```Shell
 $ ./node_modules/.bin/typeorm --help
 
@@ -185,6 +258,7 @@ $ npm run migration:run
 ```
 
 ## Start
+
 ```Shell
 # development mode
 $ npm run start
@@ -200,6 +274,7 @@ $ npm run start:prod
 ```
 
 ## Test
+
 ```Shell
 # unit tests
 $ npm run test
@@ -218,6 +293,7 @@ $ npm run test:watch
 ```
 
 ## Version
+
 ```Shell
 # changelog
 $ npm run version

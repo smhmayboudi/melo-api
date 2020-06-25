@@ -11,15 +11,13 @@
   "editor.tabSize": 2,
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
-  "eslint.probe": [
-    "javascript",
-    "typescript"
-  ],
-  "eslint.validate": [
-    "javascript",
-    "typescript"
-  ],
+  "eslint.probe": ["javascript", "md", "typescript"],
+  "eslint.validate": ["javascript", "md", "typescript"],
+  "files.associations": {
+    "Tiltfile": "python"
+  },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "sort-imports.ignore-type-defs": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
+  "workbench.iconTheme": "material-icon-theme"
 }

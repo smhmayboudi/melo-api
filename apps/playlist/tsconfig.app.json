@@ -4,14 +4,6 @@
     "declaration": false,
     "outDir": "../../dist/apps/playlist"
   },
-  "exclude": [
-    "**/*spec.ts",
-    "coverage",
-    "dist",
-    "node_modules",
-    "test"
-  ],
-  "include": [
-    "src/**/*"
-  ],
+  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
+  "include": ["src/**/*"]
 }

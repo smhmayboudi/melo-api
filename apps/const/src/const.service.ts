@@ -27,7 +27,6 @@ export class ConstService implements ConstServiceInterface {
     });
     const images: any = {};
     this.constConfigService.imageTypeSize.forEach((value) => {
-      // eslint-disable-next-line functional/immutable-data
       images[value.name] = {
         url: imgproxy
           .builder()
@@ -44,9 +43,7 @@ export class ConstService implements ConstServiceInterface {
   @PromMethodCounter
   async images(dto: ConstImagesReqDto): Promise<ConstImagesResDto> {
     const images: ConstImagesResDto = {};
-    // eslint-disable-next-line functional/no-loop-statement
     for (const image in this.constConfigService.staticImagePaths) {
-      // eslint-disable-next-line functional/immutable-data
       images[image] = await this.image({
         ...dto,
         uri: this.constConfigService.staticImagePaths[image],

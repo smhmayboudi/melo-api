@@ -16,7 +16,6 @@ export default registerAs(APP, () => ({
   HASH_ID_MIN_LENGTH: process.env.APP_HASH_ID_MIN_LENGTH,
   HASH_ID_SALT: process.env.APP_HASH_ID_SALT,
   HASH_ID_SEPS: process.env.APP_HASH_ID_SEPS,
-  PORT: process.env.APP_PORT,
   PROM_DEFAULT_LABELS: process.env.APP_PROM_DEFAULT_LABELS,
   PROM_DEFAULT_METRICS_ENABLED: process.env.APP_PROM_DEFAULT_METRICS_ENABLED,
   PROM_PATH: process.env.APP_PROM_PATH,
@@ -28,4 +27,5 @@ export default registerAs(APP, () => ({
   SENTRY_ENVIROMENT: process.env.APP_SENTRY_ENVIROMENT,
   SENTRY_LOG_LEVEL: process.env.APP_SENTRY_LOG_LEVEL,
   SENTRY_RELEASE: process.env.APP_SENTRY_RELEASE,
+  SERVICE_PORT: process.env.APP_SERVICE_PORT,
 }));

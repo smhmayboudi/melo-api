@@ -1,5 +1,5 @@
 | issue title example   | issue label | issue number<br>(generated) | branchname<br>#number-label-title | commit scope<br>app or module_name | commit subject<br><type = label>(<scope>): <subject = title> |
-|-----------------------|-------------|-----------------------------|-----------------------------------|------------------------------------|--------------------------------------------------------------|
+| --------------------- | ----------- | --------------------------- | --------------------------------- | ---------------------------------- | ------------------------------------------------------------ |
 | Build application     | build       | 1                           | 1-build-build-application         | app                                | build(app): Build application                                |
 | Update package        | ci          | 2                           | 2-ci-update-packages              | app                                | ci(app): Update packages                                     |
 | Update readme         | docs        | 3                           | 3-docs-update-readme              | app                                | docs(app): Update readme                                     |

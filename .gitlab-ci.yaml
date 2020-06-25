@@ -4,7 +4,7 @@ include:
 stages:
   - build
   - test
-  - deploy  # dummy stage to follow the template guidelines
+  - deploy # dummy stage to follow the template guidelines
   - review
   - dast
   - staging
@@ -25,7 +25,7 @@ variables:
 
   ROLLOUT_RESOURCE_TYPE: deployment
 
-  DOCKER_TLS_CERTDIR: ""  # https://gitlab.com/gitlab-org/gitlab-runner/issues/4501
+  DOCKER_TLS_CERTDIR: "" # https://gitlab.com/gitlab-org/gitlab-runner/issues/4501
 
 build:
   only:
@@ -34,8 +34,8 @@ build:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
 
 sast:
   only:
@@ -44,10 +44,10 @@ sast:
       - merge_requests
       - tags
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $SAST_DISABLED
-        - $SAST_DISABLE_DIND == 'true'
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $SAST_DISABLED
+      - $SAST_DISABLE_DIND == 'true'
 
 license_management:
   only:
@@ -56,9 +56,9 @@ license_management:
       - merge_requests
       - tags
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $LICENSE_MANAGEMENT_DISABLED
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $LICENSE_MANAGEMENT_DISABLED
 
 .ds-analyzer:
   except:
@@ -74,10 +74,10 @@ dependency_scanning:
       - merge_requests
       - tags
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $DEPENDENCY_SCANNING_DISABLED
-        - $DS_DISABLE_DIND == 'true'
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $DEPENDENCY_SCANNING_DISABLED
+      - $DS_DISABLE_DIND == 'true'
 
 container_scanning:
   only:
@@ -86,9 +86,9 @@ container_scanning:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $CONTAINER_SCANNING_DISABLED
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $CONTAINER_SCANNING_DISABLED
 
 code_quality:
   only:
@@ -97,9 +97,9 @@ code_quality:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $CODE_QUALITY_DISABLED
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $CODE_QUALITY_DISABLED
 
 test:
   only:
@@ -108,9 +108,9 @@ test:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $TEST_DISABLED
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $TEST_DISABLED
 
 dast_environment_deploy:
   environment:
@@ -128,7 +128,8 @@ dast_environment_deploy:
       - $DAST_WEBSITE
 
 stop_dast_environment:
-  needs: [performance]
+  needs:
+    - performance
   only:
     refs:
       - merge_requests
@@ -214,7 +215,7 @@ stop_staging:
 production:
   only:
     refs:
-    - merge_requests
+      - merge_requests
     kubernetes: active
     variables:
       - $NONEE
@@ -222,7 +223,7 @@ production:
 production_manual:
   only:
     refs:
-    - merge_requests
+      - merge_requests
     kubernetes: active
     variables:
       - $NONEE
@@ -234,9 +235,9 @@ performance:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-        - $PERFORMANCE_DISABLED
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - $PERFORMANCE_DISABLED
   artifacts:
     paths:
       - sitespeed-results/
@@ -247,7 +248,8 @@ notify:success:
   stage: notify
   image:
     name: alpine/git
-    entrypoint: [""]
+    entrypoint:
+      - ""
   when: on_success
   only:
     refs:
@@ -255,8 +257,8 @@ notify:success:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   before_script:
     - apk add curl curl-dev jq
   cache:
@@ -276,20 +278,20 @@ notify:success:
     - echo "Changelog:" >> notif1
     - 'git log --format="++ [%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" ${LAST_COMMIT_SHA}..${CI_COMMIT_SHA} >> notif1'
     - |
-        if [ $CI_COMMIT_REF_NAME == "develop" ]; then
-            if [ -z $LAST_COMMIT_SHA ]; then
-                git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/master..${CI_COMMIT_SHA} >> notif1
-            else
-                git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/master..${LAST_COMMIT_SHA} >> notif1
-            fi
-        fi
-        if [ $CI_COMMIT_REF_NAME != "develop" -a $CI_COMMIT_REF_NAME != "master" ]; then
-            if [ -z $LAST_COMMIT_SHA ]; then
-                git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/develop..${CI_COMMIT_SHA} >> notif1
-            else
-                git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/develop..${LAST_COMMIT_SHA} >> notif1
-            fi
-        fi
+      if [ $CI_COMMIT_REF_NAME == "develop" ]; then
+          if [ -z $LAST_COMMIT_SHA ]; then
+              git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/master..${CI_COMMIT_SHA} >> notif1
+          else
+              git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/master..${LAST_COMMIT_SHA} >> notif1
+          fi
+      fi
+      if [ $CI_COMMIT_REF_NAME != "develop" -a $CI_COMMIT_REF_NAME != "master" ]; then
+          if [ -z $LAST_COMMIT_SHA ]; then
+              git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/develop..${CI_COMMIT_SHA} >> notif1
+          else
+              git log --format="[%h](${CI_PROJECT_URL}/commit/%H):  \`%s\`" origin/develop..${LAST_COMMIT_SHA} >> notif1
+          fi
+      fi
     - echo >> notif1
     - echo "Visit site on $SITE_URL" >> notif1
     - sed ':a;N;$!ba;s/\n/\\n/g' notif1 >> rocket
@@ -298,13 +300,14 @@ notify:success:
     - cat rocket
     - curl -F chat_id="${CHAT_ID}" -F disable_web_page_preview="true" -F text="${NOTIF_MSG1}" "https://api.telegram.org/bot773942927:${NOTIF_BOT_TOKEN}/sendMessage?parse_mode=Markdown"
     - |
-        curl -X POST -H 'Content-Type: application/json' --data "{\"username\":\"Gitlab\",\"icon_url\":\"https://about.gitlab.com/images/press/press-kit-icon.svg\",\"text\":\"Melobit.com Frontend Build Notification\",\"attachments\":[{\"title\":\"Build Info\",\"text\":\"${NOTIF_MSG2}\",\"color\":\"#0362bc\"}]}" https://chat.3re.ir/${ROCKET}
+      curl -X POST -H 'Content-Type: application/json' --data "{\"username\":\"Gitlab\",\"icon_url\":\"https://about.gitlab.com/images/press/press-kit-icon.svg\",\"text\":\"Melobit.com Frontend Build Notification\",\"attachments\":[{\"title\":\"Build Info\",\"text\":\"${NOTIF_MSG2}\",\"color\":\"#0362bc\"}]}" https://chat.3re.ir/${ROCKET}
 
 notify:failed:
   stage: notify
   image:
     name: alpine/git
-    entrypoint: [""]
+    entrypoint:
+      - ""
   when: on_failure
   only:
     refs:
@@ -312,8 +315,8 @@ notify:failed:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != $CI_DEFAULT_BRANCH && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   before_script:
     - apk add curl curl-dev jq
   cache:
@@ -333,13 +336,14 @@ notify:failed:
     - NOTIF_MSG2=`cat rocket`
     - curl -F chat_id="${CHAT_ID}" -F disable_web_page_preview="true" -F text="${NOTIF_MSG1}" "https://api.telegram.org/bot773942927:${NOTIF_BOT_TOKEN}/sendMessage?parse_mode=Markdown"
     - |
-        curl -X POST -H 'Content-Type: application/json' --data "{\"username\":\"Gitlab\",\"icon_url\":\"https://about.gitlab.com/images/press/press-kit-icon.svg\",\"text\":\"Melobit.com Frontend Build Notification\",\"attachments\":[{\"title\":\"Build Info\",\"text\":\"${NOTIF_MSG2}\",\"color\":\"#0362bc\"}]}" https://chat.3re.ir/${ROCKET}
+      curl -X POST -H 'Content-Type: application/json' --data "{\"username\":\"Gitlab\",\"icon_url\":\"https://about.gitlab.com/images/press/press-kit-icon.svg\",\"text\":\"Melobit.com Frontend Build Notification\",\"attachments\":[{\"title\":\"Build Info\",\"text\":\"${NOTIF_MSG2}\",\"color\":\"#0362bc\"}]}" https://chat.3re.ir/${ROCKET}
 
 cache_push:
   stage: cache_push
   image:
     name: byrnedo/alpine-curl
-    entrypoint: [""]
+    entrypoint:
+      - ""
   before_script:
     - ""
   when: on_success
@@ -349,8 +353,8 @@ cache_push:
       - tags
       - merge_requests
   except:
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+    variables:
+      - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
   cache:
     key: LATEST_SUCCESS_SHA_$CI_COMMIT_REF_NAME
     policy: push

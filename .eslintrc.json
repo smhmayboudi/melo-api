@@ -1,0 +1,95 @@
+{
+  "env": {
+    "es2017": true,
+    "jest": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/standard",
+    "plugin:jest/recommended"
+  ],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "globalReturn": true,
+      "impliedStrict": true,
+      "jsx": false
+    },
+    "ecmaVersion": 2017,
+    "project": "./tsconfig.json"
+  },
+  "root": true,
+  "rules": {
+    "@typescript-eslint/camelcase": [
+      "error",
+      {
+        "allow": [
+          "album_id",
+          "artist_full_name",
+          "artist_id",
+          "artists_ids",
+          "auth_date",
+          "callback_query",
+          "created_at",
+          "downloads_count",
+          "e_tag",
+          "expire_at",
+          "file_key",
+          "first_name",
+          "followers_count",
+          "full_name",
+          "function_score",
+          "has_cover",
+          "has_video",
+          "is_blocked",
+          "is_bot",
+          "language_code",
+          "last_name",
+          "max_audio_rate",
+          "mime_type",
+          "multi_match",
+          "must_not",
+          "owner_user_id",
+          "photo_id",
+          "photo_url",
+          "private_key",
+          "public_key",
+          "registered_date",
+          "release_date",
+          "script_score",
+          "song_id",
+          "songs_ids",
+          "telegram_id",
+          "tracks_count",
+          "unique_name",
+          "update_id",
+          "user_id"
+        ]
+      }
+    ],
+    "import/default": "off",
+    "import/namespace": "off",
+    "sort-imports": "error",
+    "sort-keys": "error",
+    "sort-vars": "error"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "directory": ["apps/*/tsconfig.app.json", "libs/*/tsconfig.lib.json"]
+      }
+    }
+  }
+}

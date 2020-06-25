@@ -15,7 +15,6 @@ import {
   HASH_ID_MIN_LENGTH,
   HASH_ID_SALT,
   HASH_ID_SEPS,
-  PORT,
   PROM_DEFAULT_LABELS,
   PROM_DEFAULT_METRICS_ENABLED,
   PROM_PATH,
@@ -27,6 +26,7 @@ import {
   SENTRY_ENVIROMENT,
   SENTRY_LOG_LEVEL,
   SENTRY_RELEASE,
+  SERVICE_PORT,
 } from "@melo/common";
 
 import { AppConfigServiceInterface } from "./app.config.service.interface";
@@ -87,7 +87,10 @@ export class AppConfigService implements AppConfigServiceInterface {
   }
 
   get hashIdMinLength(): number {
-    return this.configService.get<number>(`${APP}.${HASH_ID_MIN_LENGTH}`, 0);
+    return parseInt(
+      this.configService.get<string>(`${APP}.${HASH_ID_MIN_LENGTH}`, "0"),
+      10
+    );
   }
 
   get hashIdSalt(): string {
@@ -99,7 +102,7 @@ export class AppConfigService implements AppConfigServiceInterface {
   }
 
   get port(): number {
-    return this.configService.get<number>(`${APP}.${PORT}`, 0);
+    return this.configService.get<number>(`${APP}.${SERVICE_PORT}`, 0);
   }
 
   get promDefaultLabels(): Record<string, string> {

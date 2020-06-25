@@ -1,6 +1,0 @@
-{
-  "hooks": {
-    "commit-msg": "commitlint --config .commitlintrc -E HUSKY_GIT_PARAMS",
-    "pre-commit": "lint-staged"
-  }
-}

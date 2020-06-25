@@ -3,14 +3,6 @@
   "compilerOptions": {
     "outDir": "../../dist/apps/action"
   },
-  "exclude": [
-    "**/*spec.ts",
-    "coverage",
-    "dist",
-    "node_modules",
-    "test"
-  ],
-  "include": [
-    "src/**/*"
-  ],
+  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
+  "include": ["src/**/*"]
 }
