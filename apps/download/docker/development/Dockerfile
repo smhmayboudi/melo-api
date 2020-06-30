@@ -1,4 +1,4 @@
-FROM node:12.18.1 AS download.development
+FROM node:12.18.1 AS build_node_download_development
 ARG NODE_ENV=development
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app

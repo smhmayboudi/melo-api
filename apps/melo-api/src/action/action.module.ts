@@ -1,8 +1,8 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { ACTION_SERVICE } from "@melo/common";
-import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
+// import { ActionCacheOptionsFactory } from "./action.cache.options.factory";
 import { ActionConfigService } from "./action.config.service";
 import { ActionController } from "./action.controller";
 import { ActionHealthIndicator } from "./action.health.indicator";
@@ -16,11 +16,11 @@ import config from "./action.config";
   exports: [ActionConfigService, ActionHealthIndicator, ActionService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [ActionModule],
-      useClass: ActionCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [ActionModule],
+    //   useClass: ActionCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: ACTION_SERVICE,

@@ -1,4 +1,4 @@
-FROM node:12.18.1 AS search.development
+FROM node:12.18.1 AS build_node_search_development
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app

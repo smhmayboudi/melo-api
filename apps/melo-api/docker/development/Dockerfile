@@ -1,4 +1,6 @@
-FROM node:12.18.1 AS melo-api.development
+FROM node:12.18.1 AS build_node_melo-api_development
+ARG NODE_ENV=development
+ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
 COPY ./jest.config.json \
      ./nest-cli.json \

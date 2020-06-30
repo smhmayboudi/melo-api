@@ -1,8 +1,8 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { ALBUM_SERVICE } from "@melo/common";
-import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
+// import { AlbumCacheOptionsFactory } from "./album.cache.options.factory";
 import { AlbumConfigService } from "./album.config.service";
 import { AlbumController } from "./album.controller";
 import { AlbumHealthIndicator } from "./album.health.indicator";
@@ -16,11 +16,11 @@ import config from "./album.config";
   exports: [AlbumConfigService, AlbumHealthIndicator, AlbumService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [AlbumModule],
-      useClass: AlbumCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [AlbumModule],
+    //   useClass: AlbumCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: ALBUM_SERVICE,

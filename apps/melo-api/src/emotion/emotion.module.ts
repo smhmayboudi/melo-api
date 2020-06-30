@@ -1,10 +1,10 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { EMOTION_SERVICE } from "@melo/common";
-import { EmotionCacheOptionsFactory } from "./emotion.cache.options.factory";
+// import { EmotionCacheOptionsFactory } from "./emotion.cache.options.factory";
 import { EmotionConfigService } from "./emotion.config.service";
 import { EmotionController } from "./emotion.controller";
 import { EmotionHealthIndicator } from "./emotion.health.indicator";
@@ -17,11 +17,11 @@ import config from "./emotion.config";
   exports: [EmotionConfigService, EmotionHealthIndicator, EmotionService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [EmotionModule],
-      useClass: EmotionCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [EmotionModule],
+    //   useClass: EmotionCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: EMOTION_SERVICE,

@@ -5,8 +5,7 @@ WORKDIR /app
 COPY ./package.json ./
 RUN yarn install \
     && cp -r ./node_modules ./node_modules_development
-RUN npm prune --production \
-    && npm fund
+RUN npm prune --production
 
 FROM node:12.18.1 AS build_node_app
 ARG NODE_ENV=production

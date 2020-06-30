@@ -2,18 +2,19 @@ import {
   AuthAccessTokenReqDto,
   AuthDeleteByTokenReqDto,
   AuthRefreshTokenReqDto,
-  JWKS_SERVICE,
   JwksResDto,
-  RT_SERVICE,
   RtResDto,
 } from "@melo/common";
 
 import { AuthConfigService } from "./auth.config.service";
 import { AuthConfigServiceInterface } from "./auth.config.service.interface";
 import { AuthService } from "./auth.service";
+import { JwksService } from "../jwks/jwks.service";
+import { JwksServiceInterface } from "../jwks/jwks.service.interface";
 import { JwtService } from "@nestjs/jwt";
+import { RtService } from "../rt/rt.service";
+import { RtServiceInterface } from "../rt/rt.service.interface";
 import { Test } from "@nestjs/testing";
-import { of } from "rxjs";
 
 jest.mock("crypto-random-string", () => jest.fn(() => "1"));
 
@@ -42,17 +43,25 @@ describe("AuthService", () => {
     telegramBotToken: "000000000:00000000000000000000000000000000000",
     telegramQueryExpiration: 0,
   };
-  // TODO: interface ?
-  const jwksClientProxyMock = {
-    send: () => of(jwks),
+  const jwksServiceMock: JwksServiceInterface = {
+    findOne: () => Promise.resolve(jwks),
+    getOneRandom: () => Promise.resolve(jwks),
   };
   // TODO: interface ?
   const jwtServiceMock = {
     sign: (): string => "0",
   };
-  // TODO: interface ?
-  const rtClientProxyMock = {
-    send: () => of(rt),
+  const rtServiceMock: RtServiceInterface = {
+    block: () => Promise.resolve(rt),
+    blockByToken: () => Promise.resolve(rt),
+    delete: () => Promise.resolve(rt),
+    deleteByToken: () => Promise.resolve(rt),
+    find: () => Promise.resolve([rt]),
+    findOne: () => Promise.resolve(rt),
+    findOneByToken: () => Promise.resolve(rt),
+    save: () => Promise.resolve(rt),
+    validate: () => Promise.resolve(rt),
+    validateByToken: () => Promise.resolve(rt),
   };
 
   let service: AuthService;
@@ -62,9 +71,9 @@ describe("AuthService", () => {
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
+        { provide: JwksService, useValue: jwksServiceMock },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: RT_SERVICE, useValue: rtClientProxyMock },
+        { provide: RtService, useValue: rtServiceMock },
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);
@@ -84,18 +93,18 @@ describe("AuthService", () => {
   });
 
   it("accessToken should be equal to a token 2", async () => {
-    // TODO: interface ?
-    const jwksClientProxyMock = {
-      send: () => of(undefined),
+    const jwksServiceMockGetOneRandom: JwksServiceInterface = {
+      ...jwksServiceMock,
+      getOneRandom: () => Promise.resolve(undefined),
     };
 
     const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
+        { provide: JwksService, useValue: jwksServiceMockGetOneRandom },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: RT_SERVICE, useValue: rtClientProxyMock },
+        { provide: RtService, useValue: rtServiceMock },
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);
@@ -136,18 +145,18 @@ describe("AuthService", () => {
   });
 
   it("refreshToken should throw an error", async () => {
-    // TODO: interface ?
-    const jwksClientProxyMock = {
-      send: () => of(undefined),
+    const jwksServiceMockGetOneRandom: JwksServiceInterface = {
+      ...jwksServiceMock,
+      getOneRandom: () => Promise.resolve(undefined),
     };
 
     const module = await Test.createTestingModule({
       providers: [
         AuthService,
         { provide: AuthConfigService, useValue: authConfigServiceMock },
-        { provide: JWKS_SERVICE, useValue: jwksClientProxyMock },
+        { provide: JwksService, useValue: jwksServiceMockGetOneRandom },
         { provide: JwtService, useValue: jwtServiceMock },
-        { provide: RT_SERVICE, useValue: rtClientProxyMock },
+        { provide: RtService, useValue: rtServiceMock },
       ],
     }).compile();
     service = module.get<AuthService>(AuthService);

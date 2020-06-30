@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "declaration": false,
     "outDir": "../../dist/apps/action"
   },
   "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],

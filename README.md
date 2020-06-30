@@ -30,12 +30,25 @@ $ brew install zsh-syntax-highlighting
 ```Shell
 $ echo 'export ZSH=/Users/{USERNAME}/.oh-my-zsh' > ~/.zshrc
 $ echo 'ZSH_THEME="robbyrussell"' >> ~/.zshrc
-$ echo 'plugins=(docker encode64 minikube npm ssh-agent)' >> ~/.zshrc
+$ echo 'plugins=(bazel docker encode64 ssh-agent yarn)' >> ~/.zshrc
 $ echo 'export PATH="/usr/local/opt/node@12/bin:$PATH"' >> ~/.zshrc
 $ echo 'alias k=kubectl' >> ~/.zshrc
 $ echo 'complete -F __start_kubectl k' >> ~/.zshrc
+$ echo 'alias d=docker' >> ~/.zshrc
+$ echo 'complete -F __start_docker d' >> ~/.zshrc
 $ echo 'function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}' >> ~/.zshrc
 $ echo 'source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' >> ~/.zshrc
+$ echo 'source /usr/local/opt/kube-ps1/share/kube-ps1.sh' >> ~/.zshrc
+$ echo 'PROMPT="$(kube_ps1)"$PROMPT' >> ~/.zshrc
+```
+
+### bazel
+
+```Shell
+$ brew install bazelisk
+$ brew install buildifier
+$ brew install openjdk@11
+$ brew install python@3.8
 ```
 
 ### tilt.dev
@@ -43,6 +56,13 @@ $ echo 'source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.
 ```Shell
 $ brew tap tilt-dev/tap
 $ brew install tilt-dev/tap/tilt
+```
+
+### xcode
+
+```Shell
+$ sudo rm -rf $(xcode-select -print-path)
+$ xcode-select --install
 ```
 
 ### k8s cluster create
@@ -72,6 +92,7 @@ $ brew install k3d
 
 ```Shell
 $ brew install helm
+$ brew install kube-ps1
 $ brew install kubectx
 $ brew install kubernetes-cli
 ```

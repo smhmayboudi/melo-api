@@ -1,5 +1,3 @@
-import "source-map-support/register";
-
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 import { APP_SERVICE } from "@melo/common";
@@ -7,11 +5,12 @@ import { AppConfigService } from "./app/app.config.service";
 import { AppModule } from "./app/app.module";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import helmet from "helmet";
+
+// import bodyParser from "body-parser";
+// import cookieParser from "cookie-parser";
 // import csurf from "csurf";
-import rateLimit from "express-rate-limit";
+// import helmet from "helmet";
+// import rateLimit from "express-rate-limit";
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
@@ -20,24 +19,24 @@ async function bootstrap(): Promise<void> {
     logger: ["log", "error", "warn", "debug", "verbose"],
   });
   const appConfigService = app.get(AppConfigService);
-  app.use(
-    bodyParser.urlencoded({
-      extended: false,
-    })
-  );
-  app.use(cookieParser());
+  // app.use(
+  //   bodyParser.urlencoded({
+  //     extended: false,
+  //   })
+  // );
+  // app.use(cookieParser());
   // app.use(
   //   csurf({
   //     cookie: true,
   //   })
   // );
-  app.use(helmet());
-  app.use(
-    rateLimit({
-      max: appConfigService.rateLimitMax,
-      windowMs: appConfigService.rateLimitWindowMs,
-    })
-  );
+  // app.use(helmet());
+  // app.use(
+  //   rateLimit({
+  //     max: appConfigService.rateLimitMax,
+  //     windowMs: appConfigService.rateLimitWindowMs,
+  //   })
+  // );
   const documentBuilder = new DocumentBuilder()
     .addBasicAuth(
       {

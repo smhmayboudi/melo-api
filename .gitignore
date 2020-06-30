@@ -1,8 +1,16 @@
 .env.docker-compose
 data
 
-# Created by https://www.toptal.com/developers/gitignore/api/helm,linux,macos,node,visualstudiocode,windows
-# Edit at https://www.toptal.com/developers/gitignore?templates=helm,linux,macos,node,visualstudiocode,windows
+# Created by https://www.toptal.com/developers/gitignore/api/bazel,helm,linux,macos,node,visualstudiocode,yarn
+# Edit at https://www.toptal.com/developers/gitignore?templates=bazel,helm,linux,macos,node,visualstudiocode,yarn
+
+### Bazel ###
+# gitignore template for Bazel build system
+# website: https://bazel.build/
+
+# Ignore all bazel-* symlinks. There is no full list since this can change
+# based on the name of the directory bazel is cloned into.
+/bazel-*
 
 ### Helm ###
 # Chart dependencies
@@ -172,31 +180,20 @@ dist
 # Ignore all local history of files
 .history
 
-### Windows ###
-# Windows thumbnail cache files
-Thumbs.db
-Thumbs.db:encryptable
-ehthumbs.db
-ehthumbs_vista.db
+### yarn ###
+# https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
 
-# Dump file
-*.stackdump
+# .yarn/unplugged and .yarn/build-state.yml should likely always be ignored since
+# they typically hold machine-specific build artifacts. Ignoring them might however
+# prevent Zero-Installs from working (to prevent this, set enableScripts to false).
+.yarn/unplugged
+.yarn/build-state.yml
 
-# Folder config file
-[Dd]esktop.ini
+# .yarn/cache and .pnp.* may be safely ignored, but you'll need to run yarn install
+# to regenerate them between each branch switch.
+# Uncomment the following lines if you're not using Zero-Installs:
+# .yarn/cache
+# .pnp.*
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# End of https://www.toptal.com/developers/gitignore/api/helm,linux,macos,node,visualstudiocode,windows
+# End of https://www.toptal.com/developers/gitignore/api/bazel,helm,linux,macos,node,visualstudiocode,yarn
 n

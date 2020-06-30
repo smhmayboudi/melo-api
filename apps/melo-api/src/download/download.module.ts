@@ -1,10 +1,10 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { DOWNLOAD_SERVICE } from "@melo/common";
-import { DownloadCacheOptionsFactory } from "./download.cache.options.factory";
+// import { DownloadCacheOptionsFactory } from "./download.cache.options.factory";
 import { DownloadConfigService } from "./download.config.service";
 import { DownloadController } from "./download.controller";
 import { DownloadHealthIndicator } from "./download.health.indicator";
@@ -17,11 +17,11 @@ import config from "./download.config";
   exports: [DownloadConfigService, DownloadHealthIndicator, DownloadService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [DownloadModule],
-      useClass: DownloadCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [DownloadModule],
+    //   useClass: DownloadCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: DOWNLOAD_SERVICE,

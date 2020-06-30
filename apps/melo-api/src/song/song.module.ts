@@ -1,11 +1,11 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { RelationModule } from "../relation/relation.module";
 import { SONG_SERVICE } from "@melo/common";
-import { SongCacheOptionsFactory } from "./song.cache.options.factory";
+// import { SongCacheOptionsFactory } from "./song.cache.options.factory";
 import { SongConfigService } from "./song.config.service";
 import { SongController } from "./song.controller";
 import { SongHealthIndicator } from "./song.health.indicator";
@@ -18,11 +18,11 @@ import config from "./song.config";
   exports: [SongConfigService, SongHealthIndicator, SongService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [SongModule],
-      useClass: SongCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [SongModule],
+    //   useClass: SongCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: SONG_SERVICE,

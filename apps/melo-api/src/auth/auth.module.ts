@@ -1,5 +1,3 @@
-import { ClientsModule, Transport } from "@nestjs/microservices";
-import { JWKS_SERVICE, RT_SERVICE } from "@melo/common";
 import { Module, forwardRef } from "@nestjs/common";
 
 import { AnonymUUIDStrategy } from "./anonym-uuid.strategy";
@@ -30,26 +28,10 @@ import config from "./auth.config";
     forwardRef(() => AppModule),
     AtModule,
     ConfigModule.forFeature(config),
-    ClientsModule.register([
-      {
-        name: JWKS_SERVICE,
-        options: {
-          url: process.env.JWKS_SERVICE_URL,
-        },
-        transport: Transport.REDIS,
-      },
-      {
-        name: RT_SERVICE,
-        options: {
-          url: process.env.RT_SERVICE_URL,
-        },
-        transport: Transport.REDIS,
-      },
-    ]),
     JwksModule,
     JwtModule.registerAsync({
       // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [AuthModule, JwksModule],
+      imports: [AuthModule],
       useClass: AuthJwtOptionsFactory,
     }),
     PassportModule.registerAsync({

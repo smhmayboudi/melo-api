@@ -1,4 +1,4 @@
-FROM node:12.18.1 AS emotion.development
+FROM node:12.18.1 AS build_node_emotion_development
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app

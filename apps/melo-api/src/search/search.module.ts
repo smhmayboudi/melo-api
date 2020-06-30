@@ -1,10 +1,10 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { SEARCH_SERVICE } from "@melo/common";
-import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
+// import { SearchCacheOptionsFactory } from "./search.cache.options.factory";
 import { SearchConfigService } from "./search.config.service";
 import { SearchController } from "./search.controller";
 import { SearchHealthIndicator } from "./search.health.indicator";
@@ -17,11 +17,11 @@ import config from "./search.config";
   exports: [SearchConfigService, SearchHealthIndicator, SearchService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [SearchModule],
-      useClass: SearchCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [SearchModule],
+    //   useClass: SearchCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: SEARCH_SERVICE,

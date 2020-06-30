@@ -1,10 +1,10 @@
-import { CacheModule, Module, forwardRef } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { Module, forwardRef } from "@nestjs/common";
 
 import { AppModule } from "../app/app.module";
 import { ConfigModule } from "@nestjs/config";
 import { USER_SERVICE } from "@melo/common";
-import { UserCacheOptionsFactory } from "./user.cache.options.factory";
+// import { UserCacheOptionsFactory } from "./user.cache.options.factory";
 import { UserConfigService } from "./user.config.service";
 import { UserController } from "./user.controller";
 import { UserHealthIndicator } from "./user.health.indicator";
@@ -16,11 +16,11 @@ import config from "./user.config";
   exports: [UserConfigService, UserHealthIndicator, UserService],
   imports: [
     forwardRef(() => AppModule),
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [UserModule],
-      useClass: UserCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [UserModule],
+    //   useClass: UserCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: USER_SERVICE,

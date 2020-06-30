@@ -15,26 +15,22 @@ import {
   SONG_SERVICE,
   USER_SERVICE,
 } from "@melo/common";
-import {
-  CacheModule,
-  ClassSerializerInterceptor,
-  Module,
-} from "@nestjs/common";
+import { ClassSerializerInterceptor, Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { ActionModule } from "../action/action.module";
 import { AlbumModule } from "../album/album.module";
-import { ApmModule } from "@melo/apm";
-import { AppApmOptionsFactory } from "./app.apm.options.factory";
+// import { ApmModule } from "@melo/apm";
+// import { AppApmOptionsFactory } from "./app.apm.options.factory";
 import { AppArtistService } from "./app.artist.service";
-import { AppCacheOptionsFactory } from "./app.cache.options.factory";
+// import { AppCacheOptionsFactory } from "./app.cache.options.factory";
 import { AppConfigService } from "./app.config.service";
 import { AppErrorInterceptor } from "./app.error.interceptor";
 import { AppEventsGateway } from "./app.events.gateway";
 import { AppHashIdService } from "./app.hash-id.service";
-import { AppHealthController } from "./app.health.controller";
-import { AppHealthIndicator } from "./app.health.indicator";
+// import { AppHealthController } from "./app.health.controller";
+// import { AppHealthIndicator } from "./app.health.indicator";
 import { AppPromOptionsFactory } from "./app.prom.options.factory";
 import { AppSentryOptionsFactory } from "./app.sentry.options.factory";
 import { AppService } from "./app.service";
@@ -60,31 +56,31 @@ import { UserModule } from "../user/user.module";
 import config from "./app.config";
 
 @Module({
-  controllers: [AppHealthController],
+  // controllers: [AppHealthController],
   exports: [
     AppArtistService,
     AppConfigService,
     AppHashIdService,
-    AppHealthIndicator,
+    // AppHealthIndicator,
     AppService,
     AppSongService,
   ],
   imports: [
-    ApmModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [AppModule],
-      useClass: AppApmOptionsFactory,
-    }),
+    // ApmModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [AppModule],
+    //   useClass: AppApmOptionsFactory,
+    // }),
     ActionModule,
     AlbumModule,
     ArtistModule,
     AtModule,
     AuthModule,
-    CacheModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [AppModule],
-      useClass: AppCacheOptionsFactory,
-    }),
+    // CacheModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [AppModule],
+    //   useClass: AppCacheOptionsFactory,
+    // }),
     ClientsModule.register([
       {
         name: ACTION_SERVICE,
@@ -196,7 +192,7 @@ import config from "./app.config";
     },
     AppEventsGateway,
     AppHashIdService,
-    AppHealthIndicator,
+    // AppHealthIndicator,
     AppService,
     AppSongService,
     {

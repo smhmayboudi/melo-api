@@ -1,4 +1,4 @@
-FROM node:12.18.1 AS jwks.development
+FROM node:12.18.1 AS build_node_jwks_development
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app

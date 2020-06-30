@@ -1,5 +1,5 @@
+import { CONST_SERVICE, PLAYLIST, SONG_SERVICE } from "@melo/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-import { PLAYLIST, SONG_SERVICE } from "@melo/common";
 
 import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
@@ -17,6 +17,13 @@ import config from "./playlist.config";
   exports: [PlaylistConfigService, PlaylistService],
   imports: [
     ClientsModule.register([
+      {
+        name: CONST_SERVICE,
+        options: {
+          url: process.env.CONST_SERVICE_URL,
+        },
+        transport: Transport.REDIS,
+      },
       {
         name: SONG_SERVICE,
         options: {

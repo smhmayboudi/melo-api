@@ -1,0 +1,95 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
+load("@melo//:apps/common/bazel/jest_test/index.bzl", "jest_test")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
+
+package(default_visibility = ["//visibility:public"])
+
+ts_config(
+    name = "const_ts_config",
+    src = "//apps/const:tsconfig.app.json",
+    deps = [
+        "//:tsconfig.json",
+    ],
+)
+
+ts_library(
+    name = "const_ts_library",
+    srcs = glob(
+        ["*.ts"],
+        exclude = ["*spec.ts"],
+    ),
+    module_name = "@melo/const",
+    runtime = "nodejs",
+    tsconfig = ":const_ts_config",
+    deps = [
+        "//libs/apm/src:apm_ts_library",
+        "//libs/common/src:common_ts_library",
+        "//libs/prom/src:prom_ts_library",
+        "//libs/sentry/src:sentry_ts_library",
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/core",
+        "@npm//@nestjs/microservices",
+        "@npm//@nestjs/platform-express",
+        "@npm//@nestjs/platform-socket.io",
+        "@npm//@nestjs/websockets",
+        "@npm//@types/ms",
+        "@npm//@types/node",
+        "@npm//@types/socket.io",
+        "@npm//@types/source-map-support",
+        "@npm//ms",
+        "@npm//redis",
+        "@npm//reflect-metadata",
+        "@npm//source-map-support",
+    ],
+)
+
+ts_library(
+    name = "const_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/const",
+    runtime = "nodejs",
+    tsconfig = ":const_ts_config",
+    deps = [
+        ":const_ts_library",
+        "@npm//@nestjs/testing",
+    ],
+)
+
+nodejs_binary(
+    name = "const_nodejs_binary",
+    data = [
+        ":const_ts_library",
+    ],
+    entry_point = ":main",
+    templated_args = [
+        "--nobazel_patch_module_resolver",
+        "--node_options=--require=source-map-support/register",
+    ],
+)
+
+jest_test(
+    name = "const_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        ":const_test_ts_library",
+        "@npm//@types/jest",
+    ],
+)
+
+nodejs_image(
+    name = "const_nodejs_image",
+    binary = ":const_nodejs_binary",
+)
+
+container_push(
+    name = "const_container_push",
+    format = "Docker",
+    image = ":const_nodejs_image",
+    registry = "localhost:5000",
+    repository = "melo_const",
+    tag = "{EXPECTED_REF}",
+)
