@@ -34,19 +34,24 @@ describe("AtTypeOrmOptionsFactory", () => {
   });
 
   it("createSentryOptions should be equal to a value", () => {
-    expect(new AtTypeOrmOptionsFactory(service).createTypeOrmOptions()).toEqual(
-      {
+    expect(
+      JSON.stringify(
+        new AtTypeOrmOptionsFactory(service).createTypeOrmOptions()
+      )
+    ).toEqual(
+      JSON.stringify({
         database: "",
         entities: [AtEntity],
         host: "",
         logger: new CommonTypeOrmLogger(true),
         logging: true,
+        name: undefined,
         password: "",
         port: 0,
         synchronize: true,
         type: "mysql",
         username: "",
-      }
+      })
     );
   });
 });

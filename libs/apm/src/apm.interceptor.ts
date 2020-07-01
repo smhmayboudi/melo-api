@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -7,7 +9,6 @@ import {
 
 import { ApmService } from "./apm.service";
 import { Observable } from "rxjs";
-import express from "express";
 import { tap } from "rxjs/operators";
 
 @Injectable()

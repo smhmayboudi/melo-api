@@ -54,7 +54,11 @@ ts_library(
     tsconfig = ":action_ts_config",
     deps = [
         ":action_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
         "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 
@@ -76,7 +80,6 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         ":action_test_ts_library",
-        "@npm//@types/jest",
     ],
 )
 

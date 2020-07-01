@@ -20,6 +20,7 @@ ts_library(
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/prom",
+    runtime = "nodejs",
     tsconfig = ":prom_ts_config",
     deps = [
         "@npm//@nestjs/common",
@@ -41,10 +42,18 @@ ts_library(
     name = "prom_test_ts_library",
     srcs = glob(["*spec.ts"]),
     module_name = "@melo/prom",
+    runtime = "nodejs",
     tsconfig = ":prom_ts_config",
     deps = [
         ":prom_ts_library",
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/core",
         "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//imgproxy",
+        "@npm//prom-client",
+        "@npm//ts-jest",
+        "@npm//rxjs",
     ],
 )
 
@@ -53,7 +62,7 @@ nodejs_binary(
     data = [
         ":prom_ts_library",
     ],
-    entry_point = ":main",
+    entry_point = ":index",
     templated_args = [
         "--nobazel_patch_module_resolver",
         "--node_options=--require=source-map-support/register",
@@ -66,11 +75,5 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         ":prom_test_ts_library",
-        "@npm//@types/jest",
     ],
-)
-
-nodejs_image(
-    name = "prom_nodejs_image",
-    binary = ":prom_nodejs_binary",
 )

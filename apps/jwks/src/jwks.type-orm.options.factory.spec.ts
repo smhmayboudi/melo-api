@@ -37,18 +37,23 @@ describe("JwksTypeOrmOptionsFactory", () => {
 
   it("createSentryOptions should be equal to a value", () => {
     expect(
-      new JwksTypeOrmOptionsFactory(service).createTypeOrmOptions()
-    ).toEqual({
-      database: "",
-      entities: [JwksEntity],
-      host: "",
-      logger: new CommonTypeOrmLogger(true),
-      logging: true,
-      password: "",
-      port: 0,
-      synchronize: true,
-      type: "mysql",
-      username: "",
-    });
+      JSON.stringify(
+        new JwksTypeOrmOptionsFactory(service).createTypeOrmOptions()
+      )
+    ).toEqual(
+      JSON.stringify({
+        database: "",
+        entities: [JwksEntity],
+        host: "",
+        logger: new CommonTypeOrmLogger(true),
+        logging: true,
+        name: undefined,
+        password: "",
+        port: 0,
+        synchronize: true,
+        type: "mysql",
+        username: "",
+      })
+    );
   });
 });

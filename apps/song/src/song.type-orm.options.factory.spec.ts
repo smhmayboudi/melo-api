@@ -49,18 +49,23 @@ describe("SongTypeOrmOptionsFactory", () => {
 
   it("createSentryOptions should be equal to a value", () => {
     expect(
-      new SongTypeOrmOptionsFactory(service).createTypeOrmOptions()
-    ).toEqual({
-      database: "",
-      entities: [SongCacheEntity, SongSiteEntity],
-      host: "",
-      logger: new CommonTypeOrmLogger(true),
-      logging: true,
-      password: "",
-      port: 0,
-      synchronize: true,
-      type: "mysql",
-      username: "",
-    });
+      JSON.stringify(
+        new SongTypeOrmOptionsFactory(service).createTypeOrmOptions()
+      )
+    ).toEqual(
+      JSON.stringify({
+        database: "",
+        entities: [SongCacheEntity, SongSiteEntity],
+        host: "",
+        logger: new CommonTypeOrmLogger(true),
+        logging: true,
+        name: undefined,
+        password: "",
+        port: 0,
+        synchronize: true,
+        type: "mysql",
+        username: "",
+      })
+    );
   });
 });

@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import { APP_SERVICE, AuthJwtPayloadReqDto } from "@melo/common";
 import {
   ArgumentsHost,
@@ -6,8 +8,6 @@ import {
   HttpException,
   Logger,
 } from "@nestjs/common";
-
-import express from "express";
 
 @Catch(HttpException)
 export class AppHttpExceptionFilter implements ExceptionFilter {

@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -9,11 +11,11 @@ import {
   PROM_INTERCEPTOR_HTTP_REQUESTS_TOTAL,
   PROM_MODULE_OPTIONS,
 } from "./prom.constant";
+
 import { Counter } from "prom-client";
 import { InjectCounter } from "./prom.decorator";
 import { Observable } from "rxjs";
 import { PromModuleOptions } from "./prom.module.interface";
-import express from "express";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {

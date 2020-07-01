@@ -4,6 +4,6 @@
     "declaration": true,
     "outDir": "../../dist/libs/dgraph"
   },
-  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
-  "include": ["src/**/*"]
+  "exclude": ["src/*spec.ts", "test"],
+  "include": ["src/*.ts"]
 }

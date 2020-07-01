@@ -2,8 +2,11 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/libs/apm"
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true,
+    "outDir": "../../dist/libs/apm",
+    // "target": "ES5",
   },
-  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
-  "include": ["src/**/*"]
+  "exclude": ["src/*spec.ts", "test"],
+  "include": ["src/*.ts"]
 }

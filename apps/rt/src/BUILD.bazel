@@ -56,7 +56,12 @@ ts_library(
     tsconfig = ":rt_ts_config",
     deps = [
         ":rt_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
         "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
+        "@npm//typeorm",
     ],
 )
 
@@ -72,18 +77,14 @@ nodejs_binary(
     ],
 )
 
-# jest_test(
-#     name: "rt_jest_test",
-#     srcs = glob(["*spec.ts"]),
-#     deps = [
-#         ":rt_test_ts_library",
-#         "@npm//@types/jest",
-#     ],
-#     jest_config = "//:jest.config.json",
-#     templated_args = [
-#         "--runInBand"
-#     ],
-# )
+jest_test(
+    name = "rt_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        ":rt_test_ts_library",
+    ],
+)
 
 nodejs_image(
     name = "rt_nodejs_image",

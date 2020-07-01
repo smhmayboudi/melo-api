@@ -51,7 +51,6 @@ ts_library(
         "@npm//@types/express-serve-static-core",
         "@npm//@types/hashids",
         "@npm//@types/helmet",
-        "@npm//@types/jest",
         "@npm//@types/ms",
         "@npm//@types/multer",
         "@npm//@types/node",
@@ -99,7 +98,19 @@ ts_library(
     tsconfig = ":melo-api_ts_config",
     deps = [
         ":melo-api_ts_library",
+        "//libs/apm/src:apm_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/jwt",
+        "@npm//@nestjs/terminus",
         "@npm//@nestjs/testing",
+        "@npm//@sentry/types",
+        "@npm//@types/express",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
+        "@npm//express",
+        "@npm//rxjs",
     ],
 )
 
@@ -121,7 +132,6 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         ":melo-api_test_ts_library",
-        "@npm//@types/jest",
     ],
 )
 

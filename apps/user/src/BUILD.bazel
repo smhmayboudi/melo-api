@@ -40,6 +40,7 @@ ts_library(
         "@npm//@types/node",
         "@npm//@types/socket.io",
         "@npm//@types/source-map-support",
+        "@npm//class-validator",
         "@npm//ms",
         "@npm//redis",
         "@npm//reflect-metadata",
@@ -56,7 +57,13 @@ ts_library(
     tsconfig = ":user_ts_config",
     deps = [
         ":user_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
         "@npm//@nestjs/testing",
+        "@npm//@nestjs/typeorm",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
+        "@npm//typeorm",
     ],
 )
 
@@ -78,7 +85,6 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         ":user_test_ts_library",
-        "@npm//@types/jest",
     ],
 )
 

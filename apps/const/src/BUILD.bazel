@@ -39,6 +39,7 @@ ts_library(
         "@npm//@types/node",
         "@npm//@types/socket.io",
         "@npm//@types/source-map-support",
+        "@npm//imgproxy",
         "@npm//ms",
         "@npm//redis",
         "@npm//reflect-metadata",
@@ -54,7 +55,12 @@ ts_library(
     tsconfig = ":const_ts_config",
     deps = [
         ":const_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
         "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//imgproxy",
+        "@npm//ts-jest",
     ],
 )
 
@@ -76,7 +82,6 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         ":const_test_ts_library",
-        "@npm//@types/jest",
     ],
 )
 

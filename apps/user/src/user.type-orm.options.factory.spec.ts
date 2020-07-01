@@ -37,18 +37,23 @@ describe("UserTypeOrmOptionsFactory", () => {
 
   it("createSentryOptions should be equal to a value", () => {
     expect(
-      new UserTypeOrmOptionsFactory(service).createTypeOrmOptions()
-    ).toEqual({
-      database: "",
-      entities: [UserEntity],
-      host: "",
-      logger: new CommonTypeOrmLogger(true),
-      logging: true,
-      password: "",
-      port: 0,
-      synchronize: true,
-      type: "mysql",
-      username: "",
-    });
+      JSON.stringify(
+        new UserTypeOrmOptionsFactory(service).createTypeOrmOptions()
+      )
+    ).toEqual(
+      JSON.stringify({
+        database: "",
+        entities: [UserEntity],
+        host: "",
+        logger: new CommonTypeOrmLogger(true),
+        logging: true,
+        name: undefined,
+        password: "",
+        port: 0,
+        synchronize: true,
+        type: "mysql",
+        username: "",
+      })
+    );
   });
 });

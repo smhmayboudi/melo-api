@@ -1,6 +1,7 @@
+import * as express from "express";
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Strategy as PassportStrategy } from "passport-strategy";
-import express from "express";
 
 export class Strategy extends PassportStrategy {
   name: string;

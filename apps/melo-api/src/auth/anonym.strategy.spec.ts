@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import * as express from "express";
+
 import { Strategy } from "./anonym.strategy";
-import express from "express";
 
 describe("Strategy", () => {
   it("should be defined", () => {

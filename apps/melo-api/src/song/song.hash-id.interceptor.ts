@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -8,7 +10,6 @@ import {
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AuthJwtPayloadReqDto } from "@melo/common";
 import { Observable } from "rxjs";
-import express from "express";
 import { map } from "rxjs/operators";
 
 @Injectable()

@@ -4,6 +4,6 @@
     "declaration": false,
     "outDir": "../../dist/apps/action"
   },
-  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
-  "include": ["src/**/*"]
+  "exclude": ["src/*spec.ts", "test"],
+  "include": ["src/*.ts"]
 }

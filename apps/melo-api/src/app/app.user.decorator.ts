@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import {
   BadRequestException,
   ExecutionContext,
@@ -7,7 +9,6 @@ import {
 } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "@melo/common";
-import express from "express";
 
 export const AppUser: (
   ...dataOrPipes: (

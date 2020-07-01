@@ -1,7 +1,8 @@
+import * as express from "express";
+
 import { CacheInterceptor, ExecutionContext, Injectable } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "@melo/common";
-import express from "express";
 
 @Injectable()
 export class AppHttpCacheInterceptor extends CacheInterceptor {

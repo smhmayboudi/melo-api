@@ -2,8 +2,11 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": true,
-    "outDir": "../../dist/libs/prom"
+    // "emitDecoratorMetadata": true,
+    // "experimentalDecorators": true,
+    "outDir": "../../dist/libs/prom",
+    // "target": "ES5",
   },
-  "exclude": ["**/*spec.ts", "coverage", "dist", "node_modules", "test"],
-  "include": ["src/**/*"]
+  "exclude": ["src/*spec.ts", "test"],
+  "include": ["src/*.ts"]
 }

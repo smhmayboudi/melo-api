@@ -7,7 +7,10 @@ import { FileEntityRepositoryInterface } from "./file.entity.repository.interfac
 import { FileService } from "./file.service";
 import { Test } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
-import nock from "nock";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const nock = require("nock");
+nock("http://misc.127.0.0.1:9000").put(/\/*/).reply(200);
 
 jest.mock("aws-sdk").fn(() => ({
   upload: () =>
@@ -17,7 +20,6 @@ jest.mock("aws-sdk").fn(() => ({
       Key: "",
     }),
 }));
-nock("http://misc.127.0.0.1:9000").put(/\/*/).reply(200);
 
 describe("FileService", () => {
   const date = new Date();

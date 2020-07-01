@@ -59,7 +59,15 @@ ts_library(
     tsconfig = ":playlist_ts_config",
     deps = [
         ":playlist_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/mongoose",
         "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//@types/mongoose",
+        "@npm//mongoose",
+        "@npm//rxjs",
+        "@npm//ts-jest",
     ],
 )
 
@@ -81,7 +89,6 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         ":playlist_test_ts_library",
-        "@npm//@types/jest",
     ],
 )
 

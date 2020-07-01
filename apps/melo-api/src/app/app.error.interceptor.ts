@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import { APP_SERVICE, AuthJwtPayloadReqDto } from "@melo/common";
 import {
   CallHandler,
@@ -8,7 +10,6 @@ import {
 } from "@nestjs/common";
 
 import { Observable } from "rxjs";
-import express from "express";
 import { tap } from "rxjs/operators";
 
 @Injectable()

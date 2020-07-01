@@ -1,3 +1,5 @@
+import * as express from "express";
+
 import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   ArtistResDto,
@@ -12,7 +14,6 @@ import {
 
 import { AppSongService } from "../app/app.song.service";
 import { Observable } from "rxjs";
-import express from "express";
 import { flatMap } from "rxjs/operators";
 
 @Injectable()
