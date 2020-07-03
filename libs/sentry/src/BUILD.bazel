@@ -39,21 +39,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "sentry_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/sentry",
-    runtime = "nodejs",
-    tsconfig = ":sentry_ts_config",
-    deps = [
-        ":sentry_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@sentry/node",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_binary(
     name = "sentry_nodejs_binary",
     data = [
@@ -71,6 +56,10 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":sentry_test_ts_library",
+        "//:tsconfig.json",
+        ":sentry_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )

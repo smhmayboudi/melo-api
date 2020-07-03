@@ -51,24 +51,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "artist_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/artist",
-    runtime = "nodejs",
-    tsconfig = ":artist_ts_config",
-    deps = [
-        ":artist_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/elasticsearch",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "artist_nodejs_binary",
     data = [
@@ -86,7 +68,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":artist_test_ts_library",
+        "//:tsconfig.json",
+        ":artist_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

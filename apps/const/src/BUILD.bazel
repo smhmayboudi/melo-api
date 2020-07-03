@@ -48,23 +48,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "const_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/const",
-    runtime = "nodejs",
-    tsconfig = ":const_ts_config",
-    deps = [
-        ":const_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//imgproxy",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_binary(
     name = "const_nodejs_binary",
     data = [
@@ -82,7 +65,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":const_test_ts_library",
+        "//:tsconfig.json",
+        ":const_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

@@ -1,4 +1,4 @@
-FROM node:12.18.1 AS build_node_rt_development
+FROM node:12.18.2 AS build_node_rt_development
 ARG NODE_ENV=development
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /app
@@ -12,4 +12,5 @@ RUN yarn install
 COPY ./type ./type
 COPY ./libs ./libs
 COPY ./apps/rt ./apps/rt
+USER nonroot:nonroot
 ENTRYPOINT ["./node_modules/.bin/nest","start","rt","--watch"]

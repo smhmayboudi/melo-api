@@ -40,20 +40,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "common_test_ts_library",
-    srcs = glob(["**/*spec.ts"]),
-    module_name = "@melo/common",
-    runtime = "nodejs",
-    tsconfig = ":common_ts_config",
-    deps = [
-        ":common_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_binary(
     name = "common_nodejs_binary",
     data = [
@@ -71,6 +57,10 @@ jest_test(
     srcs = glob(["**/*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":common_test_ts_library",
+        "//:tsconfig.json",
+        ":common_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )

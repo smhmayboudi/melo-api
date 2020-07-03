@@ -43,22 +43,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "apm_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/apm",
-    runtime = "nodejs",
-    tsconfig = ":apm_ts_config",
-    deps = [
-        ":apm_ts_library",
-        "@npm//@nestjs/common",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "apm_nodejs_binary",
     data = [
@@ -76,6 +60,10 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":apm_test_ts_library",
+        "//:tsconfig.json",
+        ":apm_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )

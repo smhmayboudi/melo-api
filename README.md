@@ -25,7 +25,7 @@ $ brew install yarn
 $ brew install zsh-syntax-highlighting
 ```
 
-### console tweeks
+### console
 
 ```Shell
 $ echo 'export ZSH=/Users/{USERNAME}/.oh-my-zsh' > ~/.zshrc
@@ -54,7 +54,6 @@ $ brew install python@3.8
 ### tilt.dev
 
 ```Shell
-$ brew tap tilt-dev/tap
 $ brew install tilt-dev/tap/tilt
 ```
 
@@ -63,6 +62,18 @@ $ brew install tilt-dev/tap/tilt
 ```Shell
 $ sudo rm -rf $(xcode-select -print-path)
 $ xcode-select --install
+```
+
+### yarn
+
+```Shell
+$ yarn config set version-git-sign true
+$ yarn config set version-git-tag true
+$ yarn config set yarn-offline-mirror ./npm-packages-offline-cache
+$ yarn config set yarn-offline-mirror-pruning true
+$ cp ~/.yarnrc .
+$ rm -rf node_modules/ yarn.lock
+$ yarn install
 ```
 
 ### k8s cluster create
@@ -104,7 +115,7 @@ $ brew cask install lens
 $ brew cask install kui
 ```
 
-### k8s cluster tweeks
+### k8s cluster
 
 ```Shell
 # docker buildkit
@@ -202,9 +213,9 @@ $ docker pull bitnami/redis:6.0.5
 $ docker pull busybox
 $ docker pull darthsim/imgproxy:v2.13.1
 $ docker pull dgraph/dgraph:v20.03.3
-$ docker pull node:12.18.1
-$ docker pull node:12.18.1-alpine
-$ docker pull node:12.18.1-slim
+$ docker pull node:12.18.2
+$ docker pull node:12.18.2-alpine
+$ docker pull node:12.18.2-slim
 $ docker pull registry:2.7.1
 ```
 

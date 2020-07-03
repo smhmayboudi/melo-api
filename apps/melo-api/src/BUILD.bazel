@@ -91,30 +91,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "melo-api_test_ts_library",
-    srcs = glob(["**/*spec.ts"]),
-    module_name = "@melo/melo-api",
-    runtime = "nodejs",
-    tsconfig = ":melo-api_ts_config",
-    deps = [
-        ":melo-api_ts_library",
-        "//libs/apm/src:apm_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/common",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/jwt",
-        "@npm//@nestjs/terminus",
-        "@npm//@nestjs/testing",
-        "@npm//@sentry/types",
-        "@npm//@types/express",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//express",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "melo-api_nodejs_binary",
     data = [
@@ -132,7 +108,11 @@ jest_test(
     srcs = glob(["**/*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":melo-api_test_ts_library",
+        "//:tsconfig.json",
+        ":melo-api_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

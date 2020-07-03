@@ -327,6 +327,16 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
+"@bazel/bazelisk@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@bazel/bazelisk/-/bazelisk-1.5.0.tgz#61f583ed93be138b47be7180403938ea4057f54b"
+  integrity sha512-qhOGN1WmfZYNJXGrRL/0byii9hX5FBomMv3WWI2OEL2+Bxm4t/bR3zMxN3xwQX1C8meSSrAfKGSzxVOZfpJsOg==
+
+"@bazel/buildifier@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@bazel/buildifier/-/buildifier-3.3.0.tgz#9c78a5efcea4a38abffdfb18eb8cf9a27babee66"
+  integrity sha512-Jaraa7jLW1OQBoWtTe2XDiuZwsg/YbWvCTys6nYXXRtNIkyoN6I/YZS4RlZj3nD7XlTMFk0yQD6+jpRpXhB6ZQ==
+
 "@bazel/typescript@2.0.0-rc.0":
   version "2.0.0-rc.0"
   resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-2.0.0-rc.0.tgz#2581569b8ad1c7ec35dbe0528c0b7a66dc084af3"

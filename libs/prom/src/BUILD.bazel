@@ -39,25 +39,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "prom_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/prom",
-    runtime = "nodejs",
-    tsconfig = ":prom_ts_config",
-    deps = [
-        ":prom_ts_library",
-        "@npm//@nestjs/common",
-        "@npm//@nestjs/core",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//imgproxy",
-        "@npm//prom-client",
-        "@npm//ts-jest",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "prom_nodejs_binary",
     data = [
@@ -75,6 +56,10 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":prom_test_ts_library",
+        "//:tsconfig.json",
+        ":prom_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )

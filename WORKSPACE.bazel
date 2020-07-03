@@ -19,6 +19,23 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.0.0-rc.0/rules_nodejs-2.0.0-rc.0.tar.gz"]
 )
 
+load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories")
+node_repositories(
+  node_version = "12.18.2",
+  yarn_version = "1.22.4",
+  node_repositories = {
+    "12.18.2-darwin_amd64": ("node-v12.18.2-darwin-x64.tar.gz", "node-v12.18.2-darwin-x64", "6e6e7311943e4f3880db5038b8b8034a30469342fe436c8aaacf2997dfa305a6"),
+    "12.18.2-linux_amd64": ("node-v12.18.2-linux-x64.tar.xz", "node-v12.18.2-linux-x64", "b8dc634798ee783482c2ae1755bd7dff09d83fa7bb037cdc370b601d0a5e5cbb"),
+    "12.18.2-windows_amd64": ("node-v12.18.2-win-x64.zip", "node-v12.18.2-win-x64", "91fdd5b5df16873c63541bc844c9eb66870d366b2076d114f9ab7528b5e2f9a3"),
+  },
+  yarn_repositories = {
+    "1.22.4": ("yarn-v1.22.4.tar.gz", "yarn-v1.22.4", "bc5316aa110b2f564a71a3d6e235be55b98714660870c5b6b2d2d3f12587fb58"),
+  },
+  node_urls = ["https://nodejs.org/dist/v{version}/{filename}"],
+  yarn_urls = ["https://github.com/yarnpkg/yarn/releases/download/v{version}/{filename}"],
+  package_json = ["//:package.json"]
+)
+
 load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 yarn_install(
     name = "npm",

@@ -49,24 +49,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "download_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/download",
-    runtime = "nodejs",
-    tsconfig = ":download_ts_config",
-    deps = [
-        ":download_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/elasticsearch",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "download_nodejs_binary",
     data = [
@@ -84,7 +66,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":download_test_ts_library",
+        "//:tsconfig.json",
+        ":download_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

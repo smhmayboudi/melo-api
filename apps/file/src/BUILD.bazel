@@ -47,6 +47,7 @@ ts_library(
         "@npm//aws-sdk",
         "@npm//bluebird",
         "@npm//mime-types",
+        "@npm//mmmagic",
         "@npm//ms",
         "@npm//redis",
         "@npm//reflect-metadata",
@@ -54,27 +55,6 @@ ts_library(
         "@npm//tslib",
         "@npm//typeorm",
         "@npm//uuid",
-    ],
-)
-
-ts_library(
-    name = "file_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/file",
-    runtime = "nodejs",
-    tsconfig = ":file_ts_config",
-    deps = [
-        ":file_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/testing",
-        "@npm//@nestjs/typeorm",
-        "@npm//@types/jest",
-        "@npm//@types/mmmagic",
-        "@npm//mmmagic",
-        "@npm//nock",
-        "@npm//ts-jest",
-        "@npm//typeorm",
     ],
 )
 
@@ -95,7 +75,12 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":file_test_ts_library",
+        "//:tsconfig.json",
+        ":file_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//nock",
+        "@npm//ts-jest",
     ],
 )
 

@@ -17,7 +17,6 @@ def jest_test(name, srcs, deps, jest_config, **kwargs):
         "--ci",
         "--no-cache",
         "--no-watchman",
-        "--runInBand",
     ]
     templated_args.extend(["--config", "$(rootpath %s)" % jest_config])
     for src in srcs:

@@ -1,4 +1,4 @@
-FROM node:12.18.1 AS build_node_modules
+FROM node:12.18.2 AS build_node_modules
 ARG NODE_ENV=development
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
@@ -7,7 +7,7 @@ RUN yarn install \
     && cp -r ./node_modules ./node_modules_development
 RUN npm prune --production
 
-FROM node:12.18.1 AS build_node_app
+FROM node:12.18.2 AS build_node_app
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
@@ -24,10 +24,11 @@ COPY ./libs ./libs
 COPY ./apps/artist ./apps/artist
 RUN ./node_modules/.bin/nest build artist
 
-FROM node:12.18.1-alpine AS build_node_artist
+FROM node:12.18.2-alpine AS build_node_artist
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
 COPY --from=build_node_modules /app/node_modules ./node_modules
 COPY --from=build_node_app /app/dist/apps/artist/main.js ./dist/apps/artist/main.js
+USER nonroot:nonroot
 ENTRYPOINT ["node","./dist/apps/artist/main.js"]

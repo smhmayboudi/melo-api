@@ -36,21 +36,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "dgraph_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/prom",
-    runtime = "nodejs",
-    tsconfig = ":dgraph_ts_config",
-    deps = [
-        ":dgraph_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//dgraph-js",
-    ],
-)
-
 nodejs_binary(
     name = "dgraph_nodejs_binary",
     data = [
@@ -68,6 +53,10 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":dgraph_test_ts_library",
+        "//:tsconfig.json",
+        ":dgraph_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )

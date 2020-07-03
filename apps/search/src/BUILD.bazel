@@ -52,24 +52,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "search_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/search",
-    runtime = "nodejs",
-    tsconfig = ":search_ts_config",
-    deps = [
-        ":search_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/elasticsearch",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "search_nodejs_binary",
     data = [
@@ -87,7 +69,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":search_test_ts_library",
+        "//:tsconfig.json",
+        ":search_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

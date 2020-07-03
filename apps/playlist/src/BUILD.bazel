@@ -52,26 +52,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "playlist_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/playlist",
-    runtime = "nodejs",
-    tsconfig = ":playlist_ts_config",
-    deps = [
-        ":playlist_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/mongoose",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//@types/mongoose",
-        "@npm//mongoose",
-        "@npm//rxjs",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_binary(
     name = "playlist_nodejs_binary",
     data = [
@@ -89,7 +69,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":playlist_test_ts_library",
+        "//:tsconfig.json",
+        ":playlist_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

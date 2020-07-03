@@ -49,23 +49,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "relation_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/relation",
-    runtime = "nodejs",
-    tsconfig = ":relation_ts_config",
-    deps = [
-        ":relation_ts_library",
-        "//libs/common/src:common_ts_library",
-        "//libs/dgraph/src:dgraph_ts_library",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_binary(
     name = "relation_nodejs_binary",
     data = [
@@ -83,7 +66,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":relation_test_ts_library",
+        "//:tsconfig.json",
+        ":relation_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

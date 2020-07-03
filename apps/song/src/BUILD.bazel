@@ -54,27 +54,6 @@ ts_library(
     ],
 )
 
-ts_library(
-    name = "song_test_ts_library",
-    srcs = glob(["*spec.ts"]),
-    module_name = "@melo/song",
-    runtime = "nodejs",
-    tsconfig = ":song_ts_config",
-    deps = [
-        ":song_ts_library",
-        "//libs/common/src:common_ts_library",
-        "@npm//@nestjs/common",
-        "@npm//@nestjs/config",
-        "@npm//@nestjs/elasticsearch",
-        "@npm//@nestjs/testing",
-        "@npm//@nestjs/typeorm",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-        "@npm//axios",
-        "@npm//rxjs",
-    ],
-)
-
 nodejs_binary(
     name = "song_nodejs_binary",
     data = [
@@ -92,7 +71,11 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        ":song_test_ts_library",
+        "//:tsconfig.json",
+        ":song_ts_library",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//ts-jest",
     ],
 )
 

@@ -74,6 +74,8 @@
   },
   "description": "",
   "devDependencies": {
+    "@bazel/bazelisk": "^1.5.0",
+    "@bazel/buildifier": "^3.3.0",
     "@bazel/typescript": "2.0.0-rc.0",
     "@commitlint/cli": "^9.0.1",
     "@commitlint/config-angular": "^9.0.1",
@@ -135,7 +137,8 @@
     "typescript": "^3.9.5"
   },
   "engines": {
-    "node": ">=12.13.0"
+    "node": "12.18.2",
+    "yarn": "1.22.4"
   },
   "license": "MIT",
   "name": "melo-api",
@@ -145,14 +148,15 @@
   ],
   "private": true,
   "scripts": {
+    "build": "bazelisk build //...",
     "commit": "commit",
     "format": "prettier --write '{apps,libs,type}/**/*'",
     "lint": "eslint --fix '{apps,libs,types}/**/*'",
-    "test": "jest --config ./jest.config.json",
+    "postinstall": "patch-package",
+    "test": "bazelisk test //...",
     "test:cov": "jest --config ./jest.config.json --coverage",
     "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config ./jest.config.json --detectOpenHandles --runInBand",
     "test:watch": "jest --config ./jest.config.json --watch",
-    "postinstall": "patch-package",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "build:apps:action": "rimraf ./dist/apps/action && nest build action",
     "build:apps:album": "rimraf ./dist/apps/album && nest build album",
