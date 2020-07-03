@@ -20,9 +20,13 @@ describe("PromInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      method: "",
-      route: {
-        path: "/test",
+      query: {
+        route: {
+          path: "/test",
+        },
+      },
+      raw: {
+        method: "",
       },
     })),
     getResponse: jest.fn().mockImplementation(() => ({

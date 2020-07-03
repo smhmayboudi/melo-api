@@ -1,5 +1,3 @@
-import * as express from "express";
-
 import { AuthJwtPayloadReqDto, AuthStrategyResDto } from "@melo/common";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
@@ -9,6 +7,7 @@ import { AuthConfigService } from "./auth.config.service";
 import { JwksService } from "../jwks/jwks.service";
 import { PassportStrategy } from "@nestjs/passport";
 import { RtService } from "../rt/rt.service";
+import fastify from "fastify";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -28,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ),
       passReqToCallback: false,
       secretOrKeyProvider: async function (
-        _request: express.Request,
+        _request: fastify.FastifyRequest,
         rawJwtToken: string,
         done: (error: Error | null, publicKey: string | null) => void
       ) {

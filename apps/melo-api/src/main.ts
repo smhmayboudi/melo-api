@@ -1,4 +1,8 @@
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from "@nestjs/platform-fastify";
 
 import { APP_SERVICE } from "@melo/common";
 import { AppConfigService } from "./app/app.config.service";
@@ -6,18 +10,11 @@ import { AppModule } from "./app/app.module";
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
-// import bodyParser from "body-parser";
-// import cookieParser from "cookie-parser";
-// import csurf from "csurf";
-// import helmet from "helmet";
-// import rateLimit from "express-rate-limit";
-
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule, {
-    bodyParser: true,
-    cors: true,
-    logger: ["log", "error", "warn", "debug", "verbose"],
-  });
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter()
+  );
   const appConfigService = app.get(AppConfigService);
   // app.use(
   //   bodyParser.urlencoded({
@@ -81,7 +78,7 @@ async function bootstrap(): Promise<void> {
     customSiteTitle: "melo api | Swagger UI",
     explorer: false,
   });
-  await app.listen(appConfigService.port, () => {
+  await app.listen(appConfigService.servicePort, "0.0.0.0", () => {
     Logger.log("Nest application is listening", APP_SERVICE);
   });
 }

@@ -25,11 +25,10 @@ ts_library(
     deps = [
         "@npm//@nestjs/common",
         "@npm//@nestjs/core",
-        "@npm//@nestjs/platform-express",
-        "@npm//@types/express",
+        "@npm//@nestjs/platform-fastify",
         "@npm//@types/node",
         "@npm//@types/source-map-support",
-        "@npm//express",
+        "@npm//fastify",
         "@npm//kaop-ts",
         "@npm//prom-client",
         "@npm//reflect-metadata",

@@ -131,7 +131,6 @@ describe("AppHashIdService", () => {
     hashIdMinLength: 0,
     hashIdSalt: "cfhistuCFHISTU",
     hashIdSeps: "",
-    port: 0,
     promDefaultLabels: {
       "": "",
     },
@@ -145,6 +144,7 @@ describe("AppHashIdService", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
+    servicePort: 0,
   };
 
   let service: AppHashIdService;

@@ -1,5 +1,3 @@
-import * as express from "express";
-
 import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   AlbumResDto,
@@ -14,6 +12,7 @@ import {
 
 import { AppSongService } from "../app/app.song.service";
 import { Observable } from "rxjs";
+import fastify from "fastify";
 import { map } from "rxjs/operators";
 
 @Injectable()
@@ -41,7 +40,7 @@ export class AlbumLocalizeInterceptor implements NestInterceptor {
   ): Observable<AlbumResDto[] | AlbumResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      express.Request & { user: AuthJwtPayloadReqDto }
+      fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
       map((data) => {

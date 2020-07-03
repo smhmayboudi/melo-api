@@ -21,7 +21,6 @@ describe("AppCacheOptionsFactory", () => {
     hashIdMinLength: 0,
     hashIdSalt: "cfhistuCFHISTU",
     hashIdSeps: "",
-    port: 0,
     promDefaultLabels: {
       "": "",
     },
@@ -35,6 +34,7 @@ describe("AppCacheOptionsFactory", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
+    servicePort: 0,
   };
 
   let service: AppConfigService;

@@ -15,7 +15,6 @@ export interface AppConfigServiceInterface {
   hashIdMinLength: number;
   hashIdSalt: string;
   hashIdSeps: string;
-  port: number;
   promDefaultLabels: Record<string, string>;
   promDefaultMetricsEnabled: boolean;
   promPath: string;
@@ -27,4 +26,5 @@ export interface AppConfigServiceInterface {
   sentryEnviroment: string;
   sentryLogLevel: LogLevel;
   sentryRelease: string;
+  servicePort: number;
 }

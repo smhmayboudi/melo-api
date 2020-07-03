@@ -7,9 +7,11 @@ describe("HttpExceptionFilter", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      method: "",
-      route: {
+      query: {
         path: "",
+      },
+      raw: {
+        method: "",
       },
     })),
     getResponse: jest.fn().mockImplementation(() => ({

@@ -8,9 +8,9 @@ import { FILE_SERVICE } from "@melo/common";
 import { FileConfigService } from "./file.config.service";
 import { FileController } from "./file.controller";
 import { FileHealthIndicator } from "./file.health.indicator";
-import { FileMulterOptionsFactory } from "./file.multer.options.factory";
+// import { FileMulterOptionsFactory } from "./file.multer.options.factory";
 import { FileService } from "./file.service";
-import { MulterModule } from "@nestjs/platform-express";
+// import { MulterModule } from "@nestjs/platform-fastify";
 import config from "./file.config";
 
 @Module({
@@ -33,11 +33,11 @@ import config from "./file.config";
       },
     ]),
     ConfigModule.forFeature(config),
-    MulterModule.registerAsync({
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define
-      imports: [FileModule],
-      useClass: FileMulterOptionsFactory,
-    }),
+    // MulterModule.registerAsync({
+    //   // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    //   imports: [FileModule],
+    //   useClass: FileMulterOptionsFactory,
+    // }),
   ],
   providers: [FileConfigService, FileHealthIndicator, FileService],
 })

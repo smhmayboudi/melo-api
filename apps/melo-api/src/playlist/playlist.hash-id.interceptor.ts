@@ -1,5 +1,3 @@
-import * as express from "express";
-
 import {
   CallHandler,
   ExecutionContext,
@@ -10,6 +8,7 @@ import {
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AuthJwtPayloadReqDto } from "@melo/common";
 import { Observable } from "rxjs";
+import fastify from "fastify";
 import { map } from "rxjs/operators";
 
 @Injectable()
@@ -19,7 +18,7 @@ export class PlaylistHashIdInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      express.Request & { user: AuthJwtPayloadReqDto }
+      fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
     >();
     const reqFields = ["body", "params"];
     const reqFields2 = ["songId"];

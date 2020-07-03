@@ -1,16 +1,16 @@
-import {
-  MulterModuleOptions,
-  MulterOptionsFactory,
-} from "@nestjs/platform-express";
+// import {
+//   MulterModuleOptions,
+//   MulterOptionsFactory,
+// } from "@nestjs/platform-fastify";
 
-import { Injectable } from "@nestjs/common";
-import { memoryStorage } from "multer";
+// import { Injectable } from "@nestjs/common";
+// import { memoryStorage } from "multer";
 
-@Injectable()
-export class FileMulterOptionsFactory implements MulterOptionsFactory {
-  createMulterOptions(): MulterModuleOptions {
-    return {
-      storage: memoryStorage(),
-    };
-  }
-}
+// @Injectable()
+// export class FileMulterOptionsFactory implements MulterOptionsFactory {
+//   createMulterOptions(): MulterModuleOptions {
+//     return {
+//       storage: memoryStorage(),
+//     };
+//   }
+// }

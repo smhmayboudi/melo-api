@@ -101,10 +101,6 @@ export class AppConfigService implements AppConfigServiceInterface {
     return this.configService.get<string>(`${APP}.${HASH_ID_SEPS}`, "");
   }
 
-  get port(): number {
-    return this.configService.get<number>(`${APP}.${SERVICE_PORT}`, 0);
-  }
-
   get promDefaultLabels(): Record<string, string> {
     return JSON.parse(
       this.configService.get<string>(`${APP}.${PROM_DEFAULT_LABELS}`, '{"":""}')
@@ -167,5 +163,9 @@ export class AppConfigService implements AppConfigServiceInterface {
 
   get sentryRelease(): string {
     return this.configService.get<string>(`${APP}.${SENTRY_RELEASE}`, "");
+  }
+
+  get servicePort(): number {
+    return this.configService.get<number>(`${APP}.${SERVICE_PORT}`, 0);
   }
 }

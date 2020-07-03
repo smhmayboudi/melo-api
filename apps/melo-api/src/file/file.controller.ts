@@ -6,7 +6,7 @@ import {
   Post,
   UploadedFile,
   UseGuards,
-  UseInterceptors,
+  // UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
@@ -14,7 +14,7 @@ import { FileUploadImageReqDto, FileUploadImageResDto } from "@melo/common";
 
 import { AppUser } from "../app/app.user.decorator";
 import { AuthGuard } from "@nestjs/passport";
-import { FileInterceptor } from "@nestjs/platform-express";
+// import { FileInterceptor } from "@nestjs/platform-fastify";
 import { FileService } from "./file.service";
 
 @ApiBearerAuth("jwt")
@@ -32,7 +32,7 @@ export class FileController {
 
   @Post("upload/image")
   @UseGuards(AuthGuard("jwt"))
-  @UseInterceptors(FileInterceptor("file"))
+  // @UseInterceptors(FileInterceptor("file"))
   async uploadImage(
     @AppUser("sub", ParseIntPipe)
     sub: number,

@@ -1,5 +1,3 @@
-import * as express from "express";
-
 import {
   BadRequestException,
   ExecutionContext,
@@ -9,6 +7,7 @@ import {
 } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "@melo/common";
+import fastify from "fastify";
 
 export const AppUser: (
   ...dataOrPipes: (
@@ -20,7 +19,7 @@ export const AppUser: (
   (data: string, context: ExecutionContext) => {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      express.Request & { user: AuthJwtPayloadReqDto }
+      fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
     >();
     if (request.user === undefined) {
       throw new BadRequestException();

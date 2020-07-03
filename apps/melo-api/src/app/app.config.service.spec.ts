@@ -86,7 +86,7 @@ describe("AppConfigService", () => {
   });
 
   it("port should be equal to a value", () => {
-    expect(service.port).toEqual(0);
+    expect(service.servicePort).toEqual(0);
   });
 
   it("promDefaultLabels should be equal to a value", () => {

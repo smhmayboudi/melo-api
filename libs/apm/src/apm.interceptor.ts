@@ -1,5 +1,3 @@
-import * as express from "express";
-
 import {
   CallHandler,
   ExecutionContext,
@@ -9,6 +7,7 @@ import {
 
 import { ApmService } from "./apm.service";
 import { Observable } from "rxjs";
+import fastify from "fastify";
 import { tap } from "rxjs/operators";
 
 @Injectable()
@@ -21,7 +20,7 @@ export class ApmInterceptor implements NestInterceptor {
   ): Observable<Response> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      express.Request & {
+      fastify.FastifyRequest & {
         user: {
           sub: string;
         };

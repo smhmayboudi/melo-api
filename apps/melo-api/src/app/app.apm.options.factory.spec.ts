@@ -22,7 +22,6 @@ describe("AppApmOptionsFactory", () => {
     hashIdMinLength: 0,
     hashIdSalt: "cfhistuCFHISTU",
     hashIdSeps: "",
-    port: 0,
     promDefaultLabels: {
       "": "",
     },
@@ -36,6 +35,7 @@ describe("AppApmOptionsFactory", () => {
     sentryEnviroment: "",
     sentryLogLevel: 0,
     sentryRelease: "",
+    servicePort: 0,
   };
 
   let service: AppConfigService;
