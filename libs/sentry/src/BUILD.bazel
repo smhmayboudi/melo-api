@@ -35,6 +35,7 @@ ts_library(
         "@npm//reflect-metadata",
         "@npm//rxjs",
         "@npm//source-map-support",
+        "@npm//tslib",
     ],
 )
 

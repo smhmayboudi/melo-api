@@ -51,6 +51,7 @@ ts_library(
         "@npm//redis",
         "@npm//reflect-metadata",
         "@npm//source-map-support",
+        "@npm//tslib",
         "@npm//typeorm",
         "@npm//uuid",
     ],

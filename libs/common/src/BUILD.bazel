@@ -34,6 +34,7 @@ ts_library(
         "@npm//class-validator",
         "@npm//crypto-random-string",
         "@npm//source-map-support",
+        "@npm//tslib",
         "@npm//typeorm",
         "@npm//uuid",
     ],

@@ -1,11 +1,12 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    // "allowJs": true,
     "declaration": true,
     // "emitDecoratorMetadata": true,
     // "experimentalDecorators": true,
     "outDir": "../../dist/libs/apm",
-    // "target": "ES5",
+    // "target": "es5",
   },
   "exclude": ["src/*spec.ts", "test"],
   "include": ["src/*.ts"]
