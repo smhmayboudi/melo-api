@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -7,7 +9,6 @@ import {
 
 import { ApmService } from "./apm.service";
 import { Observable } from "rxjs";
-import fastify from "fastify";
 import { tap } from "rxjs/operators";
 
 @Injectable()

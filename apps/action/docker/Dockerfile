@@ -18,7 +18,6 @@ COPY ./jest.config.json \
      ./tsconfig.json \
      ./yarn.lock \
      ./
-COPY ./type ./type
 COPY ./libs ./libs
 COPY ./apps/action ./apps/action
 RUN ./node_modules/.bin/nest build action

@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   AuthJwtPayloadReqDto,
@@ -12,7 +14,6 @@ import {
 
 import { AppSongService } from "../app/app.song.service";
 import { Observable } from "rxjs";
-import fastify from "fastify";
 import { map } from "rxjs/operators";
 
 @Injectable()

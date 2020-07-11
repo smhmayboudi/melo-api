@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "song_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/song",
@@ -66,19 +66,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "song_jest_test",
-    srcs = glob(["*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":song_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "song_nodejs_image",
     binary = ":song_nodejs_binary",
@@ -91,4 +78,35 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_song",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "song_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/song",
+    runtime = "nodejs",
+    deps = [
+        "//libs/common/src:common_ts_library",
+        ":song_ts_library",
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/elasticsearch",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//@nestjs/typeorm",
+        "@npm//axios",
+        "@npm//rxjs",
+    ],
+)
+
+jest_test(
+    name = "song_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":song_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

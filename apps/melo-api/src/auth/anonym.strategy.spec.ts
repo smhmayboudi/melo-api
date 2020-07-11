@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
+import * as fastify from "fastify";
+
 import { Strategy } from "./anonym.strategy";
-import fastify from "fastify";
 
 describe("Strategy", () => {
   it("should be defined", () => {

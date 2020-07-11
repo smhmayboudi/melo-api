@@ -1,0 +1,33 @@
+# BEGIN project-specific configuration
+
+.common: &common
+  variables:
+    MODULE_NAME: common
+  only:
+    changes:
+      - "libs/common/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:libs:common:
+  extends:
+    - .build
+    - .common
+
+test:libs:common:
+  dependencies:
+    - build:libs:common
+  extends:
+    - .test
+    - .common
+
+coverage:libs:common:
+  dependencies:
+    - test:libs:common
+  extends:
+    - .coverage
+    - .common
+
+# END actual pipeline definition

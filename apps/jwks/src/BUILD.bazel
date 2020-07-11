@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "jwks_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/jwks",
@@ -61,19 +61,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "jwks_jest_test",
-    srcs = glob(["*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":jwks_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "jwks_nodejs_image",
     binary = ":jwks_nodejs_binary",
@@ -86,4 +73,30 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_jwks",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "jwks_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/jwks",
+    runtime = "nodejs",
+    deps = [
+        ":jwks_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+    ],
+)
+
+jest_test(
+    name = "jwks_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":jwks_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

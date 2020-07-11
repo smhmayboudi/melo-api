@@ -21,7 +21,6 @@ docker_build(
   dockerfile = "docker/development/Dockerfile",
   live_update = [
     sync("../../libs", "/app/libs"),
-    sync("../../type", "/app/type"),
     sync("./src", "/app/apps/const/src"),
   ]
 )

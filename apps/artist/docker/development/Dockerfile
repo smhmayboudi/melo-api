@@ -9,7 +9,6 @@ COPY ./jest.config.json \
      ./yarn.lock \
      ./
 RUN yarn install
-COPY ./type ./type
 COPY ./libs ./libs
 COPY ./apps/artist ./apps/artist
 USER nonroot:nonroot

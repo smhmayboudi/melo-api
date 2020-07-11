@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.download: &download
+  variables:
+    MODULE_NAME: download
+    IMAGE_NAME: melo-download
+    DOCKERFILE: apps/download/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/download/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:download:
+  extends:
+    - .build
+    - .download
+
+test:apps:download:
+  dependencies:
+    - build:apps:download
+  extends:
+    - .test
+    - .download
+
+coverage:apps:download:
+  dependencies:
+    - test:apps:download
+  extends:
+    - .coverage
+    - .download
+
+dockerization:apps:download:
+  dependencies:
+    - build:apps:download
+  extends:
+    - .dockerization
+    - .download
+
+# END actual pipeline definition

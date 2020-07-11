@@ -7,7 +7,6 @@ import {
   AtValidateByTokenReqDto,
   AtValidateReqDto,
 } from "@melo/common";
-import { DeleteResult, UpdateResult } from "typeorm";
 
 export interface AtServiceInterface {
   delete(dto: AtDeleteReqDto): Promise<AtResDto | undefined>;

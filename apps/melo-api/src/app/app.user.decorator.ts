@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import {
   BadRequestException,
   ExecutionContext,
@@ -7,7 +9,6 @@ import {
 } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "@melo/common";
-import fastify from "fastify";
 
 export const AppUser: (
   ...dataOrPipes: (

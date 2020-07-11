@@ -1,0 +1,33 @@
+# BEGIN project-specific configuration
+
+.prom: &prom
+  variables:
+    MODULE_NAME: prom
+  only:
+    changes:
+      - "libs/prom/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:libs:prom:
+  extends:
+    - .build
+    - .prom
+
+test:libs:prom:
+  dependencies:
+    - build:libs:prom
+  extends:
+    - .test
+    - .prom
+
+coverage:libs:prom:
+  dependencies:
+    - test:libs:prom
+  extends:
+    - .coverage
+    - .prom
+
+# END actual pipeline definition

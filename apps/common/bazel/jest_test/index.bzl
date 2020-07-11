@@ -15,6 +15,7 @@ def jest_test(name, srcs, deps, jest_config, **kwargs):
 
     templated_args = [
         "--ci",
+        "--clear-cache",
         "--no-cache",
         "--no-watchman",
     ]

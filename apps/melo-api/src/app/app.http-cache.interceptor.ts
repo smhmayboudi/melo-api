@@ -1,7 +1,9 @@
+import * as fastify from "fastify";
+
 import { CacheInterceptor, ExecutionContext, Injectable } from "@nestjs/common";
 
 import { AuthJwtPayloadReqDto } from "@melo/common";
-import fastify from "fastify";
+import urlparse from "url-parse";
 
 @Injectable()
 export class AppHttpCacheInterceptor extends CacheInterceptor {
@@ -10,6 +12,7 @@ export class AppHttpCacheInterceptor extends CacheInterceptor {
     const request = http.getRequest<
       fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
     >();
-    return request.query.path;
+    const url = urlparse(request.raw.url || "", true);
+    return url.pathname;
   }
 }

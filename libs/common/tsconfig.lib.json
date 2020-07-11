@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "declaration": true,
     "outDir": "../../dist/libs/common"
   },
   "exclude": ["src/**/*spec.ts", "test"],

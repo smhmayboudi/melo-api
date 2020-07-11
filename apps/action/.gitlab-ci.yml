@@ -1,0 +1,41 @@
+# BEGIN project-specific configuration
+.action: &action
+  variables:
+    MODULE_NAME: action
+    IMAGE_NAME: melo-action
+    DOCKERFILE: apps/action/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/action/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:action:
+  extends:
+    - .build
+    - .action
+
+test:apps:action:
+  dependencies:
+    - build:apps:action
+  extends:
+    - .test
+    - .action
+
+coverage:apps:action:
+  dependencies:
+    - test:apps:action
+  extends:
+    - .coverage
+    - .action
+    
+dockerization:apps:action:
+  dependencies:
+    - build:apps:action
+  extends:
+    - .dockerization
+    - .action
+
+# END actual pipeline definition

@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.emotion: &emotion
+  variables:
+    MODULE_NAME: emotion
+    IMAGE_NAME: melo-emotion
+    DOCKERFILE: apps/emotion/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/emotion/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:emotion:
+  extends:
+    - .build
+    - .emotion
+
+test:apps:emotion:
+  dependencies:
+    - build:apps:emotion
+  extends:
+    - .test
+    - .emotion
+
+coverage:apps:emotion:
+  dependencies:
+    - test:apps:emotion
+  extends:
+    - .coverage
+    - .emotion
+
+dockerization:apps:emotion:
+  dependencies:
+    - build:apps:emotion
+  extends:
+    - .dockerization
+    - .emotion
+
+# END actual pipeline definition

@@ -40,14 +40,15 @@ $ echo 'function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/
 $ echo 'source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh' >> ~/.zshrc
 $ echo 'source /usr/local/opt/kube-ps1/share/kube-ps1.sh' >> ~/.zshrc
 $ echo 'PROMPT="$(kube_ps1)"$PROMPT' >> ~/.zshrc
+$ echo 'export PATH="/usr/local/sbin:$PATH"' >> ~/.zshrc
 ```
 
 ### bazel
 
 ```Shell
+$ brew cask install java
 $ brew install bazelisk
 $ brew install buildifier
-$ brew install openjdk@11
 $ brew install python@3.8
 ```
 
@@ -69,7 +70,8 @@ $ xcode-select --install
 ```Shell
 $ yarn config set version-git-sign true
 $ yarn config set version-git-tag true
-$ yarn config set yarn-offline-mirror ./npm-packages-offline-cache
+$ yarn config set cache-folder .yarn
+$ yarn config set yarn-offline-mirror ./yarn-packages-offline-cache
 $ yarn config set yarn-offline-mirror-pruning true
 $ cp ~/.yarnrc .
 $ rm -rf node_modules/ yarn.lock
@@ -163,11 +165,9 @@ $ code --install-extension coenraads.bracket-pair-colorizer-2
 $ code --install-extension dbaeumer.vscode-eslint
 $ code --install-extension eamodio.gitlens
 $ code --install-extension esbenp.prettier-vscode
-$ code --install-extension lunuan.kubernetes-templates
 $ code --install-extension ms-azuretools.vscode-docker
 $ code --install-extension ms-kubernetes-tools.vscode-kubernetes-tools
 $ code --install-extension pkief.material-icon-theme
-$ code --install-extension redhat.vscode-yaml
 $ code --install-extension streetsidesoftware.code-spell-checker
 $ code --install-extension tyriar.sort-lines
 ```

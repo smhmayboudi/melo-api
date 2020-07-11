@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
   AlbumResDto,
@@ -12,7 +14,6 @@ import {
 
 import { AppArtistService } from "../app/app.artist.service";
 import { Observable } from "rxjs";
-import fastify from "fastify";
 import { flatMap } from "rxjs/operators";
 
 @Injectable()

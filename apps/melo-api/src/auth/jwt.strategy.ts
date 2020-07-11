@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import { AuthJwtPayloadReqDto, AuthStrategyResDto } from "@melo/common";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
@@ -7,7 +9,6 @@ import { AuthConfigService } from "./auth.config.service";
 import { JwksService } from "../jwks/jwks.service";
 import { PassportStrategy } from "@nestjs/passport";
 import { RtService } from "../rt/rt.service";
-import fastify from "fastify";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

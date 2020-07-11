@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.playlist: &playlist
+  variables:
+    MODULE_NAME: playlist
+    IMAGE_NAME: melo-playlist
+    DOCKERFILE: apps/playlist/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/playlist/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:playlist:
+  extends:
+    - .build
+    - .playlist
+
+test:apps:playlist:
+  dependencies:
+    - build:apps:playlist
+  extends:
+    - .test
+    - .playlist
+
+coverage:apps:playlist:
+  dependencies:
+    - test:apps:playlist
+  extends:
+    - .coverage
+    - .playlist
+
+dockerization:apps:playlist:
+  dependencies:
+    - build:apps:playlist
+  extends:
+    - .dockerization
+    - .playlist
+
+# END actual pipeline definition

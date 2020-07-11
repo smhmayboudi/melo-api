@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.rt: &rt
+  variables:
+    MODULE_NAME: rt
+    IMAGE_NAME: melo-rt
+    DOCKERFILE: apps/rt/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/rt/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:rt:
+  extends:
+    - .build
+    - .rt
+
+test:apps:rt:
+  dependencies:
+    - build:apps:rt
+  extends:
+    - .test
+    - .rt
+
+coverage:apps:rt:
+  dependencies:
+    - test:apps:rt
+  extends:
+    - .coverage
+    - .rt
+
+dockerization:apps:rt:
+  dependencies:
+    - build:apps:rt
+  extends:
+    - .dockerization
+    - .rt
+
+# END actual pipeline definition

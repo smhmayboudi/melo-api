@@ -1,8 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-    "outDir": "../../dist/apps/melo-api",
+    "outDir": "../../dist/apps/melo-api"
   },
   "exclude": ["src/**/*spec.ts", "test"],
   "include": ["src/**/*.ts"]

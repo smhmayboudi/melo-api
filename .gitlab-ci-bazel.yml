@@ -1,0 +1,102 @@
+# BEGIN job-specific configuration
+
+default:
+  cache:
+    key: ${CI_PROJECT_PATH_SLUG}-bazel-disk-cache
+    paths:
+      - bazel-disk-cache
+  entrypoint:
+    - ""
+  image: l.gcr.io/google/bazel:3.3.1  
+  variables:
+    GIT_CLEAN_FLAGS: -ffdx -e bazel-disk-cache
+
+.default-rule: &default-rule
+  only: 
+    - merge-requests
+
+.build: &build
+  extends:  
+    - .default-rule
+  script:
+    - bazel version
+    - bazel build //...
+  stage: build
+  when: manual
+
+.test: &test
+  artifacts:
+    when: always
+    paths:
+      - coverage
+    expire_in: 7 days
+  extends:  
+    - .default-rule
+  script:
+    - bazel test //...
+  stage: test
+  when: manual
+
+.coverage: &coverage
+  artifacts:
+    expire_in: 7 days
+    paths:
+      - public/$MODULE_NAME
+  extends:  
+    - .default-rule
+  script:
+    - bazel coverage //...
+  stage: coverage
+  when: manual
+
+.dockerization: &dockerization
+  entrypoint:
+    - docker-entrypoint.sh
+  extends:  
+    - .default-rule
+  image: docker:19.03.12
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE/$IMAGE_NAME:latest || true
+    - bazel run //directory:push
+  stage: dockerization
+  when: manual
+
+# END job-specific configuration
+
+# BEGIN project-specific configuration
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+stages:
+  - build
+  - test
+  - coverage
+  - dockerization
+
+include:
+  - local: /apps/action/.gitlab-ci.yml
+  - local: /apps/album/.gitlab-ci.yml
+  - local: /apps/artist/.gitlab-ci.yml
+  - local: /apps/at/.gitlab-ci.yml
+  - local: /apps/const/.gitlab-ci.yml
+  - local: /apps/download/.gitlab-ci.yml
+  - local: /apps/emotion/.gitlab-ci.yml
+  - local: /apps/file/.gitlab-ci.yml
+  - local: /apps/jwks/.gitlab-ci.yml
+  - local: /apps/melo-api/.gitlab-ci.yml
+  - local: /apps/playlist/.gitlab-ci.yml
+  - local: /apps/relation/.gitlab-ci.yml
+  - local: /apps/rt/.gitlab-ci.yml
+  - local: /apps/search/.gitlab-ci.yml
+  - local: /apps/song/.gitlab-ci.yml
+  - local: /apps/user/.gitlab-ci.yml
+  - local: /libs/apm/.gitlab-ci.yml
+  - local: /libs/common/.gitlab-ci.yml
+  - local: /libs/dgraph/.gitlab-ci.yml
+  - local: /libs/prom/.gitlab-ci.yml
+  - local: /libs/sentry/.gitlab-ci.yml
+
+# END actual pipeline definition

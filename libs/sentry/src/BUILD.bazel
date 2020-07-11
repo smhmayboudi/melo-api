@@ -16,7 +16,7 @@ ts_config(
 ts_library(
     name = "sentry_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/sentry",
@@ -39,15 +39,16 @@ ts_library(
     ],
 )
 
-nodejs_binary(
-    name = "sentry_nodejs_binary",
-    data = [
+ts_library(
+    name = "sentry_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/sentry",
+    runtime = "nodejs",
+    deps = [
         ":sentry_ts_library",
-    ],
-    entry_point = ":index",
-    templated_args = [
-        "--nobazel_patch_module_resolver",
-        "--node_options=--require=source-map-support/register",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//@sentry/node",
     ],
 )
 
@@ -57,9 +58,8 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         "//:tsconfig.json",
-        ":sentry_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
+        ":sentry_test_ts_library",
+        "@npm//c8",
         "@npm//ts-jest",
     ],
 )

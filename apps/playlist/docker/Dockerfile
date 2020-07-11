@@ -18,7 +18,6 @@ COPY ./jest.config.json \
      ./tsconfig.json \
      ./yarn.lock \
      ./
-COPY ./type ./type
 COPY ./libs ./libs
 
 COPY ./apps/playlist ./apps/playlist

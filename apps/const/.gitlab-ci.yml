@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.const: &const
+  variables:
+    MODULE_NAME: const
+    IMAGE_NAME: melo-const
+    DOCKERFILE: apps/const/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/const/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:const:
+  extends:
+    - .build
+    - .const
+
+test:apps:const:
+  dependencies:
+    - build:apps:const
+  extends:
+    - .test
+    - .const
+
+coverage:apps:const:
+  dependencies:
+    - test:apps:const
+  extends:
+    - .coverage
+    - .const
+
+dockerization:apps:const:
+  dependencies:
+    - build:apps:const
+  extends:
+    - .dockerization
+    - .const
+
+# END actual pipeline definition

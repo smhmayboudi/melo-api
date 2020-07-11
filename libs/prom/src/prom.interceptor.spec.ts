@@ -20,13 +20,8 @@ describe("PromInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      query: {
-        route: {
-          path: "/test",
-        },
-      },
       raw: {
-        method: "",
+        url: "",
       },
     })),
     getResponse: jest.fn().mockImplementation(() => ({
@@ -92,6 +87,7 @@ describe("PromInterceptor", () => {
     );
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+    expect(counterMock.inc).not.toHaveBeenCalled();
     counterMock.inc.mockReset();
   });
 
@@ -130,6 +126,8 @@ describe("PromInterceptor", () => {
     );
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
+    expect(counterMock.inc).not.toHaveBeenCalled();
+    counterMock.inc.mockReset();
   });
 
   it("intercept should be called 3", async () => {

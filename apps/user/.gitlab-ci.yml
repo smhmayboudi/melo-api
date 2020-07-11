@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.user: &user
+  variables:
+    MODULE_NAME: user
+    IMAGE_NAME: melo-user
+    DOCKERFILE: apps/user/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/user/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:user:
+  extends:
+    - .build
+    - .user
+
+test:apps:user:
+  dependencies:
+    - build:apps:user
+  extends:
+    - .test
+    - .user
+
+coverage:apps:user:
+  dependencies:
+    - test:apps:user
+  extends:
+    - .coverage
+    - .user
+
+dockerization:apps:user:
+  dependencies:
+    - build:apps:user
+  extends:
+    - .dockerization
+    - .user
+
+# END actual pipeline definition

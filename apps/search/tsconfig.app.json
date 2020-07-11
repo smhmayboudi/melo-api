@@ -1,7 +1,6 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
     "outDir": "../../dist/apps/search"
   },
   "exclude": ["src/*spec.ts", "test"],

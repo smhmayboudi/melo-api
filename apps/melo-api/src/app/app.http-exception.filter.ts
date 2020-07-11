@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import { APP_SERVICE, AuthJwtPayloadReqDto } from "@melo/common";
 import {
   ArgumentsHost,
@@ -7,7 +9,7 @@ import {
   Logger,
 } from "@nestjs/common";
 
-import fastify from "fastify";
+import urlparse from "url-parse";
 
 @Catch(HttpException)
 export class AppHttpExceptionFilter implements ExceptionFilter {
@@ -18,16 +20,17 @@ export class AppHttpExceptionFilter implements ExceptionFilter {
     >();
     const response = http.getResponse();
     const status = exception.getStatus();
+    const url = urlparse(request.raw.url || "", true);
     Logger.error(
       `${JSON.stringify({
-        path: request.query.path,
+        path: url.pathname,
         user: request.user,
       })} => ${exception}`,
       "AppHttpExceptionFilter",
       APP_SERVICE
     );
     response.status(status).json({
-      path: request.query.url,
+      path: url.pathname,
       statusCode: status,
       timestamp: new Date().toISOString(),
     });

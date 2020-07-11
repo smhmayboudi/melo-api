@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "emotion_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/emotion",
@@ -61,19 +61,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "emotion_jest_test",
-    srcs = glob(["*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":emotion_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "emotion_nodejs_image",
     binary = ":emotion_nodejs_binary",
@@ -86,4 +73,32 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_emotion",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "emotion_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/emotion",
+    runtime = "nodejs",
+    deps = [
+        ":emotion_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/elasticsearch",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//rxjs",
+    ],
+)
+
+jest_test(
+    name = "emotion_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":emotion_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -14,7 +16,7 @@ import { Counter } from "prom-client";
 import { InjectCounter } from "./prom.decorator";
 import { Observable } from "rxjs";
 import { PromModuleOptions } from "./prom.module.interface";
-import fastify from "fastify";
+import urlparse from "url-parse";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {
@@ -32,13 +34,14 @@ export class PromInterceptor implements NestInterceptor {
     const http = context.switchToHttp();
     const request = http.getRequest<fastify.FastifyRequest>();
     const response = http.getResponse();
+    const url = urlparse(request.raw.url || "", true);
     if (
       this.options.ignorePaths !== undefined &&
-      !this.options.ignorePaths.includes(request.query.route.path)
+      !this.options.ignorePaths.includes(url.pathname)
     ) {
       this.counter.inc({
         method: request.raw.method,
-        path: request.query.route.path,
+        path: url.pathname,
         status: response.statusCode,
       });
     }

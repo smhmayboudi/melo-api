@@ -6,8 +6,8 @@ describe("AppHttpCacheInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      query: {
-        path: "",
+      raw: {
+        url: "",
       },
     })),
     getResponse: jest.fn(),

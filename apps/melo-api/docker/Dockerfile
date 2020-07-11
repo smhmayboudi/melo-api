@@ -18,7 +18,6 @@ COPY ./jest.config.json \
      ./tsconfig.json \
      ./yarn.lock \
      ./
-COPY ./type ./type
 COPY ./libs ./libs
 COPY ./apps/melo-api ./apps/melo-api
 RUN ./node_modules/.bin/nest build melo-api

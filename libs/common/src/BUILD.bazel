@@ -16,7 +16,7 @@ ts_config(
 ts_library(
     name = "common_ts_library",
     srcs = glob(
-        ["**/*.ts"],
+        include = ["**/*.ts"],
         exclude = ["**/*spec.ts"],
     ),
     module_name = "@melo/common",
@@ -40,15 +40,15 @@ ts_library(
     ],
 )
 
-nodejs_binary(
-    name = "common_nodejs_binary",
-    data = [
+ts_library(
+    name = "common_test_ts_library",
+    srcs = glob(["**/*spec.ts"]),
+    module_name = "@melo/common",
+    runtime = "nodejs",
+    deps = [
         ":common_ts_library",
-    ],
-    entry_point = ":index",
-    templated_args = [
-        "--nobazel_patch_module_resolver",
-        "--node_options=--require=source-map-support/register",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
     ],
 )
 
@@ -58,9 +58,8 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         "//:tsconfig.json",
-        ":common_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
+        ":common_test_ts_library",
+        "@npm//c8",
         "@npm//ts-jest",
     ],
 )

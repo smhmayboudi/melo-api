@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "at_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/at",
@@ -36,7 +36,6 @@ ts_library(
         "@npm//@nestjs/platform-socket.io",
         "@npm//@nestjs/typeorm",
         "@npm//@nestjs/websockets",
-        "@npm//@sentry/types",
         "@npm//@types/ms",
         "@npm//@types/node",
         "@npm//@types/socket.io",
@@ -62,19 +61,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "at_jest_test",
-    srcs = glob(["*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":at_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "at_nodejs_image",
     binary = ":at_nodejs_binary",
@@ -87,4 +73,31 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_at",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "at_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/at",
+    runtime = "nodejs",
+    deps = [
+        ":at_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//typeorm",
+    ],
+)
+
+jest_test(
+    name = "at_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":at_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

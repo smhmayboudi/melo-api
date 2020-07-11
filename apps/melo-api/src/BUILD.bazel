@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "melo-api_ts_library",
     srcs = glob(
-        ["**/*.ts"],
+        include = ["**/*.ts"],
         exclude = ["**/*spec.ts"],
     ),
     module_name = "@melo/melo-api",
@@ -43,6 +43,7 @@ ts_library(
         "@npm//@sentry/types",
         "@npm//@types/cache-manager",
         "@npm//@types/hashids",
+        "@npm//@types/mongoose",
         "@npm//@types/ms",
         "@npm//@types/multer",
         "@npm//@types/node",
@@ -52,6 +53,7 @@ ts_library(
         "@npm//@types/passport-unique-token",
         "@npm//@types/socket.io",
         "@npm//@types/source-map-support",
+        "@npm//@types/url-parse",
         "@npm//@types/uuid",
         "@npm//cache-manager",
         "@npm//cache-manager-ioredis",
@@ -60,6 +62,7 @@ ts_library(
         "@npm//fastify-swagger",
         "@npm//hashids",
         "@npm//moment",
+        "@npm//mongoose",
         "@npm//ms",
         "@npm//multer",
         "@npm//passport",
@@ -73,6 +76,7 @@ ts_library(
         "@npm//source-map-support",
         "@npm//tslib",
         "@npm//typeorm",
+        "@npm//url-parse",
         "@npm//uuid",
     ],
 )
@@ -89,19 +93,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "melo-api_jest_test",
-    srcs = glob(["**/*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":melo-api_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "melo-api_nodejs_image",
     binary = ":melo-api_nodejs_binary",
@@ -114,4 +105,30 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_melo-api",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "melo-api_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/melo-api",
+    runtime = "nodejs",
+    deps = [
+        ":melo-api_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+    ],
+)
+
+jest_test(
+    name = "melo-api_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":melo-api_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

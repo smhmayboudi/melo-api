@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "playlist_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/playlist",
@@ -64,19 +64,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "playlist_jest_test",
-    srcs = glob(["*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":playlist_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "playlist_nodejs_image",
     binary = ":playlist_nodejs_binary",
@@ -89,4 +76,32 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_playlist",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "playlist_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/playlist",
+    runtime = "nodejs",
+    deps = [
+        ":playlist_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/mongoose",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//rxjs",
+    ],
+)
+
+jest_test(
+    name = "playlist_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":playlist_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

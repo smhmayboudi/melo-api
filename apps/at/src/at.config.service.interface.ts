@@ -1,5 +1,3 @@
-import { LogLevel } from "@sentry/types";
-
 export interface AtConfigServiceInterface {
   servicePort: number;
   serviceRetryAttempts: number;

@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -8,7 +10,6 @@ import {
 import { AppHashIdService } from "../app/app.hash-id.service";
 import { AuthJwtPayloadReqDto } from "@melo/common";
 import { Observable } from "rxjs";
-import fastify from "fastify";
 import { map } from "rxjs/operators";
 
 @Injectable()

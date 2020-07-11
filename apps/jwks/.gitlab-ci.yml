@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.jwks: &jwks
+  variables:
+    MODULE_NAME: jwks
+    IMAGE_NAME: melo-jwks
+    DOCKERFILE: apps/jwks/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/jwks/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:jwks:
+  extends:
+    - .build
+    - .jwks
+
+test:apps:jwks:
+  dependencies:
+    - build:apps:jwks
+  extends:
+    - .test
+    - .jwks
+
+coverage:apps:jwks:
+  dependencies:
+    - test:apps:jwks
+  extends:
+    - .coverage
+    - .jwks
+
+dockerization:apps:jwks:
+  dependencies:
+    - build:apps:jwks
+  extends:
+    - .dockerization
+    - .jwks
+
+# END actual pipeline definition

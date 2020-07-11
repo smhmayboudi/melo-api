@@ -1,3 +1,5 @@
+import * as fastify from "fastify";
+
 import { APP_SERVICE, AuthJwtPayloadReqDto } from "@melo/common";
 import {
   CallHandler,
@@ -8,8 +10,8 @@ import {
 } from "@nestjs/common";
 
 import { Observable } from "rxjs";
-import fastify from "fastify";
 import { tap } from "rxjs/operators";
+import urlparse from "url-parse";
 
 @Injectable()
 export class AppErrorInterceptor implements NestInterceptor {
@@ -20,9 +22,10 @@ export class AppErrorInterceptor implements NestInterceptor {
     >();
     return next.handle().pipe(
       tap(undefined, (error) => {
+        const url = urlparse(request.raw.url || "", true);
         Logger.error(
           `${JSON.stringify({
-            path: request.query.path,
+            path: url.pathname,
             user: request.user,
           })} => ${error}`,
           "AppErrorInterceptor",

@@ -5,7 +5,7 @@
 # The full list of Bazel options: https://docs.bazel.build/versions/master/command-line-reference.html
 
 # Cache action outputs on disk so they persist across output_base and bazel shutdown (eg. changing branches)
-build --disk_cache=~/.cache/bazel-disk-cache
+build --disk_cache=bazel-disk-cache/
 
 # Bazel will create symlinks from the workspace directory to output artifacts.
 # Build results will be placed in a directory called "dist/bin"
@@ -13,7 +13,7 @@ build --disk_cache=~/.cache/bazel-disk-cache
 # Be aware that this will still create a bazel-out symlink in
 # your project directory, which you must exclude from version control and your
 # editor's search path.
-build --symlink_prefix=dist/
+build --symlink_prefix=/
 # To disable the symlinks altogether (including bazel-out) you can use
 # build --symlink_prefix=/
 # however this makes it harder to find outputs.
@@ -84,3 +84,7 @@ run --incompatible_strict_action_env
 # (Note that we use .bazelrc.user so the file appears next to .bazelrc in directory listing,
 # rather than user.bazelrc as suggested in the Bazel docs)
 try-import %workspace%/.bazelrc.user
+
+common --spawn_strategy=local
+startup --output_base=bazel-out/
+# startup --output_user_root=bazel-out/

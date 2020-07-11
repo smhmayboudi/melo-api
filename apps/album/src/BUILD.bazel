@@ -17,7 +17,7 @@ ts_config(
 ts_library(
     name = "album_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/album",
@@ -63,19 +63,6 @@ nodejs_binary(
     ],
 )
 
-jest_test(
-    name = "album_jest_test",
-    srcs = glob(["*spec.ts"]),
-    jest_config = "//:jest.config.json",
-    deps = [
-        "//:tsconfig.json",
-        ":album_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
-        "@npm//ts-jest",
-    ],
-)
-
 nodejs_image(
     name = "album_nodejs_image",
     binary = ":album_nodejs_binary",
@@ -88,4 +75,32 @@ container_push(
     registry = "localhost:5000",
     repository = "melo_album",
     tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "album_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/album",
+    runtime = "nodejs",
+    deps = [
+        ":album_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/elasticsearch",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//rxjs",
+    ],
+)
+
+jest_test(
+    name = "album_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":album_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
 )

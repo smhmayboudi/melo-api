@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.artist: &artist
+  variables:
+    MODULE_NAME: artist
+    IMAGE_NAME: melo-artist
+    DOCKERFILE: apps/artist/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/artist/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:artist:
+  extends:
+    - .build
+    - .artist
+
+test:apps:artist:
+  dependencies:
+    - build:apps:artist
+  extends:
+    - .test
+    - .artist
+
+coverage:apps:artist:
+  dependencies:
+    - test:apps:artist
+  extends:
+    - .coverage
+    - .artist
+
+dockerization:apps:artist:
+  dependencies:
+    - build:apps:artist
+  extends:
+    - .dockerization
+    - .artist
+
+# END actual pipeline definition

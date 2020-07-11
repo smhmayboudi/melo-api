@@ -16,7 +16,7 @@ ts_config(
 ts_library(
     name = "dgraph_ts_library",
     srcs = glob(
-        ["*.ts"],
+        include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
     module_name = "@melo/dgraph",
@@ -36,15 +36,16 @@ ts_library(
     ],
 )
 
-nodejs_binary(
-    name = "dgraph_nodejs_binary",
-    data = [
+ts_library(
+    name = "dgraph_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/dgraph",
+    runtime = "nodejs",
+    deps = [
         ":dgraph_ts_library",
-    ],
-    entry_point = ":index",
-    templated_args = [
-        "--nobazel_patch_module_resolver",
-        "--node_options=--require=source-map-support/register",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//dgraph-js",
     ],
 )
 
@@ -54,9 +55,8 @@ jest_test(
     jest_config = "//:jest.config.json",
     deps = [
         "//:tsconfig.json",
-        ":dgraph_ts_library",
-        "@npm//@nestjs/testing",
-        "@npm//@types/jest",
+        ":dgraph_test_ts_library",
+        "@npm//c8",
         "@npm//ts-jest",
     ],
 )

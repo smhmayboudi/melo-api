@@ -1,6 +1,7 @@
+import * as fastify from "fastify";
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Strategy as PassportStrategy } from "passport-strategy";
-import fastify from "fastify";
 
 export class Strategy extends PassportStrategy {
   name: string;

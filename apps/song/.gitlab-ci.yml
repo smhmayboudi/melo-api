@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.song: &song
+  variables:
+    MODULE_NAME: song
+    IMAGE_NAME: melo-song
+    DOCKERFILE: apps/song/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/song/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:song:
+  extends:
+    - .build
+    - .song
+
+test:apps:song:
+  dependencies:
+    - build:apps:song
+  extends:
+    - .test
+    - .song
+
+coverage:apps:song:
+  dependencies:
+    - test:apps:song
+  extends:
+    - .coverage
+    - .song
+
+dockerization:apps:song:
+  dependencies:
+    - build:apps:song
+  extends:
+    - .dockerization
+    - .song
+
+# END actual pipeline definition

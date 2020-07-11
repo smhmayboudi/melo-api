@@ -14,8 +14,8 @@ describe("AppErrorInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      query: {
-        path: "",
+      raw: {
+        url: "",
       },
       user: {
         sub: "0",
