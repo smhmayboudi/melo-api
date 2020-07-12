@@ -9,7 +9,6 @@ default:
       - yarn-packages-offline-cache
   image: node:12.18.2
 
-
 .default-rule: &default-rule
   only: 
     - merge-requests

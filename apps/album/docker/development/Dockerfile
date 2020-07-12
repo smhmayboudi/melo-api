@@ -11,5 +11,4 @@ COPY ./jest.config.json \
 RUN yarn install
 COPY ./libs ./libs
 COPY ./apps/album ./apps/album
-USER nonroot:nonroot
 ENTRYPOINT ["./node_modules/.bin/nest","start","album","--watch"]

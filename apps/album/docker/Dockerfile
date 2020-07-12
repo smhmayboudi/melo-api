@@ -29,5 +29,4 @@ ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
 COPY --from=build_node_modules /app/node_modules ./node_modules
 COPY --from=build_node_app /app/dist/apps/album/main.js ./dist/apps/album/main.js
-USER nonroot:nonroot
 ENTRYPOINT ["node","./dist/apps/album/main.js"]
