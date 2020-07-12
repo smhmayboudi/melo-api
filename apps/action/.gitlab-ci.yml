@@ -30,7 +30,7 @@ coverage:apps:action:
   extends:
     - .coverage
     - .action
-    
+
 dockerization:apps:action:
   dependencies:
     - build:apps:action

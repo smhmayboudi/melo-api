@@ -1,4 +1,5 @@
 {
+  "coveragePathIgnorePatterns": ["/bazel-out/", "/node_modules/"],
   "coverageReporters": ["lcov", "text-summary"],
   "moduleNameMapper": {
     "@melo/common/(.*)": "<rootDir>/libs/common/src/$1",
@@ -12,6 +13,10 @@
     "@melo/sentry/(.*)": "<rootDir>/libs/sentry/src/$1",
     "@melo/sentry": "<rootDir>/libs/sentry/src"
   },
+  "modulePathIgnorePatterns": ["/bazel-out/", "/node_modules/"],
   "preset": "ts-jest",
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "testPathIgnorePatterns": ["/bazel-out/", "/node_modules/"],
+  "transformIgnorePatterns": ["/bazel-out/", "/node_modules/"],
+  "watchPathIgnorePatterns": ["/bazel-out/", "/node_modules/"]
 }
