@@ -3,7 +3,7 @@
 .emotion: &emotion
   variables:
     MODULE_NAME: emotion
-    IMAGE_NAME: melo-emotion
+    IMAGE_NAME: melo_emotion
     DOCKERFILE: apps/emotion/docker/development/Dockerfile
   only:
     changes:

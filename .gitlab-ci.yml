@@ -47,7 +47,7 @@ default:
   script:
     - rm -rf public/$MODULE_NAME/*
     - mkdir -p public/$MODULE_NAME
-    - cp -r coverage/* public/$MODULE_NAME/
+    - cp -r coverage/lcov-report/* public/$MODULE_NAME/
   stage: coverage
   when: manual
 

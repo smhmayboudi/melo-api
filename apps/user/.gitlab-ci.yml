@@ -3,7 +3,7 @@
 .user: &user
   variables:
     MODULE_NAME: user
-    IMAGE_NAME: melo-user
+    IMAGE_NAME: melo_user
     DOCKERFILE: apps/user/docker/development/Dockerfile
   only:
     changes:

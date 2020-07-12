@@ -1,5 +1,5 @@
 {
-  "coverageReporters": ["html-spa", "text-summary"],
+  "coverageReporters": ["lcov", "text-summary"],
   "moduleNameMapper": {
     "@melo/common/(.*)": "<rootDir>/libs/common/src/$1",
     "@melo/common": "<rootDir>/libs/common/src",

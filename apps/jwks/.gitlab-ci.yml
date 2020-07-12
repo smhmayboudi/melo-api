@@ -3,7 +3,7 @@
 .jwks: &jwks
   variables:
     MODULE_NAME: jwks
-    IMAGE_NAME: melo-jwks
+    IMAGE_NAME: melo_jwks
     DOCKERFILE: apps/jwks/docker/development/Dockerfile
   only:
     changes:

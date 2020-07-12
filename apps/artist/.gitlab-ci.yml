@@ -3,7 +3,7 @@
 .artist: &artist
   variables:
     MODULE_NAME: artist
-    IMAGE_NAME: melo-artist
+    IMAGE_NAME: melo_artist
     DOCKERFILE: apps/artist/docker/development/Dockerfile
   only:
     changes:

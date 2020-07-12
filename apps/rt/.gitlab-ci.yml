@@ -3,7 +3,7 @@
 .rt: &rt
   variables:
     MODULE_NAME: rt
-    IMAGE_NAME: melo-rt
+    IMAGE_NAME: melo_rt
     DOCKERFILE: apps/rt/docker/development/Dockerfile
   only:
     changes:

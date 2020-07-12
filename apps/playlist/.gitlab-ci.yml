@@ -3,7 +3,7 @@
 .playlist: &playlist
   variables:
     MODULE_NAME: playlist
-    IMAGE_NAME: melo-playlist
+    IMAGE_NAME: melo_playlist
     DOCKERFILE: apps/playlist/docker/development/Dockerfile
   only:
     changes:

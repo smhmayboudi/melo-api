@@ -3,7 +3,7 @@
 .download: &download
   variables:
     MODULE_NAME: download
-    IMAGE_NAME: melo-download
+    IMAGE_NAME: melo_download
     DOCKERFILE: apps/download/docker/development/Dockerfile
   only:
     changes:

@@ -3,7 +3,7 @@
 .album: &album
   variables:
     MODULE_NAME: album
-    IMAGE_NAME: melo-album
+    IMAGE_NAME: melo_album
     DOCKERFILE: apps/album/docker/development/Dockerfile
   only:
     changes:

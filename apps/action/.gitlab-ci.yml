@@ -2,7 +2,7 @@
 .action: &action
   variables:
     MODULE_NAME: action
-    IMAGE_NAME: melo-action
+    IMAGE_NAME: melo_action
     DOCKERFILE: apps/action/docker/development/Dockerfile
   only:
     changes:

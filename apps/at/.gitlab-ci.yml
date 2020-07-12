@@ -3,7 +3,7 @@
 .at: &at
   variables:
     MODULE_NAME: at
-    IMAGE_NAME: melo-at
+    IMAGE_NAME: melo_at
     DOCKERFILE: apps/at/docker/development/Dockerfile
   only:
     changes:

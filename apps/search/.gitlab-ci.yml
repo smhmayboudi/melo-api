@@ -3,7 +3,7 @@
 .search: &search
   variables:
     MODULE_NAME: search
-    IMAGE_NAME: melo-search
+    IMAGE_NAME: melo_search
     DOCKERFILE: apps/search/docker/development/Dockerfile
   only:
     changes:

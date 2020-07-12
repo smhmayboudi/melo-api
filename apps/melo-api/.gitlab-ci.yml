@@ -3,7 +3,7 @@
 .melo-api: &melo-api
   variables:
     MODULE_NAME: melo-api
-    IMAGE_NAME: melo-melo-api
+    IMAGE_NAME: melo_melo-api
     DOCKERFILE: apps/melo-api/docker/development/Dockerfile
   only:
     changes:

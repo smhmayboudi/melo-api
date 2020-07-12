@@ -3,7 +3,7 @@
 .file: &file
   variables:
     MODULE_NAME: file
-    IMAGE_NAME: melo-file
+    IMAGE_NAME: melo_file
     DOCKERFILE: apps/file/docker/development/Dockerfile
   only:
     changes:

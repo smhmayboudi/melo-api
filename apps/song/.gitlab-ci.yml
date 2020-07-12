@@ -3,7 +3,7 @@
 .song: &song
   variables:
     MODULE_NAME: song
-    IMAGE_NAME: melo-song
+    IMAGE_NAME: melo_song
     DOCKERFILE: apps/song/docker/development/Dockerfile
   only:
     changes:

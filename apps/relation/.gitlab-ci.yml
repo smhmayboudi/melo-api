@@ -3,7 +3,7 @@
 .relation: &relation
   variables:
     MODULE_NAME: relation
-    IMAGE_NAME: melo-relation
+    IMAGE_NAME: melo_relation
     DOCKERFILE: apps/relation/docker/development/Dockerfile
   only:
     changes:

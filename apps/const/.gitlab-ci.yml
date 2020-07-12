@@ -3,7 +3,7 @@
 .const: &const
   variables:
     MODULE_NAME: const
-    IMAGE_NAME: melo-const
+    IMAGE_NAME: melo_const
     DOCKERFILE: apps/const/docker/development/Dockerfile
   only:
     changes:
