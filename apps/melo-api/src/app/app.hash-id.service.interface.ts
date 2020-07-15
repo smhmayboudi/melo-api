@@ -4,6 +4,8 @@ import {
   PlaylistResDto,
   SearchResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 
 export interface AppHashIdServiceInterface {
@@ -14,4 +16,6 @@ export interface AppHashIdServiceInterface {
   encodePlaylist(dto: PlaylistResDto): unknown;
   encodeSearch(dto: SearchResDto): unknown;
   encodeSong(dto: SongResDto): unknown;
+  encodeTag(dto: TagResDto): unknown;
+  encodeTagRelation(dto: TagRelationResDto): unknown;
 }

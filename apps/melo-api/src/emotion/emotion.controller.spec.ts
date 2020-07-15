@@ -11,6 +11,8 @@ import {
   SearchType,
   SongAudioResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 
 import { AppHashIdService } from "../app/app.hash-id.service";
@@ -89,6 +91,18 @@ describe("EmotionController", () => {
     emotions: [""],
     song,
   };
+  const tag: TagResDto = {
+    id: 0,
+    name: "",
+    typeId: 0,
+    value: "",
+  };
+  const tagRelation: TagRelationResDto = {
+    category: SearchType.album,
+    categoryId: 0,
+    id: 0,
+    tagId: 0,
+  };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -98,7 +112,10 @@ describe("EmotionController", () => {
     encodePlaylist: () => playlist,
     encodeSearch: () => search,
     encodeSong: () => song,
+    encodeTag: () => tag,
+    encodeTagRelation: () => tagRelation,
   };
+
   const appSongServiceMock: AppSongServiceInterface = {
     like: () => Promise.resolve(song),
     likes: () => Promise.resolve([song]),

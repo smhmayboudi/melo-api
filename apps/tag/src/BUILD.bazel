@@ -1,0 +1,103 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
+load("@io_bazel_rules_docker//container:container.bzl", "container_push")
+load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
+load("@melo//:apps/common/bazel/jest_test/index.bzl", "jest_test")
+load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
+
+package(default_visibility = ["//visibility:public"])
+
+ts_config(
+    name = "tag_ts_config",
+    src = "//apps/tag:tsconfig.app.json",
+    deps = [
+        "//:tsconfig.json",
+    ],
+)
+
+ts_library(
+    name = "tag_ts_library",
+    srcs = glob(
+        include = ["*.ts"],
+        exclude = ["*spec.ts"],
+    ),
+    module_name = "@melo/tag",
+    runtime = "nodejs",
+    tsconfig = ":tag_ts_config",
+    deps = [
+        "//libs/apm/src:apm_ts_library",
+        "//libs/common/src:common_ts_library",
+        "//libs/prom/src:prom_ts_library",
+        "//libs/sentry/src:sentry_ts_library",
+        "@npm//@nestjs/common",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/core",
+        "@npm//@nestjs/microservices",
+        "@npm//@nestjs/platform-fastify",
+        "@npm//@nestjs/platform-socket.io",
+        "@npm//@nestjs/typeorm",
+        "@npm//@nestjs/websockets",
+        "@npm//@types/ms",
+        "@npm//@types/node",
+        "@npm//@types/socket.io",
+        "@npm//@types/source-map-support",
+        "@npm//ms",
+        "@npm//redis",
+        "@npm//reflect-metadata",
+        "@npm//source-map-support",
+        "@npm//tslib",
+        "@npm//typeorm",
+    ],
+)
+
+nodejs_binary(
+    name = "tag_nodejs_binary",
+    data = [
+        ":tag_ts_library",
+    ],
+    entry_point = ":main",
+    templated_args = [
+        "--nobazel_patch_module_resolver",
+        "--node_options=--require=source-map-support/register",
+    ],
+)
+
+nodejs_image(
+    name = "tag_nodejs_image",
+    binary = ":tag_nodejs_binary",
+)
+
+container_push(
+    name = "tag_container_push",
+    format = "Docker",
+    image = ":tag_nodejs_image",
+    registry = "localhost:5000",
+    repository = "melo_tag",
+    tag = "{EXPECTED_REF}",
+)
+
+ts_library(
+    name = "tag_test_ts_library",
+    srcs = glob(["*spec.ts"]),
+    module_name = "@melo/tag",
+    runtime = "nodejs",
+    deps = [
+        ":tag_ts_library",
+        "//libs/common/src:common_ts_library",
+        "@npm//@nestjs/config",
+        "@npm//@nestjs/testing",
+        "@npm//@types/jest",
+        "@npm//typeorm",
+    ],
+)
+
+jest_test(
+    name = "tag_jest_test",
+    srcs = glob(["*spec.ts"]),
+    jest_config = "//:jest.config.json",
+    deps = [
+        "//:tsconfig.json",
+        ":tag_test_ts_library",
+        "@npm//c8",
+        "@npm//ts-jest",
+    ],
+)

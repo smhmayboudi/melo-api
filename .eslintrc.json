@@ -42,6 +42,7 @@
           "artists_ids",
           "auth_date",
           "callback_query",
+          "category_id",
           "created_at",
           "downloads_count",
           "e_tag",
@@ -71,8 +72,10 @@
           "script_score",
           "song_id",
           "songs_ids",
+          "tag_id",
           "telegram_id",
           "tracks_count",
+          "type_id",
           "unique_name",
           "update_id",
           "user_id"

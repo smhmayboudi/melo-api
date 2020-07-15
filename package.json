@@ -65,6 +65,7 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.5",
     "source-map-support": "^0.5.19",
+    "ts-node": "^8.10.2",
     "typeorm": "^0.2.25",
     "url-parse": "^1.4.7",
     "uuid": "^8.2.0"
@@ -120,7 +121,6 @@
     "prettier": "^2.0.5",
     "ts-jest": "^26.1.1",
     "ts-loader": "8.0.0",
-    "ts-node": "^8.10.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.9.5"
   },
@@ -136,6 +136,7 @@
   ],
   "private": true,
   "scripts": {
+    "xx": "ts-node ./node_modules/.bin/typeorm",
     "c8": "NODE_ENV=test NODE_V8_COVERAGE=coverage c8 --include=[\"**/*.ts\"] --temp-directory=tmp/source-map --clean=true jest --coverageProvider=v8 apps/action",
     "build": "bazelisk build //...",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
@@ -162,6 +163,7 @@
     "build:apps:rt": "rimraf ./dist/apps/rt && nest build rt",
     "build:apps:search": "rimraf ./dist/apps/search && nest build search",
     "build:apps:song": "rimraf ./dist/apps/song && nest build song",
+    "build:apps:tag": "rimraf ./dist/apps/tag && nest build tag",
     "build:apps:user": "rimraf ./dist/apps/user & nest build user",
     "start:action": "nest start action",
     "start:album": "nest start album",
@@ -178,6 +180,7 @@
     "start:rt": "nest start rt",
     "start:search": "nest start search",
     "start:song": "nest start song",
+    "start:tag": "nest start tag",
     "start:user": "nest start user",
     "start:action:debug": "nest start action --debug=0.0.0.0:9229 --watch",
     "start:album:debug": "nest start album --debug=0.0.0.0:9229 --watch",
@@ -194,6 +197,7 @@
     "start:rt:debug": "nest start rt --debug=0.0.0.0:9229 --watch",
     "start:search:debug": "nest start search --debug=0.0.0.0:9229 --watch",
     "start:song:debug": "nest start song --debug=0.0.0.0:9229 --watch",
+    "start:tag:debug": "nest start tag --debug=0.0.0.0:9229 --watch",
     "start:user:debug": "nest start user --debug=0.0.0.0:9229 --watch",
     "start:action:dev": "nest start action --watch",
     "start:album:dev": "nest start album --watch",
@@ -210,6 +214,7 @@
     "start:rt:dev": "nest start rt --watch",
     "start:search:dev": "nest start search --watch",
     "start:song:dev": "nest start song --watch",
+    "start:tag:dev": "nest start tag --watch",
     "start:user:dev": "nest start user --watch",
     "start:action:prod": "node ./dist/apps/action/main",
     "start:album:prod": "node ./dist/apps/album/main",
@@ -226,6 +231,7 @@
     "start:rt:prod": "node ./dist/apps/rt/main",
     "start:search:prod": "node ./dist/apps/search/main",
     "start:song:prod": "node ./dist/apps/song/main",
+    "start:tag:prod": "node ./dist/apps/tag/main",
     "start:user:prod": "node ./dist/apps/user/main",
     "test:e2e:action": "jest --config ./apps/action/test/jest-e2e.json",
     "test:e2e:album": "jest --config ./apps/album/test/jest-e2e.json",
@@ -242,6 +248,7 @@
     "test:e2e:rt": "jest --config ./apps/rt/test/jest-e2e.json",
     "test:e2e:search": "jest --config ./apps/search/test/jest-e2e.json",
     "test:e2e:song": "jest --config ./apps/song/test/jest-e2e.json",
+    "test:e2e:tag": "jest --config ./apps/tag/test/jest-e2e.json",
     "test:e2e:user": "jest --config ./apps/user/test/jest-e2e.json"
   },
   "version": "1.0.0"

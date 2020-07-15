@@ -241,7 +241,7 @@ describe("PlaylistService", () => {
       id: playlistId,
       sub: 1,
     };
-    expect(await service.delete(dto)).toEqual(playlistPure);
+    expect(await service.delete(dto)).toEqual(playlist);
   });
 
   it("delete should be equal to a playlist 2", async () => {

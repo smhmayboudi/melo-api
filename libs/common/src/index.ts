@@ -15,4 +15,5 @@ export * from "./relation";
 export * from "./rt";
 export * from "./search";
 export * from "./song";
+export * from "./tag";
 export * from "./user";

@@ -70,6 +70,28 @@ export class PlaylistService implements PlaylistServiceInterface {
           .toPromise();
   }
 
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  async transform(
+    dto: {},
+    playlist: PlaylistInterface
+  ): Promise<PlaylistResDto> {
+    return {
+      followersCount: playlist.followers_count,
+      id: playlist._id,
+      image: await this.image(dto, playlist),
+      isPublic: playlist.isPublic,
+      releaseDate: playlist.release_date,
+      songs:
+        playlist.songs_ids.length === 0
+          ? undefined
+          : await this.song(dto, playlist),
+      title: playlist.title,
+      tracksCount: playlist.tracks_count,
+    };
+  }
+
   constructor(
     @Inject(CONST_SERVICE) private readonly constClientProxy: ClientProxy,
     @Inject(SONG_SERVICE) private readonly songClientProxy: ClientProxy,
@@ -93,16 +115,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       songs_ids: [...playlist.songs_ids, dto.songId],
     } as PlaylistInterface;
     await playlist.save();
-    return {
-      followersCount: playlist.followers_count,
-      id: dto.playlistId,
-      image: await this.image(dto, playlist),
-      isPublic: playlist.isPublic,
-      releaseDate: playlist.release_date,
-      songs: await this.song(dto, playlist),
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-    };
+    return this.transform(dto, playlist);
   }
 
   @ApmAfterMethod
@@ -120,15 +133,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       title: dto.title,
       tracks_count: 0,
     }).save();
-    return {
-      followersCount: playlist.followers_count,
-      id: playlist._id,
-      image: await this.image(dto, playlist),
-      isPublic: playlist.isPublic,
-      releaseDate: playlist.release_date,
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-    };
+    return this.transform(dto, playlist);
   }
 
   @ApmAfterMethod
@@ -162,15 +167,7 @@ export class PlaylistService implements PlaylistServiceInterface {
     if (deleteOne.deletedCount === undefined || deleteOne.deletedCount === 0) {
       throw new InternalServerErrorException();
     }
-    return {
-      followersCount: playlist.followers_count,
-      id: playlist._id,
-      image: await this.image(dto, playlist),
-      isPublic: playlist.isPublic,
-      releaseDate: playlist.release_date,
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-    };
+    return this.transform(dto, playlist);
   }
 
   @ApmAfterMethod
@@ -202,16 +199,7 @@ export class PlaylistService implements PlaylistServiceInterface {
     if (playlist === null || playlist === undefined) {
       throw new BadRequestException();
     }
-    return {
-      followersCount: playlist.followers_count,
-      id: playlist._id,
-      image: await this.image(dto, playlist),
-      isPublic: playlist.isPublic,
-      releaseDate: playlist.release_date,
-      songs: await this.song(dto, playlist),
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-    };
+    return this.transform(dto, playlist);
   }
 
   @ApmAfterMethod
@@ -223,16 +211,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       .skip(parseInt(dto.from.toString(), 10))
       .limit(parseInt(dto.size.toString(), 10));
     return await Promise.all(
-      playlists.map(async (value) => ({
-        followersCount: value.followers_count,
-        id: value._id,
-        image: await this.image(dto, value),
-        isPublic: value.isPublic,
-        releaseDate: value.release_date,
-        songs: await this.song(dto, value),
-        title: value.title,
-        tracksCount: value.tracks_count,
-      }))
+      playlists.map(async (value) => this.transform(dto, value))
     );
   }
 
@@ -249,16 +228,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       songs_ids: playlist.songs_ids.filter((value) => value === dto.songId),
     } as PlaylistInterface;
     await playlist.save();
-    return {
-      followersCount: playlist.followers_count,
-      id: playlist._id,
-      image: await this.image(dto, playlist),
-      isPublic: playlist.isPublic,
-      releaseDate: playlist.release_date,
-      songs: await this.song(dto, playlist),
-      title: playlist.title,
-      tracksCount: playlist.tracks_count,
-    };
+    return this.transform(dto, playlist);
   }
 
   @ApmAfterMethod
@@ -270,16 +240,7 @@ export class PlaylistService implements PlaylistServiceInterface {
       .skip(parseInt(dto.from.toString(), 10))
       .limit(parseInt(dto.size.toString(), 10));
     return await Promise.all(
-      playlists.map(async (value) => ({
-        followersCount: value.followers_count,
-        id: value._id,
-        image: await this.image(dto, value),
-        isPublic: value.isPublic,
-        releaseDate: value.release_date,
-        songs: await this.song(dto, value),
-        title: value.title,
-        tracksCount: value.tracks_count,
-      }))
+      playlists.map(async (value) => this.transform(dto, value))
     );
   }
 }

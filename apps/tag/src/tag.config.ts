@@ -1,0 +1,16 @@
+import { TAG } from "@melo/common";
+import { registerAs } from "@nestjs/config";
+
+export default registerAs(TAG, () => ({
+  SERVICE_PORT: process.env.TAG_SERVICE_PORT,
+  SERVICE_RETRY_ATTEMPTS: process.env.TAG_SERVICE_RETRY_TAGTEMPTS,
+  SERVICE_RETRY_DELAY: process.env.TAG_SERVICE_RETRY_DELAY,
+  SERVICE_URL: process.env.TAG_SERVICE_URL,
+  TYPEORM_DATABASE: process.env.TAG_TYPEORM_DATABASE,
+  TYPEORM_HOST: process.env.TAG_TYPEORM_HOST,
+  TYPEORM_LOGGING: process.env.TAG_TYPEORM_LOGGING,
+  TYPEORM_PASSWORD: process.env.TAG_TYPEORM_PASSWORD,
+  TYPEORM_PORT: process.env.TAG_TYPEORM_PORT,
+  TYPEORM_SYNCHRONIZE: process.env.TAG_TYPEORM_SYNCHRONIZE,
+  TYPEORM_USERNAME: process.env.TAG_TYPEORM_USERNAME,
+}));

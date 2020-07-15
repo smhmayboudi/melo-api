@@ -45,17 +45,15 @@ export class RelationService implements RelationServiceInterface {
       .newTxn()
       .queryWithVars(query)
       .then((value) => {
-        const result = value.getJson();
-        if (result === undefined) {
-          throw new Error();
-        }
-        if (
-          result.relates[0] === undefined ||
-          result.relates[0][dto.type] === undefined
-        ) {
+        const result = value.getJson().relates[0] as
+          | {
+              [key: string]: { id: string }[];
+            }
+          | undefined;
+        if (result === undefined || result[dto.type] === undefined) {
           return [];
         }
-        return result.relates[0][dto.type].map((value2) => {
+        return result[dto.type].map((value2) => {
           const [type, id] = value2.id.split(RELATION_TYPE_ID_SEPARATOR);
           return {
             from: dto.entity,
@@ -64,7 +62,7 @@ export class RelationService implements RelationServiceInterface {
               type,
             },
             type: dto.type,
-          };
+          } as RelationResDto;
         });
       });
   }
@@ -134,7 +132,7 @@ export class RelationService implements RelationServiceInterface {
             from: dto.from,
             to: {
               id: parseInt(id, 10),
-              type: type,
+              type,
             },
             type: dto.type,
           } as RelationResDto;

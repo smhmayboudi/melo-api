@@ -14,6 +14,8 @@ import {
   SearchType,
   SongAudioResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 
 import { AppArtistService } from "./app.artist.service";
@@ -99,6 +101,18 @@ describe("AppArtistService", () => {
     to,
     type: RelationEdgeType.follows,
   };
+  const tag: TagResDto = {
+    id: 0,
+    name: "",
+    typeId: 0,
+    value: "",
+  };
+  const tagRelation: TagRelationResDto = {
+    category: SearchType.album,
+    categoryId: 0,
+    id: 0,
+    tagId: 0,
+  };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -108,7 +122,10 @@ describe("AppArtistService", () => {
     encodePlaylist: () => playlist,
     encodeSearch: () => search,
     encodeSong: () => song,
+    encodeTag: () => tag,
+    encodeTagRelation: () => tagRelation,
   };
+
   const relationServiceMock: RelationServiceInterface = {
     get: () => Promise.resolve([relation]),
     has: () => Promise.resolve(relation),

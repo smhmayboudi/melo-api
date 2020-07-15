@@ -1,0 +1,42 @@
+# BEGIN project-specific configuration
+
+.tag: &tag
+  variables:
+    MODULE_NAME: tag
+    IMAGE_NAME: melo_tag
+    DOCKERFILE: apps/tag/docker/development/Dockerfile
+  only:
+    changes:
+      - "apps/tag/**/*"
+
+# END project-specific configuration
+
+# BEGIN actual pipeline definition
+
+build:apps:tag:
+  extends:
+    - .build
+    - .tag
+
+test:apps:tag:
+  dependencies:
+    - build:apps:tag
+  extends:
+    - .test
+    - .tag
+
+coverage:apps:tag:
+  dependencies:
+    - test:apps:tag
+  extends:
+    - .coverage
+    - .tag
+
+dockerization:apps:tag:
+  dependencies:
+    - build:apps:tag
+  extends:
+    - .dockerization
+    - .tag
+
+# END actual pipeline definition

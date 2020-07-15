@@ -4,6 +4,8 @@ import {
   PlaylistResDto,
   SearchResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 import { ApmAfterMethod, ApmBeforeMethod } from "@melo/apm";
 import { BadRequestException, Injectable } from "@nestjs/common";
@@ -118,6 +120,29 @@ export class AppHashIdService implements AppHashIdServiceInterface {
       album: dto.album === undefined ? undefined : this.encodeAlbum(dto.album),
       artists: dto.artists.map((value) => this.encodeArtist(value)),
       id: this.encode(dto.id),
+    };
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  encodeTag(dto: TagResDto): unknown {
+    return {
+      ...dto,
+      id: this.encode(dto.id),
+      typeId: this.encode(dto.typeId),
+    };
+  }
+
+  @ApmAfterMethod
+  @ApmBeforeMethod
+  @PromMethodCounter
+  encodeTagRelation(dto: TagRelationResDto): unknown {
+    return {
+      ...dto,
+      categoryId: this.encode(dto.categoryId),
+      id: this.encode(dto.id),
+      tagId: this.encode(dto.tagId),
     };
   }
 }

@@ -63,7 +63,7 @@ describe("RelationService", () => {
     expect(service).toBeDefined();
   });
 
-  it("get should be equal a value", async () => {
+  it("get should be equal to a value", async () => {
     const dto: RelationGetReqDto = {
       entity,
       from: 0,

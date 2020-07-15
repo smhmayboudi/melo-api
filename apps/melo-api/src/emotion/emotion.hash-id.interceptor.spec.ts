@@ -9,6 +9,8 @@ import {
   SearchType,
   SongAudioResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 
@@ -110,6 +112,18 @@ describe("EmotionHashIdInterceptor", () => {
     emotions: [""],
     song,
   };
+  const tag: TagResDto = {
+    id: 0,
+    name: "",
+    typeId: 0,
+    value: "",
+  };
+  const tagRelation: TagRelationResDto = {
+    category: SearchType.album,
+    categoryId: 0,
+    id: 0,
+    tagId: 0,
+  };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
@@ -119,6 +133,8 @@ describe("EmotionHashIdInterceptor", () => {
     encodePlaylist: () => playlist,
     encodeSearch: () => search,
     encodeSong: () => song,
+    encodeTag: () => tag,
+    encodeTagRelation: () => tagRelation,
   };
 
   let service: AppHashIdService;

@@ -8,6 +8,8 @@ import {
   SearchType,
   SongAudioResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 import { CallHandler, ExecutionContext } from "@nestjs/common";
 
@@ -102,44 +104,29 @@ describe("AlbumHashIdInterceptor", () => {
     album: album,
     type: SearchType.album,
   };
-  // TODO: interface ?
-  const artistEncoded = {
-    ...artist,
-    id: "SHY",
+  const tag: TagResDto = {
+    id: 0,
+    name: "",
+    typeId: 0,
+    value: "",
   };
-  // TODO: interface ?
-  const albumEncoded = {
-    ...album,
-    artists: [artistEncoded],
-    id: "SHY",
-    // songs: [songEncoded],
-  };
-  // TODO: interface ?
-  const songEncoded = {
-    ...song,
-    album: albumEncoded,
-    artists: [artistEncoded],
-    id: "SHY",
-  };
-  // TODO: interface ?
-  const playlistEncoded = {
-    ...playlist,
-    songs: [songEncoded],
-  };
-  // TODO: interface ?
-  const searchEncoded = {
-    ...search,
-    album: albumEncoded,
+  const tagRelation: TagRelationResDto = {
+    category: SearchType.album,
+    categoryId: 0,
+    id: 0,
+    tagId: 0,
   };
 
   const appHashIdServiceMock: AppHashIdServiceInterface = {
     decode: (): number => 0,
     encode: (): string => "",
-    encodeAlbum: () => albumEncoded,
-    encodeArtist: () => artistEncoded,
-    encodePlaylist: () => playlistEncoded,
-    encodeSearch: () => searchEncoded,
-    encodeSong: () => songEncoded,
+    encodeAlbum: () => album,
+    encodeArtist: () => artist,
+    encodePlaylist: () => playlist,
+    encodeSearch: () => search,
+    encodeSong: () => song,
+    encodeTag: () => tag,
+    encodeTagRelation: () => tagRelation,
   };
 
   let service: AppHashIdService;

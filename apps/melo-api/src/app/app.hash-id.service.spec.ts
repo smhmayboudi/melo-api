@@ -8,6 +8,8 @@ import {
   SearchType,
   SongAudioResDto,
   SongResDto,
+  TagRelationResDto,
+  TagResDto,
 } from "@melo/common";
 
 import { AppConfigService } from "./app.config.service";
@@ -85,6 +87,19 @@ describe("AppHashIdService", () => {
     song: undefined,
     type: SearchType.album,
   };
+  const tag: TagResDto = {
+    id: 0,
+    name: "",
+    typeId: 0,
+    value: "",
+  };
+  const tagRelation: TagRelationResDto = {
+    category: SearchType.album,
+    categoryId: 0,
+    id: 0,
+    tagId: 0,
+  };
+
   // TODO: interface ?
   const artistEncoded = {
     ...artist,
@@ -113,6 +128,17 @@ describe("AppHashIdService", () => {
   const searchEncoded = {
     ...search,
     album: albumEncoded,
+  };
+  const tagEncoded = {
+    ...tag,
+    id: "SHY",
+    typeId: "SHY",
+  };
+  const tagAssignEncoded = {
+    ...tagRelation,
+    categoryId: "SHY",
+    id: "SHY",
+    tagId: "SHY",
   };
 
   const appConfigServiceMock: AppConfigServiceInterface = {
@@ -238,13 +264,23 @@ describe("AppHashIdService", () => {
     });
   });
 
-  it("encodeSearchshould be equal to a list of searches", () => {
+  it("encodeSearch should be equal to a list of searches", () => {
     const dto: SearchResDto = search;
     expect(service.encodeSearch(dto)).toEqual(searchEncoded);
   });
 
-  it("encodeSearchshould be equal to a list of searches fields undefined", () => {
+  it("encodeSearch should be equal to a list of searches fields undefined", () => {
     const dto: SearchResDto = searchUndefined;
     expect(service.encodeSearch(dto)).toEqual(searchUndefined);
+  });
+
+  it("encodeTag should be equal to a tag", () => {
+    const dto: TagResDto = tag;
+    expect(service.encodeTag(dto)).toEqual(tagEncoded);
+  });
+
+  it("encodeTagRelation should be equal to a tag relation", () => {
+    const dto: TagRelationResDto = tagRelation;
+    expect(service.encodeTagRelation(dto)).toEqual(tagAssignEncoded);
   });
 });

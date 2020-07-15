@@ -101,6 +101,7 @@ include:
   - local: /apps/rt/.gitlab-ci.yml
   - local: /apps/search/.gitlab-ci.yml
   - local: /apps/song/.gitlab-ci.yml
+  - local: /apps/tag/.gitlab-ci.yml
   - local: /apps/user/.gitlab-ci.yml
   - local: /libs/apm/.gitlab-ci.yml
   - local: /libs/common/.gitlab-ci.yml
