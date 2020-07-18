@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 import {
   CallHandler,
@@ -21,7 +21,7 @@ export class ApmInterceptor implements NestInterceptor {
   ): Observable<Response> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      fastify.FastifyRequest & {
+      express.Request & {
         user: {
           sub: string;
         };

@@ -1,7 +1,3 @@
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from "@nestjs/platform-fastify";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 import { CONST_SERVICE } from "@melo/common";
@@ -11,10 +7,9 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    ConstModule,
-    new FastifyAdapter()
-  );
+  const app = await NestFactory.create(ConstModule, {
+    logger: ["log", "error", "warn", "debug", "verbose"],
+  });
   const constConfigService = app.get(ConstConfigService);
   app.connectMicroservice<MicroserviceOptions>({
     options: {
@@ -27,7 +22,7 @@ async function bootstrap(): Promise<void> {
   app.startAllMicroservices(() => {
     Logger.log("Nest microservice is listening", CONST_SERVICE);
   });
-  await app.listen(constConfigService.servicePort, "0.0.0.0", () => {
+  await app.listen(constConfigService.servicePort, () => {
     Logger.log("Nest application is listening", CONST_SERVICE);
   });
 }

@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 import {
   BadRequestException,
@@ -20,7 +20,7 @@ export const AppUser: (
   (data: string, context: ExecutionContext) => {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
+      express.Request & { user: AuthJwtPayloadReqDto }
     >();
     if (request.user === undefined) {
       throw new BadRequestException();

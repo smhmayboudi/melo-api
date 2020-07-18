@@ -20,8 +20,9 @@ describe("PromInterceptor", () => {
   const httpArgumentsHost: HttpArgumentsHost = {
     getNext: jest.fn(),
     getRequest: jest.fn().mockImplementation(() => ({
-      raw: {
-        url: "",
+      method: "",
+      route: {
+        path: "/test",
       },
     })),
     getResponse: jest.fn().mockImplementation(() => ({
@@ -126,7 +127,7 @@ describe("PromInterceptor", () => {
     );
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-    expect(counterMock.inc).not.toHaveBeenCalled();
+    expect(counterMock.inc).toHaveBeenCalled();
     counterMock.inc.mockReset();
   });
 
@@ -165,7 +166,7 @@ describe("PromInterceptor", () => {
     );
     // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(httpArgumentsHost.getRequest).toHaveBeenCalled();
-    expect(counterMock.inc).toHaveBeenCalled();
+    expect(counterMock.inc).not.toHaveBeenCalled();
     counterMock.inc.mockReset();
   });
 });

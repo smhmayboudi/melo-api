@@ -25,7 +25,7 @@ ts_library(
     deps = [
         "@npm//@nestjs/common",
         "@npm//@nestjs/core",
-        "@npm//@nestjs/platform-fastify",
+        "@npm//@nestjs/platform-express",
         "@npm//@sentry/hub",
         "@npm//@sentry/node",
         "@npm//@sentry/types",

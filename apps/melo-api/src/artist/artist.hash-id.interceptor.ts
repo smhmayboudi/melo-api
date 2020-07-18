@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 import {
   CallHandler,
@@ -19,7 +19,7 @@ export class ArtistHashIdInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
+      express.Request & { user: AuthJwtPayloadReqDto }
     >();
     const reqFields = ["body", "params"];
     const reqFields2 = ["id"];

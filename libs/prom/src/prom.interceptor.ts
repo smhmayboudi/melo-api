@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 import {
   CallHandler,
@@ -16,7 +16,6 @@ import { Counter } from "prom-client";
 import { InjectCounter } from "./prom.decorator";
 import { Observable } from "rxjs";
 import { PromModuleOptions } from "./prom.module.interface";
-import urlparse from "url-parse";
 
 @Injectable()
 export class PromInterceptor implements NestInterceptor {
@@ -32,16 +31,15 @@ export class PromInterceptor implements NestInterceptor {
     next: CallHandler
   ): Observable<Response> {
     const http = context.switchToHttp();
-    const request = http.getRequest<fastify.FastifyRequest>();
-    const response = http.getResponse();
-    const url = urlparse(request.raw.url || "", true);
+    const request = http.getRequest<express.Request>();
+    const response = http.getResponse<express.Response>();
     if (
       this.options.ignorePaths !== undefined &&
-      !this.options.ignorePaths.includes(url.pathname)
+      !this.options.ignorePaths.includes(request.route.path)
     ) {
       this.counter.inc({
-        method: request.raw.method,
-        path: url.pathname,
+        method: request.method,
+        path: request.route.path,
         status: response.statusCode,
       });
     }

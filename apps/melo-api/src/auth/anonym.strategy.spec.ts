@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import * as fastify from "fastify";
+import * as express from "express";
 
 import { Strategy } from "./anonym.strategy";
 
@@ -14,7 +14,7 @@ describe("Strategy", () => {
           user?: Record<string, unknown>,
           info?: Record<string, unknown>
         ) => void,
-        _req?: fastify.FastifyRequest
+        _req?: express.Request
         // eslint-disable-next-line @typescript-eslint/no-empty-function
       ) => {}, false)
     ).toBeDefined();
@@ -29,7 +29,7 @@ describe("Strategy", () => {
           user?: Record<string, unknown>,
           info?: Record<string, unknown>
         ) => void,
-        _req?: fastify.FastifyRequest
+        _req?: express.Request
         // eslint-disable-next-line @typescript-eslint/no-empty-function
       ) => {}, false).authenticate({
         headers: {
@@ -48,7 +48,7 @@ describe("Strategy", () => {
           user?: Record<string, unknown>,
           info?: Record<string, unknown>
         ) => void,
-        _req?: fastify.FastifyRequest
+        _req?: express.Request
         // eslint-disable-next-line @typescript-eslint/no-empty-function
       ) => {}, true).authenticate({
         headers: {

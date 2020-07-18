@@ -1,7 +1,3 @@
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from "@nestjs/platform-fastify";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 import { DOWNLOAD_SERVICE } from "@melo/common";
@@ -11,10 +7,9 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    DownloadModule,
-    new FastifyAdapter()
-  );
+  const app = await NestFactory.create(DownloadModule, {
+    logger: ["log", "error", "warn", "debug", "verbose"],
+  });
   const downloadConfigService = app.get(DownloadConfigService);
   app.connectMicroservice<MicroserviceOptions>({
     options: {
@@ -27,7 +22,7 @@ async function bootstrap(): Promise<void> {
   app.startAllMicroservices(() => {
     Logger.log("Nest microservice is listening", DOWNLOAD_SERVICE);
   });
-  await app.listen(downloadConfigService.servicePort, "0.0.0.0", () => {
+  await app.listen(downloadConfigService.servicePort, () => {
     Logger.log("Nest application is listening", DOWNLOAD_SERVICE);
   });
 }

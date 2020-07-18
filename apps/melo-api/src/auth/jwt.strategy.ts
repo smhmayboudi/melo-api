@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 import { AuthJwtPayloadReqDto, AuthStrategyResDto } from "@melo/common";
 import { ExtractJwt, Strategy } from "passport-jwt";
@@ -28,7 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       ),
       passReqToCallback: false,
       secretOrKeyProvider: async function (
-        _request: fastify.FastifyRequest,
+        _request: express.Request,
         rawJwtToken: string,
         done: (error: Error | null, publicKey: string | null) => void
       ) {

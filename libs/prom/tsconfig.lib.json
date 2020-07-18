@@ -3,6 +3,6 @@
   "compilerOptions": {
     "outDir": "../../dist/libs/prom"
   },
-  "exclude": ["src/*spec.ts", "test"],
-  "include": ["src/*.ts"]
+  "include": ["src/*.ts"],
+  "exclude": ["src/*spec.ts", "test"]
 }

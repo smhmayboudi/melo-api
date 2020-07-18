@@ -1,7 +1,3 @@
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from "@nestjs/platform-fastify";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
 
 import { ALBUM_SERVICE } from "@melo/common";
@@ -11,10 +7,9 @@ import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AlbumModule,
-    new FastifyAdapter()
-  );
+  const app = await NestFactory.create(AlbumModule, {
+    logger: ["log", "error", "warn", "debug", "verbose"],
+  });
   const albumConfigService = app.get(AlbumConfigService);
   app.connectMicroservice<MicroserviceOptions>({
     options: {
@@ -27,7 +22,7 @@ async function bootstrap(): Promise<void> {
   app.startAllMicroservices(() => {
     Logger.log("Nest microservice is listening", ALBUM_SERVICE);
   });
-  await app.listen(albumConfigService.servicePort, "0.0.0.0", () => {
+  await app.listen(albumConfigService.servicePort, () => {
     Logger.log("Nest application is listening", ALBUM_SERVICE);
   });
 }

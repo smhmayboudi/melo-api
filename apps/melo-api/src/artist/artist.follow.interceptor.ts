@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 import {
   APP_REQUEST_USER_SUB_ANONYMOUS_ID,
@@ -26,7 +26,7 @@ export class ArtistFollowInterceptor implements NestInterceptor {
   ): Observable<ArtistResDto[] | ArtistResDto> {
     const http = context.switchToHttp();
     const request = http.getRequest<
-      fastify.FastifyRequest & { user: AuthJwtPayloadReqDto }
+      express.Request & { user: AuthJwtPayloadReqDto }
     >();
     return next.handle().pipe(
       flatMap(async (data) => {

@@ -1,4 +1,4 @@
-import * as fastify from "fastify";
+import * as express from "express";
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Strategy as PassportStrategy } from "passport-strategy";
@@ -12,7 +12,7 @@ export class Strategy extends PassportStrategy {
       user?: Record<string, unknown>,
       info?: Record<string, unknown>
     ) => void,
-    req?: fastify.FastifyRequest
+    req?: express.Request
   ) => void;
   passReqToCallback: boolean;
 
@@ -39,7 +39,7 @@ export class Strategy extends PassportStrategy {
         user?: Record<string, unknown>,
         info?: Record<string, unknown>
       ) => void,
-      req?: fastify.FastifyRequest
+      req?: express.Request
     ) => void,
     passReqToCallback: boolean
   ) {
