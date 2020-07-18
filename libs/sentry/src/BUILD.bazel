@@ -1,9 +1,9 @@
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
-load("@melo//:apps/common/bazel/jest_test/index.bzl", "jest_test")
+load("@melo//:apps/common/bazel/jest/index.bzl", "jest_test")
 load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//visibility:private"])
 
 ts_config(
     name = "sentry_ts_config",
@@ -30,25 +30,21 @@ ts_library(
         "@npm//@sentry/node",
         "@npm//@sentry/types",
         "@npm//@types/node",
-        "@npm//@types/source-map-support",
         "@npm//kaop-ts",
-        "@npm//reflect-metadata",
         "@npm//rxjs",
-        "@npm//source-map-support",
-        "@npm//tslib",
     ],
+    visibility = ["//visibility:public"],
 )
 
 ts_library(
     name = "sentry_test_ts_library",
     srcs = glob(["*spec.ts"]),
-    module_name = "@melo/sentry",
     runtime = "nodejs",
     deps = [
         ":sentry_ts_library",
         "@npm//@nestjs/testing",
-        "@npm//@types/jest",
         "@npm//@sentry/node",
+        "@npm//@types/jest",
     ],
 )
 
@@ -57,9 +53,6 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        "//:tsconfig.json",
         ":sentry_test_ts_library",
-        "@npm//c8",
-        "@npm//ts-jest",
     ],
 )

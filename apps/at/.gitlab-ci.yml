@@ -34,7 +34,7 @@ coverage:apps:at:
 
 dockerization:apps:at:
   dependencies:
-    - build:apps:at
+    - test:apps:at
   extends:
     - .dockerization
     - .at

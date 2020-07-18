@@ -54,7 +54,7 @@ mongodb:
 replicaCount: 1
 
 image:
-  repository: melo/playlist
+  repository: melo_playlist
   pullPolicy: IfNotPresent
   # tag: ""
 

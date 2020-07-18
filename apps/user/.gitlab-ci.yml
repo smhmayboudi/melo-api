@@ -34,7 +34,7 @@ coverage:apps:user:
 
 dockerization:apps:user:
   dependencies:
-    - build:apps:user
+    - test:apps:user
   extends:
     - .dockerization
     - .user

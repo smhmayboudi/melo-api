@@ -85,6 +85,8 @@ run --incompatible_strict_action_env
 # rather than user.bazelrc as suggested in the Bazel docs)
 try-import %workspace%/.bazelrc.user
 
+build --platforms=@build_bazel_rules_nodejs//toolchains/node:linux_amd64
+build --workspace_status_command=`pwd`/workspace-status-command.sh
 common --spawn_strategy=local
+run --platforms=@build_bazel_rules_nodejs//toolchains/node:linux_amd64
 startup --output_base=bazel-out/
-# startup --output_user_root=bazel-out/

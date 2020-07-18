@@ -55,7 +55,7 @@ mysql:
 replicaCount: 1
 
 image:
-  repository: melo/at
+  repository: melo_at
   pullPolicy: IfNotPresent
   # tag: ""
 

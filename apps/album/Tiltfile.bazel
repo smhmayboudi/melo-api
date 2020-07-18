@@ -9,13 +9,8 @@ k8s_yaml(helm(
   "k8s",
   name = "melo",
   namespace = "melo",
-  set = [
-    "image.repository=melo_album",
-    "elasticsearch.fullnameOverride=melo-elasticsearch",
-    "redis.fullnameOverride=melo-redis",
-  ]
 ))
 
-load("../common/Tiltfile/Tiltfile.bazel", "bazel_build")
+load("../common/bazel/tilt/index.bzl", "bazel_build")
 bazel_build("melo_album", "src:album_container_push")
 

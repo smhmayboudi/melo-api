@@ -67,7 +67,7 @@ elasticsearch:
 replicaCount: 1
 
 image:
-  repository: melo/download
+  repository: melo_download
   pullPolicy: IfNotPresent
   # tag: ""
 

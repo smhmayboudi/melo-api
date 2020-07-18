@@ -93,7 +93,7 @@ mysql:
 replicaCount: 1
 
 image:
-  repository: melo/song
+  repository: melo_song
   pullPolicy: IfNotPresent
   # tag: ""
 

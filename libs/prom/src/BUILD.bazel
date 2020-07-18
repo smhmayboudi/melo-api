@@ -1,9 +1,9 @@
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
-load("@melo//:apps/common/bazel/jest_test/index.bzl", "jest_test")
+load("@melo//:apps/common/bazel/jest/index.bzl", "jest_test")
 load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//visibility:private"])
 
 ts_config(
     name = "prom_ts_config",
@@ -26,24 +26,19 @@ ts_library(
         "@npm//@nestjs/common",
         "@npm//@nestjs/core",
         "@npm//@nestjs/platform-express",
+        "@npm//@types/express",
         "@npm//@types/node",
-        "@npm//@types/source-map-support",
-        "@npm//@types/url-parse",
-        "@npm//fastify",
+        "@npm//express",
         "@npm//kaop-ts",
         "@npm//prom-client",
-        "@npm//reflect-metadata",
         "@npm//rxjs",
-        "@npm//source-map-support",
-        "@npm//tslib",
-        "@npm//url-parse",
     ],
+    visibility = ["//visibility:public"],
 )
 
 ts_library(
     name = "prom_test_ts_library",
     srcs = glob(["*spec.ts"]),
-    module_name = "@melo/prom",
     runtime = "nodejs",
     deps = [
         ":prom_ts_library",
@@ -61,9 +56,6 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        "//:tsconfig.json",
         ":prom_test_ts_library",
-        "@npm//c8",
-        "@npm//ts-jest",
     ],
 )

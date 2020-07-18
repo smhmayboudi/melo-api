@@ -34,7 +34,7 @@ coverage:apps:relation:
 
 dockerization:apps:relation:
   dependencies:
-    - build:apps:relation
+    - test:apps:relation
   extends:
     - .dockerization
     - .relation

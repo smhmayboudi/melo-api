@@ -34,7 +34,7 @@ coverage:apps:album:
 
 dockerization:apps:album:
   dependencies:
-    - build:apps:album
+    - test:apps:album
   extends:
     - .dockerization
     - .album

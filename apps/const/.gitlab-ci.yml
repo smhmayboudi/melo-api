@@ -34,7 +34,7 @@ coverage:apps:const:
 
 dockerization:apps:const:
   dependencies:
-    - build:apps:const
+    - test:apps:const
   extends:
     - .dockerization
     - .const

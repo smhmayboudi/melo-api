@@ -34,7 +34,7 @@ coverage:apps:artist:
 
 dockerization:apps:artist:
   dependencies:
-    - build:apps:artist
+    - test:apps:artist
   extends:
     - .dockerization
     - .artist

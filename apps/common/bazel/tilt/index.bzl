@@ -1,18 +1,16 @@
 BAZEL_RUN_CMD = """
-  bazelisk run \
-    --platforms=@build_bazel_rules_nodejs//toolchains/node:linux_amd64 \
-    --stamp \
-    --workspace_status_command='echo $EXPECTED_REF | cut -d: -f3 | xargs echo EXPECTED_REF' %s
+  bazelisk --batch run \
+    --workspace_status_command='echo $EXPECTED_REF | cut -d: -f3 | xargs echo COMMIT_SHA' %s
   """
 
 BAZEL_BUILDFILES_CMD = """
-  bazelisk query \
+  bazelisk --batch query \
     'filter("^//", buildfiles(deps(set(%s))))' \
     --order_output=no
   """.strip()
 
 BAZEL_SOURCES_CMD = """
-  bazelisk query \
+  bazelisk --batch query \
     'filter("^//", kind("source file", deps(set(%s))))' \
     --order_output=no
   """.strip()

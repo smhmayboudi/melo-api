@@ -9,14 +9,10 @@ k8s_yaml(helm(
   "k8s",
   name = "melo",
   namespace = "melo",
-  set = [
-    "mysql.fullnameOverride=melo-mysql",
-    "redis.fullnameOverride=melo-redis",
-  ]
 ))
 
 docker_build(
-  ref = "melo/jwks",
+  ref = "melo_jwks",
   context = "../../",
   build_args = {"NODE_ENV":"development"},
   dockerfile = "docker/development/Dockerfile",
@@ -28,7 +24,7 @@ docker_build(
 
 load("ext://restart_process", "docker_build_with_restart")
 docker_build_with_restart(
-  ref = "melo-jwks",
+  ref = "melo_jwks",
   context = "../../",
   build_args = {"NODE_ENV":"development"},
   dockerfile = "docker/development/Dockerfile",

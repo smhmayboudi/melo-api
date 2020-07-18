@@ -34,7 +34,7 @@ coverage:apps:song:
 
 dockerization:apps:song:
   dependencies:
-    - build:apps:song
+    - test:apps:song
   extends:
     - .dockerization
     - .song

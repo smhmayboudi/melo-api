@@ -33,7 +33,7 @@ coverage:apps:action:
 
 dockerization:apps:action:
   dependencies:
-    - build:apps:action
+    - test:apps:action
   extends:
     - .dockerization
     - .action

@@ -9,14 +9,10 @@ k8s_yaml(helm(
   "k8s",
   name = "melo",
   namespace = "melo",
-  set = [
-    "mysql.fullnameOverride=melo-mysql-master",
-    "redis.fullnameOverride=melo-redis",
-  ]
 ))
 
 docker_build(
-  ref = "melo/tag",
+  ref = "melo_tag",
   context = "../../",
   build_args = {"NODE_ENV": "development"},
   dockerfile = "docker/development/Dockerfile",

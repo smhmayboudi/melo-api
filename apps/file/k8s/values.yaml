@@ -77,7 +77,7 @@ minio:
 replicaCount: 1
 
 image:
-  repository: melo/file
+  repository: melo_file
   pullPolicy: IfNotPresent
   # tag: ""
 

@@ -34,7 +34,7 @@ coverage:apps:file:
 
 dockerization:apps:file:
   dependencies:
-    - build:apps:file
+    - test:apps:file
   extends:
     - .dockerization
     - .file

@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: melo/common
+  repository: melo_common
   pullPolicy: IfNotPresent
   # tag: ""
 

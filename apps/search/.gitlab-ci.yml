@@ -34,7 +34,7 @@ coverage:apps:search:
 
 dockerization:apps:search:
   dependencies:
-    - build:apps:search
+    - test:apps:search
   extends:
     - .dockerization
     - .search

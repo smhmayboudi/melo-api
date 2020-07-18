@@ -1,10 +1,10 @@
 load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 load("@io_bazel_rules_docker//container:container.bzl", "container_push")
 load("@io_bazel_rules_docker//nodejs:image.bzl", "nodejs_image")
-load("@melo//:apps/common/bazel/jest_test/index.bzl", "jest_test")
+load("@melo//:apps/common/bazel/jest/index.bzl", "jest_test")
 load("@npm//@bazel/typescript:index.bzl", "ts_config", "ts_library")
 
-package(default_visibility = ["//visibility:public"])
+package(default_visibility = ["//visibility:private"])
 
 ts_config(
     name = "search_ts_config",
@@ -20,7 +20,6 @@ ts_library(
         include = ["*.ts"],
         exclude = ["*spec.ts"],
     ),
-    module_name = "@melo/search",
     runtime = "nodejs",
     tsconfig = ":search_ts_config",
     deps = [
@@ -41,14 +40,10 @@ ts_library(
         "@npm//@types/ms",
         "@npm//@types/node",
         "@npm//@types/socket.io",
-        "@npm//@types/source-map-support",
         "@npm//lodash",
         "@npm//moment",
         "@npm//ms",
         "@npm//redis",
-        "@npm//reflect-metadata",
-        "@npm//source-map-support",
-        "@npm//tslib",
     ],
 )
 
@@ -57,9 +52,9 @@ nodejs_binary(
     data = [
         ":search_ts_library",
     ],
-    entry_point = ":main",
+    entry_point = ":main.ts",
     templated_args = [
-        "--nobazel_patch_module_resolver",
+        "--nobazel_run_linker",
         "--node_options=--require=source-map-support/register",
     ],
 )
@@ -75,13 +70,12 @@ container_push(
     image = ":search_nodejs_image",
     registry = "localhost:5000",
     repository = "melo_search",
-    tag = "{EXPECTED_REF}",
+    tag = "{COMMIT_SHA}",
 )
 
 ts_library(
     name = "search_test_ts_library",
     srcs = glob(["*spec.ts"]),
-    module_name = "@melo/search",
     runtime = "nodejs",
     deps = [
         ":search_ts_library",
@@ -99,9 +93,6 @@ jest_test(
     srcs = glob(["*spec.ts"]),
     jest_config = "//:jest.config.json",
     deps = [
-        "//:tsconfig.json",
         ":search_test_ts_library",
-        "@npm//c8",
-        "@npm//ts-jest",
     ],
 )

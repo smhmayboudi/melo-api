@@ -1,4 +1,5 @@
 import * as Sentry from "@sentry/node";
+
 import {
   CallHandler,
   ExecutionContext,
@@ -10,6 +11,7 @@ import {
   SENTRY_INSTANCE_TOKEN,
   SENTRY_MODULE_OPTIONS,
 } from "./sentry.constant";
+
 import { Handlers } from "@sentry/node";
 import { HttpArgumentsHost } from "@nestjs/common/interfaces";
 import { Observable } from "rxjs";

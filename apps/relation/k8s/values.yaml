@@ -29,7 +29,7 @@ redis:
 replicaCount: 1
 
 image:
-  repository: melo/relation
+  repository: melo_relation
   pullPolicy: IfNotPresent
   # tag: ""
 

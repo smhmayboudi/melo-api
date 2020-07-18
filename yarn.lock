@@ -328,10 +328,10 @@
   resolved "https://registry.yarnpkg.com/@bazel/buildifier/-/buildifier-3.3.0.tgz#9c78a5efcea4a38abffdfb18eb8cf9a27babee66"
   integrity sha512-Jaraa7jLW1OQBoWtTe2XDiuZwsg/YbWvCTys6nYXXRtNIkyoN6I/YZS4RlZj3nD7XlTMFk0yQD6+jpRpXhB6ZQ==
 
-"@bazel/typescript@2.0.0-rc.2":
-  version "2.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-2.0.0-rc.2.tgz#36f3153c0cb42e09a174471e93deedc059e91b7c"
-  integrity sha512-NFsPToZcyj+h4YOMqC3KyOjJpGrHVK6Evmx3AaoWjv4u+3kRnZBZewlM5A4pq1WUNdVXQnMrroXCyddvW0plbA==
+"@bazel/typescript@2.0.0-rc.3":
+  version "2.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@bazel/typescript/-/typescript-2.0.0-rc.3.tgz#d982e56c2cf7eefde1b6ef4a8767603ce9c9d364"
+  integrity sha512-4xNupCgj5PPHfxhZAnQ4RxdVRtPEfKnJWYCZDetGACSMYeyEfUTkzovPA2u+EnaF4KRHUiYCeZmjDABdPgvZgA==
   dependencies:
     protobufjs "6.8.8"
     semver "5.6.0"
@@ -1241,9 +1241,9 @@
     "@types/istanbul-lib-report" "*"
 
 "@types/jest@^26.0.3":
-  version "26.0.4"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.4.tgz#d2e513e85aca16992816f192582b5e67b0b15efb"
-  integrity sha512-4fQNItvelbNA9+sFgU+fhJo8ZFF+AS4Egk3GWwCW2jFtViukXbnztccafAdLhzE/0EiCogljtQQXP8aQ9J7sFg==
+  version "26.0.5"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.5.tgz#23a8eecf4764a770ea8d3a0d1ea16b96c822035d"
+  integrity sha512-heU+7w8snfwfjtcj2H458aTx3m5unIToOJhx75ebHilBiiQ39OIdA18WkG4LP08YKeAoWAGvWg8s+22w/PeJ6w==
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
@@ -1515,7 +1515,7 @@
     eslint-scope "^5.0.0"
     eslint-utils "^2.0.0"
 
-"@typescript-eslint/parser@2.34.0":
+"@typescript-eslint/parser@^2.34.0":
   version "2.34.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-2.34.0.tgz#50252630ca319685420e9a39ca05fe185a256bc8"
   integrity sha512-03ilO0ucSD0EPTw2X4PntSIRFtDPWjrVq7C3/Z3VQHRC7+13YB55rcJI3Jt+YgeHbjUdJPcPa7b23rXCBokuyA==

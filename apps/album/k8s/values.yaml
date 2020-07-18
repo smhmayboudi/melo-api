@@ -67,7 +67,7 @@ elasticsearch:
 replicaCount: 1
 
 image:
-  repository: melo/album
+  repository: melo_album
   pullPolicy: IfNotPresent
   # tag: ""
 

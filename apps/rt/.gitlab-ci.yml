@@ -34,7 +34,7 @@ coverage:apps:rt:
 
 dockerization:apps:rt:
   dependencies:
-    - build:apps:rt
+    - test:apps:rt
   extends:
     - .dockerization
     - .rt

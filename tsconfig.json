@@ -21,7 +21,6 @@
     "outDir": "./dist",
     "preserveConstEnums": true,
     "removeComments": true,
-    "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "es2017",
@@ -37,10 +36,10 @@
       "scripthost"
     ],
     "paths": {
-      "@melo/apm": ["libs/apm/src"],
-      "@melo/apm/*": ["libs/apm/src/*"],
       "@melo/common": ["libs/common/src"],
       "@melo/common/*": ["libs/common/src/*"],
+      "@melo/apm": ["libs/apm/src"],
+      "@melo/apm/*": ["libs/apm/src/*"],
       "@melo/dgraph": ["libs/dgraph/src"],
       "@melo/dgraph/*": ["libs/dgraph/src/*"],
       "@melo/prom": ["libs/prom/src"],

@@ -67,7 +67,7 @@ elasticsearch:
 replicaCount: 1
 
 image:
-  repository: melo/emotion
+  repository: melo_emotion
   pullPolicy: IfNotPresent
   # tag: ""
 

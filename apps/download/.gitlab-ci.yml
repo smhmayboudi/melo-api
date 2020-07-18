@@ -34,7 +34,7 @@ coverage:apps:download:
 
 dockerization:apps:download:
   dependencies:
-    - build:apps:download
+    - test:apps:download
   extends:
     - .dockerization
     - .download

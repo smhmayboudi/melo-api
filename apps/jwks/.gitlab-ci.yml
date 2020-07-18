@@ -34,7 +34,7 @@ coverage:apps:jwks:
 
 dockerization:apps:jwks:
   dependencies:
-    - build:apps:jwks
+    - test:apps:jwks
   extends:
     - .dockerization
     - .jwks

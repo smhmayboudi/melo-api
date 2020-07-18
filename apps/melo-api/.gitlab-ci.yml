@@ -34,7 +34,7 @@ coverage:apps:melo-api:
 
 dockerization:apps:melo-api:
   dependencies:
-    - build:apps:melo-api
+    - test:apps:melo-api
   extends:
     - .dockerization
     - .melo-api

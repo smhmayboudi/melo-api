@@ -34,7 +34,7 @@ coverage:apps:emotion:
 
 dockerization:apps:emotion:
   dependencies:
-    - build:apps:emotion
+    - test:apps:emotion
   extends:
     - .dockerization
     - .emotion

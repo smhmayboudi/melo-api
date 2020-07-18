@@ -34,7 +34,7 @@ coverage:apps:playlist:
 
 dockerization:apps:playlist:
   dependencies:
-    - build:apps:playlist
+    - test:apps:playlist
   extends:
     - .dockerization
     - .playlist
