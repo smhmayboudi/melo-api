@@ -81,6 +81,7 @@ ts_library(
         "@npm//redis",
         "@npm//rxjs",
         "@npm//swagger-ui-express",
+        "@npm//source-map-support",
         "@npm//typeorm",
         "@npm//uuid",
     ],

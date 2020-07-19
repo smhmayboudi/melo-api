@@ -44,6 +44,7 @@ ts_library(
         "@npm//moment",
         "@npm//ms",
         "@npm//redis",
+        "@npm//source-map-support",
     ],
 )
 

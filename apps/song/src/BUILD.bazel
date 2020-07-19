@@ -45,6 +45,7 @@ ts_library(
         "@npm//ms",
         "@npm//redis",
         "@npm//rxjs",
+        "@npm//source-map-support",
         "@npm//typeorm",
     ],
 )

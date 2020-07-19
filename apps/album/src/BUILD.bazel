@@ -43,6 +43,7 @@ ts_library(
         "@npm//lodash",
         "@npm//ms",
         "@npm//redis",
+        "@npm//source-map-support",
     ],
 )
 

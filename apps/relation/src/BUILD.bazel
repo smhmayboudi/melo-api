@@ -41,6 +41,7 @@ ts_library(
         "@npm//dgraph-js",
         "@npm//ms",
         "@npm//redis",
+        "@npm//source-map-support",
     ],
 )
 

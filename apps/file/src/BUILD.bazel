@@ -48,6 +48,7 @@ ts_library(
         "@npm//mmmagic",
         "@npm//ms",
         "@npm//redis",
+        "@npm//source-map-support",
         "@npm//typeorm",
         "@npm//uuid",
     ],
