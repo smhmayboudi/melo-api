@@ -81,7 +81,7 @@ async function bootstrap(): Promise<void> {
     customSiteTitle: "melo api | Swagger UI",
     explorer: false,
   });
-  await app.listen(appConfigService.port, () => {
+  await app.listen(appConfigService.servicePort, () => {
     Logger.log("Nest application is listening", APP_SERVICE);
   });
 }
