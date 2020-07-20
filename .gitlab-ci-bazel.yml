@@ -1,6 +1,10 @@
 # BEGIN job-specific configuration
 
 default:
+  before_script:
+    - echo "build --disk_cache=$CI_PROJECT_DIR/bazel-disk-cache/" >> .bazelrc.user
+    - echo "build --workspace_status_command=$CI_PROJECT_DIR/workspace-status-command.sh" >> .bazelrc.user
+    - echo "startup --output_base=$CI_PROJECT_DIR/bazel-out/" >> .bazelrc.user
   cache:
     key: ${CI_PROJECT_PATH_SLUG}-bazel-disk-cache
     paths:
@@ -42,10 +46,12 @@ default:
     expire_in: 7 days
     paths:
       - public/$MODULE_NAME
+  coverage: "/lines.+: ([0-9]+.[0-9]+%) .+/"
   extends:  
     - .default-rule
   script:
-    - bazel coverage //...
+    - bazel coverage --combined_report=lcov //...
+    - genhtml --output-dir htmlcov $CI_PROJECT_DIR/ bazel-out/_coverage/_coverage_report.dat
     - rm -rf public/$MODULE_NAME/*
     - mkdir -p public/$MODULE_NAME
     - cp -r coverage/lcov-report/* public/$MODULE_NAME/

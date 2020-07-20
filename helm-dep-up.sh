@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 cd apps
 for folder in *; do

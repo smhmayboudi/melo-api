@@ -1,3 +1,4 @@
+.bazelrc.user
 .env.docker-compose
 .yarn
 data
