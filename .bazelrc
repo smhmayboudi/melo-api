@@ -78,7 +78,7 @@ run --incompatible_strict_action_env
 
 build --platforms=@build_bazel_rules_nodejs//toolchains/node:linux_amd64
 build --spawn_strategy=local
-build --workspace_status_command=`pwd`/workspace-status-command.sh
+build --workspace_status_command=`pwd`/scripts/workspace-status-command.sh
 run --platforms=@build_bazel_rules_nodejs//toolchains/node:linux_amd64
 startup --output_base=bazel-out/
 
