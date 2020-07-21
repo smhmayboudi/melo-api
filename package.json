@@ -150,7 +150,7 @@
   "private": true,
   "scripts": {
     "build": "nest build",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "changelog": "conventional-changelog --infile CHANGELOG.md --preset angular --same-file && git add CHANGELOG.md",
     "commit": "commit",
     "format": "prettier --write '{apps,libs}/**/*.ts'",
     "lint": "eslint --fix '{apps,libs}/**/*.ts'",
@@ -162,7 +162,7 @@
     "start:prod": "node ./dist/apps/melo-api/main",
     "test": "jest --config ./jest.config.json",
     "test:cov": "jest --config ./jest.config.json --coverage",
-    "test:debug": "node --inspect-brk=0.0.0.0:9229 -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config ./jest.config.json --detectOpenHandles --runInBand",
+    "test:debug": "node --inspect-brk=0.0.0.0:9229 --require tsconfig-paths/register --require ts-node/register node_modules/.bin/jest --config ./jest.config.json --detect-open-handles --run-in-band",
     "test:e2e": "jest --config ./apps/melo-api/test/jest-e2e.json",
     "test:watch": "jest --config ./jest.config.json --watch"
   },
