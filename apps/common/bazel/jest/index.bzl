@@ -1,6 +1,6 @@
 "Shows how you might create a macro for the autogeneratd Jest rule"
 
-load("@npm//jest:index.bzl", _jest_test = "jest_test")
+load("@npm//jest:index.bzl", "jest", _jest_test = "jest_test")
 
 def jest_test(
         name,
@@ -19,20 +19,20 @@ def jest_test(
         coverage: the coverage.
         kwargs: the kwargs.
     """
-
+    data = srcs + deps + [jest_config] + ["//:jest-reporter.js"]
     templated_args = [
         "--ci",
         "--collect-coverage" if coverage else "",
+        "--colors",
         "--no-cache",
         "--no-watchman",
     ]
     templated_args.extend(["--config", "$(rootpath %s)" % jest_config])
     for src in srcs:
         templated_args.extend(["--runTestsByPath", "$(rootpath %s)" % src])
-
     _jest_test(
         name = name,
-        data = srcs + deps + [jest_config],
+        data = data,
         templated_args = templated_args,
         **kwargs
     )
