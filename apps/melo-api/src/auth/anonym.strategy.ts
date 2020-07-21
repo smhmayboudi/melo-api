@@ -1,63 +1,66 @@
 import * as express from "express";
+import * as passport from "passport-strategy";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Strategy as PassportStrategy } from "passport-strategy";
+export interface StrategyOptions {
+  [key: string]: any;
+}
+export interface StrategyOptionsWithRequest {
+  [key: string]: any;
+  passReqToCallback: true;
+}
+export interface VerifyOptions {
+  message?: string;
+}
 
-export class Strategy extends PassportStrategy {
+type DoneCallback = (error: any, user?: any, options?: VerifyOptions) => void;
+export interface VerifyFunctionWithRequest {
+  (req: express.Request, token: string, done: DoneCallback): void;
+}
+export interface VerifyFunction {
+  (token: string, done: DoneCallback): void;
+}
+
+export class Strategy extends passport.Strategy {
   name: string;
-  verify: (
-    authorization: string | undefined,
-    verified: (
-      error: Error | null,
-      user?: Record<string, unknown>,
-      info?: Record<string, unknown>
-    ) => void,
-    req?: express.Request
-  ) => void;
   passReqToCallback: boolean;
-
-  verified: (
-    error: Error | null,
-    user?: Record<string, unknown>,
-    info?: Record<string, unknown>
-  ) => void = (
-    error: Error | null,
-    user?: Record<string, unknown>,
-    info?: Record<string, unknown>
-  ) => {
-    if (error) {
-      return this.error(error);
-    }
-    this.success(user, info);
-  };
+  verify: any;
 
   constructor(
-    verify: (
-      authorization: string | undefined,
-      verified: (
-        error: Error | null,
-        user?: Record<string, unknown>,
-        info?: Record<string, unknown>
-      ) => void,
-      req?: express.Request
-    ) => void,
-    passReqToCallback: boolean
-  ) {
+    options: StrategyOptionsWithRequest,
+    verify: VerifyFunctionWithRequest
+  );
+  constructor(options: StrategyOptions, verify: VerifyFunction);
+  constructor(verify: VerifyFunction);
+  constructor(options: any, verify?: any) {
     super();
+    if (typeof options === "function") {
+      verify = options;
+      options = {};
+    }
+    if (verify === undefined) {
+      throw new TypeError(
+        "AnonymId authentication strategy requires a verify function."
+      );
+    }
     this.name = "anonymId";
     this.verify = verify;
-    this.passReqToCallback = passReqToCallback || false;
+    this.passReqToCallback = options.passReqToCallback || false;
   }
 
-  authenticate(
-    req: { headers: { authorization?: string } },
-    _options?: Record<string, unknown>
-  ): void {
+  authenticate(req: express.Request, _options: VerifyOptions = {}): void {
     const authorization = req.headers.authorization;
-    let optionalCallbackParams: any[] = [];
-    if (this.passReqToCallback) {
-      optionalCallbackParams = [...optionalCallbackParams, req];
+    const verifiedCallback = (err: Error, user: any, info: any): void => {
+      if (err) {
+        return this.error(err);
+      }
+      return this.success(user, info);
+    };
+    try {
+      return this.passReqToCallback
+        ? this.verify(authorization, req, verifiedCallback)
+        : this.verify(authorization, verifiedCallback);
+    } catch (e) {
+      return this.error(e);
     }
-    this.verify(authorization, this.verified, ...optionalCallbackParams);
   }
 }

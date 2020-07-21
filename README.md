@@ -75,7 +75,7 @@ $ yarn config set yarn-offline-mirror ./yarn-packages-offline-cache
 $ yarn config set yarn-offline-mirror-pruning true
 $ cp ~/.yarnrc .
 $ rm -rf node_modules/ yarn.lock
-$ yarn install
+$ yarn install --cache .yarn --prefer-offline
 ```
 
 ### k8s cluster create
