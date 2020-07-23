@@ -29,7 +29,113 @@ redis:
 mysql:
   db:
     password: "testpassword"
-  fullnameOverride: melo-mysql-master
+    name: "meloapp"
+  fullnameOverride: melo-mysql
+  initdbScripts:
+    my_init_script.sh: |
+      #!/bin/sh
+      cat << EOF
+      mysql -u root -ptestpassword -D meloapp -e \
+      "CREATE TABLE TAG_TYPES (
+        id INT NOT NULL,
+        type VARCHAR(512) NOT NULL,
+        PRIMARY KEY (id)
+      );
+      INSERT INTO TAG_TYPES (
+        id,
+        type
+      ) VALUES (
+        '1',
+        'weather'
+      );
+      INSERT INTO TAG_TYPES (
+        id,
+        type
+      ) VALUES (
+        '2',
+        'location'
+      );
+      INSERT INTO TAG_TYPES (
+        id,
+        type
+      ) VALUES (
+        '3',
+        'mood'
+      );
+      CREATE TABLE TAGS (
+        id INT NOT NULL,
+        name VARCHAR(512) NOT NULL,
+        type_id INT NOT NULL,
+        value VARCHAR(512) NULL,
+        PRIMARY KEY (id)
+      );
+      INSERT INTO TAGS (
+        id,
+        name,
+        type_id
+      ) VALUES (
+        '1',
+        'rainy',
+        '1'
+      );
+      INSERT INTO TAGS (
+        id,
+        name,
+        type_id
+      ) VALUES (
+        '2',
+        'shomal',
+        '2'
+      );
+      INSERT INTO TAGS (
+        id,
+        name,
+        type_id
+      ) VALUES (
+        '3',
+        'after-breakup',
+        '3'
+      );
+      CREATE TABLE TAG_RELATIONS (
+        id INT NOT NULL,
+        tag_id INT NOT NULL,
+        category VARCHAR(512) NOT NULL,
+        category_id INT NOT NULL,
+        PRIMARY KEY (id));
+      INSERT INTO TAG_RELATIONS (
+        id,
+        tag_id,
+        category,
+        category_id
+      ) VALUES (
+        '1',
+        '1',
+        'song',
+        '1'
+      );
+      INSERT INTO TAG_RELATIONS (
+        id,
+        tag_id,
+        category,
+        category_id
+      ) VALUES (
+        '2',
+        '2',
+        'song',
+        '2'
+      );
+      INSERT INTO TAG_RELATIONS (
+        id,
+        tag_id,
+        category,
+        category_id
+      ) VALUES (
+        '3',
+        '3',
+        'album',
+        '3'
+      );"
+      EOF
   master:
     persistence:
       enabled: false

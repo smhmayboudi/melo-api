@@ -29,7 +29,64 @@ redis:
 mysql:
   db:
     password: "testpassword"
-  fullnameOverride: melo-mysql-master
+    name: "meloapp"
+  fullnameOverride: melo-mysql
+  initdbScripts:
+    my_init_script.sh: |
+      #!/bin/sh
+      cat << EOF | mysql -u root -ptestpassword -D meloapp -e \
+      "CREATE TABLE ATS (
+      id INT NOT NULL,
+      count INT NOT NULL,
+      created_at DATETIME NOT NULL,
+      expire_at DATETIME NOT NULL,
+      user_id INT NOT NULL,
+      token VARCHAR(512) NOT NULL,
+      PRIMARY KEY (id));
+      INSERT INTO ATS (
+        id,
+        count,
+        created_at,
+        expire_at,
+        user_id,
+        token
+      ) VALUES (
+        '1',
+        '0',
+        '2020-07-18 11:14:14',
+        '2020-07-18 11:14:14',
+        '1',
+        'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNENkI1NEEwLTQ2NjItNDQzMi1CNTZFLURBREJCOTI5QkEyMCJ9.eyJpYXQiOjE1ODk2NDE4MDgsImV4cCI6MTU4OTY0MjEwOCwic3ViIjoiMSIsImp0aSI6ImMxNmU1Y2JkLTZkOGUtNGUxYS05ZDU2LWNjMGM3YzEzZjI3MiJ9.wJkUL2R4qg1x0kerhr0S34hcRUN4SeoKSP7xLXU0ssyPLNIgLRq34NTTDi_vKmLxk0dXqkcmXlFw1yhXj2Ll53i48w1Yux2vE0KJ55-n6yRhDfVkb1Nh_gvT9YFGCMw1FfI5PVPC36RhrS0cBsqsk9Gv2aFKv1lrb-LYBY9Pn6Q'
+      );
+      INSERT INTO ATS (id,
+        count,
+        created_at,
+        expire_at,
+        user_id,
+        token
+      ) VALUES (
+        '2',
+        '0',
+        '2020-07-18 11:15:14',
+        '2020-07-18 11:15:14',
+        '1',
+        'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNENkI1NEEwLTQ2NjItNDQzMi1CNTZFLURBREJCOTI5QkEyMCJ9.eyJpYXQiOjE1ODk2NDE4MDgsImV4cCI6MTU4OTY0MjEwOCwic3ViIjoiMSIsImp0aSI6ImMxNmU1Y2JkLTZkOGUtNGUxYS05ZDU2LWNjMGM3YzEzZjI3MiJ9.wJkUL2R4qg1x0kerhr0S34hcRUN4SeoKSP7xLXU0ssyPLNIgLRq34NTTDi_vKmLxk0dXqkcmXlFw1yhXj2Ll53i48w1Yux2vE0KJ55-n6yRhDfVkb1Nh_gvT9YFGCMw1FfI5PVPC36RhrS0cBsqsk9Gv2aFKv1lrb-LYBY9Pn6E'
+      );
+      INSERT INTO ATS (id,
+        count,
+        created_at,
+        expire_at,
+        user_id,
+        token
+      ) VALUES (
+        '3',
+        '0',
+        '2020-07-18 11:16:14',
+        '2020-07-18 11:16:14',
+        '2',
+        'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkNENkI1NEEwLTQ2NjItNDQzMi1CNTZFLURBREJCOTI5QkEyMCJ9.eyJpYXQiOjE1ODk2NDE4MDgsImV4cCI6MTU4OTY0MjEwOCwic3ViIjoiMSIsImp0aSI6ImMxNmU1Y2JkLTZkOGUtNGUxYS05ZDU2LWNjMGM3YzEzZjI3MiJ9.wJkUL2R4qg1x0kerhr0S34hcRUN4SeoKSP7xLXU0ssyPLNIgLRq34NTTDi_vKmLxk0dXqkcmXlFw1yhXj2Ll53i48w1Yux2vE0KJ55-n6yRhDfVkb1Nh_gvT9YFGCMw1FfI5PVPC36RhrS0cBsqsk9Gv2aFKv1lrb-LYBY9Pn6T'
+      );"
+      EOF
   master:
     persistence:
       enabled: false
@@ -43,6 +100,8 @@ mysql:
       enabled: false
   replication:
     enabled: false
+  root:
+    password: "testpassword"
   slave:
     persistence:
       enabled: false

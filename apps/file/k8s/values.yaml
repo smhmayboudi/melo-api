@@ -29,7 +29,62 @@ redis:
 mysql:
   db:
     password: "testpassword"
+    name: "meloapp"
   fullnameOverride: melo-mysql
+  initdbScripts:
+    my_init_script.sh: |
+      #!/bin/sh
+      cat << EOF | mysql -u root -ptestpassword -D meloapp -e \
+      "CREATE TABLE FILES (
+        id INT NOT NULL,
+        owner_user_id INT NOT NULL,
+        created_at DATETIME NOT NULL,
+        size INT NOT NULL,
+        e_tag VARCHAR(512) NOT NULL,
+        file_key VARCHAR(512) NOT NULL,
+        mime_type VARCHAR(512) NOT NULL,
+        bucket VARCHAR(512) NOT NULL,
+        PRIMARY KEY (id)
+      );
+      INSERT INTO FILES (
+        id,
+        owner_user_id,
+        created_at,
+        size,
+        e_tag,
+        file_key,
+        mime_type,
+        bucket
+      ) VALUES (
+        '1',
+        '1',
+        '2020-07-18 11:14:14',
+        '1000',
+        '33a64df551425fcc55e4d42a148795d9f25f89d4',
+        'edaec87c-8f99-461d-b52a-3f6fcddba2da',
+        'image/jpg',
+        'misc'
+      );
+      INSERT INTO FILES (
+        id,
+        owner_user_id,
+        created_at,
+        size,
+        e_tag,
+        file_key,
+        mime_type,
+        bucket
+      ) VALUES (
+        '2',
+        '1',
+        '2020-07-18 11:15:14',
+        '1002',
+        '33a64df551425fcc55e4d42a148795d9f25f89d1',
+        '77df136e-d252-4bd1-aa6e-6cb1e9d909a0',
+        'image/jpg',
+        'misc'
+      );"
+      EOF
   master:
     persistence:
       enabled: false
@@ -43,6 +98,8 @@ mysql:
       enabled: false
   replication:
     enabled: false
+  root:
+    password: "testpassword"
   slave:
     persistence:
       enabled: false

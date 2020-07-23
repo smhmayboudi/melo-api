@@ -67,7 +67,69 @@ elasticsearch:
 mysql:
   db:
     password: "testpassword"
+    name: "meloapp"
   fullnameOverride: melo-mysql
+  initdbScripts:
+    my_init_script.sh: |
+      #!/bin/sh
+      cat << EOF
+      mysql -u root -ptestpassword -D meloapp -e \
+      "CREATE TABLE CACHE (
+        id INT NOT NULL,
+        date DATETIME NOT NULL,
+        name VARCHAR(512) NOT NULL,
+        result VARCHAR(512) NOT NULL,
+        PRIMARY KEY (id)
+      );
+      INSERT INTO CACHE (
+        id,
+        date,
+        name,
+        result
+      ) VALUES (
+        '1',
+        '2020-07-18 11:14:14',
+        'top-day',
+        '[{id:312871,title:"MooMeshki",type:"song",duration:167,dl_count:100,artist_id:24958,unique_name:"Garsha-Rezaei-Moo-Meshki",full_name:"GarshaRezaei",artist_available:1,artist_slugs:"garsha-rezaei",album:"MooMeshkiSingle",album_id:null,track:0,count:34099}]'
+      );
+      INSERT INTO CACHE (
+        id,
+        date,
+        name,
+        result
+      ) VALUES (
+        '2',
+        '2020-07-18 11:15:14',
+        'top-week',
+        '[{id:312890,title:"BiMarefat(FtMrKiarash)",type:"song",duration:163,dl_count:100,artist_id:208394,unique_name:"Behzad-Leito-Poobon-Bi-Marefat-(Ft-Mr-Kiarash)",full_name:"BehzadLeito&Poobon",artist_available:1,artist_slugs:"behzad-leito-poobon",album:"BiMarefatSingle",album_id:null,track:0,count:20227}]'
+      );
+      CREATE TABLE SITE (
+        song_id INT NOT NULL,
+        created_at DATETIME NOT NULL,
+        PRIMARY KEY (song_id)
+      );
+      INSERT INTO SITE (
+        song_id,
+        created_at
+      ) VALUES (
+        '1',
+        '2020-07-18 11:14:14'
+      );
+      INSERT INTO SITE (
+        song_id,
+        created_at
+      ) VALUES (
+        '2',
+        '2020-07-18 11:15:14'
+      );
+      INSERT INTO SITE (
+        song_id,
+        created_at
+      ) VALUES (
+        '3',
+        '2020-07-18 11:16:14'
+      );"
+      EOF
   master:
     persistence:
       enabled: false
@@ -81,6 +143,8 @@ mysql:
       enabled: false
   replication:
     enabled: false
+  root:
+    password: "testpassword"
   slave:
     persistence:
       enabled: false

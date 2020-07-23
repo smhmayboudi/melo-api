@@ -29,7 +29,116 @@ redis:
 mysql:
   db:
     password: "testpassword"
+    name: "meloapp"
   fullnameOverride: melo-mysql
+  initdbScripts:
+    my_init_script.sh: |
+      #!/bin/sh
+      cat << EOF | mysql -u root -ptestpassword -D meloapp -e \
+      "CREATE TABLE USERS (
+        id INT NOT NULL,
+        avatar VARCHAR(512) NULL,
+        biography VARCHAR(512) NULL,
+        birthday DATETIME NULL,
+        cellphone VARCHAR(512) NULL,
+        email VARCHAR(512) NULL,
+        firstname VARCHAR(512) NULL,
+        gender VARCHAR(512) NULL,
+        language_code VARCHAR(512) NULL,
+        lastname VARCHAR(512) NULL,
+        registered_date DATETIME NULL,
+        telegram_id INT NULL,
+        username VARCHAR(512) NULL,
+        PRIMARY KEY (id)
+      );
+      INSERT INTO USERS (
+        id,
+        avatar,
+        biography,
+        birthday,
+        cellphone,
+        email,
+        firstname,
+        gender,
+        language_code,
+        lastname,
+        registered_date,
+        telegram_id,
+        username
+      ) VALUES (
+        '1',
+        'edaec87c-8f99-461d-b52a-3f6fcddba2da',
+        'NULL',
+        '2020-07-18 11:14:14',
+        '989128220208',
+        'NULL',
+        'NULL',
+        'NULL',
+        'fa',
+        'NULL',
+        '2020-07-18 11:14:14',
+        '81654288',
+        'NULL'
+      );
+      INSERT INTO USERS (
+        id,
+        avatar,
+        biography,
+        birthday,
+        cellphone,
+        email,
+        firstname,
+        gender,
+        language_code,
+        lastname,
+        registered_date,
+        telegram_id,
+        username
+      ) VALUES (
+        '2',
+        'NULL',
+        'NULL',
+        '2020-07-18 11:14:14',
+        'NULL',
+        'NULL',
+        'NULL',
+        'NULL',
+        'fa',
+        'NULL',
+        '2020-07-18 11:14:14',
+        '129097731',
+        'NULL'
+      );
+      INSERT INTO USERS (
+        id,
+        avatar,
+        biography,
+        birthday,
+        cellphone,
+        email,
+        firstname,
+        gender,
+        language_code,
+        lastname,
+        registered_date,
+        telegram_id,
+        username
+      ) VALUES (
+        '3',
+        '8ca7e79e-61ca-4df7-bdc7-74e231e2b96e',
+        'NULL',
+        '2020-07-18 11:14:14',
+        'NULL',
+        'NULL',
+        'NULL',
+        'NULL',
+        'fa',
+        'NULL',
+        '2020-07-18 11:14:14',
+        '101162830',
+        'NULL'
+      );"
+      EOF
   master:
     persistence:
       enabled: false
@@ -43,6 +152,8 @@ mysql:
       enabled: false
   replication:
     enabled: false
+  root:
+    password: "testpassword"
   slave:
     persistence:
       enabled: false

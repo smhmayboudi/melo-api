@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: 1.0.0
+appVersion: 1.16.0
 dependencies:
   - name: common
     version: 1.0.0
@@ -8,7 +8,7 @@ dependencies:
     version: 3.4.8
     repository: https://charts.bitnami.com/bitnami
   - name: mysql
-    version: 4.5.0
+    version: 6.14.4
     repository: https://charts.bitnami.com/bitnami
   - name: redis
     version: 10.7.1

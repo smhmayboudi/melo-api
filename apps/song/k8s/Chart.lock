@@ -7,12 +7,12 @@ dependencies:
   version: 12.3.5
 - name: mysql
   repository: https://charts.bitnami.com/bitnami
-  version: 4.5.0
+  version: 6.14.4
 - name: kibana
   repository: https://charts.bitnami.com/bitnami
   version: 5.2.4
 - name: redis
   repository: https://charts.bitnami.com/bitnami
   version: 10.7.1
-digest: sha256:86cc97792bbbe1c8e2c430b5d0007dd614580d408fb50677277fc8eaa71fe2dd
-generated: "2020-06-22T23:56:00.89913+04:30"
+digest: sha256:c82168587c4f72430b9a7475326b39c5034794d4658dd5ddc8cbab2d57c99742
+generated: "2020-07-23T10:27:42.621222+04:30"
