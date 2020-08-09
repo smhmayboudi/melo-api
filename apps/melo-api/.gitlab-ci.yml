@@ -2,12 +2,12 @@
 
 .melo-api: &melo-api
   variables:
-    MODULE_NAME: melo-api
-    IMAGE_NAME: melo_melo-api
-    DOCKERFILE: apps/melo-api/docker/development/Dockerfile
+    MODULE_NAME: "melo-api"
+    IMAGE_NAME: "melo_melo-api"
+    DOCKERFILE: "apps/melo-api/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/melo-api/**/*"
+    - "apps/melo-api/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:melo-api:
   extends:
-    - .build
-    - .melo-api
+  - ".build"
+  - ".melo-api"
 
 test:apps:melo-api:
   dependencies:
-    - build:apps:melo-api
+  - "build:s:melo-api"
   extends:
-    - .test
-    - .melo-api
+  - ".test"
+  - ".melo-api"
 
 coverage:apps:melo-api:
   dependencies:
-    - test:apps:melo-api
+  - "test:apps:melo-api"
   extends:
-    - .coverage
-    - .melo-api
+  - ".coverage"
+  - ".melo-api"
 
 dockerization:apps:melo-api:
   dependencies:
-    - test:apps:melo-api
+  - "test:apps:melo-api"
   extends:
-    - .dockerization
-    - .melo-api
+  - ".dockerization"
+  - ".melo-api"
 
 # END actual pipeline definition

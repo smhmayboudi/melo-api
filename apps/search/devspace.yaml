@@ -1,0 +1,94 @@
+version: "v1beta9"
+commands:
+  - command: "devspace use namespace melo && export COMMIT_SHA=`git describe --abbrev=0 --always --dirty` && echo COMMIT_SHA $COMMIT_SHA"
+    name: "init"
+images:
+  melo-search:
+    appendDockerfileInstructions:
+    - "USER root"
+    build:
+      docker:
+        disableFallback: true
+        useBuildKit: true
+    context: "../../"
+    dockerfile: "./docker/development/Dockerfile"
+    image: "localhost:5000/melo_search"
+    injectRestartHelper: false
+    preferSyncOverRebuild: true
+    tags:
+    - "${COMMIT_SHA}"
+    - "latest"
+deployments:
+- helm:
+    atomic: true
+    chart:
+      name: "./k8s"
+    cleanupOnFail: true
+    disableHooks: true
+    replaceImageTags: false
+    values:
+      image:
+        repository: "localhost:5000/melo_search"
+        tag: "${COMMIT_SHA}"
+    wait: true
+  name: "melo-search"
+dev:
+  autoReload:
+    deployments:
+    - "melo-search"
+    paths:
+    - "../../package.json"
+  logs:
+    images:
+    - "melo-search"
+  ports:
+  - forward:
+    - port: 9229
+      remotePort: 9229
+    imageName: "melo-search"
+  sync:
+  - containerPath: "/app/apps/search"
+    excludePaths:
+    - "**/.devspace"
+    - "**/.gitlab-ci.yml"
+    - "**/BUILD.bazel"
+    - "**/Tiltfile"
+    - "**/Tiltfile.bazel"
+    - "**/devspace.yaml"
+    - "**/docker"
+    - "**/k8s"
+    - "**/tilt_modules"
+    imageName: "melo-search"
+    localSubPath: "./"
+    onUpload:
+      restartContainer: false
+    waitInitialSync: true
+  - containerPath: "/app/libs"
+    excludePaths:
+    - "**/.gitlab-ci.yml"
+    - "**/BUILD.bazel"
+    imageName: "melo-search"
+    localSubPath: "../../libs"
+    onUpload:
+      restartContainer: false
+    waitInitialSync: true
+profiles:
+- name: "debug"
+  patches:
+  - op: "add"
+    path: "images.melo-action.entrypoint"
+    value:
+    - "./node_modules/.bin/nest"
+    - "start"
+    - "search"
+    - "--debug=0.0.0.0:9229"
+    - "--watch"
+- name: "production"
+  patches:
+  - op: "remove"
+    path: "images.melo-search.appendDockerfileInstructions"
+  - op: "remove"
+    path: "images.melo-search.preferSyncOverRebuild"
+  - op: "replace"
+    path: "images.melo-search.dockerfile"
+    value: "./docker/Dockerfile"

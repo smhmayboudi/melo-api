@@ -2,12 +2,12 @@
 
 .tag: &tag
   variables:
-    MODULE_NAME: tag
-    IMAGE_NAME: melo_tag
-    DOCKERFILE: apps/tag/docker/development/Dockerfile
+    MODULE_NAME: "tag"
+    IMAGE_NAME: "melo_tag"
+    DOCKERFILE: "apps/tag/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/tag/**/*"
+    - "apps/tag/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:tag:
   extends:
-    - .build
-    - .tag
+  - ".build"
+  - ".tag"
 
 test:apps:tag:
   dependencies:
-    - build:apps:tag
+  - "build:s:tag"
   extends:
-    - .test
-    - .tag
+  - ".test"
+  - ".tag"
 
 coverage:apps:tag:
   dependencies:
-    - test:apps:tag
+  - "test:apps:tag"
   extends:
-    - .coverage
-    - .tag
+  - ".coverage"
+  - ".tag"
 
 dockerization:apps:tag:
   dependencies:
-    - build:apps:tag
+  - "build:s:tag"
   extends:
-    - .dockerization
-    - .tag
+  - ".dockerization"
+  - ".tag"
 
 # END actual pipeline definition

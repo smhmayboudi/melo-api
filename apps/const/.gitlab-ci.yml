@@ -2,12 +2,12 @@
 
 .const: &const
   variables:
-    MODULE_NAME: const
-    IMAGE_NAME: melo_const
-    DOCKERFILE: apps/const/docker/development/Dockerfile
+    MODULE_NAME: "const"
+    IMAGE_NAME: "melo_const"
+    DOCKERFILE: "apps/const/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/const/**/*"
+    - "apps/const/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:const:
   extends:
-    - .build
-    - .const
+  - ".build"
+  - ".const"
 
 test:apps:const:
   dependencies:
-    - build:apps:const
+  - "build:s:const"
   extends:
-    - .test
-    - .const
+  - ".test"
+  - ".const"
 
 coverage:apps:const:
   dependencies:
-    - test:apps:const
+  - "test:apps:const"
   extends:
-    - .coverage
-    - .const
+  - ".coverage"
+  - ".const"
 
 dockerization:apps:const:
   dependencies:
-    - test:apps:const
+  - "test:apps:const"
   extends:
-    - .dockerization
-    - .const
+  - ".dockerization"
+  - ".const"
 
 # END actual pipeline definition

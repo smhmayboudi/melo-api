@@ -1,4 +1,4 @@
-FROM node:12.18.2 AS build_node_modules
+FROM node:12.18.3 AS build_node_modules
 ARG NODE_ENV=development
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
@@ -7,7 +7,7 @@ RUN yarn install \
     && cp -r ./node_modules ./node_modules_development
 RUN npm prune --production
 
-FROM node:12.18.2 AS build_node_app
+FROM node:12.18.3 AS build_node_app
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app
@@ -23,7 +23,7 @@ COPY ./libs ./libs
 COPY ./apps/user ./apps/user
 RUN ./node_modules/.bin/nest build user
 
-FROM node:12.18.2-alpine AS build_node_user
+FROM node:12.18.3-alpine AS build_node_user
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app

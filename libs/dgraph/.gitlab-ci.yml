@@ -2,10 +2,10 @@
 
 .dgraph: &dgraph
   variables:
-    MODULE_NAME: dgraph
+    MODULE_NAME: "dgraph"
   only:
     changes:
-      - "libs/dgraph/**/*"
+    - "libs/dgraph/**/*"
 
 # END project-specific configuration
 
@@ -13,21 +13,21 @@
 
 build:libs:dgraph:
   extends:
-    - .build
-    - .dgraph
+  - ".build"
+  - ".dgraph"
 
 test:libs:dgraph:
   dependencies:
-    - build:libs:dgraph
+  - "build:libs:dgraph"
   extends:
-    - .test
-    - .dgraph
+  - ".test"
+  - ".dgraph"
 
 coverage:libs:dgraph:
   dependencies:
-    - test:libs:dgraph
+  - "test:libs:dgraph"
   extends:
-    - .coverage
-    - .dgraph
+  - ".coverage"
+  - ".dgraph"
 
 # END actual pipeline definition

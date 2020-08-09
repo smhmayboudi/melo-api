@@ -10,7 +10,7 @@ import { getRepositoryToken } from "@nestjs/typeorm";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const nock = require("nock");
-nock("http://misc.127.0.0.1:9000").put(/\/*/).reply(200);
+nock("http://misc.localhost:9000").put(/\/*/).reply(200);
 
 jest.mock("aws-sdk").fn(() => ({
   upload: () =>
@@ -45,7 +45,7 @@ describe("FileService", () => {
   const fileConfigServiceMock: FileConfigServiceInterface = {
     s3AccessKeyId: "minioadmin",
     s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
+    s3Endpoint: "localhost:9000",
     s3ForcePathStyle: false,
     s3SecretAccessKey: "minioadmin",
     s3SslEnabled: false,

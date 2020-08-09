@@ -1,365 +1,365 @@
 version: "3.8"
 services:
   apm-server:
-    command: --strict.perms=false -e
+    command: "--strict.perms=false -e"
     depends_on:
-      - elasticsearch
+    - "elasticsearch"
     environment:
-      - apm-server.host="0.0.0.0:8200"
-      - output.elasticsearch.hosts=["elasticsearch:9200"]
-    image: docker.elastic.co/apm/apm-server:7.7.1
+    - "apm-server.host='0.0.0.0:8200'"
+    - "output.elasticsearch.hosts=['elasticsearch:9200']"
+    image: "docker.elastic.co/apm/apm-server:7.7.1"
     links:
-      - elasticsearch:elasticsearch
+    - "elasticsearch:elasticsearch"
     ports:
-      - 0.0.0.0:8200:8200
-    restart: always
-    user: apm-server
+    - "0.0.0.0:8200:8200"
+    restart: "always"
+    user: "apm-server"
     # volumes:
-    #   - ../../data/apm-server.docker.yml:/usr/share/apm-server/apm-server.yml
+    # - "../../data/apm-server.docker.yml:/usr/share/apm-server/apm-server.yml"
   dgraph:
-    image: dgraph/dgraph:v20.03.3
+    image: "dgraph/dgraph:v20.03.3"
     ports:
-      - 127.0.0.1:8080:8080
-    restart: always
+    - "localhost:8080:8080"
+    restart: "always"
     volumes:
-      - ../../data/dgraph:/usr/share/dgraph/data
+    - "../../data/dgraph:/usr/share/dgraph/data"
   elasticsearch:
     environment:
-      - discovery.type=single-node
-    image: bitnami/elasticsearch:7.7.1
+    - "discovery.type=single-node"
+    image: "bitnami/elasticsearch:7.7.1"
     ports:
-      - 127.0.0.1:9200:9200
-      - 127.0.0.1:9300:9300
-    restart: always
+    - "localhost:9200:9200"
+    - "localhost:9300:9300"
+    restart: "always"
     volumes:
-      - ../../data/elasticsearch:/usr/share/elasticsearch/data
+    - "../../data/elasticsearch:/usr/share/elasticsearch/data"
   kibana:
     depends_on:
-      - elasticsearch
+    - "elasticsearch"
     environment:
-      - STATUS_ALLOWANONYMOUS=true
-    image: bitnami/kibana:7.7.1
+    - "STATUS_ALLOWANONYMOUS=true"
+    image: "bitnami/kibana:7.7.1"
     links:
-      - elasticsearch:elasticsearch
+    - "elasticsearch:elasticsearch"
     ports:
-      - 127.0.0.1:5601:5601
-    restart: always
+    - "localhost:5601:5601"
+    restart: "always"
   minio:
-    command: server /data
+    command: "server /data"
     environment:
-      - MINIO_ACCESS_KEY=minioadmin
-      - MINIO_SECRET_KEY=minioadmin
-    image: bitnami/minio:2020.6.12
+    - "MINIO_ACCESS_KEY=minioadmin"
+    - "MINIO_SECRET_KEY=minioadmin"
+    image: "bitnami/minio:2020.6.12"
     ports:
-      - 127.0.0.1:9000:9000
-    restart: always
+    - "localhost:9000:9000"
+    restart: "always"
     volumes:
-      - ../../data/minio:/data
+    - "../../data/minio:/data"
   mongo:
-    image: bitnami/mongodb:4.2.8
+    image: "bitnami/mongodb:4.2.8"
     ports:
-      - 127.0.0.1:27017:27017
-    restart: always
+    - "localhost:27017:27017"
+    restart: "always"
     volumes:
-      - ../../data/mongo:/data/db
+    - "../../data/mongo:/data/db"
   mysql:
     environment:
-      - MYSQL_ROOT_PASSWORD=testpassword
-    image: bitnami/mysql:5.7.25
+    - "MYSQL_ROOT_PASSWORD=testpassword"
+    image: "bitnami/mysql:5.7.25"
     ports:
-      - 127.0.0.1:3306:3306
-    restart: always
+    - "localhost:3306:3306"
+    restart: "always"
     volumes:
-      - ../../data/mysql:/var/lib/mysql
+    - "../../data/mysql:/var/lib/mysql"
   redis:
     environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    image: bitnami/redis:6.0.5
+    - "ALLOW_EMPTY_PASSWORD=yes"
+    image: "bitnami/redis:6.0.5"
     ports:
-      - 127.0.0.1:6379:6379
-    restart: always
+    - "localhost:6379:6379"
+    restart: "always"
   action:
     build:
-      context: ../../
-      dockerfile: apps/action/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/action/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - redis
+    # - "apm-server"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/action:development
+    - "../../.env.docker-compose"
+    image: "melo_action:development"
     links:
-      # - apm-server
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "redis:redis"
+    restart: "always"
   album:
     build:
-      context: ../../
-      dockerfile: apps/album/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/album/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - elasticsearch
-      - redis
+    # - "apm-server"
+    - "elasticsearch"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/album:development
+    - "../../.env.docker-compose"
+    image: "melo_album:development"
     links:
-      # - apm-server
-      - elasticsearch:elasticsearch
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "elasticsearch:elasticsearch"
+    - "redis:redis"
+    restart: "always"
   artist:
     build:
-      context: ../../
-      dockerfile: apps/artist/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/artist/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - elasticsearch
-      - redis
+    # - "apm-server"
+    - "elasticsearch"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/artist:development
+    - "../../.env.docker-compose"
+    image: "melo_artist:development"
     links:
-      # - apm-server
-      - elasticsearch:elasticsearch
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "elasticsearch:elasticsearch"
+    - "redis:redis"
+    restart: "always"
   at:
     build:
-      context: ../../
-      dockerfile: apps/at/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/at/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - mysql
-      - redis
+    # - "apm-server"
+    - "mysql"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/at:development
+    - "../../.env.docker-compose"
+    image: "melo_at:development"
     links:
-      # - apm-server
-      - mysql:mysql
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "mysql:mysql"
+    - "redis:redis"
+    restart: "always"
   auth:
     build:
-      context: ../../
-      dockerfile: apps/auth/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/auth/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - redis
+    # - "apm-server"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/auth:development
+    - "../../.env.docker-compose"
+    image: "melo_auth:development"
     links:
-      # - apm-server
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "redis:redis"
+    restart: "always"
   const:
     build:
-      context: ../../
-      dockerfile: apps/const/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/const/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - redis
+    # - "apm-server"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
+    - "../../.env.docker-compose"
     image: auth/const:development
     links:
-      # - apm-server
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "redis:redis"
+    restart: "always"
   download:
     build:
-      context: ../../
-      dockerfile: apps/download/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/download/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - elasticsearch
-      - redis
+    # - "apm-server"
+    - "elasticsearch"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/download:development
+    - "../../.env.docker-compose"
+    image: "melo_download:development"
     links:
-      # - apm-server
-      - elasticsearch:elasticsearch
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "elasticsearch:elasticsearch"
+    - "redis:redis"
+    restart: "always"
   emotion:
     build:
-      context: ../../
-      dockerfile: apps/emotion/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/emotion/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - elasticsearch
-      - redis
+    # - "apm-server"
+    - "elasticsearch"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/emotion:development
+    - "../../.env.docker-compose"
+    image: "melo_emotion:development"
     links:
-      # - apm-server
-      - elasticsearch:elasticsearch
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "elasticsearch:elasticsearch"
+    - "redis:redis"
+    restart: "always"
   file:
     build:
-      context: ../../
-      dockerfile: apps/file/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/file/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - minio
-      - mysql
-      - redis
+    # - "apm-server"
+    - minio
+    - "mysql"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/file:development
+    - "../../.env.docker-compose"
+    image: "melo_file:development"
     links:
-      # - apm-server
-      - minio:minio
-      - mysql:mysql
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - minio:minio
+    - "mysql:mysql"
+    - "redis:redis"
+    restart: "always"
   jwks:
     build:
-      context: ../../
-      dockerfile: apps/jwks/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/jwks/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - mysql
-      - redis
+    # - "apm-server"
+    - "mysql"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/jwks:development
+    - "../../.env.docker-compose"
+    image: "melo_jwks:development"
     links:
-      # - apm-server
-      - mysql:mysql
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "mysql:mysql"
+    - "redis:redis"
+    restart: "always"
   melo-api:
     build:
-      context: ../../
-      dockerfile: apps/melo-api/docker/development/Dockerfile
+      context: "../../"
+      dockerfile: "apps/melo-api/docker/development/Dockerfile"
     depends_on:
-      - action
-      - album
-      # - apm-server
-      - artist
-      - at
-      - auth
-      - const
-      - download
-      - emotion
-      - file
-      - jwks
-      - playlist
-      - redis
-      - relation
-      - rt
-      - search
-      - song
-      - user
+    - "action"
+    - "album"
+    # - "apm-server"
+    - "artist"
+    - "at"
+    - "auth"
+    - "const"
+    - "download"
+    - "emotion"
+    - "file"
+    - "jwks"
+    - "playlist"
+    - "redis"
+    - "relation"
+    - "rt"
+    - "search"
+    - "song"
+    - "user"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/melo-api:development
+    - "../../.env.docker-compose"
+    image: "melo_melo-api:development"
     links:
-      # - apm-server
-      - redis:redis
+    # - "apm-server"
+    - "redis:redis"
     ports:
-      - 127.0.0.1:3000:3000
-      - 127.0.0.1:9229:9229
-    restart: always
+    - "localhost:3000:3000"
+    - "localhost:9229:9229"
+    restart: "always"
   playlist:
     build:
-      context: ../../
-      dockerfile: apps/playlist/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/playlist/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - mongo
-      - redis
+    # - "apm-server"
+    - "mongo"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/playlist:development
+    - "../../.env.docker-compose"
+    image: "melo_playlist:development"
     links:
-      # - apm-server
-      - mongo:mongo
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "mongo:mongo"
+    - "redis:redis"
+    restart: "always"
   relation:
     build:
-      context: ../../
-      dockerfile: apps/relation/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/relation/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - dgraph
-      - redis
+    # - "apm-server"
+    - dgraph
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/relation:development
+    - "../../.env.docker-compose"
+    image: "melo_relation:development"
     links:
-      # - apm-server
-      - dgraph:dgraph
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - dgraph:dgraph
+    - "redis:redis"
+    restart: "always"
   rt:
     build:
-      context: ../../
-      dockerfile: apps/rt/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/rt/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - mysql
-      - redis
+    # - "apm-server"
+    - "mysql"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/rt:development
+    - "../../.env.docker-compose"
+    image: "melo_rt:development"
     links:
-      # - apm-server
-      - mysql:mysql
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "mysql:mysql"
+    - "redis:redis"
+    restart: "always"
   search:
     build:
-      context: ../../
-      dockerfile: apps/search/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/search/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - elasticsearch
-      - redis
+    # - "apm-server"
+    - "elasticsearch"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/search:development
+    - "../../.env.docker-compose"
+    image: "melo_search:development"
     links:
-      # - apm-server
-      - elasticsearch:elasticsearch
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "elasticsearch:elasticsearch"
+    - "redis:redis"
+    restart: "always"
   song:
     build:
-      context: ../../
-      dockerfile: apps/song/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/song/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - elasticsearch
-      - redis
+    # - "apm-server"
+    - "elasticsearch"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/song:development
+    - "../../.env.docker-compose"
+    image: "melo_song:development"
     links:
-      # - apm-server
-      - elasticsearch:elasticsearch
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "elasticsearch:elasticsearch"
+    - "redis:redis"
+    restart: "always"
   user:
     build:
-      context: ../../
-      dockerfile: apps/user/docker/development/Docker
+      context: "../../"
+      dockerfile: "apps/user/docker/development/Dockerfile"
     depends_on:
-      # - apm-server
-      - mysql
-      - redis
+    # - "apm-server"
+    - "mysql"
+    - "redis"
     env_file:
-      - ../../.env.docker-compose
-    image: melo/user:development
+    - "../../.env.docker-compose"
+    image: "melo_user:development"
     links:
-      # - apm-server
-      - mysql:mysql
-      - redis:redis
-    restart: always
+    # - "apm-server"
+    - "mysql:mysql"
+    - "redis:redis"
+    restart: "always"

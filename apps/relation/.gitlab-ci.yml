@@ -2,12 +2,12 @@
 
 .relation: &relation
   variables:
-    MODULE_NAME: relation
-    IMAGE_NAME: melo_relation
-    DOCKERFILE: apps/relation/docker/development/Dockerfile
+    MODULE_NAME: "relation"
+    IMAGE_NAME: "melo_relation"
+    DOCKERFILE: "apps/relation/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/relation/**/*"
+    - "apps/relation/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:relation:
   extends:
-    - .build
-    - .relation
+  - ".build"
+  - ".relation"
 
 test:apps:relation:
   dependencies:
-    - build:apps:relation
+  - "build:s:relation"
   extends:
-    - .test
-    - .relation
+  - ".test"
+  - ".relation"
 
 coverage:apps:relation:
   dependencies:
-    - test:apps:relation
+  - "test:apps:relation"
   extends:
-    - .coverage
-    - .relation
+  - ".coverage"
+  - ".relation"
 
 dockerization:apps:relation:
   dependencies:
-    - test:apps:relation
+  - "test:apps:relation"
   extends:
-    - .dockerization
-    - .relation
+  - ".dockerization"
+  - ".relation"
 
 # END actual pipeline definition

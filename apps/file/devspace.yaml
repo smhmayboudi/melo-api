@@ -1,0 +1,94 @@
+version: "v1beta9"
+commands:
+  - command: "devspace use namespace melo && export COMMIT_SHA=`git describe --abbrev=0 --always --dirty` && echo COMMIT_SHA $COMMIT_SHA"
+    name: "init"
+images:
+  melo-file:
+    appendDockerfileInstructions:
+    - "USER root"
+    build:
+      docker:
+        disableFallback: true
+        useBuildKit: true
+    context: "../../"
+    dockerfile: "./docker/development/Dockerfile"
+    image: "localhost:5000/melo_file"
+    injectRestartHelper: false
+    preferSyncOverRebuild: true
+    tags:
+    - "${COMMIT_SHA}"
+    - "latest"
+deployments:
+- helm:
+    atomic: true
+    chart:
+      name: "./k8s"
+    cleanupOnFail: true
+    disableHooks: true
+    replaceImageTags: false
+    values:
+      image:
+        repository: "localhost:5000/melo_file"
+        tag: "${COMMIT_SHA}"
+    wait: true
+  name: "melo-file"
+dev:
+  autoReload:
+    deployments:
+    - "melo-file"
+    paths:
+    - "../../package.json"
+  logs:
+    images:
+    - "melo-file"
+  ports:
+  - forward:
+    - port: 9229
+      remotePort: 9229
+    imageName: "melo-file"
+  sync:
+  - containerPath: "/app/apps/file"
+    excludePaths:
+    - "**/.devspace"
+    - "**/.gitlab-ci.yml"
+    - "**/BUILD.bazel"
+    - "**/Tiltfile"
+    - "**/Tiltfile.bazel"
+    - "**/devspace.yaml"
+    - "**/docker"
+    - "**/k8s"
+    - "**/tilt_modules"
+    imageName: "melo-file"
+    localSubPath: "./"
+    onUpload:
+      restartContainer: false
+    waitInitialSync: true
+  - containerPath: "/app/libs"
+    excludePaths:
+    - "**/.gitlab-ci.yml"
+    - "**/BUILD.bazel"
+    imageName: "melo-file"
+    localSubPath: "../../libs"
+    onUpload:
+      restartContainer: false
+    waitInitialSync: true
+profiles:
+- name: "debug"
+  patches:
+  - op: "add"
+    path: "images.melo-action.entrypoint"
+    value:
+    - "./node_modules/.bin/nest"
+    - "start"
+    - "file"
+    - "--debug=0.0.0.0:9229"
+    - "--watch"
+- name: "production"
+  patches:
+  - op: "remove"
+    path: "images.melo-file.appendDockerfileInstructions"
+  - op: "remove"
+    path: "images.melo-file.preferSyncOverRebuild"
+  - op: "replace"
+    path: "images.melo-file.dockerfile"
+    value: "./docker/Dockerfile"

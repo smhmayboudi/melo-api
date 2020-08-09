@@ -2,12 +2,12 @@
 
 .search: &search
   variables:
-    MODULE_NAME: search
-    IMAGE_NAME: melo_search
-    DOCKERFILE: apps/search/docker/development/Dockerfile
+    MODULE_NAME: "search"
+    IMAGE_NAME: "melo_search"
+    DOCKERFILE: "apps/search/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/search/**/*"
+    - "apps/search/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:search:
   extends:
-    - .build
-    - .search
+  - ".build"
+  - ".search"
 
 test:apps:search:
   dependencies:
-    - build:apps:search
+  - "build:s:search"
   extends:
-    - .test
-    - .search
+  - ".test"
+  - ".search"
 
 coverage:apps:search:
   dependencies:
-    - test:apps:search
+  - "test:apps:search"
   extends:
-    - .coverage
-    - .search
+  - ".coverage"
+  - ".search"
 
 dockerization:apps:search:
   dependencies:
-    - test:apps:search
+  - "test:apps:search"
   extends:
-    - .dockerization
-    - .search
+  - ".dockerization"
+  - ".search"
 
 # END actual pipeline definition

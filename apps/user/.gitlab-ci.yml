@@ -2,12 +2,12 @@
 
 .user: &user
   variables:
-    MODULE_NAME: user
-    IMAGE_NAME: melo_user
-    DOCKERFILE: apps/user/docker/development/Dockerfile
+    MODULE_NAME: "user"
+    IMAGE_NAME: "melo_user"
+    DOCKERFILE: "apps/user/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/user/**/*"
+    - "apps/user/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:user:
   extends:
-    - .build
-    - .user
+  - ".build"
+  - ".user"
 
 test:apps:user:
   dependencies:
-    - build:apps:user
+  - "build:s:user"
   extends:
-    - .test
-    - .user
+  - ".test"
+  - ".user"
 
 coverage:apps:user:
   dependencies:
-    - test:apps:user
+  - "test:apps:user"
   extends:
-    - .coverage
-    - .user
+  - ".coverage"
+  - ".user"
 
 dockerization:apps:user:
   dependencies:
-    - test:apps:user
+  - "test:apps:user"
   extends:
-    - .dockerization
-    - .user
+  - ".dockerization"
+  - ".user"
 
 # END actual pipeline definition

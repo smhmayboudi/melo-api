@@ -1,0 +1,94 @@
+version: "v1beta9"
+commands:
+  - command: "devspace use namespace melo && export COMMIT_SHA=`git describe --abbrev=0 --always --dirty` && echo COMMIT_SHA $COMMIT_SHA"
+    name: "init"
+images:
+  melo-playlist:
+    appendDockerfileInstructions:
+    - "USER root"
+    build:
+      docker:
+        disableFallback: true
+        useBuildKit: true
+    context: "../../"
+    dockerfile: "./docker/development/Dockerfile"
+    image: "localhost:5000/melo_playlist"
+    injectRestartHelper: false
+    preferSyncOverRebuild: true
+    tags:
+    - "${COMMIT_SHA}"
+    - "latest"
+deployments:
+- helm:
+    atomic: true
+    chart:
+      name: "./k8s"
+    cleanupOnFail: true
+    disableHooks: true
+    replaceImageTags: false
+    values:
+      image:
+        repository: "localhost:5000/melo_playlist"
+        tag: "${COMMIT_SHA}"
+    wait: true
+  name: "melo-playlist"
+dev:
+  autoReload:
+    deployments:
+    - "melo-playlist"
+    paths:
+    - "../../package.json"
+  logs:
+    images:
+    - "melo-playlist"
+  ports:
+  - forward:
+    - port: 9229
+      remotePort: 9229
+    imageName: "melo-playlist"
+  sync:
+  - containerPath: "/app/apps/playlist"
+    excludePaths:
+    - "**/.devspace"
+    - "**/.gitlab-ci.yml"
+    - "**/BUILD.bazel"
+    - "**/Tiltfile"
+    - "**/Tiltfile.bazel"
+    - "**/devspace.yaml"
+    - "**/docker"
+    - "**/k8s"
+    - "**/tilt_modules"
+    imageName: "melo-playlist"
+    localSubPath: "./"
+    onUpload:
+      restartContainer: false
+    waitInitialSync: true
+  - containerPath: "/app/libs"
+    excludePaths:
+    - "**/.gitlab-ci.yml"
+    - "**/BUILD.bazel"
+    imageName: "melo-playlist"
+    localSubPath: "../../libs"
+    onUpload:
+      restartContainer: false
+    waitInitialSync: true
+profiles:
+- name: "debug"
+  patches:
+  - op: "add"
+    path: "images.melo-action.entrypoint"
+    value:
+    - "./node_modules/.bin/nest"
+    - "start"
+    - "playlist"
+    - "--debug=0.0.0.0:9229"
+    - "--watch"
+- name: "production"
+  patches:
+  - op: "remove"
+    path: "images.melo-playlist.appendDockerfileInstructions"
+  - op: "remove"
+    path: "images.melo-playlist.preferSyncOverRebuild"
+  - op: "replace"
+    path: "images.melo-playlist.dockerfile"
+    value: "./docker/Dockerfile"

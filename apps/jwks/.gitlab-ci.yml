@@ -2,12 +2,12 @@
 
 .jwks: &jwks
   variables:
-    MODULE_NAME: jwks
-    IMAGE_NAME: melo_jwks
-    DOCKERFILE: apps/jwks/docker/development/Dockerfile
+    MODULE_NAME: "jwks"
+    IMAGE_NAME: "melo_jwks"
+    DOCKERFILE: "apps/jwks/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/jwks/**/*"
+    - "apps/jwks/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:jwks:
   extends:
-    - .build
-    - .jwks
+  - ".build"
+  - ".jwks"
 
 test:apps:jwks:
   dependencies:
-    - build:apps:jwks
+  - "build:s:jwks"
   extends:
-    - .test
-    - .jwks
+  - ".test"
+  - ".jwks"
 
 coverage:apps:jwks:
   dependencies:
-    - test:apps:jwks
+  - "test:apps:jwks"
   extends:
-    - .coverage
-    - .jwks
+  - ".coverage"
+  - ".jwks"
 
 dockerization:apps:jwks:
   dependencies:
-    - test:apps:jwks
+  - "test:apps:jwks"
   extends:
-    - .dockerization
-    - .jwks
+  - ".dockerization"
+  - ".jwks"
 
 # END actual pipeline definition

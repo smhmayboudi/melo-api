@@ -2,10 +2,10 @@
 
 .apm: &apm
   variables:
-    MODULE_NAME: apm
+    MODULE_NAME: "apm"
   only:
     changes:
-      - "libs/apm/**/*"
+    - "libs/apm/**/*"
 
 # END project-specific configuration
 
@@ -13,21 +13,21 @@
 
 build:libs:apm:
   extends:
-    - .build
-    - .apm
+  - ".build"
+  - ".apm"
 
 test:libs:apm:
   dependencies:
-    - build:libs:apm
+  - "build:libs:apm"
   extends:
-    - .test
-    - .apm
+  - ".test"
+  - ".apm"
 
 coverage:libs:apm:
   dependencies:
-    - test:libs:apm
+  - "test:libs:apm"
   extends:
-    - .coverage
-    - .apm
+  - ".coverage"
+  - ".apm"
 
 # END actual pipeline definition

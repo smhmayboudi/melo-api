@@ -50,6 +50,11 @@ $ brew cask install java
 $ brew install bazelisk
 $ brew install buildifier
 $ brew install python@3.8
+``` 
+### devspace
+
+```Shell
+$ brew install devspace
 ```
 
 ### tilt.dev
@@ -213,9 +218,9 @@ $ docker pull bitnami/redis:6.0.5
 $ docker pull busybox
 $ docker pull darthsim/imgproxy:v2.13.1
 $ docker pull dgraph/dgraph:v20.03.3
-$ docker pull node:12.18.2
-$ docker pull node:12.18.2-alpine
-$ docker pull node:12.18.2-slim
+$ docker pull node:12.18.3
+$ docker pull node:12.18.3-alpine
+$ docker pull node:12.18.3-slim
 $ docker pull registry:2.7.1
 ```
 

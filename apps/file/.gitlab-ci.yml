@@ -2,12 +2,12 @@
 
 .file: &file
   variables:
-    MODULE_NAME: file
-    IMAGE_NAME: melo_file
-    DOCKERFILE: apps/file/docker/development/Dockerfile
+    MODULE_NAME: "file"
+    IMAGE_NAME: "melo_file"
+    DOCKERFILE: "apps/file/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/file/**/*"
+    - "apps/file/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:file:
   extends:
-    - .build
-    - .file
+  - ".build"
+  - ".file"
 
 test:apps:file:
   dependencies:
-    - build:apps:file
+  - "build:s:file"
   extends:
-    - .test
-    - .file
+  - ".test"
+  - ".file"
 
 coverage:apps:file:
   dependencies:
-    - test:apps:file
+  - "test:apps:file"
   extends:
-    - .coverage
-    - .file
+  - ".coverage"
+  - ".file"
 
 dockerization:apps:file:
   dependencies:
-    - test:apps:file
+  - "test:apps:file"
   extends:
-    - .dockerization
-    - .file
+  - ".dockerization"
+  - ".file"
 
 # END actual pipeline definition

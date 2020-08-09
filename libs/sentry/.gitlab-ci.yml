@@ -2,10 +2,10 @@
 
 .sentry: &sentry
   variables:
-    MODULE_NAME: sentry
+    MODULE_NAME: "sentry"
   only:
     changes:
-      - "libs/sentry/**/*"
+    - "libs/sentry/**/*"
 
 # END project-specific configuration
 
@@ -13,21 +13,21 @@
 
 build:libs:sentry:
   extends:
-    - .build
-    - .sentry
+  - ".build"
+  - ".sentry"
 
 test:libs:sentry:
   dependencies:
-    - build:libs:sentry
+  - "build:libs:sentry"
   extends:
-    - .test
-    - .sentry
+  - ".test"
+  - ".sentry"
 
 coverage:libs:sentry:
   dependencies:
-    - test:libs:sentry
+  - "test:libs:sentry"
   extends:
-    - .coverage
-    - .sentry
+  - ".coverage"
+  - ".sentry"
 
 # END actual pipeline definition

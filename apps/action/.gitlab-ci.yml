@@ -1,12 +1,13 @@
 # BEGIN project-specific configuration
+
 .action: &action
   variables:
-    MODULE_NAME: action
-    IMAGE_NAME: melo_action
-    DOCKERFILE: apps/action/docker/development/Dockerfile
+    MODULE_NAME: "action"
+    IMAGE_NAME: "melo_action"
+    DOCKERFILE: "apps/action/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/action/**/*"
+    - "apps/action/**/*"
 
 # END project-specific configuration
 
@@ -14,28 +15,28 @@
 
 build:apps:action:
   extends:
-    - .build
-    - .action
+  - ".build"
+  - ".action"
 
 test:apps:action:
   dependencies:
-    - build:apps:action
+  - "build:s:action"
   extends:
-    - .test
-    - .action
+  - ".test"
+  - ".action"
 
 coverage:apps:action:
   dependencies:
-    - test:apps:action
+  - "test:apps:action"
   extends:
-    - .coverage
-    - .action
+  - ".coverage"
+  - ".action"
 
 dockerization:apps:action:
   dependencies:
-    - test:apps:action
+  - "test:apps:action"
   extends:
-    - .dockerization
-    - .action
+  - ".dockerization"
+  - ".action"
 
 # END actual pipeline definition

@@ -2,12 +2,12 @@
 
 .at: &at
   variables:
-    MODULE_NAME: at
-    IMAGE_NAME: melo_at
-    DOCKERFILE: apps/at/docker/development/Dockerfile
+    MODULE_NAME: "at"
+    IMAGE_NAME: "melo_at"
+    DOCKERFILE: "apps/at/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/at/**/*"
+    - "apps/at/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:at:
   extends:
-    - .build
-    - .at
+  - ".build"
+  - ".at"
 
 test:apps:at:
   dependencies:
-    - build:apps:at
+  - "build:s:at"
   extends:
-    - .test
-    - .at
+  - ".test"
+  - ".at"
 
 coverage:apps:at:
   dependencies:
-    - test:apps:at
+  - "test:apps:at"
   extends:
-    - .coverage
-    - .at
+  - ".coverage"
+  - ".at"
 
 dockerization:apps:at:
   dependencies:
-    - test:apps:at
+  - "test:apps:at"
   extends:
-    - .dockerization
-    - .at
+  - ".dockerization"
+  - ".at"
 
 # END actual pipeline definition

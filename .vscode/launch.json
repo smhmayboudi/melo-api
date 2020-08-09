@@ -5,14 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "address": "127.0.0.1",
-      "localRoot": "${workspaceFolder}/dist",
-      "name": "attach start:debug",
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}",
+      "name": "attach:debug",
       "port": 9229,
       "protocol": "inspector",
-      "remoteRoot": "/app/dist",
+      "remoteRoot": "/app",
       "request": "attach",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ],
       "smartStep": true,
       "sourceMaps": true,
       "trace": true,
@@ -25,7 +28,10 @@
       "request": "launch",
       "runtimeArgs": ["run-script", "start:debug"],
       "runtimeExecutable": "npm",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ],
       "smartStep": true,
       "sourceMaps": true,
       "trace": true,
@@ -38,7 +44,10 @@
       "request": "launch",
       "runtimeArgs": ["run-script", "test:debug"],
       "runtimeExecutable": "npm",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ],
       "smartStep": true,
       "sourceMaps": true,
       "trace": true,

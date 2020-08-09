@@ -6,7 +6,7 @@
   },
   "database": "meloapp",
   "entities": ["*.entity.js"],
-  "host": "127.0.0.1",
+  "host": "localhost",
   "logging": "all",
   "migrations": ["*.migration.js"],
   "password": "testpassword",

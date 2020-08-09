@@ -1,4 +1,4 @@
-FROM node:12.18.2 AS build_node_melo-api_development
+FROM node:12.18.3 AS build_node_melo-api_development
 ARG NODE_ENV=development
 ENV NODE_ENV=$NODE_ENV
 WORKDIR /app

@@ -9,7 +9,7 @@ describe("FileTypeOrmOptionsFactory", () => {
   const fileConfigServiceMock: FileConfigServiceInterface = {
     s3AccessKeyId: "minioadmin",
     s3Bucket: "misc",
-    s3Endpoint: "127.0.0.1:9000",
+    s3Endpoint: "localhost:9000",
     s3ForcePathStyle: false,
     s3SecretAccessKey: "minioadmin",
     s3SslEnabled: false,

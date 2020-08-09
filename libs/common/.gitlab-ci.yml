@@ -2,10 +2,10 @@
 
 .common: &common
   variables:
-    MODULE_NAME: common
+    MODULE_NAME: "common"
   only:
     changes:
-      - "libs/common/**/*"
+    - "libs/common/**/*"
 
 # END project-specific configuration
 
@@ -13,21 +13,21 @@
 
 build:libs:common:
   extends:
-    - .build
-    - .common
+  - ".build"
+  - ".common"
 
 test:libs:common:
   dependencies:
-    - build:libs:common
+  - "build:libs:common"
   extends:
-    - .test
-    - .common
+  - ".test"
+  - ".common"
 
 coverage:libs:common:
   dependencies:
-    - test:libs:common
+  - "test:libs:common"
   extends:
-    - .coverage
-    - .common
+  - ".coverage"
+  - ".common"
 
 # END actual pipeline definition

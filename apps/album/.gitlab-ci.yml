@@ -2,12 +2,12 @@
 
 .album: &album
   variables:
-    MODULE_NAME: album
-    IMAGE_NAME: melo_album
-    DOCKERFILE: apps/album/docker/development/Dockerfile
+    MODULE_NAME: "album"
+    IMAGE_NAME: "melo_album"
+    DOCKERFILE: "apps/album/docker/development/Dockerfile"
   only:
     changes:
-      - "apps/album/**/*"
+    - "apps/album/**/*"
 
 # END project-specific configuration
 
@@ -15,28 +15,28 @@
 
 build:apps:album:
   extends:
-    - .build
-    - .album
+  - ".build"
+  - ".album"
 
 test:apps:album:
   dependencies:
-    - build:apps:album
+  - "build:s:album"
   extends:
-    - .test
-    - .album
+  - ".test"
+  - ".album"
 
 coverage:apps:album:
   dependencies:
-    - test:apps:album
+  - "test:apps:album"
   extends:
-    - .coverage
-    - .album
+  - ".coverage"
+  - ".album"
 
 dockerization:apps:album:
   dependencies:
-    - test:apps:album
+  - "test:apps:album"
   extends:
-    - .dockerization
-    - .album
+  - ".dockerization"
+  - ".album"
 
 # END actual pipeline definition

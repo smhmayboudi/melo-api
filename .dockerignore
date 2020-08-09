@@ -6,6 +6,12 @@
 !package.json
 !tsconfig.json
 !yarn.lock
-!type
-apps/**/docker
-apps/**/k8s
+**/.devspace
+**/.gitlab-ci.yml
+**/BUILD.bazel
+**/Tiltfile
+**/Tiltfile.bazel
+**/devspace.yaml
+**/docker
+**/k8s
+**/tilt_modules
