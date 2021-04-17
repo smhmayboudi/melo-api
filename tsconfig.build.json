@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "**/*spec.ts",
+    ".yarn",
+    "coverage",
+    "dist",
+    "node_modules",
+    "test",
+    "yarn-packages-offline-cache"
+  ]
+}
