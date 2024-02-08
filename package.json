@@ -49,7 +49,7 @@
     "helmet": "^3.23.3",
     "imgproxy": "^0.1.2",
     "kaop-ts": "^4.3.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mime": "^2.4.6",
     "mime-types": "^2.1.27",
     "mmmagic": "^0.5.3",
